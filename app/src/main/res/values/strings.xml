@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">npj</string>
-
+    <string name="SecKill">限时秒杀</string>
+    <string name="presell">新品预售</string>
+    <string name="local_seller">附近商家</string>
+    <string name="gift_mall">礼包店</string>
+    <string name="go_to_game">进入游戏 GO</string>
+    <string name="jingpintuijian">精品推荐 好货不断</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
