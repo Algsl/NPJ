@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--底部菜单-->
+    <declare-styleable name="ExpandableMenuOverlay">
+        <!-- DIALOG OVERLAY -->
+        <attr name="adjustViewSize" format="boolean"/>
+        <attr name="dimAmount" format="float"/>
+
+        <!-- MENU BUTTON SIZE -->
+        <attr name="mainButtonSize" format="float"/>
+        <attr name="otherButtonSize" format="float"/>
+        <attr name="distanceY" format="float"/>
+        <attr name="distanceX" format="float"/>
+        <attr name="bottomPad" format="float"/>
+
+        <!-- MENU BUTTON RESOURCES -->
+        <attr name="closeButtonSrc" format="integer"/>
+        <attr name="leftButtonSrc" format="integer"/>
+        <attr name="leftButtonText" format="integer"/>
+        <attr name="midButtonSrc" format="integer"/>
+        <attr name="midButtonText" format="integer"/>
+        <attr name="rightButtonSrc" format="integer"/>
+        <attr name="rightButtonText" format="integer"/>
+
+    </declare-styleable>
+
+    <!--自定义 radiobutton-->
+    <declare-styleable name="TabRadioButton">
+        <attr name="drawableSize" format="dimension"/>
+        <attr name="drawableHighSize" format="dimension"/>
+        <attr name="drawableWideSize" format="dimension"/>
+        <attr name="drawableTop" format="reference"/>
+        <attr name="drawableLeft" format="reference"/>
+        <attr name="drawableRight" format="reference"/>
+        <attr name="drawableBottom" format="reference"/>
+    </declare-styleable>
+    <!--开关-->
+    <declare-styleable name="SwitchButton">
+        <attr name="sb_shadow_radius" format="reference|dimension"/>
+        <attr name="sb_shadow_offset" format="reference|dimension"/>
+        <attr name="sb_shadow_color" format="reference|color"/>
+        <attr name="sb_uncheck_color" format="reference|color"/>
+        <attr name="sb_checked_color" format="reference|color"/>
+
+        <attr name="sb_border_width" format="reference|dimension"/>
+        <attr name="sb_checkline_color" format="reference|color"/>
+        <attr name="sb_checkline_width" format="reference|dimension"/>
+        <attr name="sb_uncheckcircle_color" format="reference|color"/>
+        <attr name="sb_uncheckcircle_width" format="reference|dimension"/>
+        <attr name="sb_uncheckcircle_radius" format="reference|dimension"/>
+
+        <attr name="sb_checked" format="reference|boolean"/>
+        <attr name="sb_shadow_effect" format="reference|boolean"/>
+        <attr name="sb_effect_duration" format="reference|integer"/>
+        <attr name="sb_button_color" format="reference|color"/>
+        <attr name="sb_show_indicator" format="reference|boolean"/>
+        <attr name="sb_background" format="reference|color"/>
+        <attr name="sb_enable_effect" format="reference|boolean"/>
+    </declare-styleable>
+    <!--开关end-->
+    <!--自定义 ratingbar -->
+    <declare-styleable name="a_zhon">
+        <!--填充图片-->
+        <attr name="star_img" format="reference"/>
+        <!--默认图片-->
+        <attr name="unstar_img" format="reference"/>
+        <!--图片宽度-->
+        <attr name="image_width" format="dimension"/>
+        <!--图片高度-->
+        <attr name="image_height" format="dimension"/>
+        <!--图片之间的间距-->
+        <attr name="image_padding" format="dimension"/>
+        <!--图片总数-->
+        <attr name="star_count" format="integer"/>
+        <!--填充的图片数量-->
+        <attr name="star" format="integer"/>
+        <!--是否可以点击-->
+        <attr name="clickable" format="boolean"/>
+        <!--是否宽度全屏-->
+        <attr name="ismuchparent" format="boolean"/>
+    </declare-styleable> <!--自定义  标签布局-->
+    <declare-styleable name="TagFlowLayout">
+        <attr name="showHighlight" format="boolean"/>
+        <attr name="defaultDrawable" format="reference"/>
+        <attr name="selectDrawable" format="reference"/>
+        <attr name="defaultTextColor" format="color|reference"/>
+        <attr name="selectTextColor" format="color|reference"/>
+        <attr name="mode">
+            <enum name="MULTI" value="0"/>
+            <enum name="SINGLE" value="1"/>
+        </attr>
+        <attr name="maxSelectionCount" format="integer"/>
+    </declare-styleable>
+    <!--标签布局 end-->
+    <declare-styleable name="circleProgressBar">
+        <attr name="circleWidth" format="dimension"/>
+        <attr name="betaAngle" format="integer"/>
+        <attr name="firstColor" format="color"/>
+        <attr name="secondColor" format="color"/>
+    </declare-styleable>
+    <declare-styleable name="PercentageRing">
+        <attr name="radius" format="integer"/>
+        <attr name="circleBackground" format="color"/>
+        <attr name="ringColor" format="color"/>
+        <attr name="textColor" format="color"/>
+
+    </declare-styleable>
+
+
+</resources>

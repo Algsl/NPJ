@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="black">#000000</color>
+
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <!--    //线条颜色 -->
+    <color name="line">#c7c7c7</color>
+    <!--一级标题 -->
+    <color name="text3">#333333</color>
+    <!--二级标题 -->
+    <color name="text6">#666666</color>
+    <!--三级标题 -->
+    <color name="text9">#999999</color>
+
+    <color name="base_texthint">#999999</color>
+</resources>

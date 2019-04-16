@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myradio="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.MainActivity">
+
+    <FrameLayout
+        android:id="@+id/lay_frg_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="48dp"
+        >
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <include layout="@layout/lay_divider_line"></include>
+
+        <RadioGroup
+            android:id="@+id/rg_main_check"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal">
+
+            <com.zthx.npj.view.TabRadioButton
+                android:id="@+id/rb_main_check_01"
+                style="@style/Font13_666"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:paddingBottom="1dp"
+                android:paddingTop="5dp"
+                android:text="消息"
+                android:textColor="@drawable/rb_main_selector_color"
+                myradio:drawableHighSize="20dp"
+                myradio:drawableTop="@drawable/rb_main_selector_1"
+                myradio:drawableWideSize="20dp"
+                />
+
+            <com.zthx.npj.view.TabRadioButton
+                android:id="@+id/rb_main_check_02"
+                style="@style/Font13_666"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:paddingBottom="1dp"
+                android:paddingTop="5dp"
+                android:text="发现"
+                android:textColor="@drawable/rb_main_selector_color"
+                myradio:drawableHighSize="20dp"
+                myradio:drawableTop="@drawable/rb_main_selector_2"
+                myradio:drawableWideSize="20dp"/>
+
+            <com.zthx.npj.view.TabRadioButton
+                android:id="@+id/rb_main_check_03"
+                style="@style/Font13_666"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:paddingBottom="1dp"
+                android:paddingTop="5dp"
+                android:text="庄园"
+                android:textColor="@drawable/rb_main_selector_color"
+                myradio:drawableHighSize="20dp"
+                myradio:drawableTop="@drawable/rb_main_selector_1"
+                myradio:drawableWideSize="20dp"
+                />
+
+
+            <com.zthx.npj.view.TabRadioButton
+                android:id="@+id/rb_main_check_04"
+                style="@style/Font13_666"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:paddingBottom="1dp"
+                android:paddingTop="5dp"
+                android:text="购物车"
+                android:textColor="@drawable/rb_main_selector_color"
+                myradio:drawableHighSize="20dp"
+                myradio:drawableTop="@drawable/rb_main_selector_3"
+                myradio:drawableWideSize="20dp"/>
+
+            <com.zthx.npj.view.TabRadioButton
+                android:id="@+id/rb_main_check_05"
+                style="@style/Font13_666"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:paddingBottom="1dp"
+                android:paddingTop="5dp"
+                android:text="我的"
+                android:textColor="@drawable/rb_main_selector_color"
+                myradio:drawableHighSize="20dp"
+                myradio:drawableTop="@drawable/rb_main_selector_4"
+                myradio:drawableWideSize="20dp"/>
+
+        </RadioGroup>
+    </LinearLayout>
+    </FrameLayout>
+
+</RelativeLayout>
