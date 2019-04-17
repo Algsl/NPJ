@@ -5,7 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.ui.fragment.DiscoverFragment;
@@ -13,7 +16,6 @@ import com.zthx.npj.ui.fragment.GameFragment;
 import com.zthx.npj.ui.fragment.HomeFragment;
 import com.zthx.npj.ui.fragment.MineFragment;
 import com.zthx.npj.ui.fragment.ShoppingCartFragment;
-import com.zthx.npj.view.TabRadioButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,21 +28,32 @@ public class MainActivity extends BaseActivity {
         System.loadLibrary("native-lib");
     }
 
-    @BindView(R.id.rb_main_check_01)
-    TabRadioButton rbMainCheck01;
-    @BindView(R.id.rb_main_check_02)
-    TabRadioButton rbMainCheck02;
-    @BindView(R.id.rb_main_check_03)
-    TabRadioButton rbMainCheck03;
-    @BindView(R.id.rb_main_check_04)
-    TabRadioButton rbMainCheck04;
-    @BindView(R.id.rb_main_check_05)
-    TabRadioButton rbMainCheck05;
-    @BindView(R.id.rg_main_check)
-    RadioGroup rgMainCheck;
-
     //当前tab栏序号
     public static int mIndex;
+    @BindView(R.id.lay_frg_main)
+    FrameLayout layFrgMain;
+    @BindView(R.id.tv_home_home)
+    TextView tvHomeHome;
+    @BindView(R.id.ll_main_check_01)
+    LinearLayout llMainCheck01;
+    @BindView(R.id.tv_home_discover)
+    TextView tvHomeDiscover;
+    @BindView(R.id.ll_main_check_02)
+    LinearLayout llMainCheck02;
+    @BindView(R.id.tv_home_game)
+    TextView tvHomeGame;
+    @BindView(R.id.ll_main_check_03)
+    LinearLayout llMainCheck03;
+    @BindView(R.id.tv_home_shoppingCart)
+    TextView tvHomeShoppingCart;
+    @BindView(R.id.ll_main_check_04)
+    LinearLayout llMainCheck04;
+    @BindView(R.id.tv_home_mine)
+    TextView tvHomeMine;
+    @BindView(R.id.ll_main_check_05)
+    LinearLayout llMainCheck05;
+    @BindView(R.id.lin)
+    LinearLayout lin;
     //fragment数组
     private Fragment[] mFragments;
     //fragment模块
@@ -59,31 +72,6 @@ public class MainActivity extends BaseActivity {
         // Example of a call to a native method
     }
 
-
-
-
-    @OnClick({R.id.rb_main_check_01, R.id.rb_main_check_02, R.id.rb_main_check_03, R.id.rb_main_check_04, R.id.rb_main_check_05, R.id.rg_main_check})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.rb_main_check_01:
-                setIndexSelected(0);
-                break;
-            case R.id.rb_main_check_02:
-                setIndexSelected(1);
-                break;
-            case R.id.rb_main_check_03:
-                setIndexSelected(2);
-                break;
-            case R.id.rb_main_check_04:
-                setIndexSelected(3);
-                break;
-            case R.id.rb_main_check_05:
-                setIndexSelected(4);
-                break;
-            case R.id.rg_main_check:
-                break;
-        }
-    }
 
     public void setIndexSelected(int index) {
         if (mIndex == index) {
@@ -106,8 +94,8 @@ public class MainActivity extends BaseActivity {
                     mFragments[1] = mDiscoverFragment;
                     break;
                 case 2:
-                   mGameFragment = new GameFragment();
-                   mFragments[2] = mGameFragment;
+                    mGameFragment = new GameFragment();
+                    mFragments[2] = mGameFragment;
                     break;
                 case 3:
                     mShoppingCartFragment = new ShoppingCartFragment();
@@ -150,6 +138,27 @@ public class MainActivity extends BaseActivity {
                 getSupportFragmentManager().beginTransaction();
         //添加首页
         ft.add(R.id.lay_frg_main, mHomeFragment).commit();
-        rbMainCheck01.performClick();
+        llMainCheck01.performClick();
+    }
+
+    @OnClick({R.id.ll_main_check_01, R.id.ll_main_check_02, R.id.ll_main_check_03, R.id.ll_main_check_04, R.id.ll_main_check_05})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ll_main_check_01:
+                setIndexSelected(0);
+                break;
+            case R.id.ll_main_check_02:
+                setIndexSelected(1);
+                break;
+            case R.id.ll_main_check_03:
+                setIndexSelected(2);
+                break;
+            case R.id.ll_main_check_04:
+                setIndexSelected(3);
+                break;
+            case R.id.ll_main_check_05:
+                setIndexSelected(4);
+                break;
+        }
     }
 }

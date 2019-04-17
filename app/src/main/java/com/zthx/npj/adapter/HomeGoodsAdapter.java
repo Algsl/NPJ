@@ -1,6 +1,7 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -63,6 +64,7 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.View
             viewHolder.mTvMallName.setText(list.get(i).getMallName());
             viewHolder.mTvNewPrice.setText(list.get(i).getGoodsNewPrice());
             viewHolder.mTvOldPrice.setText(list.get(i).getGoodsOldPrice());
+            viewHolder.mTvOldPrice.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG);
             viewHolder.mTvTitle.setText(list.get(i).getGoodsTitle());
 
         }

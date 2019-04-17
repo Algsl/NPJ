@@ -1,22 +1,36 @@
 package com.zthx.npj.ui.fragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.DiscoverViewPagerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * create an instance of this fragment.
  */
-public class DiscoverFragment extends Fragment {
+public class DiscoverFragment extends BaseFragment {
 
+    @BindView(R.id.fg_discover_main_tab)
+    TabLayout fgDiscoverMainTab;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+    private Unbinder unbinder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,7 +41,20 @@ public class DiscoverFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_discover, container, false);
+        View view = inflater.inflate(R.layout.fragment_discover, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        List<String> list = new ArrayList<>();
+        list.add("服务");
+        list.add("供求");
+        List<Fragment> list2 = new ArrayList<>();
+        list2.add(DiscverServiceFragment.getInstance());
+        list2.add(DiscoverSupplyFragment.getInstance());
+        DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getActivity().getSupportFragmentManager(),getActivity(), list, list2);
+        viewPager.setAdapter(mAdapter);
+        fgDiscoverMainTab.setTabMode(TabLayout.MODE_FIXED);
+        fgDiscoverMainTab.setTabGravity(TabLayout.GRAVITY_CENTER);
+        fgDiscoverMainTab.setupWithViewPager(viewPager);
+        return view;
     }
 
 
@@ -41,4 +68,9 @@ public class DiscoverFragment extends Fragment {
         super.onDetach();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }

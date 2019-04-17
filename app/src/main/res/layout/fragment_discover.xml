@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.DiscoverFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragment.DiscoverFragment"
+    android:background="@color/background">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.design.widget.TabLayout
+        android:id="@+id/fg_discover_main_tab"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="discover"
-        android:textColor="@android:color/black"
-        android:gravity="center"
-        android:textSize="30sp"/>
+        android:layout_height="@dimen/dp_50"
+        android:background="@android:color/white"
+        app:tabGravity="center"
+        app:tabIndicatorColor="@color/app_theme"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/app_theme"
+        app:tabTextColor="@android:color/black"/>
 
-</RelativeLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</LinearLayout>

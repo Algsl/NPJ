@@ -88,11 +88,7 @@ public class HomeFragment extends BaseFragment {
         list.add(R.mipmap.ic_action011);
         list.add(R.mipmap.ic_action027);
         list.add(R.mipmap.ic_action029);
-        List<String> list2 = new ArrayList<>();
-        list2.add("1111");
-        list2.add("2222");
-        list2.add("3333");
-        initBanner(list, list2);
+        initBanner(list);
 
 
         //通过findViewById拿到RecyclerView实例
@@ -129,19 +125,17 @@ public class HomeFragment extends BaseFragment {
      * 初始化轮播图
      *
      * @param list
-     * @param list2
      */
-    private void initBanner(List<Integer> list, List<String> list2) {
+    private void initBanner(List<Integer> list) {
         //设置banner样式
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
+        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        banner.setIndicatorGravity(BannerConfig.CENTER);
         //设置图片加载器
         banner.setImageLoader(new GlideImageLoader());
         //设置图片集合
         banner.setImages(list);
         //设置banner动画效果
         banner.setBannerAnimation(Transformer.DepthPage);
-        //设置标题集合（当banner样式有显示title时）
-        banner.setBannerTitles(list2);
         //设置自动轮播，默认为true
         banner.isAutoPlay(true);
         //设置轮播时间

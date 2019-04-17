@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragment.DiscverServiceFragment"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <com.youth.banner.Banner
+        android:id="@+id/banner_discover_service"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_125" />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_75"
+        android:orientation="horizontal"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:id="@+id/fg_discover_ll_agriculture_knowledge"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/dp_31"
+                android:layout_height="@dimen/dp_38"
+                android:src="@drawable/agriculture_knowleg"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="农业知识"
+                android:textSize="@dimen/sp_11"
+                android:layout_marginTop="@dimen/dp_7"
+                android:textColor="@color/text6"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fg_discover_ll_information"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <ImageView
+                android:layout_width="@dimen/dp_31"
+                android:layout_height="@dimen/dp_38"
+                android:src="@drawable/information"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="行情资讯"
+                android:textSize="@dimen/sp_11"
+                android:layout_marginTop="@dimen/dp_7"
+                android:textColor="@color/text6"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/fg_discover_ll_auction"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/dp_31"
+                android:layout_height="@dimen/dp_38"
+                android:src="@drawable/auction"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="农业拍卖"
+                android:textSize="@dimen/sp_11"
+                android:layout_marginTop="@dimen/dp_7"
+                android:textColor="@color/text6"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/fg_discover_ll_goods_for_goods"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/dp_31"
+                android:layout_height="@dimen/dp_38"
+                android:src="@drawable/goods_for_goods"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="以货易货"
+                android:textSize="@dimen/sp_11"
+                android:layout_marginTop="@dimen/dp_7"
+                android:textColor="@color/text6"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/fg_discover_ll_loan"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/dp_31"
+                android:layout_height="@dimen/dp_38"
+                android:src="@drawable/agriculture_loan"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="农业贷款"
+                android:textSize="@dimen/sp_11"
+                android:layout_marginTop="@dimen/dp_7"
+                android:textColor="@color/text6"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@android:color/white">
+        
+        <ImageView
+            android:layout_width="@dimen/dp_18"
+            android:layout_height="@dimen/dp_17"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_105"
+            android:src="@drawable/discover_programmer"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_16"
+            android:textColor="#333333"
+            android:text="农作物系统解决方案"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_129"/>
+        
+        <ImageView
+            android:layout_width="@dimen/dp_26"
+            android:layout_height="@dimen/dp_22"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_12"
+            android:src="@drawable/discover_service_search"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fg_discover_service_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:paddingTop="@dimen/dp_10">
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>
