@@ -25,6 +25,7 @@ import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.adapter.ShoppingCartAdapter;
 import com.zthx.npj.entity.GoodsInfo;
 import com.zthx.npj.entity.StoreInfo;
+import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.HomeGoodsBeen;
 import com.zthx.npj.view.MyExpandableListView;
 
@@ -135,14 +136,12 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartAdapte
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL,false);
         fgShoppingRvLike.setLayoutManager(layoutManager);
         //初始化适配器
-        List<HomeGoodsBeen> list3 = new ArrayList<>();
-        HomeGoodsBeen HomeGoodsBeen = new HomeGoodsBeen();
-        HomeGoodsBeen.setGoodsNewPrice("1");
-        HomeGoodsBeen.setGoodsOldPrice("2");
+        List<CommentGoodsBeen> list3 = new ArrayList<>();
+        CommentGoodsBeen HomeGoodsBeen = new CommentGoodsBeen();
         HomeGoodsBeen.setGoodsPic("123");
         HomeGoodsBeen.setGoodsTitle("1231245124");
-        HomeGoodsBeen.setMallName("ddddd");
-        HomeGoodsBeen.setMallPic("ssadasd");
+        HomeGoodsBeen.setGoodsSellNum("123");
+        HomeGoodsBeen.setGoodsPrice("1333");
         for (int i = 0; i < 20; i++) {
             list3.add(HomeGoodsBeen);
         }

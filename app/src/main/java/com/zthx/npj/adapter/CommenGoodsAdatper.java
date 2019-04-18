@@ -11,13 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
+import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.HomeGoodsBeen;
 
 import java.util.List;
 
 public class CommenGoodsAdatper extends RecyclerView.Adapter<CommenGoodsAdatper.ViewHolder>{
 
-    private List<HomeGoodsBeen> list;
+    private List<CommentGoodsBeen> list;
     private Context mContext;
 
     private HomeGoodsAdapter.ItemClickListener mItemClickListener ;
@@ -29,14 +30,14 @@ public class CommenGoodsAdatper extends RecyclerView.Adapter<CommenGoodsAdatper.
 
     }
 
-    public CommenGoodsAdatper(Context context, List<HomeGoodsBeen> list) {
+    public CommenGoodsAdatper(Context context, List<CommentGoodsBeen> list) {
         this.list = list;
         mContext = context;
     }
     @NonNull
     @Override
     public CommenGoodsAdatper.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_home_goods, viewGroup, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_commen_goods, viewGroup, false);
         return new CommenGoodsAdatper.ViewHolder(view);
     }
 
@@ -55,8 +56,8 @@ public class CommenGoodsAdatper extends RecyclerView.Adapter<CommenGoodsAdatper.
         }
         if (list!= null && list.size() > 0) {
             viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
-            viewHolder.mTvPrice.setText(list.get(i).getGoodsNewPrice());
-            viewHolder.mTvSellNum.setText(list.get(i).getGoodsOldPrice());
+            viewHolder.mTvPrice.setText(list.get(i).getGoodsPrice());
+            viewHolder.mTvSellNum.setText(list.get(i).getGoodsSellNum());
             viewHolder.mTvTitle.setText(list.get(i).getGoodsTitle());
         } else {
 
