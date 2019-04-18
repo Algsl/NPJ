@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_90"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/single_checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:background="@null"
+            android:button="@null"
+            android:drawableLeft="@drawable/checkbox_bg"
+            android:gravity="center" />
+
+        <ImageView
+            android:id="@+id/goods_image"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher" />
+
+        <RelativeLayout
+            android:id="@+id/goods_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_10">
+
+            <TextView
+                android:id="@+id/item_shopping_cart_product_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_20"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="五月天【沉梦昂志】2050年演唱会 武汉站"
+                android:textColor="@color/text3"
+                android:textSize="@dimen/sp_15" />
+
+            <TextView
+                android:id="@+id/item_shopping_cart_tv_goods_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_shopping_cart_product_title"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="@dimen/dp_5"
+                android:text="门票:内场 类型:憨人"
+                android:textColor="@color/text9"
+                android:textSize="@dimen/sp_12" />
+
+            <TextView
+                android:id="@+id/goods_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_shopping_cart_tv_goods_size"
+                android:layout_alignParentLeft="true"
+                android:lines="1"
+                android:text="￥1000.00"
+                android:textColor="@color/app_theme"
+                android:textSize="@dimen/sp_13"
+                android:layout_marginTop="@dimen/dp_16" />
+
+            <LinearLayout
+                android:layout_width="@dimen/dp_75"
+                android:layout_height="@dimen/dp_22"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/dp_55"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_12">
+                
+                <RelativeLayout
+                    android:id="@+id/item_shopping_rl_cart_num_add"
+                    android:layout_width="@dimen/dp_22"
+                    android:layout_height="@dimen/dp_22"
+                    android:background="@drawable/half_left_conner">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/shooping_jian"/>
+                </RelativeLayout>
+                
+                <TextView
+                    android:id="@+id/item_shopping_tv_cart_num"
+                    android:layout_width="@dimen/dp_31"
+                    android:layout_height="@dimen/dp_22"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:background="@drawable/shopping_num_bg"
+                    android:text="1"
+                    android:textSize="@dimen/sp_15"
+                    android:textColor="@color/text3"/>
+
+                <RelativeLayout
+                    android:id="@+id/item_shopping_rl_cart_num_jian"
+                    android:layout_width="@dimen/dp_22"
+                    android:layout_height="@dimen/dp_22"
+                    android:background="@drawable/half_right_conner">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/shopping_jia"/>
+                </RelativeLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!--<LinearLayout-->
+        <!--android:visibility="gone"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:id="@+id/edit_goods_data"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_weight="0.7"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<RelativeLayout-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<TextView-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:gravity="center"-->
+        <!--android:textSize="20sp"-->
+        <!--android:text="—"-->
+        <!--android:id="@+id/reduce_goodsNum"-->
+        <!--android:layout_width="35dp"-->
+        <!--android:layout_height="35dp" />-->
+
+        <!--<TextView-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:gravity="center"-->
+        <!--android:textSize="20sp"-->
+        <!--android:text="1"-->
+        <!--android:id="@+id/goods_Num"-->
+        <!--android:layout_width="35dp"-->
+        <!--android:layout_height="35dp" />-->
+
+        <!--<TextView-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:gravity="center"-->
+        <!--android:textSize="20sp"-->
+        <!--android:text="+"-->
+        <!--android:id="@+id/increase_goods_Num"-->
+        <!--android:layout_width="35dp"-->
+        <!--android:layout_height="35dp" />-->
+        <!--</RelativeLayout>-->
+        <!--<TextView-->
+        <!--android:layout_marginStart="10dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:id="@+id/goodsSize"-->
+        <!--android:text="门票:内场 类型:憨人"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"/>-->
+        <!--</LinearLayout>-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/del_goods"-->
+        <!--android:textSize="16.5sp"-->
+        <!--android:gravity="center"-->
+        <!--android:background="@color/ic_red"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:text="删除"-->
+        <!--android:layout_weight="0.3"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent" />-->
+        <!--</LinearLayout>-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2.5dp"
+            android:background="@android:color/white" />
+    </LinearLayout>
+</LinearLayout>

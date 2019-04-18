@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_40">
+
+    <RelativeLayout
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <CheckBox
+            android:id="@+id/item_shopping_cart_cb_store"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:background="@null"  
+            android:button="@null"
+            android:drawableLeft="@drawable/checkbox_bg"
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22" />
+        
+        <ImageView
+            android:id="@+id/iv_store"
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:layout_toRightOf="@id/item_shopping_cart_cb_store"
+            android:layout_marginLeft="@dimen/dp_9"
+            android:src="@mipmap/ic_launcher"
+            android:layout_centerVertical="true"/>
+
+
+        <TextView
+            android:textColor="@color/text3"
+            android:textSize="@dimen/sp_16"
+            android:text="小马的店铺"
+            android:layout_centerVertical="true"
+            android:id="@+id/item_shopping_cart_tv_store_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_store"
+            android:layout_marginLeft="@dimen/dp_6"/>
+
+       <TextView
+           android:id="@+id/item_shopping_cart_tv_juan"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentRight="true"
+           android:text="领劵"
+           android:textSize="@dimen/sp_12"
+           android:textColor="@color/text9"
+           android:layout_centerVertical="true"
+           android:layout_marginRight="@dimen/dp_12"/>
+    </RelativeLayout>
+</LinearLayout>

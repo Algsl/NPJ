@@ -17,10 +17,7 @@ import com.zthx.npj.R;
  */
 public class MineFragment extends Fragment {
 
-
-
     public MineFragment() {
-        // Required empty public constructor
     }
 
 

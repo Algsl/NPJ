@@ -15,35 +15,33 @@ import com.zthx.npj.net.been.HomeGoodsBeen;
 
 import java.util.List;
 
-/**
- * 首页商品列表适配器
- */
-public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.ViewHolder> {
+public class CommenGoodsAdatper extends RecyclerView.Adapter<CommenGoodsAdatper.ViewHolder>{
+
     private List<HomeGoodsBeen> list;
     private Context mContext;
 
-    private ItemClickListener mItemClickListener ;
+    private HomeGoodsAdapter.ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
         void onItemClick(int position) ;
     }
-    public void setOnItemClickListener(ItemClickListener itemClickListener){
+    public void setOnItemClickListener(HomeGoodsAdapter.ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
 
     }
 
-    public HomeGoodsAdapter(Context context, List<HomeGoodsBeen> list) {
+    public CommenGoodsAdatper(Context context, List<HomeGoodsBeen> list) {
         this.list = list;
         mContext = context;
     }
     @NonNull
     @Override
-    public HomeGoodsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public CommenGoodsAdatper.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_home_goods, viewGroup, false);
-        return new HomeGoodsAdapter.ViewHolder(view);
+        return new CommenGoodsAdatper.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final HomeGoodsAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final CommenGoodsAdatper.ViewHolder viewHolder, int i) {
         // 点击事件一般都写在绑定数据这里，当然写到上边的创建布局时候也是可以的
         if (mItemClickListener != null){
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -56,15 +54,11 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.View
             });
         }
         if (list!= null && list.size() > 0) {
-            //Glide.with(mContext).load(list.get(i).getMallPic()).into(viewHolder.mIvGoods);
-        } else {
             viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
-            viewHolder.mIvMall.setBackgroundResource(R.mipmap.ic_launcher);
-            viewHolder.mTvMallName.setText(list.get(i).getMallName());
-            viewHolder.mTvNewPrice.setText(list.get(i).getGoodsNewPrice());
-            viewHolder.mTvOldPrice.setText(list.get(i).getGoodsOldPrice());
-            viewHolder.mTvOldPrice.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG);
+            viewHolder.mTvPrice.setText(list.get(i).getGoodsNewPrice());
+            viewHolder.mTvSellNum.setText(list.get(i).getGoodsOldPrice());
             viewHolder.mTvTitle.setText(list.get(i).getGoodsTitle());
+        } else {
 
         }
     }
@@ -77,19 +71,15 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.View
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mIvGoods;
         TextView mTvTitle;
-        TextView mTvNewPrice;
-        TextView mTvOldPrice;
-        ImageView mIvMall;
-        TextView mTvMallName;
+        TextView mTvPrice;
+        TextView mTvSellNum;
 
         ViewHolder(View itemView) {
             super(itemView);
-            mIvGoods = itemView.findViewById(R.id.item_iv_home_goods);
-            mTvTitle = itemView.findViewById(R.id.item_tv_home_goods_title);
-            mTvNewPrice = itemView.findViewById(R.id.item_tv_home_goods_new_price);
-            mTvOldPrice = itemView.findViewById(R.id.item_tv_home_goods_old_price);
-            mIvMall = itemView.findViewById(R.id.item_iv_home_goods_mall);
-            mTvMallName = itemView.findViewById(R.id.item_tv_home_goods_mall_name);
+            mIvGoods = itemView.findViewById(R.id.item_iv_comment_goods);
+            mTvTitle = itemView.findViewById(R.id.item_tv_comment_goods_title);
+            mTvPrice = itemView.findViewById(R.id.item_tv_comment_goods_price);
+            mTvSellNum = itemView.findViewById(R.id.item_tv_comment_goods_sell_num);
         }
     }
 }
