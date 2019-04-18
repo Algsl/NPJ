@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.CommenGoodsAdatper;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.adapter.ShoppingCartAdapter;
 import com.zthx.npj.entity.GoodsInfo;
@@ -145,7 +146,7 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartAdapte
         for (int i = 0; i < 20; i++) {
             list3.add(HomeGoodsBeen);
         }
-        HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), list3);
+        CommenGoodsAdatper mAdapter = new CommenGoodsAdatper(getActivity(), list3);
         mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
