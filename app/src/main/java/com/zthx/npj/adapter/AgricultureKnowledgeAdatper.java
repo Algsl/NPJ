@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.AgricultureKnowledgerBeen;
-import com.zthx.npj.net.been.HomeGoodsBeen;
 
 import java.util.List;
 
@@ -20,6 +19,14 @@ public class AgricultureKnowledgeAdatper extends RecyclerView.Adapter<Agricultur
     private List<AgricultureKnowledgerBeen> mList;
     private Context mContext;
 
+    private AgricultureKnowledgeAdatper.ItemClickListener mItemClickListener ;
+    public interface ItemClickListener{
+        void onItemClick(int position) ;
+    }
+    public void setOnItemClickListener(AgricultureKnowledgeAdatper.ItemClickListener itemClickListener){
+        this.mItemClickListener = itemClickListener ;
+
+    }
     public AgricultureKnowledgeAdatper(List list, Context context) {
         mContext = context;
         mList = list;
@@ -32,31 +39,38 @@ public class AgricultureKnowledgeAdatper extends RecyclerView.Adapter<Agricultur
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
+        // 点击事件一般都写在绑定数据这里，当然写到上边的创建布局时候也是可以的
+        if (mItemClickListener != null){
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = viewHolder.getLayoutPosition();
+                    // 这里利用回调来给RecyclerView设置点击事件
+                    mItemClickListener.onItemClick(position);
+                }
+            });
+        }
+        if (mList!= null && mList.size() > 0) {
+            viewHolder.mIvPic.setBackgroundResource(R.mipmap.ic_launcher);
+            viewHolder.mTvName.setText(mList.get(i).getName());
+        } else {
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mIvGoods;
-        TextView mTvTitle;
-        TextView mTvNewPrice;
-        TextView mTvOldPrice;
-        ImageView mIvMall;
-        TextView mTvMallName;
+        ImageView mIvPic;
+        TextView mTvName;
 
         ViewHolder(View itemView) {
             super(itemView);
-            mIvGoods = itemView.findViewById(R.id.item_iv_home_goods);
-            mTvTitle = itemView.findViewById(R.id.item_tv_home_goods_title);
-            mTvNewPrice = itemView.findViewById(R.id.item_tv_home_goods_new_price);
-            mTvOldPrice = itemView.findViewById(R.id.item_tv_home_goods_old_price);
-            mIvMall = itemView.findViewById(R.id.item_iv_home_goods_mall);
-            mTvMallName = itemView.findViewById(R.id.item_tv_home_goods_mall_name);
+            mIvPic = itemView.findViewById(R.id.item_iv_agriculture_knowledge);
+            mTvName = itemView.findViewById(R.id.item_tv_agriculture_knowledge_name);
         }
     }
 }

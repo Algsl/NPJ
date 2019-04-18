@@ -1,7 +1,6 @@
 package com.zthx.npj.ui.fragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -19,8 +18,8 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.HomeGoodsAdapter;
-import com.zthx.npj.net.been.HomeGoodsBeen;
+import com.zthx.npj.adapter.AgricultureKnowledgeAdatper;
+import com.zthx.npj.net.been.AgricultureKnowledgerBeen;
 import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
@@ -67,21 +66,28 @@ public class DiscverServiceFragment extends Fragment {
         list.add(R.mipmap.ic_action029);
         initBanner(list);
 
+        List<AgricultureKnowledgerBeen> list2 = new ArrayList<>();
+        AgricultureKnowledgerBeen been = new AgricultureKnowledgerBeen();
+        been.setName("橘子");
+        been.setPic("123");
+        for (int i = 0; i < 30; i++) {
+            list2.add(been);
+        }
         //设置RecyclerView管理器
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL,false);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 4, LinearLayoutManager.VERTICAL,false);
         mRecyclerView.setLayoutManager(layoutManager);
         //初始化适配器
-//        HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), list3);
-//        mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
-//            @Override
-//            public void onItemClick(int position) {
-//                Toast.makeText(getActivity(), "position==" + position, Toast.LENGTH_LONG).show();
-//            }
-//        });
-//        //设置添加或删除item时的动画，这里使用默认动画
-//        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-//        //设置适配器
-//        mRecyclerView.setAdapter(mAdapter);
+        AgricultureKnowledgeAdatper mAdapter = new AgricultureKnowledgeAdatper(list2, getActivity());
+        mAdapter.setOnItemClickListener(new AgricultureKnowledgeAdatper.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(getActivity(), "position==" + position, Toast.LENGTH_LONG).show();
+            }
+        });
+        //设置添加或删除item时的动画，这里使用默认动画
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        //设置适配器
+        mRecyclerView.setAdapter(mAdapter);
 
         return View;
     }

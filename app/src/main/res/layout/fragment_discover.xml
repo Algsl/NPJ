@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.DiscoverFragment"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <android.support.design.widget.TabLayout
         android:id="@+id/fg_discover_main_tab"
@@ -17,11 +18,21 @@
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/app_theme"
         app:tabTextColor="@android:color/black"/>
+    
+    <ImageView
+        android:id="@+id/fg_discover_iv_message"
+        android:layout_width="@dimen/dp_22"
+        android:layout_height="@dimen/dp_22"
+        android:src="@drawable/discover_message"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_15"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/fg_discover_main_tab"/>
 
 
-</LinearLayout>
+</RelativeLayout>

@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="@dimen/dp_78"
+    android:layout_height="@dimen/dp_78"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+    <ImageView
+        android:id="@+id/item_iv_agriculture_knowledge"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_60"
+        android:src="@mipmap/ic_launcher"/>
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/item_tv_agriculture_knowledge_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="橘子"
+        android:textSize="@dimen/sp_12"
+        android:textColor="@color/text3"/>
+
+</LinearLayout>

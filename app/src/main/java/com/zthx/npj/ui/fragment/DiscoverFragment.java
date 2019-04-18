@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.DiscoverViewPagerAdapter;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -30,6 +32,8 @@ public class DiscoverFragment extends BaseFragment {
     TabLayout fgDiscoverMainTab;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+    @BindView(R.id.fg_discover_iv_message)
+    ImageView fgDiscoverIvMessage;
     private Unbinder unbinder;
 
     @Override
@@ -49,7 +53,7 @@ public class DiscoverFragment extends BaseFragment {
         List<Fragment> list2 = new ArrayList<>();
         list2.add(DiscverServiceFragment.getInstance());
         list2.add(DiscoverSupplyFragment.getInstance());
-        DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getActivity().getSupportFragmentManager(),getActivity(), list, list2);
+        DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getChildFragmentManager(), getActivity(), list, list2);
         viewPager.setAdapter(mAdapter);
         fgDiscoverMainTab.setTabMode(TabLayout.MODE_FIXED);
         fgDiscoverMainTab.setTabGravity(TabLayout.GRAVITY_CENTER);
@@ -72,5 +76,9 @@ public class DiscoverFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.fg_discover_iv_message)
+    public void onViewClicked() {
     }
 }
