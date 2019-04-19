@@ -38,7 +38,7 @@ import butterknife.Unbinder;
 public class MineFragment extends BaseFragment {
 
     @BindView(R.id.fg_mine_iv_head_pic)
-    ImageView fgMineIvHeadPic;
+    MyCircleView fgMineIvHeadPic;
     @BindView(R.id.fg_mine_tv_name)
     TextView fgMineTvName;
     @BindView(R.id.fg_mine_tv_tel)
