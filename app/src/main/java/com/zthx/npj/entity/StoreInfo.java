@@ -11,6 +11,9 @@ public class StoreInfo {
 
 
     private boolean isChoosed;
+
+
+
     private boolean isEditor; //自己对该组的编辑状态
     private boolean ActionBarEditor;// 全局对该组的编辑状态
     private int flag;
