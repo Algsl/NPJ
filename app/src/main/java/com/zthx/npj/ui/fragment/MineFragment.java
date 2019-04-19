@@ -35,10 +35,10 @@ import butterknife.Unbinder;
  * Activities that contain this fragment must implement the
  * create an instance of this fragment.
  */
-public class MineFragment extends Fragment {
+public class MineFragment extends BaseFragment {
 
     @BindView(R.id.fg_mine_iv_head_pic)
-    MyCircleView fgMineIvHeadPic;
+    ImageView fgMineIvHeadPic;
     @BindView(R.id.fg_mine_tv_name)
     TextView fgMineTvName;
     @BindView(R.id.fg_mine_tv_tel)
