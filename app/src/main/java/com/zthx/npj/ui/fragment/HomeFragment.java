@@ -1,6 +1,7 @@
 package com.zthx.npj.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -24,6 +25,7 @@ import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.net.been.HomeGoodsBeen;
+import com.zthx.npj.ui.ClassfiyActivity;
 import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
@@ -162,7 +164,8 @@ public class HomeFragment extends BaseFragment {
             case R.id.fg_home_et_search:
                 break;
             case R.id.fg_home_iv_classify:
-                Toast.makeText(getActivity(), "fenlei", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), ClassfiyActivity.class);
+                startActivity(intent);
                 break;
             case R.id.fg_home_iv_message:
                 Toast.makeText(getActivity(), "xiaoxi", Toast.LENGTH_LONG).show();
