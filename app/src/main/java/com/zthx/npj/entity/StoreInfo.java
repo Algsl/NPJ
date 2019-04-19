@@ -8,7 +8,12 @@ package com.zthx.npj.entity;
 public class StoreInfo {
     private String id;
     private String name;
+
+
     private boolean isChoosed;
+
+
+
     private boolean isEditor; //自己对该组的编辑状态
     private boolean ActionBarEditor;// 全局对该组的编辑状态
     private int flag;
