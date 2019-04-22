@@ -23,7 +23,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.BaseActivity" />
-        <activity android:name=".ui.ClassfiyActivity"></activity>
+        <activity android:name=".ui.ClassfiyActivity" />
+        <activity android:name=".ui.HomeSearchActivity" />
+        <activity android:name=".ui.fragment.ClassfiyDetailActivity" />
+        <activity android:name=".ui.GoodsDetailActivity" />
+        <activity android:name=".ui.SecKillActivity"></activity>
     </application>
 
 </manifest>

@@ -9,12 +9,11 @@
         android:id="@+id/blank"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:background="#DCDBDB"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
         android:text="hello_world" />
 
-    <com.kevin.www.categorydemo.GridViewForScrollView
+    <com.zthx.npj.view.GridViewForScrollView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

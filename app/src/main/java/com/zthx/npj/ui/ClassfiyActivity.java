@@ -15,7 +15,6 @@ import com.zthx.npj.adapter.HomeAdapter;
 import com.zthx.npj.adapter.MenuAdapter;
 import com.zthx.npj.net.been.CategoryBean;
 
-import com.alibaba.fastjson.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,11 +30,11 @@ import butterknife.ButterKnife;
  */
 public class ClassfiyActivity extends AppCompatActivity {
 
-    @BindView(R.id.lv_menu)
+    @BindView(R.id.at_classfiy_lv_menu)
     ListView lvMenu;
-    @BindView(R.id.lv_home)
+    @BindView(R.id.at_classfiy_lv_home)
     ListView lvHome;
-    @BindView(R.id.tv_titile)
+    @BindView(R.id.at_classfiy_tv_title)
     TextView tvTitile;
 
     private List<String> menuList = new ArrayList<>();
@@ -57,8 +56,24 @@ public class ClassfiyActivity extends AppCompatActivity {
 
     private void loadData() {
 
-        String json = getJson(this, "category.json");
-        CategoryBean categoryBean = JSONObject.parseObject(json, CategoryBean.class);
+//        String json = getJson(this, "category.json");
+//        CategoryBean categoryBean = JSONObject.parseObject(json, CategoryBean.class);
+        CategoryBean categoryBean = new CategoryBean();
+        List<CategoryBean.DataBean> data = new ArrayList<>();
+        List<CategoryBean.DataBean.DataListBean> list2 = new ArrayList<>();
+        CategoryBean.DataBean.DataListBean dataListBean = new CategoryBean.DataBean.DataListBean();
+        dataListBean.setTitle("苹果");
+        dataListBean.setImgURL("dsds");
+        for (int i =0;i<10;i++) {
+            list2.add(dataListBean);
+        }
+        CategoryBean.DataBean been = new CategoryBean.DataBean();
+        been.setModuleTitle("水果");
+        been.setDataList(list2);
+        for (int i =0;i<10;i++) {
+            data.add(been);
+        }
+        categoryBean.setData(data);
         showTitle = new ArrayList<>();
         for (int i = 0; i < categoryBean.getData().size(); i++) {
             CategoryBean.DataBean dataBean = categoryBean.getData().get(i);

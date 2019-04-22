@@ -55,4 +55,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     //阿里巴巴开源json解析库
     implementation 'com.alibaba:fastjson:1.1.46.android'
+
+    //瀑布流
+    implementation 'com.github.donkingliang:LabelsView:1.2.0'
 }

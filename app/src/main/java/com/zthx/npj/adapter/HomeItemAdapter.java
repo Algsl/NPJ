@@ -63,7 +63,8 @@ public class HomeItemAdapter extends BaseAdapter {
         }
         viewHold.tv_name.setText(subcategory.getTitle());
         Uri uri = Uri.parse(subcategory.getImgURL());
-        viewHold.iv_icon.setImageURI(uri);
+//        viewHold.iv_icon.setImageURI(uri);
+        viewHold.iv_icon.setBackgroundResource(R.mipmap.ic_launcher);
         return convertView;
 
 

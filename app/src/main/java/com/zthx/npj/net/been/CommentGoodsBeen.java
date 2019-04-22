@@ -6,6 +6,25 @@ public class CommentGoodsBeen {
     private String GoodsTitle;
     private String GoodsPrice;
     private String GoodsSellNum;
+    private String GoodsOldPrice;
+
+    public String getGoodsOldPrice() {
+        return GoodsOldPrice;
+    }
+
+    public void setGoodsOldPrice(String goodsOldPrice) {
+        GoodsOldPrice = goodsOldPrice;
+    }
+
+    public String getSelledNum() {
+        return SelledNum;
+    }
+
+    public void setSelledNum(String selledNum) {
+        SelledNum = selledNum;
+    }
+
+    private String SelledNum;
 
     public String getGoodsPic() {
         return GoodsPic;

@@ -1,13 +1,16 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CategoryBean;
+import com.zthx.npj.ui.fragment.ClassfiyDetailActivity;
 import com.zthx.npj.view.GridViewForScrollView;
 
 import java.util.List;
@@ -64,6 +67,12 @@ public class HomeAdapter extends BaseAdapter {
         HomeItemAdapter adapter = new HomeItemAdapter(context, dataList);
         viewHold.blank.setText(dataBean.getModuleTitle());
         viewHold.gridView.setAdapter(adapter);
+        viewHold.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                context.startActivity(new Intent(context, ClassfiyDetailActivity.class));
+            }
+        });
         return convertView;
     }
 

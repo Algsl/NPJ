@@ -26,6 +26,8 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.net.been.HomeGoodsBeen;
 import com.zthx.npj.ui.ClassfiyActivity;
+import com.zthx.npj.ui.HomeSearchActivity;
+import com.zthx.npj.ui.SecKillActivity;
 import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
@@ -157,21 +159,25 @@ public class HomeFragment extends BaseFragment {
 
     @OnClick({R.id.fg_home_iv_scan, R.id.fg_home_et_search, R.id.fg_home_iv_classify, R.id.fg_home_iv_message, R.id.fg_home_ll_secKill, R.id.fg_home_ll_presell, R.id.fg_home_ll_local, R.id.fg_home_ll_gift,R.id.fg_home_rl_go_game, R.id.fg_home_ll_recommend})
     public void onViewClicked(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.fg_home_iv_scan:
                 Toast.makeText(getActivity(), "erweima", Toast.LENGTH_LONG).show();
                 break;
             case R.id.fg_home_et_search:
+                intent = new Intent(getActivity(), HomeSearchActivity.class);
+                startActivity(intent);
                 break;
             case R.id.fg_home_iv_classify:
-                Intent intent = new Intent(getActivity(), ClassfiyActivity.class);
+                intent = new Intent(getActivity(), ClassfiyActivity.class);
                 startActivity(intent);
                 break;
             case R.id.fg_home_iv_message:
                 Toast.makeText(getActivity(), "xiaoxi", Toast.LENGTH_LONG).show();
                 break;
             case R.id.fg_home_ll_secKill:
-                Toast.makeText(getActivity(), "miaosha", Toast.LENGTH_LONG).show();
+                intent = new Intent(getActivity(), SecKillActivity.class);
+                startActivity(intent);
                 break;
             case R.id.fg_home_ll_presell:
                 Toast.makeText(getActivity(), "yushou", Toast.LENGTH_LONG).show();
