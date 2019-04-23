@@ -7,9 +7,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.donkingliang.labels.LabelsView;
 import com.zthx.npj.R;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -17,16 +20,27 @@ public class GoodSizePopupwindow extends PopupWindow {
 
     private final LabelsView labelsView;
     private final RelativeLayout minusView;
+    private final TextView secKillOldPrice;
+    private final TextView OldPrice;
     private final RelativeLayout addView;
     private Context mContext;
     private View view;
 
-    public GoodSizePopupwindow(Context mContext, View.OnClickListener itemsOnClick) {
+    public GoodSizePopupwindow(Context mContext, View.OnClickListener itemsOnClick, boolean b) {
         this.view = LayoutInflater.from(mContext).inflate(R.layout.popupwindow_goods_size, null);
         addView = view.findViewById(R.id.item_pop_goods_num_add);
         minusView = view.findViewById(R.id.item_pop_goods_num_jian);
+        secKillOldPrice = view.findViewById(R.id.pop_goods_size_tv_sec_old_price);
+        OldPrice = view.findViewById(R.id.pop_goods_size_tv_price);
         labelsView = (LabelsView) view.findViewById(R.id.labels);
 
+        if (b) {
+            secKillOldPrice.setVisibility(View.VISIBLE);
+            OldPrice.setVisibility(View.GONE);
+        } else {
+            secKillOldPrice.setVisibility(View.GONE);
+            OldPrice.setVisibility(View.VISIBLE);
+        }
 //        // 设置按钮监听
         minusView.setOnClickListener(itemsOnClick);
         addView.setOnClickListener(itemsOnClick);

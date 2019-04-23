@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_110"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <ImageView
+        android:id="@+id/item_sec_kill_iv_goods_pic"
+        android:layout_width="@dimen/dp_90"
+        android:layout_height="@dimen/dp_90"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:src="@mipmap/ic_launcher"/>
+
+    <LinearLayout
+        android:id="@+id/ll_sec_kill"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toRightOf="@id/item_sec_kill_iv_goods_pic"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10">
+        <TextView
+            android:id="@+id/item_sec_kill_tv_goods_leb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="绿色无污染除草剂"
+            android:textSize="@dimen/sp_13"
+            android:textColor="@color/text6"/>
+
+        <TextView
+            android:id="@+id/item_sec_kill_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text3"
+            android:textSize="@dimen/sp_15"
+            android:text="前1000份1元限时秒杀"
+            android:maxLines="1"/>
+        
+        <com.zthx.npj.view.SaleProgressView
+            android:id="@+id/item_sec_kill_spv"
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_8"
+            app:nearOverText="即将售罄"
+            app:overText="已售罄"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp_18"
+        android:layout_toRightOf="@id/item_sec_kill_iv_goods_pic"
+        android:layout_marginLeft="@dimen/dp_10">
+
+        <TextView
+            android:id="@+id/item_sec_kill_tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥1"
+            android:textSize="@dimen/sp_15"
+            android:textColor="@color/app_theme" />
+
+        <TextView
+            android:id="@+id/item_sec_kill_tv_old_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥288"
+            android:textColor="@color/text9"
+            android:textSize="@dimen/sp_12"
+            android:layout_marginLeft="@dimen/dp_30"/>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="@dimen/dp_65"
+        android:layout_height="@dimen/dp_20"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/dp_19"
+        android:layout_marginRight="@dimen/dp_11"
+        android:text="马上抢"
+        android:background="@drawable/buton_stroke_theme"
+        android:textSize="@dimen/sp_13"
+        android:textColor="@color/app_theme"/>
+
+
+
+</RelativeLayout>

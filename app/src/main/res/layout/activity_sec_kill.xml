@@ -39,10 +39,9 @@
         android:layout_height="@dimen/dp_50"
         android:background="@android:color/white"
         app:tabGravity="center"
-        app:tabIndicatorColor="@color/app_theme"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/app_theme"
-        app:tabTextColor="@android:color/black"/>
+        app:tabIndicatorHeight="0dp"
+        app:tabSelectedTextColor="@color/app_theme"/>
 
 
     <android.support.v4.view.ViewPager

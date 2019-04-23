@@ -4,6 +4,11 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
+
+import com.zthx.npj.R;
 
 import java.util.List;
 
@@ -19,20 +24,29 @@ public class SecKillViewPagerAdapter extends FragmentStatePagerAdapter {
         mContext = context;
         mFragment = fragment;
     }
-    @Override
-    public int getCount() {
-        return mFragment.size();
+
+    public View getTabView(int position) {
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_sec_kill, null);
+        TextView tv = v.findViewById(R.id.item_sec_kill_tv_date);
+        tv.setText(mList.get(position));
+        TextView tv2 = v.findViewById(R.id.item_sec_kill_tv_date_state);
+        tv2.setText("已开抢");
+        return v;
     }
+        @Override
+        public int getCount () {
+            return mFragment.size();
+        }
 
-    @Override
-    public Fragment getItem(int i) {
-        return mFragment.get(i);
+        @Override
+        public Fragment getItem ( int i){
+            return mFragment.get(i);
+        }
+
+        @Override
+        public CharSequence getPageTitle ( int position){
+            return mList.get(position);
+        }
+
+
     }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return mList.get(position);
-    }
-
-
-}

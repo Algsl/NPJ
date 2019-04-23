@@ -8,6 +8,26 @@ public class CommentGoodsBeen {
     private String GoodsSellNum;
     private String GoodsOldPrice;
 
+    public String getTotalNum() {
+        return TotalNum;
+    }
+
+    public void setTotalNum(String totalNum) {
+        TotalNum = totalNum;
+    }
+
+    public String getGoodsLeb() {
+
+        return GoodsLeb;
+    }
+
+    public void setGoodsLeb(String goodsLeb) {
+        GoodsLeb = goodsLeb;
+    }
+
+    private String GoodsLeb;
+    private String TotalNum;
+
     public String getGoodsOldPrice() {
         return GoodsOldPrice;
     }

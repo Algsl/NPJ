@@ -7,11 +7,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.PopupWindow;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
 
 import com.zthx.npj.R;
 import com.zthx.npj.view.GoodSizePopupwindow;
+import com.zthx.npj.view.SaleDetailProgressView;
+import com.zthx.npj.view.TimeTextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,12 +24,29 @@ public class GoodsDetailActivity extends AppCompatActivity {
     Button atGoodsDetailBtnAddShoppingCart;
     @BindView(R.id.at_goods_detail_btn_buy_now)
     Button atGoodsDetailBtnBuyNow;
+    @BindView(R.id.at_goods_detail_rl_sec_kill)
+    RelativeLayout atGoodsDetailRlSecKill;
+    @BindView(R.id.at_goods_detail_ttv)
+    TimeTextView atGoodsDetailTtv;
+    @BindView(R.id.at_goods_detail_spv)
+    SaleDetailProgressView atGoodsDetailSpv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_detail);
         ButterKnife.bind(this);
+        if ("miaosha".equals(getIntent().getAction())) {
+            atGoodsDetailRlSecKill.setVisibility(View.VISIBLE);
+            long startTime = System.nanoTime();
+            atGoodsDetailTtv.setTimes(new long[]{1, 23, 22});
+            if (!atGoodsDetailTtv.isRun()) {
+                atGoodsDetailTtv.run();
+            }
+            atGoodsDetailSpv.setTotalAndCurrentCount(100,20);
+        } else {
+            atGoodsDetailRlSecKill.setVisibility(View.GONE);
+        }
     }
 
     @OnClick({R.id.at_goods_detail_btn_add_shopping_cart, R.id.at_goods_detail_btn_buy_now})
@@ -67,11 +85,17 @@ public class GoodsDetailActivity extends AppCompatActivity {
     };
 
     private void showPopupwindow(View view) {
-        GoodSizePopupwindow sizePopWin = new GoodSizePopupwindow(this, onClickListener);
+        boolean b;
+        if ("miaosha".equals(getIntent().getAction())) {
+            b = true;
+        } else {
+            b = false;
+        }
+        GoodSizePopupwindow sizePopWin = new GoodSizePopupwindow(this, onClickListener, b);
         View contentView = sizePopWin.getContentView();
 //        addCartNumTv = ((TextView) contentView.findViewById(R.id.goodsRule_numTv));
         //设置Popupwindow显示位置（从底部弹出）
-        sizePopWin.showAtLocation(view, Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+        sizePopWin.showAtLocation(view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         //当弹出Popupwindow时，背景变半透明
         backgroundAlpha(0.4f);
         //设置Popupwindow关闭监听，当Popupwindow关闭，背景恢复1f
