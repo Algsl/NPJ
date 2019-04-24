@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.PreSellActivity"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_64"
+        android:background="@android:color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="新品预售"
+            android:textColor="@color/text3"
+            android:textSize="@dimen/sp_18"/>
+        <ImageView
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:src="@drawable/back"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/at_pre_sell_iv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_141"
+        android:src="@mipmap/ic_launcher"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/at_pre_sell_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginLeft="@dimen/dp_6"
+        android:layout_marginRight="@dimen/dp_6">
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

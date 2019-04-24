@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_365"
+    android:layout_height="@dimen/dp_215"
+    android:background="@drawable/item_pre_sell_bg">
+
+    <ImageView
+        android:id="@+id/item_pre_sell_pic"
+        android:layout_width="@dimen/dp_351"
+        android:layout_height="@dimen/dp_150"
+        android:layout_marginLeft="@dimen/dp_6"
+        android:layout_marginTop="@dimen/dp_7"
+        android:src="@mipmap/ic_launcher"/>
+    <RelativeLayout
+        android:layout_width="@dimen/dp_351"
+        android:layout_height="@dimen/dp_34"
+        android:layout_alignLeft="@id/item_pre_sell_pic"
+        android:layout_alignBottom="@id/item_pre_sell_pic"
+        android:background="@android:color/black"
+        android:alpha="0.5">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dp_3">
+            <ImageView
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_18"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:src="@drawable/item_pre_sell_yuding"/>
+
+            <TextView
+                android:id="@+id/item_pre_sell_tv_yuding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="预定 80"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_12"
+                android:layout_marginLeft="@dimen/dp_5"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_3">
+            <ImageView
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_18"
+                android:src="@drawable/item_pre_sell_yushou"/>
+
+            <TextView
+                android:id="@+id/item_pre_sell_tv_yushou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="预售 22280"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_12"
+                android:layout_marginLeft="@dimen/dp_5"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_3">
+            <ImageView
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_18"
+                android:src="@drawable/item_pre_sell_dacheng"/>
+
+            <TextView
+                android:id="@+id/item_pre_sell_tv_dacheng"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="达成 98%"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_12"
+                android:layout_marginLeft="@dimen/dp_5"/>
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/at_pre_sell_pb"
+            android:alpha="1"
+            android:layout_width="@dimen/dp_321"
+            android:layout_height="@dimen/dp_7"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:progressDrawable="@drawable/pre_sell_progress"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:max="100"
+            android:progress="80"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp_3"/>
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/item_pre_sell_tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="德国进口正品西门子蒸馏机"
+        android:layout_below="@id/item_pre_sell_pic"
+        android:layout_marginLeft="@dimen/dp_21"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@color/text3"
+        android:layout_marginTop="@dimen/dp_10"/>
+    <TextView
+        android:id="@+id/item_pre_sell_tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="￥199"
+        android:textColor="@color/app_theme"
+        android:layout_below="@id/item_pre_sell_tv_title"
+        android:layout_alignLeft="@id/item_pre_sell_tv_title"
+        android:textSize="@dimen/sp_13"/>
+
+    <Button
+        android:layout_width="@dimen/dp_75"
+        android:layout_height="@dimen/dp_20"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_24"
+        android:background="@drawable/app_theme_conner"
+        android:text="马上预定"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_13"
+        android:gravity="center"/>
+
+</RelativeLayout>

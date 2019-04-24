@@ -27,6 +27,7 @@ import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.net.been.HomeGoodsBeen;
 import com.zthx.npj.ui.ClassfiyActivity;
 import com.zthx.npj.ui.HomeSearchActivity;
+import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.ui.SecKillActivity;
 import com.zthx.npj.view.GlideImageLoader;
 
@@ -180,7 +181,8 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.fg_home_ll_presell:
-                Toast.makeText(getActivity(), "yushou", Toast.LENGTH_LONG).show();
+                intent = new Intent(getActivity(), PreSellActivity.class);
+               startActivity(intent);
                 break;
             case R.id.fg_home_ll_local:
                 Toast.makeText(getActivity(), "shangjia", Toast.LENGTH_LONG).show();
