@@ -27,7 +27,8 @@
         <activity android:name=".ui.HomeSearchActivity" />
         <activity android:name=".ui.fragment.ClassfiyDetailActivity" />
         <activity android:name=".ui.GoodsDetailActivity" />
-        <activity android:name=".ui.SecKillActivity"></activity>
+        <activity android:name=".ui.SecKillActivity" />
+        <activity android:name=".ui.ConfirmOrderActivity"></activity>
     </application>
 
 </manifest>

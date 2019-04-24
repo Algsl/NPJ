@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -43,7 +44,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
             if (!atGoodsDetailTtv.isRun()) {
                 atGoodsDetailTtv.run();
             }
-            atGoodsDetailSpv.setTotalAndCurrentCount(100,20);
+            atGoodsDetailSpv.setTotalAndCurrentCount(100, 20);
         } else {
             atGoodsDetailRlSecKill.setVisibility(View.GONE);
         }
@@ -111,5 +112,10 @@ public class GoodsDetailActivity extends AppCompatActivity {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         getWindow().setAttributes(lp);
+    }
+
+    @OnClick(R.id.at_goods_detail_btn_buy_now)
+    public void onViewClicked() {
+        startActivity(new Intent(this, ConfirmOrderActivity.class));
     }
 }
