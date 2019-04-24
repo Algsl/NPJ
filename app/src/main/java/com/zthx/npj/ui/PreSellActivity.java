@@ -40,6 +40,13 @@ public class PreSellActivity extends AppCompatActivity {
             list.add(been);
         }
         PreSellAdapter adapter = new PreSellAdapter(this,list);
+        adapter.setOnItemClickListener(new PreSellAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+            }
+        });
         atPreSellRv.setAdapter(adapter);
+
     }
 }
