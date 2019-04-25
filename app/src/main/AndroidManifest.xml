@@ -29,7 +29,9 @@
         <activity android:name=".ui.GoodsDetailActivity" />
         <activity android:name=".ui.SecKillActivity" />
         <activity android:name=".ui.ConfirmOrderActivity" />
-        <activity android:name=".ui.PreSellActivity"></activity>
+        <activity android:name=".ui.PreSellActivity" />
+        <activity android:name=".ui.LocationStoreActivity" />
+        <activity android:name=".ui.StoreDetailActivity"></activity>
     </application>
 
 </manifest>
