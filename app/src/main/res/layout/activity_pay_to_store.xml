@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.PayToStoreActivity"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_6"
+            android:src="@drawable/back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="付款"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/sp_18"
+            android:textColor="@color/text3"
+            />
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_170"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginLeft="@dimen/dp_12">
+
+        <ImageView
+            android:id="@+id/at_pay_to_store_iv_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" 
+            android:src="@mipmap/ic_launcher"/>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_30"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/black"
+            android:alpha="0.3"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="格瑞斯巴西柔术学院"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_15"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_224"
+        android:layout_marginTop="@dimen/dp_5"
+        android:orientation="vertical"
+        android:background="@drawable/pay_to_store_bg">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp_42"
+            android:text="消费金额"
+            android:textSize="@dimen/sp_15"
+            android:textColor="@color/text3"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_42"
+            android:layout_marginTop="@dimen/dp_18">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥"
+                />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:hint="请输入付款金额"
+                android:textSize="@dimen/sp_13"
+                android:textColor="@color/text9"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_42"
+            android:text="升级代言人后可优惠10%"
+            android:textColor="#f05252"
+            android:textSize="@dimen/sp_12"
+            android:layout_marginTop="@dimen/dp_6"/>
+
+        <View
+            android:layout_width="@dimen/dp_291"
+            android:layout_height="@dimen/dp_1"
+            android:layout_marginLeft="@dimen/dp_42"
+            android:layout_marginTop="@dimen/dp_5"
+            android:background="@color/background"></View>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_13"
+                android:text="实付金额"
+                android:textColor="@color/text3"
+                android:layout_marginLeft="@dimen/dp_42"
+                android:layout_marginTop="@dimen/dp_20"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_42"
+                android:text="0.00"
+                android:layout_marginTop="@dimen/dp_20"/>
+        </RelativeLayout>
+    </LinearLayout>
+    
+    <Button
+        android:layout_width="@dimen/dp_292"
+        android:layout_height="@dimen/dp_40"
+        android:background="@drawable/app_theme_conner"
+        android:layout_gravity="center_horizontal"
+        android:text="升级成为代言人"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_15"/>
+
+</LinearLayout>

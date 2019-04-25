@@ -31,7 +31,9 @@
         <activity android:name=".ui.ConfirmOrderActivity" />
         <activity android:name=".ui.PreSellActivity" />
         <activity android:name=".ui.LocationStoreActivity" />
-        <activity android:name=".ui.StoreDetailActivity"></activity>
+        <activity android:name=".ui.StoreDetailActivity" />
+        <activity android:name=".ui.PayToStoreActivity" />
+        <activity android:name=".ui.StoreManagerActivity"></activity>
     </application>
 
 </manifest>

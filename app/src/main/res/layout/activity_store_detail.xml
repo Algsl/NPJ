@@ -125,6 +125,7 @@
                </LinearLayout>
 
                <Button
+                   android:id="@+id/at_store_detail_btn_pay"
                    android:layout_width="@dimen/dp_40"
                    android:layout_height="@dimen/dp_40"
                    android:layout_alignParentRight="true"
