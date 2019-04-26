@@ -33,7 +33,10 @@
         <activity android:name=".ui.LocationStoreActivity" />
         <activity android:name=".ui.StoreDetailActivity" />
         <activity android:name=".ui.PayToStoreActivity" />
-        <activity android:name=".ui.StoreManagerActivity"></activity>
+        <activity android:name=".ui.StoreManagerActivity" />
+        <activity android:name=".ui.StoreManagerBillActivity" />
+        <activity android:name=".ui.StoreManagerCenterActivity" />
+        <activity android:name=".ui.StoreManagerQRCodeActivity"></activity>
     </application>
 
 </manifest>

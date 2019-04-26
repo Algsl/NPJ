@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
-        android:background="@android:color/white">
+        android:background="@android:color/white"
+        android:id="@+id/title">
 
         <ImageView
             android:layout_width="@dimen/dp_22"
@@ -34,5 +31,3 @@
             android:textSize="@dimen/sp_13"
             android:textColor="@color/app_theme"/>
     </RelativeLayout>
-
-</android.support.constraint.ConstraintLayout>

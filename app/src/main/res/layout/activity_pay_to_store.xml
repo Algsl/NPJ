@@ -139,7 +139,7 @@
     <Button
         android:layout_width="@dimen/dp_292"
         android:layout_height="@dimen/dp_40"
-        android:background="@drawable/app_theme_conner"
+        android:background="@drawable/theme_conner_5"
         android:layout_gravity="center_horizontal"
         android:text="升级成为代言人"
         android:textColor="@android:color/white"
