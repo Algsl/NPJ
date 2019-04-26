@@ -36,7 +36,8 @@
         <activity android:name=".ui.StoreManagerActivity" />
         <activity android:name=".ui.StoreManagerBillActivity" />
         <activity android:name=".ui.StoreManagerCenterActivity" />
-        <activity android:name=".ui.StoreManagerQRCodeActivity"></activity>
+        <activity android:name=".ui.StoreManagerQRCodeActivity" />
+        <activity android:name=".ui.GiftActivity"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.GiftActivity">
+
+    <include
+        layout="@layout/title"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/title">
+        <com.youth.banner.Banner
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_170"
+            android:layout_marginRight="@dimen/dp_12"
+            android:layout_marginLeft="@dimen/dp_12"></com.youth.banner.Banner>
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥255"
+            android:textColor="@color/app_theme"
+            android:textSize="@dimen/sp_15"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_10"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PR梵睿品牌护肤诠释者"
+            android:textColor="@color/text3"
+            android:textSize="@dimen/sp_13"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_5"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="购买任意产品升级代言人，获得超值礼包，享受代言人的众多权益"
+            android:textColor="#F05252"
+            android:textSize="@dimen/sp_12"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_10"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_10"
+            android:background="@color/background"
+            android:layout_marginTop="@dimen/dp_10"></View>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_58"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="@dimen/dp_38"
+                android:background="@color/app_theme"
+                android:text="详情"
+                android:textSize="@dimen/sp_16"
+                android:textColor="@android:color/white"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="@dimen/dp_38"
+                android:background="@android:color/white"
+                android:text="须知"
+                android:textSize="@dimen/sp_16"
+                android:textColor="@color/text3"
+                android:gravity="center"/>
+        </LinearLayout>
+        <android.support.v4.view.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
+    
+    <Button
+        android:layout_width="@dimen/dp_245"
+        android:layout_height="@dimen/dp_40"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dp_15"
+        android:background="@drawable/theme_conner_5"
+        android:text="立即购买"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@android:color/white"/>
+
+</RelativeLayout>
