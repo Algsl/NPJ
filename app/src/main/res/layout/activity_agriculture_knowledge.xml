@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.AgricultureKnowledgeActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_64">
+        <ImageView
+            android:id="@+id/at_ak_iv_back"
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:src="@drawable/back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_5"/>
+        
+        <EditText
+            android:id="@+id/at_ak_iv_search"
+            android:layout_width="@dimen/dp_245"
+            android:layout_height="@dimen/dp_29"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/at_ak_iv_back"
+            android:layout_marginLeft="@dimen/dp_38"
+            android:background="@drawable/gray_conner"
+            android:focusable="false"
+            android:hint="请输入您想要的内容"
+            android:textColor="@color/text9"
+            android:textSize="@dimen/sp_15"
+            android:paddingLeft="@dimen/dp_40"/>
+
+        <ImageView
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:src="@drawable/home_search_gray"
+            android:layout_alignLeft="@id/at_ak_iv_search"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_12"/>
+
+        <ImageView
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/message_gray"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"/>
+    </RelativeLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_93"
+        android:orientation="horizontal"
+        android:background="@color/background">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="@dimen/dp_55"
+                android:src="@drawable/agriculture_profiser_theme"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="农业专家"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/app_theme"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="@dimen/dp_55"
+                android:src="@drawable/yinanzazeng_gray"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="疑难杂症"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/text3"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="@dimen/dp_55"
+                android:src="@drawable/new_teachkonowledge_gray"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="新技术"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/text3"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="@dimen/dp_55"
+                android:src="@drawable/everthing_knowledge"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="农业专家"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/text3"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/at_ak_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

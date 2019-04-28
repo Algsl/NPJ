@@ -1,6 +1,7 @@
 package com.zthx.npj.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,7 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -20,10 +21,17 @@ import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AgricultureKnowledgeAdatper;
 import com.zthx.npj.net.been.AgricultureKnowledgerBeen;
+import com.zthx.npj.ui.AgricultureKnowledgeActivity;
+import com.zthx.npj.ui.SystemSolutionActivity;
 import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,16 +42,34 @@ public class DiscverServiceFragment extends Fragment {
 
     private static DiscverServiceFragment mFragment;
     public Banner banner;
+    @BindView(R.id.fg_discover_ll_agriculture_knowledge)
+    LinearLayout fgDiscoverLlAgricultureKnowledge;
+    Unbinder unbinder;
+    @BindView(R.id.banner_discover_service)
+    Banner bannerDiscoverService;
+    @BindView(R.id.fg_discover_ll_information)
+    LinearLayout fgDiscoverLlInformation;
+    @BindView(R.id.fg_discover_ll_auction)
+    LinearLayout fgDiscoverLlAuction;
+    @BindView(R.id.fg_discover_ll_goods_for_goods)
+    LinearLayout fgDiscoverLlGoodsForGoods;
+    @BindView(R.id.fg_discover_ll_loan)
+    LinearLayout fgDiscoverLlLoan;
+    @BindView(R.id.fg_discover_service_rv)
+    RecyclerView fgDiscoverServiceRv;
     private RecyclerView mRecyclerView;
+
     public DiscverServiceFragment() {
         // Required empty public constructor
     }
+
     /**
      * 获取对象实例
+     *
      * @return
      */
-    public static DiscverServiceFragment getInstance(){
-        if(mFragment == null){
+    public static DiscverServiceFragment getInstance() {
+        if (mFragment == null) {
             mFragment = new DiscverServiceFragment();
         }
         return mFragment;
@@ -58,6 +84,7 @@ public class DiscverServiceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View View = inflater.inflate(R.layout.fragment_discver_service, container, false);
+        unbinder = ButterKnife.bind(this, View);
         banner = View.findViewById(R.id.banner_discover_service);
         mRecyclerView = View.findViewById(R.id.fg_discover_service_rv);
         List<Integer> list = new ArrayList<>();
@@ -74,14 +101,14 @@ public class DiscverServiceFragment extends Fragment {
             list2.add(been);
         }
         //设置RecyclerView管理器
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 4, LinearLayoutManager.VERTICAL,false);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 4, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         //初始化适配器
         AgricultureKnowledgeAdatper mAdapter = new AgricultureKnowledgeAdatper(list2, getActivity());
         mAdapter.setOnItemClickListener(new AgricultureKnowledgeAdatper.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Toast.makeText(getActivity(), "position==" + position, Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getActivity(), SystemSolutionActivity.class));
             }
         });
         //设置添加或删除item时的动画，这里使用默认动画
@@ -135,4 +162,29 @@ public class DiscverServiceFragment extends Fragment {
         banner.start();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick(R.id.fg_discover_ll_agriculture_knowledge)
+    public void onViewClicked() {
+
+    }
+
+    @OnClick({R.id.fg_discover_ll_information, R.id.fg_discover_ll_auction, R.id.fg_discover_ll_goods_for_goods, R.id.fg_discover_ll_loan})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.fg_discover_ll_information:
+                startActivity(new Intent(getActivity(), AgricultureKnowledgeActivity.class));
+                break;
+            case R.id.fg_discover_ll_auction:
+                break;
+            case R.id.fg_discover_ll_goods_for_goods:
+                break;
+            case R.id.fg_discover_ll_loan:
+                break;
+        }
+    }
 }

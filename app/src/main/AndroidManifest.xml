@@ -37,7 +37,9 @@
         <activity android:name=".ui.StoreManagerBillActivity" />
         <activity android:name=".ui.StoreManagerCenterActivity" />
         <activity android:name=".ui.StoreManagerQRCodeActivity" />
-        <activity android:name=".ui.GiftActivity"></activity>
+        <activity android:name=".ui.GiftActivity" />
+        <activity android:name=".ui.AgricultureKnowledgeActivity" />
+        <activity android:name=".ui.SystemSolutionActivity"></activity>
     </application>
 
 </manifest>
