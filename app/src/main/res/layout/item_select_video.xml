@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_40"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:layout_width="@dimen/dp_23"
+        android:layout_height="@dimen/dp_23"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:src="@drawable/item_play"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1.0-导论导论导论导论导论导论导论导论导论导论"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@color/text6"
+        android:layout_marginLeft="@dimen/dp_47"
+        android:maxEms="14"
+        android:maxLines="1"/>
+
+    <TextView
+        android:id="@+id/item_select_video_tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15分钟"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/text6"
+        android:textSize="@dimen/sp_12"
+        android:layout_marginRight="@dimen/dp_12"/>
+
+    <ImageView
+        android:layout_width="@dimen/dp_22"
+        android:layout_height="@dimen/dp_20"
+        android:src="@drawable/item_play_time"
+        android:layout_toLeftOf="@id/item_select_video_tv_time"
+        android:layout_marginRight="@dimen/dp_5"/>
+
+</RelativeLayout>
