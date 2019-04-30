@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_120">
+
+    <ImageView
+        android:id="@+id/item_search_video_pic"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_100"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:src="@mipmap/ic_launcher"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/item_search_video_pic"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="如何科学种植樱桃"
+            android:textColor="@color/text3"
+            android:textSize="@dimen/sp_15"
+            android:layout_marginTop="@dimen/dp_20"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="每晚八点更新"
+            android:textColor="@color/text6"
+            android:textSize="@dimen/sp_13"
+            android:layout_marginTop="@dimen/dp_13"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="购买人数：1202"
+            android:textColor="@color/text6"
+            android:textSize="@dimen/sp_13"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已观看：12054265"
+            android:textColor="@color/text6"
+            android:textSize="@dimen/sp_13"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/background"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_alignParentBottom="true"></View>
+
+</RelativeLayout>
