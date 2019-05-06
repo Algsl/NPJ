@@ -1,9 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.DiscoverSupplyFragment">
+    tools:context=".ui.fragment.DiscoverSupplyFragment"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_155"
+        android:orientation="vertical"
+        android:background="@color/background">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_115"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/fg_discover_supply_ll_caigou"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
+                    android:src="@drawable/fabugongying"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="发布采购"
+                    android:textColor="@color/text3"
+                    android:textSize="@dimen/sp_15"
+                    android:layout_marginTop="@dimen/dp_8"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="获得全国报价"
+                    android:textColor="@color/text6"
+                    android:textSize="@dimen/sp_13"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/fg_discover_supply_ll_gongying"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
+                    android:src="@drawable/fabugongying"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="发布供应"
+                    android:textColor="@color/text3"
+                    android:textSize="@dimen/sp_15"
+                    android:layout_marginTop="@dimen/dp_8"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="获得全国报价"
+                    android:textColor="@color/text6"
+                    android:textSize="@dimen/sp_13"/>
+
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="#cccccc"></View>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:text="取消发布"
+            android:textSize="@dimen/sp_13"
+            android:textColor="@color/text9"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_29"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12">
+
+        <EditText
+            android:id="@+id/fg_discover_supply_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/stroke_theme_5"
+            android:hint="搜索你想要的产品"
+            android:textSize="@dimen/sp_15"
+            android:textColor="@color/text9"
+            android:paddingLeft="@dimen/dp_30"
+            android:paddingRight="@dimen/dp_60"/>
+
+        <ImageView
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:src="@drawable/home_search_gray"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_8"/>
+
+        <Button
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/theme_conner_5"
+            android:text="发布"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_15"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_231"
+        android:layout_height="@dimen/dp_30"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_11"
+        android:background="@drawable/stroke_app_theme"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/dp_3"
+            android:textColor="@android:color/white"
+            android:text="供应"
+            android:textSize="@dimen/sp_16"
+            android:background="@color/app_theme"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/dp_3"
+            android:textColor="@color/text3"
+            android:text="求购"
+            android:textSize="@dimen/sp_16"
+            android:background="@android:color/white"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/dp_3"
+            android:textColor="@color/text3"
+            android:text="企业目录"
+            android:textSize="@dimen/sp_16"
+            android:background="@android:color/white"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_116"
+        android:layout_marginTop="@dimen/dp_5"
+        android:background="@mipmap/ic_launcher"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="最新"
+            android:gravity="center"
+            android:textSize="@dimen/sp_13"
+            android:textColor="@color/text3"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="附近"
+            android:gravity="center"
+            android:textSize="@dimen/sp_13"
+            android:textColor="@color/text3"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="销量"
+            android:gravity="center"
+            android:textSize="@dimen/sp_13"
+            android:textColor="@color/text3"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="信用"
+            android:gravity="center"
+            android:textSize="@dimen/sp_13"
+            android:textColor="@color/text3"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="价格"
+            android:gravity="center"
+            android:textSize="@dimen/sp_13"
+            android:textColor="@color/text3"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/background"></View>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fg_discover_supply_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
 
 
 </LinearLayout>

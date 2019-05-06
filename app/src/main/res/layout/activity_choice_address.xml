@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.ChoiceAddressActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include
+            layout="@layout/title"></include>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/at_choice_address_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+     <Button
+         android:id="@+id/at_choice_address_btn_add"
+         android:layout_width="match_parent"
+         android:layout_height="@dimen/dp_40"
+         android:background="@color/app_theme"
+         android:layout_alignParentBottom="true"
+         android:text="添加新地址"
+         android:textSize="@dimen/sp_15"
+         android:textColor="@android:color/white"/>
+</RelativeLayout>

@@ -41,7 +41,13 @@
         <activity android:name=".ui.AgricultureKnowledgeActivity" />
         <activity android:name=".ui.SystemSolutionActivity" />
         <activity android:name=".ui.AgricultureVideoMainActivity" />
-        <activity android:name=".ui.BuyVideoActivity"></activity>
+        <activity android:name=".ui.BuyVideoActivity" />
+        <activity android:name=".ui.fragment.SupplyMessageActivity" />
+        <activity android:name=".ui.SupplyProductsActivity" />
+        <activity android:name=".ui.SupplyBillActivity" />
+        <activity android:name=".ui.AddAddressActivity" />
+        <activity android:name=".ui.ChoiceAddressActivity" />
+        <activity android:name=".ui.EditAddressActivity"></activity>
     </application>
 
 </manifest>
