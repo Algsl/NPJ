@@ -1,6 +1,8 @@
 package com.zthx.npj.ui.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -8,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,10 +27,12 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommenGoodsAdatper;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.adapter.ShoppingCartAdapter;
+import com.zthx.npj.adapter.StoreCouponAdapter;
 import com.zthx.npj.entity.GoodsInfo;
 import com.zthx.npj.entity.StoreInfo;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.HomeGoodsBeen;
+import com.zthx.npj.ui.SupplyProductsActivity;
 import com.zthx.npj.view.MyExpandableListView;
 
 import java.util.ArrayList;
@@ -220,6 +226,36 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartAdapte
 
     @Override
     public void groupEditor(int groupPosition) {
+        showPopupWindow();
+    }
 
+    private void showPopupWindow() {
+        // 用于PopupWindow的View
+        View contentView=LayoutInflater.from(getActivity()).inflate(R.layout.popupwindow_store_coupon, null);
+        RecyclerView rv = contentView.findViewById(R.id.pop_store_coupon_rv);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+        List<CommentGoodsBeen> list = new ArrayList<>();
+        list.add(new CommentGoodsBeen());
+        list.add(new CommentGoodsBeen());
+        list.add(new CommentGoodsBeen());
+        list.add(new CommentGoodsBeen());
+        list.add(new CommentGoodsBeen());
+        list.add(new CommentGoodsBeen());
+        StoreCouponAdapter mAdapter = new StoreCouponAdapter(getActivity(),list);
+        rv.setLayoutManager(manager);
+        rv.setAdapter(mAdapter);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        PopupWindow window=new PopupWindow(contentView, 375, 400, true);
+        // 设置PopupWindow的背景
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(true);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getView(), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
     }
 }
