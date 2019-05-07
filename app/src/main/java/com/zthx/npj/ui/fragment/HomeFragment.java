@@ -28,6 +28,7 @@ import com.zthx.npj.net.been.HomeGoodsBeen;
 import com.zthx.npj.ui.ClassfiyActivity;
 import com.zthx.npj.ui.HomeSearchActivity;
 import com.zthx.npj.ui.LocationStoreActivity;
+import com.zthx.npj.ui.MessageCenterActivity;
 import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.ui.SecKillActivity;
 import com.zthx.npj.view.GlideImageLoader;
@@ -175,7 +176,8 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.fg_home_iv_message:
-                Toast.makeText(getActivity(), "xiaoxi", Toast.LENGTH_LONG).show();
+                intent = new Intent(getActivity(), MessageCenterActivity.class);
+                startActivity(intent);
                 break;
             case R.id.fg_home_ll_secKill:
                 intent = new Intent(getActivity(), SecKillActivity.class);

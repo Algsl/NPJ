@@ -47,6 +47,8 @@
         <activity android:name=".ui.SupplyBillActivity" />
         <activity android:name=".ui.AddAddressActivity" />
         <activity android:name=".ui.ChoiceAddressActivity" />
+        <activity android:name=".ui.MessageCenterActivity" />
+        <activity android:name=".ui.SystemMessageActivity"></activity>
     </application>
 
 </manifest>
