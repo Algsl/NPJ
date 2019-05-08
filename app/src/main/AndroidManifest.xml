@@ -48,7 +48,9 @@
         <activity android:name=".ui.AddAddressActivity" />
         <activity android:name=".ui.ChoiceAddressActivity" />
         <activity android:name=".ui.MessageCenterActivity" />
-        <activity android:name=".ui.SystemMessageActivity"></activity>
+        <activity android:name=".ui.SystemMessageActivity" />
+        <activity android:name=".ui.SettingsActivity" />
+        <activity android:name=".ui.ModifyNameActivity"></activity>
     </application>
 
 </manifest>

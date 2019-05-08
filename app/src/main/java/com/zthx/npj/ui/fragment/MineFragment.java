@@ -1,6 +1,7 @@
 package com.zthx.npj.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -20,7 +21,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommenGoodsAdatper;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
-import com.zthx.npj.net.been.HomeGoodsBeen;
+import com.zthx.npj.ui.SettingsActivity;
 import com.zthx.npj.view.MyCircleView;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -91,7 +93,7 @@ public class MineFragment extends BaseFragment {
         unbinder = ButterKnife.bind(this, view);
 
         //设置RecyclerView管理器
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL,false);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);
         fgMineRvLike.setLayoutManager(layoutManager);
         //初始化适配器
         List<CommentGoodsBeen> list3 = new ArrayList<>();
@@ -132,5 +134,10 @@ public class MineFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.fg_mine_iv_settings)
+    public void onViewClicked() {
+        startActivity(new Intent(getActivity(),SettingsActivity.class));
     }
 }

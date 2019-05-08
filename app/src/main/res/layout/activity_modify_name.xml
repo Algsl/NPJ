@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.ModifyNameActivity"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_64"
+        android:background="@color/app_theme">
+        <ImageView
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:src="@drawable/white_back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_5"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修改昵称"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_18"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+    
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:hint="昵称"
+        android:textSize="@dimen/sp_13"
+        android:textColorHint="@color/text9"
+        android:background="@null"
+        android:paddingLeft="@dimen/sp_12"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/background"></View>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginRight="@dimen/dp_43"
+        android:layout_marginLeft="@dimen/dp_43"
+        android:layout_marginTop="@dimen/dp_20"
+        android:background="@drawable/theme_conner_5"
+        android:text="保存"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_15"/>
+
+</LinearLayout>
