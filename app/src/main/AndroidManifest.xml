@@ -50,7 +50,12 @@
         <activity android:name=".ui.MessageCenterActivity" />
         <activity android:name=".ui.SystemMessageActivity" />
         <activity android:name=".ui.SettingsActivity" />
-        <activity android:name=".ui.ModifyNameActivity"></activity>
+        <activity android:name=".ui.ModifyNameActivity" />
+        <activity android:name=".ui.MyAchievementActivity" />
+        <activity android:name=".ui.AskForPartnerActivity" />
+        <activity android:name=".ui.SpokesmanRightsActivity" />
+        <activity android:name=".ui.ConfirmAchievementActivity" />
+        <activity android:name=".ui.MyCollectActivity"></activity>
     </application>
 
 </manifest>
