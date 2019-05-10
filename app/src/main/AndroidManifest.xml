@@ -55,7 +55,9 @@
         <activity android:name=".ui.AskForPartnerActivity" />
         <activity android:name=".ui.SpokesmanRightsActivity" />
         <activity android:name=".ui.ConfirmAchievementActivity" />
-        <activity android:name=".ui.MyCollectActivity"></activity>
+        <activity android:name=".ui.MyCollectActivity" />
+        <activity android:name=".ui.MyOrderActivity" />
+        <activity android:name=".ui.MyCouponActivity"></activity>
     </application>
 
 </manifest>

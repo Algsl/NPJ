@@ -22,6 +22,8 @@ import com.zthx.npj.adapter.CommenGoodsAdatper;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.ui.MyCollectActivity;
+import com.zthx.npj.ui.MyCouponActivity;
+import com.zthx.npj.ui.MyOrderActivity;
 import com.zthx.npj.ui.SettingsActivity;
 import com.zthx.npj.ui.SpokesmanRightsActivity;
 import com.zthx.npj.view.MyCircleView;
@@ -78,6 +80,8 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.fg_mine_rv_like)
     RecyclerView fgMineRvLike;
     Unbinder unbinder;
+    @BindView(R.id.fg_mine_tv_all_order)
+    TextView fgMineTvAllOrder;
 
     public MineFragment() {
     }
@@ -138,17 +142,23 @@ public class MineFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.fg_mine_iv_settings,R.id.fg_mine_iv_people_right,R.id.fg_mine_ll_collect})
+    @OnClick({R.id.fg_mine_iv_settings, R.id.fg_mine_iv_people_right, R.id.fg_mine_ll_collect,R.id.fg_mine_ll_coupon})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fg_mine_iv_settings:
-                startActivity(new Intent(getActivity(),SettingsActivity.class));
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
                 break;
             case R.id.fg_mine_iv_people_right:
                 startActivity(new Intent(getActivity(), SpokesmanRightsActivity.class));
                 break;
             case R.id.fg_mine_ll_collect:
                 startActivity(new Intent(getActivity(), MyCollectActivity.class));
+                break;
+            case R.id.fg_mine_tv_all_order:
+                startActivity(new Intent(getActivity(), MyOrderActivity.class));
+                break;
+            case R.id.fg_mine_ll_coupon:
+                startActivity(new Intent(getActivity(), MyCouponActivity.class));
                 break;
         }
     }

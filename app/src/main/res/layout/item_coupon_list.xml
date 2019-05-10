@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/item_coupon_list_bg"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_97"
+    android:layout_marginRight="@dimen/dp_10"
+    android:layout_marginLeft="@dimen/dp_10"
+    android:background="@drawable/coupon_bg">
+
+    <TextView
+        android:id="@+id/item_coupon_list_tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="￥200元"
+        android:textSize="@dimen/sp_18"
+        android:textColor="#4C9FE7"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_33"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(满1000使用）"
+        android:textColor="#4C9FE7"
+        android:textSize="@dimen/sp_11"
+        android:layout_below="@id/item_coupon_list_tv_price"
+        android:layout_alignLeft="@id/item_coupon_list_tv_price"/>
+
+    <TextView
+        android:id="@+id/item_coupon_list_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="新人福利优惠券"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="@dimen/dp_137"
+        android:layout_marginTop="@dimen/dp_10"/>
+    <TextView
+        android:id="@+id/item_coupon_list_tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2019.05.08-2019.06.10"
+        android:textColor="#ECECEC"
+        android:textSize="@dimen/sp_11"
+        android:layout_below="@id/item_coupon_list_tv_title"
+        android:layout_alignLeft="@id/item_coupon_list_tv_title"/>
+
+    <TextView
+        android:id="@+id/item_coupon_list_tv_fanwei"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="适用范围：童装童鞋全场适用"
+        android:textColor="#ECECEC"
+        android:textSize="@dimen/sp_11"
+        android:layout_below="@id/item_coupon_list_tv_time"
+        android:layout_alignLeft="@id/item_coupon_list_tv_time"/>
+
+    <TextView
+        android:layout_width="@dimen/dp_75"
+        android:layout_height="@dimen/dp_20"
+        android:gravity="center"
+        android:background="@drawable/white_conner_5"
+        android:text="立即使用"
+        android:layout_below="@id/item_coupon_list_tv_fanwei"
+        android:layout_alignLeft="@id/item_coupon_list_tv_fanwei"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#3D88C9"
+        android:layout_marginTop="@dimen/dp_5"/>
+
+</RelativeLayout>

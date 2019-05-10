@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/white">
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="朝花夕拾"
+            android:textSize="@dimen/sp_15"
+            android:textColor="@color/text3"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_12"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="待支付"
+            android:textColor="@color/app_theme"
+            android:textSize="@dimen/sp_14"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_12"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/background"
+            android:layout_alignParentBottom="true"></View>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_100">
+        <ImageView
+            android:id="@+id/item_order_list_pic"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
+            android:src="@mipmap/ic_launcher"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_12"/>
+        <TextView
+            android:id="@+id/item_order_list_tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="韩国control眼部精华打底液隔离打底保湿水正品代购"
+            android:layout_toRightOf="@id/item_order_list_pic"
+            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_11"
+            android:maxLines="2"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥1560"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/text6"
+                android:layout_alignLeft="@id/item_order_list_tv_title"
+                android:layout_below="@id/item_order_list_tv_title"
+                android:layout_marginTop="@dimen/dp_13"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="×1"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/text6"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_12"
+            android:layout_below="@id/item_order_list_tv_title"
+            android:layout_marginTop="@dimen/dp_13"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/background"
+            android:layout_alignParentBottom="true"></View>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/item_order_list_tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥1560"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/app_theme"
+            android:textSize="@dimen/sp_15"
+            android:layout_marginRight="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_5"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="共一件商品，总金额"
+            android:layout_toLeftOf="@id/item_order_list_tv_price"
+            android:layout_marginTop="@dimen/dp_5"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/text3"/>
+        <LinearLayout
+            android:layout_marginBottom="@dimen/dp_5"
+            android:gravity="end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/item_order_list_tv_price"
+            android:layout_marginRight="@dimen/dp_12">
+
+            <Button
+                android:id="@+id/item_order_list_btn_cancle"
+                android:layout_width="@dimen/dp_70"
+                android:layout_height="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_12"
+                android:background="@drawable/stroke_zise_5"
+                android:text="取消订单"
+                android:textColor="@color/text6"
+                android:textSize="@dimen/sp_14"/>
+
+            <Button
+                android:id="@+id/item_order_list_btn_delete"
+                android:layout_width="@dimen/dp_70"
+                android:layout_height="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_12"
+                android:background="@drawable/stroke_zise_5"
+                android:text="删除订单"
+                android:textColor="@color/text6"
+                android:textSize="@dimen/sp_14"/>
+            <Button
+                android:id="@+id/item_order_list_btn_cuidan"
+                android:layout_width="@dimen/dp_70"
+                android:layout_height="@dimen/dp_20"
+                android:background="@drawable/stroke_theme_5"
+                android:layout_marginRight="@dimen/dp_12"
+                android:text="催单"
+                android:textColor="@color/app_theme"
+                android:textSize="@dimen/sp_14"/>
+            <Button
+                android:id="@+id/item_order_list_btn_pay"
+                android:layout_width="@dimen/dp_70"
+                android:layout_height="@dimen/dp_20"
+                android:background="@drawable/stroke_theme_5"
+                android:text="去支付"
+                android:textColor="@color/app_theme"
+                android:textSize="@dimen/sp_14"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>
