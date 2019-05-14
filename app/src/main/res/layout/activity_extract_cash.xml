@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zthx.npj.ui.ExtractCashActivity"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_152"
+        android:background="@drawable/sopksemanrights_bg">
+        <include
+            layout="@layout/title"></include>
+
+        <TextView
+            android:id="@+id/at_extract_cash_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="456"
+            android:textSize="@dimen/sp_30"
+            android:textColor="@android:color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_75"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="钱包余额（元）"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_13"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/at_extract_cash_money"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/background"
+        android:layout_marginTop="@dimen/dp_10"></View>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="金额"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/text3"
+        android:layout_marginTop="@dimen/dp_23"
+        android:layout_marginLeft="@dimen/dp_11"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        >
+        <TextView
+            android:id="@+id/cash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¥"
+            android:textSize="@dimen/sp_16"
+            android:textColor="@color/app_theme"
+            android:layout_marginLeft="@dimen/dp_11"
+            android:layout_centerVertical="true"/>
+        <EditText
+            android:layout_toRightOf="@id/cash"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="提现金额最少10元，单笔限额5万元"
+            android:textColorHint="@color/text9"
+            android:textSize="@dimen/sp_12"
+            android:layout_marginLeft="@dimen/dp_12"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/background"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginLeft="@dimen/dp_11"
+        android:layout_marginRight="@dimen/dp_11"></View>
+
+    <TextView
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_18"
+        android:layout_gravity="end"
+        android:text="全部提现"
+        android:layout_marginTop="@dimen/dp_10"
+        android:textColor="@color/app_theme"
+        android:background="@drawable/stroke_theme_5"
+        android:gravity="center"
+        android:textSize="@dimen/sp_12"
+        android:layout_marginRight="@dimen/dp_12"/>
+    
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginRight="@dimen/dp_38"
+        android:layout_marginLeft="@dimen/dp_38"
+        android:background="@drawable/theme_conner_5"
+        android:layout_marginTop="@dimen/dp_18"
+        android:text="提现"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@android:color/white"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="只支持提现到支付宝、微信"
+        android:textColor="@color/text6"
+        android:textSize="@dimen/sp_12"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_5"/>
+
+</LinearLayout>

@@ -24,6 +24,7 @@ import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.ui.MyCollectActivity;
 import com.zthx.npj.ui.MyCouponActivity;
 import com.zthx.npj.ui.MyOrderActivity;
+import com.zthx.npj.ui.MyWalletActivity;
 import com.zthx.npj.ui.SettingsActivity;
 import com.zthx.npj.ui.SpokesmanRightsActivity;
 import com.zthx.npj.view.MyCircleView;
@@ -82,6 +83,8 @@ public class MineFragment extends BaseFragment {
     Unbinder unbinder;
     @BindView(R.id.fg_mine_tv_all_order)
     TextView fgMineTvAllOrder;
+    @BindView(R.id.fg_mine_ll_my_wallet)
+    LinearLayout fgMineLlMyWallet;
 
     public MineFragment() {
     }
@@ -142,13 +145,14 @@ public class MineFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.fg_mine_iv_settings, R.id.fg_mine_iv_people_right, R.id.fg_mine_ll_collect,R.id.fg_mine_ll_coupon})
+    @OnClick({R.id.fg_mine_iv_settings, R.id.fg_mine_iv_people_right, R.id.fg_mine_ll_collect, R.id.fg_mine_ll_coupon, R.id.fg_mine_ll_my_wallet})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fg_mine_iv_settings:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 break;
             case R.id.fg_mine_iv_people_right:
+//                startActivity(new Intent(getActivity(), SpokesmanRightsNoPermissionActivity.class));
                 startActivity(new Intent(getActivity(), SpokesmanRightsActivity.class));
                 break;
             case R.id.fg_mine_ll_collect:
@@ -159,6 +163,9 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.fg_mine_ll_coupon:
                 startActivity(new Intent(getActivity(), MyCouponActivity.class));
+                break;
+            case R.id.fg_mine_ll_my_wallet:
+                startActivity(new Intent(getActivity(), MyWalletActivity.class));
                 break;
         }
     }

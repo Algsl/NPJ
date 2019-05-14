@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_60"
+    android:background="@android:color/white">
+
+    <com.zthx.npj.view.MyCircleView
+        android:id="@+id/item_commen_rewards_head_pic"
+        android:layout_width="@dimen/dp_38"
+        android:layout_height="@dimen/dp_38"
+        android:src="@drawable/ic_launcher_background"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dp_12"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_toRightOf="@id/item_commen_rewards_head_pic"
+        android:layout_marginRight="@dimen/dp_12">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dp_10">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="城市分红奖励"
+                android:textColor="@color/text3"
+                android:textSize="@dimen/sp_15"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="+22.60"
+                android:textColor="@color/text3"
+                android:textSize="@dimen/sp_18"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5月30日  22:10:25"
+            android:textColor="@color/text6"
+            android:textSize="@dimen/sp_12"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -53,11 +53,16 @@
         <activity android:name=".ui.ModifyNameActivity" />
         <activity android:name=".ui.MyAchievementActivity" />
         <activity android:name=".ui.AskForPartnerActivity" />
-        <activity android:name=".ui.SpokesmanRightsActivity" />
+        <activity android:name=".ui.SpokesmanRightsNoPermissionActivity" />
         <activity android:name=".ui.ConfirmAchievementActivity" />
         <activity android:name=".ui.MyCollectActivity" />
         <activity android:name=".ui.MyOrderActivity" />
-        <activity android:name=".ui.MyCouponActivity"></activity>
+        <activity android:name=".ui.MyCouponActivity" />
+        <activity android:name=".ui.SpokesmanRightsActivity" />
+        <activity android:name=".ui.ExtractCashActivity" />
+        <activity android:name=".ui.RechargeActivity" />
+        <activity android:name=".ui.MyWalletActivity" />
+        <activity android:name=".ui.SpeakRewardActivity"></activity>
     </application>
 
 </manifest>

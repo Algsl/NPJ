@@ -31,7 +31,7 @@
                 android:layout_width="@dimen/dp_22"
                 android:layout_height="@dimen/dp_22"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:src="@drawable/home_search"/>
             <EditText
                 android:id="@+id/fg_home_et_search"
