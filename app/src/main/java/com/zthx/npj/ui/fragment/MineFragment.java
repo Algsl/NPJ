@@ -85,6 +85,8 @@ public class MineFragment extends BaseFragment {
     TextView fgMineTvAllOrder;
     @BindView(R.id.fg_mine_ll_my_wallet)
     LinearLayout fgMineLlMyWallet;
+    @BindView(R.id.fg_mine_ll_my_store)
+    LinearLayout fgMineLlMyStore;
 
     public MineFragment() {
     }
@@ -145,7 +147,7 @@ public class MineFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.fg_mine_iv_settings, R.id.fg_mine_iv_people_right, R.id.fg_mine_ll_collect, R.id.fg_mine_ll_coupon, R.id.fg_mine_ll_my_wallet})
+    @OnClick({R.id.fg_mine_iv_settings, R.id.fg_mine_ll_my_store, R.id.fg_mine_iv_people_right, R.id.fg_mine_ll_collect, R.id.fg_mine_ll_coupon, R.id.fg_mine_ll_my_wallet})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fg_mine_iv_settings:
@@ -165,6 +167,9 @@ public class MineFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), MyCouponActivity.class));
                 break;
             case R.id.fg_mine_ll_my_wallet:
+                startActivity(new Intent(getActivity(), MyWalletActivity.class));
+                break;
+            case R.id.fg_mine_ll_my_store:
                 startActivity(new Intent(getActivity(), MyWalletActivity.class));
                 break;
         }

@@ -62,7 +62,13 @@
         <activity android:name=".ui.ExtractCashActivity" />
         <activity android:name=".ui.RechargeActivity" />
         <activity android:name=".ui.MyWalletActivity" />
-        <activity android:name=".ui.SpeakRewardActivity"></activity>
+        <activity android:name=".ui.SpeakRewardActivity" />
+        <activity android:name=".ui.MyStoreActivity" />
+        <activity android:name=".ui.PublishGoodsActivity" />
+        <activity android:name=".ui.StoreGoodsListActivity" />
+        <activity android:name=".ui.StoreGoodsBillActivity" />
+        <activity android:name=".ui.GoodsBillDetailActivity" />
+        <activity android:name=".ui.ReturnOrExchangeActivity"></activity>
     </application>
 
 </manifest>
