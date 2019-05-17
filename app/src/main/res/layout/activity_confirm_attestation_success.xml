@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context="com.zthx.npj.ui.ConfirmAttestationSuccessActivity">
+    <include
+        layout="@layout/title_theme"></include>
+
+    <ImageView
+        android:layout_width="@dimen/dp_214"
+        android:layout_height="@dimen/dp_115"
+        android:layout_marginTop="@dimen/dp_45"
+        android:src="@drawable/renzhengchenggong"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="资料已提交成功！"
+        android:textSize="@dimen/sp_18"
+        android:textColor="@color/text3"
+        android:layout_marginTop="@dimen/dp_40"/>
+
+    <TextView
+        android:layout_width="@dimen/dp_303"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text3"
+        android:textSize="@dimen/sp_15"
+        android:layout_marginTop="@dimen/dp_20"
+        android:text="您的认证申请已提交成功，我们会在三个工作日内给予审核，请注意查收短信信息！"/>
+    
+    <Button
+        android:layout_width="@dimen/dp_208"
+        android:layout_height="@dimen/dp_40"
+        android:background="@drawable/theme_conner_5"
+        android:layout_marginTop="@dimen/dp_40"
+        android:text="返回认证"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@android:color/white"/>
+
+</LinearLayout>

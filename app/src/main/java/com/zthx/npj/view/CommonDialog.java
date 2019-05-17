@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.zthx.npj.R;
 
-public class CommomDialog extends Dialog implements View.OnClickListener{
+public class CommonDialog extends Dialog implements View.OnClickListener{
     private TextView contentTxt;
     private TextView titleTxt;
     private TextView submitTxt;
@@ -22,40 +22,40 @@ public class CommomDialog extends Dialog implements View.OnClickListener{
     private String negativeName;
     private String title;
 
-    public CommomDialog(Context context) {
+    public CommonDialog(Context context) {
         super(context);
         this.mContext = context;
     }
 
-    public CommomDialog(Context context, int themeResId, String content) {
+    public CommonDialog(Context context, int themeResId, String content) {
         super(context, themeResId);
         this.mContext = context;
         this.content = content;
     }
 
-    public CommomDialog(Context context, int themeResId, String content, OnCloseListener listener) {
+    public CommonDialog(Context context, int themeResId, String content, OnCloseListener listener) {
         super(context, themeResId);
         this.mContext = context;
         this.content = content;
         this.listener = listener;
     }
 
-    protected CommomDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
+    protected CommonDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
         this.mContext = context;
     }
 
-    public CommomDialog setTitle(String title){
+    public CommonDialog setTitle(String title){
         this.title = title;
         return this;
     }
 
-    public CommomDialog setPositiveButton(String name){
+    public CommonDialog setPositiveButton(String name){
         this.positiveName = name;
         return this;
     }
 
-    public CommomDialog setNegativeButton(String name){
+    public CommonDialog setNegativeButton(String name){
         this.negativeName = name;
         return this;
     }

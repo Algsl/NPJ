@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.zthx.npj.R;
-import com.zthx.npj.view.CommomDialog;
+import com.zthx.npj.view.CommonDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void showCleanCashDialog() {
-        new CommomDialog(SettingsActivity.this, R.style.dialog, "您确定删除此信息？", new CommomDialog.OnCloseListener() {
+        new CommonDialog(SettingsActivity.this, R.style.dialog, "您确定删除此信息？", new CommonDialog.OnCloseListener() {
             @Override
             public void onClick(Dialog dialog, boolean confirm) {
                 if(confirm){

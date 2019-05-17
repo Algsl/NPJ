@@ -17,7 +17,7 @@
         android:layout_marginTop="@dimen/dp_40"
         android:layout_marginRight="@dimen/dp_40"
         android:layout_marginBottom="@dimen/dp_50"
-        android:text="签到成功，获得200积分"
+        android:text=""
         android:textSize="@dimen/sp_15"
         android:textColor="@color/app_theme"/>
     <View

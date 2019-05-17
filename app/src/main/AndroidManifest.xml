@@ -68,7 +68,17 @@
         <activity android:name=".ui.StoreGoodsListActivity" />
         <activity android:name=".ui.StoreGoodsBillActivity" />
         <activity android:name=".ui.GoodsBillDetailActivity" />
-        <activity android:name=".ui.ReturnOrExchangeActivity"></activity>
+        <activity android:name=".ui.ReturnOrExchangeActivity" />
+        <activity android:name=".ui.MyAttestationActivity" />
+        <activity android:name=".ui.TrustedStoreActivity" />
+        <activity android:name=".ui.TrustedStore2Activity" />
+        <activity android:name=".ui.PurchaserCertificationActivity" />
+        <activity android:name=".ui.PurchaserCertification2Activity" />
+        <activity android:name=".ui.EnterpriseCertificationActivity" />
+        <activity android:name=".ui.EnterpriseCertification2Activity" />
+        <activity android:name=".ui.RealNameAuthenticationActivity" />
+        <activity android:name=".ui.RealNameAuthentication2Activity" />
+        <activity android:name=".ui.ConfirmAttestationSuccessActivity"></activity>
     </application>
 
 </manifest>
