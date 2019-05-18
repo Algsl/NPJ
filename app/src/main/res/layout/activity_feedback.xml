@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zthx.npj.ui.FeedbackActivity"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/title_theme"></include>
+
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_below="@id/title_theme">
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical">
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:gravity="center_vertical"
+               android:layout_marginTop="@dimen/dp_12">
+               <View
+                   android:layout_width="@dimen/dp_2"
+                   android:layout_height="@dimen/dp_15"
+                   android:background="@color/app_theme"
+                   android:layout_marginLeft="@dimen/dp_12"></View>
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="请描述你遇到的问题"
+                   android:textSize="@dimen/sp_16"
+                   android:textColor="@color/text3"
+                   android:layout_marginLeft="@dimen/dp_10"/>
+
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:layout_marginLeft="@dimen/dp_12"
+               android:layout_marginTop="@dimen/dp_10">
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="页面信息有误"
+                   android:gravity="center"
+                   android:textColor="@color/text3"
+                   android:textSize="@dimen/sp_14"
+                   android:background="@drawable/stroke_gray_10"
+                   android:paddingTop="@dimen/dp_6"
+                   android:paddingLeft="@dimen/dp_14"
+                   android:paddingBottom="@dimen/dp_6"
+                   android:paddingRight="@dimen/dp_14"/>
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="APP不稳定 "
+                   android:gravity="center"
+                   android:textColor="@color/text3"
+                   android:layout_marginLeft="@dimen/dp_10"
+                   android:textSize="@dimen/sp_14"
+                   android:background="@drawable/stroke_gray_10"
+                   android:paddingTop="@dimen/dp_6"
+                   android:paddingLeft="@dimen/dp_14"
+                   android:paddingBottom="@dimen/dp_6"
+                   android:paddingRight="@dimen/dp_14"/>
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="支付遇到问题 "
+                   android:gravity="center"
+                   android:layout_marginLeft="@dimen/dp_10"
+                   android:textColor="@color/text3"
+                   android:textSize="@dimen/sp_14"
+                   android:background="@drawable/stroke_gray_10"
+                   android:paddingTop="@dimen/dp_6"
+                   android:paddingLeft="@dimen/dp_14"
+                   android:paddingBottom="@dimen/dp_6"
+                   android:paddingRight="@dimen/dp_14"/>
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:layout_marginLeft="@dimen/dp_12"
+               android:layout_marginTop="@dimen/dp_10">
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="吐槽APP功能"
+                   android:gravity="center"
+                   android:textColor="@color/text3"
+                   android:textSize="@dimen/sp_14"
+                   android:background="@drawable/stroke_gray_10"
+                   android:paddingTop="@dimen/dp_6"
+                   android:paddingLeft="@dimen/dp_14"
+                   android:paddingBottom="@dimen/dp_6"
+                   android:paddingRight="@dimen/dp_14"/>
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="账号相关问题 "
+                   android:gravity="center"
+                   android:textColor="@color/text3"
+                   android:layout_marginLeft="@dimen/dp_10"
+                   android:textSize="@dimen/sp_14"
+                   android:background="@drawable/stroke_gray_10"
+                   android:paddingTop="@dimen/dp_6"
+                   android:paddingLeft="@dimen/dp_14"
+                   android:paddingBottom="@dimen/dp_6"
+                   android:paddingRight="@dimen/dp_14"/>
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="其他 "
+                   android:gravity="center"
+                   android:layout_marginLeft="@dimen/dp_10"
+                   android:textColor="@color/text3"
+                   android:textSize="@dimen/sp_14"
+                   android:background="@drawable/stroke_gray_10"
+                   android:paddingTop="@dimen/dp_6"
+                   android:paddingLeft="@dimen/dp_14"
+                   android:paddingBottom="@dimen/dp_6"
+                   android:paddingRight="@dimen/dp_14"/>
+           </LinearLayout>
+
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/dp_100"
+               android:layout_marginTop="@dimen/dp_15"
+               android:layout_marginLeft="@dimen/dp_12"
+               android:layout_marginRight="@dimen/dp_12"
+               android:background="@drawable/gray_conner_2">
+
+               <EditText
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:background="@null"
+                   android:hint="请描述您的问题"
+                   android:textColorHint="@color/text6"
+                   android:gravity="start"
+                   android:padding="@dimen/dp_10"
+                   android:textSize="@dimen/sp_14"/>
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="0/200"
+                   android:textSize="@dimen/sp_14"
+                   android:textColor="@color/text3"
+                   android:layout_alignParentBottom="true"
+                   android:layout_alignParentRight="true"
+                   android:layout_marginRight="@dimen/dp_5"
+                   android:layout_marginBottom="@dimen/dp_5"/>
+           </RelativeLayout>
+
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/dp_10"
+               android:background="@color/background"
+               android:layout_marginTop="@dimen/dp_20"></View>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:gravity="center_vertical"
+               android:layout_marginTop="@dimen/dp_12">
+               <View
+                   android:layout_width="@dimen/dp_2"
+                   android:layout_height="@dimen/dp_15"
+                   android:background="@color/app_theme"
+                   android:layout_marginLeft="@dimen/dp_12"></View>
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="上传凭证"
+                   android:textSize="@dimen/sp_16"
+                   android:textColor="@color/text3"
+                   android:layout_marginLeft="@dimen/dp_10"/>
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="（不超过三张）"
+                   android:textColor="@color/text6"
+                   android:textSize="@dimen/sp_12"/>
+
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:layout_marginTop="@dimen/dp_10">
+
+               <ImageView
+                   android:layout_width="@dimen/dp_80"
+                   android:layout_height="@dimen/dp_80"
+                   android:layout_marginLeft="@dimen/dp_12"
+                   android:src="@mipmap/ic_launcher"/>
+
+               <ImageView
+                   android:layout_width="@dimen/dp_80"
+                   android:layout_height="@dimen/dp_80"
+                   android:layout_marginLeft="@dimen/dp_10"
+                   android:src="@mipmap/ic_launcher"/>
+
+               <ImageView
+                   android:layout_width="@dimen/dp_80"
+                   android:layout_height="@dimen/dp_80"
+                   android:layout_marginLeft="@dimen/dp_10"
+                   android:src="@mipmap/ic_launcher"/>
+
+               <LinearLayout
+                   android:layout_width="@dimen/dp_80"
+                   android:layout_height="@dimen/dp_80"
+                   android:layout_marginLeft="@dimen/dp_10"
+                   android:background="@drawable/add_pic"
+                   android:gravity="center_horizontal">
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="添加凭证"
+                       android:layout_marginTop="@dimen/dp_57"
+                       android:textSize="@dimen/sp_13"
+                       android:textColor="@color/text9"/>
+               </LinearLayout>
+
+
+
+           </LinearLayout>
+
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/dp_10"
+               android:background="@color/background"
+               android:layout_marginTop="@dimen/dp_20"></View>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:layout_marginLeft="@dimen/dp_12"
+               android:layout_marginTop="@dimen/dp_5"
+               android:gravity="center_vertical">
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="联系人"
+                   android:textColor="@color/text3"
+                   android:textSize="@dimen/sp_16"/>
+
+               <EditText
+                   android:layout_width="match_parent"
+                   android:layout_height="@dimen/dp_30"
+                   android:background="@drawable/gray_conner_2"
+                   android:layout_marginRight="@dimen/dp_38"
+                   android:layout_marginLeft="@dimen/dp_38"
+                   android:textSize="@dimen/sp_13"
+                   android:hint="请填写联系人姓名"
+                   android:textColorHint="@color/text9"
+                   android:paddingLeft="@dimen/dp_15"/>
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:layout_marginLeft="@dimen/dp_12"
+               android:layout_marginTop="@dimen/dp_10"
+               android:gravity="center_vertical">
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="联系方式"
+                   android:textColor="@color/text3"
+                   android:textSize="@dimen/sp_16"/>
+
+               <EditText
+                   android:layout_width="match_parent"
+                   android:layout_height="@dimen/dp_30"
+                   android:background="@drawable/gray_conner_2"
+                   android:layout_marginRight="@dimen/dp_38"
+                   android:layout_marginLeft="@dimen/dp_20"
+                   android:textSize="@dimen/sp_13"
+                   android:hint="请填写联系方式"
+                   android:textColorHint="@color/text9"
+                   android:paddingLeft="@dimen/dp_15"/>
+           </LinearLayout>
+
+
+       </LinearLayout>
+   </ScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:background="@color/app_theme"
+        android:text="提交申请"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_15"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

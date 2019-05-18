@@ -78,7 +78,10 @@
         <activity android:name=".ui.EnterpriseCertification2Activity" />
         <activity android:name=".ui.RealNameAuthenticationActivity" />
         <activity android:name=".ui.RealNameAuthentication2Activity" />
-        <activity android:name=".ui.ConfirmAttestationSuccessActivity"></activity>
+        <activity android:name=".ui.ConfirmAttestationSuccessActivity" />
+        <activity android:name=".ui.HelpActivity" />
+        <activity android:name=".ui.HelpDetailActivity" />
+        <activity android:name=".ui.FeedbackActivity"></activity>
     </application>
 
 </manifest>

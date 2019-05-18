@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zthx.npj.ui.HelpDetailActivity"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/title_theme"></include>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获得葫芦币的方法"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/text3"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_12"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_160"
+        android:background="@drawable/help_detail_bg">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.参与农场游戏获得葫芦币
+2.邀请好友参加农场游戏获得葫芦币
+3.每天一次分享农场游戏获得葫芦币
+4.通过购买获得农场游戏葫芦币
+5.通过反馈有效的评价获得葫芦币"
+            android:layout_marginTop="@dimen/dp_24"
+            android:layout_marginLeft="@dimen/dp_24"
+            android:textColor="@color/text3"
+            android:textSize="@dimen/sp_15"/>
+    </LinearLayout>
+
+</LinearLayout>

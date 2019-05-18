@@ -447,6 +447,7 @@
                         android:layout_marginTop="@dimen/dp_6"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/fg_mine_ll_help"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

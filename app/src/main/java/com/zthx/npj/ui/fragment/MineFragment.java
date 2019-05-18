@@ -21,6 +21,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommenGoodsAdatper;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.ui.HelpActivity;
 import com.zthx.npj.ui.MyCollectActivity;
 import com.zthx.npj.ui.MyCouponActivity;
 import com.zthx.npj.ui.MyOrderActivity;
@@ -89,6 +90,8 @@ public class MineFragment extends BaseFragment {
     LinearLayout fgMineLlMyStore;
     @BindView(R.id.fg_mine_ll_my_attestation)
     LinearLayout fgMineLlMyAttestation;
+    @BindView(R.id.fg_mine_ll_help)
+    LinearLayout fgMineLlHelp;
 
     public MineFragment() {
     }
@@ -149,7 +152,7 @@ public class MineFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.fg_mine_iv_settings, R.id.fg_mine_ll_my_store, R.id.fg_mine_ll_my_attestation, R.id.fg_mine_iv_people_right, R.id.fg_mine_ll_collect, R.id.fg_mine_ll_coupon, R.id.fg_mine_ll_my_wallet})
+    @OnClick({R.id.fg_mine_iv_settings, R.id.fg_mine_ll_help, R.id.fg_mine_ll_my_store, R.id.fg_mine_ll_my_attestation, R.id.fg_mine_iv_people_right, R.id.fg_mine_ll_collect, R.id.fg_mine_ll_coupon, R.id.fg_mine_ll_my_wallet})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fg_mine_iv_settings:
@@ -176,6 +179,9 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.fg_mine_ll_my_attestation:
                 startActivity(new Intent(getActivity(), MyWalletActivity.class));
+                break;
+            case R.id.fg_mine_ll_help:
+                startActivity(new Intent(getActivity(), HelpActivity.class));
                 break;
         }
     }
