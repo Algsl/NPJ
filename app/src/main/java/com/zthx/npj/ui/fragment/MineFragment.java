@@ -22,9 +22,12 @@ import com.zthx.npj.adapter.CommenGoodsAdatper;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.ui.HelpActivity;
+import com.zthx.npj.ui.MyAttestationActivity;
 import com.zthx.npj.ui.MyCollectActivity;
 import com.zthx.npj.ui.MyCouponActivity;
 import com.zthx.npj.ui.MyOrderActivity;
+import com.zthx.npj.ui.MyStoreActivity;
+import com.zthx.npj.ui.MySupplyActivity;
 import com.zthx.npj.ui.MyWalletActivity;
 import com.zthx.npj.ui.SettingsActivity;
 import com.zthx.npj.ui.SpokesmanRightsActivity;
@@ -92,6 +95,8 @@ public class MineFragment extends BaseFragment {
     LinearLayout fgMineLlMyAttestation;
     @BindView(R.id.fg_mine_ll_help)
     LinearLayout fgMineLlHelp;
+    @BindView(R.id.fg_mine_ll_my_supply)
+    LinearLayout fgMineLlMySupply;
 
     public MineFragment() {
     }
@@ -152,7 +157,7 @@ public class MineFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.fg_mine_iv_settings, R.id.fg_mine_ll_help, R.id.fg_mine_ll_my_store, R.id.fg_mine_ll_my_attestation, R.id.fg_mine_iv_people_right, R.id.fg_mine_ll_collect, R.id.fg_mine_ll_coupon, R.id.fg_mine_ll_my_wallet})
+    @OnClick({R.id.fg_mine_iv_settings, R.id.fg_mine_ll_my_supply, R.id.fg_mine_ll_help, R.id.fg_mine_ll_my_store, R.id.fg_mine_ll_my_attestation, R.id.fg_mine_iv_people_right, R.id.fg_mine_ll_collect, R.id.fg_mine_ll_coupon, R.id.fg_mine_ll_my_wallet})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fg_mine_iv_settings:
@@ -175,13 +180,16 @@ public class MineFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), MyWalletActivity.class));
                 break;
             case R.id.fg_mine_ll_my_store:
-                startActivity(new Intent(getActivity(), MyWalletActivity.class));
+                startActivity(new Intent(getActivity(), MyStoreActivity.class));
                 break;
             case R.id.fg_mine_ll_my_attestation:
-                startActivity(new Intent(getActivity(), MyWalletActivity.class));
+                startActivity(new Intent(getActivity(), MyAttestationActivity.class));
                 break;
             case R.id.fg_mine_ll_help:
                 startActivity(new Intent(getActivity(), HelpActivity.class));
+                break;
+            case R.id.fg_mine_ll_my_supply:
+                startActivity(new Intent(getActivity(), MySupplyActivity.class));
                 break;
         }
     }

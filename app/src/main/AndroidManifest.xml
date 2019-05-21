@@ -81,7 +81,14 @@
         <activity android:name=".ui.ConfirmAttestationSuccessActivity" />
         <activity android:name=".ui.HelpActivity" />
         <activity android:name=".ui.HelpDetailActivity" />
-        <activity android:name=".ui.FeedbackActivity"></activity>
+        <activity android:name=".ui.FeedbackActivity" />
+        <activity android:name=".ui.MySupplyActivity" />
+        <activity android:name=".ui.MyBillActivity" />
+        <activity android:name=".ui.SupplyManagerActivity" />
+        <activity android:name=".ui.WantBuyManagerActivity" />
+        <activity android:name=".ui.StoreQuotationListActivity" />
+        <activity android:name=".ui.QuotationPeopleDetailActivity" />
+        <activity android:name=".ui.ReleaseSupplyActivity"></activity>
     </application>
 
 </manifest>

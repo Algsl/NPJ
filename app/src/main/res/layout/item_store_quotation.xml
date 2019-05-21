@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_95">
+
+    <ImageView
+        android:layout_width="@dimen/dp_75"
+        android:layout_height="@dimen/dp_75"
+        android:src="@mipmap/ic_launcher"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_centerVertical="true"
+        android:id="@+id/item_store_quotation_pic"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="【求购】大型农场急需采购除草剂，大豆
+玉米调节剂,有意者请联系"
+        android:textColor="@color/text3"
+        android:textSize="@dimen/sp_14"
+        android:layout_toRightOf="@id/item_store_quotation_pic"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_12"
+        android:maxLines="2"
+        android:layout_marginTop="@dimen/dp_10"
+        android:id="@+id/item_store_quotation_title"/>
+    
+    <Button
+        android:layout_width="@dimen/dp_65"
+        android:layout_height="@dimen/dp_18"
+        android:layout_below="@id/item_store_quotation_title"
+        android:layout_alignLeft="@id/item_store_quotation_title"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@drawable/theme_conner_5"
+        android:text="点击查看"
+        android:textSize="@dimen/sp_13"
+        android:textColor="@android:color/white"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5人报价"
+        android:textColor="@color/text6"
+        android:textSize="@dimen/sp_13"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/item_store_quotation_title"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/background"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginLeft="@dimen/dp_12"></View>
+
+</RelativeLayout>
