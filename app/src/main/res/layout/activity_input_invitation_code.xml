@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    tools:context="com.zthx.npj.ui.InputInvitationCodeActivity">
+
+    <include
+        layout="@layout/title"></include>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请输入推荐人的手机号"
+        android:textSize="@dimen/sp_18"
+        android:textColor="@color/text3"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_80"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:background="@drawable/gray_conner_2"
+        android:layout_marginTop="@dimen/dp_40"
+        android:hint="请输入推荐人的手机号"
+        android:paddingLeft="@dimen/dp_12"
+        android:textColorHint="@color/text6"
+        android:textSize="@dimen/sp_13"/>
+
+    <Button
+        android:id="@+id/at_input_invitation_code_btn_done"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_80"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:background="@drawable/theme_conner_5"
+        android:text="完成"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/at_input_invitation_code_btn_local_people"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:background="@drawable/yellow_conner_5"
+        android:text="附近代言人"
+        android:layout_marginTop="@dimen/dp_15"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@android:color/white"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="邀请规则"
+        android:textColor="@color/text3"
+        android:textSize="@dimen/sp_15"
+        android:layout_marginTop="@dimen/dp_25"
+        android:layout_marginLeft="@dimen/dp_12"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1.邀请人的邀请码请向身边代言人获取；
+2.一个用户只能绑定一个邀请人，绑定后无法修改。"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_12"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/text3"/>
+</LinearLayout>

@@ -88,7 +88,12 @@
         <activity android:name=".ui.WantBuyManagerActivity" />
         <activity android:name=".ui.StoreQuotationListActivity" />
         <activity android:name=".ui.QuotationPeopleDetailActivity" />
-        <activity android:name=".ui.ReleaseSupplyActivity"></activity>
+        <activity android:name=".ui.ReleaseSupplyActivity" />
+        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.CellPhoneLoginActivity" />
+        <activity android:name=".ui.InputInvitationCodeActivity" />
+        <activity android:name=".ui.LocalSpokesmanActivity" />
+        <activity android:name=".ui.AttestationSuccessActivity"></activity>
     </application>
 
 </manifest>

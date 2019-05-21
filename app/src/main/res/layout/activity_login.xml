@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zthx.npj.ui.LoginActivity">
+
+    <ImageView
+        android:layout_width="@dimen/dp_90"
+        android:layout_height="@dimen/dp_90"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_166"
+        android:src="@drawable/logo"
+        android:id="@+id/at_login_logo"/>
+    
+    <ImageView
+        android:layout_width="@dimen/dp_210"
+        android:layout_height="@dimen/dp_53"
+        android:layout_below="@id/at_login_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_10"
+        android:src="@drawable/login_head_text"
+        android:id="@+id/at_login_iv_head_text"/>
+
+    <LinearLayout
+        android:id="@+id/at_login_ll_weixin"
+        android:layout_width="@dimen/dp_295"
+        android:layout_height="@dimen/dp_44"
+        android:orientation="horizontal"
+        android:layout_below="@id/at_login_iv_head_text"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical"
+        android:background="@drawable/weixin_conner_12">
+        <ImageView
+            android:layout_width="@dimen/dp_35"
+            android:layout_height="@dimen/dp_35"
+            android:src="@drawable/login_weixin"
+            android:layout_marginLeft="@dimen/dp_75"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微信一键登录"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_16"
+            android:layout_marginLeft="@dimen/dp_13"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/at_login_tv_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="新用户将直接为您创建账户"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@color/text6"
+        android:layout_below="@id/at_login_ll_weixin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_20"/>
+
+    <TextView
+        android:id="@+id/at_login_tv_more_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="其它方式登录"
+        android:textColor="#25A99A"
+        android:textSize="@dimen/sp_15"
+        android:layout_below="@id/at_login_tv_new"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_20"/>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true">
+        <ImageView
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:src="@drawable/login_select"
+            android:layout_marginLeft="@dimen/dp_75"
+            android:layout_marginBottom="@dimen/dp_14"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="阅读并同意服务及隐私条款"
+            android:textSize="@dimen/sp_15"
+            android:layout_marginLeft="@dimen/dp_28"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+
+</RelativeLayout>

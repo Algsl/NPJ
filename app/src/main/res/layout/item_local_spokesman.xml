@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_80">
+    
+    <com.zthx.npj.view.MyCircleView
+        android:id="@+id/item_local_spokesman_head_pic"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_60"
+        android:src="@mipmap/ic_launcher"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dp_12"/>
+
+    <TextView
+        android:id="@+id/item_local_spokesman_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="张宇"
+        android:textColor="@color/text3"
+        android:textSize="@dimen/sp_15"
+        android:layout_toRightOf="@id/item_local_spokesman_head_pic"
+        android:layout_marginTop="@dimen/dp_13"
+        android:layout_marginLeft="@dimen/dp_10"/>
+
+    <TextView
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_23"
+        android:layout_alignLeft="@id/item_local_spokesman_tv_name"
+        android:text="金牌代言人"
+        android:id="@+id/item_local_spokesman_tv_daiyanren"
+        android:background="@drawable/bg_daiyanren"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_12"
+        android:layout_below="@id/item_local_spokesman_tv_name"
+        android:layout_marginTop="@dimen/dp_10"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1.2km"
+        android:textSize="@dimen/sp_13"
+        android:textColor="@color/app_theme"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/item_local_spokesman_tv_name"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_1"/>
+    
+    <Button
+        android:layout_width="@dimen/dp_45"
+        android:layout_height="@dimen/dp_20"
+        android:background="@color/app_theme"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_alignTop="@id/item_local_spokesman_tv_daiyanren"
+        android:text="选取"
+        android:textColor="@android:color/white"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/background"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginLeft="@dimen/dp_12"></View>
+
+</RelativeLayout>

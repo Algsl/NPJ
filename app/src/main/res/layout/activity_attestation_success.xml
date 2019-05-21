@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zthx.npj.ui.AttestationSuccessActivity">
+
+    <include
+        layout="@layout/title"></include>
+    
+    <ImageView
+        android:layout_width="@dimen/dp_140"
+        android:layout_height="@dimen/dp_162"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_80"
+        android:src="@drawable/shirenrenzheng_iv"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="未通过"
+        android:textColor="@color/text3"
+        android:textSize="@dimen/sp_30"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_44"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="您提交的图片与认证材料无关"
+        android:textSize="@dimen/sp_15"
+        android:textColor="#FF440A"
+        android:layout_marginTop="@dimen/dp_14"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_60"
+        android:background="@drawable/theme_conner_5"
+        android:text="重新上传"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_15"/>
+
+</LinearLayout>
