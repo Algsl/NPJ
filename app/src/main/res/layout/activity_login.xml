@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.zthx.npj.ui.LoginActivity">
+    tools:context="com.zthx.npj.ui.LoginActivity"
+    android:background="@drawable/login_bg">
 
     <ImageView
         android:layout_width="@dimen/dp_90"
