@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="com.zthx.npj.ui.MembershipPackageActivity">
+
+    <include
+        layout="@layout/title"></include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_270"
+        android:background="@color/app_theme">
+
+        <com.zthx.npj.view.MyCircleView
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="@dimen/dp_70"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:id="@+id/at_membership_package_head_pic"/>
+
+        <TextView
+            android:id="@+id/at_membership_package_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="闭眼看世界"
+            android:textSize="@dimen/sp_13"
+            android:textColor="@android:color/white"
+            android:layout_toRightOf="@id/at_membership_package_head_pic"
+            android:layout_marginTop="@dimen/dp_25"
+            android:layout_marginLeft="@dimen/dp_11"/>
+
+        <TextView
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_23"
+            android:background="@drawable/bg_daiyanren"
+            android:text="金牌代言人"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_12"
+            android:gravity="center"
+            android:layout_toRightOf="@id/at_membership_package_head_pic"
+            android:layout_marginLeft="@dimen/dp_9"
+            android:layout_below="@id/at_membership_package_tv_name"/>
+        
+        <TextView
+            android:id="@+id/at_membership_package_tv_tuijian"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_20"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dp_13"
+            android:background="@drawable/half_left_conner_10"
+            android:text="联系推荐人"
+            android:textSize="@dimen/sp_13"
+            android:textColor="@android:color/white"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/at_membership_package_tv_share"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_20"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/half_left_conner_10"
+            android:layout_below="@id/at_membership_package_tv_tuijian"
+            android:layout_marginTop="@dimen/dp_9"
+            android:text="分享"
+            android:textSize="@dimen/sp_13"
+            android:textColor="@android:color/white"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_135"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/dp_113"
+            android:layout_marginLeft="@dimen/dp_62"
+            android:gravity="center_horizontal"
+            android:layout_marginRight="@dimen/dp_62"
+            android:background="@android:color/white">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_24">
+                <TextView
+                    android:id="@+id/at_membership_package_tv_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="花开时期   如梦而至"
+                    android:textColor="@color/app_theme"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_centerHorizontal="true"/>
+                <View
+                    android:layout_width="@dimen/dp_18"
+                    android:layout_height="@dimen/dp_1"
+                    android:background="#cccccc"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/at_membership_package_tv_logo"
+                    android:layout_marginRight="@dimen/dp_8"></View>
+                <View
+                    android:layout_width="@dimen/dp_18"
+                    android:layout_height="@dimen/dp_1"
+                    android:background="#cccccc"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/at_membership_package_tv_logo"
+                    android:layout_marginLeft="@dimen/dp_8"></View>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="升级为农品街代言人"
+                android:textSize="@dimen/sp_18"
+                android:textColor="@color/app_theme"
+                android:layout_marginTop="@dimen/dp_8"/>
+
+            <TextView
+                android:layout_width="@dimen/dp_186"
+                android:layout_height="@dimen/dp_26"
+                android:text="享受代言人终身权益"
+                android:textColor="@color/app_theme"
+                android:textSize="@dimen/sp_15"
+                android:gravity="center"
+                android:background="@drawable/stroke_app_theme"
+                android:layout_marginTop="@dimen/dp_5"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/at_membership_package_tb"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@android:color/white"
+        app:tabGravity="center"
+        app:tabIndicatorColor="@color/app_theme"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/app_theme"
+        app:tabTextColor="@color/text3"></android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/at_membership_package_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

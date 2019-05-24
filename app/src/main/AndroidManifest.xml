@@ -93,7 +93,9 @@
         <activity android:name=".ui.CellPhoneLoginActivity" />
         <activity android:name=".ui.InputInvitationCodeActivity" />
         <activity android:name=".ui.LocalSpokesmanActivity" />
-        <activity android:name=".ui.AttestationSuccessActivity"></activity>
+        <activity android:name=".ui.AttestationSuccessActivity" />
+        <activity android:name=".ui.MembershipPackageActivity" />
+        <activity android:name=".ui.ContactReferencesActivity"></activity>
     </application>
 
 </manifest>
