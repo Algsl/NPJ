@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
-import com.zthx.npj.net.been.HomeGoodsBeen;
 
 import java.util.List;
 

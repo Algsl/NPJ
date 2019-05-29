@@ -7,14 +7,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.ClassfiyDetailGoodsAdapter;
-import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
-import com.zthx.npj.net.been.HomeGoodsBeen;
-import com.zthx.npj.ui.BaseActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 
 import java.util.ArrayList;

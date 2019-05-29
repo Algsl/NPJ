@@ -1,7 +1,6 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
-import com.zthx.npj.net.been.HomeGoodsBeen;
 
 import java.util.List;
 

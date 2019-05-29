@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.BuyGiftAdapter;
-import com.zthx.npj.adapter.OrderListAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 
 import java.util.ArrayList;

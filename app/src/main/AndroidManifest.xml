@@ -3,6 +3,7 @@
     package="com.zthx.npj">
 
     <!-- 权限 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -16,11 +17,7 @@
         <activity
             android:name=".ui.MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ui.BaseActivity" />
         <activity android:name=".ui.ClassfiyActivity" />
@@ -89,7 +86,13 @@
         <activity android:name=".ui.StoreQuotationListActivity" />
         <activity android:name=".ui.QuotationPeopleDetailActivity" />
         <activity android:name=".ui.ReleaseSupplyActivity" />
-        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.LoginActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.CellPhoneLoginActivity" />
         <activity android:name=".ui.InputInvitationCodeActivity" />
         <activity android:name=".ui.LocalSpokesmanActivity" />

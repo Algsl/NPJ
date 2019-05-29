@@ -11,9 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.StoreGoodsBillAdapter;
 import com.zthx.npj.adapter.StoreQuotationAdapter;
-import com.zthx.npj.adapter.SupplyManagerListAdapter;
 import com.zthx.npj.adapter.WantBuyManagerListAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 

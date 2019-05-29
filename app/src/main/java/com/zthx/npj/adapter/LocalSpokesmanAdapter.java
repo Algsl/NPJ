@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.LocalSpokesmanResponseBean;
+import com.zthx.npj.view.MyCircleView;
 
 import java.util.List;
 
@@ -20,7 +23,7 @@ import java.util.List;
 
 public class LocalSpokesmanAdapter extends RecyclerView.Adapter<LocalSpokesmanAdapter.ViewHolder>{
 
-    private List list;
+    private List<LocalSpokesmanResponseBean.LocalSpokesmanDetail> list;
     private Context mContext;
 
     private ItemClickListener mItemClickListener ;
@@ -32,7 +35,7 @@ public class LocalSpokesmanAdapter extends RecyclerView.Adapter<LocalSpokesmanAd
 
     }
 
-    public LocalSpokesmanAdapter(Context context, List<CommentGoodsBeen> list) {
+    public LocalSpokesmanAdapter(Context context, List<LocalSpokesmanResponseBean.LocalSpokesmanDetail> list) {
         this.list = list;
         mContext = context;
     }
@@ -56,14 +59,21 @@ public class LocalSpokesmanAdapter extends RecyclerView.Adapter<LocalSpokesmanAd
                 }
             });
         }
-        if (list!= null && list.size() > 0) {
-//            viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
-//            viewHolder.mTvPrice.setText(list.get(i).getGoodsPrice());
-//            viewHolder.mTvSellNum.setText(list.get(i).getGoodsSellNum());
-//            viewHolder.mTvTitle.setText(list.get(i).getGoodsTitle());
-        } else {
-
+        LocalSpokesmanResponseBean.LocalSpokesmanDetail localSpokesmanDetail = list.get(i);
+        Glide.with(mContext).load(localSpokesmanDetail.getHead_img()).into(viewHolder.mIvHead);
+        viewHolder.mTvname.setText(localSpokesmanDetail.getNick_name());
+        String str = null;
+        if (localSpokesmanDetail.getLevel() == 1) {
+            str = "金牌代言人";
         }
+        viewHolder.mTvLevel.setText(str);
+        if (localSpokesmanDetail.getDistance() <1000) {
+            viewHolder.mTvDistance.setText(localSpokesmanDetail.getDistance() + "米");
+        } else {
+            long round = Math.round((localSpokesmanDetail.getDistance() / 100d) / 10d);
+            viewHolder.mTvDistance.setText(round + "km");
+        }
+
     }
 
     @Override
@@ -72,17 +82,18 @@ public class LocalSpokesmanAdapter extends RecyclerView.Adapter<LocalSpokesmanAd
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mIvGoods;
-        TextView mTvPrice;
-        TextView mTvTitle;
-        TextView mTvSellNum;
+
+        MyCircleView mIvHead;
+        TextView mTvname;
+        TextView mTvLevel;
+        TextView mTvDistance;
 
         ViewHolder(View itemView) {
             super(itemView);
-            mIvGoods = itemView.findViewById(R.id.item_iv_comment_goods);
-            mTvTitle = itemView.findViewById(R.id.item_tv_comment_goods_title);
-            mTvPrice = itemView.findViewById(R.id.item_tv_comment_goods_price);
-            mTvSellNum = itemView.findViewById(R.id.item_tv_comment_goods_sell_num);
+            mIvHead = itemView.findViewById(R.id.item_local_spokesman_head_pic);
+            mTvname = itemView.findViewById(R.id.item_local_spokesman_tv_name);
+            mTvLevel = itemView.findViewById(R.id.item_local_spokesman_tv_daiyanren);
+            mTvDistance = itemView.findViewById(R.id.item_local_spokesman_tv_distance);
         }
     }
 }

@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.PopupWindow;
 
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.StoreCouponAdapter;
 import com.zthx.npj.adapter.StoreGoodsBillAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 

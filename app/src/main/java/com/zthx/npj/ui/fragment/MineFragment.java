@@ -21,7 +21,12 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommenGoodsAdatper;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.LocalSpokesmanResponseBean;
+import com.zthx.npj.net.netsubscribe.LoginSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.HelpActivity;
+import com.zthx.npj.ui.MainActivity;
 import com.zthx.npj.ui.MyAttestationActivity;
 import com.zthx.npj.ui.MyCollectActivity;
 import com.zthx.npj.ui.MyCouponActivity;
@@ -31,6 +36,7 @@ import com.zthx.npj.ui.MySupplyActivity;
 import com.zthx.npj.ui.MyWalletActivity;
 import com.zthx.npj.ui.SettingsActivity;
 import com.zthx.npj.ui.SpokesmanRightsActivity;
+import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.view.MyCircleView;
 
 import java.util.ArrayList;
@@ -137,6 +143,7 @@ public class MineFragment extends BaseFragment {
         fgMineRvLike.setItemAnimator(new DefaultItemAnimator());
         //设置适配器
         fgMineRvLike.setAdapter(mAdapter);
+
         return view;
     }
 

@@ -20,6 +20,7 @@
         android:layout_marginTop="@dimen/dp_80"/>
 
     <EditText
+        android:id="@+id/at_input_invitation_code_et_phone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:layout_marginLeft="@dimen/dp_12"
@@ -28,6 +29,7 @@
         android:layout_marginTop="@dimen/dp_40"
         android:hint="请输入推荐人的手机号"
         android:paddingLeft="@dimen/dp_12"
+        android:inputType="number"
         android:textColorHint="@color/text6"
         android:textSize="@dimen/sp_13"/>
 

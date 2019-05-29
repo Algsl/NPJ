@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.LocalSpokesmanAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.LocalSpokesmanResponseBean;
+import com.zthx.npj.net.netsubscribe.LoginSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +31,44 @@ public class LocalSpokesmanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local_spokesman);
         ButterKnife.bind(this);
-        LinearLayoutManager manager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        atLocalSpokesmanRv.setLayoutManager(manager);
+        requestLocalSpokesman();
+
+
         List<CommentGoodsBeen> list = new ArrayList<>();
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        LocalSpokesmanAdapter mAdapter = new LocalSpokesmanAdapter(this,list);
-        atLocalSpokesmanRv.setAdapter(mAdapter);
+
+
+    }
+
+    private void requestLocalSpokesman() {
+        LoginSubscribe.getLocalSpokesman("34.810027", "113.65404",new OnSuccessAndFaultSub(
+                new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        LocalSpokesmanResponseBean bean = GsonUtils.fromJson(result, LocalSpokesmanResponseBean.class);
+                        final ArrayList<LocalSpokesmanResponseBean.LocalSpokesmanDetail> list = bean.getList();
+                        if (list !=null && list.size() > 0) {
+                            LinearLayoutManager manager = new LinearLayoutManager(LocalSpokesmanActivity.this,LinearLayoutManager.VERTICAL,false);
+                            atLocalSpokesmanRv.setLayoutManager(manager);
+                            LocalSpokesmanAdapter mAdapter = new LocalSpokesmanAdapter(LocalSpokesmanActivity.this,list);
+                            mAdapter.setOnItemClickListener(new LocalSpokesmanAdapter.ItemClickListener() {
+                                @Override
+                                public void onItemClick(int position) {
+                                    Intent intent = new Intent();
+                                    intent.putExtra("code",list.get(position).getMobile());
+                                    setResult(100);
+                                    finish();
+                                }
+                            });
+                            atLocalSpokesmanRv.setAdapter(mAdapter);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                },this
+        ));
     }
 }

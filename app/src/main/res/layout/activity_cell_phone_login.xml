@@ -70,6 +70,7 @@
             android:layout_marginLeft="@dimen/dp_10">
 
             <EditText
+                android:id="@+id/at_cellphone_login_et_phone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="请输入手机号"
@@ -77,6 +78,7 @@
                 android:textColorHint="#cccccc"
                 android:background="@null"/>
             <ImageView
+                android:id="@+id/at_cellphone_login_iv_delete"
                 android:layout_width="@dimen/dp_22"
                 android:layout_height="@dimen/dp_22"
                 android:src="@drawable/login_delete"
@@ -109,9 +111,11 @@
             android:layout_marginLeft="@dimen/dp_10">
 
             <EditText
+                android:id="@+id/at_cellphone_login_et_code"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="请输入手机号"
+                android:inputType="number"
                 android:textSize="@dimen/sp_13"
                 android:textColorHint="#cccccc"
                 android:background="@null"/>
@@ -122,6 +126,7 @@
                 android:layout_alignParentBottom="true"></View>
         </RelativeLayout>
         <TextView
+            android:id="@+id/at_cellphone_login_tv_get_code"
             android:layout_width="@dimen/dp_75"
             android:layout_height="@dimen/dp_20"
             android:layout_marginLeft="@dimen/dp_9"
