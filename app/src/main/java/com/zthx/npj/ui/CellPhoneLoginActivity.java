@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zthx.npj.R;
-import com.zthx.npj.net.been.LocalSpokesmanResponseBean;
 import com.zthx.npj.net.been.MsgCodeResponseBeen;
 import com.zthx.npj.net.been.PhoneLoginBean;
 import com.zthx.npj.net.been.PhoneLoginResponseBean;
@@ -22,8 +21,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
-
-import org.json.JSONObject;
+import com.zthx.npj.view.MyCircleView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,8 +44,13 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
     EditText atCellphoneLoginEtPhone;
     @BindView(R.id.at_cellphone_login_et_code)
     EditText atCellphoneLoginEtCode;
+    @BindView(R.id.at_cellphone_login_iv_head_pic)
+    MyCircleView atCellphoneLoginIvHeadPic;
+    @BindView(R.id.at_cellphone_login_tv_third_name)
+    TextView atCellphoneLoginTvThirdName;
 
     private String mCodeId;//短信验证码随机数
+    private boolean isThirdLogin = false;
 
 
     @Override
@@ -66,7 +69,7 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
                 break;
             case R.id.at_cellphone_login_tv_get_code:
                 if (TextUtils.isEmpty(atCellphoneLoginEtPhone.getText().toString().trim())) {
-                    Toast.makeText(this,"手机号不能为空",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "手机号不能为空", Toast.LENGTH_SHORT).show();
                 } else {
                     sendPhoneCode();
                 }
@@ -74,7 +77,7 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
             case R.id.at_cellphone_login_btn_next:
                 if (TextUtils.isEmpty(atCellphoneLoginEtCode.getText().toString().trim())
                         || TextUtils.isEmpty(atCellphoneLoginEtPhone.getText().toString().trim())) {
-                    Toast.makeText(this,"验证码或手机号不能为空",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "验证码或手机号不能为空", Toast.LENGTH_SHORT).show();
                 } else {
                     login();
                 }
@@ -90,12 +93,18 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
         bean.setCode(atCellphoneLoginEtCode.getText().toString().trim());
         bean.setMobile(atCellphoneLoginEtPhone.getText().toString().trim());
         bean.setSession_id(mCodeId);
+        if (isThirdLogin) {
+            bean.setUser_id(SharePerferenceUtils.getUserId(this));
+        } else {
+            bean.setLat("34.752064");
+            bean.setLng("113.648022");
+        }
         LoginSubscribe.MobileLogin(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                PhoneLoginResponseBean bean = GsonUtils.fromJson(result,PhoneLoginResponseBean.class);
-                SharePerferenceUtils.setUserId(CellPhoneLoginActivity.this,bean.getData().getUser_id());
-                SharePerferenceUtils.setToken(CellPhoneLoginActivity.this,bean.getData().getToken());
+                PhoneLoginResponseBean bean = GsonUtils.fromJson(result, PhoneLoginResponseBean.class);
+                SharePerferenceUtils.setUserId(CellPhoneLoginActivity.this, bean.getData().getUser_id());
+                SharePerferenceUtils.setToken(CellPhoneLoginActivity.this, bean.getData().getToken());
                 startActivity(new Intent(CellPhoneLoginActivity.this, InputInvitationCodeActivity.class));
             }
 
@@ -103,7 +112,7 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
             public void onFault(String errorMsg) {
                 Toast.makeText(CellPhoneLoginActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
             }
-        },this));
+        }, this));
     }
 
     /**
@@ -123,6 +132,6 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
                 //失败
                 Toast.makeText(CellPhoneLoginActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
             }
-        },this));
+        }, this));
     }
 }
