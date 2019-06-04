@@ -18,9 +18,9 @@ public class NetUtil {
      *
      * @return
      */
-    public static boolean isNetworkConnected() {
+    public static boolean isNetworkConnected(Context context) {
 
-        ConnectivityManager mConnectivityManager = (ConnectivityManager) BaseApp.appContext
+        ConnectivityManager mConnectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mNetworkInfo = mConnectivityManager
                 .getActiveNetworkInfo();

@@ -10,16 +10,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.HomeGoodsBeen;
+import com.zthx.npj.net.been.RecommendResponseBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 首页商品列表适配器
  */
 public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.ViewHolder> {
-    private List<HomeGoodsBeen> list;
+    private ArrayList<RecommendResponseBean.DataBean> list;
     private Context mContext;
 
     private ItemClickListener mItemClickListener ;
@@ -31,7 +34,7 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.View
 
     }
 
-    public HomeGoodsAdapter(Context context, List<HomeGoodsBeen> list) {
+    public HomeGoodsAdapter(Context context, ArrayList<RecommendResponseBean.DataBean> list) {
         this.list = list;
         mContext = context;
     }
@@ -55,18 +58,13 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.View
                 }
             });
         }
-        if (list!= null && list.size() > 0) {
-            //Glide.with(mContext).load(list.get(i).getMallPic()).into(viewHolder.mIvGoods);
-        } else {
-            viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
-            viewHolder.mIvMall.setBackgroundResource(R.mipmap.ic_launcher);
-            viewHolder.mTvMallName.setText(list.get(i).getMallName());
-            viewHolder.mTvNewPrice.setText(list.get(i).getGoodsNewPrice());
-            viewHolder.mTvOldPrice.setText(list.get(i).getGoodsOldPrice());
-            viewHolder.mTvOldPrice.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG);
-            viewHolder.mTvTitle.setText(list.get(i).getGoodsTitle());
-
-        }
+        Glide.with(mContext).load(list.get(i).getGoods_img()).into(viewHolder.mIvGoods);
+        Glide.with(mContext).load(list.get(i).getStore_img()).into(viewHolder.mIvMall);
+        viewHolder.mTvMallName.setText(list.get(i).getStore_name());
+        viewHolder.mTvNewPrice.setText(list.get(i).getMember_price());
+        viewHolder.mTvOldPrice.setText(list.get(i).getMarket_price());
+        viewHolder.mTvOldPrice.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG);
+        viewHolder.mTvTitle.setText(list.get(i).getGoods_name());
     }
 
     @Override

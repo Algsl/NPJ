@@ -7,10 +7,19 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.zthx.npj.R;
+import com.zthx.npj.base.Const;
+import com.zthx.npj.net.been.GoodsDetailResponseBean;
+import com.zthx.npj.net.netsubscribe.MainSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.view.GoodSizePopupwindow;
 import com.zthx.npj.view.SaleDetailProgressView;
 import com.zthx.npj.view.TimeTextView;
@@ -31,6 +40,26 @@ public class GoodsDetailActivity extends AppCompatActivity {
     TimeTextView atGoodsDetailTtv;
     @BindView(R.id.at_goods_detail_spv)
     SaleDetailProgressView atGoodsDetailSpv;
+    @BindView(R.id.iv_miaosha_pic)
+    ImageView ivMiaoshaPic;
+    @BindView(R.id.at_goods_detail_tv_log)
+    TextView atGoodsDetailTvLog;
+    @BindView(R.id.at_goods_detail_tv_goods_new_price)
+    TextView atGoodsDetailTvGoodsNewPrice;
+    @BindView(R.id.at_goods_detail_tv_goods_old_price)
+    TextView atGoodsDetailTvGoodsOldPrice;
+    @BindView(R.id.at_goods_detail_tv_goods_title)
+    TextView atGoodsDetailTvGoodsTitle;
+    @BindView(R.id.at_goods_detail_selled_num)
+    TextView atGoodsDetailSelledNum;
+    @BindView(R.id.at_goods_detail_hold_num)
+    TextView atGoodsDetailHoldNum;
+    @BindView(R.id.at_pre_sell_pb)
+    ProgressBar atPreSellPb;
+    @BindView(R.id.at_goods_detail_kind)
+    TextView atGoodsDetailKind;
+    @BindView(R.id.at_goods_detail_tv_goods_is_baoyou)
+    TextView atGoodsDetailTvGoodsIsBaoyou;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +77,42 @@ public class GoodsDetailActivity extends AppCompatActivity {
         } else {
             atGoodsDetailRlSecKill.setVisibility(View.GONE);
         }
+        String id = getIntent().getStringExtra(Const.GOODS_ID);
+        getGoodsDetail(id);
+    }
+
+    private void getGoodsDetail(String id) {
+        MainSubscribe.getGoodsDetail(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+
+                setData(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }, this));
+    }
+
+    private void setData(String result) {
+
+        GoodsDetailResponseBean goodsDetailResponseBean = GsonUtils.fromJson(result, GoodsDetailResponseBean.class);
+        GoodsDetailResponseBean.DataBean data = goodsDetailResponseBean.getData();
+        atGoodsDetailTvGoodsNewPrice.setText("¥" + data.getMember_price());
+        atGoodsDetailTvGoodsOldPrice.setText(data.getMarket_price());
+        atGoodsDetailTvGoodsTitle.setText(data.getGoods_name());
+        atGoodsDetailSelledNum.setText(data.getSold() + "");
+        atGoodsDetailHoldNum.setText(data.getInventory() + "");
+        String str;
+        if (data.getYunfei() != 0) {
+            str = "免运费";
+        } else {
+            str = data.getYunfei()+"";
+        }
+        atGoodsDetailTvGoodsIsBaoyou.setText(str);
+
     }
 
     @OnClick({R.id.at_goods_detail_btn_add_shopping_cart, R.id.at_goods_detail_btn_buy_now})

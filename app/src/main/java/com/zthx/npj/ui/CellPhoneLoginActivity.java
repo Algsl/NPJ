@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +13,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
 import com.zthx.npj.R;
+import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.net.been.MsgCodeResponseBeen;
 import com.zthx.npj.net.been.PhoneLoginBean;
 import com.zthx.npj.net.been.PhoneLoginResponseBean;
@@ -58,6 +62,7 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cell_phone_login);
         ButterKnife.bind(this);
+
     }
 
 
@@ -96,8 +101,8 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
         if (isThirdLogin) {
             bean.setUser_id(SharePerferenceUtils.getUserId(this));
         } else {
-            bean.setLat("34.752064");
-            bean.setLng("113.648022");
+            bean.setLat(SharePerferenceUtils.getLat(this));
+            bean.setLng(SharePerferenceUtils.getLng(this));
         }
         LoginSubscribe.MobileLogin(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
@@ -134,4 +139,5 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
             }
         }, this));
     }
+
 }

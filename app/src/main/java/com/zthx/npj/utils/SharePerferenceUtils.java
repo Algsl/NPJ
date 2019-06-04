@@ -3,6 +3,8 @@ package com.zthx.npj.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.zthx.npj.base.Const;
+
 /**
  * Created by huangxin on 2019/5/29.
  */
@@ -94,4 +96,37 @@ public class SharePerferenceUtils {
     public static String getToken(Context context) {
         return getString(context, "token", "");
     }
+
+    public static  void setMainBanner(Context context, String value) {
+        putString(context, Const.SP_MAIN_BANNER_TYPE,value);
+    }
+
+    public static String getMainBanner(Context context) {
+        return getString(context, Const.SP_MAIN_BANNER_TYPE, "");
+    }
+
+    public static void setMainRecommend(Context context, String result){
+        putString(context, Const.SP_MAIN_RECOMMEND, result);
+    }
+
+    public static String getMainRecommend(Context context) {
+        return getString(context, Const.SP_MAIN_RECOMMEND, "");
+    }
+
+    public static String getLat(Context context) {
+        return getString(context, Const.SP_LOCATION_LAT,"");
+    }
+
+    public static void setLat(Context context,String lat) {
+        putString(context,Const.SP_LOCATION_LAT,lat);
+    }
+
+    public static void setLng(Context context,String lng) {
+        putString(context,Const.SP_LOCATION_LNG,lng);
+    }
+
+    public static String getLng(Context context) {
+        return getString(context, Const.SP_LOCATION_LNG,"");
+    }
+
 }

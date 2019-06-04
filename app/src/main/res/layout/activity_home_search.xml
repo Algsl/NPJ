@@ -40,6 +40,7 @@
             android:layout_marginLeft="@dimen/dp_11"/>
 
         <TextView
+            android:id="@+id/at_home_search_tv_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

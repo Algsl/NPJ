@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import com.zthx.npj.baidumap.LocationService;
+
 import java.util.ArrayList;
 
 /**
@@ -15,11 +17,14 @@ public class BaseApp extends Application {
     public static Context appContext;
     public static ArrayList<Activity> allActivities = new ArrayList<Activity>();
     public static BaseApp app;
+    public LocationService locationService;
 
     @Override
     public void onCreate() {
         super.onCreate();
         appContext = getApplicationContext();
+
+        locationService = new LocationService(this);
         app = this;
     }
 

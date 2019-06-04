@@ -9,7 +9,15 @@ import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.LocationStoreAdapter;
+import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.LocalStoreBean;
+import com.zthx.npj.net.been.LocalStoreResponseBean;
+import com.zthx.npj.net.netsubscribe.MainSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,23 +39,41 @@ public class LocationStoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_location_store);
         ButterKnife.bind(this);
 
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        atLocationStoreRv.setLayoutManager(manager);
-        List<CommentGoodsBeen> list = new ArrayList<CommentGoodsBeen>();
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        LocationStoreAdapter mAdapter = new LocationStoreAdapter(this, list);
-        mAdapter.setOnItemClickListener(new LocationStoreAdapter.ItemClickListener() {
+        getLocalStore();
+
+    }
+
+    private void getLocalStore() {
+        LocalStoreBean bean = new LocalStoreBean();
+        bean.setLat(SharePerferenceUtils.getLat(this));
+        bean.setLng(SharePerferenceUtils.getLng(this));
+        bean.setPage("1");
+        bean.setType("1");
+        MainSubscribe.getLocalStore(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
-            public void onItemClick(int position) {
-                startActivity(new Intent(LocationStoreActivity.this, StoreDetailActivity.class));
+            public void onSuccess(String result) {
+                LocalStoreResponseBean localStoreResponseBean = GsonUtils.fromJson(result, LocalStoreResponseBean.class);
+                final ArrayList<LocalStoreResponseBean.DataBean> data = localStoreResponseBean.getData();
+
+                LinearLayoutManager manager = new LinearLayoutManager(LocationStoreActivity.this, LinearLayoutManager.VERTICAL, false);
+                atLocationStoreRv.setLayoutManager(manager);
+                LocationStoreAdapter mAdapter = new LocationStoreAdapter(LocationStoreActivity.this, data);
+                mAdapter.setOnItemClickListener(new LocationStoreAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Intent intent = new Intent(LocationStoreActivity.this, StoreDetailActivity.class);
+                        intent.putExtra(Const.STORE_ID,data.get(position).getId() + "");
+                        startActivity(intent);
+                    }
+                });
+                atLocationStoreRv.setAdapter(mAdapter);
             }
-        });
-        atLocationStoreRv.setAdapter(mAdapter);
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        },LocationStoreActivity.this));
     }
 
     @OnClick(R.id.at_location_store_tv_ruzhu)

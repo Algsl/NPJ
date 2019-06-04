@@ -2,6 +2,7 @@ package com.zthx.npj.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,13 +24,19 @@ import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
+import com.zthx.npj.base.Const;
+import com.zthx.npj.net.been.BannerResponseBean;
 import com.zthx.npj.net.been.HomeGoodsBeen;
+import com.zthx.npj.net.been.RecommendResponseBean;
 import com.zthx.npj.ui.ClassfiyActivity;
+import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.HomeSearchActivity;
 import com.zthx.npj.ui.LocationStoreActivity;
 import com.zthx.npj.ui.MessageCenterActivity;
 import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.ui.SecKillActivity;
+import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
@@ -89,35 +96,24 @@ public class HomeFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        //本地图片数据（资源文件）
-        List<Integer> list = new ArrayList<>();
-        list.add(R.mipmap.ic_action011);
-        list.add(R.mipmap.ic_action027);
-        list.add(R.mipmap.ic_action029);
-        initBanner(list);
 
+        initBanner();
 
-        //通过findViewById拿到RecyclerView实例
         //设置RecyclerView管理器
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL,false);
         fgHomeShoppingCast.setLayoutManager(layoutManager);
         //初始化适配器
-        List<HomeGoodsBeen> list3 = new ArrayList<>();
-        HomeGoodsBeen HomeGoodsBeen = new HomeGoodsBeen();
-        HomeGoodsBeen.setGoodsNewPrice("1");
-        HomeGoodsBeen.setGoodsOldPrice("2");
-        HomeGoodsBeen.setGoodsPic("123");
-        HomeGoodsBeen.setGoodsTitle("1231245124");
-        HomeGoodsBeen.setMallName("ddddd");
-        HomeGoodsBeen.setMallPic("ssadasd");
-        for (int i = 0; i < 20; i++) {
-            list3.add(HomeGoodsBeen);
-        }
-        HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), list3);
+        String mainRecommend = SharePerferenceUtils.getMainRecommend(getActivity());
+        RecommendResponseBean bean = GsonUtils.fromJson(mainRecommend, RecommendResponseBean.class);
+        final ArrayList<RecommendResponseBean.DataBean> data = bean.getData();
+
+        HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);
         mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Toast.makeText(getActivity(), "position==" + position, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+                intent.putExtra(Const.GOODS_ID,data.get(position).getId()+"");
+                startActivity(intent);
             }
         });
         //设置添加或删除item时的动画，这里使用默认动画
@@ -130,9 +126,20 @@ public class HomeFragment extends BaseFragment {
     /**
      * 初始化轮播图
      *
-     * @param list
      */
-    private void initBanner(List<Integer> list) {
+    private void initBanner() {
+
+        String mainBanner = SharePerferenceUtils.getMainBanner(getActivity());
+        BannerResponseBean bean = GsonUtils.fromJson(mainBanner, BannerResponseBean.class);
+        ArrayList<BannerResponseBean.DataBean> data = bean.getData();
+        ArrayList<Uri> list = new ArrayList<>();
+        ArrayList<String> list2 = new ArrayList<>();
+        for (int i = 0;i< data.size();i++) {
+            list.add(Uri.parse(data.get(i).getImg()));
+            list2.add(data.get(i).getTitle());
+        }
+
+
         //设置banner样式
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         banner.setIndicatorGravity(BannerConfig.CENTER);
@@ -144,6 +151,8 @@ public class HomeFragment extends BaseFragment {
         banner.setBannerAnimation(Transformer.DepthPage);
         //设置自动轮播，默认为true
         banner.isAutoPlay(true);
+        //设置标题集合（当banner样式有显示title时）
+        banner.setBannerTitles(list2);
         //设置轮播时间
         banner.setDelayTime(3000);
         //设置指示器位置（当banner模式中有指示器时）

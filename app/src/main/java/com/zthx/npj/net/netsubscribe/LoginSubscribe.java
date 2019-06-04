@@ -54,6 +54,12 @@ public class LoginSubscribe {
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 
+    /**
+     * 绑定账号
+     * @param mobile
+     * @param id
+     * @param subscriber
+     */
     public static void invitation(String mobile,String id,DisposableObserver<ResponseBody> subscriber){
         InvitationBean bean = new InvitationBean();
         bean.setMobile(mobile);

@@ -34,28 +34,34 @@
         android:layout_alignLeft="@id/item_comment_tv_name"
         android:layout_below="@id/item_comment_tv_name">
         <ImageView
-            android:layout_width="@dimen/dp_14"
-            android:layout_height="@dimen/dp_14"
-            android:src="@drawable/item_location_store_star"/>
-        <ImageView
-            android:layout_width="@dimen/dp_14"
-            android:layout_height="@dimen/dp_14"
-            android:src="@drawable/item_location_store_star"/>
-        <ImageView
-            android:layout_width="@dimen/dp_14"
-            android:layout_height="@dimen/dp_14"
-            android:src="@drawable/item_location_store_star"/>
-        <ImageView
+            android:id="@+id/item_comment_iv_star1"
             android:layout_width="@dimen/dp_14"
             android:layout_height="@dimen/dp_14"
             android:src="@drawable/item_location_store_unstar"/>
         <ImageView
+            android:id="@+id/item_comment_iv_star2"
+            android:layout_width="@dimen/dp_14"
+            android:layout_height="@dimen/dp_14"
+            android:src="@drawable/item_location_store_unstar"/>
+        <ImageView
+            android:id="@+id/item_comment_iv_star3"
+            android:layout_width="@dimen/dp_14"
+            android:layout_height="@dimen/dp_14"
+            android:src="@drawable/item_location_store_unstar"/>
+        <ImageView
+            android:id="@+id/item_comment_iv_star4"
+            android:layout_width="@dimen/dp_14"
+            android:layout_height="@dimen/dp_14"
+            android:src="@drawable/item_location_store_unstar"/>
+        <ImageView
+            android:id="@+id/item_comment_iv_star5"
             android:layout_width="@dimen/dp_14"
             android:layout_height="@dimen/dp_14"
             android:src="@drawable/item_location_store_unstar"/>
     </LinearLayout>
 
     <TextView
+        android:id="@+id/item_comment_tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="十分不错，非常喜欢，体验很棒"

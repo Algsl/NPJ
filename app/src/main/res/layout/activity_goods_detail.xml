@@ -116,7 +116,6 @@
             </RelativeLayout>
 
             <LinearLayout
-              android:visibility="gone"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical">
@@ -127,6 +126,7 @@
                   android:orientation="horizontal">
     
                   <TextView
+                      android:id="@+id/at_goods_detail_tv_goods_new_price"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_marginLeft="@dimen/dp_12"
@@ -135,6 +135,7 @@
                       android:textSize="@dimen/sp_15" />
     
                   <TextView
+                      android:id="@+id/at_goods_detail_tv_goods_old_price"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_marginLeft="@dimen/dp_11"
@@ -143,6 +144,7 @@
                       android:textSize="@dimen/sp_12" />
               </LinearLayout>
               <TextView
+                  android:id="@+id/at_goods_detail_tv_goods_title"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_marginLeft="@dimen/dp_13"
@@ -167,6 +169,7 @@
                       android:textSize="@dimen/sp_12" />
     
                   <TextView
+                      android:id="@+id/at_goods_detail_hold_num"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_marginLeft="@dimen/dp_11"
@@ -176,6 +179,7 @@
                       android:textSize="@dimen/sp_12" />
     
                   <TextView
+                      android:id="@+id/at_goods_detail_tv_goods_is_baoyou"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_alignParentRight="true"
@@ -186,6 +190,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
