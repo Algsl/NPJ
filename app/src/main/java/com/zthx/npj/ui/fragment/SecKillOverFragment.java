@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.SecKillAdpter;
 import com.zthx.npj.base.Const;
-import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.SecKillTodayResponseBean;
 import com.zthx.npj.net.netsubscribe.SecKillSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -22,7 +21,6 @@ import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.utils.GsonUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,18 +29,17 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * to handle interaction events.
  * create an instance of this fragment.
  */
-public class SecKillFragment extends Fragment {
-    @BindView(R.id.fg_sec_kill_rv)
-    RecyclerView fgSecKillRv;
+public class SecKillOverFragment extends Fragment {
+    @BindView(R.id.fg_sec_kill_over_rv)
+    RecyclerView fgSecKillOverRv;
     Unbinder unbinder;
+    // TODO: Rename parameter arguments, choose names that match
 
-    public SecKillFragment() {
+    public SecKillOverFragment() {
+        // Required empty public constructor
     }
-
-
 
 
     @Override
@@ -53,17 +50,18 @@ public class SecKillFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_sec_kill, container, false);
-        unbinder = ButterKnife.bind(this, v);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_sec_kill_over, container, false);
+        unbinder = ButterKnife.bind(this, view);
 
-        SecKillSubscribe.getSecKillTodayList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SecKillSubscribe.getSecKillOverList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 SecKillTodayResponseBean secKillTodayResponseBean = GsonUtils.fromJson(result, SecKillTodayResponseBean.class);
                 final ArrayList<SecKillTodayResponseBean.DataBean> data = secKillTodayResponseBean.getData();
 
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
-                fgSecKillRv.setLayoutManager(linearLayoutManager);
+                fgSecKillOverRv.setLayoutManager(linearLayoutManager);
                 SecKillAdpter adapter = new SecKillAdpter(getActivity(),data);
                 adapter.setOnItemClickListener(new SecKillAdpter.ItemClickListener() {
                     @Override
@@ -71,11 +69,11 @@ public class SecKillFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
                         intent.setAction("miaosha");
                         intent.putExtra(Const.GOODS_ID, data.get(position).getId());
-                        intent.putExtra(Const.SECKILL_STATUS, Const.SECKILL_DOING);
+                        intent.putExtra(Const.SECKILL_STATUS, Const.SECKILL_DONE);
                         startActivity(intent);
                     }
                 });
-                fgSecKillRv.setAdapter(adapter);
+                fgSecKillOverRv.setAdapter(adapter);
             }
 
             @Override
@@ -83,7 +81,7 @@ public class SecKillFragment extends Fragment {
 
             }
         }, getActivity()));
-        return v;
+        return view;
     }
 
 

@@ -1,8 +1,11 @@
 package com.zthx.npj.ui;
 
 import android.content.Intent;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,18 +17,29 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.base.Const;
+import com.zthx.npj.net.been.BannerResponseBean;
 import com.zthx.npj.net.been.GoodsDetailResponseBean;
 import com.zthx.npj.net.been.PreSellDetailResponseBean;
+import com.zthx.npj.net.been.SecKillGoodsDetailResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.PreSellSubscribe;
+import com.zthx.npj.net.netsubscribe.SecKillSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.GlideImageLoader;
 import com.zthx.npj.view.GoodSizePopupwindow;
 import com.zthx.npj.view.SaleDetailProgressView;
 import com.zthx.npj.view.TimeTextView;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,6 +93,10 @@ public class GoodsDetailActivity extends AppCompatActivity {
     LinearLayout atGoodsDetailLlPresell;
     @BindView(R.id.at_goods_detail_btn_pre_sell_know)
     Button atGoodsDetailBtnPreSellKnow;
+    @BindView(R.id.at_goods_detail_rl_sec_kill_done)
+    LinearLayout atGoodsDetailRlSecKillDone;
+    @BindView(R.id.at_goods_detail_banner)
+    Banner atGoodsDetailBanner;
 
     private String goodsId;
 
@@ -92,13 +110,22 @@ public class GoodsDetailActivity extends AppCompatActivity {
         String id = getIntent().getStringExtra(Const.GOODS_ID);
         goodsId = id;
         if ("miaosha".equals(getIntent().getAction())) {
-            atGoodsDetailRlSecKill.setVisibility(View.VISIBLE);
-            long startTime = System.nanoTime();
-            atGoodsDetailTtv.setTimes(new long[]{1, 23, 22});
-            if (!atGoodsDetailTtv.isRun()) {
-                atGoodsDetailTtv.run();
+            int status = getIntent().getIntExtra(Const.SECKILL_STATUS, 1);
+            if (status == 0) {
+                atGoodsDetailRlSecKill.setVisibility(View.GONE);
+                atGoodsDetailRlSecKillDone.setVisibility(View.VISIBLE);
+            } else if (status == 1) {
+                atGoodsDetailRlSecKill.setVisibility(View.VISIBLE);
+                atGoodsDetailRlSecKillDone.setVisibility(View.GONE);
+            } else {
+                atGoodsDetailRlSecKill.setVisibility(View.VISIBLE);
+                atGoodsDetailRlSecKillDone.setVisibility(View.GONE);
             }
-            atGoodsDetailSpv.setTotalAndCurrentCount(100, 20);
+            atGoodsDetailLlGoods.setVisibility(View.GONE);
+            atGoodsDetailLlPresell.setVisibility(View.GONE);
+
+            getSecKillDetail(id);
+
         } else if (Const.PRESELL.equals(getIntent().getAction())) {
             atGoodsDetailRlSecKill.setVisibility(View.GONE);
             atGoodsDetailLlGoods.setVisibility(View.GONE);
@@ -108,6 +135,43 @@ public class GoodsDetailActivity extends AppCompatActivity {
             getGoodsDetail(id);
         }
 
+    }
+
+    private void getSecKillDetail(String id) {
+
+        SecKillSubscribe.getSecKillGoodsDetail(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setSecKillData(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }, this));
+    }
+
+    private void setSecKillData(String result) {
+        SecKillGoodsDetailResponseBean secKillGoodsDetailResponseBean = GsonUtils.fromJson(result, SecKillGoodsDetailResponseBean.class);
+        SecKillGoodsDetailResponseBean.DataBean data = secKillGoodsDetailResponseBean.getData();
+        atGoodsDetailTvGoodsTitle.setText(data.getGoods_name());
+        atGoodsDetailTvGoodsNewPrice.setText("¥" + data.getGoods_price());
+        atGoodsDetailTvGoodsOldPrice.setText("¥" + data.getMarket_price());
+        atGoodsDetailTvGoodsOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        atGoodsDetailSelledNum.setText("已售" + data.getSold());
+        atGoodsDetailHoldNum.setText("库存" + data.getGoods_num());
+        long time = data.getEnd_time() - data.getBegin_time();
+        long hour = time / (60 * 60 * 1000);
+        long min = ((time / (60 * 1000)) - hour * 60);
+        long second = ((time / 1000) - hour * 60 - min * 60);
+
+        atGoodsDetailTtv.setTimes(new long[]{hour, min, second});
+        if (!atGoodsDetailTtv.isRun()) {
+            atGoodsDetailTtv.run();
+        }
+        atGoodsDetailSpv.setTotalAndCurrentCount(Integer.parseInt(data.getGoods_num()), Integer.parseInt(data.getSale_num()));
+        initBanner(data.getGroup_img());
     }
 
     private void getPreSellDetail(String id) {
@@ -122,7 +186,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
             public void onFault(String errorMsg) {
 
             }
-        }));
+        }, this));
     }
 
     private void setPreSellData(String result) {
@@ -130,11 +194,12 @@ public class GoodsDetailActivity extends AppCompatActivity {
         PreSellDetailResponseBean.DataBean data = preSellDetailResponseBean.getData();
         mPreData = data;
         atGoodsDetailTvPreSellTitle.setText(data.getGoods_name());
-        atGoodsDetailTvPreSellPrice.setText("¥"+data.getGoods_price());
+        atGoodsDetailTvPreSellPrice.setText("¥" + data.getGoods_price());
         atGoodsDetailTvPreSellYuding.setText(data.getUser_num());
         atGoodsDetailTvPreSellYushou.setText(data.getSale_price());
-        atGoodsDetailTvPreSellDacheng.setText(data.getProportion()+ "%");
-        atPreSellPb.setProgress(Integer.parseInt(data.getProportion()+""));
+        atGoodsDetailTvPreSellDacheng.setText(data.getProportion() + "%");
+        atPreSellPb.setProgress(Integer.parseInt(data.getProportion() + ""));
+        initBanner(data.getGroup_img());
     }
 
     private void getGoodsDetail(String id) {
@@ -168,6 +233,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
             str = data.getYunfei() + "";
         }
         atGoodsDetailTvGoodsIsBaoyou.setText(str);
+        initBanner(data.getGoods_img());
 
     }
 
@@ -244,6 +310,44 @@ public class GoodsDetailActivity extends AppCompatActivity {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         getWindow().setAttributes(lp);
+    }
+
+    /**
+     * 初始化轮播图
+     *
+     */
+    private void initBanner(ArrayList<String> imgList) {
+
+        ArrayList<Uri> list = new ArrayList<>();
+        for (int i = 0; i < imgList.size(); i++) {
+            list.add(Uri.parse(imgList.get(i)));
+        }
+
+
+        //设置banner样式
+        atGoodsDetailBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        atGoodsDetailBanner.setIndicatorGravity(BannerConfig.CENTER);
+        //设置图片加载器
+        atGoodsDetailBanner.setImageLoader(new GlideImageLoader());
+        //设置图片集合
+        atGoodsDetailBanner.setImages(list);
+        //设置banner动画效果
+        atGoodsDetailBanner.setBannerAnimation(Transformer.DepthPage);
+        //设置自动轮播，默认为true
+        atGoodsDetailBanner.isAutoPlay(true);
+        //设置轮播时间
+        atGoodsDetailBanner.setDelayTime(3000);
+        //设置指示器位置（当banner模式中有指示器时）
+        atGoodsDetailBanner.setIndicatorGravity(BannerConfig.RIGHT);
+        //设置banner点击事件
+        atGoodsDetailBanner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                Log.e("huang", "position = " + position);
+            }
+        });
+        //banner设置方法全部调用完毕时最后调用
+        atGoodsDetailBanner.start();
     }
 
 }

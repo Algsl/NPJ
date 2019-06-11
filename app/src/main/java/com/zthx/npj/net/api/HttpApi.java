@@ -9,6 +9,7 @@ import com.zthx.npj.net.been.LocalSpokesmanBeen;
 import com.zthx.npj.net.been.LocalSpokesmanResponseBean;
 import com.zthx.npj.net.been.LocalStoreBean;
 import com.zthx.npj.net.been.MsgCodeBeen;
+import com.zthx.npj.net.been.NullBean;
 import com.zthx.npj.net.been.PhoneLoginBean;
 import com.zthx.npj.net.been.PreSellBean;
 import com.zthx.npj.net.been.RecommendBean;
@@ -67,4 +68,16 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/ysorder.html")
     Observable<ResponseBody> confirmPreSellForBody(@Body ConfirmPreSellBean bean);
+
+    @POST("index.php/api/index/spike.html")
+    Observable<ResponseBody> getSecKillTodayForBody(@Body NullBean bean);
+
+    @POST("index.php/api/index/spikeend.html")
+    Observable<ResponseBody> getSecKillOverForBody(@Body NullBean bean);
+
+    @POST("index.php/api/index/spikebegin.html")
+    Observable<ResponseBody> getSecKillStartForBody(@Body NullBean bean);
+
+    @POST("index.php/api/index/spikedetails.html")
+    Observable<ResponseBody> getSecKillGoodsDetailForBody(@Body GoodsDetailBean bean);
 }

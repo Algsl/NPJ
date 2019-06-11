@@ -29,8 +29,6 @@ public class SecKillViewPagerAdapter extends FragmentStatePagerAdapter {
         View v = LayoutInflater.from(mContext).inflate(R.layout.item_sec_kill, null);
         TextView tv = v.findViewById(R.id.item_sec_kill_tv_date);
         tv.setText(mList.get(position));
-        TextView tv2 = v.findViewById(R.id.item_sec_kill_tv_date_state);
-        tv2.setText("已开抢");
         return v;
     }
         @Override

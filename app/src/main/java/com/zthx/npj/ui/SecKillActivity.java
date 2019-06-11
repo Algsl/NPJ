@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.SecKillViewPagerAdapter;
 import com.zthx.npj.ui.fragment.SecKillFragment;
+import com.zthx.npj.ui.fragment.SecKillOverFragment;
+import com.zthx.npj.ui.fragment.SecKillStartFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,6 @@ public class SecKillActivity extends AppCompatActivity {
     ViewPager atSecKillViewPager;
 
     TextView tv1;
-    TextView tv2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,33 +77,31 @@ public class SecKillActivity extends AppCompatActivity {
                 tab.setCustomView(mAdapter.getTabView(i));
             }
         }
-        atSecKillMainTab.getTabAt(0).getCustomView().setSelected(true);
+        atSecKillMainTab.getTabAt(1).select();
+        updateTabView(atSecKillMainTab.getTabAt(1), true);
     }
 
     private void initData(List<String> list, List<Fragment> list2) {
-        for (int i = 0; i < 4; i++) {
-            list.add("3月" + (i + 1) + "日");
-            list2.add(new SecKillFragment());
-        }
+        list.add("已结束");
+        list.add("抢购进行中");
+        list.add("即将开场");
+        list2.add(new SecKillOverFragment());
+        list2.add(new SecKillFragment());
+        list2.add(new SecKillStartFragment());
     }
 
     private void updateTabView(TabLayout.Tab tab, boolean b) {
         tv1 = tab.getCustomView().findViewById(R.id.item_sec_kill_tv_date);
-        tv2 = tab.getCustomView().findViewById(R.id.item_sec_kill_tv_date_state);
         if(b) {
             //设置标签选中
             tv1.setSelected(true);
-            tv2.setSelected(true);
             //选中后字体变大
             tv1.setTextColor(getResources().getColor(R.color.app_theme));
-            tv2.setTextColor(getResources().getColor(R.color.app_theme));
         }else{
             //设置标签取消选中
             tv1.setSelected(false);
-            tv2.setSelected(false);
             //恢复为默认字体大小
             tv1.setTextColor(getResources().getColor(R.color.text3));
-            tv2.setTextColor(getResources().getColor(R.color.text9));
         }
     }
 

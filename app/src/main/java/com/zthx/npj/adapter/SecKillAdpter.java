@@ -1,6 +1,7 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,16 +10,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.SecKillTodayResponseBean;
 import com.zthx.npj.view.SaleProgressView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder> {
 
     private Context mContext;
-    private List<CommentGoodsBeen> mList;
+    private ArrayList<SecKillTodayResponseBean.DataBean> mList;
     private SecKillAdpter.ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
         void onItemClick(int position) ;
@@ -28,7 +32,7 @@ public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder
 
     }
 
-    public SecKillAdpter(Context context, List<CommentGoodsBeen> list) {
+    public SecKillAdpter(Context context, ArrayList<SecKillTodayResponseBean.DataBean> list) {
         mContext = context;
         mList = list;
     }
@@ -51,17 +55,13 @@ public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder
                 }
             });
         }
-        if (mList!= null && mList.size() > 0) {
-            //Glide.with(mContext).load(list.get(i).getMallPic()).into(viewHolder.mIvGoods);
-            viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
-            viewHolder.mTvNewPrice.setText(mList.get(i).getGoodsPrice());
-            viewHolder.mTvLeb.setText(mList.get(i).getGoodsLeb());
-            viewHolder.mTvOldPrice.setText(mList.get(i).getGoodsOldPrice());
-            viewHolder.mTvTitle.setText(mList.get(i).getGoodsTitle());
-            viewHolder.mSpv.setTotalAndCurrentCount(100,20);
-        } else {
-
-        }
+            Glide.with(mContext).load(mList.get(i).getGoods_img()).into(viewHolder.mIvGoods);
+            viewHolder.mTvNewPrice.setText(mList.get(i).getGoods_price());
+            viewHolder.mTvLeb.setText(mList.get(i).getGoods_desc());
+            viewHolder.mTvOldPrice.setText(mList.get(i).getMarket_price());
+            viewHolder.mTvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            viewHolder.mTvTitle.setText(mList.get(i).getGoods_name());
+            viewHolder.mSpv.setTotalAndCurrentCount(Integer.parseInt(mList.get(i).getGoods_num()),Integer.parseInt(mList.get(i).getSale_num()));
     }
 
     @Override
