@@ -2,6 +2,7 @@ package com.zthx.npj.net.api;
 
 import com.zthx.npj.net.been.BannerBean;
 import com.zthx.npj.net.been.CommentBean;
+import com.zthx.npj.net.been.ConfirmPreSellBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
 import com.zthx.npj.net.been.InvitationBean;
 import com.zthx.npj.net.been.LocalSpokesmanBeen;
@@ -9,6 +10,7 @@ import com.zthx.npj.net.been.LocalSpokesmanResponseBean;
 import com.zthx.npj.net.been.LocalStoreBean;
 import com.zthx.npj.net.been.MsgCodeBeen;
 import com.zthx.npj.net.been.PhoneLoginBean;
+import com.zthx.npj.net.been.PreSellBean;
 import com.zthx.npj.net.been.RecommendBean;
 import com.zthx.npj.net.been.SearchBean;
 import com.zthx.npj.net.been.StoreDetailBean;
@@ -56,4 +58,13 @@ public interface HttpApi  {
 
     @POST("index.php/api/index/commentlist.html")
     Observable<ResponseBody> getCommentForBody(@Body CommentBean bean);
+
+    @POST("index.php/api/index/newbooking.html")
+    Observable<ResponseBody> getPreSellListForBody(@Body PreSellBean bean);
+
+    @POST("index.php/api/index/ysdetails.html")
+    Observable<ResponseBody> getPreSellDetailForBody(@Body GoodsDetailBean bean);
+
+    @POST("index.php/api/user/ysorder.html")
+    Observable<ResponseBody> confirmPreSellForBody(@Body ConfirmPreSellBean bean);
 }

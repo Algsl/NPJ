@@ -227,6 +227,7 @@
         android:layout_marginTop="@dimen/dp_20">
 
         <Button
+            android:id="@+id/item_pop_goods_add_shopping_car"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
@@ -235,6 +236,7 @@
             android:textColor="@color/text3"
             android:textSize="@dimen/sp_14" />
         <Button
+            android:id="@+id/item_pop_goods_buy"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"

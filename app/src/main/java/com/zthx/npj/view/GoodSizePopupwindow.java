@@ -5,12 +5,14 @@ import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.donkingliang.labels.LabelsView;
 import com.zthx.npj.R;
+import com.zthx.npj.net.been.PreSellDetailResponseBean;
 
 import org.w3c.dom.Text;
 
@@ -23,16 +25,21 @@ public class GoodSizePopupwindow extends PopupWindow {
     private final TextView secKillOldPrice;
     private final TextView OldPrice;
     private final RelativeLayout addView;
+    private final Button mAddShoppingCar;
+    private final Button mBuyNow;
     private Context mContext;
     private View view;
 
-    public GoodSizePopupwindow(Context mContext, View.OnClickListener itemsOnClick, boolean b) {
+    public GoodSizePopupwindow(Context mContext, View.OnClickListener itemsOnClick, boolean b, ArrayList<PreSellDetailResponseBean.DataBean.Value> data) {
         this.view = LayoutInflater.from(mContext).inflate(R.layout.popupwindow_goods_size, null);
         addView = view.findViewById(R.id.item_pop_goods_num_add);
         minusView = view.findViewById(R.id.item_pop_goods_num_jian);
         secKillOldPrice = view.findViewById(R.id.pop_goods_size_tv_sec_old_price);
         OldPrice = view.findViewById(R.id.pop_goods_size_tv_price);
+        mAddShoppingCar = view.findViewById(R.id.item_pop_goods_add_shopping_car);
+        mBuyNow = view.findViewById(R.id.item_pop_goods_buy);
         labelsView = (LabelsView) view.findViewById(R.id.labels);
+
 
         if (b) {
             secKillOldPrice.setVisibility(View.VISIBLE);
@@ -44,6 +51,8 @@ public class GoodSizePopupwindow extends PopupWindow {
 //        // 设置按钮监听
         minusView.setOnClickListener(itemsOnClick);
         addView.setOnClickListener(itemsOnClick);
+        mAddShoppingCar.setOnClickListener(itemsOnClick);
+        mBuyNow.setOnClickListener(itemsOnClick);
 
         ArrayList<String> label = new ArrayList<>();
         label.add("白色");

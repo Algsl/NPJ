@@ -10,14 +10,17 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.PreSellResponseBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PreSellAdapter extends RecyclerView.Adapter<PreSellAdapter.ViewHolder> {
     private Context mContext;
-    private List<CommentGoodsBeen> mList;
+    private ArrayList<PreSellResponseBean.DataBean> mList;
     private ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
         void onItemClick(int position) ;
@@ -27,7 +30,7 @@ public class PreSellAdapter extends RecyclerView.Adapter<PreSellAdapter.ViewHold
 
     }
 
-    public PreSellAdapter(Context context,List<CommentGoodsBeen> list) {
+    public PreSellAdapter(Context context,ArrayList<PreSellResponseBean.DataBean> list) {
         mContext = context;
         mList = list;
     }
@@ -51,18 +54,13 @@ public class PreSellAdapter extends RecyclerView.Adapter<PreSellAdapter.ViewHold
                 }
             });
         }
-        if (mList!= null && mList.size() > 0) {
-            //Glide.with(mContext).load(list.get(i).getMallPic()).into(viewHolder.mIvGoods);
-            viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
-            viewHolder.mTvTitle.setText(mList.get(i).getGoodsTitle());
-            viewHolder.mTvPrice.setText("￥" +mList.get(i).getGoodsPrice());
-            viewHolder.mTvYuDing.setText("预定 " +mList.get(i).getSelledNum());
-            viewHolder.mTvYuShou.setText("预售" +mList.get(i).getTotalNum());
-            viewHolder.mTvDaCheng.setText("98%");
-            viewHolder.mPb.setProgress(98);
-        } else {
-
-        }
+        Glide.with(mContext).load(mList.get(i).getGoods_img()).into(viewHolder.mIvGoods);
+        viewHolder.mTvTitle.setText(mList.get(i).getGoods_name());
+        viewHolder.mTvPrice.setText("￥" +mList.get(i).getGoods_price());
+        viewHolder.mTvYuDing.setText("预定 " +mList.get(i).getUser_num());
+        viewHolder.mTvYuShou.setText("预售" +mList.get(i).getSale_num());
+        viewHolder.mTvDaCheng.setText((Integer.parseInt(mList.get(i).getSale_num())* 100)/Integer.parseInt(mList.get(i).getGoods_num()) +"%");
+        viewHolder.mPb.setProgress((Integer.parseInt(mList.get(i).getSale_num())* 100)/Integer.parseInt(mList.get(i).getGoods_num()));
     }
 
     @Override

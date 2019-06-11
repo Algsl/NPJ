@@ -9,6 +9,8 @@ public class Const {
     public static final String MAIN_BANNER_TYPE = "1";
     public static final String GOODS_ID = "goods_id";
     public static final String STORE_ID = "store_id";
+    public static final String PRESELL = "presell";
+    public static final String ATTRIBUTE_ID = "attribute_id";
 
 
     /**
