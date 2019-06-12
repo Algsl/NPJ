@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.DiscoverViewPagerAdapter;
 import com.zthx.npj.ui.fragment.BuyGiftFragment;
+import com.zthx.npj.ui.fragment.SpokesmanFragment;
 import com.zthx.npj.view.MyCircleView;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class MembershipPackageActivity extends AppCompatActivity {
         list.add("代言人权益");
         List<Fragment> list2 = new ArrayList<>();
         list2.add(new BuyGiftFragment());
-        list2.add(new BuyGiftFragment());
+        list2.add(new SpokesmanFragment());
         DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
         atMembershipPackageVp.setAdapter(mAdapter);
         atMembershipPackageTb.setTabMode(TabLayout.MODE_FIXED);

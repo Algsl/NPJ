@@ -1,7 +1,6 @@
 package com.zthx.npj.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,14 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.BuyGiftAdapter;
+import com.zthx.npj.adapter.SpokesmanQuanLiAdapter;
 import com.zthx.npj.base.BaseConstant;
-import com.zthx.npj.base.Const;
-import com.zthx.npj.net.been.GiftListResponseBean;
+import com.zthx.npj.net.been.SpokesmanQuanLiResponsebean;
 import com.zthx.npj.net.netsubscribe.GiftSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
-import com.zthx.npj.ui.GiftActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
@@ -33,14 +30,12 @@ import butterknife.Unbinder;
  * Activities that contain this fragment must implement the
  * create an instance of this fragment.
  */
-public class BuyGiftFragment extends Fragment {
-
-
-    @BindView(R.id.fg_buy_gift_rv)
-    RecyclerView fgBuyGiftRv;
+public class SpokesmanFragment extends Fragment {
+    @BindView(R.id.fg_spokesman_rv)
+    RecyclerView fgSpokesmanRv;
     Unbinder unbinder;
 
-    public BuyGiftFragment() {
+    public SpokesmanFragment() {
         // Required empty public constructor
     }
 
@@ -53,32 +48,24 @@ public class BuyGiftFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_buy_gift, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_spokesman, container, false);
         unbinder = ButterKnife.bind(this, view);
-
-        getGiftList();
+        getData();
         return view;
     }
 
-    private void getGiftList() {
-        GiftSubscribe.getGiftList(SharePerferenceUtils.getUserId(getActivity()), BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+    private void getData() {
+
+        GiftSubscribe.getSpokesmanQuan(SharePerferenceUtils.getUserId(getActivity()), BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                GiftListResponseBean giftListResponseBean = GsonUtils.fromJson(result, GiftListResponseBean.class);
-                final ArrayList<GiftListResponseBean.DataBean> data = giftListResponseBean.getData();
                 LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
-                fgBuyGiftRv.setLayoutManager(manager);
-                BuyGiftAdapter mAdapter = new BuyGiftAdapter(getActivity(), data);
-                mAdapter.setOnItemClickListener(new BuyGiftAdapter.ItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-
-                        Intent intent = new Intent(getActivity(), GiftActivity.class);
-                        intent.putExtra(Const.GOODS_ID,data.get(position).getId());
-                        startActivity(intent);
-                    }
-                });
-                fgBuyGiftRv.setAdapter(mAdapter);
+                fgSpokesmanRv.setLayoutManager(manager);
+                SpokesmanQuanLiResponsebean spokesmanQuanLiResponsebean = GsonUtils.fromJson(result, SpokesmanQuanLiResponsebean.class);
+                ArrayList<SpokesmanQuanLiResponsebean.DataBean> data = spokesmanQuanLiResponsebean.getData();
+                SpokesmanQuanLiAdapter mAdapter = new SpokesmanQuanLiAdapter(getActivity(),data);
+                fgSpokesmanRv.setAdapter(mAdapter);
             }
 
             @Override

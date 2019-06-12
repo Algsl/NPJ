@@ -32,6 +32,7 @@ import com.zthx.npj.ui.ClassfiyActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.HomeSearchActivity;
 import com.zthx.npj.ui.LocationStoreActivity;
+import com.zthx.npj.ui.MembershipPackageActivity;
 import com.zthx.npj.ui.MessageCenterActivity;
 import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.ui.SecKillActivity;
@@ -200,7 +201,8 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.fg_home_ll_gift:
-                Toast.makeText(getActivity(), "libao", Toast.LENGTH_LONG).show();
+                intent = new Intent(getActivity(), MembershipPackageActivity.class);
+                startActivity(intent);
                 break;
             case R.id.fg_home_rl_go_game:
                 Toast.makeText(getActivity(), "game", Toast.LENGTH_LONG).show();

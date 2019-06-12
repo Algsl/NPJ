@@ -3,6 +3,8 @@ package com.zthx.npj.net.api;
 import com.zthx.npj.net.been.BannerBean;
 import com.zthx.npj.net.been.CommentBean;
 import com.zthx.npj.net.been.ConfirmPreSellBean;
+import com.zthx.npj.net.been.GiftDetailBean;
+import com.zthx.npj.net.been.GiftListBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
 import com.zthx.npj.net.been.InvitationBean;
 import com.zthx.npj.net.been.LocalSpokesmanBeen;
@@ -80,4 +82,16 @@ public interface HttpApi  {
 
     @POST("index.php/api/index/spikedetails.html")
     Observable<ResponseBody> getSecKillGoodsDetailForBody(@Body GoodsDetailBean bean);
+
+    @POST("index.php/api/user/giftlist.htm")
+    Observable<ResponseBody> getGiftListForBody(@Body GiftListBean bean);
+
+    @POST("index.php/api/user/useradvantage.htm")
+    Observable<ResponseBody> getSpokesmanQuanForBody(@Body GiftListBean bean);
+
+    @POST("index.php/api/user/giftdetail.htm")
+    Observable<ResponseBody> getGiftDetailForBody(@Body GiftDetailBean bean);
+
+    @POST("index.php/api/user/giftorder.htm")
+    Observable<ResponseBody> getGiftConfirmForBody(@Body GiftDetailBean bean);
 }

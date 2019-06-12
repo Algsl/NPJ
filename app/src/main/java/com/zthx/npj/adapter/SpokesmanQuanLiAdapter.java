@@ -12,18 +12,19 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
-import com.zthx.npj.net.been.GiftListResponseBean;
+import com.zthx.npj.net.been.SpokesmanQuanLiResponsebean;
+import com.zthx.npj.view.MyCircleView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by huangxin on 2019/5/22.
+ * Created by huangxin on 2019/6/12.
  */
 
-public class BuyGiftAdapter extends RecyclerView.Adapter<BuyGiftAdapter.ViewHolder>{
+public class SpokesmanQuanLiAdapter extends RecyclerView.Adapter<SpokesmanQuanLiAdapter.ViewHolder>{
 
-    private ArrayList<GiftListResponseBean.DataBean> list;
+    private ArrayList<SpokesmanQuanLiResponsebean.DataBean> list;
     private Context mContext;
 
     private ItemClickListener mItemClickListener ;
@@ -35,15 +36,15 @@ public class BuyGiftAdapter extends RecyclerView.Adapter<BuyGiftAdapter.ViewHold
 
     }
 
-    public BuyGiftAdapter(Context context, ArrayList<GiftListResponseBean.DataBean> list) {
+    public SpokesmanQuanLiAdapter(Context context, ArrayList<SpokesmanQuanLiResponsebean.DataBean> list) {
         this.list = list;
         mContext = context;
     }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_buy_gift, viewGroup, false);
-        return new BuyGiftAdapter.ViewHolder(view);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_spokesman_quanli, viewGroup, false);
+        return new SpokesmanQuanLiAdapter.ViewHolder(view);
     }
 
     @Override
@@ -59,10 +60,13 @@ public class BuyGiftAdapter extends RecyclerView.Adapter<BuyGiftAdapter.ViewHold
                 }
             });
         }
-        Glide.with(mContext).load(list.get(i).getImg()).into(viewHolder.mIvGoods);
-        viewHolder.mTvPrice.setText(list.get(i).getPrice());
-        viewHolder.mTvDes.setText(list.get(i).getDescription());
-        viewHolder.mTvTitle.setText(list.get(i).getTitle());
+        if (list!= null && list.size() > 0) {
+            Glide.with(mContext).load(list.get(i).getImg()).into(viewHolder.mIvPic);
+            viewHolder.mTvContent.setText(list.get(i).getDescription());
+            viewHolder.mTvTitle.setText(list.get(i).getTitle());
+        } else {
+
+        }
     }
 
     @Override
@@ -71,17 +75,15 @@ public class BuyGiftAdapter extends RecyclerView.Adapter<BuyGiftAdapter.ViewHold
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mIvGoods;
+        MyCircleView mIvPic;
         TextView mTvTitle;
-        TextView mTvPrice;
-        TextView mTvDes;
+        TextView mTvContent;
 
         ViewHolder(View itemView) {
             super(itemView);
-            mIvGoods = itemView.findViewById(R.id.item_buy_gift_pic);
-            mTvTitle = itemView.findViewById(R.id.item_buy_gift_tv_title);
-            mTvDes = itemView.findViewById(R.id.item_buy_gift_tv_des);
-            mTvPrice = itemView.findViewById(R.id.item_buy_gift_tv_price);
+            mIvPic = itemView.findViewById(R.id.item_spokesman_quanli_pic);
+            mTvTitle = itemView.findViewById(R.id.item_spokesman_quanli_tv_title);
+            mTvContent = itemView.findViewById(R.id.item_spokesman_quanli_tv_content);
         }
     }
 }

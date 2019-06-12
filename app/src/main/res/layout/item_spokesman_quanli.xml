@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_90">
+
+    <com.zthx.npj.view.MyCircleView
+        android:id="@+id/item_spokesman_quanli_pic"
+        android:layout_width="@dimen/dp_28"
+        android:layout_height="@dimen/dp_28"
+        android:layout_marginTop="@dimen/dp_7"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:background="@mipmap/ic_launcher"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_spokesman_quanli_tv_title"
+        android:layout_toRightOf="@id/item_spokesman_quanli_pic"
+        android:layout_alignTop="@id/item_spokesman_quanli_pic"
+        android:text="发布自己的礼包"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/text3"
+        android:layout_marginTop="@dimen/dp_3"
+        android:layout_marginLeft="@dimen/dp_9"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_spokesman_quanli_tv_content"
+        android:layout_below="@id/item_spokesman_quanli_pic"
+        android:layout_alignLeft="@id/item_spokesman_quanli_pic"
+        android:text="您可将你销售的商品的发布为礼包，推荐的用户进入礼包店后第一个看到的商品为您发布的商品"
+        android:textColor="@color/text6"
+        android:textSize="@dimen/sp_15"
+        android:layout_marginTop="@dimen/dp_7"
+        android:layout_marginRight="@dimen/dp_12"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:background="@color/background"
+        android:layout_alignParentBottom="true"></View>
+
+
+
+</RelativeLayout>

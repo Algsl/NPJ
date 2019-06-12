@@ -322,6 +322,7 @@
                     android:layout_marginRight="@dimen/dp_6"/>
             </RelativeLayout>
             <RelativeLayout
+                android:id="@+id/at_confirm_order_rl_hongbao"
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40">
