@@ -17,6 +17,11 @@ import com.zthx.npj.net.been.PreSellBean;
 import com.zthx.npj.net.been.RecommendBean;
 import com.zthx.npj.net.been.SearchBean;
 import com.zthx.npj.net.been.StoreDetailBean;
+import com.zthx.npj.net.been.UpLoadFileBean;
+import com.zthx.npj.net.been.UpLoadMyCertBean;
+import com.zthx.npj.net.been.UploadCaigouBean;
+import com.zthx.npj.net.been.UploadChengXinCertBean;
+import com.zthx.npj.net.been.UploadCompanyBean;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
@@ -94,4 +99,32 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/giftorder.htm")
     Observable<ResponseBody> getGiftConfirmForBody(@Body GiftDetailBean bean);
+
+    @POST("index.php/api/usercert/cert.html")
+    Observable<ResponseBody> getMyCertForBody(@Body GiftListBean bean);
+
+    @POST("index.php/api/set/uploadimg.html")
+    Observable<ResponseBody> upLoadFileForBody(@Body UpLoadFileBean bean);
+
+    @POST("index.php/api/usercert/realname2.html")
+    Observable<ResponseBody> upLoadMyCertForBody(@Body UpLoadMyCertBean bean);
+
+    @POST("index.php/api/usercert/company2.html")
+    Observable<ResponseBody> isPersonCertDoneForBody(@Body GiftListBean bean);
+
+    @POST("index.php/api/usercert/company3.html")
+    Observable<ResponseBody> uploadCompanyForBody(@Body UploadCompanyBean bean);
+
+    @POST("index.php/api/usercert/stock2.html")
+    Observable<ResponseBody> uploadCaigouForBody(@Body UploadCaigouBean bean);
+
+    @POST("index.php/api/usercert/integrity.html")
+    Observable<ResponseBody> isChengxinCerAlreadyForBody(@Body GiftListBean bean);
+
+    @POST("index.php/api/usercert/integrity2.html")
+    Observable<ResponseBody> isChengxinCerAlready2ForBody(@Body GiftListBean bean);
+
+    @POST("index.php/api/usercert/integrity3.html")
+    Observable<ResponseBody> uploadChengxinCertForBody(@Body UploadChengXinCertBean bean);
 }
+

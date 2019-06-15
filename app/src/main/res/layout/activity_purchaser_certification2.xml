@@ -60,6 +60,7 @@
                    android:background="@color/background"/>
 
                <EditText
+                   android:id="@+id/at_purchaser_certification2_et_name"
                    android:layout_width="0dp"
                    android:layout_weight="3.5"
                    android:layout_height="match_parent"
@@ -94,6 +95,7 @@
                    android:layout_height="match_parent"
                    android:layout_weight="3.5">
                    <EditText
+                       android:id="@+id/at_purchaser_certification2_et_mobile"
                        android:layout_width="match_parent"
                        android:layout_height="match_parent"
                        android:background="@android:color/white"
@@ -139,7 +141,7 @@
                <TextView
                    android:layout_width="0dp"
                    android:layout_weight="3.5"
-
+                   android:id="@+id/at_purchaser_certification2_et_id"
                    android:layout_height="match_parent"
                    android:background="@android:color/white"
                    android:text="请选择采购商身份"
@@ -176,6 +178,7 @@
            <LinearLayout
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
+             android:id="@+id/at_purchaser_certification2_ll_name"
              android:orientation="vertical">
              <View
                  android:layout_width="match_parent"
@@ -198,6 +201,7 @@
                      android:background="@color/background"/>
 
                  <EditText
+                     android:id="@+id/at_purchaser_certification2_et_company_name"
                      android:layout_width="0dp"
                      android:layout_weight="3.5"
                      android:layout_height="match_parent"
@@ -232,6 +236,7 @@
                      android:layout_height="match_parent"
                      android:layout_weight="3.5">
                      <EditText
+                         android:id="@+id/at_purchaser_certification2_et_address"
                          android:layout_width="match_parent"
                          android:layout_height="match_parent"
                          android:background="@android:color/white"
@@ -254,7 +259,8 @@
            </LinearLayout>
 
            <LinearLayout
-               android:visibility="gone"
+               android:id="@+id/at_purchaser_certification2_ll_dangkou"
+               android:visibility="visible"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:orientation="vertical">
@@ -279,6 +285,7 @@
                        android:background="@color/background"/>
 
                    <EditText
+                       android:id="@+id/at_purchaser_certification2_et_dangkou_name"
                        android:layout_width="0dp"
                        android:layout_weight="3.5"
                        android:layout_height="match_parent"
@@ -317,6 +324,7 @@
                            android:layout_height="match_parent"
                            android:background="@android:color/white"
                            android:hint="请选择市场所在地"
+                           android:id="@+id/at_purchaser_certification2_et_shichang_name"
                            android:textColorHint="@color/text6"
                            android:textSize="@dimen/sp_12"
                            android:textColor="@color/text6"
@@ -352,6 +360,7 @@
                        android:background="@color/background"/>
 
                    <EditText
+                       android:id="@+id/at_purchaser_certification2_et_dangkou_address"
                        android:layout_width="0dp"
                        android:layout_weight="3.5"
                        android:layout_height="match_parent"
@@ -392,6 +401,7 @@
                android:background="#cccccc"
                android:layout_marginTop="@dimen/dp_10"></View>
            <TextView
+               android:id="@+id/at_purchaser_certification2_tv_tuijian"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:text="推荐使用营业执照进行认证"
@@ -401,11 +411,14 @@
                android:textColor="@color/text3"/>
 
            <LinearLayout
+               android:visibility="visible"
+               android:id="@+id/at_purchaser_certification2_ll_dangkou_pic"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:orientation="horizontal"
                android:layout_marginLeft="@dimen/dp_12">
                <RelativeLayout
+                   android:id="@+id/at_purchaser_certification2_rl_pic"
                    android:layout_width="@dimen/dp_140"
                    android:layout_height="@dimen/dp_160"
                    android:layout_marginTop="@dimen/dp_12"
@@ -425,6 +438,7 @@
                        android:alpha="0.4"
                        android:gravity="center">
                        <TextView
+                           android:id="@+id/at_purchaser_certification2_tv_dianjishangchuan"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:text="点击上传营业执照"
@@ -442,6 +456,26 @@
                    android:layout_marginLeft="@dimen/dp_16"
                    android:layout_marginTop="@dimen/dp_5"/>
            </LinearLayout>
+
+           <RelativeLayout
+               android:visibility="gone"
+               android:id="@+id/at_purchaser_certification2_rl_fei_dangkou_pic"
+               android:layout_width="@dimen/dp_250"
+               android:layout_height="@dimen/dp_160"
+               android:layout_gravity="center"
+               android:layout_marginTop="@dimen/dp_13"
+               android:background="@drawable/pic_heng_bg">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="上传营业执照"
+                   android:textSize="@dimen/sp_14"
+                   android:textColor="@color/text3"
+                   android:layout_alignParentBottom="true"
+                   android:layout_centerHorizontal="true"
+                   android:layout_marginBottom="@dimen/dp_33"/>
+           </RelativeLayout>
            <View
                android:layout_width="match_parent"
                android:layout_height="@dimen/dp_1"
@@ -456,6 +490,7 @@
                android:textSize="@dimen/sp_15"
                android:textColor="@color/text3"/>
            <TextView
+               android:id="@+id/at_purchaser_certification2_tv_dangkou_pic"
                android:layout_width="match_parent"
                android:layout_height="@dimen/dp_40"
                android:layout_marginTop="@dimen/dp_10"
@@ -467,6 +502,7 @@
                android:paddingLeft="@dimen/dp_12"/>
 
            <TextView
+               android:id="@+id/at_purchaser_certification2_tv_dangkou_id_card"
                android:layout_width="match_parent"
                android:layout_height="@dimen/dp_40"
                android:layout_marginTop="@dimen/dp_10"
@@ -478,6 +514,7 @@
                android:paddingLeft="@dimen/dp_12"/>
 
            <Button
+               android:id="@+id/at_purchaser_certification2_btn_confirm"
                android:layout_width="match_parent"
                android:layout_height="@dimen/dp_40"
                android:background="@color/app_theme"

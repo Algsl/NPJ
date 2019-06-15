@@ -85,7 +85,7 @@ public class SharePerferenceUtils {
     }
 
     public static String getUserId(Context context) {
-        return getString(context, "user_id", "");
+        return getString(context, "user_id", "23");
     }
 
 

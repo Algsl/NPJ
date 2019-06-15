@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
 import com.zthx.npj.R;
+import com.zthx.npj.net.netsubscribe.CertSubscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

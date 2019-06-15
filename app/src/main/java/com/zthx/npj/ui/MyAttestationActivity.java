@@ -7,6 +7,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.zthx.npj.R;
+import com.zthx.npj.base.BaseConstant;
+import com.zthx.npj.net.been.MyCertResponseBean;
+import com.zthx.npj.net.netsubscribe.CertSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +35,35 @@ public class MyAttestationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_attestation);
         ButterKnife.bind(this);
+
+        getCertData();
+    }
+
+    private void getCertData() {
+        CertSubscribe.getMyCert(SharePerferenceUtils.getUserId(this), BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+
+                MyCertResponseBean myCertResponseBean = GsonUtils.fromJson(result, MyCertResponseBean.class);
+                if (myCertResponseBean.getName_cert() == 1) {
+                    atMyAttestationLlPeople.setBackgroundResource(R.drawable.shirenrenzheng_c_bg);
+                }
+                if (myCertResponseBean.getCompany_cert() == 1) {
+                    atMyAttestationLlCompany.setBackgroundResource(R.drawable.qiyerenzheng_c_bg);
+                }
+                if (myCertResponseBean.getIntegrity_cert() == 1) {
+                    atMyAttestationLlTrust.setBackgroundResource(R.drawable.chengxinrenzheng_c_bg);
+                }
+                if (myCertResponseBean.getStock_cert() == 1) {
+                    atMyAttestationLlBuy.setBackgroundResource(R.drawable.caigourenzheng_c_bg);
+                }
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 
     @OnClick({R.id.at_my_attestation_ll_people, R.id.at_my_attestation_ll_company, R.id.at_my_attestation_ll_buy, R.id.at_my_attestation_ll_trust})

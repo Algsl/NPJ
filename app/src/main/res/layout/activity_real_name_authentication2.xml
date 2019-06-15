@@ -58,6 +58,7 @@
                    android:background="@color/background"/>
 
                <EditText
+                   android:id="@+id/at_real_name_authentication2_et_name"
                    android:layout_width="0dp"
                    android:layout_weight="3.5"
                    android:layout_height="match_parent"
@@ -92,6 +93,7 @@
                    android:layout_height="match_parent"
                    android:layout_weight="3.5">
                    <EditText
+                       android:id="@+id/at_real_name_authentication2_et_id"
                        android:layout_width="match_parent"
                        android:layout_height="match_parent"
                        android:background="@android:color/white"
@@ -155,6 +157,7 @@
                android:orientation="horizontal"
                android:paddingTop="@dimen/dp_20">
                <LinearLayout
+                   android:id="@+id/at_real_name_authentication2_ll_id_zheng"
                    android:layout_width="@dimen/dp_105"
                    android:layout_height="@dimen/dp_105"
                    android:layout_weight="1"
@@ -170,6 +173,7 @@
                        android:layout_marginTop="@dimen/dp_65"/>
                </LinearLayout>
                <LinearLayout
+                   android:id="@+id/at_real_name_authentication2_ll_id_fan"
                    android:layout_width="@dimen/dp_105"
                    android:layout_height="@dimen/dp_105"
                    android:layout_weight="1"
@@ -188,6 +192,7 @@
                    android:layout_width="@dimen/dp_105"
                    android:layout_height="@dimen/dp_105"
                    android:layout_weight="1"
+                   android:id="@+id/at_real_name_authentication2_ll_id_quan"
                    android:background="@drawable/pic_mid_bg"
                    android:layout_marginLeft="@dimen/dp_18"
                    android:layout_marginRight="@dimen/dp_12"
