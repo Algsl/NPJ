@@ -65,24 +65,24 @@ public class DiscoverSupplyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_discover_supply, container, false);
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        fgDiscoverSupplyRv.setLayoutManager(manager);
-        List<CommentGoodsBeen> list = new ArrayList<>();
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        DiscoverSupplyAdapter mAdapter = new DiscoverSupplyAdapter(getActivity(), list);
-        mAdapter.setOnItemClickListener(new DiscoverSupplyAdapter.ItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                startActivity(new Intent(getActivity(), SupplyProductsActivity.class));
-            }
-        });
-        fgDiscoverSupplyRv.setAdapter(mAdapter);
         unbinder = ButterKnife.bind(this, view);
+//        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+//        fgDiscoverSupplyRv.setLayoutManager(manager);
+//        List<CommentGoodsBeen> list = new ArrayList<>();
+//        list.add(new CommentGoodsBeen());
+//        list.add(new CommentGoodsBeen());
+//        list.add(new CommentGoodsBeen());
+//        list.add(new CommentGoodsBeen());
+//        list.add(new CommentGoodsBeen());
+//        list.add(new CommentGoodsBeen());
+//        DiscoverSupplyAdapter mAdapter = new DiscoverSupplyAdapter(getActivity(), list);
+//        mAdapter.setOnItemClickListener(new DiscoverSupplyAdapter.ItemClickListener() {
+//            @Override
+//            public void onItemClick(int position) {
+//                startActivity(new Intent(getActivity(), SupplyProductsActivity.class));
+//            }
+//        });
+//        fgDiscoverSupplyRv.setAdapter(mAdapter);
         return view;
     }
 

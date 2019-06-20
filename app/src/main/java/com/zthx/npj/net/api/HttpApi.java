@@ -1,6 +1,8 @@
 package com.zthx.npj.net.api;
 
+import com.zthx.npj.net.been.AkVideoBean;
 import com.zthx.npj.net.been.BannerBean;
+import com.zthx.npj.net.been.BuyVideoBean;
 import com.zthx.npj.net.been.CommentBean;
 import com.zthx.npj.net.been.ConfirmPreSellBean;
 import com.zthx.npj.net.been.GiftDetailBean;
@@ -21,7 +23,9 @@ import com.zthx.npj.net.been.UpLoadFileBean;
 import com.zthx.npj.net.been.UpLoadMyCertBean;
 import com.zthx.npj.net.been.UploadCaigouBean;
 import com.zthx.npj.net.been.UploadChengXinCertBean;
+import com.zthx.npj.net.been.UploadCommentBean;
 import com.zthx.npj.net.been.UploadCompanyBean;
+import com.zthx.npj.net.been.VideoInfoBean;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
@@ -126,5 +130,26 @@ public interface HttpApi  {
 
     @POST("index.php/api/usercert/integrity3.html")
     Observable<ResponseBody> uploadChengxinCertForBody(@Body UploadChengXinCertBean bean);
+
+    @POST("index.php/api/index/solution.html")
+    Observable<ResponseBody> getSolutionListForBody(@Body NullBean bean);
+
+    @POST("index.php/api/index/videolist.html")
+    Observable<ResponseBody> getSolutionVideoListForBody(@Body GoodsDetailBean bean);
+
+    @POST("index.php/api/index/knowledgelist.html")
+    Observable<ResponseBody> getKnowledgeListForBody(@Body GoodsDetailBean bean);
+
+    @POST("index.php/api/index/knowledgevideo.html")
+    Observable<ResponseBody> getKnowledgeVideoListForBody(@Body AkVideoBean bean);
+
+    @POST("index.php/api/index/video.html")
+    Observable<ResponseBody> getVideoInfoForBody(@Body VideoInfoBean bean);
+
+    @POST("index.php/api/user/coursepj.html")
+    Observable<ResponseBody> uploadVideoCommentForBody(@Body UploadCommentBean bean);
+
+    @POST("index.php/api/user/buyvideo.html")
+    Observable<ResponseBody> buyVideoForBody(@Body BuyVideoBean bean);
 }
 

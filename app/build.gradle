@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.zthx.npj"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -73,4 +73,13 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.x.y'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'//转换器，请求结果转换成Model
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'//配合Rxjava 使用
+
+    //bilibili视频框架
+    implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'
+//    implementation 'tv.danmaku.ijk.media:ijkplayer-armv5:0.6.1'
+//    implementation 'tv.danmaku.ijk.media:ijkplayer-arm64:0.6.1'
+//    implementation 'tv.danmaku.ijk.media:ijkplayer-x86:0.6.1'
+//    implementation 'tv.danmaku.ijk.media:ijkplayer-x86_64:0.6.1'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.8'
 }

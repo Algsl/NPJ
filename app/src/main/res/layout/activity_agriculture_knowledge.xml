@@ -54,17 +54,20 @@
         android:orientation="horizontal"
         android:background="@color/background">
         <LinearLayout
+            android:id="@+id/at_ak_ll_1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="center">
             <ImageView
+                android:id="@+id/at_ak_iv_1"
                 android:layout_width="@dimen/dp_55"
                 android:layout_height="@dimen/dp_55"
                 android:src="@drawable/agriculture_profiser_theme"/>
 
             <TextView
+                android:id="@+id/at_ak_tv_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="农业专家"
@@ -72,17 +75,20 @@
                 android:textColor="@color/app_theme"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/at_ak_ll_2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="center">
             <ImageView
+                android:id="@+id/at_ak_iv_2"
                 android:layout_width="@dimen/dp_55"
                 android:layout_height="@dimen/dp_55"
                 android:src="@drawable/yinanzazeng_gray"/>
 
             <TextView
+                android:id="@+id/at_ak_tv_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="疑难杂症"
@@ -90,17 +96,20 @@
                 android:textColor="@color/text3"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/at_ak_ll_3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="center">
             <ImageView
+                android:id="@+id/at_ak_iv_3"
                 android:layout_width="@dimen/dp_55"
                 android:layout_height="@dimen/dp_55"
                 android:src="@drawable/new_teachkonowledge_gray"/>
 
             <TextView
+                android:id="@+id/at_ak_tv_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="新技术"
@@ -108,17 +117,20 @@
                 android:textColor="@color/text3"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/at_ak_ll_4"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="center">
             <ImageView
+                android:id="@+id/at_ak_iv_4"
                 android:layout_width="@dimen/dp_55"
                 android:layout_height="@dimen/dp_55"
                 android:src="@drawable/everthing_knowledge"/>
 
             <TextView
+                android:id="@+id/at_ak_tv_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="农业专家"

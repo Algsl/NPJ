@@ -20,9 +20,15 @@ import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AgricultureKnowledgeAdatper;
+import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AgricultureKnowledgerBeen;
+import com.zthx.npj.net.been.DiscoverSolutionListResponseBean;
+import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.AgricultureKnowledgeActivity;
 import com.zthx.npj.ui.SystemSolutionActivity;
+import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
@@ -93,30 +99,44 @@ public class DiscverServiceFragment extends Fragment {
         list.add(R.mipmap.ic_action029);
         initBanner(list);
 
-        List<AgricultureKnowledgerBeen> list2 = new ArrayList<>();
-        AgricultureKnowledgerBeen been = new AgricultureKnowledgerBeen();
-        been.setName("橘子");
-        been.setPic("123");
-        for (int i = 0; i < 30; i++) {
-            list2.add(been);
-        }
-        //设置RecyclerView管理器
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 4, LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        //初始化适配器
-        AgricultureKnowledgeAdatper mAdapter = new AgricultureKnowledgeAdatper(list2, getActivity());
-        mAdapter.setOnItemClickListener(new AgricultureKnowledgeAdatper.ItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                startActivity(new Intent(getActivity(), SystemSolutionActivity.class));
-            }
-        });
-        //设置添加或删除item时的动画，这里使用默认动画
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        //设置适配器
-        mRecyclerView.setAdapter(mAdapter);
+
+        getDataList();
 
         return View;
+    }
+
+    private void getDataList() {
+
+        DiscoverSubscribe.getSolutionList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+
+                DiscoverSolutionListResponseBean discoverSolutionListResponseBean = GsonUtils.fromJson(result, DiscoverSolutionListResponseBean.class);
+                final ArrayList<DiscoverSolutionListResponseBean.DataBean> data = discoverSolutionListResponseBean.getData();
+                //设置RecyclerView管理器
+                GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 4, LinearLayoutManager.VERTICAL, false);
+                mRecyclerView.setLayoutManager(layoutManager);
+                //初始化适配器
+                AgricultureKnowledgeAdatper mAdapter = new AgricultureKnowledgeAdatper(data, getActivity());
+                mAdapter.setOnItemClickListener(new AgricultureKnowledgeAdatper.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Intent intent = new Intent(getActivity(), SystemSolutionActivity.class);
+                        intent.putExtra(Const.VIDEO_ID, data.get(position).getId() + "");
+                        startActivity(intent);
+                    }
+                });
+                //设置添加或删除item时的动画，这里使用默认动画
+                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                //设置适配器
+                mRecyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 
 

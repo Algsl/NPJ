@@ -11,13 +11,15 @@ import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.SolutionVideoResponseBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SelectVideoAdapter extends RecyclerView.Adapter<SelectVideoAdapter.ViewHolder>{
 
     private Context mContext;
-    private List<CommentGoodsBeen> mList;
+    private ArrayList<SolutionVideoResponseBean.DataBean> mList;
     private ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
         void onItemClick(int position) ;
@@ -26,7 +28,7 @@ public class SelectVideoAdapter extends RecyclerView.Adapter<SelectVideoAdapter.
         this.mItemClickListener = itemClickListener ;
 
     }
-    public SelectVideoAdapter(Context context,List<CommentGoodsBeen> list) {
+    public SelectVideoAdapter(Context context,ArrayList<SolutionVideoResponseBean.DataBean> list) {
         mContext = context;
         mList = list;
     }
@@ -50,14 +52,8 @@ public class SelectVideoAdapter extends RecyclerView.Adapter<SelectVideoAdapter.
                 }
             });
         }
-        if (mList!= null && mList.size() > 0) {
-//            viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
-//            viewHolder.mTvPrice.setText(list.get(i).getGoodsPrice());
-//            viewHolder.mTvSellNum.setText(list.get(i).getGoodsSellNum());
-//            viewHolder.mTvTitle.setText(list.get(i).getGoodsTitle());
-        } else {
-
-        }
+        viewHolder.mTvTitle.setText(mList.get(i).getTitle());
+        viewHolder.mTvTime.setText(mList.get(i).getDuration());
     }
 
     @Override
@@ -66,17 +62,13 @@ public class SelectVideoAdapter extends RecyclerView.Adapter<SelectVideoAdapter.
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mIvGoods;
         TextView mTvTitle;
-        TextView mTvPrice;
-        TextView mTvSellNum;
+        TextView mTvTime;
 
         ViewHolder(View itemView) {
             super(itemView);
-            mIvGoods = itemView.findViewById(R.id.item_iv_comment_goods);
-            mTvTitle = itemView.findViewById(R.id.item_tv_comment_goods_title);
-            mTvPrice = itemView.findViewById(R.id.item_tv_comment_goods_price);
-            mTvSellNum = itemView.findViewById(R.id.item_tv_comment_goods_sell_num);
+            mTvTitle = itemView.findViewById(R.id.item_select_video_tv_title);
+            mTvTime = itemView.findViewById(R.id.item_select_video_tv_time);
         }
     }
 }

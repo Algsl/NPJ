@@ -11,34 +11,32 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
-import com.zthx.npj.net.been.AgricultureKnowledgerBeen;
-import com.zthx.npj.net.been.DiscoverSolutionListResponseBean;
+import com.zthx.npj.net.been.AkListResponseBean;
+import com.zthx.npj.net.been.AkVideoResponseBean;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class AgricultureKnowledgeAdatper extends RecyclerView.Adapter<AgricultureKnowledgeAdatper.ViewHolder> {
+public class AKVideoAdapter extends RecyclerView.Adapter<AKVideoAdapter.ViewHolder> {
 
-    private ArrayList<DiscoverSolutionListResponseBean.DataBean> mList;
     private Context mContext;
-
-    private AgricultureKnowledgeAdatper.ItemClickListener mItemClickListener ;
+    private ArrayList<AkVideoResponseBean.DataBean> mList;
+    private ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
         void onItemClick(int position) ;
     }
-    public void setOnItemClickListener(AgricultureKnowledgeAdatper.ItemClickListener itemClickListener){
+    public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
 
     }
-    public AgricultureKnowledgeAdatper(ArrayList<DiscoverSolutionListResponseBean.DataBean> list, Context context) {
+    public AKVideoAdapter(Context context,ArrayList<AkVideoResponseBean.DataBean> list) {
         mContext = context;
         mList = list;
     }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_dicover_service_knowledge, viewGroup, false);
-        return new AgricultureKnowledgeAdatper.ViewHolder(view);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_select_video, viewGroup, false);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -54,8 +52,8 @@ public class AgricultureKnowledgeAdatper extends RecyclerView.Adapter<Agricultur
                 }
             });
         }
-        Glide.with(mContext).load(mList.get(i).getImg()).into(viewHolder.mIvPic);
-        viewHolder.mTvName.setText(mList.get(i).getTitle());
+        viewHolder.mTvTitle.setText(mList.get(i).getTitle());
+        viewHolder.mTvTime.setText(mList.get(i).getDuration());
     }
 
     @Override
@@ -64,13 +62,13 @@ public class AgricultureKnowledgeAdatper extends RecyclerView.Adapter<Agricultur
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mIvPic;
-        TextView mTvName;
+        TextView mTvTitle;
+        TextView mTvTime;
 
         ViewHolder(View itemView) {
             super(itemView);
-            mIvPic = itemView.findViewById(R.id.item_iv_agriculture_knowledge);
-            mTvName = itemView.findViewById(R.id.item_tv_agriculture_knowledge_name);
+            mTvTitle = itemView.findViewById(R.id.item_select_video_tv_title);
+            mTvTime = itemView.findViewById(R.id.item_select_video_tv_time);
         }
     }
 }

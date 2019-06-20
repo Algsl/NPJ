@@ -9,14 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
+import com.zthx.npj.net.been.AkListResponseBean;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AKAdapter extends RecyclerView.Adapter<AKAdapter.ViewHolder> {
 
-    private List<CommentGoodsBeen> mList;
+    private ArrayList<AkListResponseBean.DataBean> mList;
     private Context mContext;
 
     private ItemClickListener mItemClickListener ;
@@ -26,9 +29,15 @@ public class AKAdapter extends RecyclerView.Adapter<AKAdapter.ViewHolder> {
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
     }
-    public AKAdapter(Context context, List<CommentGoodsBeen> list) {
+    public AKAdapter(Context context, ArrayList<AkListResponseBean.DataBean> list) {
         mList = list;
         mContext = context;
+    }
+
+    public void setNewData(ArrayList<AkListResponseBean.DataBean> list) {
+        mList.clear();
+        mList.addAll(list);
+        notifyDataSetChanged();
     }
     @NonNull
     @Override
@@ -50,14 +59,11 @@ public class AKAdapter extends RecyclerView.Adapter<AKAdapter.ViewHolder> {
                 }
             });
         }
-        if (mList!= null && mList.size() > 0) {
-            viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
-            viewHolder.mTvPrice.setText(mList.get(i).getGoodsPrice());
-            viewHolder.mTvSellNum.setText(mList.get(i).getGoodsSellNum());
-            viewHolder.mTvTitle.setText(mList.get(i).getGoodsTitle());
-        } else {
-
-        }
+        Glide.with(mContext).load(mList.get(i).getImg()).into(viewHolder.mIvGoods);
+        viewHolder.mTvUpdateTime.setText(mList.get(i).getUpdate_time());
+        viewHolder.mTvSellNum.setText("购买次数 "+mList.get(i).getSale_num());
+        viewHolder.mTvTitle.setText(mList.get(i).getTitle());
+        viewHolder.mTvLookNum.setText("以观看 "+mList.get(i).getLook_num());
     }
 
     @Override
@@ -68,15 +74,17 @@ public class AKAdapter extends RecyclerView.Adapter<AKAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mIvGoods;
         TextView mTvTitle;
-        TextView mTvPrice;
+        TextView mTvUpdateTime;
         TextView mTvSellNum;
+        TextView mTvLookNum;
 
         ViewHolder(View itemView) {
             super(itemView);
-            mIvGoods = itemView.findViewById(R.id.item_iv_comment_goods);
-            mTvTitle = itemView.findViewById(R.id.item_tv_comment_goods_title);
-            mTvPrice = itemView.findViewById(R.id.item_tv_comment_goods_price);
-            mTvSellNum = itemView.findViewById(R.id.item_tv_comment_goods_sell_num);
+            mIvGoods = itemView.findViewById(R.id.item_ak_iv_img);
+            mTvTitle = itemView.findViewById(R.id.item_ak_tv_title);
+            mTvUpdateTime = itemView.findViewById(R.id.item_ak_tv_update_time);
+            mTvSellNum = itemView.findViewById(R.id.item_ak_tv_sale_num);
+            mTvLookNum = itemView.findViewById(R.id.item_ak_tv_look_num);
         }
     }
 }
