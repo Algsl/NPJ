@@ -12,6 +12,7 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.zthx.npj.R;
 import com.zthx.npj.base.BaseApp;
+import com.zthx.npj.base.BaseConstant;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.NetUtil;
@@ -50,6 +51,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        BaseConstant.TOKEN = SharePerferenceUtils.getToken(this);
         if (NetUtil.isNetworkConnected(this)) {
             getMainBannerAndList();
             BaseApp.getApp().locationService.registerListener(mListener);

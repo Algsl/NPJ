@@ -2,10 +2,14 @@ package com.zthx.npj.net.netsubscribe;
 
 import com.zthx.npj.net.been.AkVideoBean;
 import com.zthx.npj.net.been.BuyVideoBean;
+import com.zthx.npj.net.been.ConfirmSupplyBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
 import com.zthx.npj.net.been.NullBean;
+import com.zthx.npj.net.been.SupplyListBean;
 import com.zthx.npj.net.been.UploadCommentBean;
 import com.zthx.npj.net.been.UploadCompanyBean;
+import com.zthx.npj.net.been.UploadPurchaseBean;
+import com.zthx.npj.net.been.UploadSupplyBean;
 import com.zthx.npj.net.been.VideoInfoBean;
 import com.zthx.npj.net.netutils.RetrofitFactory;
 
@@ -116,4 +120,86 @@ public class DiscoverSubscribe {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().buyVideoForBody(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
+
+    /**
+     * 供应信息发布上传
+     * @param bean
+     * @param subscriber
+     */
+    public static void uploadSupply(UploadSupplyBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().uploadSupplyForBody(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 采购信息发布上传
+     * @param bean
+     * @param subscriber
+     */
+    public static void uploadPurchase(UploadPurchaseBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().uploadPurchaseForBody(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 供应列表
+     * @param bean
+     * @param subscriber
+     */
+    public static void supplyList(SupplyListBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().supplyListForBody(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 需求列表
+     * @param bean
+     * @param subscriber
+     */
+    public static void needList(SupplyListBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().needListForBody(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+
+    /**
+     * 供应详情
+     * @param id
+     * @param subscriber
+     */
+    public static void supplyDetail(String id, DisposableObserver<ResponseBody> subscriber) {
+        GoodsDetailBean bean = new GoodsDetailBean();
+        bean.setId(id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().supplyDetalForBody(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 求购详情
+     * @param id
+     * @param subscriber
+     */
+    public static void needDetail(String id, DisposableObserver<ResponseBody> subscriber) {
+        GoodsDetailBean bean = new GoodsDetailBean();
+        bean.setId(id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().needDetalForBody(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 供应订单确认
+     * @param user_id
+     * @param supply_id
+     * @param token
+     * @param subscriber
+     */
+    public static void confirmSupply(String user_id, String supply_id,String token, DisposableObserver<ResponseBody> subscriber) {
+        ConfirmSupplyBean bean = new ConfirmSupplyBean();
+        bean.setSupply_id(supply_id);
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().confirmSupplyForBody(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
 }

@@ -57,7 +57,7 @@ public class SpokesmanFragment extends Fragment {
 
     private void getData() {
 
-        GiftSubscribe.getSpokesmanQuan(SharePerferenceUtils.getUserId(getActivity()), BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        GiftSubscribe.getSpokesmanQuan(SharePerferenceUtils.getUserId(getActivity()), SharePerferenceUtils.getToken(getActivity()), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);

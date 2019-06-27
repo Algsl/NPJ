@@ -64,6 +64,7 @@
                 android:layout_marginLeft="@dimen/dp_12"/>
 
             <TextView
+                android:id="@+id/at_supply_bill_tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="小时光"
@@ -97,6 +98,7 @@
                 android:src="@mipmap/ic_launcher"/>
 
             <TextView
+                android:id="@+id/at_supply_bill_tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="大溪地绿色无污染樱桃"
@@ -107,13 +109,25 @@
                 android:layout_marginLeft="@dimen/dp_10"/>
 
             <TextView
+                android:id="@+id/at_supply_bill_tv_danjia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="￥6.00/斤"
+                android:text="￥6.00 /"
                 android:textSize="@dimen/sp_13"
                 android:textColor="@color/app_theme"
                 android:layout_toRightOf="@id/at_supply_bill_iv_goods_pic"
                 android:layout_marginLeft="@dimen/dp_10"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/dp_20"/>
+
+            <TextView
+                android:id="@+id/at_supply_bill_tv_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="斤"
+                android:textSize="@dimen/sp_13"
+                android:textColor="@color/app_theme"
+                android:layout_toRightOf="@id/at_supply_bill_tv_danjia"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/dp_20"/>
 
@@ -136,6 +150,7 @@
                 android:layout_marginLeft="@dimen/dp_12"/>
 
             <TextView
+                android:id="@+id/at_supply_bill_tv_buy_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1000斤起批"
@@ -214,6 +229,7 @@
                 android:textColor="@color/text3"
                 android:textSize="@dimen/sp_14"/>
             <TextView
+                android:id="@+id/at_supply_bill_tv_zongjia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="￥60000.00"
@@ -221,6 +237,7 @@
                 android:textColor="@color/app_theme"/>
         </LinearLayout>
         <Button
+            android:id="@+id/at_supply_bill_btn_buy"
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -246,6 +263,7 @@
             android:layout_alignParentRight="true"/>
 
         <TextView
+            android:id="@+id/at_supply_bill_tv_gongji_goods"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="共计10000斤商品   小计："

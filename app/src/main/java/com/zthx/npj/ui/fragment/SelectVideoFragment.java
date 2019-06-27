@@ -110,7 +110,7 @@ public class SelectVideoFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof WebFragment.OnFragmentInteractionListener) {
+        if (context instanceof SelectVideoFragment.OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()

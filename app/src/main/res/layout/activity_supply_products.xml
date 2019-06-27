@@ -6,7 +6,7 @@
     tools:context=".ui.SupplyProductsActivity"
     android:background="@color/background">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
@@ -19,10 +19,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_200">
-                <ImageView
+                <com.youth.banner.Banner
+                    android:id="@+id/at_supply_products_banner"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:layout_height="match_parent"/>
                 <ImageView
                     android:layout_width="@dimen/dp_22"
                     android:layout_height="@dimen/dp_22"
@@ -36,6 +36,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/at_need_products_tv_caigou_num"
                     android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -45,16 +46,26 @@
                     android:layout_marginLeft="@dimen/dp_12"
                     android:layout_marginTop="@dimen/dp_10"/>
                 <TextView
+                    android:id="@+id/at_supply_products_tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="￥4.9元/斤"
+                    android:text="￥4.9"
                     android:textColor="@color/app_theme"
                     android:textSize="@dimen/sp_13"
                     android:layout_marginLeft="@dimen/dp_12"
                     android:layout_marginTop="@dimen/dp_10"/>
+                <TextView
+                    android:id="@+id/at_supply_products_tv_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="元/斤"
+                    android:textColor="@color/app_theme"
+                    android:textSize="@dimen/sp_13"
+                    android:layout_marginTop="@dimen/dp_10"/>
             </LinearLayout>
 
             <TextView
+                android:id="@+id/at_supply_products_tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="纯天然无污染大樱桃现摘现卖，欢迎各界采购"
@@ -75,6 +86,7 @@
                     android:layout_marginLeft="@dimen/dp_12"/>
 
                 <TextView
+                    android:id="@+id/at_supply_products_tv_look_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1.34万人看过"
@@ -83,15 +95,16 @@
                     android:layout_marginLeft="@dimen/dp_5"/>
 
                 <TextView
+                    android:id="@+id/at_supply_products_tv_sell_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="已售2022"
                     android:textColor="@color/text9"
                     android:textSize="@dimen/sp_13"
                     android:layout_marginLeft="@dimen/dp_40"/>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/at_supply_products_ll_need_baojia"
                 android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -105,6 +118,7 @@
                     android:textSize="@dimen/sp_13"
                     android:textColor="@color/text6"/>
                 <TextView
+                    android:id="@+id/at_supply_product_tv_baojia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="6人已报价"
@@ -121,6 +135,7 @@
                 android:layout_marginTop="@dimen/dp_10"></View>
             
             <LinearLayout
+                android:id="@+id/at_supply_products_ll_supply_guanggao"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_60"
                 android:orientation="horizontal">
@@ -258,6 +273,7 @@
                 </LinearLayout>
             </LinearLayout>
             <RelativeLayout
+                android:id="@+id/at_supply_products_rl_need_guanggao"
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_60"
@@ -352,6 +368,7 @@
                     android:layout_marginLeft="@dimen/dp_10"/>
 
                 <TextView
+                    android:id="@+id/at_supply_products_tv_level"
                     android:layout_width="@dimen/dp_80"
                     android:layout_height="@dimen/dp_23"
                     android:background="@drawable/bg_daiyanren"
@@ -387,6 +404,7 @@
                     android:layout_marginTop="@dimen/dp_45"/>
 
                 <TextView
+                    android:id="@+id/at_supply_products_tv_xinyufen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="信誉分：1022"
@@ -450,6 +468,7 @@
                     android:layout_alignParentBottom="true"></View>
             </RelativeLayout>
             <LinearLayout
+                android:id="@+id/at_supply_product_ll_supply_detail"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_38"
                 android:orientation="horizontal"
@@ -471,6 +490,7 @@
                     android:gravity="center"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/at_supply_product_ll_need_detail"
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_38"
@@ -493,15 +513,16 @@
                 android:textSize="@dimen/sp_11"
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginTop="@dimen/dp_10"/>
-            <ImageView
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/at_supply_products_rv_pic"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:layout_marginRight="@dimen/dp_12"
-                android:src="@mipmap/ic_launcher"/>
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
-    </ScrollView>
+
+
+    </android.support.v4.widget.NestedScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -515,6 +536,7 @@
             android:layout_weight="1"
             android:orientation="horizontal">
             <LinearLayout
+                android:id="@+id/at_supply_products_ll_call"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -532,6 +554,7 @@
                     android:textSize="@dimen/sp_12"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/at_supply_products_ll_chat"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

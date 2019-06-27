@@ -150,7 +150,7 @@ public class TrustedStore2Activity extends AppCompatActivity {
     private void uploadData(int i) {
         UploadChengXinCertBean bean = new UploadChengXinCertBean();
         bean.setUser_id(SharePerferenceUtils.getUserId(TrustedStore2Activity.this));
-        bean.setToken(BaseConstant.TOKEN);
+        bean.setToken(SharePerferenceUtils.getToken(TrustedStore2Activity.this));
         bean.setPrice(check+ "000");
         bean.setPay_code(i + "");
         CertSubscribe.uploadChengxinCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {

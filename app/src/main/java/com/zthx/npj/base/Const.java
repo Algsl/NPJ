@@ -16,6 +16,13 @@ public class Const {
     public static final String PERSON_CERT_NAME = "person_cert_name";
     public static final String PERSON_CERT_PHONE = "person_cert_phone";
     public static final String VIDEO_ID = "video_id";
+    public static final String VIDEO_BUY_INFO = "video_buy_info";
+
+    public static final String SUPPLY_DETAIL = "supply_detail";
+    public static final String NEED_DETAIL = "need_detail";
+
+    public static final String SUPPLY_TYPE = "supply_type";
+    public static final String SUPPLY_ID = "supply_id";
 
     public static final int SECKILL_DONE = 0;//秒杀结束
     public static final int SECKILL_DOING = 1;//秒杀进行中

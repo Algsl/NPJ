@@ -188,16 +188,18 @@ public class DiscverServiceFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick(R.id.fg_discover_ll_agriculture_knowledge)
+    @OnClick()
     public void onViewClicked() {
 
     }
 
-    @OnClick({R.id.fg_discover_ll_information, R.id.fg_discover_ll_auction, R.id.fg_discover_ll_goods_for_goods, R.id.fg_discover_ll_loan})
+    @OnClick({R.id.fg_discover_ll_agriculture_knowledge, R.id.fg_discover_ll_information, R.id.fg_discover_ll_auction, R.id.fg_discover_ll_goods_for_goods, R.id.fg_discover_ll_loan})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.fg_discover_ll_information:
+            case R.id.fg_discover_ll_agriculture_knowledge:
                 startActivity(new Intent(getActivity(), AgricultureKnowledgeActivity.class));
+                break;
+            case R.id.fg_discover_ll_information:
                 break;
             case R.id.fg_discover_ll_auction:
                 break;

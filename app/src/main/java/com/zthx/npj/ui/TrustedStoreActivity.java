@@ -48,7 +48,7 @@ public class TrustedStoreActivity extends AppCompatActivity {
 
     private void getData() {
 
-        CertSubscribe.isChengXinAlreadyCert(SharePerferenceUtils.getUserId(this), BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        CertSubscribe.isChengXinAlreadyCert(SharePerferenceUtils.getUserId(this), SharePerferenceUtils.getToken(this), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
 

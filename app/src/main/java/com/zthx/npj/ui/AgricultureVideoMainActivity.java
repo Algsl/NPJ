@@ -66,7 +66,7 @@ public class AgricultureVideoMainActivity extends AppCompatActivity implements S
         list.add("评论");
         List<Fragment> list2 = new ArrayList<>();
         list2.add(SelectVideoFragment.newInstance(id));
-        list2.add(WebFragment.newInstance(id));
+        list2.add(SelectVideoFragment.newInstance(id));
         list2.add(new VideoCommentFragment());
         DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
         atAvmVp.setAdapter(mAdapter);
@@ -165,6 +165,7 @@ public class AgricultureVideoMainActivity extends AppCompatActivity implements S
             public void onSuccess(String result) {
 
                 Intent intent = new Intent(AgricultureVideoMainActivity.this, VideoBuyConfirmActivity.class);
+                intent.putExtra(Const.VIDEO_BUY_INFO,result);
                 startActivity(intent);
 
             }
@@ -173,6 +174,6 @@ public class AgricultureVideoMainActivity extends AppCompatActivity implements S
             public void onFault(String errorMsg) {
 
             }
-        }));
+        },this));
     }
 }

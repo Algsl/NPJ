@@ -5,6 +5,7 @@ import com.zthx.npj.net.been.BannerBean;
 import com.zthx.npj.net.been.BuyVideoBean;
 import com.zthx.npj.net.been.CommentBean;
 import com.zthx.npj.net.been.ConfirmPreSellBean;
+import com.zthx.npj.net.been.ConfirmSupplyBean;
 import com.zthx.npj.net.been.GiftDetailBean;
 import com.zthx.npj.net.been.GiftListBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
@@ -19,12 +20,16 @@ import com.zthx.npj.net.been.PreSellBean;
 import com.zthx.npj.net.been.RecommendBean;
 import com.zthx.npj.net.been.SearchBean;
 import com.zthx.npj.net.been.StoreDetailBean;
+import com.zthx.npj.net.been.SupplyListBean;
 import com.zthx.npj.net.been.UpLoadFileBean;
 import com.zthx.npj.net.been.UpLoadMyCertBean;
 import com.zthx.npj.net.been.UploadCaigouBean;
 import com.zthx.npj.net.been.UploadChengXinCertBean;
 import com.zthx.npj.net.been.UploadCommentBean;
 import com.zthx.npj.net.been.UploadCompanyBean;
+import com.zthx.npj.net.been.UploadPicsBean;
+import com.zthx.npj.net.been.UploadPurchaseBean;
+import com.zthx.npj.net.been.UploadSupplyBean;
 import com.zthx.npj.net.been.VideoInfoBean;
 
 import io.reactivex.Observable;
@@ -151,5 +156,29 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/buyvideo.html")
     Observable<ResponseBody> buyVideoForBody(@Body BuyVideoBean bean);
+
+    @POST("index.php/api/user/addsupply.html")
+    Observable<ResponseBody> uploadSupplyForBody(@Body UploadSupplyBean bean);
+
+    @POST("index.php/api/set/uploadimagegroup.html")
+    Observable<ResponseBody> uploadPicsForBody(@Body UploadPicsBean bean);
+
+    @POST("index.php/api/user/addpurchase.html")
+    Observable<ResponseBody> uploadPurchaseForBody(@Body UploadPurchaseBean bean);
+
+    @POST("index.php/api/index/supplylist.html")
+    Observable<ResponseBody> supplyListForBody(@Body SupplyListBean bean);
+
+    @POST("index.php/api/index/qglist.html")
+    Observable<ResponseBody> needListForBody(@Body SupplyListBean bean);
+
+    @POST("index.php/api/index/supplydetail.html")
+    Observable<ResponseBody> supplyDetalForBody(@Body GoodsDetailBean bean);
+
+    @POST("index.php/api/index/qgdetail.html")
+    Observable<ResponseBody> needDetalForBody(@Body GoodsDetailBean bean);
+
+    @POST("index.php/api/user/supplybuy.html")
+    Observable<ResponseBody> confirmSupplyForBody(@Body ConfirmSupplyBean bean);
 }
 

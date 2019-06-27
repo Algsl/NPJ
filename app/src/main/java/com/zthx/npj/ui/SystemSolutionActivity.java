@@ -23,7 +23,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SystemSolutionActivity extends AppCompatActivity implements VideoListFragment.OnFragmentInteractionListener {
+public class SystemSolutionActivity extends AppCompatActivity implements VideoListFragment.OnFragmentInteractionListener,WebFragment.OnFragmentInteractionListener {
 
     @BindView(R.id.at_system_solution_tb)
     TabLayout atSystemSolutionTb;
@@ -65,5 +65,10 @@ public class SystemSolutionActivity extends AppCompatActivity implements VideoLi
         atSystemSolutionPlayer.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT);
         atSystemSolutionPlayer.setVideoURI(Uri.parse(dataBean.getVideo()));
         atSystemSolutionPlayer.start();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

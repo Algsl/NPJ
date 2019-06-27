@@ -57,7 +57,7 @@
                     android:layout_marginLeft="@dimen/dp_12"/>
 
                 <TextView
-                    android:id="@+id/at_video_buy_confirm_tv_address"
+                    android:id="@+id/at_video_buy_confirm_tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -318,6 +318,7 @@
             android:textSize="@dimen/sp_14"
             android:layout_marginLeft="@dimen/dp_89"/>
         <TextView
+            android:id="@+id/at_video_buy_confirm_tv_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -328,6 +329,7 @@
             android:text="￥220"/>
 
         <Button
+            android:id="@+id/at_video_buy_confirm_btn_pay"
             android:layout_width="@dimen/dp_120"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"

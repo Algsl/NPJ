@@ -12,15 +12,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
-import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.NeedListResponseBean;
 import com.zthx.npj.net.been.SupplyListResponseBean;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAdapter.ViewHolder>{
+public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapter.ViewHolder>{
 
-    private ArrayList<SupplyListResponseBean.DataBean> list;
+    private ArrayList<NeedListResponseBean.DataBean> list;
     private Context mContext;
 
     private ItemClickListener mItemClickListener ;
@@ -32,12 +31,12 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
 
     }
 
-    public DiscoverSupplyAdapter(Context context, ArrayList<SupplyListResponseBean.DataBean> list) {
+    public DiscoverNeedAdapter(Context context, ArrayList<NeedListResponseBean.DataBean> list) {
         this.list = list;
         mContext = context;
     }
 
-    public void updateData(ArrayList<SupplyListResponseBean.DataBean> data) {
+    public void updateData(ArrayList<NeedListResponseBean.DataBean> data) {
         list.clear();
         list.addAll(data);
         notifyDataSetChanged();
@@ -45,8 +44,8 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_discover_supply, viewGroup, false);
-        return new DiscoverSupplyAdapter.ViewHolder(view);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_discover_need, viewGroup, false);
+        return new DiscoverNeedAdapter.ViewHolder(view);
     }
 
     @Override
@@ -62,11 +61,10 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
                 }
             });
         }
-        Glide.with(mContext).load(list.get(i).getGoods_img()).into(viewHolder.mIvPic);
-        viewHolder.mTvPrice.setText(list.get(i).getPrice());
+        Glide.with(mContext).load(list.get(i).getImg()).into(viewHolder.mIvPic);
+        viewHolder.mTvNeedNum.setText(list.get(i).getAmount());
         viewHolder.mTvDistance.setText(list.get(i).getDistance()+"米");
         viewHolder.mTvTitle.setText(list.get(i).getTitle());
-        viewHolder.mTvSupplyUnit.setText(list.get(i).getGoods_unit());
     }
 
     @Override
@@ -77,22 +75,15 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mIvPic;
         TextView mTvTitle;
-        TextView mTvPrice;
-        RelativeLayout mRlSupply;
-        RelativeLayout mRlNeed;
-        TextView mTvSupplyUnit;
-        TextView mTvSellNum;
+        TextView mTvNeedNum;
         TextView mTvDistance;
 
         ViewHolder(View itemView) {
             super(itemView);
-            mIvPic = itemView.findViewById(R.id.item_discover_supply_pic);
-            mTvTitle = itemView.findViewById(R.id.item_discover_supply_tv_title);
-            mTvPrice = itemView.findViewById(R.id.item_discover_supply_tv_price);
-            mTvDistance= itemView.findViewById(R.id.item_discover_supply_tv_distance);
-            mTvSupplyUnit = itemView.findViewById(R.id.item_discover_supply_tv_price_danwei);
-            mRlSupply = itemView.findViewById(R.id.item_discover_supply_rl);
-            mRlNeed = itemView.findViewById(R.id.item_discover_need_rl);
+            mIvPic = itemView.findViewById(R.id.item_discover_need_pic);
+            mTvTitle = itemView.findViewById(R.id.item_discover_need_tv_title);
+            mTvNeedNum = itemView.findViewById(R.id.item_discover_need_tv_num);
+            mTvDistance= itemView.findViewById(R.id.item_discover_need_tv_distance);
         }
     }
 }

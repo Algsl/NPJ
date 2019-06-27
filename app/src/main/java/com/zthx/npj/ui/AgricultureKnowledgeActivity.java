@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -68,7 +69,7 @@ public class AgricultureKnowledgeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agriculture_knowledge);
         ButterKnife.bind(this);
-
+        getData("1");
     }
 
 
@@ -77,12 +78,19 @@ public class AgricultureKnowledgeActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.at_ak_ll_1:
                 getData("1");
+                changeBackground("1");
                 break;
             case R.id.at_ak_ll_2:
+                getData("2");
+                changeBackground("2");
                 break;
             case R.id.at_ak_ll_3:
+                getData("3");
+                changeBackground("3");
                 break;
             case R.id.at_ak_ll_4:
+                getData("4");
+                changeBackground("4");
                 break;
             case R.id.at_ak_iv_search:
                 startActivity(new Intent(this, HomeSearchActivity.class));
@@ -120,6 +128,30 @@ public class AgricultureKnowledgeActivity extends AppCompatActivity {
             public void onFault(String errorMsg) {
 
             }
-        }));
+        },this));
+    }
+
+    private void changeBackground(String id) {
+        atAkTv1.setBackgroundResource(R.color.text3);
+        atAkLl1.setBackgroundResource(R.drawable.agriculture_profiser_gray);
+        atAkTv2.setBackgroundResource(R.color.text3);
+        atAkLl2.setBackgroundResource(R.drawable.yinanzazeng_gray);
+        atAkTv3.setBackgroundResource(R.color.text3);
+        atAkLl3.setBackgroundResource(R.drawable.new_teachkonowledge_gray);
+        atAkTv4.setBackgroundResource(R.color.text3);
+        atAkLl4.setBackgroundResource(R.drawable.everthing_knowledge);
+        if ("1".equals(id)) {
+            atAkTv1.setBackgroundResource(R.color.app_theme);
+            atAkLl1.setBackgroundResource(R.drawable.agriculture_profiser_theme);
+        } else if ("2".equals(id)) {
+            atAkTv2.setBackgroundResource(R.color.app_theme);
+            atAkLl2.setBackgroundResource(R.drawable.yinanzazheng_theme);
+        } else if ("3".equals(id)) {
+            atAkTv3.setBackgroundResource(R.color.app_theme);
+            atAkLl3.setBackgroundResource(R.drawable.new_teachkonowledge_theme);
+        } else {
+            atAkTv4.setBackgroundResource(R.color.app_theme);
+            atAkLl4.setBackgroundResource(R.drawable.everthing_knowledge_theme);
+        }
     }
 }
