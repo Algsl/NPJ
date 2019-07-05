@@ -13,8 +13,14 @@ import com.zthx.npj.net.been.EditHeadimgBean;
 import com.zthx.npj.net.been.EditNicknameBean;
 import com.zthx.npj.net.been.GoodsInfoBean;
 import com.zthx.npj.net.been.MyGoodsBean;
+import com.zthx.npj.net.been.MyOrderDetailBean;
+import com.zthx.npj.net.been.MyOrderListBean;
 import com.zthx.npj.net.been.MyStoreBean;
+import com.zthx.npj.net.been.OrderBean;
 import com.zthx.npj.net.been.OutGoodsBean;
+import com.zthx.npj.net.been.RefundBean;
+import com.zthx.npj.net.been.SetStoreBean;
+import com.zthx.npj.net.been.ShipBean;
 import com.zthx.npj.net.been.UpLoadFileBean;
 import com.zthx.npj.net.been.UploadPicsBean;
 import com.zthx.npj.net.been.UserBean;
@@ -329,4 +335,100 @@ public class SetSubscribe {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().outGoods(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
+
+    /**
+     * 我的商铺商品订单列表
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void myOrderList(String user_id,String token, DisposableObserver<ResponseBody> subscriber) {
+        MyOrderListBean bean=new MyOrderListBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().myOrderList(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的商铺商铺订单详情
+     * @param user_id
+     * @param token
+     * @param order_id
+     * @param subscriber
+     */
+    public static void myOrderDetail(String user_id,String token,String order_id, DisposableObserver<ResponseBody> subscriber) {
+        MyOrderDetailBean bean=new MyOrderDetailBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setOrder_id(order_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().myOrderDetail(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的商铺商铺订单发货
+     * @param bean
+     * @param subscriber
+     */
+    public static void ship(ShipBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setOrder_id(bean.getOrder_id());
+        bean.setExpress_id(bean.getExpress_id());
+        bean.setExpress_number(bean.getExpress_number());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().ship(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的商铺商品订单同意退款
+     * @param user_id
+     * @param token
+     * @param order_id
+     * @param subscriber
+     */
+    public static void refund(String user_id,String token,String order_id, DisposableObserver<ResponseBody> subscriber) {
+        RefundBean bean=new RefundBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setOrder_id(order_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().refund(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 设置店铺信息
+     * @param user_id
+     * @param token
+     * @param store_name
+     * @param store_img
+     * @param subscriber
+     */
+    public static void setStore(String user_id,String token,String store_name,String store_img, DisposableObserver<ResponseBody> subscriber) {
+        SetStoreBean bean=new SetStoreBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setStore_name(store_name);
+        bean.setStore_img(store_img);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().setStore(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的订单
+     * @param user_id
+     * @param token
+     * @param order_state
+     * @param subscriber
+     */
+    public static void myOrder(String user_id,String token,String order_state, DisposableObserver<ResponseBody> subscriber) {
+        OrderBean bean=new OrderBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setOrder_state(order_state);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().order(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
 }

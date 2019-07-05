@@ -58,9 +58,9 @@ public class SupplyManagerActivity extends AppCompatActivity {
         list.add(new CommentGoodsBeen());
         list.add(new CommentGoodsBeen());
         SupplyManagerListAdapter mAdapter1 = new SupplyManagerListAdapter(this,list);
-        StoreGoodsBillAdapter mAdapter2 = new StoreGoodsBillAdapter(this,list);
+       // StoreGoodsBillAdapter mAdapter2 = new StoreGoodsBillAdapter(this,list);
         atSupplyManagerRvSupplyList1.setAdapter(mAdapter1);
         atSupplyManagerRvSupplyList2.setAdapter(mAdapter1);
-        atSupplyManagerRvSupplyBill.setAdapter(mAdapter2);
+        //atSupplyManagerRvSupplyBill.setAdapter(mAdapter2);
     }
 }

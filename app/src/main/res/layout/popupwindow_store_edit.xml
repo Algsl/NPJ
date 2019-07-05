@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发货"
+            android:text="设置店铺"
             android:layout_centerHorizontal="true"
             />
         
@@ -36,33 +36,29 @@
 
     </RelativeLayout>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_34"
-        android:background="@drawable/gray_conner_2"
-        android:layout_marginRight="@dimen/dp_24"
-        android:layout_marginLeft="@dimen/dp_24"
-        android:layout_marginTop="@dimen/dp_40"
-        android:hint="请填写快递名称"
-        android:paddingLeft="@dimen/dp_5"
-        android:textSize="@dimen/sp_15"
-        android:textColorHint="@color/text6"/>
+    <com.zthx.npj.view.MyCircleView
+        android:id="@+id/pw_storEdit_mcv_storeImg"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
+        android:layout_marginLeft="@dimen/dp_90"
+        android:layout_marginTop="@dimen/dp_18"
+        android:src="@mipmap/ic_launcher"/>
 
     <EditText
-        android:id="@+id/pw_storeGoods_et_expressNumber"
+        android:id="@+id/pw_storEdit_et_storeName"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_30"
         android:background="@drawable/gray_conner_2"
         android:layout_marginRight="@dimen/dp_24"
         android:layout_marginLeft="@dimen/dp_24"
         android:layout_marginTop="@dimen/dp_40"
-        android:hint="请填写快递单号"
+        android:hint="请填写店铺名称"
         android:paddingLeft="@dimen/dp_5"
         android:textSize="@dimen/sp_15"
         android:textColorHint="@color/text6"/>
     
     <Button
-        android:id="@+id/pw_storeGoods_btn_commit"
+        android:id="@+id/pw_storEdit_btn_commit"
         android:layout_width="@dimen/dp_100"
         android:layout_height="@dimen/dp_30"
         android:layout_gravity="center_horizontal"

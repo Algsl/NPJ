@@ -26,13 +26,19 @@ import com.zthx.npj.net.been.LocalSpokesmanBeen;
 import com.zthx.npj.net.been.LocalStoreBean;
 import com.zthx.npj.net.been.MsgCodeBeen;
 import com.zthx.npj.net.been.MyGoodsBean;
+import com.zthx.npj.net.been.MyOrderDetailBean;
+import com.zthx.npj.net.been.MyOrderListBean;
 import com.zthx.npj.net.been.MyStoreBean;
 import com.zthx.npj.net.been.NullBean;
+import com.zthx.npj.net.been.OrderBean;
 import com.zthx.npj.net.been.OutGoodsBean;
 import com.zthx.npj.net.been.PhoneLoginBean;
 import com.zthx.npj.net.been.PreSellBean;
 import com.zthx.npj.net.been.RecommendBean;
+import com.zthx.npj.net.been.RefundBean;
 import com.zthx.npj.net.been.SearchBean;
+import com.zthx.npj.net.been.SetStoreBean;
+import com.zthx.npj.net.been.ShipBean;
 import com.zthx.npj.net.been.StoreDetailBean;
 import com.zthx.npj.net.been.SupplyListBean;
 import com.zthx.npj.net.been.UpLoadFileBean;
@@ -243,5 +249,23 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/outgoods.html")
     Observable<ResponseBody> outGoods(@Body OutGoodsBean bean);
+
+    @POST("index.php/api/user/myorderlist.html")
+    Observable<ResponseBody> myOrderList(@Body MyOrderListBean bean);
+
+    @POST("index.php/api/user/myorderdetail.html")
+    Observable<ResponseBody> myOrderDetail(@Body MyOrderDetailBean bean);
+
+    @POST("index.php/api/user/ship.html")
+    Observable<ResponseBody> ship(@Body ShipBean bean);
+
+    @POST("index.php/api/user/refund.html")
+    Observable<ResponseBody> refund(@Body RefundBean bean);
+
+    @POST("index.php/api/user/setstore.html")
+    Observable<ResponseBody> setStore(@Body SetStoreBean bean);
+
+    @POST("index.php/api/user/order.html")
+    Observable<ResponseBody> order(@Body OrderBean bean);
 }
 

@@ -38,12 +38,12 @@ public class MyOrderActivity extends AppCompatActivity {
         list.add("待评价");
         list.add("售后/退款");
         List<Fragment> list2 = new ArrayList<>();
-        list2.add(new OrderListFragment());
-        list2.add(new OrderListFragment());
-        list2.add(new OrderListFragment());
-        list2.add(new OrderListFragment());
-        list2.add(new OrderListFragment());
-        list2.add(new OrderListFragment());
+        list2.add(new OrderListFragment().newIntent("100"));
+        list2.add(new OrderListFragment().newIntent("1"));
+        list2.add(new OrderListFragment().newIntent("2"));
+        list2.add(new OrderListFragment().newIntent("3"));
+        list2.add(new OrderListFragment().newIntent("4"));
+        list2.add(new OrderListFragment().newIntent("6"));
         DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
         atMyOrderVp.setAdapter(mAdapter);
         atMyOrderTab.setTabMode(TabLayout.MODE_FIXED);

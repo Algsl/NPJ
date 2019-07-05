@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,19 +61,18 @@ public class StoreGoodsInfoActivity extends AppCompatActivity {
 
     String user_id = SharePerferenceUtils.getUserId(this);
     String token = SharePerferenceUtils.getToken(this);
-    String goods_id = getIntent().getStringExtra("goods_id");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_store_goodsInfo);
+        setContentView(R.layout.activity_store_goods_info);
         ButterKnife.bind(this);
 
         getStoreGoodsInfo();
     }
 
     private void getStoreGoodsInfo() {
-        SetSubscribe.goodsInfo(user_id, token, goods_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.goodsInfo(user_id, token, getIntent().getStringExtra("goods_id"), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setStoreGoodsInfo(result);
@@ -124,7 +124,7 @@ public class StoreGoodsInfoActivity extends AppCompatActivity {
         EditGoodsBean bean=new EditGoodsBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
-        bean.setGoods_id(goods_id);
+        bean.setGoods_id(getIntent().getStringExtra("goods_id"));
         bean.setGoods_desc(getEtString(acStoreGoodsInfoEtGoodsDesc));
         bean.setGoods_img("");
         bean.setPlatform_price(getEtString(acStoreGoodsInfoEtPlatformPrice));

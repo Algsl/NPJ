@@ -102,7 +102,7 @@ public class StoreGoodsListAdapter extends RecyclerView.Adapter<StoreGoodsListAd
             viewHolder.memberPrice.setText("代言人价："+list.get(i).getMember_price());
             viewHolder.sold.setText("销量："+list.get(i).getSold());
             viewHolder.inventory.setText("库存："+list.get(i).getInventory());
-            if(type.equals("0")){
+            if(type.equals("1")){
                 viewHolder.onSale.setText("下架");
             }else{
                 viewHolder.onSale.setText("上架");

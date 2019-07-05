@@ -1,21 +1,26 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.OrderResponseBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
-    private List<CommentGoodsBeen> list;
+    private ArrayList<OrderResponseBean.DataBean> list;
     private Context mContext;
 
     private ItemClickListener mItemClickListener ;
@@ -27,7 +32,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
 
     }
 
-    public OrderListAdapter(Context context, List<CommentGoodsBeen> list) {
+    public OrderListAdapter(Context context, ArrayList<OrderResponseBean.DataBean> list) {
         this.list = list;
         mContext = context;
     }
@@ -52,10 +57,10 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             });
         }
         if (list!= null && list.size() > 0) {
-            viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
-            viewHolder.mTvPrice.setText(list.get(i).getGoodsPrice());
-            viewHolder.mTvSellNum.setText(list.get(i).getGoodsSellNum());
-            viewHolder.mTvTitle.setText(list.get(i).getGoodsTitle());
+            Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
+            viewHolder.storeName.setText(list.get(i).getStore_name());
+            viewHolder.goodsName.setText(list.get(i).getGoods_name());
+            viewHolder.goodsPrice.setText(list.get(i).getGoods_price());
         } else {
 
         }
@@ -67,17 +72,27 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mIvGoods;
-        TextView mTvTitle;
-        TextView mTvPrice;
-        TextView mTvSellNum;
-
+        ImageView goodsImg;
+        TextView storeName,goodsName,goodsPrice,goodsNum,orderPrice,orderState;
+        Button cancel,delete,cuidan,pay,query,confirm,again,comment,goodsReturn;
         ViewHolder(View itemView) {
             super(itemView);
-            mIvGoods = itemView.findViewById(R.id.item_iv_comment_goods);
-            mTvTitle = itemView.findViewById(R.id.item_tv_comment_goods_title);
-            mTvPrice = itemView.findViewById(R.id.item_tv_comment_goods_price);
-            mTvSellNum = itemView.findViewById(R.id.item_tv_comment_goods_sell_num);
+            goodsImg=itemView.findViewById(R.id.item_orderList_iv_goodsImg);
+            storeName=itemView.findViewById(R.id.item_orderList_tv_storeName);
+            goodsName=itemView.findViewById(R.id.item_orderList_tv_goodsName);
+            goodsPrice=itemView.findViewById(R.id.item_orderList_tv_goodsPrice);
+            goodsNum=itemView.findViewById(R.id.item_orderList_tv_goodsNum);
+            orderPrice=itemView.findViewById(R.id.item_orderList_tv_orderPrice);
+            orderState=itemView.findViewById(R.id.item_orderList_tv_orderState);
+            cancel=itemView.findViewById(R.id.item_orderList_btn_cancel);
+            delete=itemView.findViewById(R.id.item_orderList_btn_delete);
+            cuidan=itemView.findViewById(R.id.item_orderList_btn_cuidan);
+            pay=itemView.findViewById(R.id.item_orderList_btn_pay);
+            query=itemView.findViewById(R.id.item_orderList_btn_query);
+            confirm=itemView.findViewById(R.id.item_orderList_btn_confirm);
+            again=itemView.findViewById(R.id.item_orderList_btn_again);
+            comment=itemView.findViewById(R.id.item_orderList_btn_comment);
+            goodsReturn=itemView.findViewById(R.id.item_orderList_btn_goodsReturn);
         }
     }
 }

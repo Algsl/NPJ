@@ -12,6 +12,12 @@ import android.view.ViewGroup;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.OrderListAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.OrderResponseBean;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +38,50 @@ public class OrderListFragment extends Fragment {
     RecyclerView fgOrderList;
     Unbinder unbinder;
 
+    String user_id= SharePerferenceUtils.getUserId(getContext());
+    String token=SharePerferenceUtils.getToken(getContext());
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getOrder();
+    }
+
+    private void getOrder() {
+        String order_state=getArguments().getString("order_state");
+        SetSubscribe.myOrder(user_id,token,order_state,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setOrder(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setOrder(String result) {
+        OrderResponseBean bean= GsonUtils.fromJson(result,OrderResponseBean.class);
+        ArrayList<OrderResponseBean.DataBean> data=bean.getData();
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+        fgOrderList.setLayoutManager(manager);
+        OrderListAdapter mAdapter = new OrderListAdapter(getActivity(), data);
+        fgOrderList.setAdapter(mAdapter);
+    }
+
+    public OrderListFragment newIntent(String order_state){
+        OrderListFragment fragment=new OrderListFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString("order_state",order_state);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
@@ -42,17 +89,6 @@ public class OrderListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_list, container, false);
         unbinder = ButterKnife.bind(this, view);
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
-        fgOrderList.setLayoutManager(manager);
-        List<CommentGoodsBeen> list = new ArrayList<>();
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        OrderListAdapter mAdapter = new OrderListAdapter(getActivity(), list);
-        fgOrderList.setAdapter(mAdapter);
         return view;
     }
 

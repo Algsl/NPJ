@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,6 +128,7 @@ public class StoreGoodsListFragment extends Fragment {
             public void onEditClick(int position) {
                 Intent intent=new Intent(getContext(), StoreGoodsInfoActivity.class);
                 intent.putExtra("goods_id",data.get(position).getId()+"");
+                Log.e("测试", "onEditClick: "+data.get(position).getId()+"" );
                 startActivity(intent);
             }
 

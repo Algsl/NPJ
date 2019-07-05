@@ -249,7 +249,8 @@ public class MineFragment
               R.id.fg_mine_iv_people_right,
               R.id.fg_mine_ll_collect,
               R.id.fg_mine_ll_coupon,
-              R.id.fg_mine_ll_my_wallet})
+              R.id.fg_mine_ll_my_wallet,
+            R.id.fg_mine_tv_all_order})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fg_mine_iv_settings:
