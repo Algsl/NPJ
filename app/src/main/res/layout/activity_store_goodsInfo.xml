@@ -31,7 +31,7 @@
                     android:textColor="@color/text3"/>
 
                 <EditText
-                    android:id="@+id/ac_pulishGoods_et_goodsName"
+                    android:id="@+id/ac_storeGoodsInfo_et_goodsName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -61,7 +61,7 @@
                     android:textColor="@color/text3"/>
 
                 <EditText
-                    android:id="@+id/ac_pulishGoods_et_goodsDesc"
+                    android:id="@+id/ac_storeGoodsInfo_et_goodsDesc"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -103,7 +103,7 @@
                         android:textSize="@dimen/sp_13"/>
                 </LinearLayout>
                 <ImageView
-                    android:id="@+id/ac_pulishGoods_iv_goodsImg"
+                    android:id="@+id/ac_storeGoodsInfo_iv_goodsImg"
                     android:layout_width="@dimen/dp_75"
                     android:layout_height="@dimen/dp_75"
                     android:src="@mipmap/ic_launcher"
@@ -144,7 +144,7 @@
                         android:textSize="@dimen/sp_13"/>
                 </LinearLayout>
                 <ImageView
-                    android:id="@+id/ac_pulishGoods_iv_goodsContent"
+                    android:id="@+id/ac_storeGoodsInfo_iv_goodsContent"
                     android:layout_width="@dimen/dp_75"
                     android:layout_height="@dimen/dp_75"
                     android:src="@mipmap/ic_launcher"
@@ -175,7 +175,7 @@
                     android:layout_centerVertical="true"/>
 
                 <EditText
-                    android:id="@+id/ac_pulishGoods_et_platformPrice"
+                    android:id="@+id/ac_storeGoodsInfo_et_platformPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -216,7 +216,7 @@
                     android:layout_centerVertical="true"/>
 
                 <EditText
-                    android:id="@+id/ac_pulishGoods_et_memberPrice"
+                    android:id="@+id/ac_storeGoodsInfo_et_memberPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -257,7 +257,7 @@
                     android:layout_centerVertical="true"/>
 
                 <EditText
-                    android:id="@+id/ac_pulishGoods_et_marketPrice"
+                    android:id="@+id/ac_storeGoodsInfo_et_marketPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -296,7 +296,7 @@
                     android:textColor="@color/text3"/>
 
                 <EditText
-                    android:id="@+id/ac_pulishGoods_et_inventory"
+                    android:id="@+id/ac_storeGoodsInfo_et_inventory"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -328,7 +328,7 @@
                     android:layout_centerVertical="true"/>
 
                 <TextView
-                    android:id="@+id/ac_pulishGoods_tv_cateId"
+                    android:id="@+id/ac_storeGoodsInfo_tv_cateName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="请选择，特殊类别须提供专业认证后可发布"
@@ -369,7 +369,7 @@
                     android:layout_centerVertical="true"/>
 
                 <EditText
-                    android:id="@+id/ac_pulishGoods_et_isFreeShipping"
+                    android:id="@+id/ac_storeGoodsInfo_et_isFreeShipping"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -411,7 +411,7 @@
                     android:layout_centerVertical="true"/>
 
                 <TextView
-                    android:id="@+id/ac_pulishGoods_tv_goodsType"
+                    android:id="@+id/ac_storeGoodsInfo_tv_goodsType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="请选择"
@@ -437,14 +437,14 @@
                 android:layout_marginRight="@dimen/dp_12"></View>
 
             <Button
-                android:id="@+id/ac_pulishGoods_btn_pulish"
+                android:id="@+id/ac_storeGoodsInfo_btn_pulish"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
                 android:layout_marginRight="@dimen/dp_12"
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginTop="@dimen/dp_35"
                 android:background="@drawable/theme_conner_5"
-                android:text="发布"
+                android:text="保存"
                 android:textSize="@dimen/sp_13"
                 android:textColor="@android:color/white"
                 android:layout_marginBottom="@dimen/dp_40"/>

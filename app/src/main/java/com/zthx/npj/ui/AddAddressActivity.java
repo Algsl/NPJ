@@ -58,8 +58,7 @@ public class AddAddressActivity extends AppCompatActivity {
     @OnClick(R.id.ac_address_btn_save)
     public void onViewClicked() {
         String user_id= SharePerferenceUtils.getUserId(this);
-        String token="1f27405d66fa30be262785b395b622a6";
-        //String token=SharePerferenceUtils.getToken(this);
+        String token=SharePerferenceUtils.getToken(this);
         String consignee    = mAcAddressEtConsignee.getText().toString();
         String mobile       = mAcAddressEtMobile.getText().toString();
         String address      = mAcAddressEtAddress.getText().toString();

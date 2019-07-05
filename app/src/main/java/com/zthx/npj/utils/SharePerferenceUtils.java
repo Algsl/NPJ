@@ -94,7 +94,8 @@ public class SharePerferenceUtils {
     }
 
     public static String getToken(Context context) {
-        return getString(context, "token", "");
+        //return getString(context, "token", "");
+        return "1f27405d66fa30be262785b395b622a6";
     }
     public static void setLevel(Context context,long level ){
         putString(context,"level",String.valueOf(level));

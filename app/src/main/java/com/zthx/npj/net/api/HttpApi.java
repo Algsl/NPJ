@@ -1,6 +1,8 @@
 package com.zthx.npj.net.api;
 
 import com.zthx.npj.net.been.AddAddressBean;
+import com.zthx.npj.net.been.AddGoodsBean;
+import com.zthx.npj.net.been.AddressInfoBean;
 import com.zthx.npj.net.been.AddressListBean;
 import com.zthx.npj.net.been.AkVideoBean;
 import com.zthx.npj.net.been.BannerBean;
@@ -8,16 +10,25 @@ import com.zthx.npj.net.been.BuyVideoBean;
 import com.zthx.npj.net.been.CommentBean;
 import com.zthx.npj.net.been.ConfirmPreSellBean;
 import com.zthx.npj.net.been.ConfirmSupplyBean;
+import com.zthx.npj.net.been.DefaultAddressBean;
+import com.zthx.npj.net.been.DelAddressBean;
+import com.zthx.npj.net.been.DelGoodsBean;
+import com.zthx.npj.net.been.EditAddressBean;
+import com.zthx.npj.net.been.EditGoodsBean;
 import com.zthx.npj.net.been.EditHeadimgBean;
 import com.zthx.npj.net.been.EditNicknameBean;
 import com.zthx.npj.net.been.GiftDetailBean;
 import com.zthx.npj.net.been.GiftListBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
+import com.zthx.npj.net.been.GoodsInfoBean;
 import com.zthx.npj.net.been.InvitationBean;
 import com.zthx.npj.net.been.LocalSpokesmanBeen;
 import com.zthx.npj.net.been.LocalStoreBean;
 import com.zthx.npj.net.been.MsgCodeBeen;
+import com.zthx.npj.net.been.MyGoodsBean;
+import com.zthx.npj.net.been.MyStoreBean;
 import com.zthx.npj.net.been.NullBean;
+import com.zthx.npj.net.been.OutGoodsBean;
 import com.zthx.npj.net.been.PhoneLoginBean;
 import com.zthx.npj.net.been.PreSellBean;
 import com.zthx.npj.net.been.RecommendBean;
@@ -199,5 +210,38 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/addresslist.html")
     Observable<ResponseBody> getAddressList(@Body AddressListBean bean);
+
+    @POST("index.php/api/user/addressinfo.html")
+    Observable<ResponseBody> getAddressInfo(@Body AddressInfoBean bean);
+
+    @POST("index.php/api/user/editaddress.html")
+    Observable<ResponseBody> editAddressInfo(@Body EditAddressBean bean);
+
+    @POST("index.php/api/user/deladdress.html")
+    Observable<ResponseBody> delAddress(@Body DelAddressBean bean);
+
+    @POST("index.php/api/user/defaultaddress.html")
+    Observable<ResponseBody> defaultAddress(@Body DefaultAddressBean bean);
+
+    @POST("index.php/api/user/mystore.html")
+    Observable<ResponseBody> myStore(@Body MyStoreBean bean);
+
+    @POST("index.php/api/user/addgoods.html")
+    Observable<ResponseBody> addGoods(@Body AddGoodsBean bean);
+
+    @POST("index.php/api/user/mygoods.html")
+    Observable<ResponseBody> myGoods(@Body MyGoodsBean bean);
+
+    @POST("index.php/api/user/goodsinfo.html")
+    Observable<ResponseBody> goodsInfo(@Body GoodsInfoBean bean);
+
+    @POST("index.php/api/user/editgoods.html")
+    Observable<ResponseBody> editGoods(@Body EditGoodsBean bean);
+
+    @POST("index.php/api/user/delgoods.html")
+    Observable<ResponseBody> delGoods(@Body DelGoodsBean bean);
+
+    @POST("index.php/api/user/outgoods.html")
+    Observable<ResponseBody> outGoods(@Body OutGoodsBean bean);
 }
 

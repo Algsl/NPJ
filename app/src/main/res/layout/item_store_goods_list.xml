@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_94">
         <ImageView
-            android:id="@+id/item_store_goods_list_iv_pic"
+            android:id="@+id/item_storeGoodsList_iv_goodsImg"
             android:layout_width="@dimen/dp_75"
             android:layout_height="@dimen/dp_75"
             android:src="@mipmap/ic_launcher"
@@ -17,55 +17,57 @@
             android:layout_marginLeft="@dimen/dp_12"/>
 
         <TextView
-            android:id="@+id/item_store_goods_list_tv_name"
+            android:id="@+id/item_storeGoodsList_tv_goodsName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="杀虫剂100g"
             android:textColor="@color/text3"
             android:textSize="@dimen/sp_15"
-            android:layout_toRightOf="@id/item_store_goods_list_iv_pic"
+            android:layout_toRightOf="@id/item_storeGoodsList_iv_goodsImg"
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_14"/>
 
         <TextView
-            android:id="@+id/item_store_goods_list_tv_store_price"
+            android:id="@+id/item_storeGoodsList_tv_marketPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="市场价：1000"
             android:textSize="@dimen/sp_13"
             android:textColor="@color/app_theme"
-            android:layout_alignLeft="@id/item_store_goods_list_tv_name"
-            android:layout_below="@id/item_store_goods_list_tv_name"
+            android:layout_alignLeft="@id/item_storeGoodsList_tv_goodsName"
+            android:layout_below="@id/item_storeGoodsList_tv_goodsName"
             android:layout_marginTop="@dimen/dp_13"/>
 
         <TextView
-            android:id="@+id/item_store_goods_list_tv_spokesman_price"
+            android:id="@+id/item_storeGoodsList_tv_memberPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="代言人价：600"
             android:textColor="@color/app_theme"
             android:textSize="@dimen/sp_13"
-            android:layout_alignTop="@id/item_store_goods_list_tv_store_price"
+            android:layout_alignTop="@id/item_storeGoodsList_tv_marketPrice"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/dp_50"/>
 
         <TextView
+            android:id="@+id/item_storeGoodsList_tv_sold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="销量：1502"
-            android:layout_alignLeft="@id/item_store_goods_list_tv_store_price"
-            android:layout_below="@id/item_store_goods_list_tv_store_price"
+            android:layout_alignLeft="@id/item_storeGoodsList_tv_marketPrice"
+            android:layout_below="@id/item_storeGoodsList_tv_marketPrice"
             android:textSize="@dimen/sp_13"
             android:textColor="@color/text9"/>
 
         <TextView
+            android:id="@+id/item_storeGoodsList_tv_inventory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="库存：522"
             android:textColor="@color/text9"
             android:textSize="@dimen/sp_13"
-            android:layout_alignLeft="@id/item_store_goods_list_tv_spokesman_price"
-            android:layout_below="@id/item_store_goods_list_tv_spokesman_price"/>
+            android:layout_alignLeft="@id/item_storeGoodsList_tv_memberPrice"
+            android:layout_below="@id/item_storeGoodsList_tv_memberPrice"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -80,6 +82,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical">
         <TextView
+            android:id="@+id/item_storeGoodsList_tv_onSale"
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_20"
             android:background="@drawable/stroke_theme_2"
@@ -90,6 +93,7 @@
             android:layout_marginLeft="@dimen/dp_32"/>
 
         <TextView
+            android:id="@+id/item_storeGoodsList_tv_share"
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_20"
             android:background="@drawable/stroke_theme_2"
@@ -100,6 +104,7 @@
             android:layout_marginLeft="@dimen/dp_24"/>
 
         <TextView
+            android:id="@+id/item_storeGoodsList_tv_edit"
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_20"
             android:background="@drawable/stroke_theme_2"
@@ -109,6 +114,7 @@
             android:gravity="center"
             android:layout_marginLeft="@dimen/dp_24"/>
         <TextView
+            android:id="@+id/item_storeGoodsList_tv_delete"
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_20"
             android:background="@drawable/stroke_gray_2"

@@ -25,8 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AddressListActivity
-        extends AppCompatActivity
+public class AddressListActivity extends AppCompatActivity
 {
     @BindView(R.id.ac_address_addAddress)
     Button       acAddressAddAddress;
@@ -34,6 +33,9 @@ public class AddressListActivity
     TextView     acTitle;
     @BindView(R.id.ac_address_recycle)
     RecyclerView mAcAddressRecycle;
+
+    String user_id = SharePerferenceUtils.getUserId(this);
+    String token=SharePerferenceUtils.getToken(this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,9 +47,7 @@ public class AddressListActivity
     }
 
     private void getAddressList() {
-        String user_id = SharePerferenceUtils.getUserId(this);
-        //String token=SharePerferenceUtils.getToken(this);
-        String token = "1f27405d66fa30be262785b395b622a6";
+
         SetSubscribe.getAddressList(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -63,24 +63,37 @@ public class AddressListActivity
 
     private void setAddressList(String result) {
         AddressListResponseBean bean= GsonUtils.fromJson(result,AddressListResponseBean.class);
-        ArrayList<AddressListResponseBean.DataBean> dataList=bean.getData();
+        final ArrayList<AddressListResponseBean.DataBean> dataList=bean.getData();
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
         mAcAddressRecycle.setLayoutManager(layoutManager);
         AddressAdapter addressAdapter=new AddressAdapter(this,dataList);
         addressAdapter.setItemClickListener(new AddressAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Toast.makeText(AddressListActivity.this,"点击事件",Toast.LENGTH_LONG).show();
+
             }
 
             @Override
             public void onEditClick(int position) {
-                Toast.makeText(AddressListActivity.this,"编辑",Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(AddressListActivity.this,EditAddressActivity.class);
+                intent.putExtra("address_id",dataList.get(position).getId()+"");
+                startActivity(intent);
             }
 
             @Override
             public void onDeleteClick(int position) {
-                Toast.makeText(AddressListActivity.this,"删除",Toast.LENGTH_LONG).show();
+                String address_id=dataList.get(position).getId()+"";
+                SetSubscribe.delAddress(user_id,token,address_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
             }
         });
         mAcAddressRecycle.setAdapter(addressAdapter);

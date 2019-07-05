@@ -34,8 +34,8 @@ public class StoreGoodsListActivity extends AppCompatActivity {
         list.add("出售中");
         list.add("已下架");
         List<Fragment> list2 = new ArrayList<>();
-        list2.add(new StoreGoodsListFragment());
-        list2.add(new StoreGoodsListFragment());
+        list2.add(new StoreGoodsListFragment().newIntent("1"));
+        list2.add(new StoreGoodsListFragment().newIntent("2"));
         DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
         atStoreGoodsListVp.setAdapter(mAdapter);
         atStoreGoodsListTab.setTabMode(TabLayout.MODE_FIXED);
