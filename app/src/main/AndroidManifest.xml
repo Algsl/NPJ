@@ -33,6 +33,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="YRVAXKxrmD46vVWAeGdIOBI1YDq40lKo" />
@@ -114,6 +115,8 @@
         <activity android:name=".ui.AttestationSuccessActivity" />
         <activity android:name=".ui.MembershipPackageActivity" />
         <activity android:name=".ui.ContactReferencesActivity" />
+        <activity android:name=".ui.EditNicknameActivity"/>
+        <activity android:name=".ui.AddressListActivity"/>
         <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

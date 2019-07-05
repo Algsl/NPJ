@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <include layout="@layout/title"
+        android:id="@+id/ac_address_in_title"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ac_address_recycle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ac_address_in_title"
+        android:layout_above="@id/ac_address_addAddress"/>
+    <Button
+        android:id="@+id/ac_address_addAddress"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_alignParentBottom="true"
+        android:background="@color/app_theme"
+        android:text="添加新地址"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_15"/>
+</RelativeLayout>

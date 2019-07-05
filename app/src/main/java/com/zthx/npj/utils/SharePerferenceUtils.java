@@ -96,7 +96,12 @@ public class SharePerferenceUtils {
     public static String getToken(Context context) {
         return getString(context, "token", "");
     }
-
+    public static void setLevel(Context context,long level ){
+        putString(context,"level",String.valueOf(level));
+    }
+    public static long getLevel(Context context){
+        return Long.valueOf(getString(context,"level",""));
+    }
     public static  void setMainBanner(Context context, String value) {
         putString(context, Const.SP_MAIN_BANNER_TYPE,value);
     }

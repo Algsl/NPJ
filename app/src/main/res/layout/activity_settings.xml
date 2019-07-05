@@ -50,6 +50,7 @@
             android:layout_marginRight="@dimen/sp_12"/>
 
         <com.zthx.npj.view.MyCircleView
+            android:id="@+id/fg_setting_iv_headimg"
             android:layout_width="@dimen/dp_30"
             android:layout_height="@dimen/dp_30"
             android:layout_toLeftOf="@id/at_settings_go1"
@@ -64,6 +65,7 @@
             android:layout_alignParentBottom="true"></View>
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/at_settings_rl_nickname"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40">
         <TextView
@@ -86,6 +88,7 @@
             android:layout_marginRight="@dimen/sp_12"/>
 
         <TextView
+            android:id="@+id/ac_settings_tv_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="巨星不易"
@@ -102,6 +105,7 @@
             android:layout_alignParentBottom="true"></View>
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/at_settings_rl_signature"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40">
         <TextView
@@ -115,12 +119,14 @@
             android:layout_marginLeft="@dimen/dp_12"/>
 
         <TextView
+            android:id="@+id/ac_settings_tv_signature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="诚信第一、互惠互利、共赢 "
             android:textSize="@dimen/sp_15"
             android:textColor="@color/text6"
-            android:layout_toRightOf="@id/at_settings_qianming"
+            android:layout_toLeftOf="@id/at_settings_go3"
+            android:layout_marginRight="@dimen/dp_5"
             android:layout_centerVertical="true"/>
 
         <ImageView
@@ -140,6 +146,7 @@
             android:layout_alignParentBottom="true"></View>
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/at_settings_rl_address"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40">
         <TextView

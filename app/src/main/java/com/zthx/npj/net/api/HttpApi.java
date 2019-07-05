@@ -1,17 +1,20 @@
 package com.zthx.npj.net.api;
 
+import com.zthx.npj.net.been.AddAddressBean;
+import com.zthx.npj.net.been.AddressListBean;
 import com.zthx.npj.net.been.AkVideoBean;
 import com.zthx.npj.net.been.BannerBean;
 import com.zthx.npj.net.been.BuyVideoBean;
 import com.zthx.npj.net.been.CommentBean;
 import com.zthx.npj.net.been.ConfirmPreSellBean;
 import com.zthx.npj.net.been.ConfirmSupplyBean;
+import com.zthx.npj.net.been.EditHeadimgBean;
+import com.zthx.npj.net.been.EditNicknameBean;
 import com.zthx.npj.net.been.GiftDetailBean;
 import com.zthx.npj.net.been.GiftListBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
 import com.zthx.npj.net.been.InvitationBean;
 import com.zthx.npj.net.been.LocalSpokesmanBeen;
-import com.zthx.npj.net.been.LocalSpokesmanResponseBean;
 import com.zthx.npj.net.been.LocalStoreBean;
 import com.zthx.npj.net.been.MsgCodeBeen;
 import com.zthx.npj.net.been.NullBean;
@@ -30,6 +33,7 @@ import com.zthx.npj.net.been.UploadCompanyBean;
 import com.zthx.npj.net.been.UploadPicsBean;
 import com.zthx.npj.net.been.UploadPurchaseBean;
 import com.zthx.npj.net.been.UploadSupplyBean;
+import com.zthx.npj.net.been.UserBean;
 import com.zthx.npj.net.been.VideoInfoBean;
 
 import io.reactivex.Observable;
@@ -180,5 +184,20 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/supplybuy.html")
     Observable<ResponseBody> confirmSupplyForBody(@Body ConfirmSupplyBean bean);
+
+    @POST("index.php/api/user/userinfo.html")
+    Observable<ResponseBody> getUserInfo(@Body UserBean bean);
+
+    @POST("index.php/api/user/editheadimg.html")
+    Observable<ResponseBody> editHeadImg(@Body EditHeadimgBean bean);
+
+    @POST("index.php/api/user/editnickname.html")
+    Observable<ResponseBody> editNickname(@Body EditNicknameBean bean);
+
+    @POST("index.php/api/user/addaddress.html")
+    Observable<ResponseBody> addAddress(@Body AddAddressBean bean);
+
+    @POST("index.php/api/user/addresslist.html")
+    Observable<ResponseBody> getAddressList(@Body AddressListBean bean);
 }
 

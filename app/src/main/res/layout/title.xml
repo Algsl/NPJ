@@ -14,12 +14,12 @@
             android:src="@drawable/back"/>
 
         <TextView
+            android:id="@+id/ac_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textSize="@dimen/sp_18"
-            android:textColor="@color/text3"
-            />
+            android:textColor="@color/text3"/>
 
         <TextView
             android:id="@+id/at_location_store_tv_ruzhu"

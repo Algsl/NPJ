@@ -7,8 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
-import android.widget.TextView;
+import android.widget.RadioButton;
 
 import com.zthx.npj.R;
 import com.zthx.npj.ui.fragment.DiscoverFragment;
@@ -32,28 +31,18 @@ public class MainActivity extends BaseActivity {
     public static int mIndex;
     @BindView(R.id.lay_frg_main)
     FrameLayout layFrgMain;
-    @BindView(R.id.tv_home_home)
-    TextView tvHomeHome;
     @BindView(R.id.ll_main_check_01)
-    LinearLayout llMainCheck01;
-    @BindView(R.id.tv_home_discover)
-    TextView tvHomeDiscover;
+    RadioButton llMainCheck01;
     @BindView(R.id.ll_main_check_02)
-    LinearLayout llMainCheck02;
-    @BindView(R.id.tv_home_game)
-    TextView tvHomeGame;
+    RadioButton llMainCheck02;
     @BindView(R.id.ll_main_check_03)
     LinearLayout llMainCheck03;
-    @BindView(R.id.tv_home_shoppingCart)
-    TextView tvHomeShoppingCart;
     @BindView(R.id.ll_main_check_04)
-    LinearLayout llMainCheck04;
-    @BindView(R.id.tv_home_mine)
-    TextView tvHomeMine;
+    RadioButton llMainCheck04;
     @BindView(R.id.ll_main_check_05)
-    LinearLayout llMainCheck05;
-    @BindView(R.id.lin)
-    LinearLayout lin;
+    RadioButton llMainCheck05;
+
+
     //fragment数组
     private Fragment[] mFragments;
     //fragment模块

@@ -23,7 +23,6 @@ import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.base.Const;
-import com.zthx.npj.net.been.BannerResponseBean;
 import com.zthx.npj.net.been.GoodsDetailResponseBean;
 import com.zthx.npj.net.been.PreSellDetailResponseBean;
 import com.zthx.npj.net.been.SecKillGoodsDetailResponseBean;
@@ -33,7 +32,6 @@ import com.zthx.npj.net.netsubscribe.SecKillSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
-import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.GlideImageLoader;
 import com.zthx.npj.view.GoodSizePopupwindow;
 import com.zthx.npj.view.SaleDetailProgressView;
@@ -206,7 +204,6 @@ public class GoodsDetailActivity extends AppCompatActivity {
         MainSubscribe.getGoodsDetail(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-
                 setData(result);
             }
 
