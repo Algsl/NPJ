@@ -44,7 +44,9 @@ public class InputInvitationCodeActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.at_input_invitation_code_btn_done, R.id.at_input_invitation_code_btn_local_people})
+    @OnClick({R.id.at_input_invitation_code_btn_done,
+             R.id.at_input_invitation_code_btn_local_people
+            })
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_input_invitation_code_btn_done:

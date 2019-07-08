@@ -5,6 +5,7 @@ import com.zthx.npj.net.been.AddGoodsBean;
 import com.zthx.npj.net.been.AddressInfoBean;
 import com.zthx.npj.net.been.AddressListBean;
 import com.zthx.npj.net.been.AkVideoBean;
+import com.zthx.npj.net.been.ApplyRefundBean;
 import com.zthx.npj.net.been.BannerBean;
 import com.zthx.npj.net.been.BuyBean;
 import com.zthx.npj.net.been.BuyVideoBean;
@@ -35,6 +36,7 @@ import com.zthx.npj.net.been.MyOrderListBean;
 import com.zthx.npj.net.been.MyStoreBean;
 import com.zthx.npj.net.been.NullBean;
 import com.zthx.npj.net.been.OrderBean;
+import com.zthx.npj.net.been.OrderCommentBean;
 import com.zthx.npj.net.been.OutGoodsBean;
 import com.zthx.npj.net.been.PhoneLoginBean;
 import com.zthx.npj.net.been.PreSellBean;
@@ -288,5 +290,11 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/buy.html")
     Observable<ResponseBody> buy(@Body BuyBean bean);
+
+    @POST("index.php/api/user/comment.html")
+    Observable<ResponseBody> orderComment(@Body OrderCommentBean bean);
+
+    @POST("index.php/api/user/applyrefund.html")
+    Observable<ResponseBody> applyRefund(@Body ApplyRefundBean bean);
 }
 

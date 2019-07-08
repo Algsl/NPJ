@@ -12,17 +12,17 @@ import android.view.ViewGroup;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.OrderListAdapter;
-import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.OrderResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.CommentActivity;
 import com.zthx.npj.ui.ConfirmMyOrderActivity;
+import com.zthx.npj.ui.MyStoreOrderDetailActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,9 +79,11 @@ public class OrderListFragment extends Fragment {
         mAdapter.setOnItemClickListener(new OrderListAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                Intent intent=new Intent(getContext(), MyStoreOrderDetailActivity.class);
+                intent.putExtra("order_id",data.get(position).getId()+"");
+                startActivity(intent);
             }
-
+            //取消订单
             @Override
             public void onCancelClick(int position) {
                 String order_id=data.get(position).getId();
@@ -97,7 +99,7 @@ public class OrderListFragment extends Fragment {
                     }
                 }));
             }
-
+            //删除订单
             @Override
             public void onDeleteClick(int position) {
                 String order_id=data.get(position).getId();
@@ -113,39 +115,41 @@ public class OrderListFragment extends Fragment {
                     }
                 }));
             }
-
+            //支付订单
             @Override
             public void onPayClick(int position) {
                 Intent intent=new Intent(getActivity(), ConfirmMyOrderActivity.class);
                 intent.putExtra("order_id",data.get(position).getId()+"");
                 startActivity(intent);
             }
-
+            //催单
             @Override
             public void onCuiDanClick(int position) {
 
             }
-
+            //查询物流
             @Override
             public void onQueryClick(int position) {
 
             }
-
+            //确认收货
             @Override
             public void onConfirmClick(int position) {
 
             }
-
+            //再来一单
             @Override
             public void onAgainClick(int position) {
 
             }
-
+            //评论订单
             @Override
             public void onCommentClick(int position) {
-
+                Intent intent=new Intent(getContext(),CommentActivity.class);
+                intent.putExtra("order_id",data.get(position).getId()+"");
+                startActivity(intent);
             }
-
+            //退货
             @Override
             public void onGoodsReturn(int position) {
 

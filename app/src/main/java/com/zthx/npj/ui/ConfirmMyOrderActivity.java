@@ -11,6 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.BuyBean;
 import com.zthx.npj.net.been.ConfirmOrderResponseBean;
@@ -126,7 +129,19 @@ public class ConfirmMyOrderActivity extends AppCompatActivity {
                 SetSubscribe.buy(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        finish();
+                        IWXAPI api = WXAPIFactory.createWXAPI(getBaseContext(), null);
+                        api.registerApp("wx0f4f8d4b6b85a921");
+                        PayReq req = new PayReq();
+                        req.appId           = "wx0f4f8d4b6b85a921";//你的微信appid
+                        req.partnerId       = "1512847301";//商户号
+                        req.prepayId        = "wx221459195887969f1343b9602040846145";//预支付交易会话ID
+                        req.nonceStr        = "58uefEqK98rpSPob0sBzDcWvnOJtjvOr";//随机字符串
+                        req.timeStamp       = "1555916317";//时间戳
+                        req.packageValue    = "Sign=WXPay";//扩展字段,这里固定填写Sign=WXPay
+                        req.sign            = "5F382CC6A49849E565266D0B67140FD4";//签名
+//              req.extData         = "app data"; // optional
+                        // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+                        api.sendReq(req);
                     }
 
                     @Override

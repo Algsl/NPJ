@@ -4,6 +4,7 @@ import com.zthx.npj.net.been.AddAddressBean;
 import com.zthx.npj.net.been.AddGoodsBean;
 import com.zthx.npj.net.been.AddressInfoBean;
 import com.zthx.npj.net.been.AddressListBean;
+import com.zthx.npj.net.been.ApplyRefundBean;
 import com.zthx.npj.net.been.BuyBean;
 import com.zthx.npj.net.been.CancelOrderBean;
 import com.zthx.npj.net.been.ConfirmOrderBean;
@@ -21,6 +22,7 @@ import com.zthx.npj.net.been.MyOrderDetailBean;
 import com.zthx.npj.net.been.MyOrderListBean;
 import com.zthx.npj.net.been.MyStoreBean;
 import com.zthx.npj.net.been.OrderBean;
+import com.zthx.npj.net.been.OrderCommentBean;
 import com.zthx.npj.net.been.OutGoodsBean;
 import com.zthx.npj.net.been.RefundBean;
 import com.zthx.npj.net.been.SetStoreBean;
@@ -498,4 +500,39 @@ public class SetSubscribe {
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 
+    /**
+     * 订单评价
+     * @param bean
+     * @param subscriber
+     */
+    public static void orderComment(OrderCommentBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setOrder_id(bean.getOrder_id());
+        bean.setContent(bean.getContent());
+        bean.setImg(bean.getImg());
+        bean.setGoods_star(bean.getGoods_star());
+        bean.setLogistics_star(bean.getLogistics_star());
+        bean.setService_star(bean.getService_star());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().orderComment(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 申请退款
+     * @param bean
+     * @param subscriber
+     */
+    public static void applyRefund(ApplyRefundBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setOrder_id(bean.getOrder_id());
+        bean.setRefund_state(bean.getRefund_state());
+        bean.setRefund_reason(bean.getRefund_reason());
+        bean.setRefund_price(bean.getRefund_price());
+        bean.setRefund_desc(bean.getRefund_desc());
+        bean.setRefund_img(bean.getRefund_img());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().applyRefund(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
 }

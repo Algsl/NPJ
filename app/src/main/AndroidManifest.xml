@@ -123,10 +123,21 @@
         <activity android:name=".ui.StoreGoodsInfoActivity"/>
         <activity android:name=".ui.MyStoreOrderDetailActivity"/>
         <activity android:name=".ui.ConfirmMyOrderActivity"/>
+        <activity android:name=".ui.CommentActivity"/>
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="wx0f4f8d4b6b85a921"/>
+            </intent-filter>
+
+        </activity>
         <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

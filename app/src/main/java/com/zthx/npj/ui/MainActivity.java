@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +16,7 @@ import com.zthx.npj.ui.fragment.GameFragment;
 import com.zthx.npj.ui.fragment.HomeFragment;
 import com.zthx.npj.ui.fragment.MineFragment;
 import com.zthx.npj.ui.fragment.ShoppingCartFragment;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,8 +93,12 @@ public class MainActivity extends BaseActivity {
                     mFragments[3] = mShoppingCartFragment;
                     break;
                 case 4:
-                    mMineFragment = new MineFragment();
-                    mFragments[4] = mMineFragment;
+                    if(SharePerferenceUtils.getUserId(this).equals("")){
+                        startActivity(new Intent(this,LoginActivity.class));
+                    }else{
+                        mMineFragment = new MineFragment();
+                        mFragments[4] = mMineFragment;
+                    }
                     break;
                 default:
                     break;

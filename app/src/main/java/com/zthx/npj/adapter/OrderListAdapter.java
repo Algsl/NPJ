@@ -132,25 +132,29 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
             viewHolder.storeName.setText(list.get(i).getStore_name());
             viewHolder.goodsName.setText(list.get(i).getGoods_name());
-            viewHolder.goodsPrice.setText(list.get(i).getGoods_price());
+            viewHolder.goodsPrice.setText("￥ "+list.get(i).getGoods_price());
             viewHolder.goodsNum.setText("x "+list.get(i).getGoods_num());
-            viewHolder.orderPrice.setText(list.get(i).getOrder_price());
+            viewHolder.orderPrice.setText("￥ "+list.get(i).getOrder_price());
             switch (list.get(i).getOrder_state()+""){
-                case "0":
+                case "0"://已取消
+                    viewHolder.orderState.setText("已取消");
                     viewHolder.cancel.setVisibility(View.GONE);
                     viewHolder.cuidan.setVisibility(View.GONE);
                     viewHolder.pay.setVisibility(View.GONE);
                     break;
-                case "1":
+                case "1"://未取消，未付款
+                    viewHolder.orderState.setText("待支付");
                     viewHolder.delete.setVisibility(View.GONE);
                     viewHolder.cuidan.setVisibility(View.GONE);
                     break;
-                case "2":
+                case "2"://已付款，待发货
+                    viewHolder.orderState.setText("待发货");
                     viewHolder.cancel.setVisibility(View.GONE);
-                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
                     viewHolder.delete.setVisibility(View.GONE);
                     break;
-                case "3":
+                case "3"://已发货，待收货
+                    viewHolder.orderState.setText("待收货");
                     viewHolder.cancel.setVisibility(View.GONE);
                     viewHolder.delete.setVisibility(View.GONE);
                     viewHolder.cuidan.setVisibility(View.GONE);
@@ -158,7 +162,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.query.setVisibility(View.VISIBLE);
                     viewHolder.confirm.setVisibility(View.VISIBLE);
                     break;
-                case "4":
+                case "4"://已收货，待评价
+                    viewHolder.orderState.setText("待评价");
                     viewHolder.cancel.setVisibility(View.GONE);
                     viewHolder.delete.setVisibility(View.GONE);
                     viewHolder.cuidan.setVisibility(View.GONE);
@@ -167,14 +172,16 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.comment.setVisibility(View.VISIBLE);
                     viewHolder.goodsReturn.setVisibility(View.VISIBLE);
                     break;
-                case "5":break;
-                case "6":
+                case "5":break;//已完成
+                case "6"://申请退款
+                    viewHolder.orderState.setText("退款中");
                     viewHolder.cancel.setVisibility(View.GONE);
                     viewHolder.delete.setVisibility(View.GONE);
                     viewHolder.cuidan.setVisibility(View.GONE);
                     viewHolder.pay.setVisibility(View.GONE);
                     break;
-                case "7":
+                case "7"://已退款
+                    viewHolder.orderState.setText("已退款");
                     viewHolder.cancel.setVisibility(View.GONE);
                     viewHolder.delete.setVisibility(View.GONE);
                     viewHolder.cuidan.setVisibility(View.GONE);
