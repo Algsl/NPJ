@@ -1,6 +1,7 @@
 package com.zthx.npj.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import com.zthx.npj.net.been.OrderResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.ConfirmMyOrderActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
@@ -69,10 +71,86 @@ public class OrderListFragment extends Fragment {
 
     private void setOrder(String result) {
         OrderResponseBean bean= GsonUtils.fromJson(result,OrderResponseBean.class);
-        ArrayList<OrderResponseBean.DataBean> data=bean.getData();
+        final ArrayList<OrderResponseBean.DataBean> data=bean.getData();
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         fgOrderList.setLayoutManager(manager);
+
         OrderListAdapter mAdapter = new OrderListAdapter(getActivity(), data);
+        mAdapter.setOnItemClickListener(new OrderListAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+            }
+
+            @Override
+            public void onCancelClick(int position) {
+                String order_id=data.get(position).getId();
+                SetSubscribe.cancelOrder(user_id,token,order_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+                String order_id=data.get(position).getId();
+                SetSubscribe.delOrder(user_id,token,order_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
+            }
+
+            @Override
+            public void onPayClick(int position) {
+                Intent intent=new Intent(getActivity(), ConfirmMyOrderActivity.class);
+                intent.putExtra("order_id",data.get(position).getId()+"");
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCuiDanClick(int position) {
+
+            }
+
+            @Override
+            public void onQueryClick(int position) {
+
+            }
+
+            @Override
+            public void onConfirmClick(int position) {
+
+            }
+
+            @Override
+            public void onAgainClick(int position) {
+
+            }
+
+            @Override
+            public void onCommentClick(int position) {
+
+            }
+
+            @Override
+            public void onGoodsReturn(int position) {
+
+            }
+        });
         fgOrderList.setAdapter(mAdapter);
     }
 

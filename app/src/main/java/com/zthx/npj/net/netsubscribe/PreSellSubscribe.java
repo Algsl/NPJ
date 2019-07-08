@@ -4,6 +4,7 @@ import com.zthx.npj.net.been.CommentBean;
 import com.zthx.npj.net.been.ConfirmPreSellBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
 import com.zthx.npj.net.been.PreSellBean;
+import com.zthx.npj.net.been.YsBuyOneBean;
 import com.zthx.npj.net.netutils.RetrofitFactory;
 
 import io.reactivex.Observable;
@@ -48,6 +49,23 @@ public class PreSellSubscribe {
      */
     public static void getConfirmPreSell(ConfirmPreSellBean bean,DisposableObserver<ResponseBody> subscriber) {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().confirmPreSellForBody(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 新品预售生成订单
+     * @param bean
+     * @param subscriber
+     */
+    public static void ysBuyOne(YsBuyOneBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setAtt_id(bean.getAtt_id());
+        bean.setAddress_id(bean.getAddress_id());
+        bean.setPay_code(bean.getPay_code());
+        bean.setPre_id(bean.getPre_id());
+        bean.setRemark(bean.getRemark());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().ysBuyOne(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

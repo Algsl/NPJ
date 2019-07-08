@@ -11,6 +11,7 @@ import com.zthx.npj.adapter.DiscoverViewPagerAdapter;
 import com.zthx.npj.ui.fragment.DiscoverSupplyFragment;
 import com.zthx.npj.ui.fragment.DiscverServiceFragment;
 import com.zthx.npj.ui.fragment.OrderListFragment;
+import com.zthx.npj.ui.fragment.StoreGoodsListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +45,12 @@ public class MyOrderActivity extends AppCompatActivity {
         list2.add(new OrderListFragment().newIntent("3"));
         list2.add(new OrderListFragment().newIntent("4"));
         list2.add(new OrderListFragment().newIntent("6"));
+
         DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
         atMyOrderVp.setAdapter(mAdapter);
         atMyOrderTab.setTabMode(TabLayout.MODE_FIXED);
         atMyOrderTab.setTabGravity(TabLayout.GRAVITY_CENTER);
         atMyOrderTab.setupWithViewPager(atMyOrderVp);
+
     }
 }

@@ -26,6 +26,15 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     private ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
         void onItemClick(int position) ;
+        void onCancelClick(int position);
+        void onDeleteClick(int position);
+        void onPayClick(int position);
+        void onCuiDanClick(int position);
+        void onQueryClick(int position);
+        void onConfirmClick(int position);
+        void onAgainClick(int position);
+        void onCommentClick(int position);
+        void onGoodsReturn(int position);
     }
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
@@ -55,12 +64,123 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     mItemClickListener.onItemClick(position);
                 }
             });
+            viewHolder.cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onCancelClick(position);
+                }
+            });
+            viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onDeleteClick(position);
+                }
+            });
+            viewHolder.cuidan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onCuiDanClick(position);
+                }
+            });
+            viewHolder.pay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onPayClick(position);
+                }
+            });
+            viewHolder.query.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onQueryClick(position);
+                }
+            });
+            viewHolder.confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onConfirmClick(position);
+                }
+            });
+            viewHolder.again.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onAgainClick(position);
+                }
+            });
+            viewHolder.comment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onCommentClick(position);
+                }
+            });
+            viewHolder.goodsReturn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onGoodsReturn(position);
+                }
+            });
         }
         if (list!= null && list.size() > 0) {
             Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
             viewHolder.storeName.setText(list.get(i).getStore_name());
             viewHolder.goodsName.setText(list.get(i).getGoods_name());
             viewHolder.goodsPrice.setText(list.get(i).getGoods_price());
+            viewHolder.goodsNum.setText("x "+list.get(i).getGoods_num());
+            viewHolder.orderPrice.setText(list.get(i).getOrder_price());
+            switch (list.get(i).getOrder_state()+""){
+                case "0":
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    break;
+                case "1":
+                    viewHolder.delete.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    break;
+                case "2":
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.delete.setVisibility(View.GONE);
+                    break;
+                case "3":
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.delete.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.query.setVisibility(View.VISIBLE);
+                    viewHolder.confirm.setVisibility(View.VISIBLE);
+                    break;
+                case "4":
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.delete.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.again.setVisibility(View.VISIBLE);
+                    viewHolder.comment.setVisibility(View.VISIBLE);
+                    viewHolder.goodsReturn.setVisibility(View.VISIBLE);
+                    break;
+                case "5":break;
+                case "6":
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.delete.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    break;
+                case "7":
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.delete.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    break;
+            }
         } else {
 
         }

@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="韩国control眼部精华打底液隔离打底保湿水正品代购"
-            android:layout_toRightOf="@id/item_orderList_tv_goodsImg"
+            android:layout_toRightOf="@id/item_orderList_iv_goodsImg"
             android:layout_marginTop="@dimen/dp_12"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginLeft="@dimen/dp_11"

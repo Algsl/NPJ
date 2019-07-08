@@ -6,13 +6,17 @@ import com.zthx.npj.net.been.AddressInfoBean;
 import com.zthx.npj.net.been.AddressListBean;
 import com.zthx.npj.net.been.AkVideoBean;
 import com.zthx.npj.net.been.BannerBean;
+import com.zthx.npj.net.been.BuyBean;
 import com.zthx.npj.net.been.BuyVideoBean;
+import com.zthx.npj.net.been.CancelOrderBean;
 import com.zthx.npj.net.been.CommentBean;
+import com.zthx.npj.net.been.ConfirmOrderBean;
 import com.zthx.npj.net.been.ConfirmPreSellBean;
 import com.zthx.npj.net.been.ConfirmSupplyBean;
 import com.zthx.npj.net.been.DefaultAddressBean;
 import com.zthx.npj.net.been.DelAddressBean;
 import com.zthx.npj.net.been.DelGoodsBean;
+import com.zthx.npj.net.been.DelOrderBean;
 import com.zthx.npj.net.been.EditAddressBean;
 import com.zthx.npj.net.been.EditGoodsBean;
 import com.zthx.npj.net.been.EditHeadimgBean;
@@ -52,6 +56,7 @@ import com.zthx.npj.net.been.UploadPurchaseBean;
 import com.zthx.npj.net.been.UploadSupplyBean;
 import com.zthx.npj.net.been.UserBean;
 import com.zthx.npj.net.been.VideoInfoBean;
+import com.zthx.npj.net.been.YsBuyOneBean;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
@@ -105,6 +110,10 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/ysorder.html")
     Observable<ResponseBody> confirmPreSellForBody(@Body ConfirmPreSellBean bean);
+
+    @POST("index.php/api/user/ysbuyone.html")
+    Observable<ResponseBody> ysBuyOne(@Body YsBuyOneBean bean);
+
 
     @POST("index.php/api/index/spike.html")
     Observable<ResponseBody> getSecKillTodayForBody(@Body NullBean bean);
@@ -267,5 +276,17 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/order.html")
     Observable<ResponseBody> order(@Body OrderBean bean);
+
+    @POST("index.php/api/user/cancelorder.html")
+    Observable<ResponseBody> cancelOrder(@Body CancelOrderBean bean);
+
+    @POST("index.php/api/user/delorder.html")
+    Observable<ResponseBody> delOrder(@Body DelOrderBean bean);
+
+    @POST("index.php/api/user/confirmorder.html")
+    Observable<ResponseBody> confirmOrder(@Body ConfirmOrderBean bean);
+
+    @POST("index.php/api/user/buy.html")
+    Observable<ResponseBody> buy(@Body BuyBean bean);
 }
 

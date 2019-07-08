@@ -257,7 +257,7 @@ public class MineFragment
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 break;
             case R.id.fg_mine_iv_people_right:
-                //                startActivity(new Intent(getActivity(), SpokesmanRightsNoPermissionActivity.class));
+                // startActivity(new Intent(getActivity(), SpokesmanRightsNoPermissionActivity.class));
                 startActivity(new Intent(getActivity(), SpokesmanRightsActivity.class));
                 break;
             case R.id.fg_mine_ll_collect:

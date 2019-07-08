@@ -3,6 +3,8 @@ package com.zthx.npj.ui;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,7 +15,9 @@ import com.zthx.npj.base.BaseConstant;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.ConfirmPreSellBean;
 import com.zthx.npj.net.been.ConfirmPreSellResponseBean;
+import com.zthx.npj.net.been.ConfirmSupplyResponseBean;
 import com.zthx.npj.net.been.GIftConfirmResponseBean;
+import com.zthx.npj.net.been.YsBuyOneBean;
 import com.zthx.npj.net.netsubscribe.GiftSubscribe;
 import com.zthx.npj.net.netsubscribe.PreSellSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -67,8 +71,14 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     TextView atConfirmOrderTvJin;
     @BindView(R.id.at_confirm_order_rl_hongbao)
     RelativeLayout atConfirmOrderRlHongbao;
+    @BindView(R.id.ac_confirmOrder_btn_pay)
+    Button acConfirmOrderBtnPay;
+    @BindView(R.id.ac_confirmOrder_et_remark)
+    EditText acConfirmOrderEtRemark;
     private String attId;
     private String goodsId;
+
+    ConfirmPreSellResponseBean.DataBean data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +99,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
     private void getGiftConfirmData(String goodsId) {
 
-        GiftSubscribe.getGiftConfirm(SharePerferenceUtils.getUserId(this),BaseConstant.TOKEN, goodsId, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        GiftSubscribe.getGiftConfirm(SharePerferenceUtils.getUserId(this), BaseConstant.TOKEN, goodsId, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
 
@@ -101,14 +111,14 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                     atConfirmOrderRlHongbao.setVisibility(View.GONE);
                 }
                 atConfirmOrderTvStoreName.setText(gIftConfirmResponseBean.getStore_name());
-                atConfirmOrderTvAddress.setText(gIftConfirmResponseBean.getAddress_id() +"");
+                atConfirmOrderTvAddress.setText(gIftConfirmResponseBean.getAddress_id() + "");
             }
 
             @Override
             public void onFault(String errorMsg) {
 
             }
-        },this));
+        }, this));
     }
 
     private void getData() {
@@ -120,16 +130,16 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         PreSellSubscribe.getConfirmPreSell(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-
                 ConfirmPreSellResponseBean confirmPreSellResponseBean = GsonUtils.fromJson(result, ConfirmPreSellResponseBean.class);
-                atConfirmOrderTvAddress.setText(confirmPreSellResponseBean.getAddress());
-                atConfirmOrderTvStoreName.setText(confirmPreSellResponseBean.getStore_name());
-                Glide.with(ConfirmOrderActivity.this).load(confirmPreSellResponseBean.getGoods_img()).into(atConfirmOrderIvPic);
-                atConfirmOrderTvTitle.setText(confirmPreSellResponseBean.getGoods_name());
-                atConfirmOrderTvSize.setText("规格： " + confirmPreSellResponseBean.getAttribute().getPre_number());
-                atConfirmOrderTvGoodsPrice.setText("¥" + confirmPreSellResponseBean.getGoods_price());
-                atConfirmOrderTvGoodsNum.setText("x" + confirmPreSellResponseBean.getAttribute().getPre_number());
-                atConfirmOrderTvPrice.setText("¥" + confirmPreSellResponseBean.getAttribute().getPre_price());
+                data=confirmPreSellResponseBean.getData();
+                atConfirmOrderTvAddress.setText(data.getAddress());
+                atConfirmOrderTvStoreName.setText(data.getStore_name());
+                Glide.with(ConfirmOrderActivity.this).load(data.getGoods_img()).into(atConfirmOrderIvPic);
+                atConfirmOrderTvTitle.setText(data.getGoods_name());
+                atConfirmOrderTvSize.setText("规格： " +data.getAttributes().getId() );
+                atConfirmOrderTvGoodsPrice.setText("¥" + data.getGoods_price());
+                atConfirmOrderTvGoodsNum.setText("x" + data.getAttributes().getPre_number());
+                atConfirmOrderTvPrice.setText("¥" + data.getAttributes().getPre_price());
 
             }
 
@@ -140,11 +150,38 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         }, this));
     }
 
-    @OnClick(R.id.at_confirm_order_rl_ziti)
-    public void onViewClicked() {
+    @OnClick({R.id.at_confirm_order_rl_ziti, R.id.ac_confirmOrder_btn_pay})
+    public void onViewClicked(View v) {
         showPopupWindow();
+        switch (v.getId()) {
+            case R.id.at_confirm_order_rl_ziti:
+                break;
+            case R.id.ac_confirmOrder_btn_pay:
+                YsBuyOneBean bean = new YsBuyOneBean();
+                bean.setUser_id(SharePerferenceUtils.getUserId(this));
+                bean.setToken(SharePerferenceUtils.getToken(this));
+                bean.setAtt_id(attId);
+                bean.setPre_id(goodsId);
+                bean.setAddress_id(data.getAddress_id()+"");
+                bean.setPay_code("1");
+                bean.setRemark(acConfirmOrderEtRemark.getText().toString().trim());
+                PreSellSubscribe.ysBuyOne(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        finish();
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
+                break;
+        }
     }
 
     private void showPopupWindow() {
+
     }
+
 }

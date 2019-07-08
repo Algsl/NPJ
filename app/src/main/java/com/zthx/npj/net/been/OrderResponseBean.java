@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class OrderResponseBean extends BaseReponseBean{
     public class DataBean{
+        private String id;
         private String store_name;
         private long order_state;
         private String goods_img;
@@ -11,6 +12,14 @@ public class OrderResponseBean extends BaseReponseBean{
         private String goods_price;
         private long goods_num;
         private String order_price;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
 
         public String getStore_name() {
             return store_name;

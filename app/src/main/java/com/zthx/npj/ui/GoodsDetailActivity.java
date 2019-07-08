@@ -270,7 +270,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
                     break;
                 case R.id.item_pop_goods_buy:
                     Intent intent = new Intent(GoodsDetailActivity.this, ConfirmOrderActivity.class);
-                    intent.putExtra(Const.ATTRIBUTE_ID, mPreData.getAttribute_value().get(0).getId());
+                    intent.putExtra(Const.ATTRIBUTE_ID, mPreData.getAttribute_value().get(0).getId()+"");
                     intent.putExtra(Const.GOODS_ID, goodsId);
                     startActivity(intent);
                     break;
