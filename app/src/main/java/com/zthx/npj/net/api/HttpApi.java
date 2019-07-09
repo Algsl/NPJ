@@ -29,6 +29,7 @@ import com.zthx.npj.net.been.GoodsInfoBean;
 import com.zthx.npj.net.been.InvitationBean;
 import com.zthx.npj.net.been.LocalSpokesmanBeen;
 import com.zthx.npj.net.been.LocalStoreBean;
+import com.zthx.npj.net.been.LookKDBean;
 import com.zthx.npj.net.been.MsgCodeBeen;
 import com.zthx.npj.net.been.MyGoodsBean;
 import com.zthx.npj.net.been.MyOrderDetailBean;
@@ -38,8 +39,10 @@ import com.zthx.npj.net.been.NullBean;
 import com.zthx.npj.net.been.OrderBean;
 import com.zthx.npj.net.been.OrderCommentBean;
 import com.zthx.npj.net.been.OutGoodsBean;
+import com.zthx.npj.net.been.PayVideoBean;
 import com.zthx.npj.net.been.PhoneLoginBean;
 import com.zthx.npj.net.been.PreSellBean;
+import com.zthx.npj.net.been.ReceiveConfirmBean;
 import com.zthx.npj.net.been.RecommendBean;
 import com.zthx.npj.net.been.RefundBean;
 import com.zthx.npj.net.been.SearchBean;
@@ -296,5 +299,14 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/applyrefund.html")
     Observable<ResponseBody> applyRefund(@Body ApplyRefundBean bean);
+
+    @POST("index.php/api/set/lookkd.html")
+    Observable<ResponseBody> lookKD(@Body LookKDBean bean);
+
+    @POST("index.php/api/user/confirm.html")
+    Observable<ResponseBody> receiveConfirm(@Body ReceiveConfirmBean bean);
+
+    @POST("index.php/api/payment/payvideo.html")
+    Observable<ResponseBody> payVideo(@Body PayVideoBean bean);
 }
 

@@ -17,6 +17,7 @@ import com.zthx.npj.net.been.EditGoodsBean;
 import com.zthx.npj.net.been.EditHeadimgBean;
 import com.zthx.npj.net.been.EditNicknameBean;
 import com.zthx.npj.net.been.GoodsInfoBean;
+import com.zthx.npj.net.been.LookKDBean;
 import com.zthx.npj.net.been.MyGoodsBean;
 import com.zthx.npj.net.been.MyOrderDetailBean;
 import com.zthx.npj.net.been.MyOrderListBean;
@@ -24,6 +25,7 @@ import com.zthx.npj.net.been.MyStoreBean;
 import com.zthx.npj.net.been.OrderBean;
 import com.zthx.npj.net.been.OrderCommentBean;
 import com.zthx.npj.net.been.OutGoodsBean;
+import com.zthx.npj.net.been.ReceiveConfirmBean;
 import com.zthx.npj.net.been.RefundBean;
 import com.zthx.npj.net.been.SetStoreBean;
 import com.zthx.npj.net.been.ShipBean;
@@ -533,6 +535,36 @@ public class SetSubscribe {
         bean.setRefund_desc(bean.getRefund_desc());
         bean.setRefund_img(bean.getRefund_img());
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().applyRefund(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 查看物流
+     * @param express_code
+     * @param express_number
+     * @param subscriber
+     */
+    public static void lookKD(String express_code,String express_number, DisposableObserver<ResponseBody> subscriber) {
+        LookKDBean bean=new LookKDBean();
+        bean.setExpress_code(express_code);
+        bean.setExpress_number(express_number);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().lookKD(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 确认收货
+     * @param user_id
+     * @param token
+     * @param order_id
+     * @param subscriber
+     */
+    public static void receiveConfirm(String user_id,String token,String order_id, DisposableObserver<ResponseBody> subscriber) {
+        ReceiveConfirmBean bean=new ReceiveConfirmBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setOrder_id(order_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().receiveConfirm(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

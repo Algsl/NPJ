@@ -5,13 +5,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.DiscoverViewPagerAdapter;
-import com.zthx.npj.ui.fragment.DiscoverSupplyFragment;
-import com.zthx.npj.ui.fragment.DiscverServiceFragment;
 import com.zthx.npj.ui.fragment.OrderListFragment;
-import com.zthx.npj.ui.fragment.StoreGoodsListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +24,21 @@ public class MyOrderActivity extends AppCompatActivity {
     ViewPager atMyOrderVp;
     @BindView(R.id.at_my_order_tab)
     TabLayout atMyOrderTab;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.at_location_store_tv_ruzhu)
+    TextView atLocationStoreTvRuzhu;
+    @BindView(R.id.title)
+    RelativeLayout title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_order);
         ButterKnife.bind(this);
+
+        acTitle.setText("我的订单");
+
         List<String> list = new ArrayList<>();
         list.add("全部");
         list.add("待付款");

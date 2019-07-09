@@ -17,8 +17,8 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     private IWXAPI api;
     @Override
     public void onReq(BaseReq baseReq) {
-        api = WXAPIFactory.createWXAPI(this, "wx0f4f8d4b6b85a921");
-        api.handleIntent(getIntent(), this);
+        api = WXAPIFactory.createWXAPI(this, "wx0f4f8d4b6b85a921",false);
+        api.registerApp("wx0f4f8d4b6b85a921");
     }
 
     @Override

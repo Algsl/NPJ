@@ -5,6 +5,7 @@ import com.zthx.npj.net.been.BuyVideoBean;
 import com.zthx.npj.net.been.ConfirmSupplyBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
 import com.zthx.npj.net.been.NullBean;
+import com.zthx.npj.net.been.PayVideoBean;
 import com.zthx.npj.net.been.SupplyListBean;
 import com.zthx.npj.net.been.UploadCommentBean;
 import com.zthx.npj.net.been.UploadCompanyBean;
@@ -199,6 +200,22 @@ public class DiscoverSubscribe {
         bean.setUser_id(user_id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().confirmSupplyForBody(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 课程购买支付
+     * @param pay_code
+     * @param order_sn
+     * @param pay_money
+     * @param subscriber
+     */
+    public static void payVideo(String pay_code,String order_sn,String pay_money, DisposableObserver<ResponseBody> subscriber) {
+        PayVideoBean bean=new PayVideoBean();
+        bean.setPay_code(pay_code);
+        bean.setOrder_sn(order_sn);
+        bean.setPay_money(pay_money);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().payVideo(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 

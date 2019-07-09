@@ -139,7 +139,6 @@ public class ConfirmMyOrderActivity extends AppCompatActivity {
                         req.timeStamp       = "1555916317";//时间戳
                         req.packageValue    = "Sign=WXPay";//扩展字段,这里固定填写Sign=WXPay
                         req.sign            = "5F382CC6A49849E565266D0B67140FD4";//签名
-//              req.extData         = "app data"; // optional
                         // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
                         api.sendReq(req);
                     }

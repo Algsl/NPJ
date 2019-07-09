@@ -124,6 +124,8 @@
         <activity android:name=".ui.MyStoreOrderDetailActivity"/>
         <activity android:name=".ui.ConfirmMyOrderActivity"/>
         <activity android:name=".ui.CommentActivity"/>
+        <activity android:name=".ui.KuaiDiDetailActivity"/>
+        <activity android:name=".ui.ApplyRefundActivity"/>
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"

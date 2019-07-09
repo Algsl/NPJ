@@ -13,6 +13,7 @@
         android:layout_height="@dimen/dp_50"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/ac_orderComment_iv_goodsImg"
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40"
             android:layout_marginTop="@dimen/dp_5"

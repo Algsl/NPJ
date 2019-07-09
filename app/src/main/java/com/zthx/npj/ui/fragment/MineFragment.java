@@ -170,8 +170,7 @@ public class MineFragment
 
     private void getUserInfo() {
         String user_id = SharePerferenceUtils.getUserId(getContext());
-        //String token   = SharePerferenceUtils.getToken(getContext());
-        String token = "1f27405d66fa30be262785b395b622a6";
+        String token   = SharePerferenceUtils.getToken(getContext());
         SetSubscribe.getUserInfo(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -250,9 +249,26 @@ public class MineFragment
               R.id.fg_mine_ll_collect,
               R.id.fg_mine_ll_coupon,
               R.id.fg_mine_ll_my_wallet,
-            R.id.fg_mine_tv_all_order})
+              R.id.fg_mine_tv_all_order,
+              R.id.fg_mine_ll_wait_pay,//待付款
+              R.id.fg_mine_ll_wait_delivery,//待发货
+              R.id.fg_mine_ll_wait_take_delivery,//待收货
+              R.id.fg_mine_ll_wait_evaluate,//待评价
+              R.id.fg_mine_ll_custom_service//退款/售后
+             })
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.fg_mine_ll_wait_pay:
+
+                break;
+            case R.id.fg_mine_ll_wait_delivery:
+                break;
+            case R.id.fg_mine_ll_wait_take_delivery:
+                break;
+            case R.id.fg_mine_ll_wait_evaluate:
+                break;
+            case R.id.fg_mine_ll_custom_service:
+                break;
             case R.id.fg_mine_iv_settings:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 break;

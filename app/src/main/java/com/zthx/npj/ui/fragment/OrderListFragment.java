@@ -6,18 +6,24 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.OrderListAdapter;
+import com.zthx.npj.base.Const;
+import com.zthx.npj.net.been.LookKDResponseBean;
 import com.zthx.npj.net.been.OrderResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.ApplyRefundActivity;
 import com.zthx.npj.ui.CommentActivity;
 import com.zthx.npj.ui.ConfirmMyOrderActivity;
+import com.zthx.npj.ui.GoodsDetailActivity;
+import com.zthx.npj.ui.KuaiDiDetailActivity;
 import com.zthx.npj.ui.MyStoreOrderDetailActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
@@ -130,17 +136,33 @@ public class OrderListFragment extends Fragment {
             //查询物流
             @Override
             public void onQueryClick(int position) {
-
+                Intent intent=new Intent(getContext(), KuaiDiDetailActivity.class);
+                intent.putExtra("order_id",data.get(position).getId()+"");
+                startActivity(intent);
             }
             //确认收货
             @Override
             public void onConfirmClick(int position) {
+                String order_id=data.get(position).getId()+"";
+                SetSubscribe.receiveConfirm(user_id,token,order_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
 
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
             }
             //再来一单
             @Override
             public void onAgainClick(int position) {
-
+                Intent intent=new Intent(getContext(), GoodsDetailActivity.class);
+                intent.setAction(Const.PRESELL);
+                intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                startActivity(intent);
             }
             //评论订单
             @Override
@@ -152,11 +174,14 @@ public class OrderListFragment extends Fragment {
             //退货
             @Override
             public void onGoodsReturn(int position) {
-
+                Intent intent=new Intent(getContext(), ApplyRefundActivity.class);
+                intent.putExtra("order_id",data.get(position).getId()+"");
+                startActivity(intent);
             }
         });
         fgOrderList.setAdapter(mAdapter);
     }
+
 
     public OrderListFragment newIntent(String order_state){
         OrderListFragment fragment=new OrderListFragment();
