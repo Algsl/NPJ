@@ -567,4 +567,14 @@ public class SetSubscribe {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().receiveConfirm(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
+
+    public static void getUserInfo(String user_id,String token,String order_id, DisposableObserver<ResponseBody> subscriber) {
+        ReceiveConfirmBean bean=new ReceiveConfirmBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setOrder_id(order_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().receiveConfirm(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
 }

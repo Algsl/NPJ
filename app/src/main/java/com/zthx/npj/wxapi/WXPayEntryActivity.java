@@ -1,7 +1,10 @@
 package com.zthx.npj.wxapi;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
@@ -11,24 +14,33 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.R;
+import com.zthx.npj.ui.ConfirmMyOrderActivity;
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
-    private static final String TAG = "WXPayEntryActivity";
-    private IWXAPI api;
-    @Override
-    public void onReq(BaseReq baseReq) {
-        api = WXAPIFactory.createWXAPI(this, "wx0f4f8d4b6b85a921",false);
-        api.registerApp("wx0f4f8d4b6b85a921");
-    }
 
-    @Override
-    public void onResp(BaseResp baseResp) {
-        Log.d(TAG, "onResp: "+baseResp.errCode);
-        if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("支付结果");
-            builder.setMessage(baseResp.errCode);
-            builder.show();
+        private static final String TAG = "MicroMsg.SDKSample.WXPayEntryActivity";
+        IWXAPI api;
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            ConfirmMyOrderActivity.api.handleIntent(getIntent(), this);
         }
-    }
+
+        @Override
+        public void onReq(BaseReq req) {
+
+        }
+
+        @SuppressLint("LongLogTag")
+        @Override
+        public void onResp(BaseResp resp) {
+            Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
+
+            if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("支付结果");
+                builder.setMessage(resp.errCode+" "+resp.errStr);
+                builder.show();
+            }
+        }
 }

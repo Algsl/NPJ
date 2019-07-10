@@ -61,12 +61,16 @@ public class ConfirmMyOrderActivity extends AppCompatActivity {
     String token=SharePerferenceUtils.getToken(this);
     String pay_code="1";
     ConfirmOrderResponseBean.DataBean data;
+    public static IWXAPI api ;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_myorder);
         ButterKnife.bind(this);
+        api = WXAPIFactory.createWXAPI(ConfirmMyOrderActivity.this, null);
+        api.registerApp("wx76500efa65d19915");
+
         getMyConfirmOrder();
     }
 
@@ -129,18 +133,16 @@ public class ConfirmMyOrderActivity extends AppCompatActivity {
                 SetSubscribe.buy(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        IWXAPI api = WXAPIFactory.createWXAPI(getBaseContext(), null);
-                        api.registerApp("wx0f4f8d4b6b85a921");
                         PayReq req = new PayReq();
-                        req.appId           = "wx0f4f8d4b6b85a921";//你的微信appid
+                        req.appId           = "wx76500efa65d19915";//你的微信appid
                         req.partnerId       = "1512847301";//商户号
-                        req.prepayId        = "wx221459195887969f1343b9602040846145";//预支付交易会话ID
-                        req.nonceStr        = "58uefEqK98rpSPob0sBzDcWvnOJtjvOr";//随机字符串
-                        req.timeStamp       = "1555916317";//时间戳
+                        req.prepayId        = "wx0818255793822758eb1d33a80072025131";//预支付交易会话ID
+                        req.nonceStr        = "o32sb3Y27jFiLyqHe07e7n5mvSa3ZfIL";//随机字符串
+                        req.timeStamp       = "1557311094";//时间戳
                         req.packageValue    = "Sign=WXPay";//扩展字段,这里固定填写Sign=WXPay
-                        req.sign            = "5F382CC6A49849E565266D0B67140FD4";//签名
+                        req.sign            = "279B44E2D21B4B54F80FE62B3917F27A";//签名
                         // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-                        api.sendReq(req);
+                        ConfirmMyOrderActivity.api.sendReq(req);
                     }
 
                     @Override

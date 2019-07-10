@@ -126,6 +126,19 @@
         <activity android:name=".ui.CommentActivity"/>
         <activity android:name=".ui.KuaiDiDetailActivity"/>
         <activity android:name=".ui.ApplyRefundActivity"/>
+        <activity android:name=".ui.UserMoneyActivity"/>
+
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:label="@string/app_name"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="wx76500efa65d19915"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -133,10 +146,11 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="wx0f4f8d4b6b85a921"/>
+                <data android:scheme="wx76500efa65d19915"/>
             </intent-filter>
 
         </activity>
+
         <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

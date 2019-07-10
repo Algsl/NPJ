@@ -2,7 +2,9 @@ package com.zthx.npj.ui;
 
 import android.app.Application;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,17 +17,22 @@ import android.widget.Toast;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.net.been.MsgCodeResponseBeen;
 import com.zthx.npj.net.been.PhoneLoginBean;
 import com.zthx.npj.net.been.PhoneLoginResponseBean;
 import com.zthx.npj.net.netsubscribe.LoginSubscribe;
+import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.MyCircleView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +62,8 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
 
     private String mCodeId;//短信验证码随机数
     private boolean isThirdLogin = false;
+    public Handler handler=new Handler();
+    String result;
 
 
     @Override
@@ -62,7 +71,6 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cell_phone_login);
         ButterKnife.bind(this);
-
     }
 
 

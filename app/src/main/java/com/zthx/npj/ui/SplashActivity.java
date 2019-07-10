@@ -48,7 +48,11 @@ public class SplashActivity extends AppCompatActivity {
                     }
                 }));
             } else if (msg.what == 2) {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                if(SharePerferenceUtils.getUserId(SplashActivity.this).equals("")){
+                    startActivity(new Intent(SplashActivity.this,LoginActivity.class));
+                }else{
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                }
                 finish();
             }
             super.handleMessage(msg);
@@ -75,7 +79,8 @@ public class SplashActivity extends AppCompatActivity {
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_PHONE_STATE
         };
         //过滤以获取的权限，得到未获取的权限
         List<String> mRequestPermission=new ArrayList<>();

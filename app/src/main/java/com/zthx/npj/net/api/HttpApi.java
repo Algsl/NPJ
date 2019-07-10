@@ -66,7 +66,10 @@ import com.zthx.npj.net.been.YsBuyOneBean;
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 /**
  * Created by huangxin on 2019/5/27.
@@ -308,5 +311,6 @@ public interface HttpApi  {
 
     @POST("index.php/api/payment/payvideo.html")
     Observable<ResponseBody> payVideo(@Body PayVideoBean bean);
+
 }
 
