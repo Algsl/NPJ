@@ -24,6 +24,8 @@ import butterknife.ButterKnife;
 
 public class TestActivity extends AppCompatActivity {
 
+
+
     public LocationClient mLocationClient;
     @BindView(R.id.btnPay)
     TextView btnPay;
@@ -127,4 +129,7 @@ public class TestActivity extends AppCompatActivity {
             });
         }
     }
+
+
+
 }

@@ -86,8 +86,10 @@ dependencies {
     implementation 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.8'
 
     implementation 'com.github.zhouzhuo810:ZzImageBox:1.1.5'
+
     //时间地点选择器
     implementation 'com.contrarywind:Android-PickerView:4.1.6'
+
     //接入微信支付
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 

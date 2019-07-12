@@ -67,10 +67,11 @@
             android:layout_marginLeft="@dimen/dp_12"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-            <EditText
-                android:id="@+id/ac_address_et_address"
+            <TextView
+                android:id="@+id/ac_address_tv_address"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:hint="省 市 区"
                 android:textColor="@color/text9"
                 android:textSize="@dimen/sp_13"
