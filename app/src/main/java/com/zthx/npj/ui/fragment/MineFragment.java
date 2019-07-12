@@ -37,6 +37,7 @@ import com.zthx.npj.ui.MySupplyActivity;
 import com.zthx.npj.ui.MyWalletActivity;
 import com.zthx.npj.ui.SettingsActivity;
 import com.zthx.npj.ui.SpokesmanRightsActivity;
+import com.zthx.npj.ui.SpokesmanRightsNoPermissionActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.MyCircleView;
@@ -199,27 +200,27 @@ public class MineFragment
         SharePerferenceUtils.putString(getContext(),"level",String.valueOf(data.getLevel()));
         switch (data.getLevel()) {
             case 0:
-                fgMineIvLevelimg.setImageResource(R.drawable.add_pic);break;
+                fgMineIvLevelimg.setImageResource(R.drawable.level0);break;
             case 1:
-                fgMineIvLevelimg.setImageResource(R.drawable.agriculture_knowleg);break;
+                fgMineIvLevelimg.setImageResource(R.drawable.level1);break;
             case 2:
-                fgMineIvLevelimg.setImageResource(R.drawable.agriculture_loan);break;
+                fgMineIvLevelimg.setImageResource(R.drawable.level2);break;
             case 3:
-                fgMineIvLevelimg.setImageResource(R.drawable.mine_gold_people);break;
+                fgMineIvLevelimg.setImageResource(R.drawable.level3);break;
             case 4:
-                fgMineIvLevelimg.setImageResource(R.drawable.add_pic);break;
+                fgMineIvLevelimg.setImageResource(R.drawable.level4);break;
             case 5:
-                fgMineIvLevelimg.setImageResource(R.drawable.add_pic);break;
+                fgMineIvLevelimg.setImageResource(R.drawable.level5);break;
             case 6:
-                fgMineIvLevelimg.setImageResource(R.drawable.add_pic);break;
+                fgMineIvLevelimg.setImageResource(R.drawable.level6);break;
             case 7:
-                fgMineIvLevelimg.setImageResource(R.drawable.add_pic);break;
+                fgMineIvLevelimg.setImageResource(R.drawable.level7);break;
             case 8:
-                fgMineIvLevelimg.setImageResource(R.drawable.add_pic);break;
+                fgMineIvLevelimg.setImageResource(R.drawable.level8);break;
             case 9:
-                fgMineIvLevelimg.setImageResource(R.drawable.add_pic);break;
+                fgMineIvLevelimg.setImageResource(R.drawable.level9);break;
             case 10:
-                fgMineIvLevelimg.setImageResource(R.drawable.add_pic);break;
+                fgMineIvLevelimg.setImageResource(R.drawable.level10);break;
         }
     }
 
@@ -273,8 +274,10 @@ public class MineFragment
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 break;
             case R.id.fg_mine_iv_people_right:
-                // startActivity(new Intent(getActivity(), SpokesmanRightsNoPermissionActivity.class));
-                startActivity(new Intent(getActivity(), SpokesmanRightsActivity.class));
+                String level=SharePerferenceUtils.getLevel(getContext())+"";
+                if(level.equals("0")){
+                    startActivity(new Intent(getActivity(), SpokesmanRightsNoPermissionActivity.class));
+                }
                 break;
             case R.id.fg_mine_ll_collect:
                 startActivity(new Intent(getActivity(), MyCollectActivity.class));

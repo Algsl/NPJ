@@ -13,6 +13,24 @@ public class SharePerferenceUtils {
 
     private static SharedPreferences sp;
     private static String SPXMLNAME = "sp_config";
+    private static boolean isBindSpokes;
+    private static boolean isBindWx;
+
+    public static boolean isIsBindSpokes() {
+        return isBindSpokes;
+    }
+
+    public static void setIsBindSpokes(boolean isBindSpokes) {
+        SharePerferenceUtils.isBindSpokes = isBindSpokes;
+    }
+
+    public static boolean isIsBindWx() {
+        return isBindWx;
+    }
+
+    public static void setIsBindWx(boolean isBindWx) {
+        SharePerferenceUtils.isBindWx = isBindWx;
+    }
 
     /**
      * @param ctx
@@ -86,7 +104,7 @@ public class SharePerferenceUtils {
 
     public static String getUserId(Context context) {
         //return getString(context, "user_id", "");
-        return "23";
+        return "43";
     }
 
 
@@ -96,7 +114,7 @@ public class SharePerferenceUtils {
 
     public static String getToken(Context context) {
         //return getString(context, "token", "");
-        return "1f27405d66fa30be262785b395b622a6";
+        return "2afd869e32ccf600ae7a03629250aede";
     }
     public static void setLevel(Context context,long level ){
         putString(context,"level",String.valueOf(level));
@@ -135,5 +153,6 @@ public class SharePerferenceUtils {
     public static String getLng(Context context) {
         return getString(context, Const.SP_LOCATION_LNG,"");
     }
+
 
 }

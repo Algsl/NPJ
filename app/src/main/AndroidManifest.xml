@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zthx.npj">
 
+
     <!-- 权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- 这个权限用于进行网络定位 -->
@@ -26,6 +27,7 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <!-- SD卡读取权限，用户写入离线定位数据 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:name=".base.BaseApp"
@@ -127,6 +129,10 @@
         <activity android:name=".ui.KuaiDiDetailActivity"/>
         <activity android:name=".ui.ApplyRefundActivity"/>
         <activity android:name=".ui.UserMoneyActivity"/>
+        <activity android:name=".ui.BankCardActivity"/>
+        <activity android:name=".ui.AddBankCardActivity"/>
+        <activity android:name=".ui.WithDrawActivity"/>
+        <activity android:name=".ui.TestActivity"/>
 
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -148,7 +154,19 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:scheme="wx76500efa65d19915"/>
             </intent-filter>
+        </activity>
 
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind">
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind">
         </activity>
 
         <activity android:name=".ui.SplashActivity">

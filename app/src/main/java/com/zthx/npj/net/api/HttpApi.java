@@ -1,11 +1,16 @@
 package com.zthx.npj.net.api;
 
 import com.zthx.npj.net.been.AddAddressBean;
+import com.zthx.npj.net.been.AddBankCardBean;
 import com.zthx.npj.net.been.AddGoodsBean;
 import com.zthx.npj.net.been.AddressInfoBean;
 import com.zthx.npj.net.been.AddressListBean;
 import com.zthx.npj.net.been.AkVideoBean;
 import com.zthx.npj.net.been.ApplyRefundBean;
+import com.zthx.npj.net.been.AuthLoginBean;
+import com.zthx.npj.net.been.AuthLoginByMoBileBean;
+import com.zthx.npj.net.been.BankBean;
+import com.zthx.npj.net.been.BankCardBean;
 import com.zthx.npj.net.been.BannerBean;
 import com.zthx.npj.net.been.BuyBean;
 import com.zthx.npj.net.been.BuyVideoBean;
@@ -26,7 +31,9 @@ import com.zthx.npj.net.been.GiftDetailBean;
 import com.zthx.npj.net.been.GiftListBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
 import com.zthx.npj.net.been.GoodsInfoBean;
+import com.zthx.npj.net.been.InComeBean;
 import com.zthx.npj.net.been.InvitationBean;
+import com.zthx.npj.net.been.KuaiDiBean;
 import com.zthx.npj.net.been.LocalSpokesmanBeen;
 import com.zthx.npj.net.been.LocalStoreBean;
 import com.zthx.npj.net.been.LookKDBean;
@@ -43,6 +50,7 @@ import com.zthx.npj.net.been.PayVideoBean;
 import com.zthx.npj.net.been.PhoneLoginBean;
 import com.zthx.npj.net.been.PreSellBean;
 import com.zthx.npj.net.been.ReceiveConfirmBean;
+import com.zthx.npj.net.been.RechargeBean;
 import com.zthx.npj.net.been.RecommendBean;
 import com.zthx.npj.net.been.RefundBean;
 import com.zthx.npj.net.been.SearchBean;
@@ -61,6 +69,7 @@ import com.zthx.npj.net.been.UploadPurchaseBean;
 import com.zthx.npj.net.been.UploadSupplyBean;
 import com.zthx.npj.net.been.UserBean;
 import com.zthx.npj.net.been.VideoInfoBean;
+import com.zthx.npj.net.been.WithdrawBean;
 import com.zthx.npj.net.been.YsBuyOneBean;
 
 import io.reactivex.Observable;
@@ -312,5 +321,31 @@ public interface HttpApi  {
     @POST("index.php/api/payment/payvideo.html")
     Observable<ResponseBody> payVideo(@Body PayVideoBean bean);
 
+    @POST("index.php/api/user/bankcard.html")
+    Observable<ResponseBody> bankCard(@Body BankCardBean bean);
+
+    @POST("index.php/api/user/addbankcard.html")
+    Observable<ResponseBody> addBankCard(@Body AddBankCardBean bean);
+
+    @POST("index.php/api/set/bank.html")
+    Observable<ResponseBody> bank(@Body BankBean bean);
+
+    @POST("index.php/api/set/kuaidi.html")
+    Observable<ResponseBody> kuaidi(@Body KuaiDiBean bean);
+
+    @POST("index.php/api/user/recharge.html")
+    Observable<ResponseBody> recharge(@Body RechargeBean bean);
+
+    @POST("index.php/api/user/withdraw.html")
+    Observable<ResponseBody> withdraw(@Body WithdrawBean bean);
+
+    @POST("index.php/api/login/authlogin.html")
+    Observable<ResponseBody> authLogin(@Body AuthLoginBean bean);
+
+    @POST("index.php/api/login/authloginbymobile.html")
+    Observable<ResponseBody> authLoginbymobile(@Body AuthLoginByMoBileBean bean);
+
+    @POST("index.php/api/user/income.html")
+    Observable<ResponseBody> inCome(@Body InComeBean bean);
 }
 

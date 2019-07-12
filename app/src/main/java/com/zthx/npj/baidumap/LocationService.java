@@ -1,8 +1,11 @@
 package com.zthx.npj.baidumap;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
@@ -87,7 +90,6 @@ public class LocationService {
 		    mOption.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
 			mOption.setOpenGps(true);//可选，默认false，设置是否开启Gps定位
 		    mOption.setIsNeedAltitude(false);//可选，默认false，设置定位时是否需要海拔信息，默认不需要，除基础定位版本都可用
-		 
 		}
 		return mOption;
 	}
@@ -126,5 +128,4 @@ public class LocationService {
 	public boolean requestHotSpotState(){
 		return client.requestHotSpotState();
 	}
-	
 }

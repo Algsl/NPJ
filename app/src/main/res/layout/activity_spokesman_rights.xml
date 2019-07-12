@@ -6,7 +6,7 @@
     tools:context=".ui.SpokesmanRightsNoPermissionActivity"
     android:orientation="vertical">
 
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_195"
         android:src="@mipmap/ic_launcher"/>

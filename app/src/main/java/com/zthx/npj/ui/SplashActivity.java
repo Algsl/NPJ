@@ -1,16 +1,23 @@
 package com.zthx.npj.ui;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -31,6 +38,7 @@ import java.util.List;
 
 public class SplashActivity extends AppCompatActivity {
     LinearLayout atSplash;
+    static final int GPS_REQUEST_CODE=10;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -49,10 +57,12 @@ public class SplashActivity extends AppCompatActivity {
                 }));
             } else if (msg.what == 2) {
                 if(SharePerferenceUtils.getUserId(SplashActivity.this).equals("")){
-                    startActivity(new Intent(SplashActivity.this,LoginActivity.class));
+
                 }else{
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    //startActivity(new Intent(SplashActivity.this, TestActivity.class));
                 }
+                startActivity(new Intent(SplashActivity.this,MainActivity.class));
                 finish();
             }
             super.handleMessage(msg);
@@ -94,10 +104,7 @@ public class SplashActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,mRequestPermission.toArray(new String[mRequestPermission.size()]),100);
         }else{
             if (NetUtil.isNetworkConnected(this)) {
-                getMainBannerAndList();
-                BaseApp.getApp().locationService.registerListener(mListener);
-                BaseApp.getApp().locationService.setLocationOption(BaseApp.getApp().locationService.getDefaultLocationClientOption());
-                BaseApp.getApp().locationService.start();
+                openGPSSettings();
             } else {
                 Toast.makeText(this, "无网络连接", Toast.LENGTH_SHORT);
                 finish();
@@ -110,13 +117,9 @@ public class SplashActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode){
             case 100:
-
                 if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
                     if (NetUtil.isNetworkConnected(this)) {
-                        getMainBannerAndList();
-                        BaseApp.getApp().locationService.registerListener(mListener);
-                        BaseApp.getApp().locationService.setLocationOption(BaseApp.getApp().locationService.getDefaultLocationClientOption());
-                        BaseApp.getApp().locationService.start();
+                        openGPSSettings();
                     } else {
                         Toast.makeText(this, "无网络连接", Toast.LENGTH_SHORT);
                         finish();
@@ -126,6 +129,13 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    private void initLocation() {
+        getMainBannerAndList();
+        BaseApp.getApp().locationService.registerListener(mListener);
+        BaseApp.getApp().locationService.setLocationOption(BaseApp.getApp().locationService.getDefaultLocationClientOption());
+        BaseApp.getApp().locationService.start();
     }
 
     private void getMainBannerAndList() {
@@ -170,5 +180,56 @@ public class SplashActivity extends AppCompatActivity {
         super.onDestroy();
         BaseApp.getApp().locationService.unregisterListener(mListener);
         BaseApp.getApp().locationService.stop();
+    }
+
+    private boolean checkGPSIsOpen() {
+        boolean isOpen;
+        LocationManager locationManager = (LocationManager) this
+                .getSystemService(Context.LOCATION_SERVICE);
+        isOpen = locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER);
+        return isOpen;
+    }
+
+    private void openGPSSettings() {
+        if (checkGPSIsOpen()) {
+            initLocation(); //自己写的定位方法
+        } else {
+            //没有打开则弹出对话框
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage("当前应用需要打开GPS")
+                    // 拒绝, 退出应用
+                    .setNegativeButton("取消",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            })
+
+                    .setPositiveButton("确定",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //跳转GPS设置界面
+                                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                    startActivityForResult(intent, GPS_REQUEST_CODE);
+                                }
+                            })
+
+                    .setCancelable(false)
+                    .show();
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode){
+            case GPS_REQUEST_CODE:
+                initLocation();
+                break;
+        }
     }
 }

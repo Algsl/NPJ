@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.LocalSpokesmanAdapter;
@@ -25,12 +27,20 @@ public class LocalSpokesmanActivity extends AppCompatActivity {
 
     @BindView(R.id.at_local_spokesman_rv)
     RecyclerView atLocalSpokesmanRv;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.at_location_store_tv_ruzhu)
+    TextView atLocationStoreTvRuzhu;
+    @BindView(R.id.title)
+    RelativeLayout title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local_spokesman);
         ButterKnife.bind(this);
+
+        acTitle.setText("附近代言人");
         requestLocalSpokesman();
 
 
@@ -40,21 +50,21 @@ public class LocalSpokesmanActivity extends AppCompatActivity {
     }
 
     private void requestLocalSpokesman() {
-        LoginSubscribe.getLocalSpokesman("34.810027", "113.65404",new OnSuccessAndFaultSub(
+        LoginSubscribe.getLocalSpokesman("34.810027", "113.65404", new OnSuccessAndFaultSub(
                 new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
                         LocalSpokesmanResponseBean bean = GsonUtils.fromJson(result, LocalSpokesmanResponseBean.class);
                         final ArrayList<LocalSpokesmanResponseBean.LocalSpokesmanDetail> list = bean.getList();
-                        if (list !=null && list.size() > 0) {
-                            LinearLayoutManager manager = new LinearLayoutManager(LocalSpokesmanActivity.this,LinearLayoutManager.VERTICAL,false);
+                        if (list != null && list.size() > 0) {
+                            LinearLayoutManager manager = new LinearLayoutManager(LocalSpokesmanActivity.this, LinearLayoutManager.VERTICAL, false);
                             atLocalSpokesmanRv.setLayoutManager(manager);
-                            LocalSpokesmanAdapter mAdapter = new LocalSpokesmanAdapter(LocalSpokesmanActivity.this,list);
+                            LocalSpokesmanAdapter mAdapter = new LocalSpokesmanAdapter(LocalSpokesmanActivity.this, list);
                             mAdapter.setOnItemClickListener(new LocalSpokesmanAdapter.ItemClickListener() {
                                 @Override
                                 public void onItemClick(int position) {
                                     Intent intent = new Intent();
-                                    intent.putExtra("code",list.get(position).getMobile());
+                                    intent.putExtra("code", list.get(position).getMobile());
                                     setResult(100);
                                     finish();
                                 }
@@ -68,7 +78,7 @@ public class LocalSpokesmanActivity extends AppCompatActivity {
                     public void onFault(String errorMsg) {
 
                     }
-                },this
+                }, this
         ));
     }
 }

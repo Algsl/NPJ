@@ -34,6 +34,7 @@
                 android:layout_marginLeft="@dimen/dp_10"
                 android:src="@drawable/home_search"/>
             <EditText
+                android:focusable="false"
                 android:id="@+id/fg_home_et_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

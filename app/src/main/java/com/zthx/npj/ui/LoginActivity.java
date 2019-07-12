@@ -51,7 +51,9 @@ public class LoginActivity extends AppCompatActivity {
             case R.id.at_login_tv_new:
                 break;
             case R.id.at_login_tv_more_login:
-                startActivity(new Intent(this, CellPhoneLoginActivity.class));
+                Intent intent=new Intent(this,CellPhoneLoginActivity.class);
+                intent.putExtra("flag",false);
+                startActivity(intent);
                 break;
         }
     }

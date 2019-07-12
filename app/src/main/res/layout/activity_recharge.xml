@@ -51,6 +51,7 @@
         android:layout_marginRight="@dimen/dp_12"></View>
 
     <Button
+        android:id="@+id/ac_recharge_btn_recharge"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_40"

@@ -1,5 +1,7 @@
 package com.zthx.npj.net.netsubscribe;
 
+import com.zthx.npj.net.been.AuthLoginBean;
+import com.zthx.npj.net.been.AuthLoginByMoBileBean;
 import com.zthx.npj.net.been.InvitationBean;
 import com.zthx.npj.net.been.LocalSpokesmanBeen;
 import com.zthx.npj.net.been.LocalSpokesmanResponseBean;
@@ -65,6 +67,35 @@ public class LoginSubscribe {
         bean.setMobile(mobile);
         bean.setUser_id(id);
         Observable<ResponseBody> observable = RetrofitFactory.getInstance().getHttpApi().invitationForBody(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 第三方登录
+     * @param bean
+     * @param subscriber
+     */
+    public static void authLogin(AuthLoginBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setId(bean.getId());
+        bean.setNick_name(bean.getNick_name());
+        bean.setHead_img(bean.getHead_img());
+        bean.setLat(bean.getLat());
+        bean.setLng(bean.getLng());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().authLogin(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 第三方登录绑定手机号
+     * @param bean
+     * @param subscriber
+     */
+    public static void authLoginByMobile(AuthLoginByMoBileBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setMobile(bean.getMobile());
+        bean.setCode(bean.getCode());
+        bean.setSession_id(bean.getSession_id());
+        bean.setUser_id(bean.getUser_id());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().authLoginbymobile(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

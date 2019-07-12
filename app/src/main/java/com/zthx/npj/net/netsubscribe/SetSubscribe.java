@@ -1,10 +1,14 @@
 package com.zthx.npj.net.netsubscribe;
 
 import com.zthx.npj.net.been.AddAddressBean;
+import com.zthx.npj.net.been.AddBankCardBean;
 import com.zthx.npj.net.been.AddGoodsBean;
 import com.zthx.npj.net.been.AddressInfoBean;
 import com.zthx.npj.net.been.AddressListBean;
 import com.zthx.npj.net.been.ApplyRefundBean;
+import com.zthx.npj.net.been.AuthLoginBean;
+import com.zthx.npj.net.been.BankBean;
+import com.zthx.npj.net.been.BankCardBean;
 import com.zthx.npj.net.been.BuyBean;
 import com.zthx.npj.net.been.CancelOrderBean;
 import com.zthx.npj.net.been.ConfirmOrderBean;
@@ -17,6 +21,8 @@ import com.zthx.npj.net.been.EditGoodsBean;
 import com.zthx.npj.net.been.EditHeadimgBean;
 import com.zthx.npj.net.been.EditNicknameBean;
 import com.zthx.npj.net.been.GoodsInfoBean;
+import com.zthx.npj.net.been.InComeBean;
+import com.zthx.npj.net.been.KuaiDiBean;
 import com.zthx.npj.net.been.LookKDBean;
 import com.zthx.npj.net.been.MyGoodsBean;
 import com.zthx.npj.net.been.MyOrderDetailBean;
@@ -26,12 +32,14 @@ import com.zthx.npj.net.been.OrderBean;
 import com.zthx.npj.net.been.OrderCommentBean;
 import com.zthx.npj.net.been.OutGoodsBean;
 import com.zthx.npj.net.been.ReceiveConfirmBean;
+import com.zthx.npj.net.been.RechargeBean;
 import com.zthx.npj.net.been.RefundBean;
 import com.zthx.npj.net.been.SetStoreBean;
 import com.zthx.npj.net.been.ShipBean;
 import com.zthx.npj.net.been.UpLoadFileBean;
 import com.zthx.npj.net.been.UploadPicsBean;
 import com.zthx.npj.net.been.UserBean;
+import com.zthx.npj.net.been.WithdrawBean;
 import com.zthx.npj.net.netutils.RetrofitFactory;
 
 import java.io.File;
@@ -568,13 +576,96 @@ public class SetSubscribe {
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 
-    public static void getUserInfo(String user_id,String token,String order_id, DisposableObserver<ResponseBody> subscriber) {
-        ReceiveConfirmBean bean=new ReceiveConfirmBean();
+    /**
+     * 我的银行卡
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void bankCard(String user_id,String token, DisposableObserver<ResponseBody> subscriber) {
+        BankCardBean bean=new BankCardBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
-        bean.setOrder_id(order_id);
-        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().receiveConfirm(bean);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().bankCard(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 
+    /**
+     * 添加银行卡
+     * @param bean
+     * @param subscriber
+     */
+    public static void addBankCard(AddBankCardBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setCardholder(bean.getCardholder());
+        bean.setCard_number(bean.getCard_number());
+        bean.setBank_id(bean.getBank_id());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().addBankCard(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 获取银行列表
+     * @param subscriber
+     */
+    public static void bank(DisposableObserver<ResponseBody> subscriber) {
+        BankBean bean=new BankBean();
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().bank(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 获取快递列表
+     * @param subscriber
+     */
+    public static void getKuaiDiList(DisposableObserver<ResponseBody> subscriber) {
+        KuaiDiBean bean=new KuaiDiBean();
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().kuaidi(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的钱包充值
+     * @param user_id
+     * @param token
+     * @param money
+     * @param pay_code
+     * @param subscriber
+     */
+    public static void recharge(String user_id,String token,String money,String pay_code,DisposableObserver<ResponseBody> subscriber) {
+        RechargeBean bean=new RechargeBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setMoney(money);
+        bean.setPay_code(pay_code);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().recharge(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的钱包提现
+     * @param user_id
+     * @param token
+     * @param card_id
+     * @param money
+     * @param subscriber
+     */
+    public static void withdraw(String user_id,String token,String card_id,String money,DisposableObserver<ResponseBody> subscriber) {
+        WithdrawBean bean=new WithdrawBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setCard_id(card_id);
+        bean.setMoney(money);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().withdraw(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    public static void inCome(String user_id,String token,DisposableObserver<ResponseBody> subscriber) {
+        InComeBean bean=new InComeBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().inCome(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
 }

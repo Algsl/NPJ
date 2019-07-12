@@ -97,6 +97,5 @@ public class GoodSizePopupwindow extends PopupWindow {
 
         // 设置弹出窗体显示时的动画，从底部向上弹出
 //        this.setAnimationStyle(R.style.Animation_Design_BottomSheetDialog);
-
     }
 }

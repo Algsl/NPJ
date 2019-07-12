@@ -16,7 +16,7 @@
             android:layout_height="@dimen/dp_190"
             android:background="@drawable/sopksemanrights_bg">
             <include
-                layout="@layout/title"></include>
+                layout="@layout/title_theme"></include>
             <TextView
                 android:id="@+id/at_spokesman_right_tv_jine"
                 android:layout_width="wrap_content"
@@ -80,6 +80,7 @@
                 android:orientation="vertical"
                 android:gravity="center">
                 <TextView
+                    android:id="@+id/ac_spokesman_tv_ztPush"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10"
@@ -99,6 +100,7 @@
                 android:orientation="vertical"
                 android:gravity="center">
                 <TextView
+                    android:id="@+id/ac_spokesman_tv_jtPush"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="40"
@@ -118,6 +120,7 @@
                 android:orientation="vertical"
                 android:gravity="center">
                 <TextView
+                    android:id="@+id/ac_spokesman_tv_allPush"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1320"
@@ -131,11 +134,10 @@
                     android:textColor="@color/text3"/>
             </LinearLayout>
         </LinearLayout>
-        
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"
-            android:layout_marginTop="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_10"
             android:layout_marginLeft="@dimen/dp_12"
             android:layout_marginRight="@dimen/dp_12"
             android:background="@drawable/white_conner_5">
@@ -156,12 +158,24 @@
                 android:layout_toRightOf="@id/logo1"
                 android:layout_marginLeft="@dimen/dp_15"/>
             <ImageView
+                android:id="@+id/go1"
                 android:layout_centerVertical="true"
                 android:layout_width="@dimen/dp_6"
                 android:layout_height="@dimen/dp_10"
                 android:src="@drawable/mine_dingdan_go"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/dp_10"/>
+
+            <TextView
+                android:id="@+id/ac_spokesman_tv_storeMoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="254元"
+                android:textSize="@dimen/sp_13"
+                android:textColor="@color/text6"
+                android:layout_toLeftOf="@id/go1"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_8"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/at_spokesman_rl_daiyanjiangli"
@@ -197,6 +211,7 @@
                 android:layout_marginRight="@dimen/dp_10"/>
 
             <TextView
+                android:id="@+id/ac_spokesman_tv_reward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="254元"
@@ -224,7 +239,7 @@
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="店铺收益"
+                android:text="已提取金额"
                 android:textColor="@color/text3"
                 android:textSize="@dimen/sp_15"
                 android:layout_toRightOf="@id/logo3"
@@ -239,6 +254,7 @@
                 android:layout_marginRight="@dimen/dp_10"/>
 
             <TextView
+                android:id="@+id/ac_spokesman_tv_extracted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="254元"

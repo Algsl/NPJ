@@ -10,13 +10,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.Spinner;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.StoreGoodsBillAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.KuaiDiResponseBean;
 import com.zthx.npj.net.been.MyOrderListResponseBean;
 import com.zthx.npj.net.been.ShipBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
@@ -38,7 +42,8 @@ public class StoreGoodsBillActivity extends AppCompatActivity {
 
     String user_id= SharePerferenceUtils.getUserId(this);
     String token=SharePerferenceUtils.getToken(this);
-
+    String[] item;
+    String storeGoodsExExpressId="1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +51,21 @@ public class StoreGoodsBillActivity extends AppCompatActivity {
         setContentView(R.layout.activity_store_goods_bill);
         ButterKnife.bind(this);
         getMyStoreOrderList();
+        getKuaiDiList();
+    }
 
+    private void getKuaiDiList() {
+        SetSubscribe.getKuaiDiList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setKuaiDiList(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 
     private void getMyStoreOrderList() {
@@ -118,7 +137,21 @@ public class StoreGoodsBillActivity extends AppCompatActivity {
         window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
 
         final EditText storeGoodsEtExpressNumber=contentView.findViewById(R.id.pw_storeGoods_et_expressNumber);
-        final String storeGoodsExExpressId="1";
+        Spinner spinner=contentView.findViewById(R.id.pw_storeGoods_s_expressName);
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                storeGoodsExExpressId=(i+1)+"";
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         Button  commit=contentView.findViewById(R.id.pw_storeGoods_btn_commit);
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,8 +180,16 @@ public class StoreGoodsBillActivity extends AppCompatActivity {
 
     }
 
-    public void showRefundPopwindow(String order_id){
+    private void setKuaiDiList(String result) {
+        KuaiDiResponseBean bean=GsonUtils.fromJson(result,KuaiDiResponseBean.class);
+        ArrayList<KuaiDiResponseBean.DataBean> data=bean.getData();
+        item=new String[data.size()];
+        for(int i=0;i<data.size();i++){
+            item[i]=data.get(i).getExpress_name();
+        }
+    }
 
+    public void showRefundPopwindow(String order_id){
         View contentView= LayoutInflater.from(this).inflate(R.layout.popupwindow_store_goods_bill_refund, null);
         // 创建PopupWindow对象，其中：
         // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
@@ -163,7 +204,5 @@ public class StoreGoodsBillActivity extends AppCompatActivity {
         // 显示PopupWindow，其中：
         // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
         window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
-
-
     }
 }

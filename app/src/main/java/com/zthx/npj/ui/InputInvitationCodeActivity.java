@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zthx.npj.R;
@@ -28,12 +30,21 @@ public class InputInvitationCodeActivity extends AppCompatActivity {
     Button atInputInvitationCodeBtnLocalPeople;
     @BindView(R.id.at_input_invitation_code_et_phone)
     EditText atInputInvitationCodeEtPhone;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.at_location_store_tv_ruzhu)
+    TextView atLocationStoreTvRuzhu;
+    @BindView(R.id.title)
+    RelativeLayout title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_invitation_code);
         ButterKnife.bind(this);
+        SharePerferenceUtils.setIsBindWx(true);
+        acTitle.setText("输入邀请码");
+        atLocationStoreTvRuzhu.setText("跳过");
     }
 
     @Override
@@ -45,19 +56,24 @@ public class InputInvitationCodeActivity extends AppCompatActivity {
     }
 
     @OnClick({R.id.at_input_invitation_code_btn_done,
-             R.id.at_input_invitation_code_btn_local_people
-            })
+            R.id.at_input_invitation_code_btn_local_people,
+            R.id.at_location_store_tv_ruzhu
+    })
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_input_invitation_code_btn_done:
-                if (TextUtils.isEmpty(atInputInvitationCodeEtPhone.getText().toString().trim())){
-                    Toast.makeText(this,"推荐人手机号不能为空",Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(atInputInvitationCodeEtPhone.getText().toString().trim())) {
+                    Toast.makeText(this, "推荐人手机号不能为空", Toast.LENGTH_SHORT).show();
                 } else {
                     invitation();
                 }
                 break;
             case R.id.at_input_invitation_code_btn_local_people:
                 startActivityForResult(new Intent(this, LocalSpokesmanActivity.class), 1);
+                break;
+            case R.id.at_location_store_tv_ruzhu:
+                SharePerferenceUtils.setIsBindSpokes(false);
+                startActivity(new Intent(this,MainActivity.class));
                 break;
         }
     }
@@ -67,6 +83,7 @@ public class InputInvitationCodeActivity extends AppCompatActivity {
                 new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
+                        SharePerferenceUtils.setIsBindSpokes(true);
                         startActivity(new Intent(InputInvitationCodeActivity.this, MainActivity.class));
                     }
 
@@ -74,6 +91,6 @@ public class InputInvitationCodeActivity extends AppCompatActivity {
                     public void onFault(String errorMsg) {
                         Toast.makeText(InputInvitationCodeActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
                     }
-                },this));
+                }, this));
     }
 }

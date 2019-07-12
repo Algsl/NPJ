@@ -1,16 +1,14 @@
 package com.zthx.npj.ui;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.zthx.npj.R;
 import com.zthx.npj.ui.fragment.DiscoverFragment;
@@ -18,7 +16,6 @@ import com.zthx.npj.ui.fragment.GameFragment;
 import com.zthx.npj.ui.fragment.HomeFragment;
 import com.zthx.npj.ui.fragment.MineFragment;
 import com.zthx.npj.ui.fragment.ShoppingCartFragment;
-import com.zthx.npj.utils.SharePerferenceUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +42,8 @@ public class MainActivity extends BaseActivity {
     RadioButton llMainCheck04;
     @BindView(R.id.ll_main_check_05)
     RadioButton llMainCheck05;
+    @BindView(R.id.ac_main_rg)
+    RadioGroup acMainRg;
 
 
     //fragment数组
@@ -89,18 +88,15 @@ public class MainActivity extends BaseActivity {
                 case 2:
                     mGameFragment = new GameFragment();
                     mFragments[2] = mGameFragment;
+                    acMainRg.clearCheck();
                     break;
                 case 3:
                     mShoppingCartFragment = new ShoppingCartFragment();
                     mFragments[3] = mShoppingCartFragment;
                     break;
                 case 4:
-                    if(SharePerferenceUtils.getUserId(this).equals("")){
-                        startActivity(new Intent(this,LoginActivity.class));
-                    }else{
-                        mMineFragment = new MineFragment();
-                        mFragments[4] = mMineFragment;
-                    }
+                    mMineFragment = new MineFragment();
+                    mFragments[4] = mMineFragment;
                     break;
                 default:
                     break;
