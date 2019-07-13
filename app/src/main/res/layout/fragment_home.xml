@@ -33,15 +33,16 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:src="@drawable/home_search"/>
+
             <EditText
-                android:focusable="false"
                 android:id="@+id/fg_home_et_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_50"
                 android:background="@null"
+                android:focusable="false"
                 android:hint="请输入您想要的内容"
-                android:textSize="@dimen/sp_15"
-                android:layout_marginLeft="@dimen/dp_50"/>
+                android:textSize="@dimen/sp_15" />
         </RelativeLayout>
 
         <ImageView

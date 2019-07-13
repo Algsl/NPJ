@@ -21,6 +21,7 @@ import com.zthx.npj.net.been.EditGoodsBean;
 import com.zthx.npj.net.been.EditHeadimgBean;
 import com.zthx.npj.net.been.EditNicknameBean;
 import com.zthx.npj.net.been.EditOfflineStoreBean;
+import com.zthx.npj.net.been.FeedBackBean;
 import com.zthx.npj.net.been.GoodsInfoBean;
 import com.zthx.npj.net.been.InComeBean;
 import com.zthx.npj.net.been.InComeLogBean;
@@ -35,6 +36,7 @@ import com.zthx.npj.net.been.OfflineStoreBean;
 import com.zthx.npj.net.been.OrderBean;
 import com.zthx.npj.net.been.OrderCommentBean;
 import com.zthx.npj.net.been.OutGoodsBean;
+import com.zthx.npj.net.been.PDetailBean;
 import com.zthx.npj.net.been.ProblemBean;
 import com.zthx.npj.net.been.ReceiveConfirmBean;
 import com.zthx.npj.net.been.RechargeBean;
@@ -863,6 +865,39 @@ public class SetSubscribe {
         bean.setToken(token);
         bean.setType(type);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().problem(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 问题详情页面
+     * @param user_id
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public static void pdetail(String user_id,String token,String id,DisposableObserver<ResponseBody> subscriber) {
+        PDetailBean bean=new PDetailBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setId(id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().pdetail(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 意见反馈
+     * @param bean
+     * @param subscriber
+     */
+    public static void feedBack(FeedBackBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setDescription(bean.getDescription());
+        bean.setTitle(bean.getTitle());
+        bean.setImg(bean.getImg());
+        bean.setRealname(bean.getRealname());
+        bean.setMobile(bean.getMobile());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().feedBack(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

@@ -45,6 +45,7 @@
                android:layout_marginLeft="@dimen/dp_12"
                android:layout_marginTop="@dimen/dp_10">
                <TextView
+                   android:id="@+id/ac_feedBack_tv_title1"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="页面信息有误"
@@ -57,6 +58,7 @@
                    android:paddingBottom="@dimen/dp_6"
                    android:paddingRight="@dimen/dp_14"/>
                <TextView
+                   android:id="@+id/ac_feedBack_tv_title2"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="APP不稳定 "
@@ -70,6 +72,7 @@
                    android:paddingBottom="@dimen/dp_6"
                    android:paddingRight="@dimen/dp_14"/>
                <TextView
+                   android:id="@+id/ac_feedBack_tv_title3"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="支付遇到问题 "
@@ -91,6 +94,7 @@
                android:layout_marginLeft="@dimen/dp_12"
                android:layout_marginTop="@dimen/dp_10">
                <TextView
+                   android:id="@+id/ac_feedBack_tv_title4"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="吐槽APP功能"
@@ -103,6 +107,7 @@
                    android:paddingBottom="@dimen/dp_6"
                    android:paddingRight="@dimen/dp_14"/>
                <TextView
+                   android:id="@+id/ac_feedBack_tv_title5"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="账号相关问题 "
@@ -116,6 +121,7 @@
                    android:paddingBottom="@dimen/dp_6"
                    android:paddingRight="@dimen/dp_14"/>
                <TextView
+                   android:id="@+id/ac_feedBack_tv_title6"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="其他 "
@@ -139,6 +145,7 @@
                android:background="@drawable/gray_conner_2">
 
                <EditText
+                   android:id="@+id/ac_feedBack_et_description"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:background="@null"
@@ -258,6 +265,7 @@
                    android:textSize="@dimen/sp_16"/>
 
                <EditText
+                   android:id="@+id/ac_feedBack_et_realname"
                    android:layout_width="match_parent"
                    android:layout_height="@dimen/dp_30"
                    android:background="@drawable/gray_conner_2"
@@ -284,6 +292,7 @@
                    android:textSize="@dimen/sp_16"/>
 
                <EditText
+                   android:id="@+id/ac_feedBack_et_mobile"
                    android:layout_width="match_parent"
                    android:layout_height="@dimen/dp_30"
                    android:background="@drawable/gray_conner_2"
@@ -300,6 +309,7 @@
    </ScrollView>
 
     <Button
+        android:id="@+id/ac_feedBack_btn_commit"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:background="@color/app_theme"

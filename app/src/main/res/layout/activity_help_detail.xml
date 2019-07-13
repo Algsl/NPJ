@@ -10,6 +10,7 @@
         layout="@layout/title_theme"></include>
 
     <TextView
+        android:id="@+id/ac_helpDetail_tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="获得葫芦币的方法"
@@ -23,6 +24,7 @@
         android:layout_height="@dimen/dp_160"
         android:background="@drawable/help_detail_bg">
         <TextView
+            android:id="@+id/ac_helpDetail_tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1.参与农场游戏获得葫芦币

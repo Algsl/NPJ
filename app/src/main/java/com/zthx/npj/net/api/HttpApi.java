@@ -28,6 +28,7 @@ import com.zthx.npj.net.been.EditGoodsBean;
 import com.zthx.npj.net.been.EditHeadimgBean;
 import com.zthx.npj.net.been.EditNicknameBean;
 import com.zthx.npj.net.been.EditOfflineStoreBean;
+import com.zthx.npj.net.been.FeedBackBean;
 import com.zthx.npj.net.been.GiftDetailBean;
 import com.zthx.npj.net.been.GiftListBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
@@ -50,6 +51,7 @@ import com.zthx.npj.net.been.OfflineStoreBean;
 import com.zthx.npj.net.been.OrderBean;
 import com.zthx.npj.net.been.OrderCommentBean;
 import com.zthx.npj.net.been.OutGoodsBean;
+import com.zthx.npj.net.been.PDetailBean;
 import com.zthx.npj.net.been.PayVideoBean;
 import com.zthx.npj.net.been.PhoneLoginBean;
 import com.zthx.npj.net.been.PreSellBean;
@@ -119,6 +121,9 @@ public interface HttpApi  {
 
     @POST("index.php/api/index/goods.html")
     Observable<ResponseBody> getGoodsDetailForBody(@Body GoodsDetailBean bean);
+
+    @POST("index.php/api/user/pdetail.html")
+    Observable<ResponseBody> pdetail(@Body PDetailBean bean);
 
     @POST("index.php/api/index/nearbystore.html")
     Observable<ResponseBody> getLocalStoreForBody(@Body LocalStoreBean bean);
@@ -387,5 +392,8 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/problem.html")
     Observable<ResponseBody> problem(@Body ProblemBean bean);
+
+    @POST("index.php/api/user/feedback.html")
+    Observable<ResponseBody> feedBack(@Body FeedBackBean bean);
 }
 
