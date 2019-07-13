@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_60"
+    android:layout_marginLeft="@dimen/dp_12"
+    android:layout_marginRight="@dimen/dp_12">
+    <ImageView
+        android:id="@+id/item_myWallet_iv_type"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/my_wallet_logo2"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/item_myWallet_tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_12"
+            android:textColor="@color/text3"
+            android:textSize="@dimen/sp_15"
+            android:text="余额充值"/>
+        <TextView
+            android:id="@+id/item_myWallet_tv_time"
+            android:layout_below="@id/item_myWallet_tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textSize="@dimen/sp_13"
+            android:textColor="@color/text9"
+            android:text="5月10日  22:10:25" />
+        <TextView
+            android:id="@+id/item_myWallet_tv_money"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_12"
+            android:textSize="@dimen/sp_18"
+            android:textColor="@color/text3"
+            android:text="+ 2.60" />
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/line"/>
+    </RelativeLayout>
+</LinearLayout>

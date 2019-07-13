@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.StoreManagerActivity"
     android:background="@color/background">
     
@@ -36,6 +37,7 @@
                     android:textSize="@dimen/sp_15"
                     android:textColor="@color/text3"/>
                 <EditText
+                    android:id="@+id/ac_storeManager_et_storeName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -53,10 +55,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="人均消费：:"
+                    android:text="人均消费："
                     android:textSize="@dimen/sp_15"
                     android:textColor="@color/text3"/>
-                <TextView
+                <EditText
+                    android:id="@+id/ac_storeManager_et_consumption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -74,10 +77,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="营业时间::"
+                    android:text="营业时间:"
                     android:textSize="@dimen/sp_15"
                     android:textColor="@color/text3"/>
                 <TextView
+                    android:id="@+id/ac_storeManager_tv_businessHours"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -105,6 +109,7 @@
                     android:textSize="@dimen/sp_15"
                     android:textColor="@color/text3"/>
                 <EditText
+                    android:id="@+id/ac_storeManager_et_contact"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -131,6 +136,7 @@
                     android:layout_height="@dimen/dp_16"
                     android:src="@drawable/store_manager_location"/>
                 <TextView
+                    android:id="@+id/ac_storeManager_tv_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -152,6 +158,7 @@
                     android:textSize="@dimen/sp_15"
                     android:textColor="@color/text3"/>
                 <EditText
+                    android:id="@+id/ac_storeManager_et_address2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -191,6 +198,7 @@
                         android:layout_toRightOf="@id/iv_zhekou"
                         android:textColor="@color/text3"/>
                     <TextView
+                        android:id="@+id/ac_storeManager_tv_offer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="10%"
@@ -235,6 +243,7 @@
                         android:textSize="@dimen/sp_12"/>
 
                     <EditText
+                        android:id="@+id/ac_storeManager_et_relife"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:hint="请填写"
@@ -284,28 +293,20 @@
                 android:layout_height="@dimen/dp_88"
                 android:layout_marginBottom="@dimen/dp_13"
                 android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="@dimen/dp_75"
-                    android:layout_height="@dimen/dp_75"
-                    android:src="@mipmap/ic_launcher"
-                    android:layout_marginLeft="@dimen/dp_10"/>
-                <ImageView
-                    android:layout_width="@dimen/dp_75"
-                    android:layout_height="@dimen/dp_75"
-                    android:src="@mipmap/ic_launcher"
-                    android:layout_marginLeft="@dimen/dp_10"/>
-                <ImageView
-                    android:layout_width="@dimen/dp_75"
-                    android:layout_height="@dimen/dp_75"
-                    android:src="@mipmap/ic_launcher"
-                    android:layout_marginLeft="@dimen/dp_10"/>
-                <ImageView
-                    android:layout_width="@dimen/dp_75"
-                    android:layout_height="@dimen/dp_75"
-                    android:src="@mipmap/ic_launcher"
-                    android:layout_marginLeft="@dimen/dp_10"/>
+                <me.zhouzhuo.zzimagebox.ZzImageBox
+                    android:id="@+id/zz_image_box"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:zib_left_margin="20dp"
+                    app:zib_right_margin="20dp"
+                    app:zib_img_padding="5dp"
+                    app:zib_img_size_one_line="4"
+                    app:zib_max_line="1"
+                    app:zib_img_deletable="true"
+                    app:zib_img_add="@drawable/iv_add"
+                    app:zib_img_default="@drawable/iv_default"
+                    app:zib_img_delete="@drawable/iv_delete" />
             </LinearLayout>
-
         </LinearLayout>
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
@@ -318,6 +319,7 @@
     </LinearLayout>
 
    <Button
+       android:id="@+id/ac_storeManager_btn_ruzhu"
        android:layout_width="match_parent"
        android:layout_height="@dimen/dp_40"
        android:layout_alignParentBottom="true"

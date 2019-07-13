@@ -20,25 +20,35 @@ import com.zthx.npj.net.been.EditAddressBean;
 import com.zthx.npj.net.been.EditGoodsBean;
 import com.zthx.npj.net.been.EditHeadimgBean;
 import com.zthx.npj.net.been.EditNicknameBean;
+import com.zthx.npj.net.been.EditOfflineStoreBean;
 import com.zthx.npj.net.been.GoodsInfoBean;
 import com.zthx.npj.net.been.InComeBean;
+import com.zthx.npj.net.been.InComeLogBean;
 import com.zthx.npj.net.been.KuaiDiBean;
 import com.zthx.npj.net.been.LookKDBean;
 import com.zthx.npj.net.been.MyGoodsBean;
+import com.zthx.npj.net.been.MyOfflineStoreBean;
 import com.zthx.npj.net.been.MyOrderDetailBean;
 import com.zthx.npj.net.been.MyOrderListBean;
 import com.zthx.npj.net.been.MyStoreBean;
+import com.zthx.npj.net.been.OfflineStoreBean;
 import com.zthx.npj.net.been.OrderBean;
 import com.zthx.npj.net.been.OrderCommentBean;
 import com.zthx.npj.net.been.OutGoodsBean;
+import com.zthx.npj.net.been.ProblemBean;
 import com.zthx.npj.net.been.ReceiveConfirmBean;
 import com.zthx.npj.net.been.RechargeBean;
 import com.zthx.npj.net.been.RefundBean;
 import com.zthx.npj.net.been.SetStoreBean;
 import com.zthx.npj.net.been.ShipBean;
+import com.zthx.npj.net.been.ShopLogBean;
+import com.zthx.npj.net.been.TiQuBean;
+import com.zthx.npj.net.been.TqIncomeBean;
 import com.zthx.npj.net.been.UpLoadFileBean;
 import com.zthx.npj.net.been.UploadPicsBean;
 import com.zthx.npj.net.been.UserBean;
+import com.zthx.npj.net.been.UserMoneyBean;
+import com.zthx.npj.net.been.VipJLBean;
 import com.zthx.npj.net.been.WithdrawBean;
 import com.zthx.npj.net.netutils.RetrofitFactory;
 
@@ -60,7 +70,7 @@ public class SetSubscribe {
      * @param subscriber
      */
     public static void upLoadFile(File file, DisposableObserver<ResponseBody> subscriber) {
-        UpLoadFileBean bean = new UpLoadFileBean();
+        UpLoadFileBean bean=new UpLoadFileBean();
         bean.setFile(file);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().upLoadFileForBody(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
@@ -661,11 +671,198 @@ public class SetSubscribe {
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 
+    /**
+     * 我的钱包收益管理
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
     public static void inCome(String user_id,String token,DisposableObserver<ResponseBody> subscriber) {
         InComeBean bean=new InComeBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().inCome(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 收益管理店铺收益
+     * @param user_id
+     * @param token
+     * @param begin_time
+     * @param end_time
+     * @param subscriber
+     */
+    public static void shopLog(String user_id,String token,String begin_time,String end_time,DisposableObserver<ResponseBody> subscriber) {
+        ShopLogBean bean=new ShopLogBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setBegin_time(begin_time);
+        bean.setEnd_time(end_time);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().shopLog(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 收益明细
+     * @param user_id
+     * @param token
+     * @param type
+     * @param subscriber
+     */
+    public static void inComeLog(String user_id,String token,String type,DisposableObserver<ResponseBody> subscriber) {
+        InComeLogBean bean=new InComeLogBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setType(type);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().inComeLog(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 收益管理已提取金额
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void tiqu(String user_id,String token,DisposableObserver<ResponseBody> subscriber) {
+        TiQuBean bean=new TiQuBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().tiQu(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 收益管理代言人奖励
+     * @param user_id
+     * @param token
+     * @param type
+     * @param begin_time
+     * @param end_time
+     * @param subscriber
+     */
+    public static void vipJL(String user_id,String token,String type,String begin_time,String end_time,DisposableObserver<ResponseBody> subscriber) {
+        VipJLBean bean=new VipJLBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setType(type);
+        bean.setBegin_time(begin_time);
+        bean.setEnd_time(end_time);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().vipJL(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 提取收益
+     * @param user_id
+     * @param token
+     * @param money
+     * @param subscriber
+     */
+    public static void tqIncome(String user_id,String token,String money,DisposableObserver<ResponseBody> subscriber) {
+        TqIncomeBean bean=new TqIncomeBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setMoney(money);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().tqIncome(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 用户钱包明细
+     * @param user_id
+     * @param token
+     * @param type
+     * @param begin_time
+     * @param end_time
+     * @param subscriber
+     */
+    public static void userMoney(String user_id,String token,String type,String begin_time,String end_time,DisposableObserver<ResponseBody> subscriber) {
+        UserMoneyBean bean=new UserMoneyBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setType(type);
+        bean.setBegin_time(begin_time);
+        bean.setEnd_time(end_time);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().userMoney(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 立即入驻
+     * @param bean
+     * @param subscriber
+     */
+    public static void offlineStore(OfflineStoreBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setStore_name(bean.getStore_name());
+        bean.setConsumption(bean.getConsumption());
+        bean.setBusiness_hours(bean.getBusiness_hours());
+        bean.setContact(bean.getContact());
+        bean.setAddress(bean.getAddress());
+        bean.setAddress2(bean.getAddress2());
+        bean.setOffer(bean.getOffer());
+        bean.setRelief(bean.getRelief());
+        bean.setStore_img(bean.getStore_img());
+        bean.setLat(bean.getLat());
+        bean.setLng(bean.getLng());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().offlineStore(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 会员中心线下门店
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void myOfflineStore(String user_id,String token,DisposableObserver<ResponseBody> subscriber) {
+        MyOfflineStoreBean bean=new MyOfflineStoreBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().myOfflineStore(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 会员中心线下门店设置
+     * @param bean
+     * @param subscriber
+     */
+    public static void editOfflineStore(EditOfflineStoreBean bean,DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setId(bean.getId());
+        bean.setStore_name(bean.getStore_name());
+        bean.setConsumption(bean.getConsumption());
+        bean.setBusiness_hours(bean.getBusiness_hours());
+        bean.setContact(bean.getContact());
+        bean.setAddress(bean.getAddress());
+        bean.setAddress2(bean.getAddress2());
+        bean.setOffer(bean.getOffer());
+        bean.setRelief(bean.getRelief());
+        bean.setStore_img(bean.getStore_img());
+        bean.setLat(bean.getLat());
+        bean.setLng(bean.getLng());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().editOfflineStore(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 常见问题和热门问题
+     * @param user_id
+     * @param token
+     * @param type
+     * @param subscriber
+     */
+    public static void problem(String user_id,String token,String type,DisposableObserver<ResponseBody> subscriber) {
+        ProblemBean bean=new ProblemBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setType(type);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().problem(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

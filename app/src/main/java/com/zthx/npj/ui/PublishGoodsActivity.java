@@ -19,6 +19,7 @@ import com.zthx.npj.utils.SharePerferenceUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.zhouzhuo.zzimagebox.ZzImageBox;
 
 public class PublishGoodsActivity extends AppCompatActivity {
 
@@ -34,8 +35,6 @@ public class PublishGoodsActivity extends AppCompatActivity {
     EditText acPulishGoodsEtGoodsName;
     @BindView(R.id.ac_pulishGoods_et_goodsDesc)
     EditText acPulishGoodsEtGoodsDesc;
-    @BindView(R.id.ac_pulishGoods_iv_goodsImg)
-    ImageView acPulishGoodsIvGoodsImg;
     @BindView(R.id.ac_pulishGoods_iv_goodsContent)
     ImageView acPulishGoodsIvGoodsContent;
     @BindView(R.id.ac_pulishGoods_et_platformPrice)
@@ -56,6 +55,8 @@ public class PublishGoodsActivity extends AppCompatActivity {
     TextView acPulishGoodsTvGoodsType;
     @BindView(R.id.ac_pulishGoods_btn_pulish)
     Button acPulishGoodsBtnPulish;
+    @BindView(R.id.ac_pulishGoods_iv_goodsImg)
+    ZzImageBox acPulishGoodsIvGoodsImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,22 @@ public class PublishGoodsActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_pulishGoods_iv_goodsImg:
+                acPulishGoodsIvGoodsImg.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
+                    @Override
+                    public void onImageClick(int position, String url, String realPath, int realType, ImageView iv) {
+
+                    }
+
+                    @Override
+                    public void onDeleteClick(int position, String url, String realPath, int realType) {
+                        acPulishGoodsIvGoodsImg.removeImage(position);
+                    }
+
+                    @Override
+                    public void onAddClick() {
+                        acPulishGoodsIvGoodsImg.addImage(null);
+                    }
+                });
                 break;
             case R.id.ac_pulishGoods_iv_goodsContent:
                 break;
@@ -78,9 +95,15 @@ public class PublishGoodsActivity extends AppCompatActivity {
                 break;
         }
     }
-    public String getEtString(EditText et){return et.getText().toString().trim();};
+
+    public String getEtString(EditText et) {
+        return et.getText().toString().trim();
+    }
+
+    ;
+
     private void pulishGoods() {
-        AddGoodsBean bean=new AddGoodsBean();
+        AddGoodsBean bean = new AddGoodsBean();
         bean.setUser_id(SharePerferenceUtils.getUserId(this));
         bean.setToken(SharePerferenceUtils.getToken(this));
         bean.setGoods_name(getEtString(acPulishGoodsEtGoodsName));
@@ -94,7 +117,7 @@ public class PublishGoodsActivity extends AppCompatActivity {
         bean.setCate_id("20");
         bean.setIs_free_shipping("0");
         bean.setGoods_type("1");
-        SetSubscribe.addGoods(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.addGoods(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 finish();

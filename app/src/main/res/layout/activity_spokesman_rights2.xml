@@ -55,6 +55,7 @@
                 android:layout_marginRight="@dimen/dp_12"
                 android:layout_marginTop="@dimen/dp_13"/>
             <TextView
+                android:id="@+id/ac_spokesman_tv_mingxi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="明细"
@@ -135,6 +136,7 @@
             </LinearLayout>
         </LinearLayout>
         <RelativeLayout
+            android:id="@+id/ac_spokesman_rl_store"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"
             android:layout_marginTop="@dimen/dp_10"
@@ -222,6 +224,7 @@
                 android:layout_marginRight="@dimen/dp_8"/>
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/ac_spokesman_rl_tiqu"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"
             android:layout_marginTop="@dimen/dp_10"

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.zthx.npj.ui.PublishGoodsActivity"
     android:orientation="vertical">
 
@@ -102,13 +103,21 @@
                         android:textColorHint="@color/text9"
                         android:textSize="@dimen/sp_13"/>
                 </LinearLayout>
-                <ImageView
+                <me.zhouzhuo.zzimagebox.ZzImageBox
                     android:id="@+id/ac_pulishGoods_iv_goodsImg"
-                    android:layout_width="@dimen/dp_75"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_75"
-                    android:src="@mipmap/ic_launcher"
                     android:layout_below="@id/at_publish_goods_ll_3"
-                    android:layout_marginLeft="@dimen/dp_12"/>
+                    android:layout_marginLeft="@dimen/dp_12"
+                    app:zib_left_margin="20dp"
+                    app:zib_right_margin="20dp"
+                    app:zib_img_padding="5dp"
+                    app:zib_img_size_one_line="4"
+                    app:zib_max_line="3"
+                    app:zib_img_deletable="true"
+                    app:zib_img_add="@drawable/iv_add"
+                    app:zib_img_default="@drawable/iv_default"
+                    app:zib_img_delete="@drawable/iv_delete"/>
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"

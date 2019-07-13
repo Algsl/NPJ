@@ -50,7 +50,7 @@ public class MyWalletActivity extends AppCompatActivity {
                 startActivity(new Intent(this, RechargeActivity.class));
                 break;
             case R.id.at_myWallet_tv_mx:
-
+                startActivity(new Intent(this,UserMoneyActivity.class));
                 break;
             case R.id.ac_myallet_rl_bankCard:
                 startActivity(new Intent(this, BankCardActivity.class));

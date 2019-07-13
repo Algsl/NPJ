@@ -56,6 +56,12 @@ public class SpokesmanRightsActivity extends AppCompatActivity {
     TextView acSpokesmanTvReward;
     @BindView(R.id.ac_spokesman_tv_extracted)
     TextView acSpokesmanTvExtracted;
+    @BindView(R.id.ac_spokesman_rl_store)
+    RelativeLayout acSpokesmanRlStore;
+    @BindView(R.id.ac_spokesman_rl_tiqu)
+    RelativeLayout acSpokesmanRlTiqu;
+    @BindView(R.id.ac_spokesman_tv_mingxi)
+    TextView acSpokesmanTvMingxi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,23 +95,42 @@ public class SpokesmanRightsActivity extends AppCompatActivity {
     private void setInCome(String result) {
         InComeResponseBean bean = GsonUtils.fromJson(result, InComeResponseBean.class);
         InComeResponseBean.DataBean data = bean.getData();
-        atSpokesmanRightTvMoney.setText(data.getIncome_amount()+"");
-        acSpokesmanTvZtPush.setText(data.getZt_push()+"");
-        acSpokesmanTvJtPush.setText(data.getJt_push()+"");
-        acSpokesmanTvAllPush.setText(data.getAll_push()+"");
-        acSpokesmanTvStoreMoney.setText(data.getStore_money()+"元");
-        acSpokesmanTvReward.setText(data.getReward()+"元");
-        acSpokesmanTvExtracted.setText(data.getExtracted()+"元");
+        atSpokesmanRightTvMoney.setText(data.getIncome_amount() + "");
+        acSpokesmanTvZtPush.setText(data.getZt_push() + "");
+        acSpokesmanTvJtPush.setText(data.getJt_push() + "");
+        acSpokesmanTvAllPush.setText(data.getAll_push() + "");
+        acSpokesmanTvStoreMoney.setText(data.getStore_money() + "元");
+        acSpokesmanTvReward.setText(data.getReward() + "元");
+        acSpokesmanTvExtracted.setText(data.getExtracted() + "元");
     }
 
-    @OnClick({R.id.at_spokesman_right_btn_tiqu, R.id.at_spokesman_rl_daiyanjiangli})
+    @OnClick({R.id.at_spokesman_right_btn_tiqu, R.id.at_spokesman_rl_daiyanjiangli, R.id.ac_spokesman_rl_store, R.id.ac_spokesman_rl_tiqu,R.id.ac_spokesman_tv_mingxi})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_spokesman_right_btn_tiqu:
+                SetSubscribe.tqIncome(user_id, token, atSpokesmanRightTvMoney.getText().toString(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        atSpokesmanRightTvMoney.setText("0");
+                    }
 
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
                 break;
             case R.id.at_spokesman_rl_daiyanjiangli:
-                startActivity(new Intent(this, SpeakRewardActivity.class));
+                startActivity(new Intent(this, VipJLActivity.class));
+                break;
+            case R.id.ac_spokesman_rl_store:
+                startActivity(new Intent(this, ShopLogActivity.class));
+                break;
+            case R.id.ac_spokesman_rl_tiqu:
+                startActivity(new Intent(this, TiQuActivity.class));
+                break;
+            case R.id.ac_spokesman_tv_mingxi:
+                startActivity(new Intent(this,InComeLogActivity.class));
                 break;
         }
     }

@@ -142,7 +142,6 @@ public class SupplyMessageActivity extends AppCompatActivity {
 
             @Override
             public void onAddClick() {
-
                 atSupplyMessageThreePic.addImage(getPicPath());
             }
         });
@@ -160,7 +159,6 @@ public class SupplyMessageActivity extends AppCompatActivity {
 
             @Override
             public void onAddClick() {
-
                 atSupplyMessageNinePic.addImage(getPicPath());
             }
         });
@@ -252,6 +250,7 @@ public class SupplyMessageActivity extends AppCompatActivity {
         for (int i = 0; i < allRealPath.size(); i++) {
             files[i] = new File(allRealPath.get(i));
         }
+        pics.setImges(files);
         SetSubscribe.upLoadFiles(pics, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {

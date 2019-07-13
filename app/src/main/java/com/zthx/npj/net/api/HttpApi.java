@@ -27,11 +27,13 @@ import com.zthx.npj.net.been.EditAddressBean;
 import com.zthx.npj.net.been.EditGoodsBean;
 import com.zthx.npj.net.been.EditHeadimgBean;
 import com.zthx.npj.net.been.EditNicknameBean;
+import com.zthx.npj.net.been.EditOfflineStoreBean;
 import com.zthx.npj.net.been.GiftDetailBean;
 import com.zthx.npj.net.been.GiftListBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
 import com.zthx.npj.net.been.GoodsInfoBean;
 import com.zthx.npj.net.been.InComeBean;
+import com.zthx.npj.net.been.InComeLogBean;
 import com.zthx.npj.net.been.InvitationBean;
 import com.zthx.npj.net.been.KuaiDiBean;
 import com.zthx.npj.net.been.LocalSpokesmanBeen;
@@ -39,16 +41,19 @@ import com.zthx.npj.net.been.LocalStoreBean;
 import com.zthx.npj.net.been.LookKDBean;
 import com.zthx.npj.net.been.MsgCodeBeen;
 import com.zthx.npj.net.been.MyGoodsBean;
+import com.zthx.npj.net.been.MyOfflineStoreBean;
 import com.zthx.npj.net.been.MyOrderDetailBean;
 import com.zthx.npj.net.been.MyOrderListBean;
 import com.zthx.npj.net.been.MyStoreBean;
 import com.zthx.npj.net.been.NullBean;
+import com.zthx.npj.net.been.OfflineStoreBean;
 import com.zthx.npj.net.been.OrderBean;
 import com.zthx.npj.net.been.OrderCommentBean;
 import com.zthx.npj.net.been.OutGoodsBean;
 import com.zthx.npj.net.been.PayVideoBean;
 import com.zthx.npj.net.been.PhoneLoginBean;
 import com.zthx.npj.net.been.PreSellBean;
+import com.zthx.npj.net.been.ProblemBean;
 import com.zthx.npj.net.been.ReceiveConfirmBean;
 import com.zthx.npj.net.been.RechargeBean;
 import com.zthx.npj.net.been.RecommendBean;
@@ -56,8 +61,11 @@ import com.zthx.npj.net.been.RefundBean;
 import com.zthx.npj.net.been.SearchBean;
 import com.zthx.npj.net.been.SetStoreBean;
 import com.zthx.npj.net.been.ShipBean;
+import com.zthx.npj.net.been.ShopLogBean;
 import com.zthx.npj.net.been.StoreDetailBean;
 import com.zthx.npj.net.been.SupplyListBean;
+import com.zthx.npj.net.been.TiQuBean;
+import com.zthx.npj.net.been.TqIncomeBean;
 import com.zthx.npj.net.been.UpLoadFileBean;
 import com.zthx.npj.net.been.UpLoadMyCertBean;
 import com.zthx.npj.net.been.UploadCaigouBean;
@@ -68,7 +76,9 @@ import com.zthx.npj.net.been.UploadPicsBean;
 import com.zthx.npj.net.been.UploadPurchaseBean;
 import com.zthx.npj.net.been.UploadSupplyBean;
 import com.zthx.npj.net.been.UserBean;
+import com.zthx.npj.net.been.UserMoneyBean;
 import com.zthx.npj.net.been.VideoInfoBean;
+import com.zthx.npj.net.been.VipJLBean;
 import com.zthx.npj.net.been.WithdrawBean;
 import com.zthx.npj.net.been.YsBuyOneBean;
 
@@ -347,5 +357,35 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/income.html")
     Observable<ResponseBody> inCome(@Body InComeBean bean);
+
+    @POST("index.php/api/user/shoplog.html")
+    Observable<ResponseBody> shopLog(@Body ShopLogBean bean);
+
+    @POST("index.php/api/user/incomelog.html")
+    Observable<ResponseBody> inComeLog(@Body InComeLogBean bean);
+
+    @POST("index.php/api/user/tiqu.html")
+    Observable<ResponseBody> tiQu(@Body TiQuBean bean);
+
+    @POST("index.php/api/user/vipjl.html")
+    Observable<ResponseBody> vipJL(@Body VipJLBean bean);
+
+    @POST("index.php/api/user/tqincome.html")
+    Observable<ResponseBody> tqIncome(@Body TqIncomeBean bean);
+
+    @POST("index.php/api/user/usermoney.html")
+    Observable<ResponseBody> userMoney(@Body UserMoneyBean bean);
+
+    @POST("index.php/api/user/offlinestore.html")
+    Observable<ResponseBody> offlineStore(@Body OfflineStoreBean bean);
+
+    @POST("index.php/api/user/myofflinestore.html")
+    Observable<ResponseBody> myOfflineStore(@Body MyOfflineStoreBean bean);
+
+    @POST("index.php/api/user/editofflinestore.html")
+    Observable<ResponseBody> editOfflineStore(@Body EditOfflineStoreBean bean);
+
+    @POST("index.php/api/user/problem.html")
+    Observable<ResponseBody> problem(@Body ProblemBean bean);
 }
 

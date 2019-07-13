@@ -85,7 +85,6 @@
         <activity android:name=".ui.ExtractCashActivity" />
         <activity android:name=".ui.RechargeActivity" />
         <activity android:name=".ui.MyWalletActivity" />
-        <activity android:name=".ui.SpeakRewardActivity" />
         <activity android:name=".ui.MyStoreActivity" />
         <activity android:name=".ui.PublishGoodsActivity" />
         <activity android:name=".ui.StoreGoodsListActivity" />
@@ -133,6 +132,12 @@
         <activity android:name=".ui.AddBankCardActivity"/>
         <activity android:name=".ui.WithDrawActivity"/>
         <activity android:name=".ui.TestActivity"/>
+        <activity android:name=".ui.ShopLogActivity"/>
+        <activity android:name=".ui.VipJLActivity"/>
+        <activity android:name=".ui.InComeLogActivity"/>
+        <activity android:name=".ui.TiQuActivity"/>
+        <activity android:name=".ui.EditMyOfflineStoreActivity"/>
+        <activity android:name=".ui.MyOfflineStoreActivity"/>
 
         <activity
             android:name=".wxapi.WXEntryActivity"

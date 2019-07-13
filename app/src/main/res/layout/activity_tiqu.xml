@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
     <include layout="@layout/title"/>
-    <ExpandableListView
-        android:id="@+id/ac_userMoney_elv_allType"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40" />
-    <android.widget.DatePicker
-        android:id="@+id/ac_userMoney_dp_time"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_60"/>
-    <android.widget.RelativeLayout
-        android:id="@+id/ac_userMoney_rl_"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/line"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ac_tiqu_rv_mingxi"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

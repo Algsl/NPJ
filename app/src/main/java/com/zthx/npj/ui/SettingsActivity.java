@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
@@ -18,13 +19,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
+import com.zthx.npj.net.been.UpLoadFileBean;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -32,36 +33,37 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.CommonDialog;
+import com.zthx.npj.view.MyCircleView;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SettingsActivity
-        extends AppCompatActivity
-{
+        extends AppCompatActivity {
 
     @BindView(R.id.at_settings_rl_head_pic)
     RelativeLayout atSettingsRlHeadPic;
     @BindView(R.id.at_settings_rl_clean_cash)
     RelativeLayout atSettingsRlCleanCash;
-    @BindView(R.id.fg_setting_iv_headimg)
-    ImageView      fg_setting_iv_headimg;
     @BindView(R.id.at_settings_rl_nickname)
     RelativeLayout atSettingsRlNickname;
     @BindView(R.id.at_settings_rl_signature)
     RelativeLayout atSettingsRlSignature;
     @BindView(R.id.ac_settings_tv_nickname)
-    TextView       acSettingsTvNickname;
+    TextView acSettingsTvNickname;
     @BindView(R.id.ac_settings_tv_signature)
-    TextView       acSettingsTvSignature;
+    TextView acSettingsTvSignature;
     @BindView(R.id.at_settings_rl_address)
     RelativeLayout mAtSettingsRlAddress;
+    @BindView(R.id.fg_setting_iv_headimg)
+    MyCircleView fgSettingIvHeadimg;
+
 
     private Uri imageUri;
     private static final int TAKE_PHOTO = 1;
@@ -77,26 +79,26 @@ public class SettingsActivity
 
     private void getUserInfo() {
         String user_id = SharePerferenceUtils.getUserId(this);
-        String token   = SharePerferenceUtils.getToken(this);
+        String token = SharePerferenceUtils.getToken(this);
         SetSubscribe.getUserInfo(user_id,
-                                 token,
-                                 new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                                     @Override
-                                     public void onSuccess(String result) {
-                                         setUserInfo(result);
-                                     }
+                token,
+                new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        setUserInfo(result);
+                    }
 
-                                     @Override
-                                     public void onFault(String errorMsg) {
+                    @Override
+                    public void onFault(String errorMsg) {
 
-                                     }
-                                 }));
+                    }
+                }));
     }
 
     private void setUserInfo(String result) {
         UserResponseBean userResponseBean = GsonUtils.fromJson(result, UserResponseBean.class);
         UserResponseBean.DataBean data = userResponseBean.getData();
-        Glide.with(this).load(Uri.parse(data.getHead_img())).into(fg_setting_iv_headimg);
+        Glide.with(this).load(Uri.parse(data.getHead_img())).into(fgSettingIvHeadimg);
         acSettingsTvNickname.setText(data.getNick_name());
         acSettingsTvSignature.setText(data.getSignature());
     }
@@ -115,10 +117,10 @@ public class SettingsActivity
     }
 
     @OnClick({R.id.at_settings_rl_head_pic,
-              R.id.at_settings_rl_clean_cash,
-              R.id.at_settings_rl_nickname,
-              R.id.at_settings_rl_signature,
-             R.id.at_settings_rl_address})
+            R.id.at_settings_rl_clean_cash,
+            R.id.at_settings_rl_nickname,
+            R.id.at_settings_rl_signature,
+            R.id.at_settings_rl_address})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_settings_rl_head_pic:
@@ -134,27 +136,27 @@ public class SettingsActivity
                 showSingleBottomDialog("设置个性签名", "2");
                 break;
             case R.id.at_settings_rl_address:
-                startActivity(new Intent(this,AddressListActivity.class));
+                startActivity(new Intent(this, AddressListActivity.class));
                 break;
         }
     }
 
     private void showCleanCashDialog() {
         new CommonDialog(SettingsActivity.this,
-                         R.style.dialog,
-                         "您确定删除此信息？",
-                         new CommonDialog.OnCloseListener() {
-                             @Override
-                             public void onClick(Dialog dialog, boolean confirm) {
-                                 if (confirm) {
-                                     Toast.makeText(SettingsActivity.this,
-                                                    "点击确定",
-                                                    Toast.LENGTH_SHORT)
-                                          .show();
-                                     dialog.dismiss();
-                                 }
-                             }
-                         }).show();
+                R.style.dialog,
+                "您确定删除此信息？",
+                new CommonDialog.OnCloseListener() {
+                    @Override
+                    public void onClick(Dialog dialog, boolean confirm) {
+                        if (confirm) {
+                            Toast.makeText(SettingsActivity.this,
+                                    "点击确定",
+                                    Toast.LENGTH_SHORT)
+                                    .show();
+                            dialog.dismiss();
+                        }
+                    }
+                }).show();
     }
 
     private void showBottomDialog() {
@@ -173,69 +175,69 @@ public class SettingsActivity
         dialog.show();
         //从相册中选取
         dialog.findViewById(R.id.dl_photo_take_pic).setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
+            @Override
+            public void onClick(View view) {
 
-                      Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                      startActivityForResult(intent, CHOOSE_PHOTO);
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, CHOOSE_PHOTO);
 
 
                       /*String user_id= SharePerferenceUtils.getUserId(SettingsActivity.this);
                       String token=SharePerferenceUtils.getToken(SettingsActivity.this);
                       String headimg = "/public/upload/20190420/defa05252410178d8f8a9b1bb6f1d274.jpg";
                       editHeadImg(user_id, token, headimg);*/
-                      dialog.dismiss();
-                  }
-              });
+                dialog.dismiss();
+            }
+        });
         //拍摄照片
         dialog.findViewById(R.id.dl_photo_take_photo).setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
-                      File outputImage = new File(getExternalCacheDir(), "output_image.jpg");
-                      try {
-                          if (outputImage.exists()) {
-                              outputImage.delete();
-                          }
-                          outputImage.createNewFile();
-                      } catch (IOException e) {
-                          e.printStackTrace();
-                      }
-                      if (Build.VERSION.SDK_INT >= 24) {
-                          imageUri = FileProvider.getUriForFile(SettingsActivity.this,
-                                                                "com.zthx.npj.file_provider",
-                                                                outputImage);
-                      } else {
-                          imageUri = Uri.fromFile(outputImage);
-                      }
-                      Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                      intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                      startActivityForResult(intent, TAKE_PHOTO);
+            @Override
+            public void onClick(View view) {
+                File outputImage = new File(getExternalCacheDir(), "output_image.jpg");
+                try {
+                    if (outputImage.exists()) {
+                        outputImage.delete();
+                    }
+                    outputImage.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (Build.VERSION.SDK_INT >= 24) {
+                    imageUri = FileProvider.getUriForFile(SettingsActivity.this,
+                            "com.zthx.npj.file_provider",
+                            outputImage);
+                } else {
+                    imageUri = Uri.fromFile(outputImage);
+                }
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, TAKE_PHOTO);
 
-                      String filePath=imageUri.getPath();
-                      File file=new File(filePath);
-                      Log.e("测试", "onActivityResult: "+file );
-                      SetSubscribe.upLoadFile(file,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                          @Override
-                          public void onSuccess(String result) {
-                              Log.e("测试", "onSuccess: "+"上传成功" );
-                          }
+                String filePath = imageUri.getPath();
+                File file = new File(filePath);
+                Log.e("测试", "onActivityResult: " + file);
+                SetSubscribe.upLoadFile(file, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Log.e("测试", "onSuccess: " + "上传成功");
+                    }
 
-                          @Override
-                          public void onFault(String errorMsg) {
-                              Log.e("测试", "onSuccess: "+"上传失败" );
-                          }
-                      }));
+                    @Override
+                    public void onFault(String errorMsg) {
+                        Log.e("测试", "onSuccess: " + "上传失败");
+                    }
+                }));
 
-                      dialog.dismiss();
-                  }
-              });
+                dialog.dismiss();
+            }
+        });
         dialog.findViewById(R.id.dl_photo_cancel)
-              .setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
-                      dialog.dismiss();
-                  }
-              });
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
     }
 
     @Override
@@ -246,14 +248,14 @@ public class SettingsActivity
                 if (resultCode == RESULT_OK) {
                     try {
                         Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-                        fg_setting_iv_headimg.setImageBitmap(bitmap);
+                        fgSettingIvHeadimg.setImageBitmap(bitmap);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 break;
             case CHOOSE_PHOTO:
-                if(resultCode==RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     try {
                         Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -262,22 +264,22 @@ public class SettingsActivity
                         cursor.moveToFirst();
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         String path = cursor.getString(columnIndex);  //获取照片路径
-                        File file=new File(path);
-                        Log.e("测试", path );
+                        cursor.close();
+                        Bitmap bitmap = BitmapFactory.decodeFile(path);
+                        fgSettingIvHeadimg.setImageBitmap(bitmap);
+                        File file=new File("/storage/emulated/0/bluetooth/","mmexport1554167739492.jpg");
+                        Log.e("测试", "onActivityResult: "+path+" "+file);
                         SetSubscribe.upLoadFile(file,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                             @Override
                             public void onSuccess(String result) {
-                                Log.e("测试", "onSuccess: "+"上传成功" );
+                                Log.e("测试", "上传成功" );
                             }
 
                             @Override
                             public void onFault(String errorMsg) {
-                                Log.e("测试", "onSuccess: "+"上传失败" );
+                                Log.e("测试", "上传失败" );
                             }
                         }));
-                        cursor.close();
-                        Bitmap bitmap = BitmapFactory.decodeFile(path);
-                        fg_setting_iv_headimg.setImageBitmap(bitmap);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -303,28 +305,28 @@ public class SettingsActivity
         TextView dl_nickname = view.findViewById(R.id.dl_nickname);
         dl_nickname.setText(str);
         dialog.findViewById(R.id.dl_nickname)
-              .setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                      Intent intent = new Intent(SettingsActivity.this, EditNicknameActivity.class);
-                      intent.putExtra("type", type);
-                      startActivity(intent);
-                  }
-              });
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(SettingsActivity.this, EditNicknameActivity.class);
+                        intent.putExtra("type", type);
+                        startActivity(intent);
+                    }
+                });
         dialog.findViewById(R.id.dl_photo_cancel)
-              .setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
-                      dialog.dismiss();
-                  }
-              });
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
     }
 
     private void editHeadImg(String user_id, String token, String head_img) {
         SetSubscribe.editHeadImg(user_id, token, head_img, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Glide.with(SettingsActivity.this).load(Uri.parse(result)).into(fg_setting_iv_headimg);
+                //Glide.with(SettingsActivity.this).load(Uri.parse(result)).into(fg_setting_iv_headimg);
             }
 
             @Override
@@ -333,6 +335,5 @@ public class SettingsActivity
             }
         }));
     }
-
 
 }

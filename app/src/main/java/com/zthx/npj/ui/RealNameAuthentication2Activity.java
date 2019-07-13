@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.base.BaseConstant;
+import com.zthx.npj.net.been.UpLoadFileBean;
 import com.zthx.npj.net.been.UpLoadMyCertBean;
 import com.zthx.npj.net.been.UpLoadPicResponseBean;
 import com.zthx.npj.net.netsubscribe.CertSubscribe;
@@ -338,7 +339,6 @@ public class RealNameAuthentication2Activity extends AppCompatActivity {
 
     private void getPicUrl(final LinearLayout view, Bitmap bitmap) {
         File file = bitmapToFile(bitmap);
-
         SetSubscribe.upLoadFile(file, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
