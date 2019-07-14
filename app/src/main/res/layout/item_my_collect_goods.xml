@@ -26,6 +26,7 @@
         android:textColor="@color/text3"/>
 
     <TextView
+        android:id="@+id/item_my_collect_goods_tv_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="￥102"
@@ -45,11 +46,13 @@
         android:layout_marginBottom="@dimen/dp_15">
 
         <ImageView
+            android:id="@+id/item_my_collect_iv_addCart"
             android:layout_width="@dimen/dp_22"
             android:layout_height="@dimen/dp_22"
             android:src="@drawable/my_collect_shoppingcart"/>
 
         <ImageView
+            android:id="@+id/item_my_collect_iv_delCollection"
             android:layout_width="@dimen/dp_22"
             android:layout_height="@dimen/dp_22"
             android:src="@drawable/my_collect_delete"

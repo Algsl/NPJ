@@ -1,7 +1,9 @@
 package com.zthx.npj.net.api;
 
+import com.zthx.npj.adapter.MySupplyListAdapter;
 import com.zthx.npj.net.been.AddAddressBean;
 import com.zthx.npj.net.been.AddBankCardBean;
+import com.zthx.npj.net.been.AddCollectionBean;
 import com.zthx.npj.net.been.AddGoodsBean;
 import com.zthx.npj.net.been.AddressInfoBean;
 import com.zthx.npj.net.been.AddressListBean;
@@ -15,12 +17,14 @@ import com.zthx.npj.net.been.BannerBean;
 import com.zthx.npj.net.been.BuyBean;
 import com.zthx.npj.net.been.BuyVideoBean;
 import com.zthx.npj.net.been.CancelOrderBean;
+import com.zthx.npj.net.been.CollectionBean;
 import com.zthx.npj.net.been.CommentBean;
 import com.zthx.npj.net.been.ConfirmOrderBean;
 import com.zthx.npj.net.been.ConfirmPreSellBean;
 import com.zthx.npj.net.been.ConfirmSupplyBean;
 import com.zthx.npj.net.been.DefaultAddressBean;
 import com.zthx.npj.net.been.DelAddressBean;
+import com.zthx.npj.net.been.DelCollectionBean;
 import com.zthx.npj.net.been.DelGoodsBean;
 import com.zthx.npj.net.been.DelOrderBean;
 import com.zthx.npj.net.been.EditAddressBean;
@@ -46,6 +50,7 @@ import com.zthx.npj.net.been.MyOfflineStoreBean;
 import com.zthx.npj.net.been.MyOrderDetailBean;
 import com.zthx.npj.net.been.MyOrderListBean;
 import com.zthx.npj.net.been.MyStoreBean;
+import com.zthx.npj.net.been.MySupplyListBean;
 import com.zthx.npj.net.been.NullBean;
 import com.zthx.npj.net.been.OfflineStoreBean;
 import com.zthx.npj.net.been.OrderBean;
@@ -56,6 +61,11 @@ import com.zthx.npj.net.been.PayVideoBean;
 import com.zthx.npj.net.been.PhoneLoginBean;
 import com.zthx.npj.net.been.PreSellBean;
 import com.zthx.npj.net.been.ProblemBean;
+import com.zthx.npj.net.been.PurchaseDelBean;
+import com.zthx.npj.net.been.PurchaseDownBean;
+import com.zthx.npj.net.been.PurchaseEditBean;
+import com.zthx.npj.net.been.PurchaseListBean;
+import com.zthx.npj.net.been.PurchaseUpBean;
 import com.zthx.npj.net.been.ReceiveConfirmBean;
 import com.zthx.npj.net.been.RechargeBean;
 import com.zthx.npj.net.been.RecommendBean;
@@ -65,7 +75,10 @@ import com.zthx.npj.net.been.SetStoreBean;
 import com.zthx.npj.net.been.ShipBean;
 import com.zthx.npj.net.been.ShopLogBean;
 import com.zthx.npj.net.been.StoreDetailBean;
+import com.zthx.npj.net.been.SupplyDelBean;
+import com.zthx.npj.net.been.SupplyDownBean;
 import com.zthx.npj.net.been.SupplyListBean;
+import com.zthx.npj.net.been.SupplyUpBean;
 import com.zthx.npj.net.been.TiQuBean;
 import com.zthx.npj.net.been.TqIncomeBean;
 import com.zthx.npj.net.been.UpLoadFileBean;
@@ -395,5 +408,41 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/feedback.html")
     Observable<ResponseBody> feedBack(@Body FeedBackBean bean);
+
+    @POST("index.php/api/user/addcollection.html")
+    Observable<ResponseBody> addCollection(@Body AddCollectionBean bean);
+
+    @POST("index.php/api/user/collection.html")
+    Observable<ResponseBody> collection(@Body CollectionBean bean);
+
+    @POST("index.php/api/user/delcollection.html")
+    Observable<ResponseBody> delCollection(@Body DelCollectionBean bean);
+
+    @POST("index.php/api/user/supplylist.html")
+    Observable<ResponseBody> mySupplyList(@Body MySupplyListBean bean);
+
+    @POST("index.php/api/user/supplydown.html")
+    Observable<ResponseBody> mySupplyDown(@Body SupplyDownBean bean);
+
+    @POST("index.php/api/user/supplyup.html")
+    Observable<ResponseBody> mySupplyUp(@Body SupplyUpBean bean);
+
+    @POST("index.php/api/user/supplydel.html")
+    Observable<ResponseBody> mySupplyDel(@Body SupplyDelBean bean);
+
+    @POST("index.php/api/user/purchaselist.html")
+    Observable<ResponseBody> purchaseList(@Body PurchaseListBean bean);
+
+    @POST("index.php/api/user/purchasedel.html")
+    Observable<ResponseBody> purchaseDel(@Body PurchaseDelBean bean);
+
+    @POST("index.php/api/user/purchasedown.html")
+    Observable<ResponseBody> purchaseDown(@Body PurchaseDownBean bean);
+
+    @POST("index.php/api/user/purchaseup.html")
+    Observable<ResponseBody> purchaseUp(@Body PurchaseUpBean bean);
+
+    @POST("index.php/api/user/purchaseedit.html")
+    Observable<ResponseBody> purchaseEdit(@Body PurchaseEditBean bean);
 }
 

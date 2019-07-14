@@ -1,14 +1,17 @@
 package com.zthx.npj.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+
+import com.zthx.npj.ui.AgricultureVideoMainActivity;
 
 import java.util.List;
 
-public class DiscoverViewPagerAdapter extends FragmentStatePagerAdapter{
+public class DiscoverViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private Context mContext;
     private List<String> mList;
@@ -20,7 +23,12 @@ public class DiscoverViewPagerAdapter extends FragmentStatePagerAdapter{
         mContext = context;
         mFragment = fragment;
     }
-    @Override
+
+    public DiscoverViewPagerAdapter(FragmentManager childFragmentManager, Activity activity, List<String> list, List<Fragment> list2) {
+        super(childFragmentManager);
+    }
+
+   @Override
     public int getCount() {
         return mFragment.size();
     }

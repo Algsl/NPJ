@@ -68,7 +68,7 @@ public class AgricultureVideoMainActivity extends AppCompatActivity implements S
         list2.add(SelectVideoFragment.newInstance(id));
         list2.add(SelectVideoFragment.newInstance(id));
         list2.add(new VideoCommentFragment());
-        DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
+        DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(),this, list, list2);
         atAvmVp.setAdapter(mAdapter);
         atAvmTb.setTabMode(TabLayout.MODE_FIXED);
         atAvmTb.setTabGravity(TabLayout.GRAVITY_CENTER);

@@ -1,25 +1,30 @@
 package com.zthx.npj.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.StoreQuotationAdapter;
-import com.zthx.npj.adapter.WantBuyManagerListAdapter;
-import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.adapter.MySupplyListAdapter;
+import com.zthx.npj.adapter.PurchaseListAdapter;
+import com.zthx.npj.net.been.PurchaseListResponseBean;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class WantBuyManagerActivity extends AppCompatActivity {
 
@@ -41,33 +46,130 @@ public class WantBuyManagerActivity extends AppCompatActivity {
     RecyclerView atWantBuyManagerRvSupplyBill;
     @BindView(R.id.at_want_buy_manager_ll_supply_bill)
     LinearLayout atWantBuyManagerLlSupplyBill;
+    @BindView(R.id.ac_wantBuy_tv_wantBuy)
+    TextView acWantBuyTvWantBuy;
+    @BindView(R.id.ac_wantBuy_tv_baojia)
+    TextView acWantBuyTvBaojia;
+    @BindView(R.id.ac_wantBuy_tv_issue)
+    TextView acWantBuyTvIssue;
+    @BindView(R.id.ac_wantBuy_tv_unIssue)
+    TextView acWantBuyTvUnIssue;
+
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
+    private String type = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_want_buy_manager);
         ButterKnife.bind(this);
-        LinearLayoutManager manager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
-        atWantBuyManagerRvSupplyList1.setLayoutManager(manager);
-        atSwantBuyManagerRvSupplyList2.setLayoutManager(manager);
-        atWantBuyManagerRvSupplyBill.setLayoutManager(manager);
-        List<CommentGoodsBeen> list = new ArrayList<>();
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        WantBuyManagerListAdapter mAdapter1 = new WantBuyManagerListAdapter(this,list);
-        StoreQuotationAdapter mAdapter2 = new StoreQuotationAdapter(this,list);
-        mAdapter2.setOnItemClickListener(new StoreQuotationAdapter.ItemClickListener() {
+
+        getWantBuy();
+    }
+
+    private void getWantBuy() {
+        SetSubscribe.purchaseList(user_id, token, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setMyWantBuy(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setMyWantBuy(String result) {
+        PurchaseListResponseBean bean = GsonUtils.fromJson(result, PurchaseListResponseBean.class);
+        final ArrayList<PurchaseListResponseBean.DataBean> data = bean.getData();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        atWantBuyManagerRvSupplyList1.setLayoutManager(layoutManager);
+        PurchaseListAdapter adapter = new PurchaseListAdapter(this,data,type);
+        atWantBuyManagerRvSupplyList1.setAdapter(adapter);
+        adapter.setOnItemClickListener(new PurchaseListAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                startActivity(new Intent(WantBuyManagerActivity.this, StoreQuotationListActivity.class));
+
+            }
+
+            @Override
+            public void onSaleClick(int position) {
+                if(type.equals("1")){
+                    SetSubscribe.purchaseDown(user_id,token,data.get(position).getId()+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+
+                        }
+
+                        @Override
+                        public void onFault(String errorMsg) {
+
+                        }
+                    }));
+                }else{
+                    SetSubscribe.purchaseUp(user_id,token,data.get(position).getId()+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+
+                        }
+
+                        @Override
+                        public void onFault(String errorMsg) {
+
+                        }
+                    }));
+                }
+            }
+
+            @Override
+            public void onSupplyEditClick(int position) {
+
+            }
+
+            @Override
+            public void onSupplyDeleteClick(int position) {
+                SetSubscribe.purchaseDel(user_id,token,data.get(position).getId()+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
+            }
+
+            @Override
+            public void onSupplyShareClick(int position) {
+
             }
         });
-        atWantBuyManagerRvSupplyList1.setAdapter(mAdapter1);
-        atSwantBuyManagerRvSupplyList2.setAdapter(mAdapter1);
-        atWantBuyManagerRvSupplyBill.setAdapter(mAdapter2);
+    }
+
+    @OnClick({R.id.ac_wantBuy_tv_wantBuy, R.id.ac_wantBuy_tv_baojia, R.id.ac_wantBuy_tv_issue, R.id.ac_wantBuy_tv_unIssue})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ac_wantBuy_tv_wantBuy:
+                break;
+            case R.id.ac_wantBuy_tv_baojia:
+                break;
+            case R.id.ac_wantBuy_tv_issue:
+                acWantBuyTvIssue.setTextColor(getResources().getColor(R.color.app_theme));
+                acWantBuyTvUnIssue.setTextColor(getResources().getColor(R.color.text3));
+                type = "1";
+                getWantBuy();
+                break;
+            case R.id.ac_wantBuy_tv_unIssue:
+                acWantBuyTvIssue.setTextColor(getResources().getColor(R.color.text3));
+                acWantBuyTvUnIssue.setTextColor(getResources().getColor(R.color.app_theme));
+                type = "2";
+                getWantBuy();
+                break;
+        }
     }
 }

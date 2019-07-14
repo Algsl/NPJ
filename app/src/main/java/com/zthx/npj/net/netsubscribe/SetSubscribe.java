@@ -2,6 +2,7 @@ package com.zthx.npj.net.netsubscribe;
 
 import com.zthx.npj.net.been.AddAddressBean;
 import com.zthx.npj.net.been.AddBankCardBean;
+import com.zthx.npj.net.been.AddCollectionBean;
 import com.zthx.npj.net.been.AddGoodsBean;
 import com.zthx.npj.net.been.AddressInfoBean;
 import com.zthx.npj.net.been.AddressListBean;
@@ -11,9 +12,11 @@ import com.zthx.npj.net.been.BankBean;
 import com.zthx.npj.net.been.BankCardBean;
 import com.zthx.npj.net.been.BuyBean;
 import com.zthx.npj.net.been.CancelOrderBean;
+import com.zthx.npj.net.been.CollectionBean;
 import com.zthx.npj.net.been.ConfirmOrderBean;
 import com.zthx.npj.net.been.DefaultAddressBean;
 import com.zthx.npj.net.been.DelAddressBean;
+import com.zthx.npj.net.been.DelCollectionBean;
 import com.zthx.npj.net.been.DelGoodsBean;
 import com.zthx.npj.net.been.DelOrderBean;
 import com.zthx.npj.net.been.EditAddressBean;
@@ -32,18 +35,27 @@ import com.zthx.npj.net.been.MyOfflineStoreBean;
 import com.zthx.npj.net.been.MyOrderDetailBean;
 import com.zthx.npj.net.been.MyOrderListBean;
 import com.zthx.npj.net.been.MyStoreBean;
+import com.zthx.npj.net.been.MySupplyListBean;
 import com.zthx.npj.net.been.OfflineStoreBean;
 import com.zthx.npj.net.been.OrderBean;
 import com.zthx.npj.net.been.OrderCommentBean;
 import com.zthx.npj.net.been.OutGoodsBean;
 import com.zthx.npj.net.been.PDetailBean;
 import com.zthx.npj.net.been.ProblemBean;
+import com.zthx.npj.net.been.PurchaseDelBean;
+import com.zthx.npj.net.been.PurchaseDownBean;
+import com.zthx.npj.net.been.PurchaseEditBean;
+import com.zthx.npj.net.been.PurchaseListBean;
+import com.zthx.npj.net.been.PurchaseUpBean;
 import com.zthx.npj.net.been.ReceiveConfirmBean;
 import com.zthx.npj.net.been.RechargeBean;
 import com.zthx.npj.net.been.RefundBean;
 import com.zthx.npj.net.been.SetStoreBean;
 import com.zthx.npj.net.been.ShipBean;
 import com.zthx.npj.net.been.ShopLogBean;
+import com.zthx.npj.net.been.SupplyDelBean;
+import com.zthx.npj.net.been.SupplyDownBean;
+import com.zthx.npj.net.been.SupplyUpBean;
 import com.zthx.npj.net.been.TiQuBean;
 import com.zthx.npj.net.been.TqIncomeBean;
 import com.zthx.npj.net.been.UpLoadFileBean;
@@ -898,6 +910,200 @@ public class SetSubscribe {
         bean.setRealname(bean.getRealname());
         bean.setMobile(bean.getMobile());
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().feedBack(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 添加收藏
+     * @param user_id
+     * @param token
+     * @param id
+     * @param type
+     * @param subscriber
+     */
+    public static void addCollection(String user_id,String token,String id,String type,DisposableObserver<ResponseBody> subscriber) {
+        AddCollectionBean bean=new AddCollectionBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setId(id);
+        bean.setType(type);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().addCollection(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 收藏列表
+     * @param user_id
+     * @param token
+     * @param type
+     * @param subscriber
+     */
+    public static void collectionList(String user_id,String token,String type,DisposableObserver<ResponseBody> subscriber) {
+        CollectionBean bean=new CollectionBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setType(type);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().collection(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 删除收藏
+     * @param user_id
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public static void delCollection(String user_id,String token,String id,DisposableObserver<ResponseBody> subscriber) {
+        DelCollectionBean bean=new DelCollectionBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setId(id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().delCollection(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的供求供应列表
+     * @param user_id
+     * @param token
+     * @param type
+     * @param subscriber
+     */
+    public static void mySupplyList(String user_id,String token,String type,DisposableObserver<ResponseBody> subscriber) {
+        MySupplyListBean bean=new MySupplyListBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setType(type);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyList(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的供应下架
+     * @param user_id
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public static void mySupplyDown(String user_id,String token,String id,DisposableObserver<ResponseBody> subscriber) {
+        SupplyDownBean bean=new SupplyDownBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setId(id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyDown(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的供应上架
+     * @param user_id
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public static void mySupplyUp(String user_id,String token,String id,DisposableObserver<ResponseBody> subscriber) {
+        SupplyUpBean bean=new SupplyUpBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setId(id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyUp(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的供应删除
+     * @param user_id
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public static void mySupplyDel(String user_id,String token,String id,DisposableObserver<ResponseBody> subscriber) {
+        SupplyDelBean bean=new SupplyDelBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setId(id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyDel(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的求购列表
+     * @param user_id
+     * @param token
+     * @param type
+     * @param subscriber
+     */
+    public static void purchaseList(String user_id,String token,String type,DisposableObserver<ResponseBody> subscriber) {
+        PurchaseListBean bean=new PurchaseListBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setType(type);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().purchaseList(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的求购列表删除
+     * @param user_id
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public static void purchaseDel(String user_id,String token,String id,DisposableObserver<ResponseBody> subscriber) {
+        PurchaseDelBean bean=new PurchaseDelBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setId(id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().purchaseDel(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的求购下架
+     * @param user_id
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public static void purchaseDown(String user_id,String token,String id,DisposableObserver<ResponseBody> subscriber) {
+        PurchaseDownBean bean=new PurchaseDownBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setId(id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().purchaseDown(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的求购上架
+     * @param user_id
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public static void purchaseUp(String user_id,String token,String id,DisposableObserver<ResponseBody> subscriber) {
+        PurchaseUpBean bean=new PurchaseUpBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setId(id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().purchaseUp(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的求购编辑
+     * @param user_id
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public static void purchaseEdit(String user_id,String token,String id,DisposableObserver<ResponseBody> subscriber) {
+        PurchaseEditBean bean=new PurchaseEditBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setId(id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().purchaseEdit(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

@@ -52,6 +52,7 @@
             android:layout_marginLeft="@dimen/dp_20"
             android:textSize="@dimen/sp_13"/>
         <TextView
+            android:id="@+id/item_myCollect_tv_goodsCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1234"
@@ -73,10 +74,12 @@
             android:src="@drawable/collect_star"/>
 
         <TextView
+            android:id="@+id/item_myCollect_tv_delCollection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="收藏"
-            android:textColor="@color/text6"
+            android:text="删除"
+            android:background="@drawable/stroke_theme_5"
+            android:textColor="@color/app_theme"
             android:textSize="@dimen/sp_13"
             android:layout_marginTop="@dimen/dp_15"/>
     </LinearLayout>

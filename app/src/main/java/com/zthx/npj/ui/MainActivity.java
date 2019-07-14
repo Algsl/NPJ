@@ -1,10 +1,13 @@
 package com.zthx.npj.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -21,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends AppCompatActivity {
 
 
     static {
@@ -58,6 +61,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initFragment();
@@ -69,8 +73,8 @@ public class MainActivity extends BaseActivity {
         if (mIndex == index) {
             return;
         }
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction ft = fragmentManager.beginTransaction();
+        FragmentManager fragmentManager=getSupportFragmentManager();
+        FragmentTransaction ft =fragmentManager.beginTransaction();
         //隐藏
         ft.hide(mFragments[mIndex]);
         //判断是否添加
@@ -127,8 +131,7 @@ public class MainActivity extends BaseActivity {
         //添加到数组
         mFragments = new Fragment[]{mHomeFragment, mDiscoverFragment, mGameFragment, mShoppingCartFragment, mMineFragment};
         //开启事务
-        FragmentTransaction ft =
-                getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft =getSupportFragmentManager().beginTransaction();
         //添加首页
         ft.add(R.id.lay_frg_main, mHomeFragment).commit();
         llMainCheck01.performClick();

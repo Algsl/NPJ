@@ -46,11 +46,9 @@ public class PreSellActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         getPreSellList("0");
-
     }
 
     private void getPreSellList(final String type) {
-
         PreSellSubscribe.getPreSell(type, new OnSuccessAndFaultSub(
                 new OnSuccessAndFaultListener() {
                     @Override

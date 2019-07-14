@@ -53,7 +53,7 @@ public class DiscoverFragment extends BaseFragment {
         List<Fragment> list2 = new ArrayList<>();
         list2.add(DiscverServiceFragment.getInstance());
         list2.add(DiscoverSupplyFragment.getInstance());
-        DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getChildFragmentManager(), getActivity(), list, list2);
+        DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getChildFragmentManager(), getContext(), list, list2);
         viewPager.setAdapter(mAdapter);
         fgDiscoverMainTab.setTabMode(TabLayout.MODE_FIXED);
         fgDiscoverMainTab.setTabGravity(TabLayout.GRAVITY_CENTER);

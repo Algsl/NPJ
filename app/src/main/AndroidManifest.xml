@@ -44,7 +44,7 @@
 
         <activity
             android:name=".ui.MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/TranslucentTheme" />
         <activity android:name=".ui.BaseActivity" />
         <activity android:name=".ui.ClassfiyActivity" />
         <activity android:name=".ui.HomeSearchActivity" />

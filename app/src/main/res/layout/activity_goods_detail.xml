@@ -108,14 +108,6 @@
                     android:layout_marginLeft="@dimen/dp_6"
                     android:layout_marginTop="@dimen/dp_13"
                     android:src="@drawable/goods_detial_back" />
-
-                <ImageView
-                    android:layout_width="@dimen/dp_25"
-                    android:layout_height="@dimen/dp_25"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="@dimen/dp_13"
-                    android:layout_marginRight="@dimen/dp_12"
-                    android:src="@drawable/goods_detail_home" />
             </RelativeLayout>
 
             <LinearLayout
@@ -567,6 +559,7 @@
                     android:textColor="@color/text6"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/ac_goodsDetail_ll_collect"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

@@ -16,6 +16,7 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -29,9 +30,11 @@ import com.zthx.npj.net.been.SecKillGoodsDetailResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.PreSellSubscribe;
 import com.zthx.npj.net.netsubscribe.SecKillSubscribe;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.GlideImageLoader;
 import com.zthx.npj.view.GoodSizePopupwindow;
 import com.zthx.npj.view.SaleDetailProgressView;
@@ -95,7 +98,11 @@ public class GoodsDetailActivity extends AppCompatActivity {
     LinearLayout atGoodsDetailRlSecKillDone;
     @BindView(R.id.at_goods_detail_banner)
     Banner atGoodsDetailBanner;
+    @BindView(R.id.ac_goodsDetail_ll_collect)
+    LinearLayout acGoodsDetailLlCollect;
 
+    private String user_id= SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
     private String goodsId;
 
     private PreSellDetailResponseBean.DataBean mPreData;
@@ -234,7 +241,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
 
     }
 
-    @OnClick({R.id.at_goods_detail_btn_add_shopping_cart, R.id.at_goods_detail_btn_buy_now})
+    @OnClick({R.id.at_goods_detail_btn_add_shopping_cart, R.id.at_goods_detail_btn_buy_now, R.id.ac_goodsDetail_ll_collect})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_goods_detail_btn_add_shopping_cart:
@@ -243,7 +250,24 @@ public class GoodsDetailActivity extends AppCompatActivity {
             case R.id.at_goods_detail_btn_buy_now:
                 showPopupwindow(view);
                 break;
+            case R.id.ac_goodsDetail_ll_collect:
+                goodsCollect();
+                break;
         }
+    }
+
+    private void goodsCollect() {
+        SetSubscribe.addCollection(user_id,token,goodsId,"1",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                Toast.makeText(GoodsDetailActivity.this,"收藏成功",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -270,7 +294,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
                     break;
                 case R.id.item_pop_goods_buy:
                     Intent intent = new Intent(GoodsDetailActivity.this, ConfirmOrderActivity.class);
-                    intent.putExtra(Const.ATTRIBUTE_ID, mPreData.getAttribute_value().get(0).getId()+"");
+                    intent.putExtra(Const.ATTRIBUTE_ID, mPreData.getAttribute_value().get(0).getId() + "");
                     intent.putExtra(Const.GOODS_ID, goodsId);
                     startActivity(intent);
                     break;
@@ -311,7 +335,6 @@ public class GoodsDetailActivity extends AppCompatActivity {
 
     /**
      * 初始化轮播图
-     *
      */
     private void initBanner(ArrayList<String> imgList) {
 
