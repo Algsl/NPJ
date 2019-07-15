@@ -64,7 +64,7 @@ public class SupplyManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supply_manager);
         ButterKnife.bind(this);
-
+        titleThemeTitle.setText("供应管理");
         getSupply();
     }
 
@@ -101,7 +101,7 @@ public class SupplyManagerActivity extends AppCompatActivity {
                     SetSubscribe.mySupplyDown(user_id,token,data.get(position).getId()+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
-
+                            getSupply();
                         }
 
                         @Override
@@ -113,7 +113,7 @@ public class SupplyManagerActivity extends AppCompatActivity {
                     SetSubscribe.mySupplyUp(user_id,token,data.get(position).getId()+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
-
+                            getSupply();
                         }
 
                         @Override

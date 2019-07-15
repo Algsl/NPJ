@@ -64,7 +64,7 @@ public class WantBuyManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_want_buy_manager);
         ButterKnife.bind(this);
-
+        titleThemeTitle.setText("供应管理");
         getWantBuy();
     }
 
@@ -101,7 +101,7 @@ public class WantBuyManagerActivity extends AppCompatActivity {
                     SetSubscribe.purchaseDown(user_id,token,data.get(position).getId()+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
-
+                            getWantBuy();
                         }
 
                         @Override
@@ -113,7 +113,7 @@ public class WantBuyManagerActivity extends AppCompatActivity {
                     SetSubscribe.purchaseUp(user_id,token,data.get(position).getId()+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
-
+                            getWantBuy();
                         }
 
                         @Override

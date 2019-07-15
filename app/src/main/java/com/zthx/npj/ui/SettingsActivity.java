@@ -304,7 +304,6 @@ public class SettingsActivity
                                 Log.e("测试", "成功"+response.body().string());
                             }
                         });
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
