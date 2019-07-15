@@ -9,12 +9,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/dp_10"
+        android:fitsSystemWindows="true"
         android:background="@android:color/background_dark">
         <ImageView
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
             android:id="@+id/fg_home_iv_scan"
             android:layout_width="@dimen/dp_22"
             android:layout_height="@dimen/dp_22"

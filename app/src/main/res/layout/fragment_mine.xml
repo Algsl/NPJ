@@ -3,10 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.MineFragment"
     android:orientation="vertical"
-    android:clipChildren="false">
-    <include layout="@layout/title"/>
+    tools:context=".ui.fragment.MineFragment"
+    android:background="@color/background">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_30"
+        android:background="#46D6C6"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">

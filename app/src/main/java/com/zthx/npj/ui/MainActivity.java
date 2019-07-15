@@ -84,23 +84,28 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     mHomeFragment = new HomeFragment();
                     mFragments[0] = mHomeFragment;
+                    llMainCheck01.setOnApplyWindowInsetsListener(null);
                     break;
                 case 1:
                     mDiscoverFragment = new DiscoverFragment();
                     mFragments[1] = mDiscoverFragment;
+                    llMainCheck02.setOnApplyWindowInsetsListener(null);
                     break;
                 case 2:
                     mGameFragment = new GameFragment();
                     mFragments[2] = mGameFragment;
                     acMainRg.clearCheck();
+                    llMainCheck03.setOnApplyWindowInsetsListener(null);
                     break;
                 case 3:
                     mShoppingCartFragment = new ShoppingCartFragment();
                     mFragments[3] = mShoppingCartFragment;
+                    llMainCheck04.setOnApplyWindowInsetsListener(null);
                     break;
                 case 4:
                     mMineFragment = new MineFragment();
                     mFragments[4] = mMineFragment;
+                    llMainCheck05.setOnApplyWindowInsetsListener(null);
                     break;
                 default:
                     break;
@@ -134,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft =getSupportFragmentManager().beginTransaction();
         //添加首页
         ft.add(R.id.lay_frg_main, mHomeFragment).commit();
+
         llMainCheck01.performClick();
     }
 

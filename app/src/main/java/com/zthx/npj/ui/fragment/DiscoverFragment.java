@@ -46,6 +46,8 @@ public class DiscoverFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_discover, container, false);
+        view.requestApplyInsets();
+        view.setFitsSystemWindows(false);
         unbinder = ButterKnife.bind(this, view);
         List<String> list = new ArrayList<>();
         list.add("服务");

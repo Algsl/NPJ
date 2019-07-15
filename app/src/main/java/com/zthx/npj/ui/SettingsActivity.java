@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -28,6 +29,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.net.been.UpLoadFileBean;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
@@ -35,14 +37,37 @@ import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.MyCircleView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class SettingsActivity
         extends AppCompatActivity {
@@ -68,6 +93,8 @@ public class SettingsActivity
     private Uri imageUri;
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
+    private final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
+    private final OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,8 +207,6 @@ public class SettingsActivity
 
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, CHOOSE_PHOTO);
-
-
                       /*String user_id= SharePerferenceUtils.getUserId(SettingsActivity.this);
                       String token=SharePerferenceUtils.getToken(SettingsActivity.this);
                       String headimg = "/public/upload/20190420/defa05252410178d8f8a9b1bb6f1d274.jpg";
@@ -259,27 +284,27 @@ public class SettingsActivity
                     try {
                         Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                        Cursor cursor = getContentResolver().query(selectedImage,
-                                filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+                        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
                         cursor.moveToFirst();
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         String path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
                         Bitmap bitmap = BitmapFactory.decodeFile(path);
                         fgSettingIvHeadimg.setImageBitmap(bitmap);
-                        File file=new File("/storage/emulated/0/bluetooth/","mmexport1554167739492.jpg");
-                        Log.e("测试", "onActivityResult: "+path+" "+file);
-                        SetSubscribe.upLoadFile(file,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        Log.e("测试", "onActivityResult: "+path);
+                        File file=new File(path);
+                        HttpUtils.sendOkHttpRequest("http://app.npj-vip.com/index.php/api/set/uploadimg.html", file, new Callback() {
                             @Override
-                            public void onSuccess(String result) {
-                                Log.e("测试", "上传成功" );
+                            public void onFailure(Call call, IOException e) {
+                                Log.e("测试", "失败: "+e.getMessage());
                             }
 
                             @Override
-                            public void onFault(String errorMsg) {
-                                Log.e("测试", "上传失败" );
+                            public void onResponse(Call call, Response response) throws IOException {
+                                Log.e("测试", "成功"+response.body().string());
                             }
-                        }));
+                        });
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

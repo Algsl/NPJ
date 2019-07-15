@@ -78,12 +78,13 @@ import okhttp3.ResponseBody;
 
 public class SetSubscribe {
 
+
     /**
      * 上传单张图片
      * @param file
      * @param subscriber
      */
-    public static void upLoadFile(File file, DisposableObserver<ResponseBody> subscriber) {
+    public static void upLoadFile(File file,DisposableObserver<ResponseBody> subscriber) {
         UpLoadFileBean bean=new UpLoadFileBean();
         bean.setFile(file);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().upLoadFileForBody(bean);
