@@ -22,7 +22,8 @@
         android:layout_toRightOf="@id/item_quotation_people_head_pic"
         android:layout_marginTop="@dimen/dp_10"/>
 
-    <TextView
+    <ImageView
+        android:id="@+id/item_quotaition_peopleList_tv_level"
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_23"
         android:text="金牌代言人"
@@ -47,6 +48,7 @@
         android:layout_marginTop="@dimen/dp_12"/>
 
     <TextView
+        android:id="@+id/item_quotation_people_tv_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="已持续经营365天"
@@ -105,6 +107,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/item_quotation_people_tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="信誉分:125 "
@@ -125,6 +128,7 @@
         android:layout_marginTop="@dimen/dp_8"/>
 
     <TextView
+        android:id="@+id/item_quotation_people_tv_see"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="查看该商家报价"

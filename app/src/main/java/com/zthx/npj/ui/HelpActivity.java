@@ -57,7 +57,7 @@ public class HelpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
         ButterKnife.bind(this);
-
+        titleThemeTitle.setText("帮助与客服");
         getProblem("1");
         getProblem("2");
     }
@@ -96,6 +96,7 @@ public class HelpActivity extends AppCompatActivity {
             public void onItemClickListener(int position) {
                 Intent intent=new Intent(HelpActivity.this,HelpDetailActivity.class);
                 intent.putExtra("id",data.get(position).getId()+"");
+                startActivity(intent);
             }
         });
     }

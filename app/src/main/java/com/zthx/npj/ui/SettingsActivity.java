@@ -13,7 +13,6 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -26,42 +25,30 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
-import com.zthx.npj.net.been.UpLoadFileBean;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
-import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.net.netutils.UploadImg;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.MyCircleView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -93,9 +80,10 @@ public class SettingsActivity
     private Uri imageUri;
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
-    private final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
-    private final OkHttpClient client = new OkHttpClient();
-
+    private static final MediaType MEDIA_TYPE_PNG=MediaType.parse("image/jpg");
+    private File file;
+    private String requestUrl="http://app.npj-vip.com/index.php/api/set/uploadimg.html";
+    //private String requestUrl="https://haijiao.pw/H5/upload.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -234,6 +222,7 @@ public class SettingsActivity
                 } else {
                     imageUri = Uri.fromFile(outputImage);
                 }
+
                 Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                 startActivityForResult(intent, TAKE_PHOTO);
@@ -287,23 +276,24 @@ public class SettingsActivity
                         Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
                         cursor.moveToFirst();
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        String path = cursor.getString(columnIndex);  //获取照片路径
+                        final String path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
                         Bitmap bitmap = BitmapFactory.decodeFile(path);
                         fgSettingIvHeadimg.setImageBitmap(bitmap);
                         Log.e("测试", "onActivityResult: "+path);
-                        File file=new File(path);
-                        HttpUtils.sendOkHttpRequest("http://app.npj-vip.com/index.php/api/set/uploadimg.html", file, new Callback() {
+                        upImage();
+                        Log.e("测试", " "+file);
+                        /*SetSubscribe.upLoadFile(file,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                             @Override
-                            public void onFailure(Call call, IOException e) {
-                                Log.e("测试", "失败: "+e.getMessage());
+                            public void onSuccess(String result) {
+                                Log.e("测试", "onSuccess: "+result);
                             }
 
                             @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                Log.e("测试", "成功"+response.body().string());
+                            public void onFault(String errorMsg) {
+                                Log.e("测试", "onSuccess: "+errorMsg);
                             }
-                        });
+                        }));*/
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -359,5 +349,38 @@ public class SettingsActivity
             }
         }));
     }
+    private void upImage() {
+        OkHttpClient mOkHttpClent = new OkHttpClient();
+        File file = new File(Environment.getExternalStorageDirectory()+"/temp.jpg");
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("file", "temp.jpg",
+                        RequestBody.create(MediaType.parse("image/png"), file));
 
+        RequestBody requestBody = builder.build();
+
+        Request request = new Request.Builder()
+                .url(requestUrl)
+                .post(requestBody)
+                .build();
+        Call call = mOkHttpClent.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("测试", "onFailure: "+e );
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(SettingsActivity.this, "失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+            }
+        });
+
+    }
 }

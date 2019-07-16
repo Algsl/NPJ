@@ -27,6 +27,7 @@
         android:id="@+id/item_store_quotation_title"/>
     
     <Button
+        android:id="@+id/item_store_quotation_btn_see"
         android:layout_width="@dimen/dp_65"
         android:layout_height="@dimen/dp_18"
         android:layout_below="@id/item_store_quotation_title"
@@ -38,6 +39,7 @@
         android:textColor="@android:color/white"/>
 
     <TextView
+        android:id="@+id/item_store_quotation_tv_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="5人报价"

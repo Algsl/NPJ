@@ -7,7 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -16,14 +18,18 @@ import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.SecKillTodayResponseBean;
 import com.zthx.npj.view.SaleProgressView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder> {
 
     private Context mContext;
+    private String type;
     private ArrayList<SecKillTodayResponseBean.DataBean> mList;
     private SecKillAdpter.ItemClickListener mItemClickListener ;
+
     public interface ItemClickListener{
         void onItemClick(int position) ;
     }
@@ -32,9 +38,10 @@ public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder
 
     }
 
-    public SecKillAdpter(Context context, ArrayList<SecKillTodayResponseBean.DataBean> list) {
+    public SecKillAdpter(Context context, ArrayList<SecKillTodayResponseBean.DataBean> list,String type) {
         mContext = context;
         mList = list;
+        this.type=type;
     }
     @NonNull
     @Override
@@ -62,6 +69,22 @@ public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder
             viewHolder.mTvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             viewHolder.mTvTitle.setText(mList.get(i).getGoods_name());
             viewHolder.mSpv.setTotalAndCurrentCount(Integer.parseInt(mList.get(i).getGoods_num()),Integer.parseInt(mList.get(i).getSale_num()));
+            switch (type){
+                case "1":
+                    break;
+                case "2":
+                    viewHolder.time.setVisibility(View.VISIBLE);
+                    viewHolder.time.setText(new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
+                    break;
+                case "3":
+                    viewHolder.mSpv.setVisibility(View.GONE);
+                    viewHolder.time.setText(View.GONE);
+                    viewHolder.num.setText("秒杀份："+mList.get(i).getGoods_num());
+                    viewHolder.ll1.setVisibility(View.GONE);
+                    viewHolder.ll2.setVisibility(View.VISIBLE);
+                    viewHolder.buy.setVisibility(View.GONE);
+                    break;
+            }
     }
 
     @Override
@@ -71,11 +94,10 @@ public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mIvGoods;
-        TextView mTvTitle;
-        TextView mTvLeb;
-        TextView mTvNewPrice;
-        TextView mTvOldPrice;
+        TextView mTvTitle,mTvLeb,mTvNewPrice,mTvOldPrice,time,timewill,num;
         SaleProgressView mSpv;
+        LinearLayout ll1,ll2;
+        Button buy;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -85,6 +107,13 @@ public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder
             mTvOldPrice = itemView.findViewById(R.id.item_sec_kill_tv_old_price);
             mTvLeb = itemView.findViewById(R.id.item_sec_kill_tv_goods_leb);
             mSpv = itemView.findViewById(R.id.item_sec_kill_spv);
+
+            num=itemView.findViewById(R.id.item_sec_kill_tv_num);
+            time=itemView.findViewById(R.id.item_sec_kill_tv_time);
+            timewill=itemView.findViewById(R.id.item_sec_kill_tv_timeWill);
+            ll1=itemView.findViewById(R.id.item_sec_kill_ll_l1);
+            ll2=itemView.findViewById(R.id.item_sec_kill_ll_l2);
+            buy=itemView.findViewById(R.id.item_sec_kill_btn_buy);
         }
     }
 }

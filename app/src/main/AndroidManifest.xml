@@ -138,6 +138,10 @@
         <activity android:name=".ui.TiQuActivity"/>
         <activity android:name=".ui.EditMyOfflineStoreActivity"/>
         <activity android:name=".ui.MyOfflineStoreActivity"/>
+        <activity android:name=".ui.BaojiaUserListActivity"/>
+        <activity android:name=".ui.BaojiaUserDetailActivity"/>
+        <activity android:name=".ui.BaseWhiteActivity"/>
+        <activity android:name=".ui.BaseThemeActivity"/>
 
         <activity
             android:name=".wxapi.WXEntryActivity"

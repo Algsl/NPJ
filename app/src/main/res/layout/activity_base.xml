@@ -89,9 +89,7 @@
                     android:paddingRight="10dp"
                     android:paddingTop="5dp"
                     android:scaleType="centerCrop"
-                    android:visibility="gone"
-
-                    />
+                    android:visibility="gone"/>
 
 
                 <!--返回键-->

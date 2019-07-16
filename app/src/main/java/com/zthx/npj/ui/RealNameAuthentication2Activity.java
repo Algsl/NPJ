@@ -342,7 +342,7 @@ public class RealNameAuthentication2Activity extends AppCompatActivity {
         SetSubscribe.upLoadFile(file, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-
+                Log.e("测试", "onSuccess: "+result);
                 UpLoadPicResponseBean upLoadPicResponseBean = GsonUtils.fromJson(result, UpLoadPicResponseBean.class);
                 if (view == atRealNameAuthentication2LlIdZheng) {
                     UrlZheng = upLoadPicResponseBean.getSrc();
@@ -355,7 +355,7 @@ public class RealNameAuthentication2Activity extends AppCompatActivity {
 
             @Override
             public void onFault(String errorMsg) {
-
+                Log.e("测试", "onSuccess: "+errorMsg);
             }
         },this));
     }

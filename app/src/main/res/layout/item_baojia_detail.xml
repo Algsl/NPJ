@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/dp_12"
+    android:layout_marginRight="@dimen/dp_12"
+    android:layout_marginBottom="@dimen/dp_15"
+    android:orientation="vertical"
+    android:background="@drawable/white_conner_8">
+    <TextView
+        android:id="@+id/item_baojia_detail_tv_time"
+        android:layout_marginTop="@dimen/dp_14"
+        android:layout_marginBottom="@dimen/dp_13"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/text6"
+        android:text="报价时间：2019/5/20 20:18:25"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:background="@color/app_theme">
+        <TextView
+            android:id="@+id/item_baojia_detail_tv_content"
+            android:layout_width="@dimen/dp_160"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_15"
+            android:lineHeight="@dimen/dp_23"
+            android:text="火龙果：4000元/吨
+海南椰子：5000元/吨
+新疆大枣：7000元/吨
+东北大米：10200元/吨"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_15"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/item_baojia_detail_tv_mark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:text="备注：纯绿色无污染，健康安全环保，薄利多销，价格可详谈，平台最低价欢迎老板前来订购，期待与您的合作！祝生意兴隆！！"
+        android:textSize="@dimen/sp_13"
+        android:lineHeight="@dimen/dp_21"
+        android:textColor="@color/text6"/>
+</LinearLayout>

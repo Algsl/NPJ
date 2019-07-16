@@ -112,7 +112,7 @@
             android:id="@+id/at_settings_qianming"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="个人签名: "
+            android:text="个人签名 "
             android:textSize="@dimen/sp_15"
             android:textColor="@color/text6"
             android:layout_centerVertical="true"

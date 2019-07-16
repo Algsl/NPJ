@@ -10,6 +10,9 @@ import com.zthx.npj.net.been.ApplyRefundBean;
 import com.zthx.npj.net.been.AuthLoginBean;
 import com.zthx.npj.net.been.BankBean;
 import com.zthx.npj.net.been.BankCardBean;
+import com.zthx.npj.net.been.BaojiaListBean;
+import com.zthx.npj.net.been.BaojiaUserDetailBean;
+import com.zthx.npj.net.been.BaojiaUserListBean;
 import com.zthx.npj.net.been.BuyBean;
 import com.zthx.npj.net.been.CancelOrderBean;
 import com.zthx.npj.net.been.CollectionBean;
@@ -55,6 +58,7 @@ import com.zthx.npj.net.been.ShipBean;
 import com.zthx.npj.net.been.ShopLogBean;
 import com.zthx.npj.net.been.SupplyDelBean;
 import com.zthx.npj.net.been.SupplyDownBean;
+import com.zthx.npj.net.been.SupplyOrderBean;
 import com.zthx.npj.net.been.SupplyUpBean;
 import com.zthx.npj.net.been.TiQuBean;
 import com.zthx.npj.net.been.TqIncomeBean;
@@ -1105,6 +1109,66 @@ public class SetSubscribe {
         bean.setToken(token);
         bean.setId(id);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().purchaseEdit(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 供应管理供应订单
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void supplyOrder(String user_id,String token,DisposableObserver<ResponseBody> subscriber) {
+        SupplyOrderBean bean=new SupplyOrderBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().supplyOrder(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的报价列表
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void baojiaList(String user_id,String token,DisposableObserver<ResponseBody> subscriber) {
+        BaojiaListBean bean=new BaojiaListBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().baojiaList(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 报价商家列表
+     * @param user_id
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public static void baojiaUserList(String user_id,String token,String id,DisposableObserver<ResponseBody> subscriber) {
+        BaojiaUserListBean bean=new BaojiaUserListBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setId(id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().baojiaUserList(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 商家报价信息
+     * @param user_id
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public static void baojiaUserDetail(String user_id,String token,String id,DisposableObserver<ResponseBody> subscriber) {
+        BaojiaUserDetailBean bean=new BaojiaUserDetailBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setId(id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().baojiaUserDetail(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

@@ -24,9 +24,9 @@ public class DiscoverViewPagerAdapter extends FragmentStatePagerAdapter {
         mFragment = fragment;
     }
 
-    public DiscoverViewPagerAdapter(FragmentManager childFragmentManager, Activity activity, List<String> list, List<Fragment> list2) {
+    /*public DiscoverViewPagerAdapter(FragmentManager childFragmentManager, Activity activity, List<String> list, List<Fragment> list2) {
         super(childFragmentManager);
-    }
+    }*/
 
    @Override
     public int getCount() {

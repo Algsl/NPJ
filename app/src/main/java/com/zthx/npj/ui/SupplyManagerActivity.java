@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.MySupplyListAdapter;
+import com.zthx.npj.adapter.SupplyOrderAdapter;
 import com.zthx.npj.net.been.MySupplyListResponseBean;
+import com.zthx.npj.net.been.SupplyOrderResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -69,6 +71,8 @@ public class SupplyManagerActivity extends AppCompatActivity {
     }
 
     private void getSupply() {
+        atSupplyManagerLlSupplyList.setVisibility(View.VISIBLE);
+        atSupplyManagerLlSupplyBill.setVisibility(View.GONE);
         SetSubscribe.mySupplyList(user_id, token, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -156,10 +160,18 @@ public class SupplyManagerActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_supplyManager_tv_supply:
-
+                acSupplyManagerTvSupply.setBackgroundColor(getResources().getColor(R.color.app_theme));
+                acSupplyManagerTvSupply.setTextColor(getResources().getColor(android.R.color.white));
+                acSupplyManagerTvOrder.setBackgroundColor(getResources().getColor(android.R.color.white));
+                acSupplyManagerTvOrder.setTextColor(getResources().getColor(R.color.text3));
+                getSupply();
                 break;
             case R.id.ac_supplyManager_tv_order:
-
+                acSupplyManagerTvOrder.setBackgroundColor(getResources().getColor(R.color.app_theme));
+                acSupplyManagerTvOrder.setTextColor(getResources().getColor(android.R.color.white));
+                acSupplyManagerTvSupply.setBackgroundColor(getResources().getColor(android.R.color.white));
+                acSupplyManagerTvSupply.setTextColor(getResources().getColor(R.color.text3));
+                getOrder();
                 break;
             case R.id.ac_supplyManager_tv_up:
                 acSupplyManagerTvUp.setTextColor(getResources().getColor(R.color.app_theme));
@@ -174,5 +186,30 @@ public class SupplyManagerActivity extends AppCompatActivity {
                 getSupply();
                 break;
         }
+    }
+
+    private void getOrder() {
+        atSupplyManagerLlSupplyList.setVisibility(View.GONE);
+        atSupplyManagerLlSupplyBill.setVisibility(View.VISIBLE);
+        SetSubscribe.supplyOrder(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setOrder(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setOrder(String result) {
+        SupplyOrderResponseBean bean=GsonUtils.fromJson(result,SupplyOrderResponseBean.class);
+        ArrayList<SupplyOrderResponseBean.DataBean> data=bean.getData();
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
+        atSupplyManagerRvSupplyBill.setLayoutManager(layoutManager);
+        SupplyOrderAdapter adapter=new SupplyOrderAdapter(this,data);
+        atSupplyManagerRvSupplyBill.setAdapter(adapter);
     }
 }

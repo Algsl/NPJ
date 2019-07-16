@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,8 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.BaojiaListAdapter;
 import com.zthx.npj.adapter.MySupplyListAdapter;
 import com.zthx.npj.adapter.PurchaseListAdapter;
+import com.zthx.npj.net.been.BaojiaListResponseBean;
 import com.zthx.npj.net.been.PurchaseListResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -69,6 +72,8 @@ public class WantBuyManagerActivity extends AppCompatActivity {
     }
 
     private void getWantBuy() {
+        atWantBuyManagerLlSupplyList.setVisibility(View.VISIBLE);
+        atWantBuyManagerLlSupplyBill.setVisibility(View.GONE);
         SetSubscribe.purchaseList(user_id, token, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -155,8 +160,18 @@ public class WantBuyManagerActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_wantBuy_tv_wantBuy:
+                acWantBuyTvWantBuy.setBackgroundColor(getResources().getColor(R.color.app_theme));
+                acWantBuyTvWantBuy.setTextColor(getResources().getColor(android.R.color.white));
+                acWantBuyTvBaojia.setBackgroundColor(getResources().getColor(android.R.color.white));
+                acWantBuyTvBaojia.setTextColor(getResources().getColor(R.color.text3));
+                getWantBuy();
                 break;
             case R.id.ac_wantBuy_tv_baojia:
+                acWantBuyTvBaojia.setBackgroundColor(getResources().getColor(R.color.app_theme));
+                acWantBuyTvBaojia.setTextColor(getResources().getColor(android.R.color.white));
+                acWantBuyTvWantBuy.setBackgroundColor(getResources().getColor(android.R.color.white));
+                acWantBuyTvWantBuy.setTextColor(getResources().getColor(R.color.text3));
+                getBaojia();
                 break;
             case R.id.ac_wantBuy_tv_issue:
                 acWantBuyTvIssue.setTextColor(getResources().getColor(R.color.app_theme));
@@ -171,5 +186,38 @@ public class WantBuyManagerActivity extends AppCompatActivity {
                 getWantBuy();
                 break;
         }
+    }
+
+    private void getBaojia() {
+        atWantBuyManagerLlSupplyList.setVisibility(View.GONE);
+        atWantBuyManagerLlSupplyBill.setVisibility(View.VISIBLE);
+        SetSubscribe.baojiaList(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setBaojia(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setBaojia(String result) {
+        BaojiaListResponseBean bean=GsonUtils.fromJson(result,BaojiaListResponseBean.class);
+        final ArrayList<BaojiaListResponseBean.DataBean> data=bean.getData();
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
+        atWantBuyManagerRvSupplyBill.setLayoutManager(layoutManager);
+        BaojiaListAdapter adapter=new BaojiaListAdapter(this,data);
+        atWantBuyManagerRvSupplyBill.setAdapter(adapter);
+        adapter.setOnItemClickListener(new BaojiaListAdapter.ItemClickListener() {
+            @Override
+            public void onSeeClick(int position) {
+                Intent intent=new Intent(WantBuyManagerActivity.this,BaojiaUserListActivity.class);
+                intent.putExtra("user_id",data.get(position).getUser_id()+"");
+                startActivity(intent);
+            }
+        });
     }
 }

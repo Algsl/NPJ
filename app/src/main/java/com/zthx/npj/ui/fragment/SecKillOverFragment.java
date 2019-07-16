@@ -62,7 +62,7 @@ public class SecKillOverFragment extends Fragment {
 
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
                 fgSecKillOverRv.setLayoutManager(linearLayoutManager);
-                SecKillAdpter adapter = new SecKillAdpter(getActivity(),data);
+                SecKillAdpter adapter = new SecKillAdpter(getActivity(),data,"2");
                 adapter.setOnItemClickListener(new SecKillAdpter.ItemClickListener() {
                     @Override
                     public void onItemClick(int position) {

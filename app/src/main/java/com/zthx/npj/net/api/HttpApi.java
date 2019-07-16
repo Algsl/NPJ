@@ -1,101 +1,7 @@
 package com.zthx.npj.net.api;
 
 import com.zthx.npj.adapter.MySupplyListAdapter;
-import com.zthx.npj.net.been.AddAddressBean;
-import com.zthx.npj.net.been.AddBankCardBean;
-import com.zthx.npj.net.been.AddCollectionBean;
-import com.zthx.npj.net.been.AddGoodsBean;
-import com.zthx.npj.net.been.AddressInfoBean;
-import com.zthx.npj.net.been.AddressListBean;
-import com.zthx.npj.net.been.AkVideoBean;
-import com.zthx.npj.net.been.ApplyRefundBean;
-import com.zthx.npj.net.been.AuthLoginBean;
-import com.zthx.npj.net.been.AuthLoginByMoBileBean;
-import com.zthx.npj.net.been.BankBean;
-import com.zthx.npj.net.been.BankCardBean;
-import com.zthx.npj.net.been.BannerBean;
-import com.zthx.npj.net.been.BuyBean;
-import com.zthx.npj.net.been.BuyVideoBean;
-import com.zthx.npj.net.been.CancelOrderBean;
-import com.zthx.npj.net.been.CollectionBean;
-import com.zthx.npj.net.been.CommentBean;
-import com.zthx.npj.net.been.ConfirmOrderBean;
-import com.zthx.npj.net.been.ConfirmPreSellBean;
-import com.zthx.npj.net.been.ConfirmSupplyBean;
-import com.zthx.npj.net.been.DefaultAddressBean;
-import com.zthx.npj.net.been.DelAddressBean;
-import com.zthx.npj.net.been.DelCollectionBean;
-import com.zthx.npj.net.been.DelGoodsBean;
-import com.zthx.npj.net.been.DelOrderBean;
-import com.zthx.npj.net.been.EditAddressBean;
-import com.zthx.npj.net.been.EditGoodsBean;
-import com.zthx.npj.net.been.EditHeadimgBean;
-import com.zthx.npj.net.been.EditNicknameBean;
-import com.zthx.npj.net.been.EditOfflineStoreBean;
-import com.zthx.npj.net.been.FeedBackBean;
-import com.zthx.npj.net.been.GiftDetailBean;
-import com.zthx.npj.net.been.GiftListBean;
-import com.zthx.npj.net.been.GoodsDetailBean;
-import com.zthx.npj.net.been.GoodsInfoBean;
-import com.zthx.npj.net.been.InComeBean;
-import com.zthx.npj.net.been.InComeLogBean;
-import com.zthx.npj.net.been.InvitationBean;
-import com.zthx.npj.net.been.KuaiDiBean;
-import com.zthx.npj.net.been.LocalSpokesmanBeen;
-import com.zthx.npj.net.been.LocalStoreBean;
-import com.zthx.npj.net.been.LookKDBean;
-import com.zthx.npj.net.been.MsgCodeBeen;
-import com.zthx.npj.net.been.MyGoodsBean;
-import com.zthx.npj.net.been.MyOfflineStoreBean;
-import com.zthx.npj.net.been.MyOrderDetailBean;
-import com.zthx.npj.net.been.MyOrderListBean;
-import com.zthx.npj.net.been.MyStoreBean;
-import com.zthx.npj.net.been.MySupplyListBean;
-import com.zthx.npj.net.been.NullBean;
-import com.zthx.npj.net.been.OfflineStoreBean;
-import com.zthx.npj.net.been.OrderBean;
-import com.zthx.npj.net.been.OrderCommentBean;
-import com.zthx.npj.net.been.OutGoodsBean;
-import com.zthx.npj.net.been.PDetailBean;
-import com.zthx.npj.net.been.PayVideoBean;
-import com.zthx.npj.net.been.PhoneLoginBean;
-import com.zthx.npj.net.been.PreSellBean;
-import com.zthx.npj.net.been.ProblemBean;
-import com.zthx.npj.net.been.PurchaseDelBean;
-import com.zthx.npj.net.been.PurchaseDownBean;
-import com.zthx.npj.net.been.PurchaseEditBean;
-import com.zthx.npj.net.been.PurchaseListBean;
-import com.zthx.npj.net.been.PurchaseUpBean;
-import com.zthx.npj.net.been.ReceiveConfirmBean;
-import com.zthx.npj.net.been.RechargeBean;
-import com.zthx.npj.net.been.RecommendBean;
-import com.zthx.npj.net.been.RefundBean;
-import com.zthx.npj.net.been.SearchBean;
-import com.zthx.npj.net.been.SetStoreBean;
-import com.zthx.npj.net.been.ShipBean;
-import com.zthx.npj.net.been.ShopLogBean;
-import com.zthx.npj.net.been.StoreDetailBean;
-import com.zthx.npj.net.been.SupplyDelBean;
-import com.zthx.npj.net.been.SupplyDownBean;
-import com.zthx.npj.net.been.SupplyListBean;
-import com.zthx.npj.net.been.SupplyUpBean;
-import com.zthx.npj.net.been.TiQuBean;
-import com.zthx.npj.net.been.TqIncomeBean;
-import com.zthx.npj.net.been.UpLoadFileBean;
-import com.zthx.npj.net.been.UpLoadMyCertBean;
-import com.zthx.npj.net.been.UploadCaigouBean;
-import com.zthx.npj.net.been.UploadChengXinCertBean;
-import com.zthx.npj.net.been.UploadCommentBean;
-import com.zthx.npj.net.been.UploadCompanyBean;
-import com.zthx.npj.net.been.UploadPicsBean;
-import com.zthx.npj.net.been.UploadPurchaseBean;
-import com.zthx.npj.net.been.UploadSupplyBean;
-import com.zthx.npj.net.been.UserBean;
-import com.zthx.npj.net.been.UserMoneyBean;
-import com.zthx.npj.net.been.VideoInfoBean;
-import com.zthx.npj.net.been.VipJLBean;
-import com.zthx.npj.net.been.WithdrawBean;
-import com.zthx.npj.net.been.YsBuyOneBean;
+import com.zthx.npj.net.been.*;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
@@ -444,5 +350,17 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/purchaseedit.html")
     Observable<ResponseBody> purchaseEdit(@Body PurchaseEditBean bean);
+
+    @POST("index.php/api/user/supplyorder.html")
+    Observable<ResponseBody> supplyOrder(@Body SupplyOrderBean bean);
+
+    @POST("index.php/api/user/baojialist.html")
+    Observable<ResponseBody> baojiaList(@Body BaojiaListBean bean);
+
+    @POST("index.php/api/user/baojiauserlist.html")
+    Observable<ResponseBody> baojiaUserList(@Body BaojiaUserListBean bean);
+
+    @POST("index.php/api/user/baojiauser.html")
+    Observable<ResponseBody> baojiaUserDetail(@Body BaojiaUserDetailBean bean);
 }
 

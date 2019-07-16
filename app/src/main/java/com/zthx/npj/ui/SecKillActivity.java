@@ -12,6 +12,7 @@ import com.zthx.npj.adapter.SecKillViewPagerAdapter;
 import com.zthx.npj.ui.fragment.SecKillFragment;
 import com.zthx.npj.ui.fragment.SecKillOverFragment;
 import com.zthx.npj.ui.fragment.SecKillStartFragment;
+import com.zthx.npj.ui.fragment.SeckillListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,9 +86,12 @@ public class SecKillActivity extends AppCompatActivity {
         list.add("已结束");
         list.add("抢购进行中");
         list.add("即将开场");
-        list2.add(new SecKillOverFragment());
+        /*list2.add(new SecKillOverFragment());
         list2.add(new SecKillFragment());
-        list2.add(new SecKillStartFragment());
+        list2.add(new SecKillStartFragment());*/
+        list2.add(new SeckillListFragment().newIntent("1"));
+        list2.add(new SeckillListFragment().newIntent("2"));
+        list2.add(new SeckillListFragment().newIntent("3"));
     }
 
     private void updateTabView(TabLayout.Tab tab, boolean b) {
