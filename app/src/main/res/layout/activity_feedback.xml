@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.zthx.npj.ui.FeedbackActivity"
     android:orientation="vertical">
 
@@ -200,49 +201,20 @@
                    android:textSize="@dimen/sp_12"/>
 
            </LinearLayout>
-
-           <LinearLayout
+           <me.zhouzhuo.zzimagebox.ZzImageBox
+               android:id="@+id/ac_feedBack_zib_pingzheng"
                android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="horizontal"
-               android:layout_marginTop="@dimen/dp_10">
-
-               <ImageView
-                   android:layout_width="@dimen/dp_80"
-                   android:layout_height="@dimen/dp_80"
-                   android:layout_marginLeft="@dimen/dp_12"
-                   android:src="@mipmap/ic_launcher"/>
-
-               <ImageView
-                   android:layout_width="@dimen/dp_80"
-                   android:layout_height="@dimen/dp_80"
-                   android:layout_marginLeft="@dimen/dp_10"
-                   android:src="@mipmap/ic_launcher"/>
-
-               <ImageView
-                   android:layout_width="@dimen/dp_80"
-                   android:layout_height="@dimen/dp_80"
-                   android:layout_marginLeft="@dimen/dp_10"
-                   android:src="@mipmap/ic_launcher"/>
-
-               <LinearLayout
-                   android:layout_width="@dimen/dp_80"
-                   android:layout_height="@dimen/dp_80"
-                   android:layout_marginLeft="@dimen/dp_10"
-                   android:background="@drawable/add_pic"
-                   android:gravity="center_horizontal">
-                   <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:text="添加凭证"
-                       android:layout_marginTop="@dimen/dp_57"
-                       android:textSize="@dimen/sp_13"
-                       android:textColor="@color/text9"/>
-               </LinearLayout>
-
-
-
-           </LinearLayout>
+               android:layout_height="@dimen/dp_100"
+               android:layout_marginLeft="@dimen/dp_12"
+               app:zib_left_margin="20dp"
+               app:zib_right_margin="20dp"
+               app:zib_img_padding="5dp"
+               app:zib_img_size_one_line="3"
+               app:zib_max_line="1"
+               app:zib_img_deletable="true"
+               app:zib_img_add="@drawable/iv_add"
+               app:zib_img_default="@drawable/iv_default"
+               app:zib_img_delete="@drawable/iv_delete"/>
 
            <View
                android:layout_width="match_parent"
@@ -299,6 +271,7 @@
                    android:layout_marginRight="@dimen/dp_38"
                    android:layout_marginLeft="@dimen/dp_20"
                    android:textSize="@dimen/sp_13"
+                   android:inputType="phone"
                    android:hint="请填写联系方式"
                    android:textColorHint="@color/text9"
                    android:paddingLeft="@dimen/dp_15"/>

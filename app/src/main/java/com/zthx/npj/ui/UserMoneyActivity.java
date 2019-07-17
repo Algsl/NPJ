@@ -2,12 +2,10 @@ package com.zthx.npj.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class UserMoneyActivity extends AppCompatActivity {
+public class UserMoneyActivity extends ActivityBase {
 
     @BindView(R.id.ac_title)
     TextView acTitle;
@@ -49,6 +47,8 @@ public class UserMoneyActivity extends AppCompatActivity {
     String end_time = "2015-1-31";
     @BindView(R.id.ac_vipJL_tv_allType)
     TextView acVipJLTvAllType;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,8 +56,9 @@ public class UserMoneyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_wallet_income);
         ButterKnife.bind(this);
 
+        back(titleBack);
+        changeTitle(acTitle,"钱包明细");
 
-        acTitle.setText("钱包明细");
         getUserMoney();
     }
 

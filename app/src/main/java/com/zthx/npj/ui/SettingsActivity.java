@@ -8,56 +8,43 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
+import com.zthx.npj.net.api.URLConstant;
+import com.zthx.npj.net.been.UploadImgResponseBean;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
-import com.zthx.npj.net.netutils.UploadImg;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.MyCircleView;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.Headers;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class SettingsActivity
-        extends AppCompatActivity {
+public class SettingsActivity extends ActivityBase {
 
     @BindView(R.id.at_settings_rl_head_pic)
     RelativeLayout atSettingsRlHeadPic;
@@ -75,26 +62,40 @@ public class SettingsActivity
     RelativeLayout mAtSettingsRlAddress;
     @BindView(R.id.fg_setting_iv_headimg)
     MyCircleView fgSettingIvHeadimg;
+    @BindView(R.id.title_theme_back)
+    ImageView titleThemeBack;
+    @BindView(R.id.title_theme_title)
+    TextView titleThemeTitle;
+    @BindView(R.id.title_theme_tv_right)
+    TextView titleThemeTvRight;
+    @BindView(R.id.title_theme)
+    RelativeLayout titleTheme;
+    @BindView(R.id.ac_setting_iv_msg)
+    ImageView acSettingIvMsg;
+    @BindView(R.id.ac_setting_tv_cache)
+    TextView acSettingTvCache;
 
 
     private Uri imageUri;
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
-    private static final MediaType MEDIA_TYPE_PNG=MediaType.parse("image/jpg");
-    private File file;
-    private String requestUrl="http://app.npj-vip.com/index.php/api/set/uploadimg.html";
-    //private String requestUrl="https://haijiao.pw/H5/upload.php";
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
+    private boolean receiveMsg=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
-        getUserInfo();
+
+
+        back(titleThemeBack);
+        changeTitle(titleThemeTitle, "设置");
+
     }
 
     private void getUserInfo() {
-        String user_id = SharePerferenceUtils.getUserId(this);
-        String token = SharePerferenceUtils.getToken(this);
         SetSubscribe.getUserInfo(user_id,
                 token,
                 new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
@@ -121,6 +122,7 @@ public class SettingsActivity
     @Override
     protected void onResume() {
         super.onResume();
+        getUserInfo();
     }
 
     @Override
@@ -135,7 +137,8 @@ public class SettingsActivity
             R.id.at_settings_rl_clean_cash,
             R.id.at_settings_rl_nickname,
             R.id.at_settings_rl_signature,
-            R.id.at_settings_rl_address})
+            R.id.at_settings_rl_address,
+            R.id.ac_setting_iv_msg})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_settings_rl_head_pic:
@@ -151,8 +154,20 @@ public class SettingsActivity
                 showSingleBottomDialog("设置个性签名", "2");
                 break;
             case R.id.at_settings_rl_address:
-                startActivity(new Intent(this, AddressListActivity.class));
+                openActivity(AddressListActivity.class);
                 break;
+            case R.id.ac_setting_iv_msg:
+                toggle();
+                break;
+        }
+    }
+
+    private void toggle() {
+        receiveMsg=!receiveMsg;
+        if(receiveMsg){
+            acSettingIvMsg.setImageResource(R.drawable.at_edit_address_selector);
+        }else{
+            acSettingIvMsg.setImageResource(R.drawable.at_edit_address_not_selector);
         }
     }
 
@@ -164,10 +179,7 @@ public class SettingsActivity
                     @Override
                     public void onClick(Dialog dialog, boolean confirm) {
                         if (confirm) {
-                            Toast.makeText(SettingsActivity.this,
-                                    "点击确定",
-                                    Toast.LENGTH_SHORT)
-                                    .show();
+                            acSettingTvCache.setText("0M");
                             dialog.dismiss();
                         }
                     }
@@ -195,10 +207,6 @@ public class SettingsActivity
 
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, CHOOSE_PHOTO);
-                      /*String user_id= SharePerferenceUtils.getUserId(SettingsActivity.this);
-                      String token=SharePerferenceUtils.getToken(SettingsActivity.this);
-                      String headimg = "/public/upload/20190420/defa05252410178d8f8a9b1bb6f1d274.jpg";
-                      editHeadImg(user_id, token, headimg);*/
                 dialog.dismiss();
             }
         });
@@ -227,21 +235,6 @@ public class SettingsActivity
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                 startActivityForResult(intent, TAKE_PHOTO);
 
-                String filePath = imageUri.getPath();
-                File file = new File(filePath);
-                Log.e("测试", "onActivityResult: " + file);
-                SetSubscribe.upLoadFile(file, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                    @Override
-                    public void onSuccess(String result) {
-                        Log.e("测试", "onSuccess: " + "上传成功");
-                    }
-
-                    @Override
-                    public void onFault(String errorMsg) {
-                        Log.e("测试", "onSuccess: " + "上传失败");
-                    }
-                }));
-
                 dialog.dismiss();
             }
         });
@@ -263,6 +256,20 @@ public class SettingsActivity
                     try {
                         Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
                         fgSettingIvHeadimg.setImageBitmap(bitmap);
+                        String filePath = getExternalCacheDir() + "/output_image.jpg";
+                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, filePath, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                UploadImgResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadImgResponseBean.class);
+                                UploadImgResponseBean.DataBean data = bean.getData();
+                                editHeadImg(user_id, token, data.getSrc());
+                            }
+                        });
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -280,20 +287,19 @@ public class SettingsActivity
                         cursor.close();
                         Bitmap bitmap = BitmapFactory.decodeFile(path);
                         fgSettingIvHeadimg.setImageBitmap(bitmap);
-                        Log.e("测试", "onActivityResult: "+path);
-                        upImage();
-                        Log.e("测试", " "+file);
-                        /*SetSubscribe.upLoadFile(file,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
                             @Override
-                            public void onSuccess(String result) {
-                                Log.e("测试", "onSuccess: "+result);
+                            public void onFailure(Call call, IOException e) {
+
                             }
 
                             @Override
-                            public void onFault(String errorMsg) {
-                                Log.e("测试", "onSuccess: "+errorMsg);
+                            public void onResponse(Call call, Response response) throws IOException {
+                                UploadImgResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadImgResponseBean.class);
+                                UploadImgResponseBean.DataBean data = bean.getData();
+                                editHeadImg(user_id, token, data.getSrc());
                             }
-                        }));*/
+                        });
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -322,9 +328,10 @@ public class SettingsActivity
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(SettingsActivity.this, EditNicknameActivity.class);
+                        /*Intent intent = new Intent(SettingsActivity.this, EditNicknameActivity.class);
                         intent.putExtra("type", type);
-                        startActivity(intent);
+                        startActivity(intent);*/
+                        openActivity(EditNicknameActivity.class, type);
                     }
                 });
         dialog.findViewById(R.id.dl_photo_cancel)
@@ -340,7 +347,7 @@ public class SettingsActivity
         SetSubscribe.editHeadImg(user_id, token, head_img, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                //Glide.with(SettingsActivity.this).load(Uri.parse(result)).into(fg_setting_iv_headimg);
+
             }
 
             @Override
@@ -349,38 +356,5 @@ public class SettingsActivity
             }
         }));
     }
-    private void upImage() {
-        OkHttpClient mOkHttpClent = new OkHttpClient();
-        File file = new File(Environment.getExternalStorageDirectory()+"/temp.jpg");
-        MultipartBody.Builder builder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("file", "temp.jpg",
-                        RequestBody.create(MediaType.parse("image/png"), file));
 
-        RequestBody requestBody = builder.build();
-
-        Request request = new Request.Builder()
-                .url(requestUrl)
-                .post(requestBody)
-                .build();
-        Call call = mOkHttpClent.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e("测试", "onFailure: "+e );
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(SettingsActivity.this, "失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
-            }
-        });
-
-    }
 }

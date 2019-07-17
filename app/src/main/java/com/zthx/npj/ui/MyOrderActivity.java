@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,7 +18,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyOrderActivity extends AppCompatActivity {
+public class MyOrderActivity extends ActivityBase {
 
     @BindView(R.id.at_my_order_vp)
     ViewPager atMyOrderVp;
@@ -30,6 +30,8 @@ public class MyOrderActivity extends AppCompatActivity {
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.title)
     RelativeLayout title;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,8 @@ public class MyOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_order);
         ButterKnife.bind(this);
 
-        acTitle.setText("我的订单");
+        back(titleBack);
+        changeTitle(acTitle,"我的订单");
 
         List<String> list = new ArrayList<>();
         list.add("全部");

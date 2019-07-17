@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
@@ -24,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PreSellActivity extends AppCompatActivity {
+public class PreSellActivity extends ActivityBase {
 
     @BindView(R.id.at_pre_sell_iv)
     ImageView atPreSellIv;
@@ -36,6 +37,14 @@ public class PreSellActivity extends AppCompatActivity {
     TextView atPreSellTvEd;
     @BindView(R.id.at_pre_sell_rv2)
     RecyclerView atPreSellRv2;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.at_location_store_tv_ruzhu)
+    TextView atLocationStoreTvRuzhu;
+    @BindView(R.id.title)
+    RelativeLayout title;
 
     private boolean isIng = true;
 
@@ -44,6 +53,10 @@ public class PreSellActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_sell);
         ButterKnife.bind(this);
+
+        back(titleBack);
+        changeTitle(acTitle,"新品预售");
+
 
         getPreSellList("0");
     }

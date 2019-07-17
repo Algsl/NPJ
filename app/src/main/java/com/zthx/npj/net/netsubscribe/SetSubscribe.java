@@ -39,6 +39,7 @@ import com.zthx.npj.net.been.MyOrderDetailBean;
 import com.zthx.npj.net.been.MyOrderListBean;
 import com.zthx.npj.net.been.MyStoreBean;
 import com.zthx.npj.net.been.MySupplyListBean;
+import com.zthx.npj.net.been.MySupplyOrderBean;
 import com.zthx.npj.net.been.OfflineStoreBean;
 import com.zthx.npj.net.been.OrderBean;
 import com.zthx.npj.net.been.OrderCommentBean;
@@ -1169,6 +1170,22 @@ public class SetSubscribe {
         bean.setToken(token);
         bean.setId(id);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().baojiaUserDetail(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的供求我的订单
+     * @param user_id
+     * @param token
+     * @param order_state
+     * @param subscriber
+     */
+    public static void mySupplyOrder(String user_id,String token,String order_state,DisposableObserver<ResponseBody> subscriber) {
+        MySupplyOrderBean bean=new MySupplyOrderBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setOrder_state(order_state);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyOrder(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

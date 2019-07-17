@@ -1,33 +1,47 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.OrderResponseBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyBillListAdapter extends RecyclerView.Adapter<MyBillListAdapter.ViewHolder> {
-    private List<CommentGoodsBeen> list;
+    private ArrayList<OrderResponseBean.DataBean> list;
     private Context mContext;
 
     private ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
         void onItemClick(int position) ;
+        void onCancelClick(int position);
+        void onDeleteClick(int position);
+        void onPayClick(int position);
+        void onCuiDanClick(int position);
+        void onQueryClick(int position);
+        void onConfirmClick(int position);
+        void onAgainClick(int position);
+        void onCommentClick(int position);
+        void onGoodsReturn(int position);
     }
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
 
     }
 
-    public MyBillListAdapter(Context context, List<CommentGoodsBeen> list) {
+    public MyBillListAdapter(Context context, ArrayList<OrderResponseBean.DataBean> list) {
         this.list = list;
         mContext = context;
     }
@@ -39,7 +53,7 @@ public class MyBillListAdapter extends RecyclerView.Adapter<MyBillListAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final MyBillListAdapter.ViewHolder viewHolder, int i) {
         // 点击事件一般都写在绑定数据这里，当然写到上边的创建布局时候也是可以的
         if (mItemClickListener != null){
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -50,12 +64,130 @@ public class MyBillListAdapter extends RecyclerView.Adapter<MyBillListAdapter.Vi
                     mItemClickListener.onItemClick(position);
                 }
             });
+            viewHolder.cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onCancelClick(position);
+                }
+            });
+            viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onDeleteClick(position);
+                }
+            });
+            viewHolder.cuidan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onCuiDanClick(position);
+                }
+            });
+            viewHolder.pay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onPayClick(position);
+                }
+            });
+            viewHolder.query.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onQueryClick(position);
+                }
+            });
+            viewHolder.confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onConfirmClick(position);
+                }
+            });
+            viewHolder.again.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onAgainClick(position);
+                }
+            });
+            viewHolder.comment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onCommentClick(position);
+                }
+            });
+            viewHolder.goodsReturn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onGoodsReturn(position);
+                }
+            });
         }
         if (list!= null && list.size() > 0) {
-            viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
-            viewHolder.mTvPrice.setText(list.get(i).getGoodsPrice());
-            viewHolder.mTvSellNum.setText(list.get(i).getGoodsSellNum());
-            viewHolder.mTvTitle.setText(list.get(i).getGoodsTitle());
+            Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
+            viewHolder.storeName.setText(list.get(i).getStore_name());
+            viewHolder.goodsName.setText(list.get(i).getGoods_name());
+            viewHolder.goodsPrice.setText("￥ "+list.get(i).getGoods_price());
+            viewHolder.goodsNum.setText("x "+list.get(i).getGoods_num());
+            viewHolder.orderPrice.setText("￥ "+list.get(i).getOrder_price());
+            switch (list.get(i).getOrder_state()+""){
+                case "0"://已取消
+                    viewHolder.orderState.setText("已取消");
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    break;
+                case "1"://未取消，未付款
+                    viewHolder.orderState.setText("待支付");
+                    viewHolder.delete.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    break;
+                case "2"://已付款，待发货
+                    viewHolder.orderState.setText("待发货");
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.delete.setVisibility(View.GONE);
+                    break;
+                case "3"://已发货，待收货
+                    viewHolder.orderState.setText("待收货");
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.delete.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.query.setVisibility(View.VISIBLE);
+                    viewHolder.confirm.setVisibility(View.VISIBLE);
+                    break;
+                case "4"://已收货，待评价
+                    viewHolder.orderState.setText("待评价");
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.delete.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.again.setVisibility(View.VISIBLE);
+                    viewHolder.comment.setVisibility(View.VISIBLE);
+                    viewHolder.goodsReturn.setVisibility(View.VISIBLE);
+                    break;
+                case "5":break;//已完成
+                case "6"://申请退款
+                    viewHolder.orderState.setText("退款中");
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.delete.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    break;
+                case "7"://已退款
+                    viewHolder.orderState.setText("已退款");
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.delete.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    break;
+            }
         } else {
 
         }
@@ -67,17 +199,27 @@ public class MyBillListAdapter extends RecyclerView.Adapter<MyBillListAdapter.Vi
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mIvGoods;
-        TextView mTvTitle;
-        TextView mTvPrice;
-        TextView mTvSellNum;
-
+        ImageView goodsImg;
+        TextView storeName,goodsName,goodsPrice,goodsNum,orderPrice,orderState;
+        Button cancel,delete,cuidan,pay,query,confirm,again,comment,goodsReturn;
         ViewHolder(View itemView) {
             super(itemView);
-            mIvGoods = itemView.findViewById(R.id.item_iv_comment_goods);
-            mTvTitle = itemView.findViewById(R.id.item_tv_comment_goods_title);
-            mTvPrice = itemView.findViewById(R.id.item_tv_comment_goods_price);
-            mTvSellNum = itemView.findViewById(R.id.item_tv_comment_goods_sell_num);
+            goodsImg=itemView.findViewById(R.id.item_myBillList_iv_goodsImg);
+            storeName=itemView.findViewById(R.id.item_myBillList_tv_storeName);
+            goodsName=itemView.findViewById(R.id.item_myBillList_tv_goodsName);
+            goodsPrice=itemView.findViewById(R.id.item_myBillList_tv_goodsPrice);
+            goodsNum=itemView.findViewById(R.id.item_myBillList_tv_goodsNum);
+            orderPrice=itemView.findViewById(R.id.item_myBillList_tv_orderPrice);
+            orderState=itemView.findViewById(R.id.item_myBillList_tv_state);
+            cancel=itemView.findViewById(R.id.item_myBillList_btn_cancle);
+            delete=itemView.findViewById(R.id.item_myBillList_btn_delete);
+            cuidan=itemView.findViewById(R.id.item_myBillList_btn_cuidan);
+            pay=itemView.findViewById(R.id.item_myBillList_btn_pay);
+            query=itemView.findViewById(R.id.item_myBillList_btn_query);
+            confirm=itemView.findViewById(R.id.item_myBillList_btn_confirm);
+            again=itemView.findViewById(R.id.item_myBillList_btn_again);
+            comment=itemView.findViewById(R.id.item_myBillList_btn_comment);
+            goodsReturn=itemView.findViewById(R.id.item_myBillList_btn_goodsReturn);
         }
     }
 }

@@ -1,22 +1,18 @@
 package com.zthx.npj.ui;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.CollectionAdapter;
 import com.zthx.npj.adapter.CollectionStoreAdapter;
 import com.zthx.npj.adapter.CommenGoodsAdatper;
-import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.net.been.CollectionResponseBean;
 import com.zthx.npj.net.been.CollectionStoreResponseBean;
 import com.zthx.npj.net.been.CommentGoodsBeen;
@@ -33,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MyCollectActivity extends AppCompatActivity {
+public class MyCollectActivity extends ActivityBase {
 
     @BindView(R.id.at_my_collect_goods_rv)
     RecyclerView atMyCollectGoodsRv;
@@ -51,25 +47,30 @@ public class MyCollectActivity extends AppCompatActivity {
     TextView acMyCollectTvGoods;
     @BindView(R.id.ac_myStore_tv_stores)
     TextView acMyStoreTvStores;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
 
     private boolean flag = true;
-    private String type="1";
-    private String user_id= SharePerferenceUtils.getUserId(this);
-    private String token=SharePerferenceUtils.getToken(this);
+    private String type = "1";
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_collect);
         ButterKnife.bind(this);
 
-        acTitle.setText("收藏");
+        back(titleBack);
+        changeTitle(acTitle,"收藏");
+
         getCollection();
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
         atMyCollectLikeRv.setLayoutManager(layoutManager);
         //初始化适配器
-        List<CommentGoodsBeen> list3         = new ArrayList<>();
-        CommentGoodsBeen       HomeGoodsBeen = new CommentGoodsBeen();
+        List<CommentGoodsBeen> list3 = new ArrayList<>();
+        CommentGoodsBeen HomeGoodsBeen = new CommentGoodsBeen();
         HomeGoodsBeen.setGoodsPic("123");
         HomeGoodsBeen.setGoodsTitle("1231245124");
         HomeGoodsBeen.setGoodsSellNum("123");
@@ -83,7 +84,7 @@ public class MyCollectActivity extends AppCompatActivity {
     }
 
     private void getCollection() {
-        SetSubscribe.collectionList(user_id,token,type,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.collectionList(user_id, token, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setResult(result);
@@ -97,12 +98,14 @@ public class MyCollectActivity extends AppCompatActivity {
     }
 
     private void setResult(String result) {
-        if(type.equals("1")){
-            CollectionResponseBean bean= GsonUtils.fromJson(result,CollectionResponseBean.class);
-            final ArrayList<CollectionResponseBean.DataBean> data=bean.getData();
-            RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
+        if (type.equals("1")) {
+            atMyCollectGoodsRv.setVisibility(View.VISIBLE);
+            atMyCollectStoreRv.setVisibility(View.GONE);
+            CollectionResponseBean bean = GsonUtils.fromJson(result, CollectionResponseBean.class);
+            final ArrayList<CollectionResponseBean.DataBean> data = bean.getData();
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             atMyCollectGoodsRv.setLayoutManager(layoutManager);
-            CollectionAdapter adapter=new CollectionAdapter(this,data);
+            CollectionAdapter adapter = new CollectionAdapter(this, data);
             atMyCollectGoodsRv.setAdapter(adapter);
             adapter.setOnItemClickListener(new CollectionAdapter.ItemClickListener() {
                 @Override
@@ -117,7 +120,7 @@ public class MyCollectActivity extends AppCompatActivity {
 
                 @Override
                 public void onItemDelete(int position) {
-                    SetSubscribe.delCollection(user_id,token,data.get(position).getId()+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    SetSubscribe.delCollection(user_id, token, data.get(position).getId() + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
                             finish();
@@ -130,14 +133,14 @@ public class MyCollectActivity extends AppCompatActivity {
                     }));
                 }
             });
-        }else{
-            CollectionStoreResponseBean bean=GsonUtils.fromJson(result,CollectionStoreResponseBean.class);
-            final ArrayList<CollectionStoreResponseBean.DataBean> data=bean.getData();
+        } else {
+            CollectionStoreResponseBean bean = GsonUtils.fromJson(result, CollectionStoreResponseBean.class);
+            final ArrayList<CollectionStoreResponseBean.DataBean> data = bean.getData();
             atMyCollectGoodsRv.setVisibility(View.GONE);
             atMyCollectStoreRv.setVisibility(View.VISIBLE);
-            RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             atMyCollectStoreRv.setLayoutManager(layoutManager);
-            CollectionStoreAdapter adapter=new CollectionStoreAdapter(this,data);
+            CollectionStoreAdapter adapter = new CollectionStoreAdapter(this, data);
             atMyCollectStoreRv.setAdapter(adapter);
             adapter.setOnItemClickListener(new CollectionStoreAdapter.ItemClickListener() {
                 @Override
@@ -147,7 +150,7 @@ public class MyCollectActivity extends AppCompatActivity {
 
                 @Override
                 public void onDeleteClick(int position) {
-                    SetSubscribe.delCollection(user_id,token,data.get(position).getId()+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    SetSubscribe.delCollection(user_id, token, data.get(position).getId() + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
                             finish();
@@ -167,20 +170,20 @@ public class MyCollectActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_myCollect_tv_goods:
-                    acMyCollectTvGoods.setTextColor(getResources().getColor(android.R.color.white));
-                    acMyCollectTvGoods.setBackgroundColor(getResources().getColor(R.color.app_theme));
-                    acMyStoreTvStores.setTextColor(getResources().getColor(R.color.text3));
-                    acMyStoreTvStores.setBackgroundColor(getResources().getColor(android.R.color.white));
-                    type="1";
-                    getCollection();
+                acMyCollectTvGoods.setTextColor(getResources().getColor(android.R.color.white));
+                acMyCollectTvGoods.setBackgroundColor(getResources().getColor(R.color.app_theme));
+                acMyStoreTvStores.setTextColor(getResources().getColor(R.color.text3));
+                acMyStoreTvStores.setBackgroundColor(getResources().getColor(android.R.color.white));
+                type = "1";
+                getCollection();
                 break;
             case R.id.ac_myStore_tv_stores:
-                    acMyStoreTvStores.setTextColor(getResources().getColor(android.R.color.white));
-                    acMyStoreTvStores.setBackgroundColor(getResources().getColor(R.color.app_theme));
-                    acMyCollectTvGoods.setTextColor(getResources().getColor(R.color.text3));
-                    acMyCollectTvGoods.setBackgroundColor(getResources().getColor(android.R.color.white));
-                    type="2";
-                    getCollection();
+                acMyStoreTvStores.setTextColor(getResources().getColor(android.R.color.white));
+                acMyStoreTvStores.setBackgroundColor(getResources().getColor(R.color.app_theme));
+                acMyCollectTvGoods.setTextColor(getResources().getColor(R.color.text3));
+                acMyCollectTvGoods.setBackgroundColor(getResources().getColor(android.R.color.white));
+                type = "2";
+                getCollection();
                 break;
         }
     }

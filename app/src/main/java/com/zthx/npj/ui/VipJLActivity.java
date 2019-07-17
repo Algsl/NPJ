@@ -2,9 +2,9 @@ package com.zthx.npj.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,7 +20,7 @@ import com.zthx.npj.utils.SharePerferenceUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class VipJLActivity extends AppCompatActivity {
+public class VipJLActivity extends ActivityBase {
     @BindView(R.id.ac_title)
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
@@ -42,6 +42,8 @@ public class VipJLActivity extends AppCompatActivity {
     String end_time = "";
     @BindView(R.id.ac_vipJL_tv_allType)
     TextView acVipJLTvAllType;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,8 +51,8 @@ public class VipJLActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vip_jl);
         ButterKnife.bind(this);
 
-        acTitle.setText("代言奖励");
-        getVipJLInfo();
+        back(titleBack);
+        changeTitle(acTitle,"代言奖励");
     }
 
     private void getVipJLInfo() {

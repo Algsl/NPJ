@@ -6,23 +6,34 @@ package com.zthx.npj.net.been;
 
 public class UpLoadPicResponseBean extends BaseReponseBean {
 
-    private String src;
+    public class DataBean{
+        private String src;
 
-    public String getSrc() {
-        return src;
+        public String getSrc() {
+            return src;
+        }
+
+        public void setSrc(String src) {
+            this.src = src;
+        }
+
+        public String getSrcall() {
+            return srcall;
+        }
+
+        public void setSrcall(String srcall) {
+            this.srcall = srcall;
+        }
+
+        private String srcall;
+    }
+    private DataBean data;
+
+    public DataBean getData() {
+        return data;
     }
 
-    public void setSrc(String src) {
-        this.src = src;
+    public void setData(DataBean data) {
+        this.data = data;
     }
-
-    public String getSrcall() {
-        return srcall;
-    }
-
-    public void setSrcall(String srcall) {
-        this.srcall = srcall;
-    }
-
-    private String srcall;
 }

@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class WithDrawActivity extends AppCompatActivity {
+public class WithDrawActivity extends ActivityBase{
     @BindView(R.id.title_theme_back)
     ImageView titleThemeBack;
     @BindView(R.id.title_theme_title)
@@ -41,6 +41,9 @@ public class WithDrawActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_withdraw);
         ButterKnife.bind(this);
+
+        back(titleThemeBack);
+        changeTitle(titleThemeTitle,"余额提现");
     }
 
     @OnClick({R.id.ac_withdraw_btn_allMoney, R.id.ac_withdraw_btn_draw})

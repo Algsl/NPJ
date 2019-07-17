@@ -465,13 +465,14 @@ public class PurchaserCertification2Activity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
 
-                UpLoadPicResponseBean upLoadPicResponseBean = GsonUtils.fromJson(result, UpLoadPicResponseBean.class);
+                UpLoadPicResponseBean bean = GsonUtils.fromJson(result, UpLoadPicResponseBean.class);
+                UpLoadPicResponseBean.DataBean data=bean.getData();
                 if (picType == 0) {
-                    url_bussiness_license = upLoadPicResponseBean.getSrc();
+                    url_bussiness_license =data.getSrc();
                 } else if (picType == 1) {
-                    url_dangkou_img = upLoadPicResponseBean.getSrc();
+                    url_dangkou_img = data.getSrc();
                 } else {
-                    url_id_card = upLoadPicResponseBean.getSrc();
+                    url_id_card = data.getSrc();
                 }
             }
 

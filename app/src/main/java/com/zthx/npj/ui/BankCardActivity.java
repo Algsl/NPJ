@@ -3,12 +3,11 @@ package com.zthx.npj.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.BankCardAdapter;
@@ -25,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BankCardActivity extends AppCompatActivity {
+public class BankCardActivity extends ActivityBase {
     @BindView(R.id.ac_title)
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
@@ -37,6 +36,8 @@ public class BankCardActivity extends AppCompatActivity {
 
     String user_id = SharePerferenceUtils.getUserId(this);
     String token = SharePerferenceUtils.getToken(this);
+    @BindView(R.id.title_back)
+    ImageView titleBack;
 
 
     @Override
@@ -45,7 +46,9 @@ public class BankCardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bank_card);
         ButterKnife.bind(this);
 
-        acTitle.setText("我的银行卡");
+        back(titleBack);
+        changeTitle(acTitle,"我的银行卡");
+        changeRightText(atLocationStoreTvRuzhu,"添加",AddBankCardActivity.class,null);
         atLocationStoreTvRuzhu.setText("添加");
     }
 
@@ -76,10 +79,5 @@ public class BankCardActivity extends AppCompatActivity {
         acBankCardRlvAllCard.setLayoutManager(layoutManager);
         BankCardAdapter adapter = new BankCardAdapter(this, data);
         acBankCardRlvAllCard.setAdapter(adapter);
-    }
-
-    @OnClick(R.id.at_location_store_tv_ruzhu)
-    public void onViewClicked() {
-        startActivity(new Intent(this,AddBankCardActivity.class));
     }
 }

@@ -1,7 +1,11 @@
 package com.zthx.npj.ui;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -14,16 +18,27 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.zthx.npj.R;
 import com.zthx.npj.base.BaseApp;
+import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.OfflineStoreBean;
+import com.zthx.npj.net.been.UploadPicsResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.zhouzhuo.zzimagebox.ZzImageBox;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class StoreManagerActivity extends AppCompatActivity {
 
@@ -62,6 +77,8 @@ public class StoreManagerActivity extends AppCompatActivity {
 
     String user_id=SharePerferenceUtils.getUserId(this);
     String token=SharePerferenceUtils.getToken(this);
+    private List<String> paths=new ArrayList<>();
+    private static final int CHOOSE_PHOTO = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +88,42 @@ public class StoreManagerActivity extends AppCompatActivity {
 
         acTitle.setText("线下门店入驻");
 
+        zzImageBox.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
+            @Override
+            public void onImageClick(int position, String url, String realPath, int realType, ImageView iv) {
 
+            }
+
+            @Override
+            public void onDeleteClick(int position, String url, String realPath, int realType) {
+                paths.remove(position);
+                zzImageBox.removeImage(position);
+            }
+
+            @Override
+            public void onAddClick() {
+                Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent,CHOOSE_PHOTO);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case CHOOSE_PHOTO:
+                if(resultCode==RESULT_OK){
+                    Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+                    cursor.moveToFirst();
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String path = cursor.getString(columnIndex);  //获取照片路径
+                    paths.add(path);
+                    zzImageBox.addImage(path);
+                }
+        }
     }
 
     @OnClick({R.id.at_store_manager_tv_code, R.id.ac_storeManager_btn_ruzhu,R.id.ac_storeManager_tv_address})
@@ -81,15 +133,29 @@ public class StoreManagerActivity extends AppCompatActivity {
                 startActivity(new Intent(StoreManagerActivity.this, StoreManagerQRCodeActivity.class));
                 break;
             case R.id.ac_storeManager_btn_ruzhu:
+                HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL, paths, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
 
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        UploadPicsResponseBean bean=GsonUtils.fromJson(response.body().string(),UploadPicsResponseBean.class);
+                        UploadPicsResponseBean.DataBean data=bean.getData();
+                        offlineStore(data.getImg());
+                    }
+                });
                 break;
             case R.id.ac_storeManager_tv_address:
 
                 break;
         }
     }
+
     public String getEtToString(EditText et){return et.getText().toString().trim();}
-    private void offlineStore() {
+
+    private void offlineStore(String img) {
         OfflineStoreBean bean=new OfflineStoreBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
@@ -101,7 +167,7 @@ public class StoreManagerActivity extends AppCompatActivity {
         bean.setAddress2(getEtToString(acStoreManagerEtAddress2));
         bean.setOffer("10");
         bean.setRelief(getEtToString(acStoreManagerEtRelife));
-        bean.setStore_img("");
+        bean.setStore_img(img);
         bean.setLat(SharePerferenceUtils.getLat(this));
         bean.setLng(SharePerferenceUtils.getLng(this));
         SetSubscribe.offlineStore(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {

@@ -126,7 +126,6 @@
                     android:visibility="gone"
                     />
             </RelativeLayout>
-
             <TextView
                 android:id="@+id/tv_bar_bottom_line"
                 android:layout_width="match_parent"
@@ -135,7 +134,6 @@
                 android:visibility="gone"
                 />
         </LinearLayout>
-
     </android.support.v7.widget.Toolbar>
 
 </LinearLayout>

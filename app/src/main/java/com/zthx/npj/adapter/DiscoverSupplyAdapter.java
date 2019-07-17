@@ -64,7 +64,12 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
         }
         Glide.with(mContext).load(list.get(i).getGoods_img()).into(viewHolder.mIvPic);
         viewHolder.mTvPrice.setText(list.get(i).getPrice());
-        viewHolder.mTvDistance.setText(list.get(i).getDistance()+"米");
+        if(Integer.valueOf(list.get(i).getDistance())>1000){
+            viewHolder.mTvDistance.setText((Integer.valueOf(list.get(i).getDistance())/1000)+"km");
+        }else{
+            viewHolder.mTvDistance.setText(list.get(i).getDistance()+"m");
+        }
+
         viewHolder.mTvTitle.setText(list.get(i).getTitle());
         viewHolder.mTvSupplyUnit.setText(list.get(i).getGoods_unit());
     }

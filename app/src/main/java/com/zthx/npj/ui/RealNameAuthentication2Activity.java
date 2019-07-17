@@ -343,13 +343,14 @@ public class RealNameAuthentication2Activity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 Log.e("测试", "onSuccess: "+result);
-                UpLoadPicResponseBean upLoadPicResponseBean = GsonUtils.fromJson(result, UpLoadPicResponseBean.class);
+                UpLoadPicResponseBean bean = GsonUtils.fromJson(result, UpLoadPicResponseBean.class);
+                UpLoadPicResponseBean.DataBean data=bean.getData();
                 if (view == atRealNameAuthentication2LlIdZheng) {
-                    UrlZheng = upLoadPicResponseBean.getSrc();
+                    UrlZheng = data.getSrc();
                 } else if (view == atRealNameAuthentication2LlIdFan) {
-                    UrlFan = upLoadPicResponseBean.getSrc();
+                    UrlFan = data.getSrc();
                 } else {
-                    UrlQuan = upLoadPicResponseBean.getSrc();
+                    UrlQuan = data.getSrc();
                 }
             }
 

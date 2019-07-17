@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class HomeSearchActivity extends BaseActivity {
+public class HomeSearchActivity extends ActivityBase {
 
     @BindView(R.id.at_home_search_rv)
     RecyclerView atHomeSearchRv;
@@ -39,7 +39,7 @@ public class HomeSearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_search);
         ButterKnife.bind(this);
-
+        back(atHomeSearchIvBack);
     }
 
     @OnClick(R.id.at_home_search_tv_search)

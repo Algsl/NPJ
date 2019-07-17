@@ -5,7 +5,6 @@ import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,7 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class EditAddressActivity extends AppCompatActivity {
+public class EditAddressActivity extends ActivityBase {
     @BindView(R.id.ac_title)
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
@@ -57,6 +56,8 @@ public class EditAddressActivity extends AppCompatActivity {
     Button acEditAddressBtnSave;
     @BindView(R.id.ac_editAddress_tv_address)
     TextView acEditAddressTvAddress;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
 
 
     private boolean flag = false;
@@ -65,7 +66,9 @@ public class EditAddressActivity extends AppCompatActivity {
     private ArrayList<JsonBean> options1Items = new ArrayList<>();//省
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();//市
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();//区
-
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
+    private String address_id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,12 +76,13 @@ public class EditAddressActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_address);
         initJsonData();
         ButterKnife.bind(this);
+
+        back(titleBack);
+        changeTitle(acTitle,"编辑收货地址");
+
+        address_id = getIntent().getStringExtra("key0");
         getAddressInfo();
     }
-
-    String user_id = SharePerferenceUtils.getUserId(this);
-    String token = SharePerferenceUtils.getToken(this);
-    String address_id = getIntent().getStringExtra("address_id");
 
     private void getAddressInfo() {
         SetSubscribe.getAddressInfo(user_id, token, address_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
@@ -112,7 +116,7 @@ public class EditAddressActivity extends AppCompatActivity {
         return et.getText().toString().trim();
     }
 
-    @OnClick({R.id.ac_editAddress_iv_isDefault, R.id.ac_editAddress_btn_save,R.id.ac_editAddress_tv_address})
+    @OnClick({R.id.ac_editAddress_iv_isDefault, R.id.ac_editAddress_btn_save, R.id.ac_editAddress_tv_address})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_editAddress_iv_isDefault:

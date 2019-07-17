@@ -196,7 +196,6 @@ public class SupplyMessageActivity extends AppCompatActivity {
                 break;
             case R.id.at_supply_message_btn_publish:
                 getData();
-
                 break;
         }
     }

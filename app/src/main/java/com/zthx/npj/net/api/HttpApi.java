@@ -362,5 +362,8 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/baojiauser.html")
     Observable<ResponseBody> baojiaUserDetail(@Body BaojiaUserDetailBean bean);
+
+    @POST("index.php/api/user/mysupplyorder.html")
+    Observable<ResponseBody> mySupplyOrder(@Body MySupplyOrderBean bean);
 }
 

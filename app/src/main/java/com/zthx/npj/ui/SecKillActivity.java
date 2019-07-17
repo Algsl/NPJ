@@ -4,14 +4,12 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.SecKillViewPagerAdapter;
-import com.zthx.npj.ui.fragment.SecKillFragment;
-import com.zthx.npj.ui.fragment.SecKillOverFragment;
-import com.zthx.npj.ui.fragment.SecKillStartFragment;
 import com.zthx.npj.ui.fragment.SeckillListFragment;
 
 import java.util.ArrayList;
@@ -23,7 +21,7 @@ import butterknife.ButterKnife;
 /**
  * 限时秒杀
  */
-public class SecKillActivity extends AppCompatActivity {
+public class SecKillActivity extends ActivityBase {
 
 
     @BindView(R.id.at_sec_kill_main_tab)
@@ -32,12 +30,22 @@ public class SecKillActivity extends AppCompatActivity {
     ViewPager atSecKillViewPager;
 
     TextView tv1;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.at_location_store_tv_ruzhu)
+    TextView atLocationStoreTvRuzhu;
+    @BindView(R.id.title)
+    RelativeLayout title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sec_kill);
         ButterKnife.bind(this);
+        back(titleBack);
+        changeTitle(acTitle,"限时秒杀");
 
         List<String> list = new ArrayList<>();
         List<Fragment> list2 = new ArrayList<>();
@@ -96,12 +104,12 @@ public class SecKillActivity extends AppCompatActivity {
 
     private void updateTabView(TabLayout.Tab tab, boolean b) {
         tv1 = tab.getCustomView().findViewById(R.id.item_sec_kill_tv_date);
-        if(b) {
+        if (b) {
             //设置标签选中
             tv1.setSelected(true);
             //选中后字体变大
             tv1.setTextColor(getResources().getColor(R.color.app_theme));
-        }else{
+        } else {
             //设置标签取消选中
             tv1.setSelected(false);
             //恢复为默认字体大小

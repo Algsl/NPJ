@@ -2,15 +2,16 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.LocationStoreAdapter;
 import com.zthx.npj.base.Const;
-import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.LocalStoreBean;
 import com.zthx.npj.net.been.LocalStoreResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
@@ -20,24 +21,37 @@ import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LocationStoreActivity extends AppCompatActivity {
+public class LocationStoreActivity extends ActivityBase {
 
     @BindView(R.id.at_location_store_rv)
     RecyclerView atLocationStoreRv;
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.title)
+    RelativeLayout title;
+    @BindView(R.id.at_location_store_locate)
+    ImageView atLocationStoreLocate;
+    @BindView(R.id.at_location_store_et_search)
+    EditText atLocationStoreEtSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_store);
         ButterKnife.bind(this);
+
+        back(titleBack);
+        changeTitle(acTitle,"附近商家");
+        changeRightText(atLocationStoreTvRuzhu,"立即入驻？", StoreManagerActivity.class,null);
 
         getLocalStore();
 
@@ -62,7 +76,7 @@ public class LocationStoreActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(int position) {
                         Intent intent = new Intent(LocationStoreActivity.this, StoreDetailActivity.class);
-                        intent.putExtra(Const.STORE_ID,data.get(position).getId() + "");
+                        intent.putExtra(Const.STORE_ID, data.get(position).getId() + "");
                         startActivity(intent);
                     }
                 });
@@ -73,11 +87,6 @@ public class LocationStoreActivity extends AppCompatActivity {
             public void onFault(String errorMsg) {
 
             }
-        },LocationStoreActivity.this));
-    }
-
-    @OnClick(R.id.at_location_store_tv_ruzhu)
-    public void onViewClicked() {
-        startActivity(new Intent(LocationStoreActivity.this, StoreManagerActivity.class));
+        }, LocationStoreActivity.this));
     }
 }

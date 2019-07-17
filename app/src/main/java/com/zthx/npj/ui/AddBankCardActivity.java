@@ -33,7 +33,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class AddBankCardActivity extends AppCompatActivity {
+public class AddBankCardActivity extends ActivityBase {
     @BindView(R.id.title_theme_back)
     ImageView titleThemeBack;
     @BindView(R.id.title_theme_title)
@@ -59,7 +59,9 @@ public class AddBankCardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_bank_card);
         ButterKnife.bind(this);
 
-        titleThemeTitle.setText("添加银行卡");
+        back(titleThemeBack);
+        changeTitle(titleThemeTitle,"添加银行卡");
+
         getBankList();
     }
 

@@ -7,25 +7,7 @@
     android:orientation="vertical"
     android:background="@color/background">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_64"
-        android:background="@android:color/white">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="新品预售"
-            android:textColor="@color/text3"
-            android:textSize="@dimen/sp_18"/>
-        <ImageView
-            android:layout_width="@dimen/dp_22"
-            android:layout_height="@dimen/dp_22"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_5"
-            android:src="@drawable/back"/>
-    </RelativeLayout>
+    <include layout="@layout/title"/>
 
     <ImageView
         android:id="@+id/at_pre_sell_iv"

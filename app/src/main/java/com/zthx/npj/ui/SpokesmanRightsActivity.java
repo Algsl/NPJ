@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SpokesmanRightsActivity extends AppCompatActivity {
+public class SpokesmanRightsActivity extends ActivityBase {
 
     @BindView(R.id.at_spokesman_right_btn_tiqu)
     Button atSpokesmanRightBtnTiqu;
@@ -69,7 +69,8 @@ public class SpokesmanRightsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_spokesman_rights2);
         ButterKnife.bind(this);
 
-        titleThemeTitle.setText("收益明细");
+        back(titleThemeBack);
+        changeTitle(titleThemeTitle,"收益明细");
     }
 
     @Override
@@ -121,16 +122,16 @@ public class SpokesmanRightsActivity extends AppCompatActivity {
                 }));
                 break;
             case R.id.at_spokesman_rl_daiyanjiangli:
-                startActivity(new Intent(this, VipJLActivity.class));
+                openActivity(VipJLActivity.class);
                 break;
             case R.id.ac_spokesman_rl_store:
-                startActivity(new Intent(this, ShopLogActivity.class));
+                openActivity(ShopLogActivity.class);
                 break;
             case R.id.ac_spokesman_rl_tiqu:
-                startActivity(new Intent(this, TiQuActivity.class));
+                openActivity(TiQuActivity.class);
                 break;
             case R.id.ac_spokesman_tv_mingxi:
-                startActivity(new Intent(this,InComeLogActivity.class));
+                openActivity(InComeLogActivity.class);
                 break;
         }
     }

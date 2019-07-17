@@ -3,10 +3,11 @@ package com.zthx.npj.ui;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,7 +15,6 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.HomeAdapter;
 import com.zthx.npj.adapter.MenuAdapter;
 import com.zthx.npj.net.been.CategoryBean;
-
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * 分类页面
  */
-public class ClassfiyActivity extends AppCompatActivity {
+public class ClassfiyActivity extends ActivityBase {
 
     @BindView(R.id.at_classfiy_lv_menu)
     ListView lvMenu;
@@ -36,6 +36,10 @@ public class ClassfiyActivity extends AppCompatActivity {
     ListView lvHome;
     @BindView(R.id.at_classfiy_tv_title)
     TextView tvTitile;
+    @BindView(R.id.at_classfiy_iv_back)
+    ImageView atClassfiyIvBack;
+    @BindView(R.id.at_classfiy_et_search)
+    EditText atClassfiyEtSearch;
 
     private List<String> menuList = new ArrayList<>();
     private List<CategoryBean.DataBean> homeList = new ArrayList<>();
@@ -49,6 +53,7 @@ public class ClassfiyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_classfiy);
         ButterKnife.bind(this);
+        back(atClassfiyIvBack);
         initView();
         loadData();
     }
@@ -64,13 +69,13 @@ public class ClassfiyActivity extends AppCompatActivity {
         CategoryBean.DataBean.DataListBean dataListBean = new CategoryBean.DataBean.DataListBean();
         dataListBean.setTitle("苹果");
         dataListBean.setImgURL("dsds");
-        for (int i =0;i<10;i++) {
+        for (int i = 0; i < 10; i++) {
             list2.add(dataListBean);
         }
         CategoryBean.DataBean been = new CategoryBean.DataBean();
         been.setModuleTitle("水果");
         been.setDataList(list2);
-        for (int i =0;i<10;i++) {
+        for (int i = 0; i < 10; i++) {
             data.add(been);
         }
         categoryBean.setData(data);

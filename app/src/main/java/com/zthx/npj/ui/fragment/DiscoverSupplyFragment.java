@@ -80,6 +80,14 @@ public class DiscoverSupplyFragment extends Fragment {
     RecyclerView fgDiscoverNeedRv;
     @BindView(R.id.fg_discover_supply_ll_need)
     LinearLayout fgDiscoverSupplyLlNeed;
+    @BindView(R.id.fg_discoverSupply_ll_gong)
+    LinearLayout fgDiscoverSupplyLlGong;
+
+
+    private String type1="1";
+    private String type2="2";
+
+
 
     public DiscoverSupplyFragment() {
 
@@ -108,7 +116,7 @@ public class DiscoverSupplyFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_discover_supply, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        getSupplyData("1");
+        getSupplyData(type1);
 
         return view;
     }
@@ -191,7 +199,7 @@ public class DiscoverSupplyFragment extends Fragment {
             public void onFault(String errorMsg) {
 
             }
-        },getActivity()));
+        }, getActivity()));
     }
 
 
@@ -221,7 +229,6 @@ public class DiscoverSupplyFragment extends Fragment {
                 fgDiscoverNeedTvLocation.setTextColor(getResources().getColor(R.color.text3));
                 getNeedData("1");
                 break;
-
             case R.id.fg_discover_need_tv_location:
                 fgDiscoverNeedTvLocation.setTextColor(getResources().getColor(R.color.app_theme));
                 fgDiscoverNeedTvNew.setTextColor(getResources().getColor(R.color.text3));
@@ -229,6 +236,7 @@ public class DiscoverSupplyFragment extends Fragment {
                 break;
             case R.id.fg_discover_supply_tv_supply:
                 changeButtonColor(1);
+                getSupplyData("1");
                 break;
             case R.id.fg_discover_supply_tv_need:
                 changeButtonColor(2);
@@ -271,7 +279,6 @@ public class DiscoverSupplyFragment extends Fragment {
     }
 
     private void selectType(String type) {
-
         fgDiscoverSupplyTvNew.setTextColor(getResources().getColor(R.color.text3));
         fgDiscoverSupplyTvLocation.setTextColor(getResources().getColor(R.color.text3));
         fgDiscoverSupplyTvSellNum.setTextColor(getResources().getColor(R.color.text3));
@@ -279,14 +286,19 @@ public class DiscoverSupplyFragment extends Fragment {
         fgDiscoverSupplyTvPrice.setTextColor(getResources().getColor(R.color.text3));
         if ("1".equals(type)) {
             fgDiscoverSupplyTvNew.setTextColor(getResources().getColor(R.color.app_theme));
+            type1="1";
         } else if ("2".equals(type)) {
             fgDiscoverSupplyTvLocation.setTextColor(getResources().getColor(R.color.app_theme));
+            type1="2";
         } else if ("3".equals(type)) {
             fgDiscoverSupplyTvSellNum.setTextColor(getResources().getColor(R.color.app_theme));
+            type1="3";
         } else if ("4".equals(type)) {
             fgDiscoverSupplyTvXinyong.setTextColor(getResources().getColor(R.color.app_theme));
+            type1="4";
         } else {
             fgDiscoverSupplyTvPrice.setTextColor(getResources().getColor(R.color.app_theme));
+            type1="5";
         }
     }
 
@@ -300,14 +312,16 @@ public class DiscoverSupplyFragment extends Fragment {
         if (position == 1) {
             fgDiscoverSupplyTvSupply.setTextColor(getResources().getColor(android.R.color.white));
             fgDiscoverSupplyTvSupply.setBackgroundColor(getResources().getColor(R.color.app_theme));
+            fgDiscoverSupplyLlGong.setVisibility(View.GONE);
+            fgDiscoverSupplyLlNeed.setVisibility(View.VISIBLE);
+            getSupplyData("1");
         } else if (position == 2) {
             fgDiscoverSupplyTvNeed.setTextColor(getResources().getColor(android.R.color.white));
             fgDiscoverSupplyTvNeed.setBackgroundColor(getResources().getColor(R.color.app_theme));
+            getNeedData("1");
         } else {
             fgDiscoverSupplyTvCompany.setTextColor(getResources().getColor(android.R.color.white));
             fgDiscoverSupplyTvCompany.setBackgroundColor(getResources().getColor(R.color.app_theme));
         }
     }
-
-
 }

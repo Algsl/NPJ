@@ -38,6 +38,8 @@ public class BaseActivity extends AppCompatActivity {
         //initToolbar();
     }
 
+
+
     //初始化控件，改变中间标题
     public void init_title(String title) {
         changeTitle(title);

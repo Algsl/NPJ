@@ -109,5 +109,5 @@
         android:layout_marginLeft="@dimen/dp_42"
         android:text="确定添加"
         android:textColor="@android:color/white"
-        android:background="@color/app_theme"/>
+        android:background="@drawable/theme_conner_5"/>
 </LinearLayout>

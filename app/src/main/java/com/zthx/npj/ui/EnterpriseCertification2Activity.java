@@ -332,11 +332,12 @@ public class EnterpriseCertification2Activity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
 
-                UpLoadPicResponseBean upLoadPicResponseBean = GsonUtils.fromJson(result, UpLoadPicResponseBean.class);
+                UpLoadPicResponseBean bean = GsonUtils.fromJson(result, UpLoadPicResponseBean.class);
+                UpLoadPicResponseBean.DataBean data=bean.getData();
                 if (view == atEnterpriseCertification2LlCompanyPic) {
-                    urlPic = upLoadPicResponseBean.getSrc();
+                    urlPic =data.getSrc();
                 } else  {
-                    urlShouQuan = upLoadPicResponseBean.getSrc();
+                    urlShouQuan = data.getSrc();
                 }
             }
 

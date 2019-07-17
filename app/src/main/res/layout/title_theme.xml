@@ -10,6 +10,7 @@
             android:id="@+id/title_theme_back"
             android:layout_width="@dimen/dp_22"
             android:layout_height="@dimen/dp_22"
+            android:onClick="click"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_6"
             android:src="@drawable/white_back"/>
