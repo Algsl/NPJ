@@ -94,9 +94,9 @@ public class DiscverServiceFragment extends Fragment {
         banner = View.findViewById(R.id.banner_discover_service);
         mRecyclerView = View.findViewById(R.id.fg_discover_service_rv);
         List<Integer> list = new ArrayList<>();
-        list.add(R.mipmap.ic_action011);
-        list.add(R.mipmap.ic_action027);
-        list.add(R.mipmap.ic_action029);
+        list.add(R.drawable.supply_top);
+        list.add(R.drawable.discover_top);
+        list.add(R.drawable.local_top);
         initBanner(list);
 
 

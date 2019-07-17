@@ -173,16 +173,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_116"
         android:layout_marginTop="@dimen/dp_5"
-        android:background="@mipmap/ic_launcher"/>
+        android:background="@drawable/supply_top"/>
 
     <LinearLayout
         android:id="@+id/fg_discover_supply_ll_supply"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <LinearLayout
-            android:id="@+id/fg_discoverSupply_ll_gong"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"
             android:orientation="horizontal"
@@ -195,7 +193,7 @@
                 android:text="最新"
                 android:gravity="center"
                 android:textSize="@dimen/sp_13"
-                android:textColor="@color/text3"/>
+                android:textColor="@color/app_theme"/>
             <TextView
                 android:id="@+id/fg_discover_supply_tv_location"
                 android:layout_width="0dp"
@@ -236,8 +234,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
-            android:background="@color/background"></View>
-
+            android:background="@color/line"></View>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/fg_discover_supply_rv"
             android:layout_width="match_parent"
@@ -246,6 +243,7 @@
     </LinearLayout>
     <LinearLayout
         android:id="@+id/fg_discover_supply_ll_need"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -262,7 +260,7 @@
                 android:text="最新"
                 android:gravity="center"
                 android:textSize="@dimen/sp_13"
-                android:textColor="@color/text3"/>
+                android:textColor="@color/app_theme"/>
             <TextView
                 android:id="@+id/fg_discover_need_tv_location"
                 android:layout_width="0dp"
@@ -276,14 +274,11 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
-            android:background="@color/background"></View>
+            android:background="@color/line"></View>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/fg_discover_need_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </android.support.v7.widget.RecyclerView>
-
-
     </LinearLayout>
-
 </LinearLayout>

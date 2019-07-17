@@ -2,10 +2,11 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dp_170"
-    android:layout_height="@dimen/dp_245"
+    android:layout_height="@dimen/dp_225"
     android:orientation="vertical"
-    android:paddingTop="@dimen/dp_21"
-    android:background="@android:color/white">
+    android:layout_marginTop="@dimen/dp_20"
+    android:layout_marginLeft="@dimen/dp_10"
+    android:background="@drawable/white_conner_8">
 
     <ImageView
         android:id="@+id/item_iv_comment_goods"
@@ -30,7 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_5"
         android:layout_marginLeft="@dimen/dp_5">
-
         <TextView
             android:id="@+id/item_tv_comment_goods_price"
             android:layout_width="wrap_content"
@@ -38,17 +38,15 @@
             android:text="￥188"
             android:textSize="@dimen/sp_14"
             android:textColor="@color/app_theme"/>
-
         <TextView
             android:id="@+id/item_tv_comment_goods_sell_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_5"
             android:textSize="@dimen/sp_12"
             android:textColor="@color/text6"
             android:layout_marginLeft="@dimen/dp_10"
             android:text="已售 200"/>
-
     </RelativeLayout>
-
 </LinearLayout>

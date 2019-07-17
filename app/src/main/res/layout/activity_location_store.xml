@@ -61,7 +61,7 @@
         android:layout_width="@dimen/dp_351"
         android:layout_height="@dimen/dp_150"
         android:layout_gravity="center_horizontal"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@drawable/local_top"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,6 +75,7 @@
             android:layout_weight="1"
             android:gravity="center">
             <TextView
+                android:id="@+id/ac_locationStore_tv_type1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dp_7"
@@ -89,11 +90,13 @@
             android:layout_weight="1"
             android:gravity="center">
             <TextView
+                android:id="@+id/ac_locationStore_tv_type2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dp_7"
                 android:text="距离最近"
                 android:textSize="@dimen/sp_13"
+                android:background="@drawable/stroke_white_2"
                 android:textColor="@color/text6"/>
         </LinearLayout>
         <LinearLayout
@@ -102,11 +105,13 @@
             android:layout_weight="1"
             android:gravity="center">
             <TextView
+                android:id="@+id/ac_locationStore_tv_type3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dp_7"
                 android:text="折扣最多"
                 android:textSize="@dimen/sp_13"
+                android:background="@drawable/stroke_white_2"
                 android:textColor="@color/text6"/>
         </LinearLayout>
         <LinearLayout
@@ -115,11 +120,13 @@
             android:layout_weight="1"
             android:gravity="center">
             <TextView
+                android:id="@+id/ac_locationStore_tv_type4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dp_7"
                 android:text="评分最高"
                 android:textSize="@dimen/sp_13"
+                android:background="@drawable/stroke_white_2"
                 android:textColor="@color/text6"/>
         </LinearLayout>
 

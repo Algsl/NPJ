@@ -132,10 +132,7 @@ public class MineFragment
         unbinder = ButterKnife.bind(this, view);
         //getUserInfo();
         //设置RecyclerView管理器
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
-                                                                2,
-                                                                LinearLayoutManager.VERTICAL,
-                                                                false);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);
         fgMineRvLike.setLayoutManager(layoutManager);
         //初始化适配器
         List<CommentGoodsBeen> list3         = new ArrayList<>();

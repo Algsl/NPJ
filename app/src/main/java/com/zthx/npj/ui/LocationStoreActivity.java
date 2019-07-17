@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -42,6 +43,15 @@ public class LocationStoreActivity extends ActivityBase {
     ImageView atLocationStoreLocate;
     @BindView(R.id.at_location_store_et_search)
     EditText atLocationStoreEtSearch;
+    @BindView(R.id.ac_locationStore_tv_type1)
+    TextView acLocationStoreTvType1;
+    @BindView(R.id.ac_locationStore_tv_type2)
+    TextView acLocationStoreTvType2;
+    @BindView(R.id.ac_locationStore_tv_type3)
+    TextView acLocationStoreTvType3;
+    @BindView(R.id.ac_locationStore_tv_type4)
+    TextView acLocationStoreTvType4;
+    private String type = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,19 +60,19 @@ public class LocationStoreActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,"附近商家");
-        changeRightText(atLocationStoreTvRuzhu,"立即入驻？", StoreManagerActivity.class,null);
+        changeTitle(acTitle, "附近商家");
+        changeRightText(atLocationStoreTvRuzhu, "立即入驻？", StoreManagerActivity.class, null);
 
-        getLocalStore();
+        getLocalStore(type);
 
     }
 
-    private void getLocalStore() {
+    private void getLocalStore(String type) {
         LocalStoreBean bean = new LocalStoreBean();
         bean.setLat(SharePerferenceUtils.getLat(this));
         bean.setLng(SharePerferenceUtils.getLng(this));
         bean.setPage("1");
-        bean.setType("1");
+        bean.setType(type);
         MainSubscribe.getLocalStore(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -88,5 +98,43 @@ public class LocationStoreActivity extends ActivityBase {
 
             }
         }, LocationStoreActivity.this));
+    }
+
+    @OnClick({R.id.ac_locationStore_tv_type1, R.id.ac_locationStore_tv_type2, R.id.ac_locationStore_tv_type3, R.id.ac_locationStore_tv_type4})
+    public void onViewClicked(View view) {
+        acLocationStoreTvType1.setTextColor(getResources().getColor(R.color.text6));
+        acLocationStoreTvType1.setBackground(getResources().getDrawable(R.drawable.stroke_white_2));
+        acLocationStoreTvType2.setTextColor(getResources().getColor(R.color.text6));
+        acLocationStoreTvType2.setBackground(getResources().getDrawable(R.drawable.stroke_white_2));
+        acLocationStoreTvType3.setTextColor(getResources().getColor(R.color.text6));
+        acLocationStoreTvType3.setBackground(getResources().getDrawable(R.drawable.stroke_white_2));
+        acLocationStoreTvType4.setTextColor(getResources().getColor(R.color.text6));
+        acLocationStoreTvType4.setBackground(getResources().getDrawable(R.drawable.stroke_white_2));
+        switch (view.getId()) {
+            case R.id.ac_locationStore_tv_type1:
+                acLocationStoreTvType1.setTextColor(getResources().getColor(R.color.app_theme));
+                acLocationStoreTvType1.setBackground(getResources().getDrawable(R.drawable.stroke_theme_2));
+                type="1";
+                getLocalStore(type);
+                break;
+            case R.id.ac_locationStore_tv_type2:
+                acLocationStoreTvType2.setBackgroundResource(R.drawable.stroke_app_theme);
+                acLocationStoreTvType2.setBackground(getResources().getDrawable(R.drawable.stroke_theme_2));
+                type="2";
+                getLocalStore(type);
+                break;
+            case R.id.ac_locationStore_tv_type3:
+                acLocationStoreTvType3.setTextColor(getResources().getColor(R.color.app_theme));
+                acLocationStoreTvType3.setBackground(getResources().getDrawable(R.drawable.stroke_theme_2));
+                type="3";
+                getLocalStore(type);
+                break;
+            case R.id.ac_locationStore_tv_type4:
+                acLocationStoreTvType4.setTextColor(getResources().getColor(R.color.app_theme));
+                acLocationStoreTvType4.setBackground(getResources().getDrawable(R.drawable.stroke_theme_2));
+                type="4";
+                getLocalStore(type);
+                break;
+        }
     }
 }
