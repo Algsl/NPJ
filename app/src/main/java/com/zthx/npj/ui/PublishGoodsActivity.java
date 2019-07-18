@@ -2,16 +2,22 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -74,13 +80,23 @@ public class PublishGoodsActivity extends AppCompatActivity {
     @BindView(R.id.ac_pulishGoods_iv_goodsContent)
     ZzImageBox acPulishGoodsIvGoodsContent;
 
+
     private static final int CHOOSE_PHOTO1 = 1;
     private static final int CHOOSE_PHOTO2 = 2;
+    @BindView(R.id.ac_publishGoods_iv_hint1)
+    ImageView acPublishGoodsIvHint1;
+    @BindView(R.id.ac_publishGoods_iv_hint2)
+    ImageView acPublishGoodsIvHint2;
+    @BindView(R.id.ac_publishGoods_iv_hint3)
+    ImageView acPublishGoodsIvHint3;
     private List<String> paths1 = new ArrayList<>();
-    private List<String> paths2=new ArrayList<>();
+    private List<String> paths2 = new ArrayList<>();
     private String requestUrl = "http://app.npj-vip.com/index.php/api/set/uploadimagegroup.html";
     private String goodsImg, goodsContent;
-
+    private String str1="平台结算价是本商品售出并在买家确认收货后，平台结算给您的价格，不设账期，可立即提现。如果卖家不点击“确认收货”，则在签收后7日内自动结算。";
+    private String str2="市场参考价是您发布的商品在市场上的公开价格，要求高于代言价和结算价。";
+    private String str3="VIP代言价是代言人购买您商品时的价格，要求略高于结算价，平台将差价部分奖励给分享会员。\n" +
+            "农品街设立“价高反馈功能，如果您发布的商品价格高于其他平台，用户通过该功能将直接下架您的商品，农品街不收取开店费，0佣金，0抽成,因此希望您按全网最低价销售商品。";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +140,8 @@ public class PublishGoodsActivity extends AppCompatActivity {
         });
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -165,7 +183,7 @@ public class PublishGoodsActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.ac_pulishGoods_tv_goodsType, R.id.ac_pulishGoods_btn_pulish})
+    @OnClick({R.id.ac_pulishGoods_tv_goodsType, R.id.ac_pulishGoods_btn_pulish,R.id.ac_publishGoods_iv_hint1, R.id.ac_publishGoods_iv_hint2, R.id.ac_publishGoods_iv_hint3})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_pulishGoods_tv_goodsType:
@@ -198,6 +216,15 @@ public class PublishGoodsActivity extends AppCompatActivity {
                 break;
             case R.id.ac_pulishGoods_btn_pulish:
                 pulishGoods();
+                break;
+            case R.id.ac_publishGoods_iv_hint1:
+                showPublishPopwindow(str1);
+                break;
+            case R.id.ac_publishGoods_iv_hint2:
+                showPublishPopwindow(str2);
+                break;
+            case R.id.ac_publishGoods_iv_hint3:
+                showPublishPopwindow(str3);
                 break;
         }
     }
@@ -234,5 +261,43 @@ public class PublishGoodsActivity extends AppCompatActivity {
 
             }
         }));
+    }
+
+    public void showPublishPopwindow(String str) {
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_publish_goods, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView);
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_280));
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_240));
+        // 设置PopupWindow的背景
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(false);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+        TextView tv=contentView.findViewById(R.id.pw_publishGoods_tv_content);
+        Button btn=contentView.findViewById(R.id.pw_publishGoods_tv_know);
+        tv.setText(str);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+    }
+
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha;
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getWindow().setAttributes(lp);
     }
 }

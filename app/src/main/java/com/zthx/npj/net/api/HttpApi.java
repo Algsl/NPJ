@@ -418,5 +418,8 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/cartorderone.html")
     Observable<ResponseBody> cartOrderOne(@Body CartOrderOneBean bean);
+
+    @POST("index.php/api/index/goodslist.html")
+    Observable<ResponseBody> goodsList(@Body GoodsListBean bean);
 }
 

@@ -11,13 +11,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.ClassfiyDetailGoodsAdapter;
-import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.adapter.ClassifyDetailAdapter;
+import com.zthx.npj.net.been.GoodsListResponseBean;
+import com.zthx.npj.net.netsubscribe.MainSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.ActivityBase;
 import com.zthx.npj.ui.GoodsDetailActivity;
+import com.zthx.npj.utils.GsonUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,35 +45,50 @@ public class ClassfiyDetailActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,getIntent().getStringExtra("title"));
+        changeTitle(acTitle,getIntent().getStringExtra("key1"));
 
+        getGoodsList();
 
         //通过findViewById拿到RecyclerView实例
         //设置RecyclerView管理器
+
+
+
+        //设置添加或删除item时的动画，这里使用默认动画
+
+        //设置适配器
+
+    }
+
+    private void getGoodsList() {
+        MainSubscribe.goodsList(getIntent().getStringExtra("key0"),"1",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setGoodsList(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setGoodsList(String result) {
+        GoodsListResponseBean bean= GsonUtils.fromJson(result,GoodsListResponseBean.class);
+        final ArrayList<GoodsListResponseBean.DataBean> data=bean.getData();
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
         atClassfiyDetailRv.setLayoutManager(layoutManager);
-        //初始化适配器
-        List<CommentGoodsBeen> list3 = new ArrayList<>();
-        CommentGoodsBeen homeGoodsBeen = new CommentGoodsBeen();
-        homeGoodsBeen.setGoodsSellNum("1222");
-        homeGoodsBeen.setGoodsPic("sdsdsd");
-        homeGoodsBeen.setGoodsTitle("水果送达大厦");
-        homeGoodsBeen.setGoodsPrice("120");
-        homeGoodsBeen.setGoodsOldPrice("200");
-        for (int i = 0; i < 20; i++) {
-            list3.add(homeGoodsBeen);
-        }
-        ClassfiyDetailGoodsAdapter mAdapter = new ClassfiyDetailGoodsAdapter(this, list3);
-        mAdapter.setOnItemClickListener(new ClassfiyDetailGoodsAdapter.ItemClickListener() {
+        ClassifyDetailAdapter adapter=new ClassifyDetailAdapter(this,data);
+        atClassfiyDetailRv.setItemAnimator(new DefaultItemAnimator());
+        atClassfiyDetailRv.setAdapter(adapter);
+        adapter.setOnItemClickListener(new ClassifyDetailAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-//                Toast.makeText(this, "position==" + position, Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(ClassfiyDetailActivity.this, GoodsDetailActivity.class));
+                Intent intent=new Intent();
+                intent.putExtra("goods_id",data.get(position).getId()+"");
+                startActivity(intent);
             }
         });
-        //设置添加或删除item时的动画，这里使用默认动画
-        atClassfiyDetailRv.setItemAnimator(new DefaultItemAnimator());
-        //设置适配器
-        atClassfiyDetailRv.setAdapter(mAdapter);
     }
 }

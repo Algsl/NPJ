@@ -26,9 +26,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BannerResponseBean;
-import com.zthx.npj.net.been.HomeGoodsBeen;
 import com.zthx.npj.net.been.RecommendResponseBean;
-import com.zthx.npj.ui.ClassfiyActivity;
 import com.zthx.npj.ui.ClassfiysActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.HomeSearchActivity;
@@ -42,7 +40,6 @@ import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

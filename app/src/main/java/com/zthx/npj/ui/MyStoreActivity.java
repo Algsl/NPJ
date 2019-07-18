@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -8,7 +9,9 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -56,6 +59,7 @@ public class MyStoreActivity extends ActivityBase {
     @BindView(R.id.title_back)
     ImageView titleBack;
 
+    private MyStoreActivity mActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,20 +107,22 @@ public class MyStoreActivity extends ActivityBase {
                 startActivity(new Intent(this, StoreGoodsListActivity.class));
                 break;
             case R.id.at_location_store_tv_ruzhu:
+                backgroundAlpha(0.5f);
                 showPublishPopwindow();
                 break;
         }
     }
 
     public void showPublishPopwindow() {
-
         View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_store_edit, null);
         // 创建PopupWindow对象，其中：
         // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
         // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
-        PopupWindow window = new PopupWindow(contentView, RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT,
-                true);
+        final PopupWindow window = new PopupWindow(contentView);
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_360));
+        window.setWidth((int)getResources().getDimension(R.dimen.dp_271));
         // 设置PopupWindow的背景
+
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         // 设置PopupWindow是否能响应外部点击事件
         window.setOutsideTouchable(true);
@@ -147,6 +153,26 @@ public class MyStoreActivity extends ActivityBase {
                 }));
             }
         });
-
+        window.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_OUTSIDE && !window.isFocusable()) {
+                    //如果焦点不在popupWindow上，且点击了外面，不再往下dispatch事件：
+                    //不做任何响应,不 dismiss popupWindow
+                    backgroundAlpha(1f);
+                    return false;
+                }else{
+                    //否则default，往下dispatch事件:关掉popupWindow，
+                    return true;
+                }
+            }
+        });
+    }
+    public void backgroundAlpha(float bgAlpha)
+    {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha;
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getWindow().setAttributes(lp);
     }
 }

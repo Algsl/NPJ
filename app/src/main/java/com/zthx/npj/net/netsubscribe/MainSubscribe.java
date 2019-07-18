@@ -4,6 +4,7 @@ import com.zthx.npj.net.been.BannerBean;
 import com.zthx.npj.net.been.CategoryBean;
 import com.zthx.npj.net.been.CommentBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
+import com.zthx.npj.net.been.GoodsListBean;
 import com.zthx.npj.net.been.LocalStoreBean;
 import com.zthx.npj.net.been.RecommendBean;
 import com.zthx.npj.net.been.SearchBean;
@@ -115,6 +116,20 @@ public class MainSubscribe {
     public static void category(DisposableObserver<ResponseBody> subscriber) {
         CategoryBean bean=new CategoryBean();
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().category(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 分类列表页
+     * @param cart_id
+     * @param page
+     * @param subscriber
+     */
+    public static void goodsList(String cart_id,String page,DisposableObserver<ResponseBody> subscriber) {
+        GoodsListBean bean=new GoodsListBean();
+        bean.setCart_id(cart_id);
+        bean.setPage(page);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().goodsList(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 
