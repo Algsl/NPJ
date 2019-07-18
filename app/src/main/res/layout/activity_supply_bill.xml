@@ -30,6 +30,7 @@
                 android:layout_marginLeft="@dimen/dp_12"/>
 
             <TextView
+                android:id="@+id/at_supply_bill_tv_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="请选择收货地址"
@@ -206,8 +207,111 @@
             android:paddingBottom="@dimen/dp_14"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/dp_10"/>
-    </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="选择支付方式"
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40">
+                <ImageView
+                    android:id="@+id/at_confirm_order_iv_my_col"
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_11"
+                    android:src="@drawable/confirm_collect"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="钱包(当前余额0.00元)"
+                    android:textColor="@color/text3"
+                    android:textSize="@dimen/sp_13"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/at_confirm_order_iv_my_col"
+                    android:layout_marginLeft="@dimen/dp_13"/>
+
+                <ImageView
+                    android:layout_width="@dimen/dp_18"
+                    android:layout_height="@dimen/dp_18"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_12"
+                    android:src="@drawable/confirm_unselect"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40">
+                <ImageView
+                    android:id="@+id/at_confirm_order_iv_my_wechat"
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_11"
+                    android:src="@drawable/confirm_wechat"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="微信"
+                    android:textColor="@color/text3"
+                    android:textSize="@dimen/sp_13"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/at_confirm_order_iv_my_wechat"
+                    android:layout_marginLeft="@dimen/dp_13"/>
+
+                <ImageView
+                    android:layout_width="@dimen/dp_18"
+                    android:layout_height="@dimen/dp_18"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_12"
+                    android:src="@drawable/confirm_select"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40">
+                <ImageView
+                    android:id="@+id/at_confirm_order_iv_alipay"
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_11"
+                    android:src="@drawable/confirm_alipay"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="支付宝"
+                    android:textColor="@color/text3"
+                    android:textSize="@dimen/sp_13"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/at_confirm_order_iv_alipay"
+                    android:layout_marginLeft="@dimen/dp_13"/>
+
+                <ImageView
+                    android:layout_width="@dimen/dp_18"
+                    android:layout_height="@dimen/dp_18"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_12"
+                    android:src="@drawable/confirm_unselect"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/background"></View>
     <LinearLayout
         android:id="@+id/at_supply_bill_ll_bottom"
         android:layout_width="match_parent"
@@ -271,5 +375,4 @@
             android:layout_alignTop="@id/at_supply_bill_tv_price"
             android:layout_toLeftOf="@id/at_supply_bill_tv_price"/>
     </RelativeLayout>
-
 </RelativeLayout>

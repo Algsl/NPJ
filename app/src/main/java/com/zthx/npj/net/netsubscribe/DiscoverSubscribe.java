@@ -6,6 +6,7 @@ import com.zthx.npj.net.been.ConfirmSupplyBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
 import com.zthx.npj.net.been.NullBean;
 import com.zthx.npj.net.been.PayVideoBean;
+import com.zthx.npj.net.been.SupplyBuy2Bean;
 import com.zthx.npj.net.been.SupplyListBean;
 import com.zthx.npj.net.been.UploadCommentBean;
 import com.zthx.npj.net.been.UploadCompanyBean;
@@ -218,5 +219,24 @@ public class DiscoverSubscribe {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().payVideo(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
+
+    /**
+     * 供应商品立即购买
+     * @param bean
+     * @param subscriber
+     */
+    public static void supplyBuy2(SupplyBuy2Bean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setGoods_id(bean.getGoods_id());
+        bean.setGoods_num(bean.getGoods_num());
+        bean.setPay_code(bean.getPay_code());
+        bean.setAddress_id(bean.getAddress_id());
+        bean.setShipping_fee(bean.getShipping_fee());
+        bean.setRemark(bean.getRemark());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().supplyBuy2(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
 
 }

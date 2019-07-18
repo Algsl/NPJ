@@ -29,6 +29,7 @@ import com.zthx.npj.net.been.BannerResponseBean;
 import com.zthx.npj.net.been.HomeGoodsBeen;
 import com.zthx.npj.net.been.RecommendResponseBean;
 import com.zthx.npj.ui.ClassfiyActivity;
+import com.zthx.npj.ui.ClassfiysActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.HomeSearchActivity;
 import com.zthx.npj.ui.LocationStoreActivity;
@@ -181,7 +182,7 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.fg_home_iv_classify:
-                intent = new Intent(getActivity(), ClassfiyActivity.class);
+                intent = new Intent(getActivity(), ClassfiysActivity.class);
                 startActivity(intent);
                 break;
             case R.id.fg_home_iv_message:

@@ -1,6 +1,7 @@
 package com.zthx.npj.net.netsubscribe;
 
 import com.zthx.npj.net.been.BannerBean;
+import com.zthx.npj.net.been.CategoryBean;
 import com.zthx.npj.net.been.CommentBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
 import com.zthx.npj.net.been.LocalStoreBean;
@@ -107,6 +108,14 @@ public class MainSubscribe {
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 
-
+    /**
+     * 获取商品分类
+     * @param subscriber
+     */
+    public static void category(DisposableObserver<ResponseBody> subscriber) {
+        CategoryBean bean=new CategoryBean();
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().category(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
 
 }

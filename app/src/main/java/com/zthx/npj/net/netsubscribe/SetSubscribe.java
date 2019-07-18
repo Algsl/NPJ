@@ -2,12 +2,12 @@ package com.zthx.npj.net.netsubscribe;
 
 import com.zthx.npj.net.been.AddAddressBean;
 import com.zthx.npj.net.been.AddBankCardBean;
+import com.zthx.npj.net.been.AddCartBean;
 import com.zthx.npj.net.been.AddCollectionBean;
 import com.zthx.npj.net.been.AddGoodsBean;
 import com.zthx.npj.net.been.AddressInfoBean;
 import com.zthx.npj.net.been.AddressListBean;
 import com.zthx.npj.net.been.ApplyRefundBean;
-import com.zthx.npj.net.been.AuthLoginBean;
 import com.zthx.npj.net.been.BankBean;
 import com.zthx.npj.net.been.BankCardBean;
 import com.zthx.npj.net.been.BaojiaListBean;
@@ -15,10 +15,14 @@ import com.zthx.npj.net.been.BaojiaUserDetailBean;
 import com.zthx.npj.net.been.BaojiaUserListBean;
 import com.zthx.npj.net.been.BuyBean;
 import com.zthx.npj.net.been.CancelOrderBean;
+import com.zthx.npj.net.been.CartListBean;
+import com.zthx.npj.net.been.CartOrderBean;
+import com.zthx.npj.net.been.CartOrderOneBean;
 import com.zthx.npj.net.been.CollectionBean;
 import com.zthx.npj.net.been.ConfirmOrderBean;
 import com.zthx.npj.net.been.DefaultAddressBean;
 import com.zthx.npj.net.been.DelAddressBean;
+import com.zthx.npj.net.been.DelCartBean;
 import com.zthx.npj.net.been.DelCollectionBean;
 import com.zthx.npj.net.been.DelGoodsBean;
 import com.zthx.npj.net.been.DelOrderBean;
@@ -40,6 +44,16 @@ import com.zthx.npj.net.been.MyOrderListBean;
 import com.zthx.npj.net.been.MyStoreBean;
 import com.zthx.npj.net.been.MySupplyListBean;
 import com.zthx.npj.net.been.MySupplyOrderBean;
+import com.zthx.npj.net.been.MySupplyOrderBuyBean;
+import com.zthx.npj.net.been.MySupplyOrderCancelBean;
+import com.zthx.npj.net.been.MySupplyOrderCommentBean;
+import com.zthx.npj.net.been.MySupplyGoodsConfirmBean;
+import com.zthx.npj.net.been.MySupplyOrderConfirmBean;
+import com.zthx.npj.net.been.MySupplyOrderDelBean;
+import com.zthx.npj.net.been.MySupplyOrderFahuoBean;
+import com.zthx.npj.net.been.MySupplyOrderRefund2Bean;
+import com.zthx.npj.net.been.MySupplyOrderRefund3Bean;
+import com.zthx.npj.net.been.MySupplyOrderRefundBean;
 import com.zthx.npj.net.been.OfflineStoreBean;
 import com.zthx.npj.net.been.OrderBean;
 import com.zthx.npj.net.been.OrderCommentBean;
@@ -64,6 +78,7 @@ import com.zthx.npj.net.been.SupplyUpBean;
 import com.zthx.npj.net.been.TiQuBean;
 import com.zthx.npj.net.been.TqIncomeBean;
 import com.zthx.npj.net.been.UpLoadFileBean;
+import com.zthx.npj.net.been.UpdateCartBean;
 import com.zthx.npj.net.been.UploadPicsBean;
 import com.zthx.npj.net.been.UserBean;
 import com.zthx.npj.net.been.UserMoneyBean;
@@ -1186,6 +1201,257 @@ public class SetSubscribe {
         bean.setToken(token);
         bean.setOrder_state(order_state);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyOrder(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 供求订单发货
+     * @param bean
+     * @param subscriber
+     */
+    public static void mySupplyOrderFahuo(MySupplyOrderFahuoBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setOrder_id(bean.getOrder_id());
+        bean.setExpress_id(bean.getExpress_id());
+        bean.setExpress_number(bean.getExpress_number());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyOrderFahuo(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 供应订单申请退款
+     * @param bean
+     * @param subscriber
+     */
+    public static void mySupplyOrderRefund(MySupplyOrderRefundBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setOrder_id(bean.getOrder_id());
+        bean.setRefund_state(bean.getRefund_state());
+        bean.setRefund_reason(bean.getRefund_reason());
+        bean.setRefund_price(bean.getRefund_price());
+        bean.setRefund_desc(bean.getRefund_desc());
+        bean.setRefund_img(bean.getRefund_img());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyOrderRefund(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 供应订单同意退款
+     * @param user_id
+     * @param token
+     * @param order_id
+     * @param subscriber
+     */
+    public static void mySupplyOrderFahuo(String user_id,String token,String order_id, DisposableObserver<ResponseBody> subscriber) {
+        MySupplyOrderRefund2Bean bean=new MySupplyOrderRefund2Bean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setOrder_id(order_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyOrderRefund2(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 供应订单取消订单
+     * @param user_id
+     * @param token
+     * @param order_id
+     * @param subscriber
+     */
+    public static void mySupplyOrderCancel(String user_id,String token,String order_id, DisposableObserver<ResponseBody> subscriber) {
+        MySupplyOrderCancelBean bean=new MySupplyOrderCancelBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setOrder_id(order_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyOrderCancel(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 供应订单删除
+     * @param user_id
+     * @param token
+     * @param order_id
+     * @param subscriber
+     */
+    public static void mySupplyOrderDel(String user_id,String token,String order_id, DisposableObserver<ResponseBody> subscriber) {
+        MySupplyOrderDelBean bean=new MySupplyOrderDelBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setOrder_id(order_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyOrderDel(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 供应订单评价
+     * @param bean
+     * @param subscriber
+     */
+    public static void mySupplyOrderComment(MySupplyOrderCommentBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setOrder_id(bean.getOrder_id());
+        bean.setContent(bean.getContent());
+        bean.setImg(bean.getImg());
+        bean.setGoods_star(bean.getGoods_star());
+        bean.setLogistics_star(bean.getLogistics_star());
+        bean.setService_star(bean.getService_star());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyOrderComment(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 供应订单退款原因
+     * @param user_id
+     * @param token
+     * @param order_id
+     * @param subscriber
+     */
+    public static void mySupplyOrderRefund3(String user_id,String token,String order_id, DisposableObserver<ResponseBody> subscriber) {
+        MySupplyOrderRefund3Bean bean=new MySupplyOrderRefund3Bean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setOrder_id(order_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyOrderRefund3(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 供应订单我的订单确认收货
+     * @param user_id
+     * @param token
+     * @param order_id
+     * @param subscriber
+     */
+    public static void mySupplyGoodsConfirm(String user_id,String token,String order_id, DisposableObserver<ResponseBody> subscriber) {
+        MySupplyGoodsConfirmBean bean=new MySupplyGoodsConfirmBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setOrder_id(order_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyGoodsConfirm(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 供应订单待付款去支付确认订单
+     * @param user_id
+     * @param token
+     * @param order_id
+     * @param subscriber
+     */
+    public static void mySupplyOrderConfirm(String user_id,String token,String order_id, DisposableObserver<ResponseBody> subscriber) {
+        MySupplyOrderConfirmBean bean=new MySupplyOrderConfirmBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setOrder_id(order_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyOrderConfirm(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 供应订单待付款订单支付
+     * @param bean
+     * @param subscriber
+     */
+    public static void mySupplyOrderBuy(MySupplyOrderBuyBean bean, DisposableObserver<ResponseBody> subscriber) {
+       bean.setUser_id(bean.getUser_id());
+       bean.setToken(bean.getToken());
+       bean.setOrder_id(bean.getOrder_id());
+       bean.setPay_code(bean.getPay_code());
+       bean.setAddress_id(bean.getAddress_id());
+       Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyOrderBuy(bean);
+       RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 加入购物车
+     * @param bean
+     * @param subscriber
+     */
+    public static void addCart(AddCartBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setGoods_id(bean.getGoods_id());
+        bean.setGoods_num(bean.getGoods_num());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().addCart(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 购物车列表
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void cartList(String user_id,String token, DisposableObserver<ResponseBody> subscriber) {
+        CartListBean bean=new CartListBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().cartList(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 购物车更新商品数量
+     * @param bean
+     * @param subscriber
+     */
+    public static void updateCart(UpdateCartBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setCart_id(bean.getCart_id());
+        bean.setGoods_num(bean.getGoods_num());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().updateCart(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 购物车删除商品
+     * @param user_id
+     * @param token
+     * @param cart_id
+     * @param subscriber
+     */
+    public static void delCart(String user_id,String token,String cart_id, DisposableObserver<ResponseBody> subscriber) {
+        DelCartBean bean=new DelCartBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setCart_id(cart_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().delCart(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 购物车确认订单
+     * @param user_id
+     * @param token
+     * @param cart_id
+     * @param subscriber
+     */
+    public static void cartOrder(String user_id,String token,String cart_id, DisposableObserver<ResponseBody> subscriber) {
+        CartOrderBean bean=new CartOrderBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setCart_id(cart_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().cartOrder(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 购物车提交订单
+     * @param bean
+     * @param subscriber
+     */
+    public static void updateCart(CartOrderOneBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setCart_id(bean.getCart_id());
+        bean.setAddress_id(bean.getAddress_id());
+        bean.setPay_code(bean.getPay_code());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().cartOrderOne(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

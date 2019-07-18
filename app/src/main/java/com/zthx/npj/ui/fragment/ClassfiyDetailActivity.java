@@ -2,15 +2,18 @@ package com.zthx.npj.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.ClassfiyDetailGoodsAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.ui.ActivityBase;
 import com.zthx.npj.ui.GoodsDetailActivity;
 
 import java.util.ArrayList;
@@ -19,19 +22,32 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ClassfiyDetailActivity extends AppCompatActivity {
+public class ClassfiyDetailActivity extends ActivityBase {
 
     @BindView(R.id.at_classfiy_detail_rv)
     RecyclerView atClassfiyDetailRv;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.at_location_store_tv_ruzhu)
+    TextView atLocationStoreTvRuzhu;
+    @BindView(R.id.title)
+    RelativeLayout title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_classfiy_detail);
         ButterKnife.bind(this);
+
+        back(titleBack);
+        changeTitle(acTitle,getIntent().getStringExtra("title"));
+
+
         //通过findViewById拿到RecyclerView实例
         //设置RecyclerView管理器
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL,false);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
         atClassfiyDetailRv.setLayoutManager(layoutManager);
         //初始化适配器
         List<CommentGoodsBeen> list3 = new ArrayList<>();

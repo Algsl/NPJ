@@ -1,6 +1,7 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -52,14 +53,16 @@ public class ClassfiyDetailGoodsAdapter extends RecyclerView.Adapter<ClassfiyDet
                 }
             });
         }
+        int num=(int)(Math.random()*11+1);
+        int str=(int)(Math.random()*3);
+        String[] strs=new String[]{"绿色杀菌杀虫剂","敌草快杀菌杀虫剂","大豆田杀菌杀虫剂","土豆田杀菌杀虫剂"};
         if (list!= null && list.size() > 0) {
-            viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
-            viewHolder.mTvPrice.setText(list.get(i).getGoodsPrice());
-            viewHolder.mTvSellNum.setText(list.get(i).getGoodsSellNum());
-            viewHolder.mTvTitle.setText(list.get(i).getGoodsTitle());
-            viewHolder.mTvOldPrice.setText(list.get(i).getGoodsOldPrice());
-        } else {
-
+            viewHolder.mIvGoods.setImageResource(R.drawable.classify0+num);
+            viewHolder.mTvPrice.setText("￥ "+(num*20));
+            viewHolder.mTvSellNum.setText("已售"+(10*num)+"件");
+            viewHolder.mTvTitle.setText(strs[str]);
+            viewHolder.mTvOldPrice.setText((num*25)+"");
+            viewHolder.mTvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
     }
 

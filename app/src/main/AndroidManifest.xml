@@ -142,6 +142,11 @@
         <activity android:name=".ui.BaojiaUserDetailActivity"/>
         <activity android:name=".ui.BaseWhiteActivity"/>
         <activity android:name=".ui.BaseThemeActivity"/>
+        <activity android:name=".ui.ConfirmMySupplyOrderActivity"/>
+        <activity android:name=".ui.MySupplyOrderDetailActivity"/>
+        <activity android:name=".ui.MySupplyOrderCommentActivity"/>
+        <activity android:name=".ui.MySupplyOrderRefundActivity"/>
+        <activity android:name=".ui.ClassfiysActivity"/>
 
         <activity
             android:name=".wxapi.WXEntryActivity"

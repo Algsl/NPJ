@@ -9,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +29,17 @@ import com.zthx.npj.adapter.ShoppingCartAdapter;
 import com.zthx.npj.adapter.StoreCouponAdapter;
 import com.zthx.npj.entity.GoodsInfo;
 import com.zthx.npj.entity.StoreInfo;
+import com.zthx.npj.net.been.CartListResponseBean;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.MyExpandableListView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,6 +81,9 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartAdapte
     private List<StoreInfo> groups; //组元素的列表
     private Map<String, List<GoodsInfo>> childs; //子元素的列表
 
+    private String user_id=SharePerferenceUtils.getUserId(getContext());
+    private String token=SharePerferenceUtils.getToken(getContext());
+
     public ShoppingCartFragment() {
         // Required empty public constructor
     }
@@ -88,7 +101,34 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartAdapte
         unbinder = ButterKnife.bind(this, view);
         initData();
         initEvent();
+
+        getShoppingCart();
         return view;
+    }
+
+    private void getShoppingCart() {
+        SetSubscribe.cartList(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setShoppingCart(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+
+    }
+
+    private void setShoppingCart(String result) {
+        Log.e("测试", "setShoppingCart: "+result );
+        try {
+            JSONArray array=new JSONArray(result);
+            Log.e("测试", "setShoppingCart: "+array.get(0).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initEvent() {

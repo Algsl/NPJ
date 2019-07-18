@@ -96,7 +96,7 @@ public class OrderListFragment extends Fragment {
                 SetSubscribe.cancelOrder(user_id,token,order_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-
+                        getOrder();
                     }
 
                     @Override
@@ -112,7 +112,7 @@ public class OrderListFragment extends Fragment {
                 SetSubscribe.delOrder(user_id,token,order_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-
+                        getOrder();
                     }
 
                     @Override

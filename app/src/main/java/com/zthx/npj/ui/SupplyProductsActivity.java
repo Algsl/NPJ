@@ -39,7 +39,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SupplyProductsActivity extends AppCompatActivity {
+public class SupplyProductsActivity extends ActivityBase {
 
     @BindView(R.id.at_supply_products_btn_buy_now)
     Button atSupplyProductsBtnBuyNow;
@@ -241,9 +241,7 @@ public class SupplyProductsActivity extends AppCompatActivity {
 
             case R.id.at_supply_products_btn_buy_now:
                 if (type.equals(Const.SUPPLY_DETAIL)) {
-                    Intent intent = new Intent(this, SupplyBillActivity.class);
-                    intent.setAction(goodsId+"");
-                    startActivity(intent);
+                    openActivity(SupplyBillActivity.class,goodsId+"");
                 } else {
 
                 }

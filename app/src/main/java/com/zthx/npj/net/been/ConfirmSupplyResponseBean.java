@@ -27,6 +27,33 @@ public class ConfirmSupplyResponseBean extends BaseReponseBean {
         private String nick_name;
         private String head_img;
         private int address_id;
+        private String consignee;
+        private String mobile;
+        private String address;
+
+        public String getConsignee() {
+            return consignee;
+        }
+
+        public void setConsignee(String consignee) {
+            this.consignee = consignee;
+        }
+
+        public String getMobile() {
+            return mobile;
+        }
+
+        public void setMobile(String mobile) {
+            this.mobile = mobile;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
 
         public long getId() {
             return id;

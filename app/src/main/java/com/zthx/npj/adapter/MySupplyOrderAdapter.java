@@ -13,14 +13,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
-import com.zthx.npj.net.been.CommentGoodsBeen;
-import com.zthx.npj.net.been.OrderResponseBean;
+import com.zthx.npj.net.been.MySupplyOrderResponseBean;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class MyBillListAdapter extends RecyclerView.Adapter<MyBillListAdapter.ViewHolder> {
-    private ArrayList<OrderResponseBean.DataBean> list;
+public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdapter.ViewHolder> {
+    private ArrayList<MySupplyOrderResponseBean.DataBean> list;
     private Context mContext;
 
     private ItemClickListener mItemClickListener ;
@@ -41,19 +39,19 @@ public class MyBillListAdapter extends RecyclerView.Adapter<MyBillListAdapter.Vi
 
     }
 
-    public MyBillListAdapter(Context context, ArrayList<OrderResponseBean.DataBean> list) {
+    public MySupplyOrderAdapter(Context context, ArrayList<MySupplyOrderResponseBean.DataBean> list) {
         this.list = list;
         mContext = context;
     }
     @NonNull
     @Override
-    public MyBillListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public MySupplyOrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_my_bill_list, viewGroup, false);
-        return new MyBillListAdapter.ViewHolder(view);
+        return new MySupplyOrderAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MyBillListAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final MySupplyOrderAdapter.ViewHolder viewHolder, int i) {
         // 点击事件一般都写在绑定数据这里，当然写到上边的创建布局时候也是可以的
         if (mItemClickListener != null){
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -130,10 +128,10 @@ public class MyBillListAdapter extends RecyclerView.Adapter<MyBillListAdapter.Vi
         }
         if (list!= null && list.size() > 0) {
             Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
-            viewHolder.storeName.setText(list.get(i).getStore_name());
-            viewHolder.goodsName.setText(list.get(i).getGoods_name());
-            viewHolder.goodsPrice.setText("￥ "+list.get(i).getGoods_price());
-            viewHolder.goodsNum.setText("x "+list.get(i).getGoods_num());
+            viewHolder.storeName.setText("朝花夕拾");
+            viewHolder.goodsName.setText(list.get(i).getTitle());
+            viewHolder.goodsPrice.setText("￥ "+list.get(i).getOrder_price());
+            viewHolder.goodsNum.setText("x "+list.get(i).getOrder_num());
             viewHolder.orderPrice.setText("￥ "+list.get(i).getOrder_price());
             switch (list.get(i).getOrder_state()+""){
                 case "0"://已取消
@@ -172,7 +170,16 @@ public class MyBillListAdapter extends RecyclerView.Adapter<MyBillListAdapter.Vi
                     viewHolder.comment.setVisibility(View.VISIBLE);
                     viewHolder.goodsReturn.setVisibility(View.VISIBLE);
                     break;
-                case "5":break;//已完成
+                case "5":
+                    viewHolder.orderState.setText("已完成");
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.delete.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.again.setVisibility(View.GONE);
+                    viewHolder.comment.setVisibility(View.GONE);
+                    viewHolder.goodsReturn.setVisibility(View.GONE);
+                    break;//已完成
                 case "6"://申请退款
                     viewHolder.orderState.setText("退款中");
                     viewHolder.cancel.setVisibility(View.GONE);

@@ -78,8 +78,6 @@ public class PreSellActivity extends ActivityBase {
                             atPreSellRv.setVisibility(View.GONE);
                             setView(data, ll, atPreSellRv2);
                         }
-
-
                     }
 
                     @Override

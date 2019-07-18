@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.HomeAdapter;
+import com.zthx.npj.adapter.HomesAdapter;
 import com.zthx.npj.adapter.MenuAdapter;
 import com.zthx.npj.net.been.CategoryBean;
 import com.zthx.npj.net.been.CategoryResponseBean;
@@ -34,7 +35,7 @@ import butterknife.ButterKnife;
 /**
  * 分类页面
  */
-public class ClassfiyActivity extends ActivityBase {
+public class ClassfiysActivity extends ActivityBase {
 
     @BindView(R.id.at_classfiy_lv_menu)
     ListView lvMenu;
@@ -48,10 +49,10 @@ public class ClassfiyActivity extends ActivityBase {
     EditText atClassfiyEtSearch;
 
     private List<String> menuList = new ArrayList<>();
-    private List<CategoryBean.DataBean> homeList = new ArrayList<>();
-    private List<Integer> showTitle;
+    private List<CategoryResponseBean.DataBean> homeList = new ArrayList<>();
+    private List<Integer> showTitle=new ArrayList<>();
     private MenuAdapter menuAdapter;
-    private HomeAdapter homeAdapter;
+    private HomesAdapter homeAdapter;
     private int currentItem;
 
     @Override
@@ -60,7 +61,6 @@ public class ClassfiyActivity extends ActivityBase {
         setContentView(R.layout.activity_classfiy);
         ButterKnife.bind(this);
         back(atClassfiyIvBack);
-
         loadData();
         initView();
     }
@@ -70,7 +70,7 @@ public class ClassfiyActivity extends ActivityBase {
         MainSubscribe.category(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-               // setClassify(result);
+                setClassify(result);
             }
 
             @Override
@@ -78,34 +78,6 @@ public class ClassfiyActivity extends ActivityBase {
 
             }
         }));
-//        String json = getJson(this, "category.json");
-//        CategoryBean categoryBean = JSONObject.parseObject(json, CategoryBean.class);
-        CategoryBean categoryBean = new CategoryBean();
-        List<CategoryBean.DataBean> data = new ArrayList<>();
-        List<CategoryBean.DataBean.DataListBean> list2 = new ArrayList<>();
-        CategoryBean.DataBean.DataListBean dataListBean = new CategoryBean.DataBean.DataListBean();
-        dataListBean.setTitle("苹果");
-        dataListBean.setImgURL("dsds");
-        for (int i = 0; i < 10; i++) {
-            list2.add(dataListBean);
-        }
-        CategoryBean.DataBean been = new CategoryBean.DataBean();
-        been.setModuleTitle("水果");
-        been.setDataList(list2);
-        for (int i = 0; i < 10; i++) {
-            data.add(been);
-        }
-        categoryBean.setData(data);
-        showTitle = new ArrayList<>();
-        for (int i = 0; i < categoryBean.getData().size(); i++) {
-            CategoryBean.DataBean dataBean = categoryBean.getData().get(i);
-            menuList.add(dataBean.getModuleTitle());
-            showTitle.add(i);
-            homeList.add(dataBean);
-        }
-        tvTitile.setText(categoryBean.getData().get(0).getModuleTitle());
-
-        Log.e("测试", "loadData: "+menuList);
     }
 
     private void setClassify(String result) {
@@ -113,7 +85,10 @@ public class ClassfiyActivity extends ActivityBase {
         ArrayList<CategoryResponseBean.DataBean> data=bean.getData();
         for(int i=0;i<data.size();i++){
             menuList.add(data.get(i).getName());
+            showTitle.add(i);
+            homeList.add(data.get(i));
         }
+        tvTitile.setText(data.get(0).getName());
 
     }
 
@@ -121,7 +96,7 @@ public class ClassfiyActivity extends ActivityBase {
         menuAdapter = new MenuAdapter(this, menuList);
         lvMenu.setAdapter(menuAdapter);
 
-        homeAdapter = new HomeAdapter(this, homeList);
+        homeAdapter = new HomesAdapter(this, homeList);
         lvHome.setAdapter(homeAdapter);
 
         lvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {

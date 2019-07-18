@@ -1,8 +1,7 @@
 package com.zthx.npj.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.ConfirmSupplyResponseBean;
+import com.zthx.npj.net.been.SupplyBuy2Bean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SupplyBillActivity extends AppCompatActivity {
+public class SupplyBillActivity extends ActivityBase {
 
     @BindView(R.id.at_supply_bill_ll_choice_address)
     RelativeLayout atSupplyBillLlChoiceAddress;
@@ -57,8 +57,21 @@ public class SupplyBillActivity extends AppCompatActivity {
     TextView atSupplyBillTvPrice;
     @BindView(R.id.at_supply_bill_tv_gongji_goods)
     TextView atSupplyBillTvGongjiGoods;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.at_supply_bill_tv_address)
+    TextView atSupplyBillTvAddress;
 
+    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
     private String goodsId;
+    private String goods_num="1";
+    private String pay_code="1";
+    private String address_id="10";
+    private String shipping_fee="1";
+    private String remark="sdf";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +79,13 @@ public class SupplyBillActivity extends AppCompatActivity {
         setContentView(R.layout.activity_supply_bill);
         ButterKnife.bind(this);
 
-        goodsId = getIntent().getAction();
+
+        back(titleBack);
+        changeTitle(acTitle, "商品确认订单");
+
+        goodsId = getIntent().getStringExtra("key0");
 
         getData(goodsId);
-
     }
 
     private void getData(String id) {
@@ -77,17 +93,16 @@ public class SupplyBillActivity extends AppCompatActivity {
                 new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-
                         ConfirmSupplyResponseBean.DataBean data = GsonUtils.fromJson(result, ConfirmSupplyResponseBean.class).getData();
-
                         Glide.with(SupplyBillActivity.this).load(data.getHead_img()).into(atSupplyBillHeadPic);
+                        atSupplyBillTvAddress.setText(data.getAddress());
                         atSupplyBillTvName.setText(data.getNick_name());
                         Glide.with(SupplyBillActivity.this).load(data.getGoods_img()).into(atSupplyBillIvGoodsPic);
                         atSupplyBillTvTitle.setText(data.getTitle());
                         atSupplyBillTvDanjia.setText("¥" + data.getPrice());
                         atSupplyBillTvUnit.setText(data.getGoods_unit());
                         atSupplyBillTvBuyNum.setText(data.getBuy_num());
-                        atSupplyBillTvGongjiGoods.setText("共计"+ data.getBuy_num() + "斤商品   小计：");
+                        atSupplyBillTvGongjiGoods.setText("共计" + data.getBuy_num() + "斤商品   小计：");
                         atSupplyBillTvPrice.setText("¥" + Integer.parseInt(data.getBuy_num()) * Float.parseFloat(data.getPrice()));
                         atSupplyBillTvZongjia.setText("¥" + Integer.parseInt(data.getBuy_num()) * Float.parseFloat(data.getPrice()));
                     }
@@ -99,8 +114,34 @@ public class SupplyBillActivity extends AppCompatActivity {
                 }, this));
     }
 
-    @OnClick(R.id.at_supply_bill_ll_choice_address)
-    public void onViewClicked() {
-        startActivity(new Intent(this, ChoiceAddressActivity.class));
+    @OnClick({R.id.at_supply_bill_ll_choice_address, R.id.at_supply_bill_btn_buy})
+    public void onViewClicked(View v) {
+        switch (v.getId()) {
+            case R.id.at_supply_bill_ll_choice_address:
+                openActivity(AddressListActivity.class, "1");
+                break;
+            case R.id.at_supply_bill_btn_buy:
+                SupplyBuy2Bean bean=new SupplyBuy2Bean();
+                bean.setUser_id(user_id);
+                bean.setToken(token);
+                bean.setGoods_id(goodsId);
+                bean.setGoods_num(goods_num);
+                bean.setPay_code(pay_code);
+                bean.setAddress_id(address_id);
+                bean.setShipping_fee(shipping_fee);
+                bean.setRemark(remark);
+                DiscoverSubscribe.supplyBuy2(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        finish();
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
+                break;
+        }
     }
 }

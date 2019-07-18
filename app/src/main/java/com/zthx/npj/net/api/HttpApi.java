@@ -1,15 +1,11 @@
 package com.zthx.npj.net.api;
 
-import com.zthx.npj.adapter.MySupplyListAdapter;
 import com.zthx.npj.net.been.*;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
-import retrofit2.http.Url;
 
 /**
  * Created by huangxin on 2019/5/27.
@@ -365,5 +361,62 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/mysupplyorder.html")
     Observable<ResponseBody> mySupplyOrder(@Body MySupplyOrderBean bean);
+
+    @POST("index.php/api/user/supplyconfirmorder.html")
+    Observable<ResponseBody> supplyConfirmOrder(@Body SupplyConfirmOrderBean bean);
+
+    @POST("index.php/api/user/supplybuy2.html")
+    Observable<ResponseBody> supplyBuy2(@Body SupplyBuy2Bean bean);
+
+    @POST("index.php/api/user/supplyfahuo.html")
+    Observable<ResponseBody> mySupplyOrderFahuo(@Body MySupplyOrderFahuoBean bean);
+
+    @POST("index.php/api/user/supplyrefund.html")
+    Observable<ResponseBody> mySupplyOrderRefund(@Body MySupplyOrderRefundBean bean);
+
+    @POST("index.php/api/user/supplyrefund2.html")
+    Observable<ResponseBody> mySupplyOrderRefund2(@Body MySupplyOrderRefund2Bean bean);
+
+    @POST("index.php/api/user/supplycancelorder.html")
+    Observable<ResponseBody> mySupplyOrderCancel(@Body MySupplyOrderCancelBean bean);
+
+    @POST("index.php/api/user/supplydelorder.html")
+    Observable<ResponseBody> mySupplyOrderDel(@Body MySupplyOrderDelBean bean);
+
+    @POST("index.php/api/user/supplycomment.html")
+    Observable<ResponseBody> mySupplyOrderComment(@Body MySupplyOrderCommentBean bean);
+
+    @POST("index.php/api/user/supplyrefund3.html")
+    Observable<ResponseBody> mySupplyOrderRefund3(@Body MySupplyOrderRefund3Bean bean);
+
+    @POST("index.php/api/user/supplyconfirm.html")
+    Observable<ResponseBody> mySupplyGoodsConfirm(@Body MySupplyGoodsConfirmBean bean);
+
+    @POST("index.php/api/user/supplyconfirmorder.html")
+    Observable<ResponseBody> mySupplyOrderConfirm(@Body MySupplyOrderConfirmBean bean);
+
+    @POST("index.php/api/user/supplyorderbuy.html")
+    Observable<ResponseBody> mySupplyOrderBuy(@Body MySupplyOrderBuyBean bean);
+
+    @POST("index.php/api/index/category.html")
+    Observable<ResponseBody> category(@Body CategoryBean bean);
+
+    @POST("index.php/api/user/addcart.html")
+    Observable<ResponseBody> addCart(@Body AddCartBean bean);
+
+    @POST("index.php/api/user/cartlist.html")
+    Observable<ResponseBody> cartList(@Body CartListBean bean);
+
+    @POST("index.php/api/user/updatecart.html")
+    Observable<ResponseBody> updateCart(@Body UpdateCartBean bean);
+
+    @POST("index.php/api/user/delcart.html")
+    Observable<ResponseBody> delCart(@Body DelCartBean bean);
+
+    @POST("index.php/api/user/cartorder.html")
+    Observable<ResponseBody> cartOrder(@Body CartOrderBean bean);
+
+    @POST("index.php/api/user/cartorderone.html")
+    Observable<ResponseBody> cartOrderOne(@Body CartOrderOneBean bean);
 }
 

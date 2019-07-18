@@ -18,12 +18,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.base.Const;
+import com.zthx.npj.net.been.AddCartBean;
 import com.zthx.npj.net.been.GoodsDetailResponseBean;
 import com.zthx.npj.net.been.PreSellDetailResponseBean;
 import com.zthx.npj.net.been.SecKillGoodsDetailResponseBean;
@@ -130,7 +132,6 @@ public class GoodsDetailActivity extends AppCompatActivity {
             atGoodsDetailLlPresell.setVisibility(View.GONE);
 
             getSecKillDetail(id);
-
         } else if (Const.PRESELL.equals(getIntent().getAction())) {
             atGoodsDetailRlSecKill.setVisibility(View.GONE);
             atGoodsDetailLlGoods.setVisibility(View.GONE);
@@ -160,6 +161,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
     private void setSecKillData(String result) {
         SecKillGoodsDetailResponseBean secKillGoodsDetailResponseBean = GsonUtils.fromJson(result, SecKillGoodsDetailResponseBean.class);
         SecKillGoodsDetailResponseBean.DataBean data = secKillGoodsDetailResponseBean.getData();
+        //Glide.with(this).load(Uri.parse(data.getGoods_img())).into()
         atGoodsDetailTvGoodsTitle.setText(data.getGoods_name());
         atGoodsDetailTvGoodsNewPrice.setText("¥" + data.getGoods_price());
         atGoodsDetailTvGoodsOldPrice.setText("¥" + data.getMarket_price());
@@ -238,7 +240,6 @@ public class GoodsDetailActivity extends AppCompatActivity {
         }
         atGoodsDetailTvGoodsIsBaoyou.setText(str);
         initBanner(data.getGoods_img());
-
     }
 
     @OnClick({R.id.at_goods_detail_btn_add_shopping_cart, R.id.at_goods_detail_btn_buy_now, R.id.ac_goodsDetail_ll_collect})
@@ -290,7 +291,22 @@ public class GoodsDetailActivity extends AppCompatActivity {
 //                    addCartNumTv.setText(count2+"");
                     break;
                 case R.id.item_pop_goods_add_shopping_car:
+                    AddCartBean bean=new AddCartBean();
+                    bean.setUser_id(user_id);
+                    bean.setToken(token);
+                    bean.setGoods_id(goodsId);
+                    bean.setGoods_num("1");
+                    SetSubscribe.addCart(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            Toast.makeText(GoodsDetailActivity.this,"加入购物车成功",Toast.LENGTH_LONG).show();
+                        }
 
+                        @Override
+                        public void onFault(String errorMsg) {
+
+                        }
+                    }));
                     break;
                 case R.id.item_pop_goods_buy:
                     Intent intent = new Intent(GoodsDetailActivity.this, ConfirmOrderActivity.class);
@@ -324,7 +340,6 @@ public class GoodsDetailActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     public void backgroundAlpha(float bgAlpha) {
@@ -337,13 +352,10 @@ public class GoodsDetailActivity extends AppCompatActivity {
      * 初始化轮播图
      */
     private void initBanner(ArrayList<String> imgList) {
-
         ArrayList<Uri> list = new ArrayList<>();
         for (int i = 0; i < imgList.size(); i++) {
             list.add(Uri.parse(imgList.get(i)));
         }
-
-
         //设置banner样式
         atGoodsDetailBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         atGoodsDetailBanner.setIndicatorGravity(BannerConfig.CENTER);

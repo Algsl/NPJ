@@ -520,13 +520,25 @@
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
-            <fragment
+            <!--<fragment
                 android:id="@+id/fragment"
                 android:name="com.zthx.npj.ui.fragment.GoodsDetailFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_9"
-                android:layout_marginBottom="@dimen/dp_48"/>
+                android:layout_marginBottom="@dimen/dp_48"/>-->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/discover_top"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/local_top"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/presell_top"/>
         </LinearLayout>
     </ScrollView>
 
