@@ -121,13 +121,13 @@ public class MainSubscribe {
 
     /**
      * 分类列表页
-     * @param cart_id
+     * @param cate_id
      * @param page
      * @param subscriber
      */
-    public static void goodsList(String cart_id,String page,DisposableObserver<ResponseBody> subscriber) {
+    public static void goodsList(String cate_id,String page,DisposableObserver<ResponseBody> subscriber) {
         GoodsListBean bean=new GoodsListBean();
-        bean.setCart_id(cart_id);
+        bean.setCate_id(cate_id);
         bean.setPage(page);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().goodsList(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);

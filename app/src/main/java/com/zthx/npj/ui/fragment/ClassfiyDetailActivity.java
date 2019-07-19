@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -61,7 +62,7 @@ public class ClassfiyDetailActivity extends ActivityBase {
     }
 
     private void getGoodsList() {
-        MainSubscribe.goodsList(getIntent().getStringExtra("key0"),"1",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.goodsList(getIntent().getStringExtra("key0"),"0",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setGoodsList(result);
@@ -85,7 +86,7 @@ public class ClassfiyDetailActivity extends ActivityBase {
         adapter.setOnItemClickListener(new ClassifyDetailAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent intent=new Intent();
+                Intent intent=new Intent(ClassfiyDetailActivity.this,GoodsDetailActivity.class);
                 intent.putExtra("goods_id",data.get(position).getId()+"");
                 startActivity(intent);
             }

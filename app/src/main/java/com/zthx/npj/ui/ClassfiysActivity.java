@@ -83,7 +83,7 @@ public class ClassfiysActivity extends ActivityBase {
             showTitle.add(i);
         }
         setRight();
-        Log.e("测试", "setClassify: "+data);
+
     }
 
     private void initView() {

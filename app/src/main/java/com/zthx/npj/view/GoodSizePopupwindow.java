@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,11 +28,13 @@ public class GoodSizePopupwindow extends PopupWindow {
     private final RelativeLayout addView;
     private final Button mAddShoppingCar;
     private final Button mBuyNow;
+    private ImageView cancel;
     private Context mContext;
     private View view;
 
-    public GoodSizePopupwindow(Context mContext, View.OnClickListener itemsOnClick, boolean b, ArrayList<PreSellDetailResponseBean.DataBean.Value> data) {
+    public GoodSizePopupwindow(Context mContext, View.OnClickListener itemsOnClick, String type) {
         this.view = LayoutInflater.from(mContext).inflate(R.layout.popupwindow_goods_size, null);
+
         addView = view.findViewById(R.id.item_pop_goods_num_add);
         minusView = view.findViewById(R.id.item_pop_goods_num_jian);
         secKillOldPrice = view.findViewById(R.id.pop_goods_size_tv_sec_old_price);
@@ -39,14 +42,26 @@ public class GoodSizePopupwindow extends PopupWindow {
         mAddShoppingCar = view.findViewById(R.id.item_pop_goods_add_shopping_car);
         mBuyNow = view.findViewById(R.id.item_pop_goods_buy);
         labelsView = (LabelsView) view.findViewById(R.id.labels);
+        cancel=view.findViewById(R.id.pp_goodsSize_iv_cancel);
 
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
 
-        if (b) {
-            secKillOldPrice.setVisibility(View.VISIBLE);
-            OldPrice.setVisibility(View.GONE);
-        } else {
-            secKillOldPrice.setVisibility(View.GONE);
-            OldPrice.setVisibility(View.VISIBLE);
+        switch (type){
+            case "1":
+                secKillOldPrice.setVisibility(View.VISIBLE);
+                OldPrice.setVisibility(View.GONE);
+                break;
+            case "2":
+                secKillOldPrice.setVisibility(View.GONE);
+                OldPrice.setVisibility(View.VISIBLE);
+                break;
+            case "3":
+                break;
         }
 //        // 设置按钮监听
         minusView.setOnClickListener(itemsOnClick);
@@ -65,23 +80,8 @@ public class GoodSizePopupwindow extends PopupWindow {
         labelsView.setLabels(label); //直接设置一个字符串数组就可以了。
 //        ======================================================
         // 设置外部可点击
-        this.setOutsideTouchable(true);
+        this.setOutsideTouchable(false);
         // mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框
-        this.view.setOnTouchListener(new View.OnTouchListener() {
-
-            public boolean onTouch(View v, MotionEvent event) {
-
-                int height = view.findViewById(R.id.pop_layout).getTop();
-
-                int y = (int) event.getY();
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (y < height) {
-                        dismiss();
-                    }
-                }
-                return true;
-            }
-        });
 
 
         /* 设置弹出窗口特征 */

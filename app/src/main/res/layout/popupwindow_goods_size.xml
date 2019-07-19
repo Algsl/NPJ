@@ -80,6 +80,7 @@
             android:textColor="@color/text9"/>
         
         <ImageView
+            android:id="@+id/pp_goodsSize_iv_cancel"
             android:layout_width="@dimen/dp_22"
             android:layout_height="@dimen/dp_22"
             android:layout_alignParentRight="true"

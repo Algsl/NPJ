@@ -18,7 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -102,9 +101,11 @@ public class GoodsDetailActivity extends AppCompatActivity {
     Banner atGoodsDetailBanner;
     @BindView(R.id.ac_goodsDetail_ll_collect)
     LinearLayout acGoodsDetailLlCollect;
+    @BindView(R.id.ac_goodsDetail_ll_store)
+    LinearLayout acGoodsDetailLlStore;
 
-    private String user_id= SharePerferenceUtils.getUserId(this);
-    private String token=SharePerferenceUtils.getToken(this);
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
     private String goodsId;
 
     private PreSellDetailResponseBean.DataBean mPreData;
@@ -130,14 +131,17 @@ public class GoodsDetailActivity extends AppCompatActivity {
             }
             atGoodsDetailLlGoods.setVisibility(View.GONE);
             atGoodsDetailLlPresell.setVisibility(View.GONE);
-
             getSecKillDetail(id);
         } else if (Const.PRESELL.equals(getIntent().getAction())) {
             atGoodsDetailRlSecKill.setVisibility(View.GONE);
             atGoodsDetailLlGoods.setVisibility(View.GONE);
             atGoodsDetailLlPresell.setVisibility(View.VISIBLE);
+            atGoodsDetailBtnAddShoppingCart.setVisibility(View.GONE);
+            acGoodsDetailLlStore.setVisibility(View.GONE);
             getPreSellDetail(id);
         } else {
+            atGoodsDetailRlSecKill.setVisibility(View.GONE);
+            atGoodsDetailLlPresell.setVisibility(View.GONE);
             getGoodsDetail(id);
         }
 
@@ -161,7 +165,6 @@ public class GoodsDetailActivity extends AppCompatActivity {
     private void setSecKillData(String result) {
         SecKillGoodsDetailResponseBean secKillGoodsDetailResponseBean = GsonUtils.fromJson(result, SecKillGoodsDetailResponseBean.class);
         SecKillGoodsDetailResponseBean.DataBean data = secKillGoodsDetailResponseBean.getData();
-        //Glide.with(this).load(Uri.parse(data.getGoods_img())).into()
         atGoodsDetailTvGoodsTitle.setText(data.getGoods_name());
         atGoodsDetailTvGoodsNewPrice.setText("¥" + data.getGoods_price());
         atGoodsDetailTvGoodsOldPrice.setText("¥" + data.getMarket_price());
@@ -228,17 +231,17 @@ public class GoodsDetailActivity extends AppCompatActivity {
         GoodsDetailResponseBean goodsDetailResponseBean = GsonUtils.fromJson(result, GoodsDetailResponseBean.class);
         GoodsDetailResponseBean.DataBean data = goodsDetailResponseBean.getData();
         atGoodsDetailTvGoodsNewPrice.setText("¥" + data.getMember_price());
-        atGoodsDetailTvGoodsOldPrice.setText(data.getMarket_price());
+        atGoodsDetailTvGoodsOldPrice.setText(data.getMember_price());
         atGoodsDetailTvGoodsTitle.setText(data.getGoods_name());
-        atGoodsDetailSelledNum.setText(data.getSold() + "");
-        atGoodsDetailHoldNum.setText(data.getInventory() + "");
+        atGoodsDetailSelledNum.setText("已售" + data.getSold() + "");
+        atGoodsDetailHoldNum.setText("库存" + data.getInventory() + "");
         String str;
-        if (data.getYunfei() != 0) {
+        if (data.getYunfei()== 0) {
             str = "免运费";
         } else {
-            str = data.getYunfei() + "";
+            str = data.getYunfei() + "元";
         }
-        atGoodsDetailTvGoodsIsBaoyou.setText(str);
+        atGoodsDetailTvGoodsIsBaoyou.setText("快递 " + str);
         initBanner(data.getGoods_img());
     }
 
@@ -258,10 +261,10 @@ public class GoodsDetailActivity extends AppCompatActivity {
     }
 
     private void goodsCollect() {
-        SetSubscribe.addCollection(user_id,token,goodsId,"1",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.addCollection(user_id, token, goodsId, "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Toast.makeText(GoodsDetailActivity.this,"收藏成功",Toast.LENGTH_LONG).show();
+                Toast.makeText(GoodsDetailActivity.this, "收藏成功", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -277,29 +280,29 @@ public class GoodsDetailActivity extends AppCompatActivity {
 
             switch (v.getId()) {
                 case R.id.item_pop_goods_num_add:
-//                    int count = Integer.valueOf((String)addCartNumTv.getText());
-//                    if(count==1){
-//                        Toast.makeText(godd.this,"不能再减了哦",Toast.LENGTH_SHORT).show();
-//                    }else{
-//                        count--;
-//                        addCartNumTv.setText((count)+"");
-//                    }
+                    /*int count = Integer.valueOf((String)addCartNumTv.getText());
+                    if(count==1){
+                        Toast.makeText(godd.this,"不能再减了哦",Toast.LENGTH_SHORT).show();
+                    }else{
+                        count--;
+                       addCartNumTv.setText((count)+"");
+                    }*/
                     break;
                 case R.id.item_pop_goods_num_jian:
-//                    int count2 = Integer.valueOf((String)addCartNumTv.getText());
-//                    count2++;
-//                    addCartNumTv.setText(count2+"");
+                    /*int count2 = Integer.valueOf((String)addCartNumTv.getText());
+                    count2++;
+                    addCartNumTv.setText(count2+"");*/
                     break;
                 case R.id.item_pop_goods_add_shopping_car:
-                    AddCartBean bean=new AddCartBean();
+                    AddCartBean bean = new AddCartBean();
                     bean.setUser_id(user_id);
                     bean.setToken(token);
                     bean.setGoods_id(goodsId);
                     bean.setGoods_num("1");
-                    SetSubscribe.addCart(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    SetSubscribe.addCart(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
-                            Toast.makeText(GoodsDetailActivity.this,"加入购物车成功",Toast.LENGTH_LONG).show();
+                            Toast.makeText(GoodsDetailActivity.this, "加入购物车成功", Toast.LENGTH_LONG).show();
                         }
 
                         @Override
@@ -319,13 +322,15 @@ public class GoodsDetailActivity extends AppCompatActivity {
     };
 
     private void showPopupwindow(View view) {
-        boolean b;
+        String type = "1";
         if ("miaosha".equals(getIntent().getAction())) {
-            b = true;
+            type = "1";
+        } else if ("presell".equals(getIntent().getAction())) {
+            type = "2";
         } else {
-            b = false;
+            type = "3";
         }
-        GoodSizePopupwindow sizePopWin = new GoodSizePopupwindow(this, onClickListener, b, mPreData.getAttribute_value());
+        GoodSizePopupwindow sizePopWin = new GoodSizePopupwindow(this, onClickListener, type);
         View contentView = sizePopWin.getContentView();
 //        addCartNumTv = ((TextView) contentView.findViewById(R.id.goodsRule_numTv));
         //设置Popupwindow显示位置（从底部弹出）

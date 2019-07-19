@@ -3,10 +3,10 @@ package com.zthx.npj.net.been;
 import android.content.ClipData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CartListResponseBean extends BaseReponseBean{
-    public class DataBean{
-        public class DataItem {
+    public static class DataBean{
             private long id;
             private long goods_num;
             private long store_id;
@@ -17,8 +17,26 @@ public class CartListResponseBean extends BaseReponseBean{
             private String user_price;
             private String store_name;
             private String price;
+            private Boolean isSelect=false;
+            private Boolean isSelectShop=false;
 
-            public long getId() {
+        public Boolean getSelectShop() {
+            return isSelectShop;
+        }
+
+        public void setSelectShop(Boolean selectShop) {
+            isSelectShop = selectShop;
+        }
+
+        public Boolean getSelect() {
+            return isSelect;
+        }
+
+        public void setSelect(Boolean select) {
+            isSelect = select;
+        }
+
+        public long getId() {
                 return id;
             }
 
@@ -97,24 +115,17 @@ public class CartListResponseBean extends BaseReponseBean{
             public void setPrice(String price) {
                 this.price = price;
             }
-        }
-        private ArrayList<DataItem> item;
 
-        public ArrayList<DataItem> getItem() {
-            return item;
-        }
-
-        public void setItem(ArrayList<DataItem> item) {
-            this.item = item;
-        }
     }
-    private DataBean[] data;
+    private ArrayList<ArrayList<DataBean>> data;
 
-    public DataBean[] getData() {
+    public ArrayList<ArrayList<DataBean>> getData() {
         return data;
     }
 
-    public void setData(DataBean[] data) {
+    public void setData(ArrayList<ArrayList<DataBean>> data) {
         this.data = data;
     }
+
+
 }

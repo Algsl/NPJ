@@ -18,6 +18,7 @@ import com.zthx.npj.ui.fragment.DiscoverFragment;
 import com.zthx.npj.ui.fragment.GameFragment;
 import com.zthx.npj.ui.fragment.HomeFragment;
 import com.zthx.npj.ui.fragment.MineFragment;
+import com.zthx.npj.ui.fragment.ShoppingCart1Fragment;
 import com.zthx.npj.ui.fragment.ShoppingCartFragment;
 
 import butterknife.BindView;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     //fragment模块
     private HomeFragment mHomeFragment;
     private DiscoverFragment mDiscoverFragment;
-    private ShoppingCartFragment mShoppingCartFragment;
+    private ShoppingCart1Fragment mShoppingCartFragment;
     private MineFragment mMineFragment;
     private GameFragment mGameFragment;
 
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                     llMainCheck03.setOnApplyWindowInsetsListener(null);
                     break;
                 case 3:
-                    mShoppingCartFragment = new ShoppingCartFragment();
+                    mShoppingCartFragment = new ShoppingCart1Fragment();
                     mFragments[3] = mShoppingCartFragment;
                     llMainCheck04.setOnApplyWindowInsetsListener(null);
                     break;
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
     private void initFragment() {
         mHomeFragment = new HomeFragment();
         mDiscoverFragment = new DiscoverFragment();
-        mShoppingCartFragment = new ShoppingCartFragment();
+        mShoppingCartFragment = new ShoppingCart1Fragment();
         mMineFragment = new MineFragment();
         mGameFragment = new GameFragment();
         //添加到数组

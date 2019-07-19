@@ -5,9 +5,8 @@
     android:layout_height="@dimen/dp_248"
     android:orientation="vertical"
     android:layout_marginLeft="@dimen/dp_10"
-    android:background="@drawable/white_conner"
-    android:layout_marginTop="@dimen/dp_10">
-
+    android:layout_marginTop="@dimen/dp_10"
+    android:background="@drawable/white_conner">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_180">
@@ -54,7 +53,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_5"
-            android:text="限量首发"
             android:textSize="@dimen/sp_12"
             android:textColor="@color/text6"/>
 
@@ -62,8 +60,8 @@
             android:id="@+id/item_tv_classfiy_detail_goods_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="￥188"
-            android:textSize="@dimen/sp_15"
+            android:text="会员价 26.00"
+            android:textSize="@dimen/sp_12"
             android:layout_marginLeft="@dimen/dp_2"
             android:layout_toRightOf="@id/item_tv_classfiy_detail_text"
             android:textColor="@color/app_theme"/>
@@ -75,7 +73,7 @@
             android:layout_alignParentRight="true"
             android:textSize="@dimen/sp_12"
             android:textColor="@color/text6"
-            android:layout_marginRight="@dimen/dp_28"
+            android:layout_marginRight="@dimen/dp_12"
             android:textStyle="italic"
             android:text="200"/>
 

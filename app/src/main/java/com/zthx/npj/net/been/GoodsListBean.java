@@ -1,15 +1,15 @@
 package com.zthx.npj.net.been;
 
 public class GoodsListBean {
-    private String cart_id;
+    private String cate_id;
     private String page;
 
-    public String getCart_id() {
-        return cart_id;
+    public String getCate_id() {
+        return cate_id;
     }
 
-    public void setCart_id(String cart_id) {
-        this.cart_id = cart_id;
+    public void setCate_id(String cate_id) {
+        this.cate_id = cate_id;
     }
 
     public String getPage() {

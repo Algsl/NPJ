@@ -117,6 +117,8 @@ public class MineFragment
     @BindView(R.id.fg_mine_iv_levelimg)
     ImageView    fgMineIvLevelimg;
 
+    private long type=SharePerferenceUtils.getLevel(getContext());
+
     public MineFragment() {
     }
 
@@ -290,6 +292,12 @@ public class MineFragment
                 break;
             case R.id.fg_mine_ll_my_store:
                 startActivity(new Intent(getActivity(), MyStoreActivity.class));
+                /*if(type>0){
+
+                }else{
+                    Toast.makeText(getContext(),"您还不是代言人，暂不能开店",Toast.LENGTH_LONG).show();
+                }*/
+
                 break;
             case R.id.fg_mine_ll_my_attestation:
                 startActivity(new Intent(getActivity(), MyAttestationActivity.class));
@@ -299,6 +307,11 @@ public class MineFragment
                 break;
             case R.id.fg_mine_ll_my_supply:
                 startActivity(new Intent(getActivity(), MySupplyActivity.class));
+                /*if(type>0){
+
+                }else{
+                    Toast.makeText(getContext(),"您还不是代言人，暂不能开店",Toast.LENGTH_LONG).show();
+                }*/
                 break;
         }
     }
