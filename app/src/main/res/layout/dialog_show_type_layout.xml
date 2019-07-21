@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/dp_12"
+    android:layout_marginRight="@dimen/dp_12"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dl_showType_tv_all"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:gravity="center"
+        android:text="平台所有用户可显示购买"
+        android:textColor="@color/app_theme"
+        android:background="@drawable/white_conner_5"
+        android:textSize="@dimen/sp_15" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/background" />
+    <TextView
+        android:id="@+id/dl_showType_tv_invite"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:gravity="center"
+        android:text="仅对直接邀请用户可显示购买"
+        android:textColor="@color/app_theme"
+        android:background="@drawable/white_conner_5"
+        android:textSize="@dimen/sp_15" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/background" />
+
+    <TextView
+        android:id="@+id/dl_showType_tv_inviteAndIndirecct"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:gravity="center"
+        android:text="仅对直接和间接邀请用户可显示购买"
+        android:textColor="@color/app_theme"
+        android:background="@drawable/white_conner_5"
+        android:textSize="@dimen/sp_15" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/background" />
+
+    <TextView
+        android:id="@+id/dl_showType_tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:gravity="center"
+        android:text="取消"
+        android:background="@drawable/white_conner_5"
+        android:textColor="@color/app_theme"
+        android:textSize="@dimen/sp_15" />
+
+</LinearLayout>

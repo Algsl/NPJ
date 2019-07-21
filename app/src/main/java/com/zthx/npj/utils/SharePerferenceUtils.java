@@ -15,6 +15,24 @@ public class SharePerferenceUtils {
     private static String SPXMLNAME = "sp_config";
     private static boolean isBindSpokes;
     private static boolean isBindWx;
+    private static String cateId;
+    private static String cateName;
+
+    public static String getCateId() {
+        return cateId;
+    }
+
+    public static void setCateId(String cateId) {
+        SharePerferenceUtils.cateId = cateId;
+    }
+
+    public static String getCateName() {
+        return cateName;
+    }
+
+    public static void setCateName(String cateName) {
+        SharePerferenceUtils.cateName = cateName;
+    }
 
     public static boolean isIsBindSpokes() {
         return isBindSpokes;
@@ -116,12 +134,14 @@ public class SharePerferenceUtils {
         //return getString(context, "token", "");
         return "28b9ae3c7a7a79492f59999191e29431";
     }
-    public static void setLevel(Context context,long level ){
-        putString(context,"level",String.valueOf(level));
+    public static void setLevel(Context context,String level ){
+        putString(context,"level",level);
     }
-    public static long getLevel(Context context){
-        return Long.valueOf(getString(context,"level",""));
+
+    public static String getLevel(Context context) {
+        return getString(context, "level", "");
     }
+
     public static  void setMainBanner(Context context, String value) {
         putString(context, Const.SP_MAIN_BANNER_TYPE,value);
     }

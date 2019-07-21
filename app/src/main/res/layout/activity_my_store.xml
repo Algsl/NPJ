@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/title" ></include>
+            layout="@layout/title_theme" ></include>
         <com.zthx.npj.view.MyCircleView
             android:id="@+id/ac_myStore_mcv_storeImg"
             android:layout_width="@dimen/dp_70"

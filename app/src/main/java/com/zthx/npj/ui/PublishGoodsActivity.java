@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -9,20 +10,30 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.GoodsCateGroupAdapter;
 import com.zthx.npj.net.been.AddGoodsBean;
+import com.zthx.npj.net.been.GoodsCateBean;
+import com.zthx.npj.net.been.GoodsCateResponseBean;
 import com.zthx.npj.net.been.UploadPicsResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
@@ -43,7 +54,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class PublishGoodsActivity extends AppCompatActivity {
+public class PublishGoodsActivity extends ActivityBase {
 
     @BindView(R.id.title_theme_back)
     ImageView titleThemeBack;
@@ -67,10 +78,6 @@ public class PublishGoodsActivity extends AppCompatActivity {
     EditText acPulishGoodsEtInventory;
     @BindView(R.id.ac_pulishGoods_tv_cateId)
     TextView acPulishGoodsTvCateId;
-    @BindView(R.id.ac_pulishGoods_et_isFreeShipping)
-    EditText acPulishGoodsEtIsFreeShipping;
-    @BindView(R.id.publish_goods_iv)
-    ImageView publishGoodsIv;
     @BindView(R.id.ac_pulishGoods_tv_goodsType)
     TextView acPulishGoodsTvGoodsType;
     @BindView(R.id.ac_pulishGoods_btn_pulish)
@@ -89,19 +96,35 @@ public class PublishGoodsActivity extends AppCompatActivity {
     ImageView acPublishGoodsIvHint2;
     @BindView(R.id.ac_publishGoods_iv_hint3)
     ImageView acPublishGoodsIvHint3;
+    @BindView(R.id.ac_publishGoods_iv_hint4)
+    ImageView acPublishGoodsIvHint4;
     private List<String> paths1 = new ArrayList<>();
     private List<String> paths2 = new ArrayList<>();
     private String requestUrl = "http://app.npj-vip.com/index.php/api/set/uploadimagegroup.html";
     private String goodsImg, goodsContent;
     private String str1="平台结算价是本商品售出并在买家确认收货后，平台结算给您的价格，不设账期，可立即提现。如果卖家不点击“确认收货”，则在签收后7日内自动结算。";
-    private String str2="市场参考价是您发布的商品在市场上的公开价格，要求高于代言价和结算价。";
-    private String str3="VIP代言价是代言人购买您商品时的价格，要求略高于结算价，平台将差价部分奖励给分享会员。\n" +
+    private String str2="VIP代言价是代言人购买您商品时的价格，要求略高于结算价，平台将差价部分奖励给分享会员。\n" +
             "农品街设立“价高反馈功能，如果您发布的商品价格高于其他平台，用户通过该功能将直接下架您的商品，农品街不收取开店费，0佣金，0抽成,因此希望您按全网最低价销售商品。";
+    private String str3="市场参考价是您发布的商品在市场上的公开价格，要求高于代言价和结算价。";
+    private String str4="农品街-人人开店包邮原则，即：卖家承担物流运费。\n" +
+            "卖家在设定商品价格时需要将运费考虑其中。";
+    private String goods_type="0";
+    private String itemResult="";
+    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
+    private String cate_id="";
+    private String cateName="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pulish_goods);
         ButterKnife.bind(this);
+
+        back(titleThemeBack);
+        changeTitle(titleThemeTitle,"发布商品");
+
+        getGoodsCate();
 
         acPulishGoodsIvGoodsImg.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
             @Override
@@ -140,7 +163,49 @@ public class PublishGoodsActivity extends AppCompatActivity {
         });
     }
 
+    private void getGoodsCate() {
+        SetSubscribe.goodsCate(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                itemResult=result;
+            }
 
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+
+    public void publishImages(){
+        HttpUtils.uploadMoreImg(requestUrl, paths1, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                UploadPicsResponseBean.DataBean data = bean.getData();
+                goodsImg = data.getImg();
+            }
+        });
+        HttpUtils.uploadMoreImg(requestUrl, paths2, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                UploadPicsResponseBean.DataBean data = bean.getData();
+                goodsContent = data.getImg();
+            }
+        });
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -183,48 +248,31 @@ public class PublishGoodsActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.ac_pulishGoods_tv_goodsType, R.id.ac_pulishGoods_btn_pulish,R.id.ac_publishGoods_iv_hint1, R.id.ac_publishGoods_iv_hint2, R.id.ac_publishGoods_iv_hint3})
+    @OnClick({R.id.ac_pulishGoods_tv_goodsType, R.id.ac_pulishGoods_btn_pulish,R.id.ac_publishGoods_iv_hint1, R.id.ac_publishGoods_iv_hint2, R.id.ac_publishGoods_iv_hint3,R.id.ac_publishGoods_iv_hint4
+            ,R.id.ac_pulishGoods_tv_cateId})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_pulishGoods_tv_goodsType:
-                HttpUtils.uploadMoreImg(requestUrl, paths1, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
-                        UploadPicsResponseBean.DataBean data = bean.getData();
-                        goodsImg = data.getImg();
-                    }
-                });
-                HttpUtils.uploadMoreImg(requestUrl, paths2, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
-                        UploadPicsResponseBean.DataBean data = bean.getData();
-                        goodsContent = data.getImg();
-                    }
-                });
+                showBottomDialog();
                 break;
             case R.id.ac_pulishGoods_btn_pulish:
+                publishImages();
                 pulishGoods();
                 break;
             case R.id.ac_publishGoods_iv_hint1:
-                showPublishPopwindow(str1);
+                showPublishPopwindow(str1,R.dimen.dp_195);
                 break;
             case R.id.ac_publishGoods_iv_hint2:
-                showPublishPopwindow(str2);
+                showPublishPopwindow(str2,R.dimen.dp_280);
                 break;
             case R.id.ac_publishGoods_iv_hint3:
-                showPublishPopwindow(str3);
+                showPublishPopwindow(str3,R.dimen.dp_154);
+                break;
+            case R.id.ac_publishGoods_iv_hint4:
+                showPublishPopwindow(str4,R.dimen.dp_175);
+                break;
+            case R.id.ac_pulishGoods_tv_cateId:
+                showItemPopwindow();
                 break;
         }
     }
@@ -247,9 +295,9 @@ public class PublishGoodsActivity extends AppCompatActivity {
         bean.setMember_price(getEtString(acPulishGoodsEtMemberPrice));
         bean.setMarket_price(getEtString(acPulishGoodsEtMarketPrice));
         bean.setInventory(getEtString(acPulishGoodsEtInventory));
-        bean.setCate_id("20");
+        bean.setCate_id(cate_id);
         bean.setIs_free_shipping("0");
-        bean.setGoods_type("1");
+        bean.setGoods_type(goods_type);
         SetSubscribe.addGoods(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -263,7 +311,7 @@ public class PublishGoodsActivity extends AppCompatActivity {
         }));
     }
 
-    public void showPublishPopwindow(String str) {
+    public void showPublishPopwindow(String str,int id) {
         backgroundAlpha(0.5f);
         View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_publish_goods, null);
         // 创建PopupWindow对象，其中：
@@ -271,7 +319,7 @@ public class PublishGoodsActivity extends AppCompatActivity {
         // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
         final PopupWindow window = new PopupWindow(contentView);
         window.setWidth((int) getResources().getDimension(R.dimen.dp_280));
-        window.setHeight((int) getResources().getDimension(R.dimen.dp_240));
+        window.setHeight((int) getResources().getDimension(id));
         // 设置PopupWindow的背景
 
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -299,5 +347,98 @@ public class PublishGoodsActivity extends AppCompatActivity {
         lp.alpha = bgAlpha;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         getWindow().setAttributes(lp);
+    }
+
+    private void showBottomDialog() {
+        //1、使用Dialog、设置style
+        final Dialog dialog = new Dialog(this, R.style.DialogTheme);
+        //2、设置布局
+        View view = View.inflate(this, R.layout.dialog_show_type_layout, null);
+        dialog.setContentView(view);
+        Window window = dialog.getWindow();
+        //设置弹出位置
+        window.setGravity(Gravity.BOTTOM);
+        //设置弹出动画
+        window.setWindowAnimations(R.style.main_menu_animStyle);
+        //设置对话框大小
+        window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+
+        dialog.findViewById(R.id.dl_showType_tv_all).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goods_type="0";
+                acPulishGoodsTvGoodsType.setText("平台所有用户可显示购买");
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dl_showType_tv_invite).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goods_type="1";
+                acPulishGoodsTvGoodsType.setText("仅对直接邀请用户可显示购买");
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dl_showType_tv_inviteAndIndirecct).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goods_type="2";
+                acPulishGoodsTvGoodsType.setText("仅对直接和间接邀请用户可显示购买");
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dl_showType_tv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public void showItemPopwindow() {
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_store_cartid, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView);
+        window.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_271));
+        // 设置PopupWindow的背景
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(false);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getWindow().getDecorView(), Gravity.RIGHT, 0, 0);
+        final GoodsCateResponseBean bean=GsonUtils.fromJson(itemResult,GoodsCateResponseBean.class);
+        GoodsCateGroupAdapter adapter=new GoodsCateGroupAdapter(this,bean.getData());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        RecyclerView rv=contentView.findViewById(R.id.pw_storeCartId_rv_group);
+        rv.setLayoutManager(layoutManager);
+        rv.setAdapter(adapter);
+        ImageView cancel=contentView.findViewById(R.id.pw_storeCartId_btn_cancel);
+        Button confirm=contentView.findViewById(R.id.pw_storeCartId_btn_confirm);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cate_id=SharePerferenceUtils.getCateId();
+                cateName=SharePerferenceUtils.getCateName();
+                acPulishGoodsTvCateId.setText(cateName);
+                window.dismiss();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+
     }
 }

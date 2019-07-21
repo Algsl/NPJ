@@ -117,7 +117,7 @@ public class MineFragment
     @BindView(R.id.fg_mine_iv_levelimg)
     ImageView    fgMineIvLevelimg;
 
-    private long type=SharePerferenceUtils.getLevel(getContext());
+    private String type=SharePerferenceUtils.getLevel(getContext());
 
     public MineFragment() {
     }
@@ -259,21 +259,25 @@ public class MineFragment
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fg_mine_ll_wait_pay:
-
+                startActivity(new Intent(getActivity(),MyOrderActivity.class));
                 break;
             case R.id.fg_mine_ll_wait_delivery:
+                startActivity(new Intent(getActivity(),MyOrderActivity.class));
                 break;
             case R.id.fg_mine_ll_wait_take_delivery:
+                startActivity(new Intent(getActivity(),MyOrderActivity.class));
                 break;
             case R.id.fg_mine_ll_wait_evaluate:
+                startActivity(new Intent(getActivity(),MyOrderActivity.class));
                 break;
             case R.id.fg_mine_ll_custom_service:
+                startActivity(new Intent(getActivity(),MyOrderActivity.class));
                 break;
             case R.id.fg_mine_iv_settings:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 break;
             case R.id.fg_mine_iv_people_right:
-                String level=SharePerferenceUtils.getLevel(getContext())+"";
+                String level=SharePerferenceUtils.getLevel(getContext());
                 if(level.equals("0")){
                     startActivity(new Intent(getActivity(), SpokesmanRightsNoPermissionActivity.class));
                 }
@@ -292,8 +296,8 @@ public class MineFragment
                 break;
             case R.id.fg_mine_ll_my_store:
                 startActivity(new Intent(getActivity(), MyStoreActivity.class));
-                /*if(type>0){
-
+                /*if(type.equals("0")){
+                    startActivity(new Intent(getActivity(), MyStoreActivity.class));
                 }else{
                     Toast.makeText(getContext(),"您还不是代言人，暂不能开店",Toast.LENGTH_LONG).show();
                 }*/
@@ -307,8 +311,8 @@ public class MineFragment
                 break;
             case R.id.fg_mine_ll_my_supply:
                 startActivity(new Intent(getActivity(), MySupplyActivity.class));
-                /*if(type>0){
-
+                /*if(type.equals("0")){
+                    startActivity(new Intent(getActivity(), MySupplyActivity.class));
                 }else{
                     Toast.makeText(getContext(),"您还不是代言人，暂不能开店",Toast.LENGTH_LONG).show();
                 }*/

@@ -334,7 +334,7 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
                 goodsBean.setGoods_num(integer);
                 notifyDataSetChanged();
                 if (mChangeCountListener != null) {
-                    mChangeCountListener.onChangeCount(goods_id);
+                    mChangeCountListener.onChangeCount(goods_id,integer+"");
                 }
             }
         });
@@ -350,7 +350,7 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
                     goodsBean.setGoods_num(integer);
 
                     if (mChangeCountListener != null) {
-                        mChangeCountListener.onChangeCount(goods_id);
+                        mChangeCountListener.onChangeCount(goods_id,integer+"");
                     }
                 } else {
                     Toast.makeText(context, "商品不能再减少了",Toast.LENGTH_LONG).show();
@@ -412,7 +412,7 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
 
     //修改商品数量的回调
     public interface OnChangeCountListener {
-        void onChangeCount(String goods_id);
+        void onChangeCount(String goods_id,String goods_num);
     }
 
     public void setOnChangeCountListener(OnChangeCountListener listener) {

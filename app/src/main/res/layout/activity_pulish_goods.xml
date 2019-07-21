@@ -388,19 +388,20 @@
                     android:textColor="@color/text3"
                     android:layout_centerVertical="true"/>
 
-                <EditText
+                <TextView
                     android:id="@+id/ac_pulishGoods_et_isFreeShipping"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:background="@null"
                     android:hint="包邮"
-                    android:layout_toLeftOf="@id/publish_goods_iv"
+                    android:layout_toLeftOf="@id/ac_publishGoods_iv_hint4"
                     android:layout_marginRight="@dimen/dp_10"
                     android:textColorHint="@color/text3"
                     android:textSize="@dimen/sp_13"/>
 
                 <ImageView
-                    android:id="@+id/publish_goods_iv"
+                    android:id="@+id/ac_publishGoods_iv_hint4"
                     android:layout_width="@dimen/dp_20"
                     android:layout_height="@dimen/dp_20"
                     android:src="@drawable/help"

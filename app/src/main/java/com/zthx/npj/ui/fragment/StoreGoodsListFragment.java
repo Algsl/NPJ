@@ -109,7 +109,7 @@ public class StoreGoodsListFragment extends Fragment {
                 SetSubscribe.outGoods(user_id,token,goods_id,type,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-
+                        getStoreGoods();
                     }
 
                     @Override
@@ -128,7 +128,6 @@ public class StoreGoodsListFragment extends Fragment {
             public void onEditClick(int position) {
                 Intent intent=new Intent(getContext(), StoreGoodsInfoActivity.class);
                 intent.putExtra("goods_id",data.get(position).getId()+"");
-                Log.e("测试", "onEditClick: "+data.get(position).getId()+"" );
                 startActivity(intent);
             }
 
@@ -138,7 +137,7 @@ public class StoreGoodsListFragment extends Fragment {
                 SetSubscribe.delGoods(user_id,token,goods_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-
+                        getStoreGoods();
                     }
 
                     @Override

@@ -23,6 +23,7 @@ import com.zthx.npj.adapter.ShoppingCar1Adapter;
 import com.zthx.npj.net.been.CartListResponseBean;
 import com.zthx.npj.net.been.CategoryResponseBean;
 import com.zthx.npj.net.been.ShoppingCarDataBean1;
+import com.zthx.npj.net.been.UpdateCartBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -31,6 +32,8 @@ import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.security.auth.login.LoginException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,8 +87,13 @@ public class ShoppingCart1Fragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         initExpandableListView();
         initData();
-        getCartList();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getCartList();
     }
 
     private void getCartList() {
@@ -105,6 +113,7 @@ public class ShoppingCart1Fragment extends Fragment {
     private void setCartList(String result) {
         CartListResponseBean bean=GsonUtils.fromJson(result,CartListResponseBean.class);
         ArrayList<ArrayList<CartListResponseBean.DataBean>> data=bean.getData();
+        datas=data;
         initExpandableListViewData(data);
     }
 
@@ -147,11 +156,23 @@ public class ShoppingCart1Fragment extends Fragment {
         //修改商品数量的回调
         shoppingCarAdapter.setOnChangeCountListener(new ShoppingCar1Adapter.OnChangeCountListener() {
             @Override
-            public void onChangeCount(String goods_id) {
-                /**
-                 * 实际开发中，在此请求修改商品数量的接口，商品数量修改成功后，
-                 * 通过initExpandableListViewData（）方法刷新购物车数据。
-                 */
+            public void onChangeCount(String goods_id, String goods_num) {
+                UpdateCartBean bean=new UpdateCartBean();
+                bean.setUser_id(user_id);
+                bean.setToken(token);
+                bean.setCart_id(goods_id);
+                bean.setGoods_num(goods_num);
+                SetSubscribe.updateCart(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
             }
         });
     }
@@ -203,70 +224,20 @@ public class ShoppingCart1Fragment extends Fragment {
      * GoodsBean的isSelect属性，判断商品是否被选中，
      */
     private void initDelete() {
-        /*//判断是否有店铺或商品被选中
-        //true为有，则需要刷新数据；反之，则不需要；
-        boolean hasSelect = false;
-        ArrayList<String> cart_ids=new ArrayList<>();
-        //创建临时的List，用于存储没有被选中的购物车数据
-        ArrayList<CartListResponseBean.DataBean> datasTemp = new ArrayList<>();
-
-        for (int i = 0; i < datas.size(); i++) {
-            ArrayList<CartListResponseBean.DataBean> goods = datas.get(i);
-           boolean isSelect_shop = goods.get(i).getSelectShop();
-
-            if (isSelect_shop) {
-                hasSelect = true;
-                //跳出本次循环，继续下次循环。
-                continue;
-            } else {
-                datasTemp.add(goods.get(i));
-
-                //datasTemp.get(datasTemp.size() - 1).setGoods(new ArrayList<ShoppingCarDataBean1.DatasBean.GoodsBean>());
-            }
-
-            for (int y = 0; y < goods.size(); y++) {
-                CartListResponseBean.DataBean goodsBean = goods.get(y);
-                boolean isSelect = goodsBean.getSelect();
-                if (isSelect) {
-                    hasSelect = true;
-                    cart_ids.add(goodsBean.getId()+"");
-                } else {
-                    cart_ids.remove(goodsBean.getId()+"");
-                    //datasTemp.get(datasTemp.size() - 1).getGoods().add(goodsBean);
-                }
-            }
-        }
-        String cart_id="";
-        for(int i=0;i<cart_ids.size();i++){
-            cart_id=cart_ids.get(i)+",";
-        }
-        if (hasSelect) {
-            SetSubscribe.delCart(user_id,token,cart_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                @Override
-                public void onSuccess(String result) {
-                    initExpandableListView();
-                }
-
-                @Override
-                public void onFault(String errorMsg) {
-
-                }
-            }));
-        } else {
-            Toast.makeText(getContext(), "请选择要删除的商品",Toast.LENGTH_LONG).show();
-        }*/
-       String cart_id = null;
+       String cart_id = "";
         for(int i=0;i<datas.size();i++){
             for(int j=0;j<datas.get(i).size();j++){
                 if(datas.get(i).get(j).getSelect()){
-                    cart_id+=""+datas.get(i).get(j).getId();
+                    cart_id+=""+datas.get(i).get(j).getId()+",";
                 }
             }
         }
-        if(cart_id.equals("")){
+        Log.e("测试", "initDelete: "+cart_id);
+        if(!cart_id.equals("")){
             SetSubscribe.delCart(user_id,token,cart_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
+                    getCartList();
                     initExpandableListView();
                 }
 
