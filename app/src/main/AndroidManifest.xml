@@ -32,9 +32,9 @@
     <application
         android:name=".base.BaseApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
@@ -146,6 +146,7 @@
         <activity android:name=".ui.MySupplyOrderCommentActivity"/>
         <activity android:name=".ui.MySupplyOrderRefundActivity"/>
         <activity android:name=".ui.ClassfiysActivity"/>
+        <activity android:name=".ui.SearchResultActivity"/>
 
         <activity
             android:name=".wxapi.WXEntryActivity"

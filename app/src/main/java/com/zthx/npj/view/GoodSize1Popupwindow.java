@@ -2,9 +2,7 @@ package com.zthx.npj.view;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,11 +14,9 @@ import com.donkingliang.labels.LabelsView;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.PreSellDetailResponseBean;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-public class GoodSizePopupwindow extends PopupWindow {
+public class GoodSize1Popupwindow extends PopupWindow {
 
     private final LabelsView labelsView;
     private final RelativeLayout minusView;
@@ -33,7 +29,7 @@ public class GoodSizePopupwindow extends PopupWindow {
     private Context mContext;
     private View view;
 
-    public GoodSizePopupwindow(Context mContext, View.OnClickListener itemsOnClick, String type,ArrayList<PreSellDetailResponseBean.DataBean.Value> values) {
+    public GoodSize1Popupwindow(Context mContext, View.OnClickListener itemsOnClick, String type, ArrayList<PreSellDetailResponseBean.DataBean.Value> values) {
         this.view = LayoutInflater.from(mContext).inflate(R.layout.popupwindow_goods_size, null);
 
         addView = view.findViewById(R.id.item_pop_goods_num_add);
@@ -78,18 +74,9 @@ public class GoodSizePopupwindow extends PopupWindow {
         label.add("卡其色");
         label.add("浅蓝色(比图片较深，介意勿拍)");
         label.add("粉色");*/
-        if(type.equals("3")){
-            label.add("白色");
-            label.add("黑色");
-            label.add("图片色");
-            label.add("藕粉色");
-            label.add("卡其色");
-            label.add("浅蓝色(比图片较深，介意勿拍)");
-            label.add("粉色");
-        }else{
-            for(int i=0;i<values.size();i++){
-                label.add("x"+values.get(i).getPre_number()+" ￥"+values.get(i).getPre_price());
-            }
+
+        for(int i=0;i<values.size();i++){
+            label.add("x"+values.get(i).getPre_number()+" ￥"+values.get(i).getPre_price());
         }
         labelsView.setLabels(label); //直接设置一个字符串数组就可以了。
 //        ======================================================

@@ -10,8 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.MyCouponAdapter;
 import com.zthx.npj.adapter.MyCouponListAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.MsgCodeResponseBeen;
+import com.zthx.npj.net.been.MyCouponBean;
+import com.zthx.npj.net.been.MyCouponResponseBean;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +40,20 @@ public class CouponListFragment extends Fragment {
     RecyclerView fgCouponListRv;
     Unbinder unbinder;
 
+    private String user_id=SharePerferenceUtils.getUserId(getContext());
+    private String token=SharePerferenceUtils.getToken(getContext());
+
     public CouponListFragment() {
         // Required empty public constructor
+    }
+
+
+    public Fragment getNewOnce(String status){
+        CouponListFragment fragment=new CouponListFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString("status",status);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
 
@@ -47,18 +68,30 @@ public class CouponListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_coupon_list, container, false);
         unbinder = ButterKnife.bind(this, view);
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        fgCouponListRv.setLayoutManager(manager);
-        List<CommentGoodsBeen> list = new ArrayList<>();
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        MyCouponListAdapter mAdapter = new MyCouponListAdapter(getActivity(),list);
-        fgCouponListRv.setAdapter(mAdapter);
+        getCouponList();
         return view;
+    }
+
+    private void getCouponList() {
+        SetSubscribe.myCoupon(user_id,token,getArguments().getString("status"),new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setCoupon(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setCoupon(String result) {
+        MyCouponResponseBean bean=GsonUtils.fromJson(result,MyCouponResponseBean.class);
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+        fgCouponListRv.setLayoutManager(layoutManager);
+        MyCouponAdapter adapter=new MyCouponAdapter(getContext(),bean.getData(),getArguments().getString("status"));
+        fgCouponListRv.setAdapter(adapter);
     }
 
 

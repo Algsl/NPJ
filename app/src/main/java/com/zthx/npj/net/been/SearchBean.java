@@ -5,7 +5,16 @@ package com.zthx.npj.net.been;
  */
 
 public class SearchBean {
+    private String user_id;
     private String keyword;
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
 
     public String getKeyword() {
         return keyword;

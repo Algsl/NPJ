@@ -16,8 +16,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -26,7 +28,12 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BannerResponseBean;
+import com.zthx.npj.net.been.OrderPushBean;
+import com.zthx.npj.net.been.OrderPushResponseBean;
 import com.zthx.npj.net.been.RecommendResponseBean;
+import com.zthx.npj.net.netsubscribe.MainSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.ClassfiysActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.HomeSearchActivity;
@@ -38,6 +45,7 @@ import com.zthx.npj.ui.SecKillActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.GlideImageLoader;
+import com.zthx.npj.view.MyCircleView;
 
 import java.util.ArrayList;
 
@@ -59,8 +67,6 @@ public class HomeFragment extends BaseFragment {
     ImageView fgHomeIvScan;
     @BindView(R.id.fg_home_et_search)
     EditText fgHomeEtSearch;
-    @BindView(R.id.fg_home_iv_classify)
-    ImageView fgHomeIvClassify;
     @BindView(R.id.fg_home_iv_message)
     ImageView fgHomeIvMessage;
     @BindView(R.id.fg_home_ll_secKill)
@@ -71,12 +77,18 @@ public class HomeFragment extends BaseFragment {
     LinearLayout fgHomeLlLocal;
     @BindView(R.id.fg_home_ll_gift)
     LinearLayout fgHomeLlGift;
-//    @BindView(R.id.fg_home_refresh)
+    //    @BindView(R.id.fg_home_refresh)
 //    SmartRefreshLayout fgHomeRefresh;
     @BindView(R.id.fg_home_rl_go_game)
     RelativeLayout fgHomeLlGoGame;
     @BindView(R.id.fg_home_ll_recommend)
     LinearLayout fgHomeLlRecommend;
+    @BindView(R.id.fg_home_mcv_headImg)
+    MyCircleView fgHomeMcvHeadImg;
+    @BindView(R.id.fg_home_tv_title)
+    TextView fgHomeTvTitle;
+    @BindView(R.id.fg_home_ll_classify)
+    LinearLayout fgHomeLlClassify;
     private Unbinder unbinder;
 
     public HomeFragment() {
@@ -99,7 +111,7 @@ public class HomeFragment extends BaseFragment {
         initBanner();
 
         //设置RecyclerView管理器
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL,false);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);
         fgHomeShoppingCast.setLayoutManager(layoutManager);
         //初始化适配器
         String mainRecommend = SharePerferenceUtils.getMainRecommend(getActivity());
@@ -111,7 +123,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
-                intent.putExtra(Const.GOODS_ID,data.get(position).getId()+"");
+                intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
                 startActivity(intent);
             }
         });
@@ -122,9 +134,35 @@ public class HomeFragment extends BaseFragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getOrderPush();
+    }
+
+
+    private void getOrderPush() {
+        MainSubscribe.orderPush(new OrderPushBean(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setOrderPush(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setOrderPush(String result) {
+        OrderPushResponseBean bean = GsonUtils.fromJson(result, OrderPushResponseBean.class);
+        Glide.with(getContext()).load(Uri.parse(bean.getData().get(0).getHead_img())).into(fgHomeMcvHeadImg);
+        fgHomeTvTitle.setText(bean.getData().get(0).getTitle());
+    }
+
     /**
      * 初始化轮播图
-     *
      */
     private void initBanner() {
 
@@ -133,7 +171,7 @@ public class HomeFragment extends BaseFragment {
         ArrayList<BannerResponseBean.DataBean> data = bean.getData();
         ArrayList<Uri> list = new ArrayList<>();
         ArrayList<String> list2 = new ArrayList<>();
-        for (int i = 0;i< data.size();i++) {
+        for (int i = 0; i < data.size(); i++) {
             list.add(Uri.parse(data.get(i).getImg()));
             list2.add(data.get(i).getTitle());
         }
@@ -167,7 +205,7 @@ public class HomeFragment extends BaseFragment {
         banner.start();
     }
 
-    @OnClick({R.id.fg_home_iv_scan, R.id.fg_home_et_search, R.id.fg_home_iv_classify, R.id.fg_home_iv_message, R.id.fg_home_ll_secKill, R.id.fg_home_ll_presell, R.id.fg_home_ll_local, R.id.fg_home_ll_gift,R.id.fg_home_rl_go_game, R.id.fg_home_ll_recommend})
+    @OnClick({R.id.fg_home_iv_scan, R.id.fg_home_et_search, R.id.fg_home_ll_classify, R.id.fg_home_iv_message, R.id.fg_home_ll_secKill, R.id.fg_home_ll_presell, R.id.fg_home_ll_local, R.id.fg_home_ll_gift, R.id.fg_home_rl_go_game, R.id.fg_home_ll_recommend})
     public void onViewClicked(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -178,7 +216,7 @@ public class HomeFragment extends BaseFragment {
                 intent = new Intent(getActivity(), HomeSearchActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.fg_home_iv_classify:
+            case R.id.fg_home_ll_classify:
                 intent = new Intent(getActivity(), ClassfiysActivity.class);
                 startActivity(intent);
                 break;
@@ -192,7 +230,7 @@ public class HomeFragment extends BaseFragment {
                 break;
             case R.id.fg_home_ll_presell:
                 intent = new Intent(getActivity(), PreSellActivity.class);
-               startActivity(intent);
+                startActivity(intent);
                 break;
             case R.id.fg_home_ll_local:
                 intent = new Intent(getActivity(), LocationStoreActivity.class);

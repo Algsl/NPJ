@@ -25,6 +25,9 @@
             android:layout_toRightOf="@id/at_classfiy_iv_back"
             android:layout_marginLeft="@dimen/dp_38"
             android:hint="下单立减20元"
+            android:lines="1"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
             android:textSize="@dimen/sp_15"
             android:paddingLeft="@dimen/dp_37"/>
         <ImageView

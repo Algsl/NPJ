@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -53,6 +55,10 @@ public class LocationStoreActivity extends ActivityBase {
     TextView acLocationStoreTvType4;
     private String type = "1";
 
+    private String lng = SharePerferenceUtils.getLng(this);
+    private String lat = SharePerferenceUtils.getLat(this);
+    private String keyword = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +106,7 @@ public class LocationStoreActivity extends ActivityBase {
         }, LocationStoreActivity.this));
     }
 
-    @OnClick({R.id.ac_locationStore_tv_type1, R.id.ac_locationStore_tv_type2, R.id.ac_locationStore_tv_type3, R.id.ac_locationStore_tv_type4})
+    @OnClick({R.id.ac_locationStore_tv_type1, R.id.ac_locationStore_tv_type2, R.id.ac_locationStore_tv_type3, R.id.ac_locationStore_tv_type4,R.id.at_location_store_et_search})
     public void onViewClicked(View view) {
         acLocationStoreTvType1.setTextColor(getResources().getColor(R.color.text6));
         acLocationStoreTvType1.setBackground(getResources().getDrawable(R.drawable.stroke_white_2));
@@ -114,27 +120,70 @@ public class LocationStoreActivity extends ActivityBase {
             case R.id.ac_locationStore_tv_type1:
                 acLocationStoreTvType1.setTextColor(getResources().getColor(R.color.app_theme));
                 acLocationStoreTvType1.setBackground(getResources().getDrawable(R.drawable.stroke_theme_2));
-                type="1";
+                type = "1";
                 getLocalStore(type);
                 break;
             case R.id.ac_locationStore_tv_type2:
                 acLocationStoreTvType2.setBackgroundResource(R.drawable.stroke_app_theme);
                 acLocationStoreTvType2.setBackground(getResources().getDrawable(R.drawable.stroke_theme_2));
-                type="2";
+                type = "2";
                 getLocalStore(type);
                 break;
             case R.id.ac_locationStore_tv_type3:
                 acLocationStoreTvType3.setTextColor(getResources().getColor(R.color.app_theme));
                 acLocationStoreTvType3.setBackground(getResources().getDrawable(R.drawable.stroke_theme_2));
-                type="3";
+                type = "3";
                 getLocalStore(type);
                 break;
             case R.id.ac_locationStore_tv_type4:
                 acLocationStoreTvType4.setTextColor(getResources().getColor(R.color.app_theme));
                 acLocationStoreTvType4.setBackground(getResources().getDrawable(R.drawable.stroke_theme_2));
-                type="4";
+                type = "4";
                 getLocalStore(type);
                 break;
+            case R.id.at_location_store_et_search:
+                atLocationStoreEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                        if(i==EditorInfo.IME_ACTION_SEARCH){
+                            getSearchStore();
+                        }
+                        return true;
+                    }
+                });
+                break;
         }
+    }
+
+    private void getSearchStore() {
+        keyword=atLocationStoreEtSearch.getText().toString().trim();
+        MainSubscribe.searchStore(lng,lat,keyword,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setSearchStore(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setSearchStore(String result) {
+        LocalStoreResponseBean bean=GsonUtils.fromJson(result,LocalStoreResponseBean.class);
+        final ArrayList<LocalStoreResponseBean.DataBean> data = bean.getData();
+        LinearLayoutManager manager = new LinearLayoutManager(LocationStoreActivity.this, LinearLayoutManager.VERTICAL, false);
+        atLocationStoreRv.setLayoutManager(manager);
+        LocationStoreAdapter mAdapter = new LocationStoreAdapter(LocationStoreActivity.this, data);
+        mAdapter.setOnItemClickListener(new LocationStoreAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(LocationStoreActivity.this, StoreDetailActivity.class);
+                intent.putExtra(Const.STORE_ID, data.get(position).getId() + "");
+                startActivity(intent);
+            }
+        });
+        atLocationStoreRv.setAdapter(mAdapter);
     }
 }

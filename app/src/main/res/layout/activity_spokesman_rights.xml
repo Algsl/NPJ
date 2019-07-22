@@ -6,11 +6,26 @@
     tools:context=".ui.SpokesmanRightsNoPermissionActivity"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_195"
-        android:src="@mipmap/ic_launcher"/>
-
+        android:background="@drawable/join_spokesman">
+        <com.zthx.npj.view.MyCircleView
+            android:id="@+id/ac_spokesman_mcv_headImg"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginLeft="@dimen/dp_165"
+            android:layout_marginTop="@dimen/dp_45"
+            android:src="@drawable/logo"/>
+        <TextView
+            android:id="@+id/ac_spokesman_tv_userName"
+            android:layout_marginLeft="@dimen/dp_160"
+            android:layout_marginTop="@dimen/dp_100"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="wrap_content"
+            android:text="时光之刃"
+            android:background="#F2DDA6"/>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_90"

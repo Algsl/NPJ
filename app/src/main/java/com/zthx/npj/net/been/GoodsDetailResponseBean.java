@@ -103,6 +103,81 @@ public class GoodsDetailResponseBean extends BaseReponseBean {
         private int is_free_shipping;
         private int yunfei;
 
+        public class Attributes{
+            private long item_id;
+            private long goods_id;
+            private long key;
+            private String key_name;
+            private String spec_member_price;
+            private String spec_user_price;
+            private String store_count;
+
+            public long getItem_id() {
+                return item_id;
+            }
+
+            public void setItem_id(long item_id) {
+                this.item_id = item_id;
+            }
+
+            public long getGoods_id() {
+                return goods_id;
+            }
+
+            public void setGoods_id(long goods_id) {
+                this.goods_id = goods_id;
+            }
+
+            public long getKey() {
+                return key;
+            }
+
+            public void setKey(long key) {
+                this.key = key;
+            }
+
+            public String getKey_name() {
+                return key_name;
+            }
+
+            public void setKey_name(String key_name) {
+                this.key_name = key_name;
+            }
+
+            public String getSpec_member_price() {
+                return spec_member_price;
+            }
+
+            public void setSpec_member_price(String spec_member_price) {
+                this.spec_member_price = spec_member_price;
+            }
+
+            public String getSpec_user_price() {
+                return spec_user_price;
+            }
+
+            public void setSpec_user_price(String spec_user_price) {
+                this.spec_user_price = spec_user_price;
+            }
+
+            public String getStore_count() {
+                return store_count;
+            }
+
+            public void setStore_count(String store_count) {
+                this.store_count = store_count;
+            }
+        }
+        public ArrayList<Attributes> attributes;
+
+        public ArrayList<Attributes> getAttributes() {
+            return attributes;
+        }
+
+        public void setAttributes(ArrayList<Attributes> attributes) {
+            this.attributes = attributes;
+        }
+
         public int getYunfei() {
             return yunfei;
         }

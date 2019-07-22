@@ -5,6 +5,8 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -23,8 +25,10 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.CommentAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AddCartBean;
+import com.zthx.npj.net.been.CommentResponseBean;
 import com.zthx.npj.net.been.GoodsDetailResponseBean;
 import com.zthx.npj.net.been.PreSellDetailResponseBean;
 import com.zthx.npj.net.been.SecKillGoodsDetailResponseBean;
@@ -103,12 +107,24 @@ public class GoodsDetailActivity extends AppCompatActivity {
     LinearLayout acGoodsDetailLlCollect;
     @BindView(R.id.ac_goodsDetail_ll_store)
     LinearLayout acGoodsDetailLlStore;
+    @BindView(R.id.ac_goodsDetail_iv_back)
+    ImageView acGoodsDetailIvBack;
+    @BindView(R.id.at_goods_detail_btn_pre_sell_comment)
+    Button atGoodsDetailBtnPreSellComment;
+    @BindView(R.id.ac_goodsDetail_rv_content)
+    RecyclerView acGoodsDetailRvContent;
+    @BindView(R.id.at_goods_detail_btn_pre_sell_detail)
+    Button atGoodsDetailBtnPreSellDetail;
+
 
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
     private String goodsId;
+    TextView tvCartNum;
+    private String type = "1";
 
     private PreSellDetailResponseBean.DataBean mPreData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +133,14 @@ public class GoodsDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         String id = getIntent().getStringExtra(Const.GOODS_ID);
         goodsId = id;
+
+        acGoodsDetailIvBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         if ("miaosha".equals(getIntent().getAction())) {
             int status = getIntent().getIntExtra(Const.SECKILL_STATUS, 1);
             if (status == 0) {
@@ -129,10 +153,12 @@ public class GoodsDetailActivity extends AppCompatActivity {
                 atGoodsDetailRlSecKill.setVisibility(View.VISIBLE);
                 atGoodsDetailRlSecKillDone.setVisibility(View.GONE);
             }
+            type = "4";
             atGoodsDetailLlGoods.setVisibility(View.GONE);
             atGoodsDetailLlPresell.setVisibility(View.GONE);
             getSecKillDetail(id);
         } else if (Const.PRESELL.equals(getIntent().getAction())) {
+            type = "3";
             atGoodsDetailRlSecKill.setVisibility(View.GONE);
             atGoodsDetailLlGoods.setVisibility(View.GONE);
             atGoodsDetailLlPresell.setVisibility(View.VISIBLE);
@@ -140,6 +166,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
             acGoodsDetailLlStore.setVisibility(View.GONE);
             getPreSellDetail(id);
         } else {
+            type = "1";
             atGoodsDetailRlSecKill.setVisibility(View.GONE);
             atGoodsDetailLlPresell.setVisibility(View.GONE);
             getGoodsDetail(id);
@@ -188,7 +215,6 @@ public class GoodsDetailActivity extends AppCompatActivity {
         PreSellSubscribe.getPreSellDetail(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-
                 setPreSellData(result);
             }
 
@@ -203,6 +229,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
         PreSellDetailResponseBean preSellDetailResponseBean = GsonUtils.fromJson(result, PreSellDetailResponseBean.class);
         PreSellDetailResponseBean.DataBean data = preSellDetailResponseBean.getData();
         mPreData = data;
+        Log.e("测试", "setPreSellData: " + mPreData.getAttribute_value().size());
         atGoodsDetailTvPreSellTitle.setText(data.getGoods_name());
         atGoodsDetailTvPreSellPrice.setText("¥" + data.getGoods_price());
         atGoodsDetailTvPreSellYuding.setText(data.getUser_num());
@@ -227,7 +254,6 @@ public class GoodsDetailActivity extends AppCompatActivity {
     }
 
     private void setData(String result) {
-
         GoodsDetailResponseBean goodsDetailResponseBean = GsonUtils.fromJson(result, GoodsDetailResponseBean.class);
         GoodsDetailResponseBean.DataBean data = goodsDetailResponseBean.getData();
         atGoodsDetailTvGoodsNewPrice.setText("¥" + data.getMember_price());
@@ -236,7 +262,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
         atGoodsDetailSelledNum.setText("已售" + data.getSold() + "");
         atGoodsDetailHoldNum.setText("库存" + data.getInventory() + "");
         String str;
-        if (data.getYunfei()== 0) {
+        if (data.getYunfei() == 0) {
             str = "免运费";
         } else {
             str = data.getYunfei() + "元";
@@ -245,8 +271,12 @@ public class GoodsDetailActivity extends AppCompatActivity {
         initBanner(data.getGoods_img());
     }
 
-    @OnClick({R.id.at_goods_detail_btn_add_shopping_cart, R.id.at_goods_detail_btn_buy_now, R.id.ac_goodsDetail_ll_collect})
+    @OnClick({R.id.at_goods_detail_btn_add_shopping_cart, R.id.at_goods_detail_btn_buy_now, R.id.ac_goodsDetail_ll_collect,
+            R.id.ac_goodsDetail_ll_store, R.id.at_goods_detail_btn_pre_sell_know, R.id.at_goods_detail_btn_pre_sell_comment,
+            R.id.at_goods_detail_btn_pre_sell_detail})
     public void onViewClicked(View view) {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        acGoodsDetailRvContent.setLayoutManager(layoutManager);
         switch (view.getId()) {
             case R.id.at_goods_detail_btn_add_shopping_cart:
                 showPopupwindow(view);
@@ -257,7 +287,41 @@ public class GoodsDetailActivity extends AppCompatActivity {
             case R.id.ac_goodsDetail_ll_collect:
                 goodsCollect();
                 break;
+            case R.id.at_goods_detail_btn_pre_sell_detail:
+                atGoodsDetailBtnPreSellDetail.setBackgroundColor(getResources().getColor(R.color.app_theme));
+                atGoodsDetailBtnPreSellDetail.setTextColor(getResources().getColor(R.color.white));
+                atGoodsDetailBtnPreSellComment.setBackgroundColor(getResources().getColor(R.color.white));
+                atGoodsDetailBtnPreSellComment.setTextColor(getResources().getColor(R.color.text3));
+                break;
+            case R.id.at_goods_detail_btn_pre_sell_comment:
+                atGoodsDetailBtnPreSellDetail.setBackgroundColor(getResources().getColor(R.color.white));
+                atGoodsDetailBtnPreSellDetail.setTextColor(getResources().getColor(R.color.text3));
+                atGoodsDetailBtnPreSellComment.setBackgroundColor(getResources().getColor(R.color.app_theme));
+                atGoodsDetailBtnPreSellComment.setTextColor(getResources().getColor(R.color.white));
+                getComments();
+                break;
         }
+    }
+
+    private void getComments() {
+        MainSubscribe.getStoreComment(goodsId, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setComment(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setComment(String result) {
+        CommentResponseBean bean = GsonUtils.fromJson(result, CommentResponseBean.class);
+        ArrayList<CommentResponseBean.DataBean> data = bean.getData();
+        CommentAdapter adapter=new CommentAdapter(this,data);
+        acGoodsDetailRvContent.setAdapter(adapter);
     }
 
     private void goodsCollect() {
@@ -274,24 +338,24 @@ public class GoodsDetailActivity extends AppCompatActivity {
         }));
     }
 
+    //响应弹出框点击事件
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
             switch (v.getId()) {
                 case R.id.item_pop_goods_num_add:
-                    /*int count = Integer.valueOf((String)addCartNumTv.getText());
-                    if(count==1){
-                        Toast.makeText(godd.this,"不能再减了哦",Toast.LENGTH_SHORT).show();
-                    }else{
+                    int count = Integer.valueOf((String) tvCartNum.getText());
+                    if (count == 1) {
+                        Toast.makeText(GoodsDetailActivity.this, "不能再减了哦", Toast.LENGTH_SHORT).show();
+                    } else {
                         count--;
-                       addCartNumTv.setText((count)+"");
-                    }*/
+                        tvCartNum.setText((count) + "");
+                    }
                     break;
-                case R.id.item_pop_goods_num_jian:
-                    /*int count2 = Integer.valueOf((String)addCartNumTv.getText());
+                case R.id.item_pop_goods_num_jian://数量减
+                    int count2 = Integer.valueOf((String) tvCartNum.getText());
                     count2++;
-                    addCartNumTv.setText(count2+"");*/
+                    tvCartNum.setText(count2 + "");
                     break;
                 case R.id.item_pop_goods_add_shopping_car:
                     AddCartBean bean = new AddCartBean();
@@ -312,8 +376,16 @@ public class GoodsDetailActivity extends AppCompatActivity {
                     }));
                     break;
                 case R.id.item_pop_goods_buy:
+                    Log.e("测试", "onClick: " + mPreData);
                     Intent intent = new Intent(GoodsDetailActivity.this, ConfirmOrderActivity.class);
-                    intent.putExtra(Const.ATTRIBUTE_ID, mPreData.getAttribute_value().get(0).getId() + "");
+                    if ("miaosha".equals(getIntent().getAction())) {
+                        intent.putExtra(Const.ATTRIBUTE_ID, mPreData.getAttribute_value().get(0).getId() + "");
+                    } else if (Const.PRESELL.equals(getIntent().getAction())) {
+                        intent.putExtra(Const.ATTRIBUTE_ID, mPreData.getAttribute_value().get(0).getId() + "");
+                    } else {
+                        intent.putExtra(Const.ATTRIBUTE_ID, "");
+                    }
+
                     intent.putExtra(Const.GOODS_ID, goodsId);
                     startActivity(intent);
                     break;
@@ -323,14 +395,17 @@ public class GoodsDetailActivity extends AppCompatActivity {
 
     private void showPopupwindow(View view) {
         String type = "1";
+        GoodSizePopupwindow sizePopWin;
         if ("miaosha".equals(getIntent().getAction())) {
             type = "1";
+            sizePopWin = new GoodSizePopupwindow(this, onClickListener, type, mPreData.getAttribute_value());
         } else if ("presell".equals(getIntent().getAction())) {
             type = "2";
+            sizePopWin = new GoodSizePopupwindow(this, onClickListener, type, mPreData.getAttribute_value());
         } else {
             type = "3";
+            sizePopWin = new GoodSizePopupwindow(this, onClickListener, type, null);
         }
-        GoodSizePopupwindow sizePopWin = new GoodSizePopupwindow(this, onClickListener, type);
         View contentView = sizePopWin.getContentView();
 //        addCartNumTv = ((TextView) contentView.findViewById(R.id.goodsRule_numTv));
         //设置Popupwindow显示位置（从底部弹出）
@@ -338,6 +413,8 @@ public class GoodsDetailActivity extends AppCompatActivity {
         //当弹出Popupwindow时，背景变半透明
         backgroundAlpha(0.4f);
         //设置Popupwindow关闭监听，当Popupwindow关闭，背景恢复1f
+        tvCartNum = contentView.findViewById(R.id.item_pop_goods_tv_num);
+
         sizePopWin.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {

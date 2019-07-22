@@ -4,7 +4,9 @@
     android:layout_width="@dimen/dp_170"
     android:layout_height="@dimen/dp_257"
     android:orientation="vertical"
-    android:paddingTop="@dimen/dp_21">
+    android:layout_marginTop="@dimen/dp_10"
+    android:layout_marginLeft="@dimen/dp_12"
+    android:background="@drawable/white_conner_8">
 
     <ImageView
         android:id="@+id/item_iv_home_goods"

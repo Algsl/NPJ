@@ -424,5 +424,23 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/goodscate.html")
     Observable<ResponseBody> goodsCate(@Body GoodsCateBean bean);
+
+    @POST("index.php/api/user/mycoupon.html")
+    Observable<ResponseBody> myCoupon(@Body MyCouponBean bean);
+
+    @POST("index.php/api/set/orderpush.html")
+    Observable<ResponseBody> orderPush(@Body OrderPushBean bean);
+
+    @POST("index.php/api/index/history.html")
+    Observable<ResponseBody> history(@Body HistoryBean bean);
+
+    @POST("index.php/api/index/delhistory.html")
+    Observable<ResponseBody> delHistory(@Body DelHistoryBean bean);
+
+    @POST("index.php/api/index/hotsearch.html")
+    Observable<ResponseBody> hotSearch(@Body HotSearchBean bean);
+
+    @POST("index.php/api/index/searchstore.html")
+    Observable<ResponseBody> searchStore(@Body SearchStoreBean bean);
 }
 

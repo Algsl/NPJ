@@ -9,7 +9,10 @@
 
     <include
         layout="@layout/title"></include>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/line"/>
     <android.support.design.widget.TabLayout
         android:id="@+id/at_my_coupon_tab"
         android:layout_width="match_parent"

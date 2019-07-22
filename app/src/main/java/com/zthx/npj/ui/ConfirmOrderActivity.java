@@ -1,7 +1,9 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +23,7 @@ import com.zthx.npj.net.been.ConfirmPreSellResponseBean;
 import com.zthx.npj.net.been.ConfirmSupplyResponseBean;
 import com.zthx.npj.net.been.GIftConfirmResponseBean;
 import com.zthx.npj.net.been.YsBuyOneBean;
+import com.zthx.npj.net.been.YsBuyOneResponseBean;
 import com.zthx.npj.net.netsubscribe.GiftSubscribe;
 import com.zthx.npj.net.netsubscribe.PreSellSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -32,7 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ConfirmOrderActivity extends AppCompatActivity {
+public class ConfirmOrderActivity extends ActivityBase {
 
     @BindView(R.id.at_confirm_order_rl_ziti)
     RelativeLayout atConfirmOrderRlZiti;
@@ -171,7 +174,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 PreSellSubscribe.ysBuyOne(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        finish();
+                        YsBuyOneResponseBean bean=GsonUtils.fromJson(result,YsBuyOneResponseBean.class);
+                        Log.e("测试", "onSuccess: "+bean.getData());
                     }
 
                     @Override

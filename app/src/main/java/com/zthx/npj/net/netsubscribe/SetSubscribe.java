@@ -38,6 +38,7 @@ import com.zthx.npj.net.been.InComeBean;
 import com.zthx.npj.net.been.InComeLogBean;
 import com.zthx.npj.net.been.KuaiDiBean;
 import com.zthx.npj.net.been.LookKDBean;
+import com.zthx.npj.net.been.MyCouponBean;
 import com.zthx.npj.net.been.MyGoodsBean;
 import com.zthx.npj.net.been.MyOfflineStoreBean;
 import com.zthx.npj.net.been.MyOrderDetailBean;
@@ -1467,6 +1468,22 @@ public class SetSubscribe {
         bean.setUser_id(user_id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().goodsCate(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 优惠券列表
+     * @param user_id
+     * @param token
+     * @param status
+     * @param subscriber
+     */
+    public static void myCoupon(String user_id,String token,String status, DisposableObserver<ResponseBody> subscriber) {
+        MyCouponBean bean=new MyCouponBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setStatus(status);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().myCoupon(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

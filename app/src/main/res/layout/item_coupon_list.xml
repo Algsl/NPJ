@@ -56,6 +56,7 @@
         android:layout_alignLeft="@id/item_coupon_list_tv_time"/>
 
     <TextView
+        android:id="@+id/item_coupon_list_tv_status"
         android:layout_width="@dimen/dp_75"
         android:layout_height="@dimen/dp_20"
         android:gravity="center"

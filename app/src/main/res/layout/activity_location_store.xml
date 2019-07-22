@@ -46,7 +46,9 @@
             android:hint="请输入您需要的内容"
             android:textSize="@dimen/sp_15"
             android:paddingLeft="@dimen/dp_37"
-            android:layout_marginRight="@dimen/dp_12"/>
+            android:layout_marginRight="@dimen/dp_12"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"/>
 
         <ImageView
             android:layout_width="@dimen/dp_22"

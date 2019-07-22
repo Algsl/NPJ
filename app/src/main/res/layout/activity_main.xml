@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     tools:context=".ui.MainActivity">
-    <include layout="@layout/title"/>
     <FrameLayout
         android:id="@+id/lay_frg_main"
         android:layout_width="match_parent"

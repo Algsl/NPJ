@@ -103,6 +103,7 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/ac_goodsDetail_iv_back"
                     android:layout_width="@dimen/dp_25"
                     android:layout_height="@dimen/dp_25"
                     android:layout_marginLeft="@dimen/dp_6"
@@ -494,6 +495,7 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/at_goods_detail_btn_pre_sell_detail"
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="match_parent"
                     android:background="@color/app_theme"
@@ -512,6 +514,7 @@
                     android:textSize="@dimen/sp_16" />
 
                 <Button
+                    android:id="@+id/at_goods_detail_btn_pre_sell_comment"
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="match_parent"
                     android:background="@android:color/white"
@@ -520,25 +523,10 @@
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
-            <!--<fragment
-                android:id="@+id/fragment"
-                android:name="com.zthx.npj.ui.fragment.GoodsDetailFragment"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ac_goodsDetail_rv_content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_9"
-                android:layout_marginBottom="@dimen/dp_48"/>-->
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/discover_top"/>
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/local_top"/>
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/presell_top"/>
+                android:layout_height="match_parent"/>
         </LinearLayout>
     </ScrollView>
 
