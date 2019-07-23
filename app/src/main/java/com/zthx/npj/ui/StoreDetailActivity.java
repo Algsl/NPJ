@@ -4,21 +4,27 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommentAdapter;
 import com.zthx.npj.base.Const;
-import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.CommentResponseBean;
 import com.zthx.npj.net.been.StoreDetailResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class StoreDetailActivity extends AppCompatActivity {
+public class StoreDetailActivity extends ActivityBase {
 
     @BindView(R.id.at_store_detail_rv)
     RecyclerView atStoreDetailRv;
@@ -67,19 +73,33 @@ public class StoreDetailActivity extends AppCompatActivity {
     TextView atStoreDetailTvOffer;
     @BindView(R.id.at_store_detail_tv_relief)
     TextView atStoreDetailTvRelief;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.at_location_store_tv_ruzhu)
+    TextView atLocationStoreTvRuzhu;
+    @BindView(R.id.title)
+    RelativeLayout title;
+    @BindView(R.id.banner_discover_service)
+    Banner bannerDiscoverService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_detail);
         ButterKnife.bind(this);
+
+        back(titleBack);
+        changeTitle(acTitle,"店铺详情");
+
         getStoreDetail(getIntent().getStringExtra(Const.STORE_ID));
         getStoreComment(getIntent().getStringExtra(Const.STORE_ID));
     }
 
     private void getStoreComment(String id) {
 
-        MainSubscribe.getStoreComment(id,"5",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.getStoreComment(id, "5", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setComment(result);
@@ -93,13 +113,12 @@ public class StoreDetailActivity extends AppCompatActivity {
     }
 
     private void setComment(String result) {
-
-        CommentResponseBean commentResponseBean = GsonUtils.fromJson(result, CommentResponseBean.class);
-        ArrayList<CommentResponseBean.DataBean> data = commentResponseBean.getData();
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        atStoreDetailRv.setLayoutManager(manager);
-        CommentAdapter mAdapter = new CommentAdapter(this, data);
-        atStoreDetailRv.setAdapter(mAdapter);
+        CommentResponseBean bean = GsonUtils.fromJson(result, CommentResponseBean.class);
+        ArrayList<CommentResponseBean.DataBean> data = bean.getData();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        atStoreDetailRv.setLayoutManager(layoutManager);
+        CommentAdapter adapter = new CommentAdapter(this, data);
+        atStoreDetailRv.setAdapter(adapter);
     }
 
     private void getStoreDetail(String id) {
@@ -127,6 +146,7 @@ public class StoreDetailActivity extends AppCompatActivity {
 
         StoreDetailResponseBean storeDetailResponseBean = GsonUtils.fromJson(result, StoreDetailResponseBean.class);
         StoreDetailResponseBean.DataBean data = storeDetailResponseBean.getData();
+        initBanner(data.getStore_img());
         atStoreDetailName.setText(data.getStore_name());
         switch (data.getPopularity()) {
             case 1:
@@ -157,9 +177,36 @@ public class StoreDetailActivity extends AppCompatActivity {
         atStoreDetailTvPopularity.setText(data.getPopularity() + "分");
         atStoreDetailTvOpenTime.setText(data.getBusiness_hours() + "营业");
         atStoreDetailTvConsumption.setText("人均消费¥ " + data.getConsumption());
-        atStoreDetailTvOffer.setText("葫芦币折扣"+ data.getOffer() +"%现金");
-        atStoreDetailTvRelief.setText("新会员在该商家成为代言人首单结算减免"+ data.getRelief() +"元现金");
+        atStoreDetailTvOffer.setText("葫芦币折扣" + data.getOffer() + "%现金");
+        atStoreDetailTvRelief.setText("新会员在该商家成为代言人首单结算减免" + data.getRelief() + "元现金");
         atStoreDetailTvAddress.setText(data.getAddress2());
         atStoreDetailTvAddress2.setText(data.getAddress());
+    }
+
+    private void initBanner(ArrayList<String> list) {
+        //设置banner样式
+        bannerDiscoverService.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        bannerDiscoverService.setIndicatorGravity(BannerConfig.CENTER);
+        //设置图片加载器
+        bannerDiscoverService.setImageLoader(new GlideImageLoader());
+        //设置图片集合
+        bannerDiscoverService.setImages(list);
+        //设置banner动画效果
+        bannerDiscoverService.setBannerAnimation(Transformer.DepthPage);
+        //设置自动轮播，默认为true
+        bannerDiscoverService.isAutoPlay(true);
+        //设置轮播时间
+        bannerDiscoverService.setDelayTime(3000);
+        //设置指示器位置（当banner模式中有指示器时）
+        bannerDiscoverService.setIndicatorGravity(BannerConfig.RIGHT);
+        //设置banner点击事件
+        bannerDiscoverService.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                Log.e("huang", "position = " + position);
+            }
+        });
+        //banner设置方法全部调用完毕时最后调用
+        bannerDiscoverService.start();
     }
 }

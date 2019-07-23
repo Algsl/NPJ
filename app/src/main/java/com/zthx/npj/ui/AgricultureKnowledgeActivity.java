@@ -6,17 +6,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AKAdapter;
+import com.zthx.npj.adapter.NewsListAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AkListResponseBean;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.NewsListResponseBean;
+import com.zthx.npj.net.been.SolutionSearchResponseBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -29,7 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AgricultureKnowledgeActivity extends AppCompatActivity {
+public class AgricultureKnowledgeActivity extends ActivityBase {
 
     @BindView(R.id.at_ak_rv)
     RecyclerView atAkRv;
@@ -72,6 +78,31 @@ public class AgricultureKnowledgeActivity extends AppCompatActivity {
         getData("1");
     }
 
+    private void getNewsList(String s) {
+        DiscoverSubscribe.newsList(s,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                NewsListResponseBean bean=GsonUtils.fromJson(result,NewsListResponseBean.class);
+                final ArrayList<NewsListResponseBean.DataBean> data=bean.getData();
+                RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(AgricultureKnowledgeActivity.this);
+                atAkRv.setLayoutManager(layoutManager);
+                NewsListAdapter adapter=new NewsListAdapter(AgricultureKnowledgeActivity.this,data);
+                atAkRv.setAdapter(adapter);
+                adapter.setOnItemClickListener(new NewsListAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        openActivity(NewsDetailActivity.class,data.get(position).getId()+"");
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
 
     @OnClick({R.id.at_ak_ll_1, R.id.at_ak_ll_2, R.id.at_ak_ll_3, R.id.at_ak_ll_4})
     public void onViewClicked(View view) {
@@ -81,7 +112,7 @@ public class AgricultureKnowledgeActivity extends AppCompatActivity {
                 changeBackground("1");
                 break;
             case R.id.at_ak_ll_2:
-                getData("2");
+                getNewsList("3");
                 changeBackground("2");
                 break;
             case R.id.at_ak_ll_3:
@@ -93,16 +124,49 @@ public class AgricultureKnowledgeActivity extends AppCompatActivity {
                 changeBackground("4");
                 break;
             case R.id.at_ak_iv_search:
-                startActivity(new Intent(this, HomeSearchActivity.class));
+                atAkIvSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                        if(i==EditorInfo.IME_ACTION_SEARCH){
+                            getSearchResult(atAkIvSearch.getText().toString().trim());
+                        }
+                        return true;
+                    }
+                });
                 break;
         }
     }
 
+    private void getSearchResult(String trim) {
+        DiscoverSubscribe.solutionSearch(trim,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                AkListResponseBean bean = GsonUtils.fromJson(result, AkListResponseBean.class);
+                final ArrayList<AkListResponseBean.DataBean> data=bean.getData();
+                RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(AgricultureKnowledgeActivity.this);
+                atAkRv.setLayoutManager(layoutManager);
+                AKAdapter adapter=new AKAdapter(AgricultureKnowledgeActivity.this,data);
+                atAkRv.setAdapter(adapter);
+                mAdapter.setOnItemClickListener(new AKAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Intent intent = new Intent(AgricultureKnowledgeActivity.this, AgricultureVideoMainActivity.class);
+                        intent.putExtra(Const.VIDEO_ID, data.get(position).getId()+"");
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
     private void getData(String id) {
         DiscoverSubscribe.getKnowledgeList(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-
                 AkListResponseBean akListResponseBean = GsonUtils.fromJson(result, AkListResponseBean.class);
                 final ArrayList<AkListResponseBean.DataBean> data = akListResponseBean.getData();
 
@@ -132,26 +196,26 @@ public class AgricultureKnowledgeActivity extends AppCompatActivity {
     }
 
     private void changeBackground(String id) {
-        atAkTv1.setBackgroundResource(R.color.text3);
-        atAkLl1.setBackgroundResource(R.drawable.agriculture_profiser_gray);
-        atAkTv2.setBackgroundResource(R.color.text3);
-        atAkLl2.setBackgroundResource(R.drawable.yinanzazeng_gray);
-        atAkTv3.setBackgroundResource(R.color.text3);
-        atAkLl3.setBackgroundResource(R.drawable.new_teachkonowledge_gray);
-        atAkTv4.setBackgroundResource(R.color.text3);
-        atAkLl4.setBackgroundResource(R.drawable.everthing_knowledge);
+        atAkIv1.setImageResource(R.drawable.agriculture_profiser_gray);
+        atAkIv2.setImageResource(R.drawable.yinanzazeng_gray);
+        atAkIv3.setImageResource(R.drawable.new_teachkonowledge_gray);
+        atAkIv4.setImageResource(R.drawable.everthing_knowledge);
+        atAkTv1.setTextColor(getResources().getColor(R.color.text3));
+        atAkTv2.setTextColor(getResources().getColor(R.color.text3));
+        atAkTv3.setTextColor(getResources().getColor(R.color.text3));
+        atAkTv4.setTextColor(getResources().getColor(R.color.text3));
         if ("1".equals(id)) {
-            atAkTv1.setBackgroundResource(R.color.app_theme);
-            atAkLl1.setBackgroundResource(R.drawable.agriculture_profiser_theme);
+            atAkTv1.setTextColor(getResources().getColor(R.color.app_theme));
+            atAkIv1.setImageResource(R.drawable.agriculture_profiser_theme);
         } else if ("2".equals(id)) {
-            atAkTv2.setBackgroundResource(R.color.app_theme);
-            atAkLl2.setBackgroundResource(R.drawable.yinanzazheng_theme);
+            atAkTv2.setTextColor(getResources().getColor(R.color.app_theme));
+            atAkIv2.setImageResource(R.drawable.yinanzazheng_theme);
         } else if ("3".equals(id)) {
-            atAkTv3.setBackgroundResource(R.color.app_theme);
-            atAkLl3.setBackgroundResource(R.drawable.new_teachkonowledge_theme);
+            atAkTv3.setTextColor(getResources().getColor(R.color.app_theme));
+            atAkIv3.setImageResource(R.drawable.new_teachkonowledge_theme);
         } else {
-            atAkTv4.setBackgroundResource(R.color.app_theme);
-            atAkLl4.setBackgroundResource(R.drawable.everthing_knowledge_theme);
+            atAkTv4.setTextColor(getResources().getColor(R.color.app_theme));
+            atAkIv4.setImageResource(R.drawable.everthing_knowledge_theme);
         }
     }
 }

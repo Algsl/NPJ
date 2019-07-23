@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_marginTop="@dimen/dp_5"
     android:layout_marginRight="@dimen/dp_12"
     android:layout_marginLeft="@dimen/dp_12">
     
@@ -12,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_175"
         android:src="@mipmap/ic_launcher"
+        android:background="@drawable/white_conner"
         android:scaleType="fitXY"/>
 
     <TextView

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,9 @@ public class BuyGiftFragment extends Fragment {
     RecyclerView fgBuyGiftRv;
     Unbinder unbinder;
 
+    private String user_id=SharePerferenceUtils.getUserId(getContext());
+    private String token=SharePerferenceUtils.getToken(getContext());
+
     public BuyGiftFragment() {
         // Required empty public constructor
     }
@@ -61,18 +65,17 @@ public class BuyGiftFragment extends Fragment {
     }
 
     private void getGiftList() {
-        GiftSubscribe.getGiftList(SharePerferenceUtils.getUserId(getActivity()), BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        GiftSubscribe.getGiftList(user_id,token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 GiftListResponseBean giftListResponseBean = GsonUtils.fromJson(result, GiftListResponseBean.class);
                 final ArrayList<GiftListResponseBean.DataBean> data = giftListResponseBean.getData();
-                LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
-                fgBuyGiftRv.setLayoutManager(manager);
-                BuyGiftAdapter mAdapter = new BuyGiftAdapter(getActivity(), data);
+                RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+                fgBuyGiftRv.setLayoutManager(layoutManager);
+                BuyGiftAdapter mAdapter = new BuyGiftAdapter(getContext(), data);
                 mAdapter.setOnItemClickListener(new BuyGiftAdapter.ItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-
                         Intent intent = new Intent(getActivity(), GiftActivity.class);
                         intent.putExtra(Const.GOODS_ID,data.get(position).getId());
                         startActivity(intent);
@@ -83,7 +86,33 @@ public class BuyGiftFragment extends Fragment {
 
             @Override
             public void onFault(String errorMsg) {
-
+                String test="{\n" +
+                        "    \"code\": 1,\n" +
+                        "    \"data\": [\n" +
+                        "        {\n" +
+                        "            \"id\": 1,\n" +
+                        "            \"title\": \"水多多面膜\",\n" +
+                        "            \"description\": \"水多多专属礼包产品\",\n" +
+                        "           \"img\": \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
+                        "            \"price\": \"298.00\"\n" +
+                        "        }\n" +
+                        "    ],\n" +
+                        "    \"msg\": \"加载成功\"\n" +
+                        "}";
+                GiftListResponseBean giftListResponseBean = GsonUtils.fromJson(test, GiftListResponseBean.class);
+                final ArrayList<GiftListResponseBean.DataBean> data = giftListResponseBean.getData();
+                RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+                fgBuyGiftRv.setLayoutManager(layoutManager);
+                BuyGiftAdapter mAdapter = new BuyGiftAdapter(getContext(), data);
+                mAdapter.setOnItemClickListener(new BuyGiftAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Intent intent = new Intent(getActivity(), GiftActivity.class);
+                        intent.putExtra(Const.GOODS_ID,data.get(position).getId());
+                        startActivity(intent);
+                    }
+                });
+                fgBuyGiftRv.setAdapter(mAdapter);
             }
         }));
     }

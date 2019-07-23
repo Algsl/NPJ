@@ -1,5 +1,7 @@
 package com.zthx.npj.net.netsubscribe;
 
+import android.util.Log;
+
 import com.zthx.npj.net.been.AddAddressBean;
 import com.zthx.npj.net.been.AddBankCardBean;
 import com.zthx.npj.net.been.AddCartBean;
@@ -1438,6 +1440,7 @@ public class SetSubscribe {
         bean.setUser_id(user_id);
         bean.setToken(token);
         bean.setCart_id(cart_id);
+        Log.e("测试", "cartOrder: "+user_id+" "+token+" "+cart_id);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().cartOrder(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
@@ -1453,6 +1456,10 @@ public class SetSubscribe {
         bean.setCart_id(bean.getCart_id());
         bean.setAddress_id(bean.getAddress_id());
         bean.setPay_code(bean.getPay_code());
+        bean.setType(bean.getType());
+        bean.setItem_id(bean.getItem_id());
+        bean.setRemark(bean.getRemark());
+        bean.setZiti_id(bean.getZiti_id());
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().cartOrderOne(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }

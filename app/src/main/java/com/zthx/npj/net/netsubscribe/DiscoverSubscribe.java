@@ -4,8 +4,11 @@ import com.zthx.npj.net.been.AkVideoBean;
 import com.zthx.npj.net.been.BuyVideoBean;
 import com.zthx.npj.net.been.ConfirmSupplyBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
+import com.zthx.npj.net.been.NewsBean;
+import com.zthx.npj.net.been.NewsListBean;
 import com.zthx.npj.net.been.NullBean;
 import com.zthx.npj.net.been.PayVideoBean;
+import com.zthx.npj.net.been.SolutionSearchBean;
 import com.zthx.npj.net.been.SupplyBuy2Bean;
 import com.zthx.npj.net.been.SupplyListBean;
 import com.zthx.npj.net.been.UploadCommentBean;
@@ -238,5 +241,39 @@ public class DiscoverSubscribe {
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 
+    /**
+     * 农业知识搜索
+     * @param title
+     * @param subscriber
+     */
+    public static void solutionSearch(String title, DisposableObserver<ResponseBody> subscriber) {
+        SolutionSearchBean bean=new SolutionSearchBean();
+        bean.setTitle(title);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().solutionSearch(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
 
+    /**
+     * 疑难杂症文章列表
+     * @param type
+     * @param subscriber
+     */
+    public static void newsList(String type, DisposableObserver<ResponseBody> subscriber) {
+        NewsListBean bean=new NewsListBean();
+        bean.setType(type);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().newsList(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 疑难杂症文章详情
+     * @param id
+     * @param subscriber
+     */
+    public static void newsDetail(String id, DisposableObserver<ResponseBody> subscriber) {
+        NewsBean bean=new NewsBean();
+        bean.setId(Long.valueOf(id));
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().newsDetail(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
 }

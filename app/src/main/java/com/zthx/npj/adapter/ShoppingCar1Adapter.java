@@ -222,6 +222,7 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
         btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mOnSubmitListener.onSubmit();
                 //创建临时的List，用于存储被选中的商品
                 List<CartListResponseBean.DataBean> temp = new ArrayList<>();
                 for (int i = 0; i < data.size(); i++) {
@@ -235,10 +236,6 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
                     }
                 }
 
-                if (temp != null && temp.size() > 0) {//如果有被选中的
-
-                } else {
-                }
             }
         });
 
@@ -403,22 +400,26 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
     public interface OnDeleteListener {
         void onDelete();
     }
-
     public void setOnDeleteListener(OnDeleteListener listener) {
         mDeleteListener = listener;
     }
-
     private OnDeleteListener mDeleteListener;
 
     //修改商品数量的回调
     public interface OnChangeCountListener {
         void onChangeCount(String goods_id,String goods_num);
     }
-
     public void setOnChangeCountListener(OnChangeCountListener listener) {
         mChangeCountListener = listener;
     }
-
     private OnChangeCountListener mChangeCountListener;
+
+    public interface OnSubmitListener{
+        void onSubmit();
+    }
+    private OnSubmitListener mOnSubmitListener;
+    public void setOnSubmitListener(OnSubmitListener listener){
+        mOnSubmitListener=listener;
+    }
 }
 

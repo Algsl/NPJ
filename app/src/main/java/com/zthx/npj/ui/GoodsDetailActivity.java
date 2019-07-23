@@ -1,7 +1,10 @@
 package com.zthx.npj.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +12,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,10 +32,14 @@ import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommentAdapter;
+import com.zthx.npj.adapter.GoodsCateGroupAdapter;
+import com.zthx.npj.adapter.GoodsImgDetailAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AddCartBean;
 import com.zthx.npj.net.been.CommentResponseBean;
+import com.zthx.npj.net.been.GoodsCateResponseBean;
 import com.zthx.npj.net.been.GoodsDetailResponseBean;
+import com.zthx.npj.net.been.GoodsImgDetailResponseBean;
 import com.zthx.npj.net.been.PreSellDetailResponseBean;
 import com.zthx.npj.net.been.SecKillGoodsDetailResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
@@ -115,6 +125,8 @@ public class GoodsDetailActivity extends AppCompatActivity {
     RecyclerView acGoodsDetailRvContent;
     @BindView(R.id.at_goods_detail_btn_pre_sell_detail)
     Button atGoodsDetailBtnPreSellDetail;
+    @BindView(R.id.ac_goodsDetail_chooseSize)
+    RelativeLayout acGoodsDetailChooseSize;
 
 
     private String user_id = SharePerferenceUtils.getUserId(this);
@@ -124,7 +136,6 @@ public class GoodsDetailActivity extends AppCompatActivity {
     private String type = "1";
 
     private PreSellDetailResponseBean.DataBean mPreData;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +151,8 @@ public class GoodsDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        setGoodsDetail();
 
         if ("miaosha".equals(getIntent().getAction())) {
             int status = getIntent().getIntExtra(Const.SECKILL_STATUS, 1);
@@ -172,6 +185,18 @@ public class GoodsDetailActivity extends AppCompatActivity {
             getGoodsDetail(id);
         }
 
+    }
+
+    private void setGoodsDetail() {
+        GoodsImgDetailResponseBean bean = new GoodsImgDetailResponseBean();
+        ArrayList<String> lists = new ArrayList<>();
+        lists.add("1");
+        lists.add("2");
+        lists.add("3");
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        acGoodsDetailRvContent.setLayoutManager(layoutManager);
+        GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(this, lists);
+        acGoodsDetailRvContent.setAdapter(adapter);
     }
 
     private void getSecKillDetail(String id) {
@@ -273,7 +298,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
 
     @OnClick({R.id.at_goods_detail_btn_add_shopping_cart, R.id.at_goods_detail_btn_buy_now, R.id.ac_goodsDetail_ll_collect,
             R.id.ac_goodsDetail_ll_store, R.id.at_goods_detail_btn_pre_sell_know, R.id.at_goods_detail_btn_pre_sell_comment,
-            R.id.at_goods_detail_btn_pre_sell_detail})
+            R.id.at_goods_detail_btn_pre_sell_detail,R.id.ac_goodsDetail_chooseSize})
     public void onViewClicked(View view) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acGoodsDetailRvContent.setLayoutManager(layoutManager);
@@ -292,6 +317,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
                 atGoodsDetailBtnPreSellDetail.setTextColor(getResources().getColor(R.color.white));
                 atGoodsDetailBtnPreSellComment.setBackgroundColor(getResources().getColor(R.color.white));
                 atGoodsDetailBtnPreSellComment.setTextColor(getResources().getColor(R.color.text3));
+                setGoodsDetail();
                 break;
             case R.id.at_goods_detail_btn_pre_sell_comment:
                 atGoodsDetailBtnPreSellDetail.setBackgroundColor(getResources().getColor(R.color.white));
@@ -299,6 +325,9 @@ public class GoodsDetailActivity extends AppCompatActivity {
                 atGoodsDetailBtnPreSellComment.setBackgroundColor(getResources().getColor(R.color.app_theme));
                 atGoodsDetailBtnPreSellComment.setTextColor(getResources().getColor(R.color.white));
                 getComments();
+                break;
+            case R.id.ac_goodsDetail_chooseSize:
+                showPopupwindow(view);
                 break;
         }
     }
@@ -318,9 +347,34 @@ public class GoodsDetailActivity extends AppCompatActivity {
     }
 
     private void setComment(String result) {
-        CommentResponseBean bean = GsonUtils.fromJson(result, CommentResponseBean.class);
+        String test = "{\n" +
+                "    \"code\": 1,\n" +
+                "    \"data\": [\n" +
+                "        {\n" +
+                "            \"id\": 50,\n" +
+                "            \"user_id\": 25,\n" +
+                "            \"goods_id\": 1,\n" +
+                "            \"store_id\": 23,\n" +
+                "            \"content\": \"商品质量非常好，期待下次合作\",\n" +
+                "            \"img\": [\n" +
+                "                \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
+                "                \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\"\n" +
+                "            ],\n" +
+                "            \"status\": 0,\n" +
+                "            \"create_time\": 1556095903,\n" +
+                "            \"type\": 1,\n" +
+                "            \"goods_star\": 5,\n" +
+                "            \"logistics_star\": 5,\n" +
+                "            \"service_star\": 5,\n" +
+                "            \"nick_name\": \"用户15853102073\",\n" +
+                "            \"head_img\": \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\"\n" +
+                "        }\n" +
+                "    ],\n" +
+                "    \"msg\": \"加载成功\"\n" +
+                "}";
+        CommentResponseBean bean = GsonUtils.fromJson(test, CommentResponseBean.class);
         ArrayList<CommentResponseBean.DataBean> data = bean.getData();
-        CommentAdapter adapter=new CommentAdapter(this,data);
+        CommentAdapter adapter = new CommentAdapter(this, data);
         acGoodsDetailRvContent.setAdapter(adapter);
     }
 
@@ -376,16 +430,14 @@ public class GoodsDetailActivity extends AppCompatActivity {
                     }));
                     break;
                 case R.id.item_pop_goods_buy:
-                    Log.e("测试", "onClick: " + mPreData);
                     Intent intent = new Intent(GoodsDetailActivity.this, ConfirmOrderActivity.class);
                     if ("miaosha".equals(getIntent().getAction())) {
                         intent.putExtra(Const.ATTRIBUTE_ID, mPreData.getAttribute_value().get(0).getId() + "");
                     } else if (Const.PRESELL.equals(getIntent().getAction())) {
                         intent.putExtra(Const.ATTRIBUTE_ID, mPreData.getAttribute_value().get(0).getId() + "");
                     } else {
-                        intent.putExtra(Const.ATTRIBUTE_ID, "");
+                        intent.putExtra(Const.ATTRIBUTE_ID, "1");
                     }
-
                     intent.putExtra(Const.GOODS_ID, goodsId);
                     startActivity(intent);
                     break;
@@ -463,5 +515,4 @@ public class GoodsDetailActivity extends AppCompatActivity {
         //banner设置方法全部调用完毕时最后调用
         atGoodsDetailBanner.start();
     }
-
 }

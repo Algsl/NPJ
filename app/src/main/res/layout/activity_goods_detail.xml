@@ -422,6 +422,7 @@
                 android:background="@color/background" />
 
             <RelativeLayout
+                android:id="@+id/ac_goodsDetail_chooseSize"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40">
 
@@ -522,9 +523,9 @@
                     android:textColor="@color/text3"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ac_goodsDetail_rv_content"
+                android:layout_marginTop="@dimen/dp_5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </LinearLayout>

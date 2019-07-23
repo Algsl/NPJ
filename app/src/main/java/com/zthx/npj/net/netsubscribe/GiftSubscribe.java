@@ -3,6 +3,7 @@ package com.zthx.npj.net.netsubscribe;
 import com.zthx.npj.net.been.GiftDetailBean;
 import com.zthx.npj.net.been.GiftListBean;
 import com.zthx.npj.net.been.LocalSpokesmanBeen;
+import com.zthx.npj.net.been.ReferrerBean;
 import com.zthx.npj.net.netutils.RetrofitFactory;
 
 import io.reactivex.Observable;
@@ -73,6 +74,20 @@ public class GiftSubscribe {
         bean.setGift_id(giftId);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getGiftConfirmForBody(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 联系推荐人
+     * @param id
+     * @param token
+     * @param subscriber
+     */
+    public static void referrer(String id,String token, DisposableObserver<ResponseBody> subscriber) {
+        ReferrerBean bean=new ReferrerBean();
+        bean.setUser_id(id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().referrer(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 

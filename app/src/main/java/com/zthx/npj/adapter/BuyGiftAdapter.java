@@ -1,8 +1,10 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +34,6 @@ public class BuyGiftAdapter extends RecyclerView.Adapter<BuyGiftAdapter.ViewHold
     }
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
-
     }
 
     public BuyGiftAdapter(Context context, ArrayList<GiftListResponseBean.DataBean> list) {
@@ -59,7 +60,7 @@ public class BuyGiftAdapter extends RecyclerView.Adapter<BuyGiftAdapter.ViewHold
                 }
             });
         }
-        Glide.with(mContext).load(list.get(i).getImg()).into(viewHolder.mIvGoods);
+        Glide.with(mContext).load(Uri.parse(list.get(i).getImg())).into(viewHolder.mIvGoods);
         viewHolder.mTvPrice.setText(list.get(i).getPrice());
         viewHolder.mTvDes.setText(list.get(i).getDescription());
         viewHolder.mTvTitle.setText(list.get(i).getTitle());

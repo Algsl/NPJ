@@ -442,5 +442,17 @@ public interface HttpApi  {
 
     @POST("index.php/api/index/searchstore.html")
     Observable<ResponseBody> searchStore(@Body SearchStoreBean bean);
+
+    @POST("index.php/api/user/referrer.html")
+    Observable<ResponseBody> referrer(@Body ReferrerBean bean);
+
+    @POST("index.php/api/index/solutionsearch.html")
+    Observable<ResponseBody> solutionSearch(@Body SolutionSearchBean bean);
+
+    @POST("index.php/api/index/newslist.html")
+    Observable<ResponseBody> newsList(@Body NewsListBean bean);
+
+    @POST("index.php/api/index/news.html")
+    Observable<ResponseBody> newsDetail(@Body NewsBean bean);
 }
 

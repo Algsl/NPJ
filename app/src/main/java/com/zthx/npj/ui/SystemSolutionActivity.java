@@ -5,15 +5,16 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.DiscoverViewPagerAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.media.IRenderView;
+import com.zthx.npj.media.IjkVideoView;
 import com.zthx.npj.net.been.SolutionVideoResponseBean;
-import com.zthx.npj.ui.fragment.DiscoverSupplyFragment;
 import com.zthx.npj.ui.fragment.VideoListFragment;
 import com.zthx.npj.ui.fragment.WebFragment;
 
@@ -23,20 +24,32 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SystemSolutionActivity extends AppCompatActivity implements VideoListFragment.OnFragmentInteractionListener,WebFragment.OnFragmentInteractionListener {
+public class SystemSolutionActivity extends ActivityBase implements VideoListFragment.OnFragmentInteractionListener, WebFragment.OnFragmentInteractionListener {
 
     @BindView(R.id.at_system_solution_tb)
     TabLayout atSystemSolutionTb;
     @BindView(R.id.at_system_solution_vp)
     ViewPager atSystemSolutionVp;
     @BindView(R.id.at_system_solution_player)
-    com.zthx.npj.media.IjkVideoView atSystemSolutionPlayer;
+    IjkVideoView atSystemSolutionPlayer;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.at_location_store_tv_ruzhu)
+    TextView atLocationStoreTvRuzhu;
+    @BindView(R.id.title)
+    RelativeLayout title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_systemolution);
         ButterKnife.bind(this);
+
+        back(titleBack);
+        changeTitle(acTitle,getIntent().getStringExtra("title"));
+
         List<String> list = new ArrayList<>();
         list.add("视频选集");
         list.add("图文教程");

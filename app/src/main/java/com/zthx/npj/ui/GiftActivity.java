@@ -3,10 +3,10 @@ package com.zthx.npj.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,7 +17,6 @@ import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.base.BaseConstant;
 import com.zthx.npj.base.Const;
-import com.zthx.npj.net.been.BannerResponseBean;
 import com.zthx.npj.net.been.GiftDetailResponseBean;
 import com.zthx.npj.net.netsubscribe.GiftSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -32,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GiftActivity extends AppCompatActivity {
+public class GiftActivity extends ActivityBase {
 
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
@@ -52,6 +51,10 @@ public class GiftActivity extends AppCompatActivity {
     TextView atGiftDetailTvNeedknow;
     @BindView(R.id.at_gift_detail_btn_buy)
     Button atGiftDetailBtnBuy;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
 
     private String mId;
 
@@ -62,24 +65,48 @@ public class GiftActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mId = getIntent().getStringExtra(Const.GOODS_ID);
         getData(mId);
+
+        back(titleBack);
+        changeTitle(acTitle,"商品详情");
     }
 
 
     private void getData(String id) {
-        GiftSubscribe.getGiftDetail(SharePerferenceUtils.getUserId(this), BaseConstant.TOKEN, id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        GiftSubscribe.getGiftDetail(SharePerferenceUtils.getUserId(this), BaseConstant.TOKEN, id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-
                 GiftDetailResponseBean giftDetailResponseBean = GsonUtils.fromJson(result, GiftDetailResponseBean.class);
-                atGiftDetailTvPrice.setText("¥"+giftDetailResponseBean.getPrice());
-                atGiftDetailTvTitle.setText(giftDetailResponseBean.getTitle());
-                atGiftDetailTvDes.setText(giftDetailResponseBean.getDescription());
-                initBanner(giftDetailResponseBean.getImggroup());
+                GiftDetailResponseBean.DataBean data=giftDetailResponseBean.getData();
+                atGiftDetailTvPrice.setText("¥" + data.getPrice());
+                atGiftDetailTvTitle.setText(data.getTitle());
+                atGiftDetailTvDes.setText(data.getDescription());
+                initBanner(data.getImggroup());
             }
 
             @Override
             public void onFault(String errorMsg) {
-
+                String test = "{\n" +
+                        "    \"code\": 1,\n" +
+                        "    \"data\": {\n" +
+                        "        \"id\": 1,\n" +
+                        "        \"title\": \"水多多面膜\",\n" +
+                        "        \"description\": \"水多多专属礼包产品\",\n" +
+                        "        \"imggroup\": [\n" +
+                        "            \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
+                        "            \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
+                        "            \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\"\n" +
+                        "        ],\n" +
+                        "        \"price\": \"298.00\",\n" +
+                        "        \"content\": null\n" +
+                        "    },\n" +
+                        "    \"msg\": \"加载成功\"\n" +
+                        "}";
+                GiftDetailResponseBean giftDetailResponseBean = GsonUtils.fromJson(test, GiftDetailResponseBean.class);
+                GiftDetailResponseBean.DataBean data=giftDetailResponseBean.getData();
+                atGiftDetailTvPrice.setText("¥" + data.getPrice());
+                atGiftDetailTvTitle.setText(data.getTitle());
+                atGiftDetailTvDes.setText(data.getDescription());
+                initBanner(data.getImggroup());
             }
         }));
     }
@@ -93,7 +120,7 @@ public class GiftActivity extends AppCompatActivity {
                 break;
             case R.id.at_gift_detail_btn_buy:
                 Intent intent = new Intent(this, ConfirmOrderActivity.class);
-                intent.putExtra(Const.GOODS_ID,mId);
+                intent.putExtra(Const.GOODS_ID, mId);
                 intent.setAction(Const.GIFT);
                 startActivity(intent);
                 break;
@@ -102,12 +129,11 @@ public class GiftActivity extends AppCompatActivity {
 
     /**
      * 初始化轮播图
-     *
      */
     private void initBanner(ArrayList<String> uri) {
 
         ArrayList<Uri> list = new ArrayList<>();
-        for (int i = 0;i< uri.size();i++) {
+        for (int i = 0; i < uri.size(); i++) {
             list.add(Uri.parse(uri.get(i)));
         }
 

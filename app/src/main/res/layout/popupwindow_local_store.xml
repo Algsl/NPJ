@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_271"
+    android:layout_height="@dimen/dp_350"
+    android:background="@drawable/popwindow_supply_products_bg"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/dp_13">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请选择附近自提商家"
+            android:layout_centerHorizontal="true"
+            />
+        
+        <ImageView
+            android:layout_width="@dimen/dp_49"
+            android:layout_height="@dimen/dp_2"
+            android:src="@drawable/pop_location_left"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_10"/>
+
+        <ImageView
+            android:layout_width="@dimen/dp_49"
+            android:layout_height="@dimen/dp_2"
+            android:src="@drawable/pop_location_right"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/pw_localStore_rv_storeList"
+        android:layout_marginLeft="@dimen/dp_14"
+        android:layout_marginRight="@dimen/dp_14"
+        android:layout_marginTop="@dimen/dp_15"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_220" />
+
+</LinearLayout>

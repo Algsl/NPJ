@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.youth.banner.Banner;
@@ -21,7 +22,6 @@ import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AgricultureKnowledgeAdatper;
 import com.zthx.npj.base.Const;
-import com.zthx.npj.net.been.AgricultureKnowledgerBeen;
 import com.zthx.npj.net.been.DiscoverSolutionListResponseBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -63,6 +63,8 @@ public class DiscverServiceFragment extends Fragment {
     LinearLayout fgDiscoverLlLoan;
     @BindView(R.id.fg_discover_service_rv)
     RecyclerView fgDiscoverServiceRv;
+    @BindView(R.id.fg_discoverService_iv_search)
+    ImageView fgDiscoverServiceIvSearch;
     private RecyclerView mRecyclerView;
 
     public DiscverServiceFragment() {
@@ -123,6 +125,7 @@ public class DiscverServiceFragment extends Fragment {
                     public void onItemClick(int position) {
                         Intent intent = new Intent(getActivity(), SystemSolutionActivity.class);
                         intent.putExtra(Const.VIDEO_ID, data.get(position).getId() + "");
+                        intent.putExtra("title", data.get(position).getTitle());
                         startActivity(intent);
                     }
                 });
@@ -188,12 +191,8 @@ public class DiscverServiceFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick()
-    public void onViewClicked() {
 
-    }
-
-    @OnClick({R.id.fg_discover_ll_agriculture_knowledge, R.id.fg_discover_ll_information, R.id.fg_discover_ll_auction, R.id.fg_discover_ll_goods_for_goods, R.id.fg_discover_ll_loan})
+    @OnClick({R.id.fg_discover_ll_agriculture_knowledge, R.id.fg_discover_ll_information, R.id.fg_discover_ll_auction, R.id.fg_discover_ll_goods_for_goods, R.id.fg_discover_ll_loan,R.id.fg_discoverService_iv_search})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fg_discover_ll_agriculture_knowledge:
@@ -206,6 +205,9 @@ public class DiscverServiceFragment extends Fragment {
             case R.id.fg_discover_ll_goods_for_goods:
                 break;
             case R.id.fg_discover_ll_loan:
+                break;
+            case R.id.fg_discoverService_iv_search:
+                startActivity(new Intent(getActivity(), AgricultureKnowledgeActivity.class));
                 break;
         }
     }

@@ -47,57 +47,6 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/sp_15" />
         </RelativeLayout>
-        <!--<RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="#ffffff"
-            android:orientation="vertical">
-
-
-            <ImageView
-                android:id="@+id/tv_titlebar_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:padding="5dp" />
-
-            <TextView
-                android:id="@+id/tv_titlebar_center"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLength="18"
-                android:singleLine="true"
-                android:text="购物车"
-                android:textColor="#2f302b"
-                android:textSize="17sp"
-                android:visibility="visible" />
-
-            <TextView
-                android:id="@+id/tv_titlebar_right"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:background="@null"
-                android:gravity="center"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:singleLine="true"
-                android:text="编辑"
-                android:textColor="#2f302b"
-                android:textSize="14sp"
-                android:visibility="gone" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_alignParentBottom="true"
-                android:background="#cccccc" />
-        </RelativeLayout>-->
-
         <ExpandableListView
             android:id="@+id/elv_shopping_car"
             android:layout_width="match_parent"

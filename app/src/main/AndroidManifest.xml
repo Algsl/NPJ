@@ -147,6 +147,8 @@
         <activity android:name=".ui.MySupplyOrderRefundActivity"/>
         <activity android:name=".ui.ClassfiysActivity"/>
         <activity android:name=".ui.SearchResultActivity"/>
+        <activity android:name=".ui.ReferrerActivity"/>
+        <activity android:name=".ui.NewsDetailActivity"/>
 
         <activity
             android:name=".wxapi.WXEntryActivity"

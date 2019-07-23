@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_60">
+    <LinearLayout
+        android:id="@+id/item_local_store_ll"
+        android:layout_width="@dimen/dp_35"
+        android:layout_height="@dimen/dp_35"
+        android:layout_marginTop="@dimen/dp_10">
+        <com.zthx.npj.view.MyCircleView
+            android:id="@+id/item_local_store_head_pic"
+            android:layout_width="@dimen/dp_35"
+            android:layout_height="@dimen/dp_35"
+            android:src="@mipmap/ic_launcher"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/item_local_store_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打不奇诺旗舰店"
+        android:textColor="@color/app_theme"
+        android:textSize="@dimen/sp_12"
+        android:layout_toRightOf="@id/item_local_store_ll"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginLeft="@dimen/dp_10"/>
+
+    <TextView
+        android:layout_width="@dimen/dp_155"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/item_local_store_tv_name"
+        android:text="郑州市经开区北二路一大街向西100米路南格林豪泰"
+        android:id="@+id/item_local_store_tv_daiyanren"
+        android:textColor="@color/text6"
+        android:textSize="@dimen/sp_11"
+        android:layout_below="@id/item_local_store_tv_name"
+        android:layout_marginTop="@dimen/dp_5"/>
+
+    <ImageView
+        android:layout_width="@dimen/dp_25"
+        android:layout_height="@dimen/dp_25"
+        android:src="@drawable/location_store_locate"
+        android:textSize="@dimen/sp_13"
+        android:textColor="@color/app_theme"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/item_local_store_tv_name"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_1"/>
+
+    <TextView
+        android:id="@+id/item_local_store_tv_distance"
+        android:layout_width="@dimen/dp_45"
+        android:layout_height="@dimen/dp_20"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_alignTop="@id/item_local_store_tv_daiyanren"
+        android:text="150m"
+        android:gravity="center"
+        android:textSize="@dimen/dp_12"
+        android:textColor="@color/text9"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/background"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginLeft="@dimen/dp_45"></View>
+
+</RelativeLayout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <include layout="@layout/title"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/background"/>
+    <TextView
+        android:id="@+id/ac_newsDetail_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_18"
+        android:textColor="@color/text3"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_21"
+        android:text="事半功倍成交法！"/>
+    <TextView
+        android:id="@+id/ac_newsDetail_tv_creatTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="疑难杂症  7月12日 18：19"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_10"
+        android:textColor="@color/text9"
+        android:textSize="@dimen/sp_12"/>
+    <TextView
+        android:id="@+id/ac_newsDetail_tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_20"
+        android:lineHeight="@dimen/dp_20"
+        android:text="  据21数据新闻实验室统计，创业板767家上市公司中报预告均已披露完毕，上半年归母净利润预计约为569.07亿元，同比增长-1.58%，相比一季报回升10.6个百分点。452家公司预喜，占比为59%，好于A股整体水平。"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/text6"/>
+    <ImageView
+        android:id="@+id/ac_newsDetail_iv_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_20"
+        android:background="@drawable/logo"/>
+</LinearLayout>

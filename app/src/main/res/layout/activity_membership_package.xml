@@ -34,10 +34,10 @@
             android:layout_marginTop="@dimen/dp_25"
             android:layout_marginLeft="@dimen/dp_11"/>
 
-        <TextView
+        <ImageView
+            android:id="@+id/ac_membership_iv_level"
             android:layout_width="@dimen/dp_80"
             android:layout_height="@dimen/dp_23"
-            android:background="@drawable/bg_daiyanren"
             android:text="金牌代言人"
             android:textColor="@android:color/white"
             android:textSize="@dimen/sp_12"

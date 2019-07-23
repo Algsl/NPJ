@@ -31,4 +31,11 @@
             android:layout_marginRight="@dimen/dp_12"
             android:textSize="@dimen/sp_13"
             android:textColor="@color/app_theme"/>
+        <ImageView
+            android:id="@+id/ac_title_iv"
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_12"/>
     </RelativeLayout>

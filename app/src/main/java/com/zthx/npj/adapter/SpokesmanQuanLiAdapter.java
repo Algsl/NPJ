@@ -1,6 +1,7 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -61,7 +62,8 @@ public class SpokesmanQuanLiAdapter extends RecyclerView.Adapter<SpokesmanQuanLi
             });
         }
         if (list!= null && list.size() > 0) {
-            Glide.with(mContext).load(list.get(i).getImg()).into(viewHolder.mIvPic);
+            Glide.with(mContext).load(Uri.parse(list.get(i).getImg())).into(viewHolder.mIvPic);
+            Glide.with(mContext).load(Uri.parse(list.get(i).getImg())).into(viewHolder.mIvPic);
             viewHolder.mTvContent.setText(list.get(i).getDescription());
             viewHolder.mTvTitle.setText(list.get(i).getTitle());
         } else {
@@ -78,7 +80,6 @@ public class SpokesmanQuanLiAdapter extends RecyclerView.Adapter<SpokesmanQuanLi
         MyCircleView mIvPic;
         TextView mTvTitle;
         TextView mTvContent;
-
         ViewHolder(View itemView) {
             super(itemView);
             mIvPic = itemView.findViewById(R.id.item_spokesman_quanli_pic);

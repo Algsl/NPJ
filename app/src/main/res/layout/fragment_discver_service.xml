@@ -144,6 +144,7 @@
             android:layout_marginLeft="@dimen/dp_129"/>
         
         <ImageView
+            android:id="@+id/fg_discoverService_iv_search"
             android:layout_width="@dimen/dp_26"
             android:layout_height="@dimen/dp_22"
             android:layout_alignParentRight="true"

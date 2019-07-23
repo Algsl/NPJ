@@ -429,6 +429,7 @@ public class PublishGoodsActivity extends ActivityBase {
                 cate_id=SharePerferenceUtils.getCateId();
                 cateName=SharePerferenceUtils.getCateName();
                 acPulishGoodsTvCateId.setText(cateName);
+                backgroundAlpha(1f);
                 window.dismiss();
             }
         });

@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,10 +10,17 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.DiscoverViewPagerAdapter;
+import com.zthx.npj.net.been.UserResponseBean;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.fragment.BuyGiftFragment;
 import com.zthx.npj.ui.fragment.SpokesmanFragment;
+import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.MyCircleView;
 
 import java.util.ArrayList;
@@ -46,7 +54,11 @@ public class MembershipPackageActivity extends ActivityBase {
     ImageView titleBack;
     @BindView(R.id.ac_title)
     TextView acTitle;
+    @BindView(R.id.ac_membership_iv_level)
+    ImageView acMembershipIvLevel;
 
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +67,9 @@ public class MembershipPackageActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,"礼包店");
+        changeTitle(acTitle, "礼包店");
+
+        getUserInfo();
 
         List<String> list = new ArrayList<>();
         list.add("购买礼包");
@@ -70,10 +84,44 @@ public class MembershipPackageActivity extends ActivityBase {
         atMembershipPackageTb.setupWithViewPager(atMembershipPackageVp);
     }
 
+    private void getUserInfo() {
+        SetSubscribe.getUserInfo(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setUserInfo(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setUserInfo(String result) {
+        UserResponseBean bean = GsonUtils.fromJson(result, UserResponseBean.class);
+        Glide.with(this).load(Uri.parse(bean.getData().getHead_img())).into(atMembershipPackageHeadPic);
+        atMembershipPackageTvName.setText(bean.getData().getNick_name());
+        switch (bean.getData().getLevel()){
+            case 0:acMembershipIvLevel.setImageResource(R.drawable.level0);break;
+            case 1:acMembershipIvLevel.setImageResource(R.drawable.level1);break;
+            case 2:acMembershipIvLevel.setImageResource(R.drawable.level2);break;
+            case 3:acMembershipIvLevel.setImageResource(R.drawable.level3);break;
+            case 4:acMembershipIvLevel.setImageResource(R.drawable.level4);break;
+            case 5:acMembershipIvLevel.setImageResource(R.drawable.level5);break;
+            case 6:acMembershipIvLevel.setImageResource(R.drawable.level6);break;
+            case 7:acMembershipIvLevel.setImageResource(R.drawable.level7);break;
+            case 8:acMembershipIvLevel.setImageResource(R.drawable.level8);break;
+            case 9:acMembershipIvLevel.setImageResource(R.drawable.level9);break;
+            case 10:acMembershipIvLevel.setImageResource(R.drawable.level10);break;
+        }
+    }
+
     @OnClick({R.id.at_membership_package_tv_tuijian, R.id.at_membership_package_tv_share})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_membership_package_tv_tuijian:
+                openActivity(ReferrerActivity.class);
                 break;
             case R.id.at_membership_package_tv_share:
                 break;

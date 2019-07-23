@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,32 @@ public class SpokesmanFragment extends Fragment {
 
             @Override
             public void onFault(String errorMsg) {
-
+                String result="{\n" +
+                        "    \"code\": 1,\n" +
+                        "    \"data\": [\n" +
+                        "        {\n" +
+                        "            \"id\": 1,\n" +
+                        "            \"title\": \"终身免费领取面膜\",\n" +
+                        "            \"description\": \"每天收取8到48克芦荟汁，也可以摘取好友的芦荟汁，达到298克即可免费兑换一盒价值298元的面膜！\",\n" +
+                        "            \"img\": \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
+                        "            \"remark\": \"mianmo\"\n" +
+                        "        },\n" +
+                        "        {\n" +
+                        "            \"id\": 2,\n" +
+                        "            \"title\": \"可以发布自己的礼包\",\n" +
+                        "            \"description\": \"可以发布自己的礼包可以发布自己的礼包可以发布自己的礼包可以发布自己的礼包可以发布自己的礼包\",\n" +
+                        "            \"img\": \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
+                        "            \"remark\": \"libao\"\n" +
+                        "        }\n" +
+                        "    ],\n" +
+                        "    \"msg\": \"加载成功\"\n" +
+                        "}";
+                RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+                fgSpokesmanRv.setLayoutManager(layoutManager);
+                SpokesmanQuanLiResponsebean spokesmanQuanLiResponsebean = GsonUtils.fromJson(result, SpokesmanQuanLiResponsebean.class);
+                ArrayList<SpokesmanQuanLiResponsebean.DataBean> data = spokesmanQuanLiResponsebean.getData();
+                SpokesmanQuanLiAdapter mAdapter = new SpokesmanQuanLiAdapter(getContext(),data);
+                fgSpokesmanRv.setAdapter(mAdapter);
             }
         }));
     }

@@ -8,20 +8,12 @@ import java.util.ArrayList;
 
 public class GiftListResponseBean extends BaseReponseBean {
 
-    private ArrayList<DataBean> data;
-
-    public ArrayList<DataBean> getData() {
-        return data;
-    }
-
-    public void setData(ArrayList<DataBean> data) {
-        this.data = data;
-    }
-
     public class DataBean{
-
         private long id;
         private String title;
+        private String description;
+        private String img;
+        private String price;
 
         public long getId() {
             return id;
@@ -62,10 +54,14 @@ public class GiftListResponseBean extends BaseReponseBean {
         public void setPrice(String price) {
             this.price = price;
         }
+    }
+    private ArrayList<DataBean> data;
 
-        private String description;
-        private String img;
-        private String price;
+    public ArrayList<DataBean> getData() {
+        return data;
+    }
 
+    public void setData(ArrayList<DataBean> data) {
+        this.data = data;
     }
 }

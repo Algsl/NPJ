@@ -8,7 +8,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_64">
+        android:layout_height="@dimen/dp_64"
+        android:background="@color/white">
         <ImageView
             android:id="@+id/at_ak_iv_back"
             android:layout_width="@dimen/dp_22"
@@ -25,7 +26,8 @@
             android:layout_toRightOf="@id/at_ak_iv_back"
             android:layout_marginLeft="@dimen/dp_38"
             android:background="@drawable/gray_conner"
-            android:focusable="false"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
             android:hint="请输入您想要的内容"
             android:textColor="@color/text9"
             android:textSize="@dimen/sp_15"
@@ -47,8 +49,25 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_10"/>
     </RelativeLayout>
-    
     <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ac_agriculture_ll1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="共搜索到2个相关视频"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/background"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ac_agriculture_ll2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_93"
         android:orientation="horizontal"
@@ -65,12 +84,11 @@
                 android:layout_width="@dimen/dp_55"
                 android:layout_height="@dimen/dp_55"
                 android:src="@drawable/agriculture_profiser_theme"/>
-
             <TextView
                 android:id="@+id/at_ak_tv_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="农业专家"
+                android:text="农业技术"
                 android:textSize="@dimen/sp_14"
                 android:textColor="@color/app_theme"/>
         </LinearLayout>
@@ -133,7 +151,7 @@
                 android:id="@+id/at_ak_tv_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="农业专家"
+                android:text="百科知识"
                 android:textSize="@dimen/sp_14"
                 android:textColor="@color/text3"/>
         </LinearLayout>
@@ -142,8 +160,8 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/at_ak_rv"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>
-
 </LinearLayout>

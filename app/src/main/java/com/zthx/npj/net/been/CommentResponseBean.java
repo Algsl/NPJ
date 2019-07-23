@@ -8,27 +8,21 @@ import java.util.ArrayList;
 
 public class CommentResponseBean extends BaseReponseBean {
 
-    private ArrayList<DataBean> data;
-
-    public ArrayList<DataBean> getData() {
-        return data;
-    }
-
-    public void setData(ArrayList<DataBean> data) {
-        this.data = data;
-    }
-
     public class DataBean{
-
         private long id;
         private long user_id;
         private long goods_id;
         private long store_id;
         private String content;
-        private String img;
-        private int status;
+        private ArrayList<String> img;
+        private long status;
         private long create_time;
-        private int type;
+        private long type;
+        private long goods_star;
+        private long logistics_star;
+        private long service_star;
+        private String nick_name;
+        private String head_img;
 
         public long getId() {
             return id;
@@ -70,19 +64,19 @@ public class CommentResponseBean extends BaseReponseBean {
             this.content = content;
         }
 
-        public String getImg() {
+        public ArrayList<String> getImg() {
             return img;
         }
 
-        public void setImg(String img) {
+        public void setImg(ArrayList<String> img) {
             this.img = img;
         }
 
-        public int getStatus() {
+        public long getStatus() {
             return status;
         }
 
-        public void setStatus(int status) {
+        public void setStatus(long status) {
             this.status = status;
         }
 
@@ -94,35 +88,35 @@ public class CommentResponseBean extends BaseReponseBean {
             this.create_time = create_time;
         }
 
-        public int getType() {
+        public long getType() {
             return type;
         }
 
-        public void setType(int type) {
+        public void setType(long type) {
             this.type = type;
         }
 
-        public int getGoods_star() {
+        public long getGoods_star() {
             return goods_star;
         }
 
-        public void setGoods_star(int goods_star) {
+        public void setGoods_star(long goods_star) {
             this.goods_star = goods_star;
         }
 
-        public int getLogistics_star() {
+        public long getLogistics_star() {
             return logistics_star;
         }
 
-        public void setLogistics_star(int logistics_star) {
+        public void setLogistics_star(long logistics_star) {
             this.logistics_star = logistics_star;
         }
 
-        public int getService_star() {
+        public long getService_star() {
             return service_star;
         }
 
-        public void setService_star(int service_star) {
+        public void setService_star(long service_star) {
             this.service_star = service_star;
         }
 
@@ -141,12 +135,15 @@ public class CommentResponseBean extends BaseReponseBean {
         public void setHead_img(String head_img) {
             this.head_img = head_img;
         }
-
-        private int goods_star;
-        private int logistics_star;
-        private int service_star;
-        private String nick_name;
-        private String head_img;
     }
 
+    private ArrayList<DataBean> data;
+
+    public ArrayList<DataBean> getData() {
+        return data;
+    }
+
+    public void setData(ArrayList<DataBean> data) {
+        this.data = data;
+    }
 }

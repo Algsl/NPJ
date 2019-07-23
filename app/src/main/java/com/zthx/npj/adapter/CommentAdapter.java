@@ -22,10 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
+
     private ArrayList<CommentResponseBean.DataBean> mList;
     private Context mContext;
 
-    private CommentAdapter.ItemClickListener mItemClickListener ;
+    private ItemClickListener mItemClickListener ;
+
     public interface ItemClickListener{
         void onItemClick(int position) ;
     }
@@ -60,31 +62,31 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         }
         Glide.with(mContext).load(mList.get(i).getHead_img()).into(viewHolder.mIvHead);
         viewHolder.mTvName.setText(mList.get(i).getNick_name());
-        switch (mList.get(i).getGoods_star()) {
-            case 1:
-                viewHolder.star1.setBackgroundResource(R.drawable.item_location_store_star);
+        switch (mList.get(i).getGoods_star()+"") {
+            case "1":
+                viewHolder.star1.setImageResource(R.drawable.item_location_store_star);
                 break;
-            case 2:
-                viewHolder.star1.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star2.setBackgroundResource(R.drawable.item_location_store_star);
+            case "2":
+                viewHolder.star1.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star2.setImageResource(R.drawable.item_location_store_star);
                 break;
-            case 3:
-                viewHolder.star1.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star2.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star3.setBackgroundResource(R.drawable.item_location_store_star);
+            case "3":
+                viewHolder.star1.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star2.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star3.setImageResource(R.drawable.item_location_store_star);
                 break;
-            case 4:
-                viewHolder.star1.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star2.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star3.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star4.setBackgroundResource(R.drawable.item_location_store_star);
+            case "4":
+                viewHolder.star1.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star2.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star3.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star4.setImageResource(R.drawable.item_location_store_star);
                 break;
-            case 5:
-                viewHolder.star1.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star2.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star3.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star4.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star5.setBackgroundResource(R.drawable.item_location_store_star);
+            case "5":
+                viewHolder.star1.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star2.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star3.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star4.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star5.setImageResource(R.drawable.item_location_store_star);
         }
         viewHolder.mTvContent.setText(mList.get(i).getContent());
         viewHolder.mTvDate.setText(DateUtil.timeslashData(mList.get(i).getCreate_time()+""));

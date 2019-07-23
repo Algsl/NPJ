@@ -143,13 +143,36 @@ public class ShoppingCart1Fragment extends Fragment {
             @Override
             public void onDelete() {
                 initDelete();
-                /**
-                 * 实际开发中，在此请求删除接口，删除成功后，
-                 * 通过initExpandableListViewData（）方法刷新购物车数据。
-                 * 注：通过bean类中的DatasBean的isSelect_shop属性，判断店铺是否被选中；
-                 *                  GoodsBean的isSelect属性，判断商品是否被选中，
-                 *                  （true为选中，false为未选中）
-                 */
+            }
+        });
+
+        shoppingCarAdapter.setOnSubmitListener(new ShoppingCar1Adapter.OnSubmitListener() {
+            @Override
+            public void onSubmit() {
+                String cart_id = "";
+                for(int i=0;i<datas.size();i++){
+                    for(int j=0;j<datas.get(i).size();j++){
+                        if(datas.get(i).get(j).getSelect()){
+                            cart_id+=""+datas.get(i).get(j).getId()+",";
+                        }
+                    }
+                }
+                Log.e(TAG, "onSubmit: "+"结算"+cart_id);
+                if(!cart_id.equals("")){
+                    SetSubscribe.cartOrder(user_id,token,cart_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            Log.e("测试", "onSuccess: "+result);
+                        }
+
+                        @Override
+                        public void onFault(String errorMsg) {
+
+                        }
+                    }));
+                }else{
+                    Toast.makeText(getContext(), "请选择要结算的商品", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -224,7 +247,7 @@ public class ShoppingCart1Fragment extends Fragment {
      * GoodsBean的isSelect属性，判断商品是否被选中，
      */
     private void initDelete() {
-       String cart_id = "";
+        String cart_id = "";
         for(int i=0;i<datas.size();i++){
             for(int j=0;j<datas.get(i).size();j++){
                 if(datas.get(i).get(j).getSelect()){

@@ -1,18 +1,54 @@
 package com.zthx.npj.net.been;
 
 public class CartOrderOneBean {
-    private String user_id;
+    private long user_id;
     private String token;
     private String cart_id;
     private String address_id;
     private String pay_code;
+    private String type;
+    private long item_id;
+    private String remark;
+    private long ziti_id;
 
-    public String getUser_id() {
+    public long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(String user_id) {
+    public void setUser_id(long user_id) {
         this.user_id = user_id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public long getItem_id() {
+        return item_id;
+    }
+
+    public void setItem_id(long item_id) {
+        this.item_id = item_id;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public long getZiti_id() {
+        return ziti_id;
+    }
+
+    public void setZiti_id(long ziti_id) {
+        this.ziti_id = ziti_id;
     }
 
     public String getToken() {

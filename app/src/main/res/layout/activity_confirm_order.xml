@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_64">
         <ImageView
+            android:id="@+id/ac_confirmOrder_iv_back"
             android:layout_width="@dimen/dp_25"
             android:layout_height="@dimen/dp_25"
             android:layout_marginLeft="@dimen/dp_6"
@@ -172,6 +173,7 @@
                     android:background="@drawable/stroke_app_theme">
 
                     <Button
+                        android:id="@+id/ac_confirmOrder_btn_ziti"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -181,6 +183,7 @@
                         android:textSize="@dimen/sp_13"/>
 
                     <Button
+                        android:id="@+id/ac_confirmORder_btn_peisong"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -393,6 +396,7 @@
                     android:layout_marginLeft="@dimen/dp_13"/>
 
                 <ImageView
+                    android:id="@+id/ac_confirmOrder_iv_type3"
                     android:layout_width="@dimen/dp_18"
                     android:layout_height="@dimen/dp_18"
                     android:layout_centerVertical="true"
@@ -421,6 +425,7 @@
                     android:layout_marginLeft="@dimen/dp_13"/>
 
                 <ImageView
+                    android:id="@+id/ac_confirmOrder_iv_type2"
                     android:layout_width="@dimen/dp_18"
                     android:layout_height="@dimen/dp_18"
                     android:layout_centerVertical="true"
@@ -449,6 +454,7 @@
                     android:layout_marginLeft="@dimen/dp_13"/>
 
                 <ImageView
+                    android:id="@+id/ac_confirmOrder_iv_type1"
                     android:layout_width="@dimen/dp_18"
                     android:layout_height="@dimen/dp_18"
                     android:layout_centerVertical="true"

@@ -77,5 +77,4 @@
         android:text="提交"
         android:textColor="@android:color/white"
         android:textSize="@dimen/sp_15"/>
-
 </LinearLayout>

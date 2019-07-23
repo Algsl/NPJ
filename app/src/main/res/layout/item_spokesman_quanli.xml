@@ -2,7 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_90">
+    android:layout_height="wrap_content">
 
     <com.zthx.npj.view.MyCircleView
         android:id="@+id/item_spokesman_quanli_pic"
@@ -43,7 +43,8 @@
         android:layout_marginLeft="@dimen/dp_12"
         android:layout_marginRight="@dimen/dp_12"
         android:background="@color/background"
-        android:layout_alignParentBottom="true"></View>
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_below="@id/item_spokesman_quanli_tv_content"></View>
 
 
 
