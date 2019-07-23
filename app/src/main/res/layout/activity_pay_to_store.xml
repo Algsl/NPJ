@@ -14,6 +14,7 @@
         android:background="@android:color/white">
 
         <ImageView
+            android:id="@+id/ac_payToStore_iv_back"
             android:layout_width="@dimen/dp_22"
             android:layout_height="@dimen/dp_22"
             android:layout_centerVertical="true"
@@ -40,7 +41,7 @@
             android:id="@+id/at_pay_to_store_iv_pic"
             android:layout_width="match_parent"
             android:layout_height="match_parent" 
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/logo"/>
         
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,6 +51,7 @@
             android:alpha="0.3"
             android:gravity="center">
             <TextView
+                android:id="@+id/ac_payToStore_tv_storeName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="格瑞斯巴西柔术学院"

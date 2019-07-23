@@ -57,8 +57,11 @@
         android:background="@color/white"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/ac_agriculture_tv_searchResult"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginBottom="@dimen/dp_5"
             android:text="共搜索到2个相关视频"/>
         <View
             android:layout_width="match_parent"

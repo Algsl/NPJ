@@ -2,7 +2,6 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,22 +13,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AKAdapter;
 import com.zthx.npj.adapter.NewsListAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AkListResponseBean;
-import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.NewsListResponseBean;
-import com.zthx.npj.net.been.SolutionSearchResponseBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,6 +62,12 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
     TextView atAkTv4;
     @BindView(R.id.at_ak_ll_4)
     LinearLayout atAkLl4;
+    @BindView(R.id.ac_agriculture_tv_searchResult)
+    TextView acAgricultureTvSearchResult;
+    @BindView(R.id.ac_agriculture_ll1)
+    LinearLayout acAgricultureLl1;
+    @BindView(R.id.ac_agriculture_ll2)
+    LinearLayout acAgricultureLl2;
 
     private AKAdapter mAdapter;
 
@@ -75,23 +76,26 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agriculture_knowledge);
         ButterKnife.bind(this);
+
+        back(atAkIvBack);
+
         getData("1");
     }
 
     private void getNewsList(String s) {
-        DiscoverSubscribe.newsList(s,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        DiscoverSubscribe.newsList(s, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                NewsListResponseBean bean=GsonUtils.fromJson(result,NewsListResponseBean.class);
-                final ArrayList<NewsListResponseBean.DataBean> data=bean.getData();
-                RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(AgricultureKnowledgeActivity.this);
+                NewsListResponseBean bean = GsonUtils.fromJson(result, NewsListResponseBean.class);
+                final ArrayList<NewsListResponseBean.DataBean> data = bean.getData();
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(AgricultureKnowledgeActivity.this);
                 atAkRv.setLayoutManager(layoutManager);
-                NewsListAdapter adapter=new NewsListAdapter(AgricultureKnowledgeActivity.this,data);
+                NewsListAdapter adapter = new NewsListAdapter(AgricultureKnowledgeActivity.this, data);
                 atAkRv.setAdapter(adapter);
                 adapter.setOnItemClickListener(new NewsListAdapter.ItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        openActivity(NewsDetailActivity.class,data.get(position).getId()+"");
+                        openActivity(NewsDetailActivity.class, data.get(position).getId() + "");
                     }
                 });
             }
@@ -104,7 +108,7 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
     }
 
 
-    @OnClick({R.id.at_ak_ll_1, R.id.at_ak_ll_2, R.id.at_ak_ll_3, R.id.at_ak_ll_4})
+    @OnClick({R.id.at_ak_ll_1, R.id.at_ak_ll_2, R.id.at_ak_ll_3, R.id.at_ak_ll_4,R.id.at_ak_iv_search})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_ak_ll_1:
@@ -127,7 +131,9 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                 atAkIvSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
                     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                        if(i==EditorInfo.IME_ACTION_SEARCH){
+                        if (i == EditorInfo.IME_ACTION_SEARCH) {
+                            acAgricultureLl1.setVisibility(View.VISIBLE);
+                            acAgricultureLl2.setVisibility(View.GONE);
                             getSearchResult(atAkIvSearch.getText().toString().trim());
                         }
                         return true;
@@ -138,20 +144,22 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
     }
 
     private void getSearchResult(String trim) {
-        DiscoverSubscribe.solutionSearch(trim,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        DiscoverSubscribe.solutionSearch(trim, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 AkListResponseBean bean = GsonUtils.fromJson(result, AkListResponseBean.class);
-                final ArrayList<AkListResponseBean.DataBean> data=bean.getData();
-                RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(AgricultureKnowledgeActivity.this);
+                final ArrayList<AkListResponseBean.DataBean> data = bean.getData();
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(AgricultureKnowledgeActivity.this);
                 atAkRv.setLayoutManager(layoutManager);
-                AKAdapter adapter=new AKAdapter(AgricultureKnowledgeActivity.this,data);
+                AKAdapter adapter = new AKAdapter(AgricultureKnowledgeActivity.this, data);
+                adapter.setNewData(data);
                 atAkRv.setAdapter(adapter);
-                mAdapter.setOnItemClickListener(new AKAdapter.ItemClickListener() {
+                acAgricultureTvSearchResult.setText("共搜索到"+data.size()+"个视频");
+                adapter.setOnItemClickListener(new AKAdapter.ItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
                         Intent intent = new Intent(AgricultureKnowledgeActivity.this, AgricultureVideoMainActivity.class);
-                        intent.putExtra(Const.VIDEO_ID, data.get(position).getId()+"");
+                        intent.putExtra(Const.VIDEO_ID, data.get(position).getId() + "");
                         startActivity(intent);
                     }
                 });
@@ -163,6 +171,7 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
             }
         }));
     }
+
     private void getData(String id) {
         DiscoverSubscribe.getKnowledgeList(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
@@ -180,7 +189,7 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                         @Override
                         public void onItemClick(int position) {
                             Intent intent = new Intent(AgricultureKnowledgeActivity.this, AgricultureVideoMainActivity.class);
-                            intent.putExtra(Const.VIDEO_ID, data.get(position).getId()+"");
+                            intent.putExtra(Const.VIDEO_ID, data.get(position).getId() + "");
                             startActivity(intent);
                         }
                     });
@@ -192,7 +201,7 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
             public void onFault(String errorMsg) {
 
             }
-        },this));
+        }, this));
     }
 
     private void changeBackground(String id) {

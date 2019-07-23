@@ -108,7 +108,6 @@ public class MainSubscribe {
      * @param subscriber
      */
     public static void getStoreComment(String id,String type, DisposableObserver<ResponseBody> subscriber) {
-
         CommentBean bean = new CommentBean();
         bean.setId(id);
         bean.setType(type);
