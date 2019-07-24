@@ -63,23 +63,26 @@ public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder
             });
         }
             Glide.with(mContext).load(mList.get(i).getGoods_img()).into(viewHolder.mIvGoods);
-            viewHolder.mTvNewPrice.setText(mList.get(i).getGoods_price());
-            viewHolder.mTvLeb.setText(mList.get(i).getGoods_desc());
-            viewHolder.mTvOldPrice.setText(mList.get(i).getMarket_price());
+            viewHolder.mTvNewPrice.setText("￥"+mList.get(i).getGoods_price());
+            viewHolder.mTvLeb.setText(mList.get(i).getGoods_name());
+            viewHolder.mTvOldPrice.setText("￥"+mList.get(i).getMarket_price());
             viewHolder.mTvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            viewHolder.mTvTitle.setText(mList.get(i).getGoods_name());
-            viewHolder.mSpv.setTotalAndCurrentCount(Integer.parseInt(mList.get(i).getGoods_num()),Integer.parseInt(mList.get(i).getSale_num()));
+            viewHolder.mTvTitle.setText(mList.get(i).getGoods_desc());
+            //viewHolder.mSpv.setTotalAndCurrentCount(Integer.parseInt(mList.get(i).getGoods_num()),Integer.parseInt(mList.get(i).getSale_num()));
             switch (type){
-                case "1":
-                    break;
-                case "2":
+                case "1"://抢购结束
                     viewHolder.time.setVisibility(View.VISIBLE);
                     viewHolder.time.setText(new SimpleDateFormat("yyyy/MM/dd").format(new Date(System.currentTimeMillis())));
+                    viewHolder.buy.setText("已结束");
                     break;
-                case "3":
+                case "2"://抢购进行中
+                    viewHolder.time.setVisibility(View.GONE);
+                    viewHolder.num.setVisibility(View.GONE);
+                    break;
+                case "3"://抢购即将开始
                     viewHolder.mSpv.setVisibility(View.GONE);
-                    viewHolder.time.setText(View.GONE);
-                    viewHolder.num.setText("秒杀份："+mList.get(i).getGoods_num());
+                    viewHolder.num.setVisibility(View.VISIBLE);
+                    viewHolder.num.setText("秒杀份："+mList.get(i).getGoods_num()+"份");
                     viewHolder.ll1.setVisibility(View.GONE);
                     viewHolder.ll2.setVisibility(View.VISIBLE);
                     viewHolder.buy.setVisibility(View.GONE);

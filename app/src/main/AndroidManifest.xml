@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zthx.npj">
 
-
     <!-- 权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- 这个权限用于进行网络定位 -->
@@ -23,12 +22,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 访问网络，网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!--修改音频设置-->
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <!-- 修改音频设置 -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <!-- SD卡读取权限，用户写入离线定位数据 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <!--应用-->
     <application
         android:name=".base.BaseApp"
         android:allowBackup="true"
@@ -38,10 +38,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
+        <!--注入百度地图-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="YRVAXKxrmD46vVWAeGdIOBI1YDq40lKo" />
 
+        <!--活动页面-->
         <activity
             android:name=".ui.MainActivity"
             android:theme="@style/TranslucentTheme" />
@@ -117,48 +119,53 @@
         <activity android:name=".ui.AttestationSuccessActivity" />
         <activity android:name=".ui.MembershipPackageActivity" />
         <activity android:name=".ui.ContactReferencesActivity" />
-        <activity android:name=".ui.EditNicknameActivity"/>
-        <activity android:name=".ui.AddressListActivity"/>
-        <activity android:name=".ui.EditAddressActivity"/>
-        <activity android:name=".ui.StoreGoodsInfoActivity"/>
-        <activity android:name=".ui.MyStoreOrderDetailActivity"/>
-        <activity android:name=".ui.ConfirmMyOrderActivity"/>
-        <activity android:name=".ui.CommentActivity"/>
-        <activity android:name=".ui.KuaiDiDetailActivity"/>
-        <activity android:name=".ui.ApplyRefundActivity"/>
-        <activity android:name=".ui.UserMoneyActivity"/>
-        <activity android:name=".ui.BankCardActivity"/>
-        <activity android:name=".ui.AddBankCardActivity"/>
-        <activity android:name=".ui.WithDrawActivity"/>
-        <activity android:name=".ui.TestActivity"/>
-        <activity android:name=".ui.ShopLogActivity"/>
-        <activity android:name=".ui.VipJLActivity"/>
-        <activity android:name=".ui.InComeLogActivity"/>
-        <activity android:name=".ui.TiQuActivity"/>
-        <activity android:name=".ui.EditMyOfflineStoreActivity"/>
-        <activity android:name=".ui.MyOfflineStoreActivity"/>
-        <activity android:name=".ui.BaojiaUserListActivity"/>
-        <activity android:name=".ui.BaojiaUserDetailActivity"/>
-        <activity android:name=".ui.BaseWhiteActivity"/>
-        <activity android:name=".ui.BaseThemeActivity"/>
-        <activity android:name=".ui.ConfirmMySupplyOrderActivity"/>
-        <activity android:name=".ui.MySupplyOrderDetailActivity"/>
-        <activity android:name=".ui.MySupplyOrderCommentActivity"/>
-        <activity android:name=".ui.MySupplyOrderRefundActivity"/>
-        <activity android:name=".ui.ClassfiysActivity"/>
-        <activity android:name=".ui.SearchResultActivity"/>
-        <activity android:name=".ui.ReferrerActivity"/>
-        <activity android:name=".ui.NewsDetailActivity"/>
+        <activity android:name=".ui.EditNicknameActivity" />
+        <activity android:name=".ui.AddressListActivity" />
+        <activity android:name=".ui.EditAddressActivity" />
+        <activity android:name=".ui.StoreGoodsInfoActivity" />
+        <activity android:name=".ui.MyStoreOrderDetailActivity" />
+        <activity android:name=".ui.ConfirmMyOrderActivity" />
+        <activity android:name=".ui.CommentActivity" />
+        <activity android:name=".ui.KuaiDiDetailActivity" />
+        <activity android:name=".ui.ApplyRefundActivity" />
+        <activity android:name=".ui.UserMoneyActivity" />
+        <activity android:name=".ui.BankCardActivity" />
+        <activity android:name=".ui.AddBankCardActivity" />
+        <activity android:name=".ui.WithDrawActivity" />
+        <activity android:name=".ui.TestActivity" />
+        <activity android:name=".ui.ShopLogActivity" />
+        <activity android:name=".ui.VipJLActivity" />
+        <activity android:name=".ui.InComeLogActivity" />
+        <activity android:name=".ui.TiQuActivity" />
+        <activity android:name=".ui.EditMyOfflineStoreActivity" />
+        <activity android:name=".ui.MyOfflineStoreActivity" />
+        <activity android:name=".ui.BaojiaUserListActivity" />
+        <activity android:name=".ui.BaojiaUserDetailActivity" />
+        <activity android:name=".ui.BaseWhiteActivity" />
+        <activity android:name=".ui.BaseThemeActivity" />
+        <activity android:name=".ui.ConfirmMySupplyOrderActivity" />
+        <activity android:name=".ui.MySupplyOrderDetailActivity" />
+        <activity android:name=".ui.MySupplyOrderCommentActivity" />
+        <activity android:name=".ui.MySupplyOrderRefundActivity" />
+        <activity android:name=".ui.ClassfiysActivity" />
+        <activity android:name=".ui.SearchResultActivity" />
+        <activity android:name=".ui.ReferrerActivity" />
+        <activity android:name=".ui.NewsDetailActivity" />
+        <activity android:name=".ui.VideoBuyConfirmActivity" />
+        <activity android:name=".ui.ShopingCartConfirmActivity"/>
 
+        <!--微信支付-->
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:label="@string/app_name"
             android:exported="true"
+            android:label="@string/app_name"
             android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="wx76500efa65d19915"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="wx76500efa65d19915" />
             </intent-filter>
         </activity>
         <activity
@@ -166,37 +173,46 @@
             android:exported="true"
             android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="wx76500efa65d19915"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="wx76500efa65d19915" />
             </intent-filter>
         </activity>
 
+        <!--支付宝支付-->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind">
-        </activity>
+            android:screenOrientation="behind" />
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind">
-        </activity>
+            android:screenOrientation="behind" />
 
+        <!--启动页面-->
         <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <!-- 服务类-->
+            <!--百度地图服务-->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
 
+        <!--广播类-->
+
+
+        <!--内容提供器-->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.file_provider"
@@ -207,7 +223,7 @@
                 android:resource="@xml/file_path" />
         </provider>
 
-        <activity android:name=".ui.VideoBuyConfirmActivity"></activity>
+
     </application>
 
 </manifest>

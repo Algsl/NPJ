@@ -454,5 +454,8 @@ public interface HttpApi  {
 
     @POST("index.php/api/index/news.html")
     Observable<ResponseBody> newsDetail(@Body NewsBean bean);
+
+    @POST("index.php/api/user/videoorder.html")
+    Observable<ResponseBody> videoOrder(@Body VideoOrderBean bean);
 }
 

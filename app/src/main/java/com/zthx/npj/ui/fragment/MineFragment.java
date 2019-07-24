@@ -121,7 +121,6 @@ public class MineFragment
     @BindView(R.id.fg_mine_ll_my_offlinestore)
     LinearLayout fgMineLlMyOfflinestore;
 
-    private String type = SharePerferenceUtils.getLevel(getContext());
 
     public MineFragment() {
     }
@@ -334,19 +333,7 @@ public class MineFragment
                 }*/
                 break;
             case R.id.fg_mine_ll_my_offlinestore:
-                SetSubscribe.myOfflineStore(SharePerferenceUtils.getUserId(getContext()),SharePerferenceUtils.getToken(getContext()),new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                    @Override
-                    public void onSuccess(String result) {
-                        MyOfflineStoreResponseBean bean=GsonUtils.fromJson(result,MyOfflineStoreResponseBean.class);
-                        String store_id=bean.getData().getId()+"";
-                        Intent intent=new Intent(getActivity(), MyOfflineStoreActivity.class);
-                    }
 
-                    @Override
-                    public void onFault(String errorMsg) {
-
-                    }
-                }));
                 break;
         }
     }

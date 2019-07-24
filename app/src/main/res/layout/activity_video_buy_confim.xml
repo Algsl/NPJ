@@ -221,6 +221,7 @@
                     android:layout_marginLeft="@dimen/dp_13"/>
 
                 <ImageView
+                    android:id="@+id/ac_videoBuyConfirm_iv_payType3"
                     android:layout_width="@dimen/dp_18"
                     android:layout_height="@dimen/dp_18"
                     android:layout_centerVertical="true"
@@ -249,6 +250,7 @@
                     android:layout_marginLeft="@dimen/dp_13"/>
 
                 <ImageView
+                    android:id="@+id/ac_videoBuyConfirm_iv_payType2"
                     android:layout_width="@dimen/dp_18"
                     android:layout_height="@dimen/dp_18"
                     android:layout_centerVertical="true"
@@ -277,6 +279,7 @@
                     android:layout_marginLeft="@dimen/dp_13"/>
 
                 <ImageView
+                    android:id="@+id/ac_videoBuyConfirm_iv_payType1"
                     android:layout_width="@dimen/dp_18"
                     android:layout_height="@dimen/dp_18"
                     android:layout_centerVertical="true"
@@ -291,6 +294,7 @@
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginRight="@dimen/dp_12"></View>
             <EditText
+                android:id="@+id/ac_videoBuyConfirm_et_remark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_12"

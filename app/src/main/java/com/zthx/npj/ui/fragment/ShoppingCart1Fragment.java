@@ -1,6 +1,7 @@
 package com.zthx.npj.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,6 +28,7 @@ import com.zthx.npj.net.been.UpdateCartBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.ShopingCartConfirmActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
@@ -146,15 +148,24 @@ public class ShoppingCart1Fragment extends Fragment {
             }
         });
 
+        //结算的回调
         shoppingCarAdapter.setOnSubmitListener(new ShoppingCar1Adapter.OnSubmitListener() {
             @Override
             public void onSubmit() {
                 String cart_id = "";
+                List<String> cart_ids=new ArrayList<>();
                 for(int i=0;i<datas.size();i++){
                     for(int j=0;j<datas.get(i).size();j++){
                         if(datas.get(i).get(j).getSelect()){
-                            cart_id+=""+datas.get(i).get(j).getId()+",";
+                            cart_ids.add(datas.get(i).get(j).getId()+"");
                         }
+                    }
+                }
+                for(int i=0;i<cart_ids.size();i++){
+                    if(i+1>=cart_ids.size()){
+                        cart_id+=cart_ids.get(i);
+                    }else{
+                        cart_id+=cart_ids.get(i)+",";
                     }
                 }
                 Log.e(TAG, "onSubmit: "+"结算"+cart_id);
@@ -162,7 +173,9 @@ public class ShoppingCart1Fragment extends Fragment {
                     SetSubscribe.cartOrder(user_id,token,cart_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
-                            Log.e("测试", "onSuccess: "+result);
+                            Intent intent=new Intent(getActivity(),ShopingCartConfirmActivity.class);
+                            intent.putExtra("info",result);
+                            startActivity(intent);
                         }
 
                         @Override
@@ -255,7 +268,6 @@ public class ShoppingCart1Fragment extends Fragment {
                 }
             }
         }
-        Log.e("测试", "initDelete: "+cart_id);
         if(!cart_id.equals("")){
             SetSubscribe.delCart(user_id,token,cart_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override

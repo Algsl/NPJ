@@ -96,4 +96,5 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
 
     implementation 'com.android.support:design:22.2.1'
+
 }

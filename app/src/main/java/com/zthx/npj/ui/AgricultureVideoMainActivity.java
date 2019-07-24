@@ -163,7 +163,6 @@ public class AgricultureVideoMainActivity extends AppCompatActivity implements S
         DiscoverSubscribe.buyVideo(videoId, SharePerferenceUtils.getUserId(this),BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-
                 Intent intent = new Intent(AgricultureVideoMainActivity.this, VideoBuyConfirmActivity.class);
                 intent.putExtra(Const.VIDEO_BUY_INFO,result);
                 startActivity(intent);

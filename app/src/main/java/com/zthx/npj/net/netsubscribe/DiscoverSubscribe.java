@@ -16,6 +16,7 @@ import com.zthx.npj.net.been.UploadCompanyBean;
 import com.zthx.npj.net.been.UploadPurchaseBean;
 import com.zthx.npj.net.been.UploadSupplyBean;
 import com.zthx.npj.net.been.VideoInfoBean;
+import com.zthx.npj.net.been.VideoOrderBean;
 import com.zthx.npj.net.netutils.RetrofitFactory;
 
 import io.reactivex.Observable;
@@ -274,6 +275,21 @@ public class DiscoverSubscribe {
         NewsBean bean=new NewsBean();
         bean.setId(Long.valueOf(id));
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().newsDetail(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 课程购买支付订单
+     * @param bean
+     * @param subscriber
+     */
+    public static void videoOrder(VideoOrderBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setList_id(bean.getList_id());
+        bean.setPay_code(bean.getPay_code());
+        bean.setRemark(bean.getRemark());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().videoOrder(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

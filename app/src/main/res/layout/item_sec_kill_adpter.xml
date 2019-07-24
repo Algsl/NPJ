@@ -3,21 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_110"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    
-    <ImageView
-        android:id="@+id/item_sec_kill_iv_goods_pic"
+    <LinearLayout
+        android:id="@+id/item_secKill_ll"
         android:layout_width="@dimen/dp_90"
         android:layout_height="@dimen/dp_90"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/dp_12"
-        android:src="@mipmap/ic_launcher"/>
-
+        android:background="@color/line"
+        android:layout_marginLeft="@dimen/dp_12">
+        <ImageView
+            android:id="@+id/item_sec_kill_iv_goods_pic"
+            android:layout_width="@dimen/dp_90"
+            android:layout_height="@dimen/dp_90"
+            android:layout_centerVertical="true"
+            android:src="@drawable/logo"/>
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_sec_kill"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_toRightOf="@id/item_sec_kill_iv_goods_pic"
+        android:layout_toRightOf="@id/item_secKill_ll"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_10">
         <RelativeLayout
@@ -36,6 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2019/3/12"
+                android:textSize="@dimen/sp_12"
                 android:layout_marginRight="@dimen/dp_12"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
@@ -75,7 +81,7 @@
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/dp_18"
-        android:layout_toRightOf="@id/item_sec_kill_iv_goods_pic"
+        android:layout_toRightOf="@id/item_secKill_ll"
         android:layout_marginLeft="@dimen/dp_10">
 
         <TextView
@@ -103,7 +109,7 @@
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/dp_18"
-        android:layout_toRightOf="@id/item_sec_kill_iv_goods_pic"
+        android:layout_toRightOf="@id/item_secKill_ll"
         android:layout_marginLeft="@dimen/dp_10">
         <TextView
             android:layout_width="wrap_content"

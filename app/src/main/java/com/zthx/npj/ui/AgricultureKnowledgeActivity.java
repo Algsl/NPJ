@@ -152,9 +152,13 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(AgricultureKnowledgeActivity.this);
                 atAkRv.setLayoutManager(layoutManager);
                 AKAdapter adapter = new AKAdapter(AgricultureKnowledgeActivity.this, data);
-                adapter.setNewData(data);
                 atAkRv.setAdapter(adapter);
-                acAgricultureTvSearchResult.setText("共搜索到"+data.size()+"个视频");
+                if(data.size()>0){
+                    acAgricultureTvSearchResult.setText("共搜索到"+data.size()+"个视频");
+                }else{
+                    acAgricultureTvSearchResult.setText("共搜索到0个视频");
+                }
+
                 adapter.setOnItemClickListener(new AKAdapter.ItemClickListener() {
                     @Override
                     public void onItemClick(int position) {

@@ -5,14 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     android:orientation="vertical">
-    
     <include layout="@layout/title"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#cccccc"></View>
-
     <android.support.design.widget.TabLayout
         android:id="@+id/at_sec_kill_main_tab"
         android:layout_width="match_parent"
@@ -22,13 +15,9 @@
         app:tabMode="fixed"
         app:tabIndicatorHeight="0dp"
         app:tabSelectedTextColor="@color/app_theme"/>
-
-
     <android.support.v4.view.ViewPager
+        android:layout_marginTop="@dimen/dp_10"
         android:id="@+id/at_sec_kill_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/fg_discover_main_tab"/>
-
-
+        android:layout_height="match_parent"/>
 </LinearLayout>

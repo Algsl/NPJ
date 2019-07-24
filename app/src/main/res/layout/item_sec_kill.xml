@@ -12,6 +12,9 @@
         android:textColor="@color/text3"
         android:textSize="@dimen/sp_16"
         android:text="3月3日"/>
-
-
+    <View
+        android:id="@+id/item_secKill_v_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_2"
+        android:background="@color/white"/>
 </LinearLayout>

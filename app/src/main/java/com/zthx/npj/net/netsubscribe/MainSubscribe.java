@@ -15,6 +15,8 @@ import com.zthx.npj.net.been.SearchBean;
 import com.zthx.npj.net.been.SearchStoreBean;
 import com.zthx.npj.net.been.StoreDetailBean;
 import com.zthx.npj.net.been.UserBean;
+import com.zthx.npj.net.been.VideoInfoBean;
+import com.zthx.npj.net.been.VideoOrderBean;
 import com.zthx.npj.net.netutils.RetrofitFactory;
 
 import io.reactivex.Observable;
@@ -198,4 +200,5 @@ public class MainSubscribe {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().searchStore(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
+
 }
