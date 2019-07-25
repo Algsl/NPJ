@@ -38,7 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AgricultureVideoMainActivity extends AppCompatActivity implements SelectVideoFragment.OnFragmentInteractionListener {
+public class AgricultureVideoMainActivity extends ActivityBase implements SelectVideoFragment.OnFragmentInteractionListener {
 
     @BindView(R.id.at_avm_tb)
     TabLayout atAvmTb;

@@ -3,7 +3,6 @@ package com.zthx.npj.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.youth.banner.Banner;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.MyOfflineStoreResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MyOfflineStoreActivity extends AppCompatActivity {
+public class MyOfflineStoreActivity extends ActivityBase {
 
 
     @BindView(R.id.at_store_detail_name)
@@ -73,6 +73,12 @@ public class MyOfflineStoreActivity extends AppCompatActivity {
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.title)
     RelativeLayout title;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
+    @BindView(R.id.banner_discover_service)
+    Banner bannerDiscoverService;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,7 +86,8 @@ public class MyOfflineStoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_store_detail);
         ButterKnife.bind(this);
 
-        acTitle.setText("线下门店详情");
+        back(titleBack);
+        changeTitle(acTitle,"线下门店详情");
 
     }
 
@@ -112,6 +119,6 @@ public class MyOfflineStoreActivity extends AppCompatActivity {
 
     @OnClick(R.id.at_location_store_tv_ruzhu)
     public void onViewClicked() {
-        startActivity(new Intent(this,EditMyOfflineStoreActivity.class));
+        startActivity(new Intent(this, EditMyOfflineStoreActivity.class));
     }
 }

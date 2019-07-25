@@ -17,7 +17,7 @@ import com.zthx.npj.utils.SharePerferenceUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HelpDetailActivity extends AppCompatActivity {
+public class HelpDetailActivity extends ActivityBase{
 
     @BindView(R.id.title_theme_back)
     ImageView titleThemeBack;
@@ -41,7 +41,8 @@ public class HelpDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_help_detail);
         ButterKnife.bind(this);
 
-        titleThemeTitle.setText("帮助详情");
+        back(titleThemeBack);
+        changeTitle(titleThemeTitle,"帮助详情");
 
         String id=getIntent().getStringExtra("id");
         getDetail(id);

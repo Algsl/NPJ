@@ -28,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class HelpActivity extends AppCompatActivity {
+public class HelpActivity extends ActivityBase {
 
     @BindView(R.id.title_theme_back)
     ImageView titleThemeBack;
@@ -57,7 +57,10 @@ public class HelpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
         ButterKnife.bind(this);
-        titleThemeTitle.setText("帮助与客服");
+
+        back(titleThemeBack);
+        changeTitle(titleThemeTitle,"帮助与客服");
+
         getProblem("1");
         getProblem("2");
     }

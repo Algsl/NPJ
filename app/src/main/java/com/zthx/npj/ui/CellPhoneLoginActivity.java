@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,7 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CellPhoneLoginActivity extends AppCompatActivity {
+public class CellPhoneLoginActivity extends ActivityBase {
 
 
     @BindView(R.id.at_location_store_tv_ruzhu)
@@ -63,6 +61,10 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
     TextView atCellphoneLoginTvHint;
     @BindView(R.id.ac_title)
     TextView acTitle;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
 
     private String mCodeId;//短信验证码随机数
     private boolean isThirdLogin = false;
@@ -75,8 +77,8 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cell_phone_login);
         ButterKnife.bind(this);
-
-        acTitle.setText("手机登录");
+        back(titleBack);
+        changeTitle(acTitle,"手机登录");
         isThirdLogin = getIntent().getBooleanExtra("flag", true);
         if (isThirdLogin) {
             String response = getIntent().getStringExtra("response");
@@ -87,7 +89,7 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
                 String openid = obj.getString("openid");
                 Glide.with(this).load(Uri.parse(obj.getString("headimgurl"))).into(atCellphoneLoginIvHeadPic);
                 atCellphoneLoginTvThirdName.setText(obj.getString("nickname"));
-                getUserId(openid,nickname,headimg);
+                getUserId(openid, nickname, headimg);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -98,7 +100,7 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
         }
     }
 
-    private void getUserId(String openid,String nickname,String headimg) {
+    private void getUserId(String openid, String nickname, String headimg) {
         AuthLoginBean bean = new AuthLoginBean();
         bean.setId(openid);
         bean.setNick_name(nickname);
@@ -108,8 +110,8 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
         LoginSubscribe.authLogin(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                AuthLoginResponseBean bean=new AuthLoginResponseBean();
-                SharePerferenceUtils.setUserId(CellPhoneLoginActivity.this,bean.getData().getUser_id());
+                AuthLoginResponseBean bean = new AuthLoginResponseBean();
+                SharePerferenceUtils.setUserId(CellPhoneLoginActivity.this, bean.getData().getUser_id());
             }
 
             @Override
@@ -171,6 +173,7 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
                 SharePerferenceUtils.setToken(CellPhoneLoginActivity.this, bean.getData().getToken());
                 startActivity(new Intent(CellPhoneLoginActivity.this, InputInvitationCodeActivity.class));
             }
+
             @Override
             public void onFault(String errorMsg) {
                 Toast.makeText(CellPhoneLoginActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
@@ -179,15 +182,15 @@ public class CellPhoneLoginActivity extends AppCompatActivity {
     }
 
     private void authLoginByMobile() {
-        AuthLoginByMoBileBean bean=new AuthLoginByMoBileBean();
+        AuthLoginByMoBileBean bean = new AuthLoginByMoBileBean();
         bean.setMobile(atCellphoneLoginEtPhone.getText().toString().trim());
         bean.setCode(atCellphoneLoginEtCode.getText().toString().trim());
         bean.setSession_id(mCodeId);
         bean.setUser_id(SharePerferenceUtils.getUserId(this));
-        LoginSubscribe.authLoginByMobile(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        LoginSubscribe.authLoginByMobile(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                AuthLoginByMobileResponseBean bean=GsonUtils.fromJson(result,AuthLoginByMobileResponseBean.class);
+                AuthLoginByMobileResponseBean bean = GsonUtils.fromJson(result, AuthLoginByMobileResponseBean.class);
                 SharePerferenceUtils.setUserId(CellPhoneLoginActivity.this, bean.getData().getUser_id());
                 SharePerferenceUtils.setToken(CellPhoneLoginActivity.this, bean.getData().getToken());
                 startActivity(new Intent(CellPhoneLoginActivity.this, InputInvitationCodeActivity.class));

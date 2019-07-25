@@ -1,7 +1,6 @@
 package com.zthx.npj.ui;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,11 +12,9 @@ import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BuyVideoResponseBean;
-import com.zthx.npj.net.been.PayVideoResponseBean;
 import com.zthx.npj.net.been.VideoOrderBean;
 import com.zthx.npj.net.been.VideoOrderResponseBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
-import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
@@ -27,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class VideoBuyConfirmActivity extends AppCompatActivity {
+public class VideoBuyConfirmActivity extends ActivityBase {
 
     @BindView(R.id.at_video_buy_confirm_rl_title)
     RelativeLayout atVideoBuyConfirmRlTitle;
@@ -63,6 +60,16 @@ public class VideoBuyConfirmActivity extends AppCompatActivity {
     ImageView acVideoBuyConfirmIvPayType1;
     @BindView(R.id.ac_videoBuyConfirm_et_remark)
     EditText acVideoBuyConfirmEtRemark;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.at_location_store_tv_ruzhu)
+    TextView atLocationStoreTvRuzhu;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
+    @BindView(R.id.title)
+    RelativeLayout title;
 
     private String pay_code = "1";
     private String list_id = "";
@@ -74,6 +81,11 @@ public class VideoBuyConfirmActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_buy_confim);
         ButterKnife.bind(this);
+
+        back(titleBack);
+        titleBack.setImageResource(R.drawable.goods_detial_back);
+        changeTitle(acTitle,"课程购买");
+        changeRightImg(acTitleIv,R.drawable.goods_detail_home,null,null);
 
         String info = getIntent().getStringExtra(Const.VIDEO_BUY_INFO);
         setData(info);
@@ -120,12 +132,12 @@ public class VideoBuyConfirmActivity extends AppCompatActivity {
                 bean.setRemark(acVideoBuyConfirmEtRemark.getText().toString().trim());
                 bean.setPay_code(pay_code);
                 bean.setList_id(list_id);
-                DiscoverSubscribe.videoOrder(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                DiscoverSubscribe.videoOrder(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        VideoOrderResponseBean bean=GsonUtils.fromJson(result,VideoOrderResponseBean.class);
-                        VideoOrderResponseBean.DataBean data=bean.getData();
-                        DiscoverSubscribe.payVideo(data.getPay_code(),data.getOrder_sn(),data.getPay_money(),new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        VideoOrderResponseBean bean = GsonUtils.fromJson(result, VideoOrderResponseBean.class);
+                        VideoOrderResponseBean.DataBean data = bean.getData();
+                        DiscoverSubscribe.payVideo(data.getPay_code(), data.getOrder_sn(), data.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                             @Override
                             public void onSuccess(String result) {
                                 finish();

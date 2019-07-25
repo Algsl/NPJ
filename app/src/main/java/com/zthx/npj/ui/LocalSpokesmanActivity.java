@@ -2,9 +2,9 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,7 +23,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LocalSpokesmanActivity extends AppCompatActivity {
+public class LocalSpokesmanActivity extends ActivityBase {
 
     @BindView(R.id.at_local_spokesman_rv)
     RecyclerView atLocalSpokesmanRv;
@@ -33,6 +33,10 @@ public class LocalSpokesmanActivity extends AppCompatActivity {
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.title)
     RelativeLayout title;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +44,8 @@ public class LocalSpokesmanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_local_spokesman);
         ButterKnife.bind(this);
 
-        acTitle.setText("附近代言人");
+        back(titleBack);
+        changeTitle(acTitle,"附近代言人");
         requestLocalSpokesman();
 
 

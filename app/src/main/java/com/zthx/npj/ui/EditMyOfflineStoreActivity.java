@@ -2,7 +2,7 @@ package com.zthx.npj.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.zhouzhuo.zzimagebox.ZzImageBox;
 
-public class EditMyOfflineStoreActivity extends AppCompatActivity {
+public class EditMyOfflineStoreActivity extends ActivityBase {
     @BindView(R.id.ac_title)
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
@@ -60,12 +60,22 @@ public class EditMyOfflineStoreActivity extends AppCompatActivity {
     String user_id = SharePerferenceUtils.getUserId(this);
     String token = SharePerferenceUtils.getToken(this);
     MyOfflineStoreResponseBean.DataBean data;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
+    @BindView(R.id.ac_store_manager_rv)
+    RecyclerView acStoreManagerRv;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_manager);
         ButterKnife.bind(this);
-        acTitle.setText("编辑线下门店");
+
+        back(titleBack);
+        changeTitle(acTitle,"商家管理");
+        changeRightText(atLocationStoreTvRuzhu,"管理",StoreManagerCenterActivity.class,null);
 
         getMyOfflineStore();
     }
@@ -97,14 +107,16 @@ public class EditMyOfflineStoreActivity extends AppCompatActivity {
         acStoreManagerEtRelife.setText(data.getRelief());
     }
 
-    private String getEtToString(EditText et){return et.getText().toString().trim();}
+    private String getEtToString(EditText et) {
+        return et.getText().toString().trim();
+    }
 
     @OnClick(R.id.ac_storeManager_btn_ruzhu)
     public void onViewClicked() {
-        EditOfflineStoreBean bean=new EditOfflineStoreBean();
+        EditOfflineStoreBean bean = new EditOfflineStoreBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
-        bean.setId(data.getId()+"");
+        bean.setId(data.getId() + "");
         bean.setStore_name(getEtToString(acStoreManagerEtStoreName));
         bean.setConsumption(getEtToString(acStoreManagerEtConsumption));
         bean.setContact(getEtToString(acStoreManagerEtContact));
@@ -115,7 +127,7 @@ public class EditMyOfflineStoreActivity extends AppCompatActivity {
         bean.setStore_img("");
         bean.setLng(SharePerferenceUtils.getLng(this));
         bean.setLat(SharePerferenceUtils.getLat(this));
-        SetSubscribe.editOfflineStore(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.editOfflineStore(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 finish();

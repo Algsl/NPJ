@@ -25,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class StoreGoodsInfoActivity extends AppCompatActivity {
+public class StoreGoodsInfoActivity extends ActivityBase{
     @BindView(R.id.title_theme_back)
     ImageView titleThemeBack;
     @BindView(R.id.title_theme_title)
@@ -67,7 +67,8 @@ public class StoreGoodsInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_goods_info);
         ButterKnife.bind(this);
-
+        back(titleThemeBack);
+        changeTitle(titleThemeTitle,"发布商品");
         getStoreGoodsInfo();
     }
 

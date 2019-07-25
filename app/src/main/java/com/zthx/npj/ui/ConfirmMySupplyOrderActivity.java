@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +25,6 @@ import com.zthx.npj.aliapi.PayResult;
 import com.zthx.npj.net.been.BuyBean;
 import com.zthx.npj.net.been.ConfirmOrderResponseBean;
 import com.zthx.npj.net.been.MySupplyOrderBuyBean;
-import com.zthx.npj.net.been.MySupplyOrderConfirmBean;
 import com.zthx.npj.net.been.MySupplyOrderConfirmResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -40,7 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ConfirmMySupplyOrderActivity extends AppCompatActivity {
+public class ConfirmMySupplyOrderActivity extends ActivityBase {
     @BindView(R.id.at_confirm_order_rl_title)
     RelativeLayout atConfirmOrderRlTitle;
     @BindView(R.id.at_confirm_myorder_tv_address)
@@ -70,21 +68,50 @@ public class ConfirmMySupplyOrderActivity extends AppCompatActivity {
     @BindView(R.id.ac_confirmOrder_btn_pay)
     Button acConfirmOrderBtnPay;
 
-    String user_id= SharePerferenceUtils.getUserId(this);
-    String token=SharePerferenceUtils.getToken(this);
-    String pay_code="1";
+    String user_id = SharePerferenceUtils.getUserId(this);
+    String token = SharePerferenceUtils.getToken(this);
+    String pay_code = "1";
     String order_id;
-    String address_id="10";
+    String address_id = "10";
     ConfirmOrderResponseBean.DataBean data;
-    public static IWXAPI api ;
-    private static final int SDK_PAY_FLAG=1001;
-    private String RSA_PRIVATE="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAujZ/wdGmsb2jaOGx5+8IpSh/V73TMAGXuw6HrAOG5QgtDLXF6IbBaDRo0nqr61jxrJgUYgLR5FWs8JNzaKP86fiiabhSGFzYaY1Jc8sGc7if0VKBQukP98LqAvDK06ft48ZDddmLRD89rdN7L3auNn1Wz6TUv3P8WLEAfiVvqchDFvRHE/EYXcMyJVDc+63gJs9oxDjQrXpQ3jsavEPdUCQGWeqeLc89oZiqw/3t+GhvWLfvzOSUb4GrXWeAkvVI+eut7erFsLu1rKjjg0a30pkCKg6/mVA52PjSvnsY8Rdl2iEp5RNZAckSIJHegPCPwNfszlW42gztjf9DPlhv5wIDAQAB";
-    public static final String APPID="2019071065831181";
+    public static IWXAPI api;
+    private static final int SDK_PAY_FLAG = 1001;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.at_location_store_tv_ruzhu)
+    TextView atLocationStoreTvRuzhu;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
+    @BindView(R.id.title)
+    RelativeLayout title;
+    @BindView(R.id.at_confirm_order_iv_go)
+    ImageView atConfirmOrderIvGo;
+    @BindView(R.id.at_confirm_order_iv_my_hongbao)
+    ImageView atConfirmOrderIvMyHongbao;
+    @BindView(R.id.at_confirm_order_rl_hongbao)
+    RelativeLayout atConfirmOrderRlHongbao;
+    @BindView(R.id.at_confirm_order_iv_my_col)
+    ImageView atConfirmOrderIvMyCol;
+    @BindView(R.id.at_confirm_order_iv_my_wechat)
+    ImageView atConfirmOrderIvMyWechat;
+    @BindView(R.id.at_confirm_order_iv_alipay)
+    ImageView atConfirmOrderIvAlipay;
+    @BindView(R.id.at_confirm_order_tv_jin)
+    TextView atConfirmOrderTvJin;
+    private String RSA_PRIVATE = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAujZ/wdGmsb2jaOGx5+8IpSh/V73TMAGXuw6HrAOG5QgtDLXF6IbBaDRo0nqr61jxrJgUYgLR5FWs8JNzaKP86fiiabhSGFzYaY1Jc8sGc7if0VKBQukP98LqAvDK06ft48ZDddmLRD89rdN7L3auNn1Wz6TUv3P8WLEAfiVvqchDFvRHE/EYXcMyJVDc+63gJs9oxDjQrXpQ3jsavEPdUCQGWeqeLc89oZiqw/3t+GhvWLfvzOSUb4GrXWeAkvVI+eut7erFsLu1rKjjg0a30pkCKg6/mVA52PjSvnsY8Rdl2iEp5RNZAckSIJHegPCPwNfszlW42gztjf9DPlhv5wIDAQAB";
+    public static final String APPID = "2019071065831181";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_myorder);
         ButterKnife.bind(this);
+
+        back(titleBack);
+        changeTitle(acTitle,"确认订单");
+
         api = WXAPIFactory.createWXAPI(ConfirmMySupplyOrderActivity.this, null);
         api.registerApp("wx76500efa65d19915");
 
@@ -92,8 +119,8 @@ public class ConfirmMySupplyOrderActivity extends AppCompatActivity {
     }
 
     private void getMyConfirmOrder() {
-        order_id=getIntent().getStringExtra("order_id");
-        SetSubscribe.mySupplyOrderConfirm(user_id,token,order_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        order_id = getIntent().getStringExtra("order_id");
+        SetSubscribe.mySupplyOrderConfirm(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setMyConfirmOrder(result);
@@ -107,15 +134,15 @@ public class ConfirmMySupplyOrderActivity extends AppCompatActivity {
     }
 
     private void setMyConfirmOrder(String result) {
-        MySupplyOrderConfirmResponseBean bean= GsonUtils.fromJson(result,MySupplyOrderConfirmResponseBean.class);
-        MySupplyOrderConfirmResponseBean.DataBean data=bean.getData();
+        MySupplyOrderConfirmResponseBean bean = GsonUtils.fromJson(result, MySupplyOrderConfirmResponseBean.class);
+        MySupplyOrderConfirmResponseBean.DataBean data = bean.getData();
         atConfirmMyorderTvAddress.setText(data.getAddress());
         atConfirmMyorderTvStoreName.setText("京东旗舰店");
         Glide.with(this).load(Uri.parse(data.getGoods_img())).into(atConfirmMyorderIvGoodsImg);
         atConfirmMyorderTvGoodsName.setText(data.getTitle());
-        atConfirmMyorderTvGoodsPrice.setText("￥ "+data.getGoods_price());
-        atConfirmOrderTvGoodsNum.setText("x "+data.getOrder_num());
-        atConfirmMyorderTvShip.setText("￥ "+data.getShipping_fee());
+        atConfirmMyorderTvGoodsPrice.setText("￥ " + data.getGoods_price());
+        atConfirmOrderTvGoodsNum.setText("x " + data.getOrder_num());
+        atConfirmMyorderTvShip.setText("￥ " + data.getShipping_fee());
         atConfirmMyorderTvOrderPrice.setText(data.getOrder_price());
         atConfirmMyorderTvOrderPrice1.setText(data.getOrder_price());
     }
@@ -127,22 +154,22 @@ public class ConfirmMySupplyOrderActivity extends AppCompatActivity {
                 acConfirmMyorderPayType1.setImageResource(R.drawable.confirm_select);
                 acConfirmMyorderPayType2.setImageResource(R.drawable.confirm_unselect);
                 acConfirmMyorderPayType3.setImageResource(R.drawable.confirm_unselect);
-                pay_code="3";
+                pay_code = "3";
                 break;
             case R.id.ac_confirm_myorder_payType2:
                 acConfirmMyorderPayType1.setImageResource(R.drawable.confirm_unselect);
                 acConfirmMyorderPayType2.setImageResource(R.drawable.confirm_select);
                 acConfirmMyorderPayType3.setImageResource(R.drawable.confirm_unselect);
-                pay_code="2";
+                pay_code = "2";
                 break;
             case R.id.ac_confirm_myorder_payType3:
                 acConfirmMyorderPayType1.setImageResource(R.drawable.confirm_unselect);
                 acConfirmMyorderPayType2.setImageResource(R.drawable.confirm_unselect);
                 acConfirmMyorderPayType3.setImageResource(R.drawable.confirm_select);
-                pay_code="1";
+                pay_code = "1";
                 break;
             case R.id.ac_confirmOrder_btn_pay:
-                switch(pay_code){
+                switch (pay_code) {
                     case "1"://支付宝支付
                         alipay();
                         break;
@@ -153,13 +180,13 @@ public class ConfirmMySupplyOrderActivity extends AppCompatActivity {
                         yuepay();
                         break;
                 }
-                BuyBean bean=new BuyBean();
+                BuyBean bean = new BuyBean();
                 bean.setUser_id(user_id);
                 bean.setToken(token);
                 bean.setOrder_id(getIntent().getStringExtra("order_id"));
-                bean.setAddress_id(data.getAddress_id()+"");
+                bean.setAddress_id(data.getAddress_id() + "");
                 bean.setPay_code(pay_code);
-                SetSubscribe.buy(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                SetSubscribe.buy(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
 
@@ -175,16 +202,16 @@ public class ConfirmMySupplyOrderActivity extends AppCompatActivity {
     }
 
     private void yuepay() {
-        MySupplyOrderBuyBean bean=new MySupplyOrderBuyBean();
+        MySupplyOrderBuyBean bean = new MySupplyOrderBuyBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
         bean.setPay_code(pay_code);
         bean.setOrder_id(order_id);
         bean.setAddress_id(address_id);
-        SetSubscribe.mySupplyOrderBuy(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.mySupplyOrderBuy(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Toast.makeText(ConfirmMySupplyOrderActivity.this,"支付成功",Toast.LENGTH_LONG).show();
+                Toast.makeText(ConfirmMySupplyOrderActivity.this, "支付成功", Toast.LENGTH_LONG).show();
                 finish();
             }
 
@@ -197,13 +224,13 @@ public class ConfirmMySupplyOrderActivity extends AppCompatActivity {
 
     private void wxpay() {
         PayReq req = new PayReq();
-        req.appId           = "wx76500efa65d19915";//你的微信appid
-        req.partnerId       = "1512847301";//商户号
-        req.prepayId        = "wx0818255793822758eb1d33a80072025131";//预支付交易会话ID
-        req.nonceStr        = "o32sb3Y27jFiLyqHe07e7n5mvSa3ZfIL";//随机字符串
-        req.timeStamp       = "1557311094";//时间戳
-        req.packageValue    = "Sign=WXPay";//扩展字段,这里固定填写Sign=WXPay
-        req.sign            = "279B44E2D21B4B54F80FE62B3917F27A";//签名
+        req.appId = "wx76500efa65d19915";//你的微信appid
+        req.partnerId = "1512847301";//商户号
+        req.prepayId = "wx0818255793822758eb1d33a80072025131";//预支付交易会话ID
+        req.nonceStr = "o32sb3Y27jFiLyqHe07e7n5mvSa3ZfIL";//随机字符串
+        req.timeStamp = "1557311094";//时间戳
+        req.packageValue = "Sign=WXPay";//扩展字段,这里固定填写Sign=WXPay
+        req.sign = "279B44E2D21B4B54F80FE62B3917F27A";//签名
         // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
         ConfirmMySupplyOrderActivity.api.sendReq(req);
     }
@@ -214,13 +241,13 @@ public class ConfirmMySupplyOrderActivity extends AppCompatActivity {
         Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa);
         //构造支付订单参数信息
         String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
-        Log.e("测试", "alipay: "+orderParam );
+        Log.e("测试", "alipay: " + orderParam);
         //对支付参数信息进行签名
         String sign = OrderInfoUtil2_0.getSign(params, RSA_PRIVATE, rsa);
         //订单信息
         final String orderInfo = orderParam + "&" + sign;
         //异步处理
-        Toast.makeText(this,"支付宝支付",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "支付宝支付", Toast.LENGTH_LONG).show();
         Runnable payRunnable = new Runnable() {
 
             @Override

@@ -3,9 +3,9 @@ package com.zthx.npj.ui;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class EnterpriseCertificationActivity extends AppCompatActivity {
+public class EnterpriseCertificationActivity extends ActivityBase {
 
     @BindView(R.id.at_enterprise_certification_btn_attestation)
     Button atEnterpriseCertificationBtnAttestation;
@@ -32,12 +32,18 @@ public class EnterpriseCertificationActivity extends AppCompatActivity {
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.title)
     RelativeLayout title;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enterprise_certification);
         ButterKnife.bind(this);
+        back(titleBack);
+        changeTitle(acTitle,"企业认证");
     }
 
     @OnClick({R.id.at_location_store_tv_ruzhu, R.id.at_enterprise_certification_btn_attestation})
@@ -68,7 +74,7 @@ public class EnterpriseCertificationActivity extends AppCompatActivity {
             public void onFault(String errorMsg) {
                 showDialog();
             }
-        },this));
+        }, this));
     }
 
     private void showDialog() {

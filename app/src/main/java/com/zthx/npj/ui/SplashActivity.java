@@ -36,7 +36,7 @@ import com.zthx.npj.utils.SharePerferenceUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends ActivityBase{
     LinearLayout atSplash;
     static final int GPS_REQUEST_CODE=10;
     private Handler mHandler = new Handler() {
@@ -57,7 +57,7 @@ public class SplashActivity extends AppCompatActivity {
                 }));
             } else if (msg.what == 2) {
                 if(SharePerferenceUtils.getUserId(SplashActivity.this).equals("")){
-
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 }else{
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     //startActivity(new Intent(SplashActivity.this, ShoppingCartActivity.class));

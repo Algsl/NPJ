@@ -2,9 +2,10 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.base.BaseConstant;
@@ -19,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MyAttestationActivity extends AppCompatActivity {
+public class MyAttestationActivity extends ActivityBase {
 
     @BindView(R.id.at_my_attestation_ll_people)
     LinearLayout atMyAttestationLlPeople;
@@ -29,6 +30,12 @@ public class MyAttestationActivity extends AppCompatActivity {
     LinearLayout atMyAttestationLlBuy;
     @BindView(R.id.at_my_attestation_ll_trust)
     LinearLayout atMyAttestationLlTrust;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.at_location_store_tv_ruzhu)
+    TextView atLocationStoreTvRuzhu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +43,8 @@ public class MyAttestationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_attestation);
         ButterKnife.bind(this);
 
+        back(titleBack);
+        changeTitle(acTitle,"我的认证");
         getCertData();
     }
 
@@ -76,7 +85,7 @@ public class MyAttestationActivity extends AppCompatActivity {
                 startActivity(new Intent(this, EnterpriseCertificationActivity.class));
                 break;
             case R.id.at_my_attestation_ll_buy:
-                startActivity(new Intent(this,PurchaserCertificationActivity.class));
+                startActivity(new Intent(this, PurchaserCertificationActivity.class));
                 break;
             case R.id.at_my_attestation_ll_trust:
                 startActivity(new Intent(this, TrustedStoreActivity.class));

@@ -71,11 +71,9 @@
         <activity android:name=".ui.SupplyProductsActivity" />
         <activity android:name=".ui.SupplyBillActivity" />
         <activity android:name=".ui.AddAddressActivity" />
-        <activity android:name=".ui.ChoiceAddressActivity" />
         <activity android:name=".ui.MessageCenterActivity" />
         <activity android:name=".ui.SystemMessageActivity" />
         <activity android:name=".ui.SettingsActivity" />
-        <activity android:name=".ui.ModifyNameActivity" />
         <activity android:name=".ui.AskForPartnerActivity" />
         <activity android:name=".ui.SpokesmanRightsNoPermissionActivity" />
         <activity android:name=".ui.ConfirmAchievementActivity" />
@@ -83,7 +81,6 @@
         <activity android:name=".ui.MyOrderActivity" />
         <activity android:name=".ui.MyCouponActivity" />
         <activity android:name=".ui.SpokesmanRightsActivity" />
-        <activity android:name=".ui.ExtractCashActivity" />
         <activity android:name=".ui.RechargeActivity" />
         <activity android:name=".ui.MyWalletActivity" />
         <activity android:name=".ui.MyStoreActivity" />
@@ -91,7 +88,6 @@
         <activity android:name=".ui.StoreGoodsListActivity" />
         <activity android:name=".ui.StoreGoodsBillActivity" />
         <activity android:name=".ui.GoodsBillDetailActivity" />
-        <activity android:name=".ui.ReturnOrExchangeActivity" />
         <activity android:name=".ui.MyAttestationActivity" />
         <activity android:name=".ui.TrustedStoreActivity" />
         <activity android:name=".ui.TrustedStore2Activity" />
@@ -109,8 +105,6 @@
         <activity android:name=".ui.MyBillActivity" />
         <activity android:name=".ui.SupplyManagerActivity" />
         <activity android:name=".ui.WantBuyManagerActivity" />
-        <activity android:name=".ui.StoreQuotationListActivity" />
-        <activity android:name=".ui.QuotationPeopleDetailActivity" />
         <activity android:name=".ui.ReleaseSupplyActivity" />
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".ui.CellPhoneLoginActivity" />
@@ -118,7 +112,6 @@
         <activity android:name=".ui.LocalSpokesmanActivity" />
         <activity android:name=".ui.AttestationSuccessActivity" />
         <activity android:name=".ui.MembershipPackageActivity" />
-        <activity android:name=".ui.ContactReferencesActivity" />
         <activity android:name=".ui.EditNicknameActivity" />
         <activity android:name=".ui.AddressListActivity" />
         <activity android:name=".ui.EditAddressActivity" />

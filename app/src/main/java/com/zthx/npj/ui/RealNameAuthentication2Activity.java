@@ -19,7 +19,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.support.v4.content.PermissionChecker;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -27,12 +26,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.base.BaseConstant;
-import com.zthx.npj.net.been.UpLoadFileBean;
 import com.zthx.npj.net.been.UpLoadMyCertBean;
 import com.zthx.npj.net.been.UpLoadPicResponseBean;
 import com.zthx.npj.net.netsubscribe.CertSubscribe;
@@ -54,9 +54,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.zthx.npj.utils.NetUtils.context;
-
-public class RealNameAuthentication2Activity extends AppCompatActivity {
+public class RealNameAuthentication2Activity extends ActivityBase {
 
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
@@ -72,6 +70,14 @@ public class RealNameAuthentication2Activity extends AppCompatActivity {
     LinearLayout atRealNameAuthentication2LlIdFan;
     @BindView(R.id.at_real_name_authentication2_ll_id_quan)
     LinearLayout atRealNameAuthentication2LlIdQuan;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
+    @BindView(R.id.title)
+    RelativeLayout title;
 
     private File avatarFile;
     private Uri avatarUri;
@@ -91,6 +97,8 @@ public class RealNameAuthentication2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_real_name_authentication2);
         ButterKnife.bind(this);
+        back(titleBack);
+        changeTitle(acTitle,"实人认证");
     }
 
     @OnClick({R.id.at_real_name_authentication2_ll_id_zheng, R.id.at_real_name_authentication2_ll_id_fan, R.id.at_real_name_authentication2_ll_id_quan})
@@ -190,7 +198,7 @@ public class RealNameAuthentication2Activity extends AppCompatActivity {
             openCamera();
         } else {//如果相机权限并未被授予, 主动向用户请求该权限
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//Android 6.0+时, 动态申请权限
-                requestPermissions(new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_CONTACTS}, 1);
+                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_CONTACTS}, 1);
             } else {
 //                IntentUtil.openAppPermissionPage(this);
             }
@@ -262,7 +270,7 @@ public class RealNameAuthentication2Activity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode== CAMERA_RESULT_CODE) {
+        if (requestCode == CAMERA_RESULT_CODE) {
 //            cropPic(getImageContentUri(avatarFile));
             startPhotoZoom(avatarUri); // 开始对图片进行裁剪处理
         } else if (requestCode == CROP_RESULT_CODE) {
@@ -342,9 +350,9 @@ public class RealNameAuthentication2Activity extends AppCompatActivity {
         SetSubscribe.upLoadFile(file, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: "+result);
+                Log.e("测试", "onSuccess: " + result);
                 UpLoadPicResponseBean bean = GsonUtils.fromJson(result, UpLoadPicResponseBean.class);
-                UpLoadPicResponseBean.DataBean data=bean.getData();
+                UpLoadPicResponseBean.DataBean data = bean.getData();
                 if (view == atRealNameAuthentication2LlIdZheng) {
                     UrlZheng = data.getSrc();
                 } else if (view == atRealNameAuthentication2LlIdFan) {
@@ -356,9 +364,9 @@ public class RealNameAuthentication2Activity extends AppCompatActivity {
 
             @Override
             public void onFault(String errorMsg) {
-                Log.e("测试", "onSuccess: "+errorMsg);
+                Log.e("测试", "onSuccess: " + errorMsg);
             }
-        },this));
+        }, this));
     }
 
     private File bitmapToFile(Bitmap bitmap) {

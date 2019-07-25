@@ -29,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class WantBuyManagerActivity extends AppCompatActivity {
+public class WantBuyManagerActivity extends ActivityBase {
 
     @BindView(R.id.title_theme_back)
     ImageView titleThemeBack;
@@ -67,7 +67,9 @@ public class WantBuyManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_want_buy_manager);
         ButterKnife.bind(this);
-        titleThemeTitle.setText("供应管理");
+
+        back(titleThemeBack);
+        changeTitle(titleThemeTitle,"供应管理");
         getWantBuy();
     }
 

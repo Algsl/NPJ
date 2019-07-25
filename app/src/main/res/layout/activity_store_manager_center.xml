@@ -20,6 +20,7 @@
         android:layout_marginLeft="@dimen/dp_22"/>  
     
     <LinearLayout
+        android:id="@+id/ac_storeManager_ll"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_60"
         android:layout_marginLeft="@dimen/dp_12"

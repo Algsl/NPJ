@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,9 +32,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AddAddressActivity extends AppCompatActivity {
+public class AddAddressActivity extends ActivityBase {
     @BindView(R.id.ac_address_tv_address)
     TextView acAddressTvAddress;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
     private String is_default = "0";
 
     @BindView(R.id.ac_title)
@@ -64,7 +67,10 @@ public class AddAddressActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_address);
         ButterKnife.bind(this);
-        mAcTitle.setText("添加地址");
+
+        back(titleBack);
+        changeTitle(mAcTitle,"添加地址");
+
         initJsonData();
         mAcAddressIvIsDefault.setOnClickListener(new View.OnClickListener() {
             @Override

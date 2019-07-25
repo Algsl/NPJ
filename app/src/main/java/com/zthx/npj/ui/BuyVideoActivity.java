@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.zthx.npj.R;
 
-public class BuyVideoActivity extends AppCompatActivity {
+public class BuyVideoActivity extends ActivityBase {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -5,11 +5,12 @@ import android.os.Bundle;
 
 import com.zthx.npj.R;
 
-public class SpokesmanRightsNoPermissionActivity extends AppCompatActivity {
+public class SpokesmanRightsNoPermissionActivity extends ActivityBase {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spokesman_rights);
+
     }
 }

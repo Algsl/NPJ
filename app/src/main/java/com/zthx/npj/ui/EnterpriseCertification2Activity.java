@@ -16,7 +16,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.support.v4.content.PermissionChecker;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -52,7 +51,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class EnterpriseCertification2Activity extends AppCompatActivity {
+public class EnterpriseCertification2Activity extends ActivityBase {
 
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
@@ -74,6 +73,12 @@ public class EnterpriseCertification2Activity extends AppCompatActivity {
     ImageView atEnterpriseCertification2TvPhone;
     @BindView(R.id.at_enterprise_certification2_btn_confirm)
     Button atEnterpriseCertification2BtnConfirm;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
 
     private int index;
     private int ALBUM_RESULT_CODE = 10;
@@ -90,6 +95,8 @@ public class EnterpriseCertification2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enterprise_certification2);
         ButterKnife.bind(this);
+        back(titleBack);
+        changeTitle(acTitle,"企业认证");
     }
 
     @OnClick({R.id.at_enterprise_certification2_ll_company_pic, R.id.at_enterprise_certification2_ll_shouquan, R.id.at_enterprise_certification2_btn_confirm})
@@ -127,7 +134,7 @@ public class EnterpriseCertification2Activity extends AppCompatActivity {
             public void onFault(String errorMsg) {
 
             }
-        },this));
+        }, this));
     }
 
     private void showBottomDialog(final View v) {
@@ -161,7 +168,7 @@ public class EnterpriseCertification2Activity extends AppCompatActivity {
             public void onClick(View view) {
                 if (v.getId() == R.id.at_enterprise_certification2_ll_company_pic) {
                     index = 0;
-                } else  {
+                } else {
                     index = 1;
                 }
                 onCameraSelected();
@@ -198,7 +205,7 @@ public class EnterpriseCertification2Activity extends AppCompatActivity {
             openCamera();
         } else {//如果相机权限并未被授予, 主动向用户请求该权限
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//Android 6.0+时, 动态申请权限
-                requestPermissions(new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_CONTACTS}, 1);
+                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_CONTACTS}, 1);
             } else {
 //                IntentUtil.openAppPermissionPage(this);
             }
@@ -252,7 +259,7 @@ public class EnterpriseCertification2Activity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode== CAMERA_RESULT_CODE) {
+        if (requestCode == CAMERA_RESULT_CODE) {
 //            cropPic(getImageContentUri(avatarFile));
             startPhotoZoom(avatarUri); // 开始对图片进行裁剪处理
         } else if (requestCode == CROP_RESULT_CODE) {
@@ -266,7 +273,7 @@ public class EnterpriseCertification2Activity extends AppCompatActivity {
                         if (index == 0) {
                             atEnterpriseCertification2LlCompanyPic.setBackground(new BitmapDrawable(bitmap));
                             getPicUrl(atEnterpriseCertification2LlCompanyPic, bitmap);
-                        } else  {
+                        } else {
                             atEnterpriseCertification2LlShouquan.setBackground(new BitmapDrawable(bitmap));
                         }
                     } catch (FileNotFoundException e) {
@@ -333,10 +340,10 @@ public class EnterpriseCertification2Activity extends AppCompatActivity {
             public void onSuccess(String result) {
 
                 UpLoadPicResponseBean bean = GsonUtils.fromJson(result, UpLoadPicResponseBean.class);
-                UpLoadPicResponseBean.DataBean data=bean.getData();
+                UpLoadPicResponseBean.DataBean data = bean.getData();
                 if (view == atEnterpriseCertification2LlCompanyPic) {
-                    urlPic =data.getSrc();
-                } else  {
+                    urlPic = data.getSrc();
+                } else {
                     urlShouQuan = data.getSrc();
                 }
             }
@@ -345,7 +352,7 @@ public class EnterpriseCertification2Activity extends AppCompatActivity {
             public void onFault(String errorMsg) {
 
             }
-        },this));
+        }, this));
     }
 
     private File bitmapToFile(Bitmap bitmap) {

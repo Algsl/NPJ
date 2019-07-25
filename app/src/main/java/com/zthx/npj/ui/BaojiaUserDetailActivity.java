@@ -19,7 +19,7 @@ import com.zthx.npj.view.MyCircleView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BaojiaUserDetailActivity extends AppCompatActivity {
+public class BaojiaUserDetailActivity extends ActivityBase {
 
 
     @BindView(R.id.title_theme_back)
@@ -53,6 +53,8 @@ public class BaojiaUserDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_baojia_detail);
         ButterKnife.bind(this);
 
+        back(titleThemeBack);
+        changeTitle(titleThemeTitle,"商家报价");
         getBaojiaDetail();
     }
 

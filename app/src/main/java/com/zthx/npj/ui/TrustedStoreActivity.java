@@ -2,9 +2,9 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TrustedStoreActivity extends AppCompatActivity {
+public class TrustedStoreActivity extends ActivityBase {
 
     @BindView(R.id.at_trust_store_btn_attestation)
     Button atTrustStoreBtnAttestation;
@@ -37,12 +37,21 @@ public class TrustedStoreActivity extends AppCompatActivity {
     LinearLayout atTrustStoreLlBaozhengjin;
     @BindView(R.id.at_trust_bottom)
     LinearLayout atTrustBottom;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trusted_store);
         ButterKnife.bind(this);
+
+        back(titleBack);
+        changeTitle(acTitle,"诚信商家");
         getData();
     }
 
@@ -56,7 +65,7 @@ public class TrustedStoreActivity extends AppCompatActivity {
                 int status = chengXinCertResponseBean.getData().getStatus();
                 if (status == 1) {
                     atTrustStoreLlBaozhengjin.setVisibility(View.VISIBLE);
-                    atTrustStoreTvBaozhengjin.setText("您的当前保证金为"+chengXinCertResponseBean.getData().getStatus()+"元");
+                    atTrustStoreTvBaozhengjin.setText("您的当前保证金为" + chengXinCertResponseBean.getData().getStatus() + "元");
                 } else {
                     atTrustStoreLlBaozhengjin.setVisibility(View.GONE);
                 }
@@ -66,7 +75,7 @@ public class TrustedStoreActivity extends AppCompatActivity {
             public void onFault(String errorMsg) {
 
             }
-        },this));
+        }, this));
     }
 
     @OnClick(R.id.at_trust_store_btn_attestation)
@@ -82,8 +91,8 @@ public class TrustedStoreActivity extends AppCompatActivity {
             @Override
             public void onFault(String errorMsg) {
 
-                Toast.makeText(TrustedStoreActivity.this,errorMsg,Toast.LENGTH_SHORT).show();
+                Toast.makeText(TrustedStoreActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
             }
-        },this));
+        }, this));
     }
 }

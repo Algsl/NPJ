@@ -2,7 +2,6 @@ package com.zthx.npj.ui.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +27,7 @@ import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.ActivityBase;
 import com.zthx.npj.utils.GetJsonDataUtil;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
@@ -35,7 +35,6 @@ import com.zthx.npj.utils.SharePerferenceUtils;
 import org.json.JSONArray;
 
 import java.io.File;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.zhouzhuo.zzimagebox.ZzImageBox;
 
-public class SupplyMessageActivity extends AppCompatActivity {
+public class SupplyMessageActivity extends ActivityBase {
 
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
@@ -108,6 +107,12 @@ public class SupplyMessageActivity extends AppCompatActivity {
     RadioButton atSupplyMessageRbZhiding;
     @BindView(R.id.at_supply_message_ll_zhiding)
     LinearLayout atSupplyMessageLlZhiding;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
 
     private ArrayList<JsonBean> options1Items = new ArrayList<>(); //省
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();//市
@@ -124,6 +129,9 @@ public class SupplyMessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supply_message);
         ButterKnife.bind(this);
+
+        back(titleBack);
+        changeTitle(acTitle,"发布供应");
 
         supplyType = getIntent().getIntExtra(Const.SUPPLY_TYPE, 1);
         setView(supplyType);
@@ -202,7 +210,6 @@ public class SupplyMessageActivity extends AppCompatActivity {
 
     /**
      * 上传所有信息
-     *
      */
     private void uploadData() {
 
@@ -240,7 +247,6 @@ public class SupplyMessageActivity extends AppCompatActivity {
 
     /**
      * 先上传3张的banner图片
-     *
      */
     private void getData() {
         List<String> allRealPath = atSupplyMessageThreePic.getAllRealPath();
@@ -273,7 +279,6 @@ public class SupplyMessageActivity extends AppCompatActivity {
 
     /**
      * 再上传9张的详情图片
-     *
      */
     private void setNinePic() {
         List<String> allRealPath = atSupplyMessageNinePic.getAllRealPath();
@@ -310,7 +315,7 @@ public class SupplyMessageActivity extends AppCompatActivity {
                     uploadPurchaseBean.setAmount(atSupplyMessageNum.getText().toString());
                     uploadPurchaseBean.setMin_price(atSupplyMessageEtMin.getText().toString());
                     uploadPurchaseBean.setMax_price(atSupplyMessageEtMax.getText().toString());
-                    uploadPurchaseBean.setIs_top(atSupplyMessageRbZhiding.isChecked() ? "1":"0");
+                    uploadPurchaseBean.setIs_top(atSupplyMessageRbZhiding.isChecked() ? "1" : "0");
                 }
                 uploadData();
 

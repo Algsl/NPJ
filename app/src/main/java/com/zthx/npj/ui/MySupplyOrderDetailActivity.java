@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
-import com.zthx.npj.net.been.MyOrderDetailResponseBean;
 import com.zthx.npj.net.been.MySupplyOrderConfirmResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -25,7 +24,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MySupplyOrderDetailActivity extends AppCompatActivity {
+public class MySupplyOrderDetailActivity extends ActivityBase {
     @BindView(R.id.at_myOrderDetail_rl_title)
     RelativeLayout atMyOrderDetailRlTitle;
     @BindView(R.id.at_myOrderDetail_ll_address)
@@ -60,12 +59,28 @@ public class MySupplyOrderDetailActivity extends AppCompatActivity {
     TextView atMyOrderDetailTvCreateTime;
     @BindView(R.id.at_myOrderDetail_tv_payTime)
     TextView atMyOrderDetailTvPayTime;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.at_location_store_tv_ruzhu)
+    TextView atLocationStoreTvRuzhu;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
+    @BindView(R.id.title)
+    RelativeLayout title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myorder_detail);
         ButterKnife.bind(this);
+
+        back(titleBack);
+        titleBack.setImageResource(R.drawable.goods_detial_back);
+        changeTitle(acTitle,"订单详情");
+        changeRightImg(acTitleIv,R.drawable.goods_detail_home,null,null);
+
         getMyStoreOrderDetail();
     }
 
@@ -100,8 +115,8 @@ public class MySupplyOrderDetailActivity extends AppCompatActivity {
             itemChoiceAddressTvAddress.setText(data.getAddress());
             Glide.with(this).load(Uri.parse(data.getGoods_img())).into(atMyOrderDetailIvGoodsImg);
             atMyOrderDetailTvGoodsName.setText(data.getTitle());
-            atMyOrderDetailTvGoodsPrice.setText("￥"+data.getGoods_price());
-            atMyOrderDetailTvGoodsNum.setText("x " +data.getOrder_num());
+            atMyOrderDetailTvGoodsPrice.setText("￥" + data.getGoods_price());
+            atMyOrderDetailTvGoodsNum.setText("x " + data.getOrder_num());
             atMyOrderDetailTvIsFreeShipping.setText(data.getShipping_fee());
             atMyOrderDetailTvOrderPrice.setText(data.getOrder_price());
             atMyOrderDetailTvOrderSn.setText(data.getOrder_sn());

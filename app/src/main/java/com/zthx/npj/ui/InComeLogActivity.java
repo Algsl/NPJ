@@ -3,12 +3,12 @@ package com.zthx.npj.ui;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class InComeLogActivity extends AppCompatActivity {
+public class InComeLogActivity extends ActivityBase {
     @BindView(R.id.ac_title)
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
@@ -42,6 +42,10 @@ public class InComeLogActivity extends AppCompatActivity {
     String type = "100";
     @BindView(R.id.ac_vipJL_tv_allType)
     TextView acVipJLTvAllType;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,7 +53,9 @@ public class InComeLogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_income_log);
         ButterKnife.bind(this);
 
-        acTitle.setText("收益明细");
+        back(titleBack);
+        changeTitle(acTitle,"收益明细");
+
         getIncomeLog();
     }
 
@@ -91,7 +97,7 @@ public class InComeLogActivity extends AppCompatActivity {
         store = view.findViewById(R.id.dl_vipjl_tv_store);
         other = view.findViewById(R.id.dl_vipjl_tv_other);
         cancel = view.findViewById(R.id.dl_vipjl_tv_cancel);
-        final TextView[] tvs = {all, city, dInvation, iInvation, dSell, iSell,store, other};
+        final TextView[] tvs = {all, city, dInvation, iInvation, dSell, iSell, store, other};
         switch (type) {
             case "":
                 changeColor(tvs, 0);
@@ -169,7 +175,7 @@ public class InComeLogActivity extends AppCompatActivity {
         store.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                type="6";
+                type = "6";
                 acVipJLTvAllType.setText("店铺销售收益");
                 dialog.dismiss();
             }

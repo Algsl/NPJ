@@ -3,16 +3,15 @@ package com.zthx.npj.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.MyStoreResponseBean;
-import com.zthx.npj.net.been.UploadImgResponseBean;
-import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -24,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MySupplyActivity extends AppCompatActivity {
+public class MySupplyActivity extends ActivityBase {
 
     @BindView(R.id.at_my_supply_ll_my_bill)
     LinearLayout atMySupplyLlMyBill;
@@ -40,6 +39,16 @@ public class MySupplyActivity extends AppCompatActivity {
     TextView acMySupplyTvNickName;
     @BindView(R.id.ac_mySupply_tv_reputation)
     TextView acMySupplyTvReputation;
+    @BindView(R.id.title_theme_back)
+    ImageView titleThemeBack;
+    @BindView(R.id.title_theme_title)
+    TextView titleThemeTitle;
+    @BindView(R.id.title_theme_tv_right)
+    TextView titleThemeTvRight;
+    @BindView(R.id.title_theme_img_right)
+    ImageView titleThemeImgRight;
+    @BindView(R.id.title_theme)
+    RelativeLayout titleTheme;
 
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
@@ -50,6 +59,9 @@ public class MySupplyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_supply);
         ButterKnife.bind(this);
+
+        back(titleThemeBack);
+        changeTitle(titleThemeTitle,"我的供求");
 
         getMyStore();
     }

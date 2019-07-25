@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends ActivityBase {
 
     @BindView(R.id.at_login_logo)
     ImageView atLoginLogo;

@@ -3,7 +3,6 @@ package com.zthx.npj.ui;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CommentActivity extends AppCompatActivity {
+public class CommentActivity extends ActivityBase {
     @BindView(R.id.ac_title)
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
@@ -57,6 +56,10 @@ public class CommentActivity extends AppCompatActivity {
     String token = SharePerferenceUtils.getToken(this);
     @BindView(R.id.ac_orderComment_iv_goodsImg)
     ImageView acOrderCommentIvGoodsImg;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +67,9 @@ public class CommentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_comment);
         ButterKnife.bind(this);
         getOrderDetail();
+
+        back(titleBack);
+        changeTitle(acTitle,"发表评价");
         acTitle.setText("发表评价");
         atLocationStoreTvRuzhu.setText("提交");
 
@@ -154,8 +160,8 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     private void setOrderDetail(String result) {
-        MyOrderDetailResponseBean bean= GsonUtils.fromJson(result,MyOrderDetailResponseBean.class);
-        MyOrderDetailResponseBean.DataBean data=bean.getData();
+        MyOrderDetailResponseBean bean = GsonUtils.fromJson(result, MyOrderDetailResponseBean.class);
+        MyOrderDetailResponseBean.DataBean data = bean.getData();
         Glide.with(this).load(Uri.parse(data.getGoods_img())).into(acOrderCommentIvGoodsImg);
     }
 

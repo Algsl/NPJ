@@ -3,7 +3,6 @@ package com.zthx.npj.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -25,7 +24,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BaojiaUserListActivity extends AppCompatActivity {
+public class BaojiaUserListActivity extends ActivityBase {
     @BindView(R.id.title_theme_back)
     ImageView titleThemeBack;
     @BindView(R.id.title_theme_title)
@@ -37,8 +36,10 @@ public class BaojiaUserListActivity extends AppCompatActivity {
     @BindView(R.id.ac_baojia_userlist_rv)
     RecyclerView acBaojiaUserlistRv;
 
-    String user_id=SharePerferenceUtils.getUserId(this);
-    String token=SharePerferenceUtils.getToken(this);
+    String user_id = SharePerferenceUtils.getUserId(this);
+    String token = SharePerferenceUtils.getToken(this);
+    @BindView(R.id.title_theme_img_right)
+    ImageView titleThemeImgRight;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,16 +47,17 @@ public class BaojiaUserListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_baojia_userlist);
         ButterKnife.bind(this);
 
-        titleThemeTitle.setText("报价商家列表");
+        back(titleThemeBack);
+        changeTitle(titleThemeTitle,"报价商家列表");
         titleThemeTvRight.setVisibility(View.VISIBLE);
-        titleThemeTvRight.setText("发布供求");
+        changeRightText(titleThemeTvRight,"发布供求",null,null);
 
         getBaojiaUserList();
     }
 
     private void getBaojiaUserList() {
-        String id=getIntent().getStringExtra("user_id");
-        SetSubscribe.baojiaUserList(user_id,token,id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        String id = getIntent().getStringExtra("user_id");
+        SetSubscribe.baojiaUserList(user_id, token, id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setBaojiaUserList(result);
@@ -69,18 +71,18 @@ public class BaojiaUserListActivity extends AppCompatActivity {
     }
 
     private void setBaojiaUserList(String result) {
-        BaojiaUserListResponseBean bean=GsonUtils.fromJson(result,BaojiaUserListResponseBean.class);
-        final ArrayList<BaojiaUserListResponseBean.DataBean> data=bean.getData();
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
+        BaojiaUserListResponseBean bean = GsonUtils.fromJson(result, BaojiaUserListResponseBean.class);
+        final ArrayList<BaojiaUserListResponseBean.DataBean> data = bean.getData();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acBaojiaUserlistRv.setLayoutManager(layoutManager);
-        BaojiaUserListAdapter adapter=new BaojiaUserListAdapter(this,data);
+        BaojiaUserListAdapter adapter = new BaojiaUserListAdapter(this, data);
         acBaojiaUserlistRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaojiaUserListAdapter.ItemClickListener() {
             @Override
             public void onSeeClick(int position) {
-                Intent intent=new Intent(BaojiaUserListActivity.this,BaojiaUserDetailActivity.class);
-                intent.putExtra("id",data.get(position).getId()+"");
-                intent.putExtra("user_id",getIntent().getStringExtra("user_id"));
+                Intent intent = new Intent(BaojiaUserListActivity.this, BaojiaUserDetailActivity.class);
+                intent.putExtra("id", data.get(position).getId() + "");
+                intent.putExtra("user_id", getIntent().getStringExtra("user_id"));
                 startActivity(intent);
             }
         });

@@ -2,18 +2,17 @@ package com.zthx.npj.ui;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
-import com.zthx.npj.base.BaseConstant;
 import com.zthx.npj.net.been.UploadChengXinCertBean;
 import com.zthx.npj.net.netsubscribe.CertSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -24,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TrustedStore2Activity extends AppCompatActivity {
+public class TrustedStore2Activity extends ActivityBase {
 
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
@@ -52,6 +51,12 @@ public class TrustedStore2Activity extends AppCompatActivity {
     RadioButton atTrustStore2RbRead;
     @BindView(R.id.at_trust_store2_btn_join)
     Button atTrustStore2BtnJoin;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
 
     private int check;
 
@@ -60,6 +65,8 @@ public class TrustedStore2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trusted_store2);
         ButterKnife.bind(this);
+        back(titleBack);
+        changeTitle(acTitle,"诚信商家");
     }
 
     @OnClick({R.id.at_trust_store2_rl_2000, R.id.at_trust_store2_rl_3000, R.id.at_trust_store2_rl_4000, R.id.at_trust_store2_rb_read, R.id.at_trust_store2_btn_join})
@@ -151,7 +158,7 @@ public class TrustedStore2Activity extends AppCompatActivity {
         UploadChengXinCertBean bean = new UploadChengXinCertBean();
         bean.setUser_id(SharePerferenceUtils.getUserId(TrustedStore2Activity.this));
         bean.setToken(SharePerferenceUtils.getToken(TrustedStore2Activity.this));
-        bean.setPrice(check+ "000");
+        bean.setPrice(check + "000");
         bean.setPay_code(i + "");
         CertSubscribe.uploadChengxinCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override

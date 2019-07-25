@@ -16,7 +16,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.support.v4.content.PermissionChecker;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -24,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -51,7 +51,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PurchaserCertification2Activity extends AppCompatActivity {
+public class PurchaserCertification2Activity extends ActivityBase {
 
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
@@ -93,6 +93,12 @@ public class PurchaserCertification2Activity extends AppCompatActivity {
     TextView atPurchaserCertification2TvDianjishangchuan;
     @BindView(R.id.at_purchaser_certification2_et_name)
     EditText atPurchaserCertification2EtName;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
 
     private int type;
     private int picType;
@@ -112,6 +118,10 @@ public class PurchaserCertification2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchaser_certification2);
         ButterKnife.bind(this);
+
+        back(titleBack);
+        changeTitle(acTitle,"采购商认证");
+
     }
 
     @OnClick({R.id.at_purchaser_certification2_et_id, R.id.at_purchaser_certification2_btn_confirm, R.id.at_purchaser_certification2_rl_pic, R.id.at_purchaser_certification2_tv_dangkou_pic, R.id.at_purchaser_certification2_tv_dangkou_id_card})
@@ -466,9 +476,9 @@ public class PurchaserCertification2Activity extends AppCompatActivity {
             public void onSuccess(String result) {
 
                 UpLoadPicResponseBean bean = GsonUtils.fromJson(result, UpLoadPicResponseBean.class);
-                UpLoadPicResponseBean.DataBean data=bean.getData();
+                UpLoadPicResponseBean.DataBean data = bean.getData();
                 if (picType == 0) {
-                    url_bussiness_license =data.getSrc();
+                    url_bussiness_license = data.getSrc();
                 } else if (picType == 1) {
                     url_dangkou_img = data.getSrc();
                 } else {

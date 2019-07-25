@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class KuaiDiDetailActivity extends AppCompatActivity {
+public class KuaiDiDetailActivity extends ActivityBase {
     @BindView(R.id.ac_kuaidi_iv_goodsImg)
     ImageView acKuaidiIvGoodsImg;
     @BindView(R.id.ac_kuaidi_tv_goodsState)
@@ -33,8 +33,10 @@ public class KuaiDiDetailActivity extends AppCompatActivity {
     @BindView(R.id.ac_kuaidi_rv_item)
     RecyclerView acKuaidiRvItem;
 
-    String user_id=SharePerferenceUtils.getUserId(this);
-    String token=SharePerferenceUtils.getToken(this);
+    String user_id = SharePerferenceUtils.getUserId(this);
+    String token = SharePerferenceUtils.getToken(this);
+    @BindView(R.id.ac_kuaidi_iv_back)
+    ImageView acKuaidiIvBack;
 
 
     @Override
@@ -42,13 +44,16 @@ public class KuaiDiDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kuaidi);
         ButterKnife.bind(this);
+
+        back(acKuaidiIvBack);
+
         getOrderDetail();
     }
 
 
     private void getOrderDetail() {
-        String order_id=getIntent().getStringExtra("order_id");
-        SetSubscribe.myOrderDetail(user_id,token,order_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        String order_id = getIntent().getStringExtra("order_id");
+        SetSubscribe.myOrderDetail(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setOrderDetail(result);
@@ -62,15 +67,15 @@ public class KuaiDiDetailActivity extends AppCompatActivity {
     }
 
     private void setOrderDetail(String result) {
-        MyOrderDetailResponseBean bean= GsonUtils.fromJson(result,MyOrderDetailResponseBean.class);
-        MyOrderDetailResponseBean.DataBean data=bean.getData();
+        MyOrderDetailResponseBean bean = GsonUtils.fromJson(result, MyOrderDetailResponseBean.class);
+        MyOrderDetailResponseBean.DataBean data = bean.getData();
         Glide.with(this).load(Uri.parse(data.getGoods_img())).into(acKuaidiIvGoodsImg);
         //getKuaiDiDetail(data.getExpress_name(),data.getExpress_number());
-        getKuaiDiDetail("shentong","6612854271764");
+        getKuaiDiDetail("shentong", "6612854271764");
     }
 
     private void getKuaiDiDetail(String express_name, String express_number) {
-        SetSubscribe.lookKD(express_name,express_number,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.lookKD(express_name, express_number, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setKuaiDiDetail(result);
@@ -84,11 +89,11 @@ public class KuaiDiDetailActivity extends AppCompatActivity {
     }
 
     private void setKuaiDiDetail(String result) {
-        LookKDResponseBean bean=GsonUtils.fromJson(result,LookKDResponseBean.class);
-        ArrayList<LookKDResponseBean.DataBean.DataBean1> data=bean.getData().getData();
-        RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(this);
+        LookKDResponseBean bean = GsonUtils.fromJson(result, LookKDResponseBean.class);
+        ArrayList<LookKDResponseBean.DataBean.DataBean1> data = bean.getData().getData();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acKuaidiRvItem.setLayoutManager(layoutManager);
-        KuaiDiDetailAdapter adapter=new KuaiDiDetailAdapter(this,data);
+        KuaiDiDetailAdapter adapter = new KuaiDiDetailAdapter(this, data);
         acKuaidiRvItem.setAdapter(adapter);
     }
 }

@@ -61,7 +61,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GoodsDetailActivity extends AppCompatActivity {
+public class GoodsDetailActivity extends ActivityBase {
 
     @BindView(R.id.at_goods_detail_btn_add_shopping_cart)
     Button atGoodsDetailBtnAddShoppingCart;
@@ -142,6 +142,8 @@ public class GoodsDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_detail);
         ButterKnife.bind(this);
+
+
         String id = getIntent().getStringExtra(Const.GOODS_ID);
         goodsId = id;
 
