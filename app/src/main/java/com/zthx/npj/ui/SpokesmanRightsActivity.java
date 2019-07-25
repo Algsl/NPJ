@@ -1,11 +1,10 @@
 package com.zthx.npj.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -62,6 +61,8 @@ public class SpokesmanRightsActivity extends ActivityBase {
     RelativeLayout acSpokesmanRlTiqu;
     @BindView(R.id.ac_spokesman_tv_mingxi)
     TextView acSpokesmanTvMingxi;
+    @BindView(R.id.ac_spokesman_ll_myTeam)
+    LinearLayout acSpokesmanLlMyTeam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class SpokesmanRightsActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleThemeBack);
-        changeTitle(titleThemeTitle,"收益明细");
+        changeTitle(titleThemeTitle, "收益明细");
     }
 
     @Override
@@ -105,7 +106,7 @@ public class SpokesmanRightsActivity extends ActivityBase {
         acSpokesmanTvExtracted.setText(data.getExtracted() + "元");
     }
 
-    @OnClick({R.id.at_spokesman_right_btn_tiqu, R.id.at_spokesman_rl_daiyanjiangli, R.id.ac_spokesman_rl_store, R.id.ac_spokesman_rl_tiqu,R.id.ac_spokesman_tv_mingxi})
+    @OnClick({R.id.at_spokesman_right_btn_tiqu, R.id.at_spokesman_rl_daiyanjiangli, R.id.ac_spokesman_rl_store, R.id.ac_spokesman_rl_tiqu, R.id.ac_spokesman_tv_mingxi,R.id.ac_spokesman_ll_myTeam})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_spokesman_right_btn_tiqu:
@@ -132,6 +133,9 @@ public class SpokesmanRightsActivity extends ActivityBase {
                 break;
             case R.id.ac_spokesman_tv_mingxi:
                 openActivity(InComeLogActivity.class);
+                break;
+            case R.id.ac_spokesman_ll_myTeam:
+                openActivity(MyTeamActivity.class);
                 break;
         }
     }

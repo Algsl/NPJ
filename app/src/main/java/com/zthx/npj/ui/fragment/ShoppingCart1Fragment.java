@@ -168,16 +168,16 @@ public class ShoppingCart1Fragment extends Fragment {
                         cart_id+=cart_ids.get(i)+",";
                     }
                 }
-                Log.e(TAG, "onSubmit: "+"结算"+cart_id);
                 if(!cart_id.equals("")){
+                    final String finalCart_id = cart_id;
                     SetSubscribe.cartOrder(user_id,token,cart_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
                             Intent intent=new Intent(getActivity(),ShopingCartConfirmActivity.class);
                             intent.putExtra("info",result);
+                            intent.putExtra("cart_id",finalCart_id);
                             startActivity(intent);
                         }
-
                         @Override
                         public void onFault(String errorMsg) {
 

@@ -97,4 +97,5 @@ dependencies {
 
     implementation 'com.android.support:design:22.2.1'
 
+    implementation 'com.github.yuzhiqiang1993:zxing:2.1.1'
 }

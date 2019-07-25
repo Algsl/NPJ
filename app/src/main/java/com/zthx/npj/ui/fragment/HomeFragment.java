@@ -24,6 +24,8 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
+import com.yzq.zxinglibrary.android.CaptureActivity;
+import com.yzq.zxinglibrary.common.Constant;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.base.Const;
@@ -53,6 +55,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * 首页fragment
@@ -90,6 +94,8 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.fg_home_ll_classify)
     LinearLayout fgHomeLlClassify;
     private Unbinder unbinder;
+
+    private static final int REQUEST_CODE_SCAN=1;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -210,7 +216,8 @@ public class HomeFragment extends BaseFragment {
         Intent intent;
         switch (view.getId()) {
             case R.id.fg_home_iv_scan:
-                Toast.makeText(getActivity(), "erweima", Toast.LENGTH_LONG).show();
+                intent=new Intent(getActivity(), CaptureActivity.class);
+                startActivityForResult(intent,REQUEST_CODE_SCAN);
                 break;
             case R.id.fg_home_et_search:
                 intent = new Intent(getActivity(), HomeSearchActivity.class);
@@ -265,4 +272,16 @@ public class HomeFragment extends BaseFragment {
         unbinder.unbind();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_CODE_SCAN:
+                if(resultCode==RESULT_OK){
+                    String context=data.getStringExtra(Constant.CODED_CONTENT);
+                    Toast.makeText(getContext(),context,Toast.LENGTH_LONG).show();
+                }
+                break;
+        }
+    }
 }

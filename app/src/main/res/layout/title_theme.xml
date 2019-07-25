@@ -23,9 +23,17 @@
             android:textSize="@dimen/sp_18"
             android:textColor="@android:color/white"
             />
-
         <TextView
             android:id="@+id/title_theme_tv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_12"
+            android:textSize="@dimen/sp_13"
+            android:textColor="@android:color/white"/>
+        <ImageView
+            android:id="@+id/title_theme_img_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

@@ -24,7 +24,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyStoreOrderDetailActivity extends AppCompatActivity {
+public class MyStoreOrderDetailActivity extends ActivityBase {
     @BindView(R.id.at_myOrderDetail_rl_title)
     RelativeLayout atMyOrderDetailRlTitle;
     @BindView(R.id.at_myOrderDetail_ll_address)
@@ -65,6 +65,8 @@ public class MyStoreOrderDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myorder_detail);
         ButterKnife.bind(this);
+
+
         getMyStoreOrderDetail();
     }
 

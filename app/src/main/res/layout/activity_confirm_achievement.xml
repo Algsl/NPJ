@@ -6,25 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.ConfirmAchievementActivity"
     android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_64"
-        android:background="@color/app_theme">
-        <ImageView
-            android:layout_width="@dimen/dp_22"
-            android:layout_height="@dimen/dp_22"
-            android:src="@drawable/white_back"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_5"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="我的申请"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/sp_18"
-            android:layout_centerInParent="true"/>
-    </RelativeLayout>
+    <include layout="@layout/title_theme"/>
     <ImageView
         android:layout_width="@dimen/dp_63"
         android:layout_height="@dimen/dp_63"

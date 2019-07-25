@@ -58,6 +58,7 @@ import com.zthx.npj.net.been.MySupplyOrderFahuoBean;
 import com.zthx.npj.net.been.MySupplyOrderRefund2Bean;
 import com.zthx.npj.net.been.MySupplyOrderRefund3Bean;
 import com.zthx.npj.net.been.MySupplyOrderRefundBean;
+import com.zthx.npj.net.been.MyTeamBean;
 import com.zthx.npj.net.been.OfflineStoreBean;
 import com.zthx.npj.net.been.OrderBean;
 import com.zthx.npj.net.been.OrderCommentBean;
@@ -84,6 +85,8 @@ import com.zthx.npj.net.been.TqIncomeBean;
 import com.zthx.npj.net.been.UpLoadFileBean;
 import com.zthx.npj.net.been.UpdateCartBean;
 import com.zthx.npj.net.been.UploadPicsBean;
+import com.zthx.npj.net.been.UserAppBean;
+import com.zthx.npj.net.been.UserAppLogBean;
 import com.zthx.npj.net.been.UserBean;
 import com.zthx.npj.net.been.UserMoneyBean;
 import com.zthx.npj.net.been.VipJLBean;
@@ -1450,7 +1453,7 @@ public class SetSubscribe {
      * @param bean
      * @param subscriber
      */
-    public static void updateCart(CartOrderOneBean bean, DisposableObserver<ResponseBody> subscriber) {
+    public static void cartOrderOne(CartOrderOneBean bean, DisposableObserver<ResponseBody> subscriber) {
         bean.setUser_id(bean.getUser_id());
         bean.setToken(bean.getToken());
         bean.setCart_id(bean.getCart_id());
@@ -1491,6 +1494,52 @@ public class SetSubscribe {
         bean.setToken(token);
         bean.setStatus(status);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().myCoupon(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     *我的业绩
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void myTeam(String user_id,String token, DisposableObserver<ResponseBody> subscriber) {
+        MyTeamBean bean=new MyTeamBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().myTeam(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 申请升级
+     * @param user_id
+     * @param token
+     * @param user_level
+     * @param app_level
+     * @param subscriber
+     */
+    public static void userApp(String user_id,String token,String user_level,String app_level, DisposableObserver<ResponseBody> subscriber) {
+        UserAppBean bean=new UserAppBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setUser_level(user_level);
+        bean.setApp_level(app_level);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().userApp(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 申请记录
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void userAppLog(String user_id,String token, DisposableObserver<ResponseBody> subscriber) {
+        UserAppLogBean bean=new UserAppLogBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().userAppLog(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

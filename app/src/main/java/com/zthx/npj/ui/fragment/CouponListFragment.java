@@ -87,7 +87,24 @@ public class CouponListFragment extends Fragment {
     }
 
     private void setCoupon(String result) {
-        MyCouponResponseBean bean=GsonUtils.fromJson(result,MyCouponResponseBean.class);
+        String test="{\n" +
+                "    \"code\": 1,\n" +
+                "    \"data\": [\n" +
+                "        {\n" +
+                "            \"id\": 1,\n" +
+                "            \"status\": 3,\n" +
+                "            \"title\": \"订单满299元使用\",\n" +
+                "            \"money\": \"5.00\",\n" +
+                "            \"type\": 1,\n" +
+                "            \"condition\": \"299.00\",\n" +
+                "            \"begin_time\": 1559318400,\n" +
+                "            \"end_time\": 1560009599,\n" +
+                "            \"coup_status\": 1\n" +
+                "        }\n" +
+                "    ],\n" +
+                "    \"msg\": \"加载成功\"\n" +
+                "}";
+        MyCouponResponseBean bean=GsonUtils.fromJson(test,MyCouponResponseBean.class);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
         fgCouponListRv.setLayoutManager(layoutManager);
         MyCouponAdapter adapter=new MyCouponAdapter(getContext(),bean.getData(),getArguments().getString("status"));

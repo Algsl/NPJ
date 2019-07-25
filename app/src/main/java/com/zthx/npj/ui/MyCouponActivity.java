@@ -43,8 +43,8 @@ public class MyCouponActivity extends ActivityBase {
         changeTitle(acTitle,"优惠券");
 
         List<String> list = new ArrayList<>();
-        list.add("未使用");
         list.add("已使用");
+        list.add("未使用");
         list.add("已失效");
         List<Fragment> list2 = new ArrayList<>();
         list2.add(new CouponListFragment().getNewOnce("1"));

@@ -1,55 +1,34 @@
 package com.zthx.npj.net.been;
 
+import java.util.HashMap;
+
 public class CartOrderOneBean {
-    private long user_id;
+    private String user_id;
     private String token;
     private String cart_id;
     private String address_id;
     private String pay_code;
-    private String type;
-    private long item_id;
-    private String remark;
-    private long ziti_id;
+    private String item_id;
 
-    public long getUser_id() {
+
+
+    public String getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(long user_id) {
-        this.user_id = user_id;
-    }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public long getItem_id() {
+    public String getItem_id() {
         return item_id;
     }
 
-    public void setItem_id(long item_id) {
+    public void setItem_id(String item_id) {
         this.item_id = item_id;
     }
 
-    public String getRemark() {
-        return remark;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public long getZiti_id() {
-        return ziti_id;
-    }
-
-    public void setZiti_id(long ziti_id) {
-        this.ziti_id = ziti_id;
-    }
 
     public String getToken() {
         return token;
@@ -81,5 +60,36 @@ public class CartOrderOneBean {
 
     public void setPay_code(String pay_code) {
         this.pay_code = pay_code;
+    }
+
+
+
+    private HashMap<String,String> type;
+    private HashMap<String,String> remark;
+    private HashMap<String,String> ziti_id;
+
+
+    public HashMap<String, String> getType() {
+        return type;
+    }
+
+    public void setType(HashMap<String, String> type) {
+        this.type = type;
+    }
+
+    public HashMap<String, String> getRemark() {
+        return remark;
+    }
+
+    public void setRemark(HashMap<String, String> remark) {
+        this.remark = remark;
+    }
+
+    public HashMap<String, String> getZiti_id() {
+        return ziti_id;
+    }
+
+    public void setZiti_id(HashMap<String, String> ziti_id) {
+        this.ziti_id = ziti_id;
     }
 }

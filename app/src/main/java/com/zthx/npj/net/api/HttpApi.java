@@ -457,5 +457,14 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/videoorder.html")
     Observable<ResponseBody> videoOrder(@Body VideoOrderBean bean);
+
+    @POST("index.php/api/user/myteam.html")
+    Observable<ResponseBody> myTeam(@Body MyTeamBean bean);
+
+    @POST("index.php/api/user/userapp.html")
+    Observable<ResponseBody> userApp(@Body UserAppBean bean);
+
+    @POST("index.php/api/user/userapplog.html")
+    Observable<ResponseBody> userAppLog(@Body UserAppLogBean bean);
 }
 

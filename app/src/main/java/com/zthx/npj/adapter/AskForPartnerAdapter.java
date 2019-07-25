@@ -1,6 +1,7 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,13 +10,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.UserAppLogResponseBean;
+import com.zthx.npj.net.been.UserAppResponseBean;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class AskForPartnerAdapter extends RecyclerView.Adapter<AskForPartnerAdapter.ViewHolder>{
-    private List<CommentGoodsBeen> mList;
+    private List<UserAppLogResponseBean.DataBean> mList;
     private Context mContext;
 
     private ItemClickListener mItemClickListener ;
@@ -27,7 +33,7 @@ public class AskForPartnerAdapter extends RecyclerView.Adapter<AskForPartnerAdap
 
     }
 
-    public AskForPartnerAdapter(Context context, List<CommentGoodsBeen> list) {
+    public AskForPartnerAdapter(Context context, List<UserAppLogResponseBean.DataBean> list) {
         mList = list;
         mContext = context;
     }
@@ -52,12 +58,16 @@ public class AskForPartnerAdapter extends RecyclerView.Adapter<AskForPartnerAdap
             });
         }
         if (mList!= null && mList.size() > 0) {
-//            viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
-//            viewHolder.mTvPrice.setText(list.get(i).getGoodsPrice());
-//            viewHolder.mTvSellNum.setText(list.get(i).getGoodsSellNum());
-//            viewHolder.mTvTitle.setText(list.get(i).getGoodsTitle());
-        } else {
-
+            Glide.with(mContext).load(Uri.parse(mList.get(i).getUser_img())).into(viewHolder.mIvGoods);
+            viewHolder.userName.setText(mList.get(i).getUser_name());
+            viewHolder.createTime.setText(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date(mList.get(i).getCreate_time())));
+            if(mList.get(i).getStatus()==1){
+                viewHolder.askStatus.setText("等待审核");
+            }else{
+                viewHolder.askStatus.setText("已审核");
+                viewHolder.askStatus.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+                viewHolder.askStatus.setTextColor(mContext.getResources().getColor(R.color.text9));
+            }
         }
 
     }
@@ -69,16 +79,14 @@ public class AskForPartnerAdapter extends RecyclerView.Adapter<AskForPartnerAdap
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mIvGoods;
-        TextView mTvTitle;
-        TextView mTvPrice;
-        TextView mTvSellNum;
+        TextView userName,createTime,askStatus;
 
         ViewHolder(View itemView) {
             super(itemView);
-            mIvGoods = itemView.findViewById(R.id.item_iv_comment_goods);
-            mTvTitle = itemView.findViewById(R.id.item_tv_comment_goods_title);
-            mTvPrice = itemView.findViewById(R.id.item_tv_comment_goods_price);
-            mTvSellNum = itemView.findViewById(R.id.item_tv_comment_goods_sell_num);
+            mIvGoods=itemView.findViewById(R.id.item_ask_for_partner_head);
+            userName=itemView.findViewById(R.id.item_ask_for_partner_tv_name);
+            createTime=itemView.findViewById(R.id.item_ask_tv_time);
+            askStatus=itemView.findViewById(R.id.item_ask_tv_status);
         }
     }
 }

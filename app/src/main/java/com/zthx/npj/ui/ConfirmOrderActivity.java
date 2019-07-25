@@ -278,7 +278,7 @@ public class ConfirmOrderActivity extends ActivityBase {
 
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         // 设置PopupWindow是否能响应外部点击事件
-        window.setOutsideTouchable(false);
+        //window.setOutsideTouchable(false);
         // 设置PopupWindow是否能响应点击事件
         window.setTouchable(true);
         window.setFocusable(true);

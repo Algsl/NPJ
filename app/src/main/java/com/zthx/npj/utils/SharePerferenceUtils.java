@@ -17,6 +17,31 @@ public class SharePerferenceUtils {
     private static boolean isBindWx;
     private static String cateId;
     private static String cateName;
+    private static String totlePrice;
+
+    public static String getTotlePrice() {
+        return totlePrice;
+    }
+
+    public static void setTotlePrice(String totlePrice) {
+        SharePerferenceUtils.totlePrice = totlePrice;
+    }
+
+    public static SharedPreferences getSp() {
+        return sp;
+    }
+
+    public static void setSp(SharedPreferences sp) {
+        SharePerferenceUtils.sp = sp;
+    }
+
+    public static String getSPXMLNAME() {
+        return SPXMLNAME;
+    }
+
+    public static void setSPXMLNAME(String SPXMLNAME) {
+        SharePerferenceUtils.SPXMLNAME = SPXMLNAME;
+    }
 
     public static String getCateId() {
         return cateId;
@@ -121,8 +146,8 @@ public class SharePerferenceUtils {
     }
 
     public static String getUserId(Context context) {
-        //return getString(context, "user_id", "");
-        return "25";
+        return getString(context, "user_id", "");
+       // return "25";
     }
 
 
@@ -131,8 +156,8 @@ public class SharePerferenceUtils {
     }
 
     public static String getToken(Context context) {
-        //return getString(context, "token", "");
-        return "28b9ae3c7a7a79492f59999191e29431";
+        return getString(context, "token", "");
+        //return "28b9ae3c7a7a79492f59999191e29431";
     }
     public static void setLevel(Context context,String level ){
         putString(context,"level",level);

@@ -6,7 +6,7 @@
     tools:context=".ui.AskForPartnerActivity">
 
     <include
-        layout="@layout/title"></include>
+        layout="@layout/title_theme"></include>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/at_ask_for_partner_rv"

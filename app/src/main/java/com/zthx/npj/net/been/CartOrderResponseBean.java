@@ -17,6 +17,35 @@ public class CartOrderResponseBean extends BaseReponseBean{
             private String store_name;
             private String price;
 
+            public boolean ziti=false;
+            public String ziti_id;
+            public String remark;
+
+            public String getRemark() {
+                return remark;
+            }
+
+            public void setRemark(String remark) {
+                this.remark = remark;
+            }
+
+
+            public boolean isZiti() {
+                return ziti;
+            }
+
+            public void setZiti(boolean ziti) {
+                this.ziti = ziti;
+            }
+
+            public String getZiti_id() {
+                return ziti_id;
+            }
+
+            public void setZiti_id(String ziti_id) {
+                this.ziti_id = ziti_id;
+            }
+
             public long getId() {
                 return id;
             }

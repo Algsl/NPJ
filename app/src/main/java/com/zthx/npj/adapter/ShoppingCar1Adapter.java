@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CartListResponseBean;
 import com.zthx.npj.net.been.ShoppingCarDataBean1;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -213,6 +214,7 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
                     total_price = total_price + v * v1;
                     //让Double类型完整显示，不用科学计数法显示大写字母E
                     DecimalFormat decimalFormat = new DecimalFormat("0.00");
+                    SharePerferenceUtils.setTotlePrice("¥" + decimalFormat.format(total_price));
                     tvTotalPrice.setText("¥" + decimalFormat.format(total_price));
                 }
             }
