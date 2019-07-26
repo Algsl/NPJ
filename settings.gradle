@@ -1,1 +1,2 @@
 include ':app', ':demo', ':JPushExample(1394145)'
+include ':amm_sdk_sample'

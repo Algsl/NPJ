@@ -1,10 +1,12 @@
 package com.zthx.npj.wxapi;
 
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.util.Log;
 
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
@@ -14,33 +16,42 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.R;
-import com.zthx.npj.ui.ConfirmMyOrderActivity;
+
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
-        private static final String TAG = "MicroMsg.SDKSample.WXPayEntryActivity";
-        IWXAPI api;
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            ConfirmMyOrderActivity.api.handleIntent(getIntent(), this);
-        }
+    private IWXAPI api;
+	
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.pay_result);
+        
+    	api = WXAPIFactory.createWXAPI(this, "wx76500efa65d19915");
+        api.handleIntent(getIntent(), this);
+    }
 
-        @Override
-        public void onReq(BaseReq req) {
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		setIntent(intent);
+        api.handleIntent(intent, this);
+	}
 
-        }
+	@Override
+	public void onReq(BaseReq req) {
+	}
 
-        @SuppressLint("LongLogTag")
-        @Override
-        public void onResp(BaseResp resp) {
-            Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
+	@SuppressLint("LongLogTag")
+	@Override
+	public void onResp(BaseResp resp) {
+		Log.d("测试", "onPayFinish, errCode = " + resp.errCode);
 
-            if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("支付结果");
-                builder.setMessage(resp.errCode+" "+resp.errStr);
-                builder.show();
-            }
-        }
+		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("支付提示");
+			builder.setMessage(resp.errCode);
+			builder.show();
+		}
+	}
 }

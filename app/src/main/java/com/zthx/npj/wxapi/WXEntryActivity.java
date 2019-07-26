@@ -9,7 +9,9 @@ import android.widget.Toast;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.net.been.AuthLoginBean;
 import com.zthx.npj.net.been.AuthLoginResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
@@ -38,9 +40,13 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 	private static final int RETURN_MSG_TYPE_LOGIN = 1; //登录
 	private static final int RETURN_MSG_TYPE_SHARE = 2; //分享
 
+	IWXAPI api;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		api = WXAPIFactory.createWXAPI(this, "wx76500efa65d19915", false);
+		api.registerApp("wx76500efa65d19915");
 		LoginActivity.mWxApi.handleIntent(getIntent(), this);
 	}
 

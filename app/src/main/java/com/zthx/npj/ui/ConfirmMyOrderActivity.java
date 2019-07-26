@@ -135,8 +135,11 @@ public class ConfirmMyOrderActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_myorder);
         ButterKnife.bind(this);
-        api = WXAPIFactory.createWXAPI(ConfirmMyOrderActivity.this, null);
+
+        api= WXAPIFactory.createWXAPI(this, null);
+        // 将该app注册到微信
         api.registerApp("wx76500efa65d19915");
+
 
         back(titleBack);
         titleBack.setImageResource(R.drawable.goods_detial_back);
@@ -277,11 +280,14 @@ public class ConfirmMyOrderActivity extends ActivityBase {
         req.partnerId = data.getPartnerid();//商户号
         req.prepayId = data.getPrepayid();//预支付交易会话ID
         req.nonceStr = data.getNoncestr();//随机字符串
-        req.timeStamp = data.getTimestamp()+"";//时间戳
-        req.packageValue = data.getPackages();//扩展字段,这里固定填写Sign=WXPay
+        req.timeStamp = data.getTimestamp();//时间戳
+        req.packageValue = "Sign=WXPay";//扩展字段,这里固定填写Sign=WXPay
         req.sign =data.getSign();//签名
+        //req.extData			= "app data";
         // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-        ConfirmMyOrderActivity.api.sendReq(req);
+        api.sendReq(req);
+        Log.e("测试", "setWXResult: "+data.getAppid()+" "+data.getPartnerid()+" "+data.getPrepayid()
+        +" "+data.getNoncestr()+" "+data.getTimestamp()+" "+data.getSign());
     }
 
     private void alipay() {

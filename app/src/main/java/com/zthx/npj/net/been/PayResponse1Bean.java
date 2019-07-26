@@ -7,7 +7,7 @@ public class PayResponse1Bean extends BaseReponseBean{
         private String packages;
         private String partnerid;
         private String prepayid;
-        private long timestamp;
+        private String timestamp;
         private String sign;
 
         public String getAppid() {
@@ -50,11 +50,11 @@ public class PayResponse1Bean extends BaseReponseBean{
             this.prepayid = prepayid;
         }
 
-        public long getTimestamp() {
+        public String getTimestamp() {
             return timestamp;
         }
 
-        public void setTimestamp(long timestamp) {
+        public void setTimestamp(String timestamp) {
             this.timestamp = timestamp;
         }
 

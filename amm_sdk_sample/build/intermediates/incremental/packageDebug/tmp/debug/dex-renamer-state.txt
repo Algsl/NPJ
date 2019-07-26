@@ -1,0 +1,7 @@
+#Sat Jul 27 00:49:08 CST 2019
+base.0=E\:\\AllProject\\gitproject\\NPJ\\amm_sdk_sample\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+path.1=classes.dex
+renamed.1=classes2.dex
+path.0=classes.dex
+renamed.0=classes.dex
+base.1=E\:\\AllProject\\gitproject\\NPJ\\amm_sdk_sample\\build\\intermediates\\transforms\\dexMerger\\debug\\1
