@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.StoreBillMessageAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.StoreManagerBillResponseBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +22,6 @@ public class StoreManagerBillActivity extends ActivityBase {
 
     @BindView(R.id.at_store_manager_bill_rv)
     RecyclerView atStoreManagerBillRv;
-    @BindView(R.id.at_location_store_tv_ruzhu)
-    TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.at_store_manager_bill_tv_money)
     TextView atStoreManagerBillTvMoney;
     @BindView(R.id.at_store_manager_bill_tv_log)
@@ -49,16 +46,11 @@ public class StoreManagerBillActivity extends ActivityBase {
         back(titleThemeBack);
         changeTitle(titleThemeTitle,"账单");
 
+
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         atStoreManagerBillRv.setLayoutManager(manager);
-        List<CommentGoodsBeen> list = new ArrayList<>();
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        StoreBillMessageAdapter mAdapter = new StoreBillMessageAdapter(this, list);
+        StoreManagerBillResponseBean bean=new StoreManagerBillResponseBean();
+        StoreBillMessageAdapter mAdapter = new StoreBillMessageAdapter(this, bean.getData());
         atStoreManagerBillRv.setAdapter(mAdapter);
     }
 }

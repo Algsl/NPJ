@@ -23,7 +23,6 @@ public class BaseApp extends Application {
     public void onCreate() {
         super.onCreate();
         appContext = getApplicationContext();
-
         locationService = new LocationService(this);
         app = this;
     }

@@ -59,7 +59,7 @@ public class SplashActivity extends ActivityBase{
                 if(SharePerferenceUtils.getUserId(SplashActivity.this).equals("")){
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 }else{
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    startActivity(new Intent(SplashActivity.this,MainActivity.class));
                     //startActivity(new Intent(SplashActivity.this, ShoppingCartActivity.class));
                 }
                 //startActivity(new Intent(SplashActivity.this,MainActivity.class));
@@ -133,7 +133,6 @@ public class SplashActivity extends ActivityBase{
     }
 
     private void initLocation() {
-        getMainBannerAndList();
         BaseApp.getApp().locationService.registerListener(mListener);
         BaseApp.getApp().locationService.setLocationOption(BaseApp.getApp().locationService.getDefaultLocationClientOption());
         BaseApp.getApp().locationService.start();
@@ -193,6 +192,7 @@ public class SplashActivity extends ActivityBase{
 
     private void openGPSSettings() {
         if (checkGPSIsOpen()) {
+            getMainBannerAndList();
             initLocation(); //自己写的定位方法
         } else {
             //没有打开则弹出对话框

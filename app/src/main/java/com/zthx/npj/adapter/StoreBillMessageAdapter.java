@@ -11,11 +11,13 @@ import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.StoreManagerBillResponseBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StoreBillMessageAdapter  extends RecyclerView.Adapter<StoreBillMessageAdapter.ViewHolder> {
-    private List<CommentGoodsBeen> list;
+    private ArrayList<StoreManagerBillResponseBean.DataBean> list;
     private Context mContext;
 
     private ItemClickListener mItemClickListener ;
@@ -27,7 +29,7 @@ public class StoreBillMessageAdapter  extends RecyclerView.Adapter<StoreBillMess
 
     }
 
-    public StoreBillMessageAdapter(Context context, List<CommentGoodsBeen> list) {
+    public StoreBillMessageAdapter(Context context, ArrayList<StoreManagerBillResponseBean.DataBean> list) {
         this.list = list;
         mContext = context;
     }
@@ -52,37 +54,27 @@ public class StoreBillMessageAdapter  extends RecyclerView.Adapter<StoreBillMess
             });
         }
         if (list!= null && list.size() > 0) {
-            //Glide.with(mContext).load(list.get(i).getMallPic()).into(viewHolder.mIvGoods);
-        } else {
-            viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
-            viewHolder.mIvMall.setBackgroundResource(R.mipmap.ic_launcher);
-            viewHolder.mTvOldPrice.setText(list.get(i).getGoodsOldPrice());
-            viewHolder.mTvTitle.setText(list.get(i).getGoodsTitle());
-
+            viewHolder.title.setText("商品普通利润");
+            viewHolder.money.setText("+125元");
+            viewHolder.createTime.setText("2019-04-19   12:05:26");
+            viewHolder.orderSn.setText("YBFA684654645165146");
         }
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        //return list.size();
+        return 3;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mIvGoods;
-        TextView mTvTitle;
-        TextView mTvNewPrice;
-        TextView mTvOldPrice;
-        ImageView mIvMall;
-        TextView mTvMallName;
-
+        TextView title,money,createTime,orderSn;
         ViewHolder(View itemView) {
             super(itemView);
-            mIvGoods = itemView.findViewById(R.id.item_iv_home_goods);
-            mTvTitle = itemView.findViewById(R.id.item_tv_home_goods_title);
-            mTvNewPrice = itemView.findViewById(R.id.item_tv_home_goods_new_price);
-            mTvOldPrice = itemView.findViewById(R.id.item_tv_home_goods_old_price);
-            mIvMall = itemView.findViewById(R.id.item_iv_home_goods_mall);
-            mTvMallName = itemView.findViewById(R.id.item_tv_home_goods_mall_name);
+            title=itemView.findViewById(R.id.item_storeBill_tv_title);
+            money=itemView.findViewById(R.id.item_storeBill_tv_money);
+            createTime=itemView.findViewById(R.id.item_storeBill_tv_createTime);
+            orderSn=itemView.findViewById(R.id.item_storeBill_tv_orderSn);
         }
     }
 }

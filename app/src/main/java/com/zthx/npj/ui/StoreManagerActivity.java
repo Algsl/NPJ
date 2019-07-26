@@ -83,10 +83,8 @@ public class StoreManagerActivity extends ActivityBase {
     ImageView titleBack;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
-    @BindView(R.id.ac_store_manager_rv)
-    RecyclerView acStoreManagerRv;
     private List<String> paths = new ArrayList<>();
-    private static final int CHOOSE_PHOTO = 1;
+    private static final int CHOOSE_PHOTO = 2;
     private String store_id = "";
 
     @Override
@@ -96,15 +94,7 @@ public class StoreManagerActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-
-
-        if (getIntent().getStringExtra("key0").equals(null)) {
-            changeTitle(acTitle,"线下门店入驻");
-        } else {
-            store_id=getIntent().getStringExtra("key0");
-            changeTitle(acTitle,"门店管理");
-            getComment();
-        }
+        changeTitle(acTitle,"线下门店入驻");
 
         zzImageBox.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
             @Override
@@ -126,54 +116,6 @@ public class StoreManagerActivity extends ActivityBase {
         });
     }
 
-    private void getComment() {
-        MainSubscribe.getStoreComment(store_id,"5",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                setComment(result);
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-
-            }
-        }));
-    }
-
-    private void setComment(String result) {
-        String test="{\n" +
-                "    \"code\": 1,\n" +
-                "    \"data\": [\n" +
-                "        {\n" +
-                "            \"id\": 50,\n" +
-                "            \"user_id\": 25,\n" +
-                "            \"goods_id\": 1,\n" +
-                "            \"store_id\": 23,\n" +
-                "            \"content\": \"商品质量非常好，期待下次合作\",\n" +
-                "            \"img\": [\n" +
-                "                \"http://www.test666.com/public/upload/20190420/defa05252410178d8f8a9b1bb6f1d274.jpg\",\n" +
-                "                \"http://www.test666.com/public/upload/20190420/defa05252410178d8f8a9b1bb6f1d274.jpg\"\n" +
-                "            ],\n" +
-                "            \"status\": 0,\n" +
-                "            \"create_time\": 1556095903,\n" +
-                "            \"type\": 1,\n" +
-                "            \"goods_star\": 5,\n" +
-                "            \"logistics_star\": 5,\n" +
-                "            \"service_star\": 5,\n" +
-                "            \"nick_name\": \"用户15853102073\",\n" +
-                "            \"head_img\": \"http://app.npj-vip.com/public/upload/20190711/80d23137c98abfb897db59eb918b892e.jpg\"\n" +
-                "        }\n" +
-                "    ],\n" +
-                "    \"msg\": \"加载成功\"\n" +
-                "}";
-        CommentResponseBean bean=GsonUtils.fromJson(test,CommentResponseBean.class);
-        ArrayList<CommentResponseBean.DataBean> data=bean.getData();
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
-        acStoreManagerRv.setLayoutManager(layoutManager);
-        CommentAdapter adapter=new CommentAdapter(this,data);
-        acStoreManagerRv.setAdapter(adapter);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -189,6 +131,13 @@ public class StoreManagerActivity extends ActivityBase {
                     paths.add(path);
                     zzImageBox.addImage(path);
                 }
+                break;
+            case 1:
+                if(requestCode==1){
+                    acStoreManagerTvAddress.setText(data.getStringExtra("address"));
+                    acStoreManagerEtAddress2.setText(data.getStringExtra("addressDetail"));
+                }
+                break;
         }
     }
 
@@ -214,10 +163,12 @@ public class StoreManagerActivity extends ActivityBase {
                 });
                 break;
             case R.id.ac_storeManager_tv_address:
-
+                Intent intent=new Intent(this,MapAddressActivity.class);
+                startActivityForResult(intent,1);
                 break;
         }
     }
+
 
     public String getEtToString(EditText et) {
         return et.getText().toString().trim();

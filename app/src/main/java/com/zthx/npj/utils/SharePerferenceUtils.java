@@ -19,10 +19,11 @@ public class SharePerferenceUtils {
     private static String cateName;
     private static String totlePrice;
 
-    public static String getTotlePrice() {
-        return totlePrice;
-    }
 
+
+    public static String getTotlePrice() {
+        return SharePerferenceUtils.totlePrice;
+    }
     public static void setTotlePrice(String totlePrice) {
         SharePerferenceUtils.totlePrice = totlePrice;
     }

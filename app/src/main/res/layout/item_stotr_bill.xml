@@ -11,6 +11,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/dp_14">
         <TextView
+            android:id="@+id/item_storeBill_tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_10"
@@ -18,6 +19,7 @@
             android:textColor="@color/text3"
             android:textSize="@dimen/sp_14"></TextView>
         <TextView
+            android:id="@+id/item_storeBill_tv_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -28,6 +30,7 @@
     </RelativeLayout>
     
     <TextView
+        android:id="@+id/item_storeBill_tv_createTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_13"
@@ -51,6 +54,7 @@
             android:layout_marginTop="@dimen/dp_5"/>
 
         <TextView
+            android:id="@+id/item_storeBill_tv_orderSn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="YBFA684654645165146"

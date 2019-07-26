@@ -215,7 +215,7 @@ public class ConfirmOrderActivity extends ActivityBase {
                 bean.setToken(SharePerferenceUtils.getToken(this));
                 bean.setAtt_id(attId);
                 bean.setPre_id(goodsId);
-                bean.setAddress_id(data.getAddress_id() + "1");
+                bean.setAddress_id(data.getAddress_id()+"");
                 bean.setPay_code(pay_code);
                 bean.setRemark(acConfirmOrderEtRemark.getText().toString().trim());
                 PreSellSubscribe.ysBuyOne(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {

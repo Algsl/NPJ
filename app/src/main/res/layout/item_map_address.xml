@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_30"
+    android:orientation="vertical">
+        <TextView
+            android:id="@+id/item_mapAddress_tv_detail"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_28"
+            android:gravity="center"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/line"/>
+</LinearLayout>

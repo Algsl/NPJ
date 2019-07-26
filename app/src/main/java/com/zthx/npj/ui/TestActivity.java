@@ -1,135 +1,300 @@
 package com.zthx.npj.ui;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapPoi;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.MapAddressAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class TestActivity extends ActivityBase{
-
-
-
-    public LocationClient mLocationClient;
-    @BindView(R.id.btnPay)
-    TextView btnPay;
+public class TestActivity extends ActivityBase {
+    @BindView(R.id.ac_map_tv_address)
+    TextView acMapTvAddress;
+    @BindView(R.id.ac_map_et_addressDetail)
+    EditText acMapEtAddressDetail;
+    @BindView(R.id.mapView)
+    MapView mapView;
+    @BindView(R.id.ac_map_tv_commit)
+    TextView acMapTvCommit;
+    //地图控件
+    //百度地图
+    private BaiduMap baiduMap;
+    //防止每次定位都重新设置中心点和marker
+    private boolean isFirstLocation = true;
+    //初始化LocationClient定位类
+    private LocationClient mLocationClient = null;
+    //BDAbstractLocationListener为7.2版本新增的Abstract类型的监听接口，原有BDLocationListener接口
+    private BDLocationListener myListener = new MyLocationListener();
+    //经纬度
+    private double lat;
+    private double lon;
+    private GeoCoder mSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //创建一个LocationClient的实例,接受的context通过getApplicationContext()方法获取。
-        mLocationClient = new LocationClient(getApplicationContext());
-        //调用LocationClient的registerLocationListener()方法来注册一个监听器 当获取到位置信息的时候，就会回调这个定位监听器
-        mLocationClient.registerLocationListener(new MyLocationListener());
+        //在使用SDK各组件之前初始化context信息，传入ApplicationContext
+        //注意该方法要再setContentView方法之前实现
+        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_test);
         ButterKnife.bind(this);
+        initView();
+        initMap();
+        baiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                baiduMap.clear();
+                BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.location_store_locate);
+                OverlayOptions options = new MarkerOptions().position(latLng).icon(bitmap);
+                baiduMap.addOverlay(options);
+                initGeoCoder(latLng);
+                Log.e("测试", "onMapClick: " + latLng.describeContents());
+            }
 
-        /*
-         * 之前在AndroidManifest.xml内声明了很多权限。
-         * 其中有4个是危险权限。不过ACCESS_COARSE_LOCATION 和 ACCESS_FINE_LOCATION都属于一个权限组，所以两者只需要申请其中一个就可以了。
-         * 如何在运行时一次申请三个权限呢？
-         * 首先创建一个空的List集合，然后依次判断这三个权限有没有被授权，如果没有授权就添加到List集合中，最后将List集合转化成数组，在调用ActivityCompat.requestPermissions()方法就可以一次性申请。
-         */
-        List<String> permissionList = new ArrayList<>();
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.READ_PHONE_STATE);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-        if (!permissionList.isEmpty()) {
-            String[] permissions = permissionList.toArray(new String[permissionList.size()]);
-            ActivityCompat.requestPermissions(this, permissions, 1);
-        } else {
-            requestLocation();
-        }
+            @Override
+            public boolean onMapPoiClick(MapPoi mapPoi) {
+                return false;
+            }
+        });
     }
 
-    private void requestLocation() {
+    /**
+     * 初始化控件
+     */
+    public void initView() {
+        mapView = (MapView) findViewById(R.id.mapView);
+    }
+
+    /**
+     * 初始化地图
+     */
+    public void initMap() {
+        //得到地图实例
+        baiduMap = mapView.getMap();
+        /*
+        设置地图类型
+         */
+        //普通地图
+        baiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+        //卫星地图
+        //baiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
+        //空白地图, 基础地图瓦片将不会被渲染。在地图类型中设置为NONE，将不会使用流量下载基础地图瓦片图层。使用场景：与瓦片图层一起使用，节省流量，提升自定义瓦片图下载速度。
+        //baiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
+        //开启交通图
+        baiduMap.setTrafficEnabled(true);
+        //关闭缩放按钮
+        mapView.showZoomControls(false);
+        // 开启定位图层
+        baiduMap.setMyLocationEnabled(true);
+        //声明LocationClient类
+        // 开启定位图层
+        baiduMap.setMyLocationEnabled(true);
+        //声明LocationClient类
+        mLocationClient = new LocationClient(this);
+        //注册监听函数
+        mLocationClient.registerLocationListener(myListener);
         initLocation();
-        //调用start方法会回调到我们注册的监听器上面
+        //开始定位
         mLocationClient.start();
     }
 
-    private void initLocation(){
+    private void initLocation() {
         LocationClientOption option = new LocationClientOption();
-        option.setScanSpan(5000);
+        //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+        //可选，默认gcj02，设置返回的定位结果坐标系
+        option.setCoorType("bd09ll");
+        //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        int span = 5000;
+        option.setScanSpan(span);
+        //可选，设置是否需要地址信息，默认不需要
+        option.setIsNeedAddress(true);
+        //可选，默认false,设置是否使用gps
+        option.setOpenGps(true);
+        //可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
+        option.setLocationNotify(true);
+        //可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
+        option.setIsNeedLocationDescribe(true);
+        //可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
+        option.setIsNeedLocationPoiList(true);
+        //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
+        option.setIgnoreKillProcess(false);
+        //可选，默认false，设置是否收集CRASH信息，默认收集
+        option.SetIgnoreCacheException(false);
+        //可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
+        option.setEnableSimulateGps(false);
         mLocationClient.setLocOption(option);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 1:
-                if (grantResults.length > 0) {
-                    //将每个申请的权限都进行判断 如果存在一个没有被授权，那么就调用finish()方法关闭程序。
-                    for (int result : grantResults) {
-                        if (result != PackageManager.PERMISSION_GRANTED) {
-                            Toast.makeText(TestActivity.this, "必须同意所有权限才能使用本程序", Toast.LENGTH_SHORT).show();
-                            finish();
-                            return;
-                        }
-                    }
-                    //所有权限都已经授权，那么直接调用requestLocation()方法开始定位。
-                    requestLocation();
-                } else {
-                    Toast.makeText(TestActivity.this, "发生未知错误", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-                break;
-            default:
-                break;
-        }
+    @OnClick(R.id.ac_map_tv_commit)
+    public void onViewClicked() {
+
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mLocationClient.stop();
-    }
-
+    /**
+     * 实现定位监听 位置一旦有所改变就会调用这个方法
+     * 可以在这个方法里面获取到定位之后获取到的一系列数据
+     */
     public class MyLocationListener implements BDLocationListener {
+
         @Override
-        public void onReceiveLocation(final BDLocation location) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    StringBuilder currentPosition = new StringBuilder();
-                    //通过BDLocation的getLatitude()方法获取当前位置的纬度
-                    currentPosition.append("纬度").append(location.getLatitude()).append("\n");
-                    //通过BDLocation的getLongitude()方法获取当前位置的经度。
-                    currentPosition.append("经线").append(location.getLongitude()).append("\n");
-                    //getLocType()方法获取当前的定位方式。
-                    if (location.getLocType() == BDLocation.TypeGpsLocation) {
-                        currentPosition.append("GPS");
-                    } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
-                        currentPosition.append("网络");
-                    }
-                    btnPay.setText(currentPosition);
-                }
-            });
+        public void onReceiveLocation(BDLocation location) {
+            //获取定位结果
+            location.getTime();    //获取定位时间
+            location.getLocationID();    //获取定位唯一ID，v7.2版本新增，用于排查定位问题
+            location.getLocType();    //获取定位类型
+            location.getLatitude();    //获取纬度信息
+            location.getLongitude();    //获取经度信息
+            location.getRadius();    //获取定位精准度
+            location.getAddrStr();    //获取地址信息
+            location.getCountry();    //获取国家信息
+            location.getCountryCode();    //获取国家码
+            location.getCity();    //获取城市信息
+            location.getCityCode();    //获取城市码
+            location.getDistrict();    //获取区县信息
+            location.getStreet();    //获取街道信息
+            location.getStreetNumber();    //获取街道码
+            location.getLocationDescribe();    //获取当前位置描述信息
+            location.getPoiList();    //获取当前位置周边POI信息
+            location.getBuildingID();    //室内精准定位下，获取楼宇ID
+            location.getBuildingName();    //室内精准定位下，获取楼宇名称
+            location.getFloor();    //室内精准定位下，获取当前位置所处的楼层信息
+            //经纬度
+            lat = location.getLatitude();
+            lon = location.getLongitude();
+
+            //这个判断是为了防止每次定位都重新设置中心点和marker
+            if (isFirstLocation) {
+                isFirstLocation = false;
+                //设置并显示中心点
+                setPosition2Center(baiduMap, location, true);
+            }
         }
     }
 
+    /**
+     * 设置中心点和添加marker
+     *
+     * @param map
+     * @param bdLocation
+     * @param isShowLoc
+     */
+    public void setPosition2Center(BaiduMap map, BDLocation bdLocation, Boolean isShowLoc) {
+        MyLocationData locData = new MyLocationData.Builder()
+                .accuracy(bdLocation.getRadius())
+                .direction(bdLocation.getRadius()).latitude(bdLocation.getLatitude())
+                .longitude(bdLocation.getLongitude()).build();
+        map.setMyLocationData(locData);
 
+        if (isShowLoc) {
+            LatLng ll = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
+            MapStatus.Builder builder = new MapStatus.Builder();
+            builder.target(ll).zoom(18.0f);
+            map.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+        }
+    }
 
+    private void initGeoCoder(LatLng latLng) {
+        mSearch = GeoCoder.newInstance();
+        mSearch.setOnGetGeoCodeResultListener(mOnGetGeoCoderResultListener);
+        //mSearch.geocode(new GeoCodeOption().city("cityName").address("address"));
+        mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(latLng));
+    }
+
+    private OnGetGeoCoderResultListener mOnGetGeoCoderResultListener = new OnGetGeoCoderResultListener() {
+        @Override
+        public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+
+        }
+
+        @Override
+        public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+            ArrayList<String> list = new ArrayList<>();
+            for (int i = 0; i < reverseGeoCodeResult.getPoiList().size(); i++) {
+                list.add(reverseGeoCodeResult.getPoiList().get(i).getName());
+            }
+            acMapTvAddress.setText("选择的位置为： " + reverseGeoCodeResult.getAddress());
+            Log.e("测试", "onGetGeoCodeResult: " + list);
+            showPublishPopwindow(list);
+        }
+    };
+
+    public void showPublishPopwindow(final ArrayList<String> list) {
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_map_address_list, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView);
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_350));
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_271));
+        // 设置PopupWindow的背景
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(false);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        //window.setFocusable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+        RecyclerView addressDetail = contentView.findViewById(R.id.pop_mapAddress_rv);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        addressDetail.setLayoutManager(layoutManager);
+        MapAddressAdapter adapter = new MapAddressAdapter(this, list);
+        addressDetail.setAdapter(adapter);
+        adapter.setOnItemClickListener(new MapAddressAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                acMapEtAddressDetail.setText(list.get(position));
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+    }
+
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha;
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getWindow().setAttributes(lp);
+    }
 }

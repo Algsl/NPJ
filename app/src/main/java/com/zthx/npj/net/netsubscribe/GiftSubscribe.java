@@ -3,6 +3,7 @@ package com.zthx.npj.net.netsubscribe;
 import com.zthx.npj.net.been.GiftDetailBean;
 import com.zthx.npj.net.been.GiftListBean;
 import com.zthx.npj.net.been.LocalSpokesmanBeen;
+import com.zthx.npj.net.been.PayBean;
 import com.zthx.npj.net.been.ReferrerBean;
 import com.zthx.npj.net.netutils.RetrofitFactory;
 
@@ -88,6 +89,22 @@ public class GiftSubscribe {
         bean.setUser_id(id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().referrer(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 购买
+     * @param pay_code
+     * @param order_sn
+     * @param pay_money
+     * @param subscriber
+     */
+    public static void pay(String pay_code,String order_sn,String pay_money, DisposableObserver<ResponseBody> subscriber) {
+        PayBean bean=new PayBean();
+        bean.setPay_code(pay_code);
+        bean.setOrder_sn(order_sn);
+        bean.setPay_money(pay_money);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().pay(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 

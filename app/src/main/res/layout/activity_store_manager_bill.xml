@@ -56,7 +56,7 @@
                     android:layout_width="@dimen/dp_70"
                     android:layout_height="@dimen/dp_23"
                     android:background="@drawable/theme_conner_5"
-                    android:text="提现"
+                    android:text="去使用"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/sp_16"
                     android:layout_marginLeft="@dimen/dp_15"/>

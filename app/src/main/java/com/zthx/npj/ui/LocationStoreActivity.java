@@ -2,6 +2,7 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -53,6 +54,8 @@ public class LocationStoreActivity extends ActivityBase {
     TextView acLocationStoreTvType3;
     @BindView(R.id.ac_locationStore_tv_type4)
     TextView acLocationStoreTvType4;
+    @BindView(R.id.ac_localtionStore_tv_address)
+    TextView acLocaltionStoreTvAddress;
     private String type = "1";
 
     private String lng = SharePerferenceUtils.getLng(this);
@@ -106,7 +109,7 @@ public class LocationStoreActivity extends ActivityBase {
         }, LocationStoreActivity.this));
     }
 
-    @OnClick({R.id.ac_locationStore_tv_type1, R.id.ac_locationStore_tv_type2, R.id.ac_locationStore_tv_type3, R.id.ac_locationStore_tv_type4,R.id.at_location_store_et_search})
+    @OnClick({R.id.ac_locationStore_tv_type1, R.id.ac_locationStore_tv_type2, R.id.ac_locationStore_tv_type3, R.id.ac_locationStore_tv_type4, R.id.at_location_store_et_search, R.id.at_location_store_locate})
     public void onViewClicked(View view) {
         acLocationStoreTvType1.setTextColor(getResources().getColor(R.color.text6));
         acLocationStoreTvType1.setBackground(getResources().getDrawable(R.drawable.stroke_white_2));
@@ -145,19 +148,31 @@ public class LocationStoreActivity extends ActivityBase {
                 atLocationStoreEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
                     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                        if(i==EditorInfo.IME_ACTION_SEARCH){
+                        if (i == EditorInfo.IME_ACTION_SEARCH) {
                             getSearchStore();
                         }
                         return true;
                     }
                 });
                 break;
+            case R.id.at_location_store_locate:
+                Intent intent = new Intent(this, MapAddressActivity.class);
+                startActivityForResult(intent, 1);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            acLocaltionStoreTvAddress.setText(data.getStringExtra("addressDetail"));
         }
     }
 
     private void getSearchStore() {
-        keyword=atLocationStoreEtSearch.getText().toString().trim();
-        MainSubscribe.searchStore(lng,lat,keyword,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        keyword = atLocationStoreEtSearch.getText().toString().trim();
+        MainSubscribe.searchStore(lng, lat, keyword, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setSearchStore(result);
@@ -171,7 +186,7 @@ public class LocationStoreActivity extends ActivityBase {
     }
 
     private void setSearchStore(String result) {
-        LocalStoreResponseBean bean=GsonUtils.fromJson(result,LocalStoreResponseBean.class);
+        LocalStoreResponseBean bean = GsonUtils.fromJson(result, LocalStoreResponseBean.class);
         final ArrayList<LocalStoreResponseBean.DataBean> data = bean.getData();
         LinearLayoutManager manager = new LinearLayoutManager(LocationStoreActivity.this, LinearLayoutManager.VERTICAL, false);
         atLocationStoreRv.setLayoutManager(manager);

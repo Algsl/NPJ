@@ -42,7 +42,7 @@
         <!--注入百度地图-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="YRVAXKxrmD46vVWAeGdIOBI1YDq40lKo" />
+            android:value="PHUVgcMQuv0RmOk9nMH8IGnp5qGduaCy" />
 
         <!--活动页面-->
         <activity
@@ -147,6 +147,7 @@
         <activity android:name=".ui.VideoBuyConfirmActivity" />
         <activity android:name=".ui.ShopingCartConfirmActivity"/>
         <activity android:name=".ui.MyTeamActivity"/>
+        <activity android:name=".ui.MapAddressActivity"/>
 
         <!--微信支付-->
         <activity

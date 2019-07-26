@@ -24,6 +24,10 @@ import com.zthx.npj.aliapi.OrderInfoUtil2_0;
 import com.zthx.npj.aliapi.PayResult;
 import com.zthx.npj.net.been.BuyBean;
 import com.zthx.npj.net.been.ConfirmOrderResponseBean;
+import com.zthx.npj.net.been.MyOrderDetailResponseBean;
+import com.zthx.npj.net.been.PayResponse1Bean;
+import com.zthx.npj.net.been.PayResponseBean;
+import com.zthx.npj.net.netsubscribe.GiftSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -80,8 +84,6 @@ public class ConfirmMyOrderActivity extends ActivityBase {
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.at_confirm_order_iv_go)
     ImageView atConfirmOrderIvGo;
     @BindView(R.id.at_confirm_order_iv_my_hongbao)
@@ -96,8 +98,37 @@ public class ConfirmMyOrderActivity extends ActivityBase {
     ImageView atConfirmOrderIvAlipay;
     @BindView(R.id.at_confirm_order_tv_jin)
     TextView atConfirmOrderTvJin;
-    private String RSA_PRIVATE = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAujZ/wdGmsb2jaOGx5+8IpSh/V73TMAGXuw6HrAOG5QgtDLXF6IbBaDRo0nqr61jxrJgUYgLR5FWs8JNzaKP86fiiabhSGFzYaY1Jc8sGc7if0VKBQukP98LqAvDK06ft48ZDddmLRD89rdN7L3auNn1Wz6TUv3P8WLEAfiVvqchDFvRHE/EYXcMyJVDc+63gJs9oxDjQrXpQ3jsavEPdUCQGWeqeLc89oZiqw/3t+GhvWLfvzOSUb4GrXWeAkvVI+eut7erFsLu1rKjjg0a30pkCKg6/mVA52PjSvnsY8Rdl2iEp5RNZAckSIJHegPCPwNfszlW42gztjf9DPlhv5wIDAQAB";
-    public static final String APPID = "2019071065831181";
+    private String RSA_PRIVATE ="MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
+            "NEU5up1siPOXKJBU0ypde7oPfm9gyy2ajgcw6v3KF2ryjot5AKlBED6qdQPRa5Sk\n" +
+            "jIf8ZE1W+x8CVOvEC2m1lCglpm5zbAw2EGXdE4NNH6D0tcxIHza94RFkVilx1rjc\n" +
+            "5hQ1OnwnLCDWN2UbOBl6jyom+iqUWSnFu7pEm5J8ZlNyr654LmDvCQXoPio28VSk\n" +
+            "uedjQLdM+OkQZdidUYMaKsWmc6Xy6qmRqrgfUjvArjCZb0MKaNMq7bm7K9tr9dmJ\n" +
+            "cj4X1WSm7txR81FkDDREEYiwFBoocm/G3wqUDIho0vT++kMlz0tnoPEx4q339eJL\n" +
+            "t9pkdQvFAgMBAAECggEAUzoMZ+3W5M00rKQ6Adqk8rblykjhw9FQcpAFdFroJZTx\n" +
+            "svPlya8xN/PdyceM3wTAMgM4UO6S6uA+oQRkYGtRBvRgfubfsNDmmGTOpVBPQRXA\n" +
+            "YU0rX1xShzXWTrEG+nohVJyRVzQ8EVs9CaVkr8S/dlXgyGEEoMiQpBt8zuEmLGcG\n" +
+            "MTK/OyIbHQKtjfRoXfL8xfW2bifFhg4fGlmgbO2DfiljpRwEY3mU9cSLH3oYWr8y\n" +
+            "z3rSWlFCtV5v8syHNCZ+2+DTfcAMw1kPk/g16u/KPHA7duvnWLwGDm6Ktv14CMM2\n" +
+            "mq9SpeFl3uicBKIcdK2I5k0lCJY/8aik/f1d0BNpwQKBgQDlz0keZqzY4itvNOpe\n" +
+            "McJzzNyok6+rl42mDBJwb7QD+9X9ZtFhsYbdSgXWLbjILNpFKcZK9PGMuMXj8Cx7\n" +
+            "C26W6zH/zQWsypLT940owzjNy0eckFH8BFm4UQHinc7GILbuUtAJNBBCdKKIdep6\n" +
+            "/4zQl35v62wAa+ijy2Lox1fOzwKBgQDGGPXghnOMEm+vntbjay81cEZNReHLSzo9\n" +
+            "rr/QGktC6SIaroYYpQgBsgScX/srDdi5wAy9pgHkywCxeZ2jzOset2O6NZCHAcFp\n" +
+            "Wb4BrG9Gf0nWVP/DG0uqvEVBmgPEa6lZaIZH13jFFVH8P+Vwn26zza46lW0gD2Kn\n" +
+            "z4ClplGBKwKBgHskvjuqLUjyuO+YXVYoN9ixmDRFH0dFqMOniGHzmXThB+QHqn89\n" +
+            "D9WYitQgH/oz/qo9HmKgKqeLg48G7e7pS1NXqK04Aah7zH4FEwEay1+LZE5DD4uK\n" +
+            "EUGxNt9mTJzifuPqQEwOOABEW6vf88wBEEXeSARVFMSNDlZm8BNobmcFAoGAMT4V\n" +
+            "KLnjUSdoEezXF/MV6h+9qgm8Bg/uK1UcIzvWB4zySFWnycqEQf+he8m0ItCvVgUy\n" +
+            "ZZY1lE0OIA/OKuCOdbU6mhgklBrQnEKNo9bcVlbf4OKCLVrEpW1lfdguJY5pq2r7\n" +
+            "LjKWt88D8UNk4mkPWKzBKZjpZnXMnVBMd2Dvk78CgYB8DC/wQzY/0ibckmXnqE9e\n" +
+            "hjBuRaG3964je78O5JaCEIVXUNX6nn5TMTK+uWrQNyqgXs92kw98Xi4ZSuER3zXk\n" +
+            "Vmc1SOW4LjF98RAFdVMct8fP2u9xZ2zHV/SZ/ot0D1Bmz+P0dQL38+kSJ4w1N1rz\n" +
+            "HCGInP32FNZD8bmcY+gFXw==";
+    public static final String APPID = "2019062565701049";
+    private String order_sn="";
+    private String order_price="";
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -114,6 +145,7 @@ public class ConfirmMyOrderActivity extends ActivityBase {
 
         getMyConfirmOrder();
     }
+
 
     private void getMyConfirmOrder() {
         String order_id = getIntent().getStringExtra("order_id");
@@ -141,6 +173,28 @@ public class ConfirmMyOrderActivity extends ActivityBase {
         atConfirmOrderTvGoodsNum.setText("x " + data.getGoods_num());
         atConfirmMyorderTvOrderPrice.setText(data.getOrder_price());
         atConfirmMyorderTvOrderPrice1.setText(data.getOrder_price());
+        order_price=data.getOrder_price();
+        getMyOrderDetail(data.getOrder_id());
+    }
+
+    private void getMyOrderDetail(long order_id) {
+        SetSubscribe.myOrderDetail(user_id,token,order_id+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setMyOrderDetail(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setMyOrderDetail(String result) {
+        MyOrderDetailResponseBean bean=GsonUtils.fromJson(result,MyOrderDetailResponseBean.class);
+        MyOrderDetailResponseBean.DataBean data=bean.getData();
+        order_sn=data.getOrder_sn();
     }
 
     @OnClick({R.id.ac_confirm_myorder_payType1, R.id.ac_confirm_myorder_payType2, R.id.ac_confirm_myorder_payType3, R.id.ac_confirmOrder_btn_pay})
@@ -202,31 +256,67 @@ public class ConfirmMyOrderActivity extends ActivityBase {
     }
 
     private void wxpay() {
+        GiftSubscribe.pay("weixin",order_sn,order_price,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setWXResult(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setWXResult(String result) {
+        PayResponse1Bean bean=GsonUtils.fromJson(result,PayResponse1Bean.class);
+        PayResponse1Bean.DataBean data=bean.getData();
         PayReq req = new PayReq();
-        req.appId = "wx76500efa65d19915";//你的微信appid
-        req.partnerId = "1512847301";//商户号
-        req.prepayId = "wx0818255793822758eb1d33a80072025131";//预支付交易会话ID
-        req.nonceStr = "o32sb3Y27jFiLyqHe07e7n5mvSa3ZfIL";//随机字符串
-        req.timeStamp = "1557311094";//时间戳
-        req.packageValue = "Sign=WXPay";//扩展字段,这里固定填写Sign=WXPay
-        req.sign = "279B44E2D21B4B54F80FE62B3917F27A";//签名
+        req.appId = data.getAppid();//你的微信appid
+        req.partnerId = data.getPartnerid();//商户号
+        req.prepayId = data.getPrepayid();//预支付交易会话ID
+        req.nonceStr = data.getNoncestr();//随机字符串
+        req.timeStamp = data.getTimestamp()+"";//时间戳
+        req.packageValue = data.getPackages();//扩展字段,这里固定填写Sign=WXPay
+        req.sign =data.getSign();//签名
         // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
         ConfirmMyOrderActivity.api.sendReq(req);
     }
 
     private void alipay() {
+        GiftSubscribe.pay("alipay",order_sn,order_price,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setPayResult(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+
+    }
+
+    private void setPayResult(String result) {
+        PayResponseBean bean=GsonUtils.fromJson(result,PayResponseBean.class);
+        PayResponseBean.DataBean data=bean.getData();
+        alipay(data.getAlipay());
+    }
+
+    public void alipay(String str){
+        Log.e("测试", "alipay: "+str);
         boolean rsa = false;
         //构造支付订单参数列表
         Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa);
         //构造支付订单参数信息
         String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
-        Log.e("测试", "alipay: " + orderParam);
         //对支付参数信息进行签名
         String sign = OrderInfoUtil2_0.getSign(params, RSA_PRIVATE, rsa);
         //订单信息
-        final String orderInfo = orderParam + "&" + sign;
+        final String orderInfo = str;
         //异步处理
-        Toast.makeText(this, "支付宝支付", Toast.LENGTH_LONG).show();
         Runnable payRunnable = new Runnable() {
 
             @Override
