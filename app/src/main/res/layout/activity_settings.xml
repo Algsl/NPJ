@@ -288,6 +288,7 @@
     </RelativeLayout>
     
     <Button
+        android:id="@+id/ac_setting_btn_loginOut"
         android:layout_width="@dimen/dp_290"
         android:layout_height="@dimen/dp_40"
         android:layout_gravity="center_horizontal"

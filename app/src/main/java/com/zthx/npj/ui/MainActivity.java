@@ -1,6 +1,7 @@
 package com.zthx.npj.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private DiscoverFragment mDiscoverFragment;
     private ShoppingCart1Fragment mShoppingCartFragment;
     private MineFragment mMineFragment;
-    private GameFragment mGameFragment;
+    //private GameFragment mGameFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,28 +86,25 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     mHomeFragment = new HomeFragment();
                     mFragments[0] = mHomeFragment;
-                    llMainCheck01.setOnApplyWindowInsetsListener(null);
                     break;
                 case 1:
                     mDiscoverFragment = new DiscoverFragment();
                     mFragments[1] = mDiscoverFragment;
-                    llMainCheck02.setOnApplyWindowInsetsListener(null);
                     break;
-                case 2:
+                /*case 2:
                     mGameFragment = new GameFragment();
                     mFragments[2] = mGameFragment;
                     acMainRg.clearCheck();
                     llMainCheck03.setOnApplyWindowInsetsListener(null);
+                    startActivity(new Intent(this,GameActivity.class));
+                    break;*/
+                case 2:
+                    mShoppingCartFragment = new ShoppingCart1Fragment();
+                    mFragments[2] = mShoppingCartFragment;
                     break;
                 case 3:
-                    mShoppingCartFragment = new ShoppingCart1Fragment();
-                    mFragments[3] = mShoppingCartFragment;
-                    llMainCheck04.setOnApplyWindowInsetsListener(null);
-                    break;
-                case 4:
                     mMineFragment = new MineFragment();
-                    mFragments[4] = mMineFragment;
-                    llMainCheck05.setOnApplyWindowInsetsListener(null);
+                    mFragments[3] = mMineFragment;
                     break;
                 default:
                     break;
@@ -133,9 +131,9 @@ public class MainActivity extends AppCompatActivity {
         mDiscoverFragment = new DiscoverFragment();
         mShoppingCartFragment = new ShoppingCart1Fragment();
         mMineFragment = new MineFragment();
-        mGameFragment = new GameFragment();
+        //mGameFragment = new GameFragment();
         //添加到数组
-        mFragments = new Fragment[]{mHomeFragment, mDiscoverFragment, mGameFragment, mShoppingCartFragment, mMineFragment};
+        mFragments = new Fragment[]{mHomeFragment, mDiscoverFragment, mShoppingCartFragment, mMineFragment};
         //开启事务
         FragmentTransaction ft =getSupportFragmentManager().beginTransaction();
         //添加首页
@@ -154,13 +152,13 @@ public class MainActivity extends AppCompatActivity {
                 setIndexSelected(1);
                 break;
             case R.id.ll_main_check_03:
-                setIndexSelected(2);
+                startActivity(new Intent(this,GameActivity.class));
                 break;
             case R.id.ll_main_check_04:
-                setIndexSelected(3);
+                setIndexSelected(2);
                 break;
             case R.id.ll_main_check_05:
-                setIndexSelected(4);
+                setIndexSelected(3);
                 break;
         }
     }

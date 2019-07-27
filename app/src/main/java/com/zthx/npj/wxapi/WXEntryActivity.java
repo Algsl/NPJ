@@ -112,13 +112,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
 								@Override
 								public void onResponse(Call call, Response response) throws IOException {
-                                    Log.e("测试",!SharePerferenceUtils.isIsBindWx()+"" );
-								    if(SharePerferenceUtils.isIsBindWx()){
+									//是否绑定微信
+								    if(!SharePerferenceUtils.isIsBindWx(WXEntryActivity.this).equals("bind")){
 										Intent intent=new Intent(WXEntryActivity.this,CellPhoneLoginActivity.class);
 										intent.putExtra("flag",true);
 										intent.putExtra("response",response.body().string());
 										startActivity(intent);
-									}else if(!SharePerferenceUtils.isIsBindSpokes()){
+										//是否綁定代言人
+									}else if(!SharePerferenceUtils.isIsBindSpokes(WXEntryActivity.this).equals("bind")){
 										startActivity(new Intent(WXEntryActivity.this, InputInvitationCodeActivity.class));
 									}else{
 										startActivity(new Intent(WXEntryActivity.this, MainActivity.class));

@@ -13,8 +13,6 @@ public class SharePerferenceUtils {
 
     private static SharedPreferences sp;
     private static String SPXMLNAME = "sp_config";
-    private static boolean isBindSpokes;
-    private static boolean isBindWx;
     private static String cateId;
     private static String cateName;
     private static String totlePrice;
@@ -60,20 +58,12 @@ public class SharePerferenceUtils {
         SharePerferenceUtils.cateName = cateName;
     }
 
-    public static boolean isIsBindSpokes() {
-        return isBindSpokes;
+    public static String isIsBindSpokes(Context ctx) {
+        return getString(ctx,"bindSpokes","");
     }
 
-    public static void setIsBindSpokes(boolean isBindSpokes) {
-        SharePerferenceUtils.isBindSpokes = isBindSpokes;
-    }
-
-    public static boolean isIsBindWx() {
-        return isBindWx;
-    }
-
-    public static void setIsBindWx(boolean isBindWx) {
-        SharePerferenceUtils.isBindWx = isBindWx;
+    public static void setIsBindSpokes(Context ctx,String bindSpokes) {
+        putString(ctx,"bindSpokes",bindSpokes);
     }
 
     /**
@@ -151,10 +141,19 @@ public class SharePerferenceUtils {
         return "25";
     }
 
+    public static void setIsBindWx(Context ctx,String bind) {
+        putString(ctx,"isBindWx",bind);
+    }
+    public static String isIsBindWx(Context ctx) {
+        return getString(ctx,"isBindWx","");
+    }
+
 
     public static void setToken(Context context, String token) {
         putString(context,"token",token);
     }
+
+
 
     public static String getToken(Context context) {
         //return getString(context, "token", "");

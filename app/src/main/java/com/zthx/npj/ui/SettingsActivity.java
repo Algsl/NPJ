@@ -16,6 +16,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -74,6 +75,8 @@ public class SettingsActivity extends ActivityBase {
     ImageView acSettingIvMsg;
     @BindView(R.id.ac_setting_tv_cache)
     TextView acSettingTvCache;
+    @BindView(R.id.ac_setting_btn_loginOut)
+    Button acSettingBtnLoginOut;
 
 
     private Uri imageUri;
@@ -81,7 +84,7 @@ public class SettingsActivity extends ActivityBase {
     private static final int CHOOSE_PHOTO = 2;
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
-    private boolean receiveMsg=false;
+    private boolean receiveMsg = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,10 +166,10 @@ public class SettingsActivity extends ActivityBase {
     }
 
     private void toggle() {
-        receiveMsg=!receiveMsg;
-        if(receiveMsg){
+        receiveMsg = !receiveMsg;
+        if (receiveMsg) {
             acSettingIvMsg.setImageResource(R.drawable.at_edit_address_selector);
-        }else{
+        } else {
             acSettingIvMsg.setImageResource(R.drawable.at_edit_address_not_selector);
         }
     }
@@ -357,4 +360,9 @@ public class SettingsActivity extends ActivityBase {
         }));
     }
 
+    @OnClick(R.id.ac_setting_btn_loginOut)
+    public void onViewClicked() {
+        SharePerferenceUtils.setUserId(this,"");
+        openActivity(SplashActivity.class);
+    }
 }

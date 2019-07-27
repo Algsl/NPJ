@@ -46,8 +46,6 @@ public class InputInvitationCodeActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_invitation_code);
         ButterKnife.bind(this);
-        SharePerferenceUtils.setIsBindWx(true);
-
         back(titleBack);
         changeTitle(acTitle,"输入邀请码");
         atLocationStoreTvRuzhu.setText("跳过");
@@ -78,7 +76,7 @@ public class InputInvitationCodeActivity extends ActivityBase {
                 startActivityForResult(new Intent(this, LocalSpokesmanActivity.class), 1);
                 break;
             case R.id.at_location_store_tv_ruzhu:
-                SharePerferenceUtils.setIsBindSpokes(false);
+                SharePerferenceUtils.setIsBindSpokes(InputInvitationCodeActivity.this,"unbind");
                 startActivity(new Intent(this, MainActivity.class));
                 break;
         }
@@ -89,7 +87,7 @@ public class InputInvitationCodeActivity extends ActivityBase {
                 new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        SharePerferenceUtils.setIsBindSpokes(true);
+                        SharePerferenceUtils.setIsBindSpokes(InputInvitationCodeActivity.this,"bind");
                         startActivity(new Intent(InputInvitationCodeActivity.this, MainActivity.class));
                     }
 

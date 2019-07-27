@@ -14,6 +14,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.R;
 import com.zthx.npj.net.netutils.HttpUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +52,7 @@ public class LoginActivity extends ActivityBase {
             case R.id.at_login_tv_new:
                 break;
             case R.id.at_login_tv_more_login:
+                SharePerferenceUtils.setIsBindWx(this,"unbind");
                 Intent intent=new Intent(this,CellPhoneLoginActivity.class);
                 intent.putExtra("flag",false);
                 startActivity(intent);

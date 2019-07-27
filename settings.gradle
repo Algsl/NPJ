@@ -1,2 +1,1 @@
-include ':app', ':demo', ':JPushExample(1394145)'
-include ':amm_sdk_sample'
+include ':app', ':demo', ':reclib-qq', ':reclib-testemoticons', ':chatapp', ':emoji'

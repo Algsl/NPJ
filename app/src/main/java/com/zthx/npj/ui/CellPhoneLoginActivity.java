@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -107,16 +108,19 @@ public class CellPhoneLoginActivity extends ActivityBase {
         bean.setHead_img(headimg);
         bean.setLat(SharePerferenceUtils.getLat(this));
         bean.setLng(SharePerferenceUtils.getLng(this));
+        Log.e("测试", "getUserId: "+openid+" "+nickname+" "+headimg+" ");
         LoginSubscribe.authLogin(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                AuthLoginResponseBean bean = new AuthLoginResponseBean();
+                Log.e("测试", "onSuccess: "+result);
+                AuthLoginResponseBean bean = GsonUtils.fromJson(result,AuthLoginResponseBean.class);
                 SharePerferenceUtils.setUserId(CellPhoneLoginActivity.this, bean.getData().getUser_id());
             }
 
             @Override
             public void onFault(String errorMsg) {
-
+                Log.e("测试", "onFault: "+errorMsg);
+                SharePerferenceUtils.setUserId(CellPhoneLoginActivity.this, "25");
             }
         }));
     }
@@ -151,12 +155,14 @@ public class CellPhoneLoginActivity extends ActivityBase {
      */
     private void login() {
         if (isThirdLogin) {
+            //第三方绑定手机号
             authLoginByMobile();
         } else {
+            //用户登录
             userLogin();
         }
     }
-
+    //手机号登录
     private void userLogin() {
         PhoneLoginBean bean = new PhoneLoginBean();
         bean.setCode(atCellphoneLoginEtCode.getText().toString().trim());
@@ -168,10 +174,16 @@ public class CellPhoneLoginActivity extends ActivityBase {
         LoginSubscribe.MobileLogin(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
+                Log.e("测试",result );
                 PhoneLoginResponseBean bean = GsonUtils.fromJson(result, PhoneLoginResponseBean.class);
                 SharePerferenceUtils.setUserId(CellPhoneLoginActivity.this, bean.getData().getUser_id());
                 SharePerferenceUtils.setToken(CellPhoneLoginActivity.this, bean.getData().getToken());
-                startActivity(new Intent(CellPhoneLoginActivity.this, InputInvitationCodeActivity.class));
+                if(bean.getData().getInviter().equals(null)){
+                    startActivity(new Intent(CellPhoneLoginActivity.this, InputInvitationCodeActivity.class));
+                }else{
+                    startActivity(new Intent(CellPhoneLoginActivity.this, MainActivity.class));
+                }
+
             }
 
             @Override
@@ -180,20 +192,23 @@ public class CellPhoneLoginActivity extends ActivityBase {
             }
         }, this));
     }
-
+    //第三方登录
     private void authLoginByMobile() {
         AuthLoginByMoBileBean bean = new AuthLoginByMoBileBean();
         bean.setMobile(atCellphoneLoginEtPhone.getText().toString().trim());
         bean.setCode(atCellphoneLoginEtCode.getText().toString().trim());
         bean.setSession_id(mCodeId);
         bean.setUser_id(SharePerferenceUtils.getUserId(this));
+        Log.e("测试", "authLoginByMobile: "+atCellphoneLoginEtPhone.getText().toString().trim()+" "+atCellphoneLoginEtCode.getText().toString().trim()+" "+mCodeId+SharePerferenceUtils.getUserId(this));
         LoginSubscribe.authLoginByMobile(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
+                Log.e("测试", "onSuccess: "+result);
                 AuthLoginByMobileResponseBean bean = GsonUtils.fromJson(result, AuthLoginByMobileResponseBean.class);
                 SharePerferenceUtils.setUserId(CellPhoneLoginActivity.this, bean.getData().getUser_id());
                 SharePerferenceUtils.setToken(CellPhoneLoginActivity.this, bean.getData().getToken());
                 startActivity(new Intent(CellPhoneLoginActivity.this, InputInvitationCodeActivity.class));
+                SharePerferenceUtils.setIsBindWx(CellPhoneLoginActivity.this,"bind");
             }
 
             @Override

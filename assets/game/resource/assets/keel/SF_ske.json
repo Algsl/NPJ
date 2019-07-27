@@ -1,0 +1,689 @@
+{
+    "frameRate": 24,
+    "name": "SF",
+    "version": "5.5",
+    "compatibleVersion": "5.5",
+    "armature": [
+        {
+            "type": "Armature",
+            "frameRate": 24,
+            "name": "fertilizer",
+            "aabb": {
+                "x": -127,
+                "y": -278,
+                "width": 400,
+                "height": 400
+            },
+            "bone": [
+                {
+                    "name": "root"
+                },
+                {
+                    "length": 72,
+                    "name": "微信图片_20190430181140",
+                    "parent": "root",
+                    "transform": {
+                        "x": 123,
+                        "y": -25,
+                        "skX": -116.2114,
+                        "skY": -116.2114
+                    }
+                },
+                {
+                    "length": 6,
+                    "name": "black",
+                    "parent": "root",
+                    "transform": {
+                        "x": 3,
+                        "y": 21,
+                        "skX": 90,
+                        "skY": 90
+                    }
+                },
+                {
+                    "name": "black4",
+                    "parent": "root",
+                    "transform": {
+                        "x": 88,
+                        "y": 188
+                    }
+                },
+                {
+                    "length": 7,
+                    "name": "black1",
+                    "parent": "root",
+                    "transform": {
+                        "x": -49,
+                        "y": 11,
+                        "skX": -33.6901,
+                        "skY": -33.6901
+                    }
+                },
+                {
+                    "length": 7,
+                    "name": "black5",
+                    "parent": "root",
+                    "transform": {
+                        "x": -119,
+                        "y": 69,
+                        "skX": -39.8056,
+                        "skY": -39.8056
+                    }
+                },
+                {
+                    "length": 8,
+                    "name": "black6",
+                    "parent": "root",
+                    "transform": {
+                        "x": -60,
+                        "y": 81,
+                        "skX": -45,
+                        "skY": -45
+                    }
+                },
+                {
+                    "length": 7,
+                    "name": "black7",
+                    "parent": "root",
+                    "transform": {
+                        "x": -43,
+                        "y": 102,
+                        "skX": -56.3099,
+                        "skY": -56.3099
+                    }
+                },
+                {
+                    "length": 8,
+                    "name": "black2",
+                    "parent": "root",
+                    "transform": {
+                        "x": 34,
+                        "y": 94,
+                        "skX": -35.5377,
+                        "skY": -35.5377
+                    }
+                },
+                {
+                    "length": 8,
+                    "name": "black3",
+                    "parent": "root",
+                    "transform": {
+                        "x": -26,
+                        "y": 163,
+                        "skX": -26.5651,
+                        "skY": -26.5651
+                    }
+                },
+                {
+                    "length": 5,
+                    "name": "black8",
+                    "parent": "root",
+                    "transform": {
+                        "x": -235,
+                        "y": 134,
+                        "skX": -11.3099,
+                        "skY": -11.3099
+                    }
+                },
+                {
+                    "length": 7,
+                    "name": "black9",
+                    "parent": "root",
+                    "transform": {
+                        "x": -141,
+                        "y": 165,
+                        "skX": -45,
+                        "skY": -45
+                    }
+                }
+            ],
+            "slot": [
+                {
+                    "name": "微信图片_20190430181140",
+                    "parent": "微信图片_20190430181140"
+                },
+                {
+                    "displayIndex": -1,
+                    "name": "black",
+                    "parent": "black"
+                },
+                {
+                    "displayIndex": -1,
+                    "name": "black1",
+                    "parent": "black1"
+                },
+                {
+                    "displayIndex": -1,
+                    "name": "black2",
+                    "parent": "black2"
+                },
+                {
+                    "displayIndex": -1,
+                    "name": "black3",
+                    "parent": "black3"
+                },
+                {
+                    "displayIndex": -1,
+                    "name": "black4",
+                    "parent": "black4"
+                },
+                {
+                    "displayIndex": -1,
+                    "name": "black5",
+                    "parent": "black5"
+                },
+                {
+                    "displayIndex": -1,
+                    "name": "black6",
+                    "parent": "black6"
+                },
+                {
+                    "displayIndex": -1,
+                    "name": "black7",
+                    "parent": "black7"
+                },
+                {
+                    "displayIndex": -1,
+                    "name": "black8",
+                    "parent": "black8"
+                },
+                {
+                    "displayIndex": -1,
+                    "name": "black9",
+                    "parent": "black9"
+                }
+            ],
+            "skin": [
+                {
+                    "slot": [
+                        {
+                            "name": "black5",
+                            "display": [
+                                {
+                                    "name": "black",
+                                    "transform": {
+                                        "x": 5.06,
+                                        "y": 0.96,
+                                        "skX": 39.81,
+                                        "skY": 39.81
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black6",
+                            "display": [
+                                {
+                                    "name": "black",
+                                    "transform": {
+                                        "x": 3.54,
+                                        "skX": 45,
+                                        "skY": 45
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black1",
+                            "display": [
+                                {
+                                    "name": "black",
+                                    "transform": {
+                                        "x": 3.74,
+                                        "y": 0.69,
+                                        "skX": 33.69,
+                                        "skY": 33.69
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black9",
+                            "display": [
+                                {
+                                    "name": "black",
+                                    "transform": {
+                                        "x": 2.83,
+                                        "y": -0.71,
+                                        "skX": 45,
+                                        "skY": 45
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black8",
+                            "display": [
+                                {
+                                    "name": "black",
+                                    "transform": {
+                                        "x": 4.12,
+                                        "y": -2.75,
+                                        "skX": 11.31,
+                                        "skY": 11.31
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "微信图片_20190430181140",
+                            "display": [
+                                {
+                                    "name": "微信图片_20190430181140",
+                                    "transform": {
+                                        "x": 69.63,
+                                        "y": -21.45,
+                                        "skX": 116.21,
+                                        "skY": 116.21
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black",
+                            "display": [
+                                {
+                                    "name": "black",
+                                    "transform": {
+                                        "x": 1.5,
+                                        "y": 1.5,
+                                        "skX": -90,
+                                        "skY": -90
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black2",
+                            "display": [
+                                {
+                                    "name": "black",
+                                    "transform": {
+                                        "x": 4.07,
+                                        "y": -1.4,
+                                        "skX": 35.54,
+                                        "skY": 35.54
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black4",
+                            "display": [
+                                {
+                                    "name": "black",
+                                    "transform": {
+                                        "x": 3.5,
+                                        "y": -1.5
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black3",
+                            "display": [
+                                {
+                                    "name": "black",
+                                    "transform": {
+                                        "x": 4.7,
+                                        "y": 0.67,
+                                        "skX": 26.57,
+                                        "skY": 26.57
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black7",
+                            "display": [
+                                {
+                                    "name": "black",
+                                    "transform": {
+                                        "x": 3.19,
+                                        "y": 2.08,
+                                        "skX": 56.31,
+                                        "skY": 56.31
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "animation": [
+                {
+                    "duration": 35,
+                    "playTimes": 0,
+                    "name": "ApplyFertilizer",
+                    "bone": [
+                        {
+                            "name": "微信图片_20190430181140",
+                            "rotateFrame": [
+                                {
+                                    "duration": 15,
+                                    "tweenEasing": 0,
+                                    "rotate": 0.79
+                                },
+                                {
+                                    "duration": 20,
+                                    "rotate": -61.68
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black",
+                            "translateFrame": [
+                                {
+                                    "duration": 17
+                                },
+                                {
+                                    "duration": 18,
+                                    "tweenEasing": 0,
+                                    "x": 36,
+                                    "y": -20
+                                },
+                                {
+                                    "duration": 0,
+                                    "x": 28.39,
+                                    "y": 107.71
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black4",
+                            "translateFrame": [
+                                {
+                                    "duration": 17
+                                },
+                                {
+                                    "duration": 18,
+                                    "tweenEasing": 0,
+                                    "x": -51.41,
+                                    "y": -186.04
+                                },
+                                {
+                                    "duration": 0,
+                                    "x": -51.41,
+                                    "y": -59.88
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black1",
+                            "translateFrame": [
+                                {
+                                    "duration": 21
+                                },
+                                {
+                                    "duration": 14,
+                                    "tweenEasing": 0,
+                                    "x": 87.12,
+                                    "y": -5.85
+                                },
+                                {
+                                    "duration": 0,
+                                    "x": 87.12,
+                                    "y": 105.06
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black5",
+                            "translateFrame": [
+                                {
+                                    "duration": 23
+                                },
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0,
+                                    "x": 157.97,
+                                    "y": -62.37
+                                },
+                                {
+                                    "duration": 0,
+                                    "x": 157.97,
+                                    "y": 31.16
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black6",
+                            "translateFrame": [
+                                {
+                                    "duration": 25
+                                },
+                                {
+                                    "duration": 10,
+                                    "tweenEasing": 0,
+                                    "x": 98.28,
+                                    "y": -72.21
+                                },
+                                {
+                                    "duration": 0,
+                                    "x": 98.28,
+                                    "y": 4.14
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black7",
+                            "translateFrame": [
+                                {
+                                    "duration": 27
+                                },
+                                {
+                                    "duration": 8,
+                                    "tweenEasing": 0,
+                                    "x": 80.3,
+                                    "y": -98.09
+                                },
+                                {
+                                    "duration": 0,
+                                    "x": 80.3,
+                                    "y": -34.37
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black2",
+                            "translateFrame": [
+                                {
+                                    "duration": 27
+                                },
+                                {
+                                    "duration": 8,
+                                    "tweenEasing": 0,
+                                    "x": 4.53,
+                                    "y": -88.15
+                                },
+                                {
+                                    "duration": 0,
+                                    "x": 4.53,
+                                    "y": -42.78
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black3",
+                            "translateFrame": [
+                                {
+                                    "duration": 31
+                                },
+                                {
+                                    "duration": 4,
+                                    "tweenEasing": 0,
+                                    "x": 62.66,
+                                    "y": -157.29
+                                },
+                                {
+                                    "duration": 0,
+                                    "x": 62.66,
+                                    "y": -128.58
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black8",
+                            "translateFrame": [
+                                {
+                                    "duration": 31
+                                },
+                                {
+                                    "duration": 4,
+                                    "tweenEasing": 0,
+                                    "x": 271.07,
+                                    "y": -126.16
+                                },
+                                {
+                                    "duration": 0,
+                                    "x": 271.07,
+                                    "y": -113.87
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black9",
+                            "translateFrame": [
+                                {
+                                    "duration": 33
+                                },
+                                {
+                                    "duration": 2,
+                                    "x": 175.37,
+                                    "y": -160.12
+                                }
+                            ]
+                        }
+                    ],
+                    "slot": [
+                        {
+                            "name": "black",
+                            "displayFrame": [
+                                {
+                                    "duration": 17,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 18
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black1",
+                            "displayFrame": [
+                                {
+                                    "duration": 21,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 14
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black2",
+                            "displayFrame": [
+                                {
+                                    "duration": 29,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 6
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black3",
+                            "displayFrame": [
+                                {
+                                    "duration": 31,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 4
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black4",
+                            "displayFrame": [
+                                {
+                                    "duration": 19,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 16
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black5",
+                            "displayFrame": [
+                                {
+                                    "duration": 23,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 12
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black6",
+                            "displayFrame": [
+                                {
+                                    "duration": 25,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 10
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black7",
+                            "displayFrame": [
+                                {
+                                    "duration": 27,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 8
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black8",
+                            "displayFrame": [
+                                {
+                                    "duration": 33,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 2
+                                }
+                            ]
+                        },
+                        {
+                            "name": "black9",
+                            "displayFrame": [
+                                {
+                                    "duration": 35,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "defaultActions": [
+                {
+                    "gotoAndPlay": "ApplyFertilizer"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "width": 512,
+    "imagePath": "SHUI_tex.png",
+    "height": 512,
+    "name": "SHUI",
+    "SubTexture": [
+        {
+            "width": 285,
+            "y": 1,
+            "height": 212,
+            "name": "watering",
+            "x": 1
+        },
+        {
+            "width": 141,
+            "y": 1,
+            "height": 213,
+            "name": "shui",
+            "x": 288
+        },
+        {
+            "width": 141,
+            "y": 215,
+            "height": 213,
+            "name": "shui2",
+            "x": 1
+        }
+    ]
+}

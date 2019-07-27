@@ -1,0 +1,201 @@
+{
+    "frameRate": 24,
+    "name": "SHUI",
+    "version": "5.5",
+    "compatibleVersion": "5.5",
+    "armature": [
+        {
+            "type": "Armature",
+            "frameRate": 24,
+            "name": "Armature",
+            "aabb": {
+                "x": -340.15,
+                "y": -106,
+                "width": 483.65,
+                "height": 402.53
+            },
+            "bone": [
+                {
+                    "name": "root"
+                },
+                {
+                    "length": 219,
+                    "name": "watering",
+                    "parent": "root",
+                    "transform": {
+                        "x": 67,
+                        "y": 69,
+                        "skX": -140.3616,
+                        "skY": -140.3616
+                    }
+                },
+                {
+                    "length": 191,
+                    "name": "shui",
+                    "parent": "root",
+                    "transform": {
+                        "x": -218.8,
+                        "y": 76.8,
+                        "skX": 121.4657,
+                        "skY": 121.4657
+                    }
+                },
+                {
+                    "length": 217,
+                    "name": "shui2",
+                    "parent": "root",
+                    "transform": {
+                        "x": -180.7,
+                        "y": 95.64,
+                        "skX": 120.0416,
+                        "skY": 120.0416
+                    }
+                }
+            ],
+            "slot": [
+                {
+                    "name": "watering",
+                    "parent": "watering"
+                },
+                {
+                    "name": "shui",
+                    "parent": "shui"
+                },
+                {
+                    "name": "shui2",
+                    "parent": "shui2"
+                }
+            ],
+            "skin": [
+                {
+                    "slot": [
+                        {
+                            "name": "watering",
+                            "display": [
+                                {
+                                    "name": "watering",
+                                    "transform": {
+                                        "x": 94.84,
+                                        "y": 11.03,
+                                        "skX": 140.36,
+                                        "skY": 140.36
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "shui",
+                            "display": [
+                                {
+                                    "name": "shui",
+                                    "transform": {
+                                        "x": 94.18,
+                                        "y": 1.99,
+                                        "skX": -121.47,
+                                        "skY": -121.47
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "shui2",
+                            "display": [
+                                {
+                                    "name": "shui2",
+                                    "transform": {
+                                        "x": 108.42,
+                                        "y": -1.07,
+                                        "skX": -120.04,
+                                        "skY": -120.04
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "animation": [
+                {
+                    "duration": 27,
+                    "playTimes": 1,
+                    "name": "newAnimation",
+                    "bone": [
+                        {
+                            "name": "watering",
+                            "rotateFrame": [
+                                {
+                                    "duration": 21,
+                                    "tweenEasing": 0
+                                },
+                                {
+                                    "duration": 6,
+                                    "rotate": -40.5
+                                }
+                            ]
+                        },
+                        {
+                            "name": "shui",
+                            "translateFrame": [
+                                {
+                                    "duration": 15,
+                                    "tweenEasing": 0
+                                },
+                                {
+                                    "duration": 12,
+                                    "x": 35.07,
+                                    "y": 36.9
+                                }
+                            ]
+                        }
+                    ],
+                    "slot": [
+                        {
+                            "name": "shui",
+                            "displayFrame": [
+                                {
+                                    "duration": 15,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 12
+                                }
+                            ]
+                        },
+                        {
+                            "name": "shui2",
+                            "displayFrame": [
+                                {
+                                    "duration": 18,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 3
+                                },
+                                {
+                                    "duration": 3,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 3
+                                },
+                                {
+                                    "duration": 0,
+                                    "value": -1
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "defaultActions": [
+                {
+                    "gotoAndPlay": "newAnimation"
+                }
+            ],
+            "canvas": {
+                "width": 800,
+                "height": 600
+            }
+        }
+    ]
+}

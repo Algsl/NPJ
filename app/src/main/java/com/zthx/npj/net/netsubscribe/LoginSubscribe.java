@@ -47,17 +47,22 @@ public class LoginSubscribe {
     }
 
     /**
-     * 手机号登录
+     * 用户登录
      * @param bean
      * @param subscriber
      */
     public static void MobileLogin(PhoneLoginBean bean, DisposableObserver<ResponseBody> subscriber){
+        bean.setMobile(bean.getMobile());
+        bean.setCode(bean.getCode());
+        bean.setSession_id(bean.getSession_id());
+        bean.setLat(bean.getLat());
+        bean.setLng(bean.getLng());
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mobileLoginForBody(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 
     /**
-     * 绑定账号
+     * 绑定邀请人
      * @param mobile
      * @param id
      * @param subscriber

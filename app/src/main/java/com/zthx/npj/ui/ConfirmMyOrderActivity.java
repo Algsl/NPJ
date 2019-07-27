@@ -72,7 +72,7 @@ public class ConfirmMyOrderActivity extends ActivityBase {
 
     String user_id = SharePerferenceUtils.getUserId(this);
     String token = SharePerferenceUtils.getToken(this);
-    String pay_code = "1";
+    String pay_code = "2";
     ConfirmOrderResponseBean.DataBean data;
     public static IWXAPI api;
     private static final int SDK_PAY_FLAG = 1001;

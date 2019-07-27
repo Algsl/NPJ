@@ -1,7 +1,0 @@
-#Internal package file, do not edit.
-#Fri Jul 26 17:43:10 CST 2019
-0.baseType=DIRECTORY
-0.base=E\:\\AllProject\\StudioProject\\NPJ\\alipay\\build\\intermediates\\transforms\\dexMerger\\debug\\0
-0.path=classes.dex
-0.set=DEX
-count=1
