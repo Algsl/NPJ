@@ -8,6 +8,8 @@ import com.zthx.npj.baidumap.LocationService;
 
 import java.util.ArrayList;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by huangxin on 2019/5/28.
  */
@@ -24,6 +26,7 @@ public class BaseApp extends Application {
         super.onCreate();
         appContext = getApplicationContext();
         locationService = new LocationService(this);
+        JPushInterface.init(this);
         app = this;
     }
 
