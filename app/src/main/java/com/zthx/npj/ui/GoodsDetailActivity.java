@@ -2,17 +2,14 @@ package com.zthx.npj.ui;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.Bitmap;
 import android.graphics.Paint;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -23,21 +20,25 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXImageObject;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommentAdapter;
-import com.zthx.npj.adapter.GoodsCateGroupAdapter;
 import com.zthx.npj.adapter.GoodsImgDetailAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AddCartBean;
 import com.zthx.npj.net.been.CommentResponseBean;
-import com.zthx.npj.net.been.GoodsCateResponseBean;
 import com.zthx.npj.net.been.GoodsDetailResponseBean;
 import com.zthx.npj.net.been.GoodsImgDetailResponseBean;
 import com.zthx.npj.net.been.PreSellDetailResponseBean;
@@ -50,6 +51,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.utils.SimpleUtil;
 import com.zthx.npj.view.GlideImageLoader;
 import com.zthx.npj.view.GoodSizePopupwindow;
 import com.zthx.npj.view.SaleDetailProgressView;
@@ -60,6 +62,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.zthx.npj.ui.UserMsgActivity.bmpToByteArray;
 
 public class GoodsDetailActivity extends ActivityBase {
 
@@ -127,6 +131,10 @@ public class GoodsDetailActivity extends ActivityBase {
     Button atGoodsDetailBtnPreSellDetail;
     @BindView(R.id.ac_goodsDetail_chooseSize)
     RelativeLayout acGoodsDetailChooseSize;
+    @BindView(R.id.ac_goodsDetail_iv_share)
+    ImageView acGoodsDetailIvShare;
+    @BindView(R.id.ac_goodsDetail_sv)
+    ScrollView acGoodsDetailSv;
 
 
     private String user_id = SharePerferenceUtils.getUserId(this);
@@ -136,6 +144,7 @@ public class GoodsDetailActivity extends ActivityBase {
     private String type = "1";
 
     private PreSellDetailResponseBean.DataBean mPreData;
+    private IWXAPI api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +152,8 @@ public class GoodsDetailActivity extends ActivityBase {
         setContentView(R.layout.activity_goods_detail);
         ButterKnife.bind(this);
 
+        api = WXAPIFactory.createWXAPI(this, "wx76500efa65d19915", false);
+        api.registerApp("wx76500efa65d19915");
 
         String id = getIntent().getStringExtra(Const.GOODS_ID);
         goodsId = id;
@@ -300,7 +311,7 @@ public class GoodsDetailActivity extends ActivityBase {
 
     @OnClick({R.id.at_goods_detail_btn_add_shopping_cart, R.id.at_goods_detail_btn_buy_now, R.id.ac_goodsDetail_ll_collect,
             R.id.ac_goodsDetail_ll_store, R.id.at_goods_detail_btn_pre_sell_know, R.id.at_goods_detail_btn_pre_sell_comment,
-            R.id.at_goods_detail_btn_pre_sell_detail,R.id.ac_goodsDetail_chooseSize})
+            R.id.at_goods_detail_btn_pre_sell_detail, R.id.ac_goodsDetail_chooseSize, R.id.ac_goodsDetail_iv_share})
     public void onViewClicked(View view) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acGoodsDetailRvContent.setLayoutManager(layoutManager);
@@ -330,6 +341,10 @@ public class GoodsDetailActivity extends ActivityBase {
                 break;
             case R.id.ac_goodsDetail_chooseSize:
                 showPopupwindow(view);
+                break;
+            case R.id.ac_goodsDetail_iv_share:
+                Bitmap bmp = SimpleUtil.shotScrollView(acGoodsDetailSv);
+                showSingleBottomDialog(bmp);
                 break;
         }
     }
@@ -516,5 +531,69 @@ public class GoodsDetailActivity extends ActivityBase {
         });
         //banner设置方法全部调用完毕时最后调用
         atGoodsDetailBanner.start();
+    }
+
+
+    //两个选项的Dialog
+    private void showSingleBottomDialog(final Bitmap bmp) {
+        //1、使用Dialog、设置style
+        final Dialog dialog = new Dialog(this, R.style.DialogTheme);
+        //2、设置布局
+        final View view = View.inflate(this, R.layout.dialog_share_layout, null);
+        dialog.setContentView(view);
+        Window window = dialog.getWindow();
+        //设置弹出位置
+        window.setGravity(Gravity.BOTTOM);
+        //设置弹出动画
+        window.setWindowAnimations(R.style.main_menu_animStyle);
+        //设置对话框大小
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+        dialog.findViewById(R.id.dialog_share_friends).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WXImageObject imgObj = new WXImageObject(bmp);
+                WXMediaMessage msg = new WXMediaMessage();
+                msg.mediaObject = imgObj;
+                Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 120, 120, true);
+                bmp.recycle();
+                msg.thumbData = bmpToByteArray(thumbBmp, true);  // 设置所图；
+                msg.title = "标题";
+                msg.description = "内容";
+                SendMessageToWX.Req req = new SendMessageToWX.Req();
+                req.transaction = "img" + String.valueOf(System.currentTimeMillis());
+                req.message = msg;
+                req.scene = SendMessageToWX.Req.WXSceneSession;   //设置发送给朋友
+                //  req.scene = SendMessageToWX.Req.WXSceneTimeline;    //设置发送到朋友圈
+                api.sendReq(req);
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dialog_share_pyq).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WXImageObject imgObj = new WXImageObject(bmp);
+                WXMediaMessage msg = new WXMediaMessage();
+                msg.mediaObject = imgObj;
+                Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 120, 120, true);
+                bmp.recycle();
+                msg.thumbData = bmpToByteArray(thumbBmp, true);  // 设置所图；
+                msg.title = "标题";
+                msg.description = "内容";
+                SendMessageToWX.Req req = new SendMessageToWX.Req();
+                req.transaction = "img" + String.valueOf(System.currentTimeMillis());
+                req.message = msg;
+                //req.scene = SendMessageToWX.Req.WXSceneSession;   //设置发送给朋友
+                req.scene = SendMessageToWX.Req.WXSceneTimeline;    //设置发送到朋友圈
+                api.sendReq(req);
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dl_photo_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
     }
 }

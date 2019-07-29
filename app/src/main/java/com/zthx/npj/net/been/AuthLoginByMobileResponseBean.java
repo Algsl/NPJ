@@ -4,6 +4,15 @@ public class AuthLoginByMobileResponseBean extends BaseReponseBean{
     public class DataBean{
         private String user_id;
         private String token;
+        private String inviter;
+
+        public String getInviter() {
+            return inviter;
+        }
+
+        public void setInviter(String inviter) {
+            this.inviter = inviter;
+        }
 
         public String getUser_id() {
             return user_id;

@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -26,6 +27,7 @@ import com.zthx.npj.ui.fragment.HomeFragment;
 import com.zthx.npj.ui.fragment.MineFragment;
 import com.zthx.npj.ui.fragment.ShoppingCart1Fragment;
 import com.zthx.npj.ui.fragment.ShoppingCartFragment;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         // Example of a call to a native method
         setNotification();
         registerMessageReceiver();
+        //Log.e("测试", "onCreate: "+SharePerferenceUtils.getToken(this));
     }
 
     private void initJPush() {

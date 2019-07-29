@@ -56,6 +56,7 @@ public class SplashActivity extends ActivityBase{
                     }
                 }));
             } else if (msg.what == 2) {
+
                 if(SharePerferenceUtils.getUserId(SplashActivity.this).equals("")){
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 }else{

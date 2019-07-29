@@ -142,6 +142,11 @@
         <activity android:name=".ui.MyTeamActivity" />
         <activity android:name=".ui.MapAddressActivity" />
         <activity android:name=".ui.GameActivity" /> <!-- 微信支付 -->
+        <activity android:name=".ui.UserMsgActivity"/>
+
+
+
+
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"

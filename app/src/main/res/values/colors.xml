@@ -5,6 +5,7 @@
 
     <color name="background"> #EFEFEF </color>
     <color name="app_theme">  #2ABBAA  </color>
+    <color name="background_img">#3BCCBB</color>
     <color name="goods_text_color">#333333</color>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>

@@ -2,9 +2,14 @@ package com.zthx.npj.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.service.wallpaper.WallpaperService;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.Engine;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
+
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import org.egret.egretnativeandroid.EgretNativeAndroid;
 import org.egret.runtime.launcherInterface.INativePlayer;
@@ -28,6 +33,9 @@ public class GameActivity extends Activity {
         nativeAndroid.config.disableNativeRender = false;
         nativeAndroid.config.clearCache = false;
         nativeAndroid.config.loadingTimeout = 0;
+
+
+
 
         setExternalInterfaces();
 
@@ -67,7 +75,7 @@ public class GameActivity extends Activity {
             public void callback(String message) {
                 String str = "Native get message: ";
                 str += message;
-                Log.d("测试", str);
+                nativeAndroid.callExternalInterface("lat",SharePerferenceUtils.getLat(GameActivity.this));
                 nativeAndroid.callExternalInterface("sendToJS", str);
             }
         });
@@ -76,5 +84,9 @@ public class GameActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    private interface IRuntimeInterface {
+        public void callback(String message);
     }
 }

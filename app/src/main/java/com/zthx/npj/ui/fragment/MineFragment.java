@@ -23,9 +23,6 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommenGoodsAdatper;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
-import com.zthx.npj.net.been.MyOfflineStoreBean;
-import com.zthx.npj.net.been.MyOfflineStoreResponseBean;
-import com.zthx.npj.net.been.OfflineStoreBean;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -34,13 +31,13 @@ import com.zthx.npj.ui.HelpActivity;
 import com.zthx.npj.ui.MyAttestationActivity;
 import com.zthx.npj.ui.MyCollectActivity;
 import com.zthx.npj.ui.MyCouponActivity;
-import com.zthx.npj.ui.MyOfflineStoreActivity;
 import com.zthx.npj.ui.MyOrderActivity;
 import com.zthx.npj.ui.MyStoreActivity;
 import com.zthx.npj.ui.MySupplyActivity;
 import com.zthx.npj.ui.MyWalletActivity;
 import com.zthx.npj.ui.SettingsActivity;
 import com.zthx.npj.ui.SpokesmanRightsNoPermissionActivity;
+import com.zthx.npj.ui.UserMsgActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.MyCircleView;
@@ -120,6 +117,8 @@ public class MineFragment
     ImageView fgMineIvLevelimg;
     @BindView(R.id.fg_mine_ll_my_offlinestore)
     LinearLayout fgMineLlMyOfflinestore;
+    @BindView(R.id.fg_mine_ll)
+    LinearLayout fgMineLl;
 
 
     public MineFragment() {
@@ -269,7 +268,8 @@ public class MineFragment
             R.id.fg_mine_ll_wait_take_delivery,//待收货
             R.id.fg_mine_ll_wait_evaluate,//待评价
             R.id.fg_mine_ll_custom_service,//退款/售后
-            R.id.fg_mine_ll_my_offlinestore
+            R.id.fg_mine_ll_my_offlinestore,
+            R.id.fg_mine_ll
     })
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -334,6 +334,9 @@ public class MineFragment
                 break;
             case R.id.fg_mine_ll_my_offlinestore:
 
+                break;
+            case R.id.fg_mine_ll:
+                startActivity(new Intent(getContext(),UserMsgActivity.class));
                 break;
         }
     }

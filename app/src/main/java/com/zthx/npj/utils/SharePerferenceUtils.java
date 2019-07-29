@@ -58,13 +58,6 @@ public class SharePerferenceUtils {
         SharePerferenceUtils.cateName = cateName;
     }
 
-    public static String isIsBindSpokes(Context ctx) {
-        return getString(ctx,"bindSpokes","");
-    }
-
-    public static void setIsBindSpokes(Context ctx,String bindSpokes) {
-        putString(ctx,"bindSpokes",bindSpokes);
-    }
 
     /**
      * @param ctx
@@ -137,15 +130,8 @@ public class SharePerferenceUtils {
     }
 
     public static String getUserId(Context context) {
+        return "35";
         //return getString(context, "user_id", "");
-        return "25";
-    }
-
-    public static void setIsBindWx(Context ctx,String bind) {
-        putString(ctx,"isBindWx",bind);
-    }
-    public static String isIsBindWx(Context ctx) {
-        return getString(ctx,"isBindWx","");
     }
 
 
@@ -157,7 +143,7 @@ public class SharePerferenceUtils {
 
     public static String getToken(Context context) {
         //return getString(context, "token", "");
-        return "28b9ae3c7a7a79492f59999191e29431";
+        return "df36953ff3bcd6601432435d6f171894";
     }
     public static void setLevel(Context context,String level ){
         putString(context,"level",level);

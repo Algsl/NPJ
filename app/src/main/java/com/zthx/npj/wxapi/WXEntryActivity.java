@@ -14,6 +14,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.net.been.AuthLoginBean;
 import com.zthx.npj.net.been.AuthLoginResponseBean;
+import com.zthx.npj.net.netsubscribe.LoginSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -25,6 +26,7 @@ import com.zthx.npj.ui.MainActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -112,8 +114,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
 								@Override
 								public void onResponse(Call call, Response response) throws IOException {
+									authLogin(response.body().string());
 									//是否绑定微信
-								    if(!SharePerferenceUtils.isIsBindWx(WXEntryActivity.this).equals("bind")){
+								    /*if(!SharePerferenceUtils.isIsBindWx(WXEntryActivity.this).equals("bind")){
 										Intent intent=new Intent(WXEntryActivity.this,CellPhoneLoginActivity.class);
 										intent.putExtra("flag",true);
 										intent.putExtra("response",response.body().string());
@@ -123,7 +126,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 										startActivity(new Intent(WXEntryActivity.this, InputInvitationCodeActivity.class));
 									}else{
 										startActivity(new Intent(WXEntryActivity.this, MainActivity.class));
-									}
+									}*/
 								}
 							});
 						}
@@ -134,6 +137,53 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 				}
 				break;
 		}
+	}
+
+	private void authLogin(String str){
+		JSONObject obj = null;
+		try {
+			obj = new JSONObject(str);
+			final String headimg = obj.getString("headimgurl");
+			final String nickname = obj.getString("nickname");
+			String openid = obj.getString("openid");
+			String lat=SharePerferenceUtils.getLat(this);
+			String lng=SharePerferenceUtils.getLng(this);
+			AuthLoginBean bean=new AuthLoginBean();
+			bean.setHead_img(headimg);
+			bean.setNick_name(nickname);
+			bean.setId(openid);
+			bean.setLat(lat);
+			bean.setLng(lng);
+			//调用第三方登录
+			LoginSubscribe.authLogin(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+				@Override
+				public void onSuccess(String result) {//已绑定手机号
+					AuthLoginResponseBean bean = GsonUtils.fromJson(result,AuthLoginResponseBean.class);
+					SharePerferenceUtils.setUserId(WXEntryActivity.this, bean.getData().getUser_id());
+					SharePerferenceUtils.setToken(WXEntryActivity.this,bean.getData().getToken());
+					if(bean.getData().getInviter()==null){
+						startActivity(new Intent(WXEntryActivity.this, InputInvitationCodeActivity.class));
+					}else{
+						startActivity(new Intent(WXEntryActivity.this, MainActivity.class));
+					}
+				}
+
+				@Override
+				public void onFault(String errorMsg) {//未绑定手机号
+					Log.e("测试", "onFault: "+errorMsg);
+					AuthLoginResponseBean bean = GsonUtils.fromJson(errorMsg,AuthLoginResponseBean.class);
+					SharePerferenceUtils.setUserId(WXEntryActivity.this, bean.getData().getUser_id());
+					Intent intent=new Intent(WXEntryActivity.this,CellPhoneLoginActivity.class);
+					intent.putExtra("flag",true);
+					intent.putExtra("headImg",headimg);
+					intent.putExtra("nickName",nickname);
+					startActivity(intent);
+				}
+			}));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 

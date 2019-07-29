@@ -2,10 +2,12 @@ package com.zthx.npj.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.UserMoneyAdapter;
 import com.zthx.npj.net.been.UserMoneyResponseBean;
@@ -24,6 +29,7 @@ import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +61,9 @@ public class UserMoneyActivity extends ActivityBase {
     @BindView(R.id.title_back)
     ImageView titleBack;
 
+    private List<String> options1Items1=new ArrayList<>();
+    private List<String> options1Items2=new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +74,14 @@ public class UserMoneyActivity extends ActivityBase {
         changeTitle(acTitle,"钱包明细");
 
         getUserMoney();
+        initList();
+    }
+
+    private void initList() {
+        for(int i=0;i<12;i++){
+            options1Items1.add(2018+i+"");
+            options1Items2.add(i+1+"");
+        }
     }
 
     private void getUserMoney() {
@@ -85,7 +102,7 @@ public class UserMoneyActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_myWallet_tv_chooseTime:
-
+                showCityPicker();
                 break;
             case R.id.ac_vipJL_tv_allType:
                 showSingleBottomDialog();
@@ -127,6 +144,7 @@ public class UserMoneyActivity extends ActivityBase {
        switch (type){
            case "":
                changeColor(tvs,0);
+
                break;
            case "1":
                changeColor(tvs,1);
@@ -177,4 +195,21 @@ public class UserMoneyActivity extends ActivityBase {
             }
         }
     }
+
+    private void showCityPicker() {
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options, View v) {
+                //返回的分别是三个级别的选中位置
+                //acMyWalletTvChooseTime.setText();
+                acMyWalletTvChooseTime.setText(options1Items1.get(options1)+"年"+options1Items2.get(options2)+"月");
+                begin_time=options1Items1.get(options1)+"-"+options1Items2.get(options2)+"-1";
+                end_time=options1Items1.get(options1)+"-"+options1Items2.get(options2)+"-30";
+            }
+        }).setTitleText("日期选择").setDividerColor(Color.BLACK).setTextColorCenter(Color.BLACK) //设置选中项文字颜色.setContentTextSize(20)
+                .build();
+        pvOptions.setNPicker(options1Items1,options1Items2,null);
+        pvOptions.show();
+    }
+
 }

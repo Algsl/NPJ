@@ -52,7 +52,7 @@ public class LoginActivity extends ActivityBase {
             case R.id.at_login_tv_new:
                 break;
             case R.id.at_login_tv_more_login:
-                SharePerferenceUtils.setIsBindWx(this,"unbind");
+                //SharePerferenceUtils.setIsBindWx(this,"unbind");
                 Intent intent=new Intent(this,CellPhoneLoginActivity.class);
                 intent.putExtra("flag",false);
                 startActivity(intent);

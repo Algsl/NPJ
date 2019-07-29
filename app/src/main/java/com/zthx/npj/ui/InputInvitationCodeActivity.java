@@ -76,7 +76,7 @@ public class InputInvitationCodeActivity extends ActivityBase {
                 startActivityForResult(new Intent(this, LocalSpokesmanActivity.class), 1);
                 break;
             case R.id.at_location_store_tv_ruzhu:
-                SharePerferenceUtils.setIsBindSpokes(InputInvitationCodeActivity.this,"unbind");
+                //SharePerferenceUtils.setIsBindSpokes(InputInvitationCodeActivity.this,"unbind");
                 startActivity(new Intent(this, MainActivity.class));
                 break;
         }
@@ -87,7 +87,7 @@ public class InputInvitationCodeActivity extends ActivityBase {
                 new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        SharePerferenceUtils.setIsBindSpokes(InputInvitationCodeActivity.this,"bind");
+                        //SharePerferenceUtils.setIsBindSpokes(InputInvitationCodeActivity.this,"bind");
                         startActivity(new Intent(InputInvitationCodeActivity.this, MainActivity.class));
                     }
 

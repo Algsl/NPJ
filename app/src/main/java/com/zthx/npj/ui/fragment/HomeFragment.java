@@ -37,6 +37,7 @@ import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.ClassfiysActivity;
+import com.zthx.npj.ui.GameActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.HomeSearchActivity;
 import com.zthx.npj.ui.LocationStoreActivity;
@@ -248,7 +249,7 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.fg_home_rl_go_game:
-                Toast.makeText(getActivity(), "game", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getContext(),GameActivity.class));
                 break;
             case R.id.fg_home_ll_recommend:
                 Toast.makeText(getActivity(), "tuijian", Toast.LENGTH_LONG).show();

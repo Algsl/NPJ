@@ -82,47 +82,13 @@ public class CellPhoneLoginActivity extends ActivityBase {
         changeTitle(acTitle,"手机登录");
         isThirdLogin = getIntent().getBooleanExtra("flag", true);
         if (isThirdLogin) {
-            String response = getIntent().getStringExtra("response");
-            try {
-                JSONObject obj = new JSONObject(response);
-                String headimg = obj.getString("headimgurl");
-                String nickname = obj.getString("nickname");
-                String openid = obj.getString("openid");
-                Glide.with(this).load(Uri.parse(obj.getString("headimgurl"))).into(atCellphoneLoginIvHeadPic);
-                atCellphoneLoginTvThirdName.setText(obj.getString("nickname"));
-                getUserId(openid, nickname, headimg);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            Glide.with(this).load(getIntent().getStringExtra("headImg")).into(atCellphoneLoginIvHeadPic);
+            atCellphoneLoginTvThirdName.setText(getIntent().getStringExtra("nickName"));
         } else {
             atCellphoneLoginTvHint.setVisibility(View.INVISIBLE);
             atCellphoneLoginTvThirdName.setText("新用户登录");
             atCellphoneLoginIvHeadPic.setImageResource(R.drawable.add_pic);
         }
-    }
-
-    private void getUserId(String openid, String nickname, String headimg) {
-        AuthLoginBean bean = new AuthLoginBean();
-        bean.setId(openid);
-        bean.setNick_name(nickname);
-        bean.setHead_img(headimg);
-        bean.setLat(SharePerferenceUtils.getLat(this));
-        bean.setLng(SharePerferenceUtils.getLng(this));
-        Log.e("测试", "getUserId: "+openid+" "+nickname+" "+headimg+" ");
-        LoginSubscribe.authLogin(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: "+result);
-                AuthLoginResponseBean bean = GsonUtils.fromJson(result,AuthLoginResponseBean.class);
-                SharePerferenceUtils.setUserId(CellPhoneLoginActivity.this, bean.getData().getUser_id());
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-                Log.e("测试", "onFault: "+errorMsg);
-                SharePerferenceUtils.setUserId(CellPhoneLoginActivity.this, "25");
-            }
-        }));
     }
 
 
@@ -178,7 +144,7 @@ public class CellPhoneLoginActivity extends ActivityBase {
                 PhoneLoginResponseBean bean = GsonUtils.fromJson(result, PhoneLoginResponseBean.class);
                 SharePerferenceUtils.setUserId(CellPhoneLoginActivity.this, bean.getData().getUser_id());
                 SharePerferenceUtils.setToken(CellPhoneLoginActivity.this, bean.getData().getToken());
-                if(bean.getData().getInviter().equals(null)){
+                if(bean.getData().getInviter().equals("")){
                     startActivity(new Intent(CellPhoneLoginActivity.this, InputInvitationCodeActivity.class));
                 }else{
                     startActivity(new Intent(CellPhoneLoginActivity.this, MainActivity.class));
@@ -207,10 +173,13 @@ public class CellPhoneLoginActivity extends ActivityBase {
                 AuthLoginByMobileResponseBean bean = GsonUtils.fromJson(result, AuthLoginByMobileResponseBean.class);
                 SharePerferenceUtils.setUserId(CellPhoneLoginActivity.this, bean.getData().getUser_id());
                 SharePerferenceUtils.setToken(CellPhoneLoginActivity.this, bean.getData().getToken());
-                startActivity(new Intent(CellPhoneLoginActivity.this, InputInvitationCodeActivity.class));
-                SharePerferenceUtils.setIsBindWx(CellPhoneLoginActivity.this,"bind");
+                if(bean.getData().getInviter()==null){
+                    startActivity(new Intent(CellPhoneLoginActivity.this, InputInvitationCodeActivity.class));
+                }else{
+                    startActivity(new Intent(CellPhoneLoginActivity.this, MainActivity.class));
+                }
+                //SharePerferenceUtils.setIsBindWx(CellPhoneLoginActivity.this,"bind");
             }
-
             @Override
             public void onFault(String errorMsg) {
                 Toast.makeText(CellPhoneLoginActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();

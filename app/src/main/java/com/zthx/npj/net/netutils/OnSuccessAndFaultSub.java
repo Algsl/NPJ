@@ -114,6 +114,7 @@ public class OnSuccessAndFaultSub extends DisposableObserver<ResponseBody>
         try {
 
             if (e instanceof SocketTimeoutException) {//请求超时
+
             } else if (e instanceof ConnectException) {//网络连接超时
                 //                ToastManager.showShortToast("网络连接超时");
                 mOnSuccessAndFaultListener.onFault("网络连接超时");
@@ -169,9 +170,13 @@ public class OnSuccessAndFaultSub extends DisposableObserver<ResponseBody>
             if (resultCode == 1) {
                 mOnSuccessAndFaultListener.onSuccess(result);
             } else {
-                String errorMsg = jsonObject.getString("msg");
-                mOnSuccessAndFaultListener.onFault(errorMsg);
-                Log.e("OnSuccessAndFaultSub", "errorMsg: " + errorMsg);
+                if(resultCode==2){
+                    mOnSuccessAndFaultListener.onFault(result);
+                }else{
+                    String errorMsg = jsonObject.getString("msg");
+                    mOnSuccessAndFaultListener.onFault(errorMsg);
+                    Log.e("OnSuccessAndFaultSub", "errorMsg: " + errorMsg);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
