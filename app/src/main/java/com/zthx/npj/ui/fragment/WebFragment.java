@@ -6,15 +6,19 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.GoodsImgDetailAdapter;
+import com.zthx.npj.adapter.WebFragmentAdapter;
 import com.zthx.npj.net.been.GoodsImgDetailResponseBean;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,12 +33,11 @@ import butterknife.Unbinder;
  * create an instance of this fragment.
  */
 public class WebFragment extends Fragment {
-
-    @BindView(R.id.ac_goodsDetail_rv_content)
-    RecyclerView acGoodsDetailRvContent;
     Unbinder unbinder;
     private OnFragmentInteractionListener mListener;
-
+    private List<String> group;
+    private List<List<String>> child;
+    private ExpandableListView fgWebElv;
     public WebFragment() {
         // Required empty public constructor
     }
@@ -63,7 +66,11 @@ public class WebFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_web, container, false);
+        fgWebElv=view.findViewById(R.id.fg_web_elv);
         unbinder = ButterKnife.bind(this, view);
+        initData();
+        WebFragmentAdapter adapter=new WebFragmentAdapter(getContext(),group,child);
+        fgWebElv.setAdapter(adapter);
         return view;
     }
 
@@ -97,10 +104,10 @@ public class WebFragment extends Fragment {
         lists.add("1");
         lists.add("2");
         lists.add("3");
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        /*RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         acGoodsDetailRvContent.setLayoutManager(layoutManager);
         GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(getContext(), lists);
-        acGoodsDetailRvContent.setAdapter(adapter);
+        acGoodsDetailRvContent.setAdapter(adapter);*/
     }
 
     @Override
@@ -122,5 +129,24 @@ public class WebFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void initData(){
+        group = new ArrayList<String>();
+        child = new ArrayList<List<String>>();
+        addInfo("jack", new String[] {"a","aa","aaa"});
+        addInfo("rose", new String[] {"b","bb","bbb"});
+        addInfo("tom", new String[] {"c","cc","ccc"});
+        Log.e("测试", "initData: "+group);
+        Log.e("测试", "initData: "+child);
+    }
+
+    public void addInfo(String g, String[] c){
+        group.add(g);
+        List<String> item = new ArrayList<>();
+        for(int i = 0; i < c.length; i++){
+            item.add(c[i]);
+        }
+        child.add(item);
     }
 }

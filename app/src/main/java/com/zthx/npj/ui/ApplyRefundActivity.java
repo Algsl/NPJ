@@ -75,7 +75,6 @@ public class ApplyRefundActivity extends ActivityBase {
 
         back(titleBack);
         changeTitle(acTitle,"申请退款");
-
         getOrderDetail();
     }
 
