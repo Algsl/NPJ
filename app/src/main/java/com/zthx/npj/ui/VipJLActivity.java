@@ -1,6 +1,7 @@
 package com.zthx.npj.ui;
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.VipJLAdapter;
 import com.zthx.npj.net.been.VipJLResponseBean;
@@ -21,6 +25,9 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,18 +51,22 @@ public class VipJLActivity extends ActivityBase {
     String user_id = SharePerferenceUtils.getUserId(this);
     String token = SharePerferenceUtils.getToken(this);
     String type = "";
-    String begin_time = "";
-    String end_time = "";
+    String begin_time = "2015-1-1";
+    String end_time = "2015-1-31";
     @BindView(R.id.ac_vipJL_tv_allType)
     TextView acVipJLTvAllType;
     @BindView(R.id.title_back)
     ImageView titleBack;
+
+    private List<String> options1Items1=new ArrayList<>();
+    private List<String> options1Items2=new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vip_jl);
         ButterKnife.bind(this);
+        initList();
         getVipJLInfo();
         back(titleBack);
         changeTitle(acTitle, "代言奖励");
@@ -137,6 +148,7 @@ public class VipJLActivity extends ActivityBase {
             public void onClick(View view) {
                 type = "";
                 acVipJLTvAllType.setText("全部");
+                getVipJLInfo();
                 dialog.dismiss();
             }
         });
@@ -145,6 +157,7 @@ public class VipJLActivity extends ActivityBase {
             public void onClick(View view) {
                 type = "1";
                 acVipJLTvAllType.setText("城市分红奖励");
+                getVipJLInfo();
                 dialog.dismiss();
             }
         });
@@ -153,6 +166,7 @@ public class VipJLActivity extends ActivityBase {
             public void onClick(View view) {
                 type = "2";
                 acVipJLTvAllType.setText("直接邀请奖励");
+                getVipJLInfo();
                 dialog.dismiss();
             }
         });
@@ -161,6 +175,7 @@ public class VipJLActivity extends ActivityBase {
             public void onClick(View view) {
                 type = "3";
                 acVipJLTvAllType.setText("间接邀请奖励");
+                getVipJLInfo();
                 dialog.dismiss();
             }
         });
@@ -169,6 +184,7 @@ public class VipJLActivity extends ActivityBase {
             public void onClick(View view) {
                 type = "4";
                 acVipJLTvAllType.setText("直接销售奖励");
+                getVipJLInfo();
                 dialog.dismiss();
             }
         });
@@ -177,6 +193,7 @@ public class VipJLActivity extends ActivityBase {
             public void onClick(View view) {
                 type = "5";
                 acVipJLTvAllType.setText("间接销售奖励");
+                getVipJLInfo();
                 dialog.dismiss();
             }
         });
@@ -185,6 +202,7 @@ public class VipJLActivity extends ActivityBase {
             public void onClick(View view) {
                 type = "6";
                 acVipJLTvAllType.setText("其他代言人奖励");
+                getVipJLInfo();
                 dialog.dismiss();
             }
         });
@@ -215,7 +233,31 @@ public class VipJLActivity extends ActivityBase {
                 showSingleBottomDialog();
                 break;
             case R.id.ac_vipJL_tv_chooseTime:
+                showDataPicker();
                 break;
         }
+    }
+
+    private void initList() {
+        for(int i=0;i<12;i++){
+            options1Items1.add(2018+i+"");
+            options1Items2.add(i+1+"");
+        }
+    }
+    private void showDataPicker() {
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options, View v) {
+                //返回的分别是三个级别的选中位置
+                //acMyWalletTvChooseTime.setText();
+                acVipJLTvChooseTime.setText(options1Items1.get(options1)+"年"+options1Items2.get(options2)+"月");
+                begin_time=options1Items1.get(options1)+"-"+options1Items2.get(options2)+"-1";
+                end_time=options1Items1.get(options1)+"-"+options1Items2.get(options2)+"-30";
+                getVipJLInfo();
+            }
+        }).setTitleText("日期选择").setDividerColor(Color.BLACK).setTextColorCenter(Color.BLACK) //设置选中项文字颜色.setContentTextSize(20)
+                .build();
+        pvOptions.setNPicker(options1Items1,options1Items2,null);
+        pvOptions.show();
     }
 }

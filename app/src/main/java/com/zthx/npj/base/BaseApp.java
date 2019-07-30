@@ -5,10 +5,12 @@ import android.app.Application;
 import android.content.Context;
 
 import com.zthx.npj.baidumap.LocationService;
+import com.zthx.npj.services.GlobalEventListener;
 
 import java.util.ArrayList;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.im.android.api.JMessageClient;
 
 /**
  * Created by huangxin on 2019/5/28.
@@ -27,6 +29,7 @@ public class BaseApp extends Application {
         appContext = getApplicationContext();
         locationService = new LocationService(this);
         JPushInterface.init(this);
+        JMessageClient.registerEventReceiver(new GlobalEventListener(getApplicationContext()));
         app = this;
     }
 

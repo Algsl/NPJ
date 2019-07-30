@@ -77,7 +77,7 @@ public class InComeLogActivity extends ActivityBase {
         //1、使用Dialog、设置style
         final Dialog dialog = new Dialog(this, R.style.DialogTheme);
         //2、设置布局
-        final View view = View.inflate(this, R.layout.dialog_vipjl_layout, null);
+        final View view = View.inflate(this, R.layout.dialog_income_layout, null);
         dialog.setContentView(view);
         final Window window = dialog.getWindow();
         //设置弹出位置
@@ -87,19 +87,16 @@ public class InComeLogActivity extends ActivityBase {
         //设置对话框大小
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
-        TextView all, city, dInvation, iInvation, dSell, iSell, store, other, cancel;
-        all = view.findViewById(R.id.dl_vipjl_tv_all);
-        city = view.findViewById(R.id.dl_vipjl_tv_city);
-        dInvation = view.findViewById(R.id.dl_vipjl_tv_dInvitation);
-        iInvation = view.findViewById(R.id.dl_vipjl_tv_iInvitation);
-        dSell = view.findViewById(R.id.dl_vipjl_tv_dSell);
-        iSell = view.findViewById(R.id.dl_vipjl_tv_iSell);
-        store = view.findViewById(R.id.dl_vipjl_tv_store);
-        other = view.findViewById(R.id.dl_vipjl_tv_other);
-        cancel = view.findViewById(R.id.dl_vipjl_tv_cancel);
-        final TextView[] tvs = {all, city, dInvation, iInvation, dSell, iSell, store, other};
+
+        TextView all, store,vip,money,cancel;
+        all=view.findViewById(R.id.dl_income_tv_all);
+        store=view.findViewById(R.id.dl_income_tv_store);
+        vip=view.findViewById(R.id.dl_income_tv_vip);
+        money=view.findViewById(R.id.dl_income_tv_money);
+        cancel=view.findViewById(R.id.dl_income_tv_cancel);
+        final TextView[] tvs = {all, store,vip,money};
         switch (type) {
-            case "":
+            case "100":
                 changeColor(tvs, 0);
                 break;
             case "1":
@@ -111,80 +108,40 @@ public class InComeLogActivity extends ActivityBase {
             case "3":
                 changeColor(tvs, 3);
                 break;
-            case "4":
-                changeColor(tvs, 4);
-                break;
-            case "5":
-                changeColor(tvs, 5);
-                break;
-            case "6":
-                changeColor(tvs, 6);
-                break;
-            case "7":
-                changeColor(tvs, 7);
-                break;
         }
         all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                type = "";
-                acVipJLTvAllType.setText("全部");
-                dialog.dismiss();
-            }
-        });
-        city.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                type = "1";
-                acVipJLTvAllType.setText("城市分红奖励");
-                dialog.dismiss();
-            }
-        });
-        dInvation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                type = "2";
-                acVipJLTvAllType.setText("直接邀请奖励");
-                dialog.dismiss();
-            }
-        });
-        iInvation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                type = "3";
-                acVipJLTvAllType.setText("间接邀请奖励");
-                dialog.dismiss();
-            }
-        });
-        dSell.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                type = "4";
-                acVipJLTvAllType.setText("直接销售奖励");
-                dialog.dismiss();
-            }
-        });
-        iSell.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                type = "5";
-                acVipJLTvAllType.setText("间接销售奖励");
+                type = "100";
+                acVipJLTvAllType.setText("全部明细");
+                getIncomeLog();
                 dialog.dismiss();
             }
         });
         store.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                type = "6";
-                acVipJLTvAllType.setText("店铺销售收益");
+                type = "1";
+                acVipJLTvAllType.setText("店铺明细");
+                getIncomeLog();
                 dialog.dismiss();
             }
         });
-        other.setOnClickListener(new View.OnClickListener() {
+        vip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                type = "7";
-                acVipJLTvAllType.setText("其他代言人奖励");
+                type = "2";
+                acVipJLTvAllType.setText("代言明细");
+                getIncomeLog();
+                dialog.dismiss();
+            }
+        });
+        money.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                type = "3";
+                acVipJLTvAllType.setText("提取金额明细");
+                getIncomeLog();
                 dialog.dismiss();
             }
         });

@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.fragment.DiscoverSupplyFragment"
     android:orientation="vertical">
 
     <LinearLayout
-        android:visibility="gone"
+        android:id="@+id/fg_discover_supply_ll"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_155"
         android:orientation="vertical"
@@ -70,7 +71,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="获得全国报价"
+                    android:text="采购商都能看到"
                     android:textColor="@color/text6"
                     android:textSize="@dimen/sp_13"/>
 
@@ -90,6 +91,8 @@
             android:textColor="@color/text9"/>
     </LinearLayout>
     <RelativeLayout
+        android:id="@+id/fg_discover_supply_rv_search"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_29"
         android:layout_marginTop="@dimen/dp_5"

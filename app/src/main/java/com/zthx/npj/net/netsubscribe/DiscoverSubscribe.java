@@ -1,5 +1,6 @@
 package com.zthx.npj.net.netsubscribe;
 
+import com.zthx.npj.net.been.AddSupplyBean;
 import com.zthx.npj.net.been.AkVideoBean;
 import com.zthx.npj.net.been.BuyVideoBean;
 import com.zthx.npj.net.been.ConfirmSupplyBean;
@@ -290,6 +291,29 @@ public class DiscoverSubscribe {
         bean.setPay_code(bean.getPay_code());
         bean.setRemark(bean.getRemark());
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().videoOrder(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 发布供应信息
+     * @param bean
+     * @param subscriber
+     */
+    public static void addSupply(AddSupplyBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setGoods_img(bean.getGoods_img());
+        bean.setTitle(bean.getTitle());
+        bean.setGoods_name(bean.getGoods_name());
+        bean.setGoods_num(bean.getGoods_num());
+        bean.setGoods_unit(bean.getGoods_unit());
+        bean.setCity(bean.getCity());
+        bean.setPrice(bean.getPrice());
+        bean.setContent(bean.getContent());
+        bean.setLat(bean.getLat());
+        bean.setLng(bean.getLng());
+        bean.setBuy_num(bean.getBuy_num());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().addSupply(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

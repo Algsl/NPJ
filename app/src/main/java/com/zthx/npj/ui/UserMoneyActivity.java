@@ -77,13 +77,6 @@ public class UserMoneyActivity extends ActivityBase {
         initList();
     }
 
-    private void initList() {
-        for(int i=0;i<12;i++){
-            options1Items1.add(2018+i+"");
-            options1Items2.add(i+1+"");
-        }
-    }
-
     private void getUserMoney() {
         SetSubscribe.userMoney(user_id, token, type, begin_time, end_time, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
@@ -195,7 +188,12 @@ public class UserMoneyActivity extends ActivityBase {
             }
         }
     }
-
+    private void initList() {
+        for(int i=0;i<12;i++){
+            options1Items1.add(2018+i+"");
+            options1Items2.add(i+1+"");
+        }
+    }
     private void showCityPicker() {
         OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
@@ -205,6 +203,7 @@ public class UserMoneyActivity extends ActivityBase {
                 acMyWalletTvChooseTime.setText(options1Items1.get(options1)+"年"+options1Items2.get(options2)+"月");
                 begin_time=options1Items1.get(options1)+"-"+options1Items2.get(options2)+"-1";
                 end_time=options1Items1.get(options1)+"-"+options1Items2.get(options2)+"-30";
+                getUserMoney();
             }
         }).setTitleText("日期选择").setDividerColor(Color.BLACK).setTextColorCenter(Color.BLACK) //设置选中项文字颜色.setContentTextSize(20)
                 .build();

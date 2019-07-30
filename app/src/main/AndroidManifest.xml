@@ -141,11 +141,9 @@
         <activity android:name=".ui.ShopingCartConfirmActivity" />
         <activity android:name=".ui.MyTeamActivity" />
         <activity android:name=".ui.MapAddressActivity" />
-        <activity android:name=".ui.GameActivity" /> <!-- 微信支付 -->
+        <activity android:name=".ui.GameActivity" />
         <activity android:name=".ui.UserMsgActivity"/>
-
-
-
+        <activity android:name=".ui.ServicesChatActivity"/>
 
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -214,7 +212,5 @@
                 <action android:name="cn.jiguang.user.service.action" />
             </intent-filter>
         </service>
-
     </application>
-
 </manifest>

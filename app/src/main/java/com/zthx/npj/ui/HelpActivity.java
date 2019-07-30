@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.api.BasicCallback;
 
 public class HelpActivity extends ActivityBase {
 
@@ -118,6 +120,14 @@ public class HelpActivity extends ActivityBase {
                 }).show();
                 break;
             case R.id.at_help_tv_kefu_online:
+                JMessageClient.login("18435224024", "18435224024", new BasicCallback() {
+                    @Override
+                    public void gotResult(int i, String s) {
+                        if (i==0){
+                            openActivity(ServicesChatActivity.class);
+                        }
+                    }
+                });
                 break;
             case R.id.at_help_tv_pingjia:
                 startActivity(new Intent(this,FeedbackActivity.class));

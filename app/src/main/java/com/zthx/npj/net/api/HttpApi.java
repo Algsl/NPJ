@@ -469,5 +469,8 @@ public interface HttpApi  {
 
     @POST("index.php/api/payment/pay.html")
     Observable<ResponseBody> pay(@Body PayBean bean);
+
+    @POST("index.php/api/user/addsupply.html")
+    Observable<ResponseBody> addSupply(@Body AddSupplyBean bean);
 }
 

@@ -1,6 +1,8 @@
 package com.zthx.npj.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -84,7 +86,7 @@ public class SettingsActivity extends ActivityBase {
     private static final int CHOOSE_PHOTO = 2;
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
-    private boolean receiveMsg = false;
+    private boolean receiveMsg = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +173,8 @@ public class SettingsActivity extends ActivityBase {
             acSettingIvMsg.setImageResource(R.drawable.at_edit_address_selector);
         } else {
             acSettingIvMsg.setImageResource(R.drawable.at_edit_address_not_selector);
+            @SuppressLint("WrongConstant") NotificationManager manager= (NotificationManager) SettingsActivity.this.getApplicationContext().getSystemService("notification");
+            manager.cancelAll();
         }
     }
 

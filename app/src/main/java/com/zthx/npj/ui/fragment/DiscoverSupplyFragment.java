@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
@@ -80,11 +81,14 @@ public class DiscoverSupplyFragment extends Fragment {
     RecyclerView fgDiscoverNeedRv;
     @BindView(R.id.fg_discover_supply_ll_need)
     LinearLayout fgDiscoverSupplyLlNeed;
+    @BindView(R.id.fg_discover_supply_rv_search)
+    RelativeLayout fgDiscoverSupplyRvSearch;
+    @BindView(R.id.fg_discover_supply_ll)
+    LinearLayout fgDiscoverSupplyLl;
 
 
-    private String type1="1";
-    private String type2="1";
-
+    private String type1 = "1";
+    private String type2 = "1";
 
 
     public DiscoverSupplyFragment() {
@@ -137,17 +141,17 @@ public class DiscoverSupplyFragment extends Fragment {
                 /*if (mAdapter != null) {
                     mAdapter.updateData(data);
                 } else {}*/
-                    mAdapter = new DiscoverSupplyAdapter(getActivity(), data);
-                    mAdapter.setOnItemClickListener(new DiscoverSupplyAdapter.ItemClickListener() {
-                        @Override
-                        public void onItemClick(int position) {
-                            Intent intent = new Intent(getActivity(), SupplyProductsActivity.class);
-                            intent.setAction(Const.SUPPLY_DETAIL);
-                            intent.putExtra(Const.SUPPLY_ID, data.get(position).getId());
-                            startActivity(intent);
-                        }
-                    });
-                    fgDiscoverSupplyRv.setAdapter(mAdapter);
+                mAdapter = new DiscoverSupplyAdapter(getActivity(), data);
+                mAdapter.setOnItemClickListener(new DiscoverSupplyAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Intent intent = new Intent(getActivity(), SupplyProductsActivity.class);
+                        intent.setAction(Const.SUPPLY_DETAIL);
+                        intent.putExtra(Const.SUPPLY_ID, data.get(position).getId());
+                        startActivity(intent);
+                    }
+                });
+                fgDiscoverSupplyRv.setAdapter(mAdapter);
 
             }
 
@@ -174,17 +178,17 @@ public class DiscoverSupplyFragment extends Fragment {
                 /*if (mAdapter != null) {
                     mAdapter2.updateData(data);
                 } else {}*/
-                    mAdapter2 = new DiscoverNeedAdapter(getActivity(), data);
-                    mAdapter2.setOnItemClickListener(new DiscoverNeedAdapter.ItemClickListener() {
-                        @Override
-                        public void onItemClick(int position) {
-                            Intent intent = new Intent(getActivity(), SupplyProductsActivity.class);
-                            intent.setAction(Const.NEED_DETAIL);
-                            intent.putExtra(Const.SUPPLY_ID, data.get(position).getId());
-                            startActivity(intent);
-                        }
-                    });
-                    fgDiscoverNeedRv.setAdapter(mAdapter);
+                mAdapter2 = new DiscoverNeedAdapter(getActivity(), data);
+                mAdapter2.setOnItemClickListener(new DiscoverNeedAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Intent intent = new Intent(getActivity(), SupplyProductsActivity.class);
+                        intent.setAction(Const.NEED_DETAIL);
+                        intent.putExtra(Const.SUPPLY_ID, data.get(position).getId());
+                        startActivity(intent);
+                    }
+                });
+                fgDiscoverNeedRv.setAdapter(mAdapter);
             }
 
             @Override
@@ -216,29 +220,36 @@ public class DiscoverSupplyFragment extends Fragment {
     public void onViewClicked(View view) {
         Intent intent;
         switch (view.getId()) {
+            //求购模块
             case R.id.fg_discover_need_tv_new:
                 fgDiscoverNeedTvNew.setTextColor(getResources().getColor(R.color.app_theme));
                 fgDiscoverNeedTvLocation.setTextColor(getResources().getColor(R.color.text3));
-                type2="1";
+                type2 = "1";
                 getNeedData(type2);
                 break;
             case R.id.fg_discover_need_tv_location:
                 fgDiscoverNeedTvLocation.setTextColor(getResources().getColor(R.color.app_theme));
                 fgDiscoverNeedTvNew.setTextColor(getResources().getColor(R.color.text3));
-                type2="2";
+                type2 = "2";
                 getNeedData(type2);
                 break;
             case R.id.fg_discover_supply_tv_supply:
                 changeButtonColor(1);
                 getSupplyData(type1);
+                fgDiscoverSupplyLl.setVisibility(View.VISIBLE);
+                fgDiscoverSupplyRvSearch.setVisibility(View.GONE);
                 break;
             case R.id.fg_discover_supply_tv_need:
+                fgDiscoverSupplyLl.setVisibility(View.GONE);
+                fgDiscoverSupplyRvSearch.setVisibility(View.VISIBLE);
                 changeButtonColor(2);
                 getNeedData(type2);
                 break;
             case R.id.fg_discover_supply_tv_company:
                 changeButtonColor(3);
                 break;
+
+                //供应模块
             case R.id.fg_discover_supply_tv_new:
                 selectType("1");
                 getSupplyData(type1);
@@ -281,19 +292,19 @@ public class DiscoverSupplyFragment extends Fragment {
         fgDiscoverSupplyTvPrice.setTextColor(getResources().getColor(R.color.text3));
         if ("1".equals(type)) {
             fgDiscoverSupplyTvNew.setTextColor(getResources().getColor(R.color.app_theme));
-            type1="1";
+            type1 = "1";
         } else if ("2".equals(type)) {
             fgDiscoverSupplyTvLocation.setTextColor(getResources().getColor(R.color.app_theme));
-            type1="2";
+            type1 = "2";
         } else if ("3".equals(type)) {
             fgDiscoverSupplyTvSellNum.setTextColor(getResources().getColor(R.color.app_theme));
-            type1="3";
+            type1 = "3";
         } else if ("4".equals(type)) {
             fgDiscoverSupplyTvXinyong.setTextColor(getResources().getColor(R.color.app_theme));
-            type1="4";
+            type1 = "4";
         } else {
             fgDiscoverSupplyTvPrice.setTextColor(getResources().getColor(R.color.app_theme));
-            type1="5";
+            type1 = "5";
         }
     }
 

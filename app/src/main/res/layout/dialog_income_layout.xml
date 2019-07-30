@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/dl_income_tv_all"
                 android:layout_width="@dimen/dp_110"
                 android:layout_height="@dimen/dp_40"
                 android:layout_marginLeft="@dimen/dp_12"
@@ -30,6 +31,7 @@
                 android:textSize="@dimen/sp_15"
                 android:text="全部明细"/>
             <TextView
+                android:id="@+id/dl_income_tv_store"
                 android:layout_width="@dimen/dp_110"
                 android:layout_height="@dimen/dp_40"
                 android:layout_marginLeft="@dimen/dp_12"
@@ -39,6 +41,7 @@
                 android:gravity="center"
                 android:text="店铺明细"/>
             <TextView
+                android:id="@+id/dl_income_tv_vip"
                 android:layout_width="@dimen/dp_110"
                 android:layout_height="@dimen/dp_40"
                 android:layout_marginLeft="@dimen/dp_12"
@@ -54,6 +57,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/dl_income_tv_money"
                 android:layout_width="@dimen/dp_110"
                 android:layout_height="@dimen/dp_40"
                 android:layout_marginLeft="@dimen/dp_12"
@@ -71,7 +75,7 @@
         android:background="@color/background" />
 
     <TextView
-        android:id="@+id/dl_photo_cancel"
+        android:id="@+id/dl_income_tv_cancel"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
         android:gravity="center"
