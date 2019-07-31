@@ -2,6 +2,7 @@ package com.zthx.npj.services;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.enums.ConversationType;
@@ -29,8 +30,11 @@ public class GlobalEventListener {
 
     private void jumpToActivity(Message msg) {
         UserInfo fromUser = msg.getFromUser();
+
         final Intent notificationIntent = new Intent(appContext, ServicesChatActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        notificationIntent.putExtra("key0",fromUser.getUserName());
+        notificationIntent.putExtra("key1","我的小店铺");
         /*notificationIntent.putExtra(ServicesChatActivity.EXTRA_FROM_USERNAME, fromUser.getUserName());
         notificationIntent.putExtra(ServicesChatActivity.EXTRA_FROM_APPKEY, fromUser.getAppKey());
         notificationIntent.putExtra(ServicesChatActivity.EXTRA_MSG_TYPE, msg.getContentType().toString());

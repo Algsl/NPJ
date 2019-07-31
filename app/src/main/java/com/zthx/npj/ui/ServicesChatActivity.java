@@ -58,16 +58,20 @@ public class ServicesChatActivity extends ActivityBase {
     ListView acServiceChatLv;
 
     private String chat_name="";
+    private String receiveTitle="";
+    private Conversation mConversation=null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_services_chat);
         ButterKnife.bind(this);
-
+        chat_name=getIntent().getStringExtra("key0");
+        receiveTitle=getIntent().getStringExtra("key1");
+        back(titleBack);
+        changeTitle(acTitle,receiveTitle);
         getChatMsg();
 
-        getStoreInfo();
 
         acServiceChatEtContent.addTextChangedListener(new TextWatcher() {
             @Override
@@ -92,37 +96,22 @@ public class ServicesChatActivity extends ActivityBase {
             }
         });
     }
-
-    private void getStoreInfo() {
-        MainSubscribe.getStoreDetail("1",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                StoreDetailResponseBean bean=GsonUtils.fromJson(result,StoreDetailResponseBean.class);
-                StoreDetailResponseBean.DataBean data=bean.getData();
-                acTitle.setText(data.getStore_name());
-
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-
-            }
-        }));
-    }
-
     private void getChatMsg() {
-        Conversation conversation = JMessageClient.getSingleConversation("gsla1");
-        List<Message> lists = conversation.getMessagesFromNewest(0, 18);
+        if(mConversation==null){
+            mConversation = JMessageClient.getSingleConversation(chat_name);
+        }
+        List<Message> lists = mConversation.getMessagesFromNewest(0,18);
         ChatListAdapter adapter=new ChatListAdapter(this,lists);
         acServiceChatLv.setAdapter(adapter);
+        acServiceChatLv.setSelection(lists.size()-1);
+        adapter.notifyDataSetInvalidated();
     }
-
+    //用户端发送消息设置
     @OnClick(R.id.ac_serviceChat_tv_send)
     public void onViewClicked() {
         String text = acServiceChatEtContent.getText().toString().trim();
         if (!TextUtils.isEmpty(chat_name) && !TextUtils.isEmpty(text)) {
             //通过username和appkey拿到会话对象，通过指定appkey可以创建一个和跨应用用户的会话对象，从而实现跨应用的消息发送
-            Conversation mConversation = JMessageClient.getSingleConversation(chat_name, "");
             if (mConversation == null) {
                 mConversation = Conversation.createSingleConversation(chat_name, "");
             }
@@ -130,8 +119,8 @@ public class ServicesChatActivity extends ActivityBase {
             TextContent textContent = new TextContent(text);
             //设置自定义的extra参数
             textContent.setStringExtra("", "");
-            //创建message实体，设置消息发送回调。
-            final Message message = mConversation.createSendMessage(textContent, "农品街客服");
+            //创建message实体，设置消息发送回调。创建消息内容，包含内容信息，发送方信息。
+            final Message message = mConversation.createSendMessage(textContent, "用户18435224024");
             message.setOnSendCompleteCallback(new BasicCallback() {
                 @Override
                 public void gotResult(int i, String s) {

@@ -63,8 +63,6 @@ public class ChatListAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         final Message msg = mList.get(i);
         TextContent content= (TextContent) msg.getContent();
-        Log.e("测试", "getView: "+msg);
-        Log.e("测试", "getView: "+content.getText());
         ViewHolder holder;
         if(view==null){
             holder=new ViewHolder();

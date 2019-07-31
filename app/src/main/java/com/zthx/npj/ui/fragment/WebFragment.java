@@ -1,6 +1,7 @@
 package com.zthx.npj.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.GoodsImgDetailAdapter;
 import com.zthx.npj.adapter.WebFragmentAdapter;
 import com.zthx.npj.net.been.GoodsImgDetailResponseBean;
+import com.zthx.npj.ui.ImgArticalActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,7 @@ public class WebFragment extends Fragment {
     private List<String> group;
     private List<List<String>> child;
     private ExpandableListView fgWebElv;
+    private List<Boolean> clicked=new ArrayList<>();
     public WebFragment() {
         // Required empty public constructor
     }
@@ -69,9 +72,46 @@ public class WebFragment extends Fragment {
         fgWebElv=view.findViewById(R.id.fg_web_elv);
         unbinder = ButterKnife.bind(this, view);
         initData();
-        WebFragmentAdapter adapter=new WebFragmentAdapter(getContext(),group,child);
-        fgWebElv.setAdapter(adapter);
+        setData();
         return view;
+    }
+
+    private void setData() {
+        final WebFragmentAdapter adapter=new WebFragmentAdapter(getContext(),group,child);
+        fgWebElv.setGroupIndicator(null);
+        fgWebElv.setAdapter(adapter);
+        fgWebElv.setDivider(null);
+        fgWebElv.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int i) {
+                for(int j=0,count=fgWebElv.getExpandableListAdapter().getGroupCount();j<count;j++){
+                    if(i!=j){
+                        if(clicked.get(j)){
+                            clicked.set(j,false);
+                        }
+                        adapter.notifyDataSetChanged();
+                        fgWebElv.collapseGroup(j);
+                    }
+                }
+            }
+        });
+        fgWebElv.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+                clicked.set(i,!clicked.get(i));
+                adapter.setCurrentItem(i);
+                adapter.setmClicked(clicked.get(i));
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+        });
+        fgWebElv.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                startActivity(new Intent(getContext(),ImgArticalActivity.class));
+                return false;
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -134,11 +174,12 @@ public class WebFragment extends Fragment {
     public void initData(){
         group = new ArrayList<String>();
         child = new ArrayList<List<String>>();
-        addInfo("jack", new String[] {"a","aa","aaa"});
-        addInfo("rose", new String[] {"b","bb","bbb"});
-        addInfo("tom", new String[] {"c","cc","ccc"});
-        Log.e("测试", "initData: "+group);
-        Log.e("测试", "initData: "+child);
+        addInfo("1.0-蓝莓的简介", new String[] {"1.1蓝莓的生长过程","1.2蓝莓的发源地","1.3蓝莓的生长过程"});
+        addInfo("2.0-蓝莓病虫害防治方法",  new String[] {"2.1蓝莓的生长过程","2.2蓝莓的发源地","2.3蓝莓的生长过程"});
+        addInfo("3.0-蓝莓的生长及主要虫害",  new String[] {"3.1蓝莓的生长过程","3.2蓝莓的发源地","3.3蓝莓的生长过程"});
+        clicked.add(false);
+        clicked.add(false);
+        clicked.add(false);
     }
 
     public void addInfo(String g, String[] c){

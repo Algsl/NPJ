@@ -11,12 +11,17 @@ import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.utils.TimeFormat;
+import com.zthx.npj.view.MyCircleView;
 
 import java.util.List;
 
+import cn.jpush.im.android.api.model.Conversation;
+import cn.jpush.im.android.api.model.UserInfo;
+
 public class MessageCenterAdapter extends RecyclerView.Adapter<MessageCenterAdapter.ViewHolder>{
 
-    private List<CommentGoodsBeen> mList;
+    private List<Conversation> mList;
     private Context mContext;
 
     private ItemClickListener mItemClickListener ;
@@ -28,14 +33,14 @@ public class MessageCenterAdapter extends RecyclerView.Adapter<MessageCenterAdap
 
     }
 
-    public MessageCenterAdapter(Context context, List<CommentGoodsBeen> list) {
+    public MessageCenterAdapter(Context context, List<Conversation> list) {
         mList = list;
         mContext = context;
     }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_message_center, viewGroup, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_chat, viewGroup, false);
         return new MessageCenterAdapter.ViewHolder(view);
     }
 
@@ -52,12 +57,12 @@ public class MessageCenterAdapter extends RecyclerView.Adapter<MessageCenterAdap
             });
         }
         if (mList!= null && mList.size() > 0) {
-//            viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
-//            viewHolder.mTvPrice.setText(list.get(i).getGoodsPrice());
-//            viewHolder.mTvSellNum.setText(list.get(i).getGoodsSellNum());
-//            viewHolder.mTvTitle.setText(list.get(i).getGoodsTitle());
-        } else {
-
+            Conversation conversation=mList.get(i);
+            UserInfo userInfo= (UserInfo) mList.get(i).getTargetInfo();
+            viewHolder.name.setText(userInfo.getUserName());
+            viewHolder.msg.setText(conversation.getLatestText());
+            TimeFormat timeFormat=new TimeFormat(mContext,conversation.getLastMsgDate());
+            viewHolder.lastTime.setText(timeFormat.getDetailTime());
         }
     }
 
@@ -67,17 +72,15 @@ public class MessageCenterAdapter extends RecyclerView.Adapter<MessageCenterAdap
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mIvGoods;
-        TextView mTvTitle;
-        TextView mTvPrice;
-        TextView mTvSellNum;
+        MyCircleView img;
+        TextView name,msg,lastTime;
 
         ViewHolder(View itemView) {
             super(itemView);
-            mIvGoods = itemView.findViewById(R.id.item_iv_comment_goods);
-            mTvTitle = itemView.findViewById(R.id.item_tv_comment_goods_title);
-            mTvPrice = itemView.findViewById(R.id.item_tv_comment_goods_price);
-            mTvSellNum = itemView.findViewById(R.id.item_tv_comment_goods_sell_num);
+            img=itemView.findViewById(R.id.item_chat_mcv_img);
+            name=itemView.findViewById(R.id.item_chat_tv_name);
+            msg=itemView.findViewById(R.id.item_chat_tv_msg);
+            lastTime=itemView.findViewById(R.id.item_chat_tv_time);
         }
     }
 }

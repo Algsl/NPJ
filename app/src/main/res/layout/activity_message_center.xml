@@ -44,6 +44,7 @@
             android:layout_alignParentBottom="true"></View>
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/at_message_center_rl_kefu_message"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_60">
         <ImageView
@@ -87,7 +88,6 @@
         android:id="@+id/at_message_center_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
     </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

@@ -1,5 +1,7 @@
 package com.zthx.npj.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
@@ -54,10 +57,6 @@ public class ApplyRefundActivity extends ActivityBase {
     ImageView acOrderApplyRefundIvImg;
     @BindView(R.id.ac_order_applyRefund_btn_confirm)
     Button acOrderApplyRefundBtnConfirm;
-
-    String user_id = SharePerferenceUtils.getUserId(this);
-    String token = SharePerferenceUtils.getToken(this);
-    MyOrderDetailResponseBean.DataBean data;
     @BindView(R.id.title_back)
     ImageView titleBack;
     @BindView(R.id.ac_title_iv)
@@ -66,6 +65,11 @@ public class ApplyRefundActivity extends ActivityBase {
     ImageView atConfirmOrderIvGo;
     @BindView(R.id.ac_order_applyRefund_choose)
     ImageView acOrderApplyRefundChoose;
+
+    String user_id = SharePerferenceUtils.getUserId(this);
+    String token = SharePerferenceUtils.getToken(this);
+    MyOrderDetailResponseBean.DataBean data;
+    private String refund_state="0";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,8 +112,31 @@ public class ApplyRefundActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_order_applyRefund_tv_state:
+                final String[] str=new String[] {"退货退款","仅退款"};
+                new AlertDialog.Builder(this)
+                        .setSingleChoiceItems(str, 0,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        refund_state=which+"";
+                                        atOrderApplyRefundTvState.setText(str[which]);
+                                        dialog.dismiss();
+                                    }
+                                }
+                        )
+                        .show();
                 break;
             case R.id.at_order_applyRefund_tv_reason:
+                final String[] str1=new String[]{"请选择","不喜欢/效果不好","多拍/错拍/不想要","与商品描述不符","质量问题","卖家发错货"};
+                new AlertDialog.Builder(this)
+                        .setSingleChoiceItems(str1, 0,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        atOrderApplyRefundTvReason.setText(str1[which]);
+                                        dialog.dismiss();
+                                    }
+                                }
+                        )
+                        .show();
                 break;
             case R.id.ac_order_applyRefund_iv_img:
                 break;
@@ -118,12 +145,11 @@ public class ApplyRefundActivity extends ActivityBase {
                 bean.setUser_id(user_id);
                 bean.setToken(token);
                 bean.setOrder_id(getIntent().getStringExtra("order_id"));
-                bean.setRefund_state("0");
-                bean.setRefund_reason("颜色不对");
+                bean.setRefund_state(refund_state);
+                bean.setRefund_reason(atOrderApplyRefundTvReason.getText().toString());
                 bean.setRefund_price(data.getOrder_price());
                 bean.setRefund_desc(acOrderApplyRefundEtReason.getText().toString().trim());
                 bean.setRefund_img("/public/upload/20190420/defa05252410178d8f8a9b1bb6f1d274.jpg");
-                Log.e("测试", user_id + " " + token + " " + getIntent().getStringExtra("order_id"));
                 SetSubscribe.applyRefund(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {

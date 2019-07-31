@@ -3,7 +3,14 @@ package com.zthx.npj.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
 import com.zthx.npj.base.Const;
+import com.zthx.npj.entity.NotificationBean;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by huangxin on 2019/5/29.
@@ -16,6 +23,7 @@ public class SharePerferenceUtils {
     private static String cateId;
     private static String cateName;
     private static String totlePrice;
+    private static ArrayList<NotificationBean> list=new ArrayList<>();
 
 
 
@@ -67,7 +75,7 @@ public class SharePerferenceUtils {
      */
     public static void removeKey(Context ctx, String key) {
         if (sp == null) {
-            sp = ctx.getSharedPreferences(SPXMLNAME, Context.MODE_PRIVATE);
+            sp = ctx.getSharedPreferences(SPXMLNAME, MODE_PRIVATE);
         }
         sp.edit().remove(key).commit();
     }
@@ -76,7 +84,7 @@ public class SharePerferenceUtils {
     public static void putBoolean(Context ctx, String key, boolean value) {
         // name存储文件名称
         if (sp == null) {
-            sp = ctx.getSharedPreferences(SPXMLNAME, Context.MODE_PRIVATE);
+            sp = ctx.getSharedPreferences(SPXMLNAME, MODE_PRIVATE);
         }
         sp.edit().putBoolean(key, value).commit();
     }
@@ -85,7 +93,7 @@ public class SharePerferenceUtils {
     public static boolean getBoolean(Context ctx, String key, boolean defValue) {
         // name存储文件名称
         if (sp == null) {
-            sp = ctx.getSharedPreferences(SPXMLNAME, Context.MODE_PRIVATE);
+            sp = ctx.getSharedPreferences(SPXMLNAME, MODE_PRIVATE);
         }
         return sp.getBoolean(key, defValue);
     }
@@ -93,15 +101,16 @@ public class SharePerferenceUtils {
     public static void putString(Context ctx, String key, String value) {
         // name存储文件名称
         if (sp == null) {
-            sp = ctx.getSharedPreferences(SPXMLNAME, Context.MODE_PRIVATE);
+            sp = ctx.getSharedPreferences(SPXMLNAME, MODE_PRIVATE);
         }
         sp.edit().putString(key, value).commit();
     }
 
+
     public static String getString(Context ctx, String key, String defValue) {
         // name存储文件名称
         if (sp == null) {
-            sp = ctx.getSharedPreferences(SPXMLNAME, Context.MODE_PRIVATE);
+            sp = ctx.getSharedPreferences(SPXMLNAME, MODE_PRIVATE);
         }
         return sp.getString(key, defValue);
     }
@@ -110,7 +119,7 @@ public class SharePerferenceUtils {
     public static void putInt(Context ctx, String key, int value) {
         // name存储文件名称
         if (sp == null) {
-            sp = ctx.getSharedPreferences(SPXMLNAME, Context.MODE_PRIVATE);
+            sp = ctx.getSharedPreferences(SPXMLNAME, MODE_PRIVATE);
         }
         sp.edit().putInt(key, value).commit();
     }
@@ -118,7 +127,7 @@ public class SharePerferenceUtils {
     public static int getInt(Context ctx, String key, int defValue) {
         // name存储文件名称
         if (sp == null) {
-            sp = ctx.getSharedPreferences(SPXMLNAME, Context.MODE_PRIVATE);
+            sp = ctx.getSharedPreferences(SPXMLNAME, MODE_PRIVATE);
         }
         return sp.getInt(key, defValue);
     }
@@ -134,6 +143,13 @@ public class SharePerferenceUtils {
         //return getString(context, "user_id", "");
     }
 
+    public static ArrayList<NotificationBean> getList() {
+        return list;
+    }
+
+    public static void setList(ArrayList<NotificationBean> list) {
+        SharePerferenceUtils.list = list;
+    }
 
     public static void setToken(Context context, String token) {
         putString(context,"token",token);

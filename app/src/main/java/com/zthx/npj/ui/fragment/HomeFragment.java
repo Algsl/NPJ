@@ -1,6 +1,8 @@
 package com.zthx.npj.ui.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,6 +38,7 @@ import com.zthx.npj.net.been.RecommendResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.ApplyRefundActivity;
 import com.zthx.npj.ui.ClassfiysActivity;
 import com.zthx.npj.ui.GameActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
@@ -252,7 +255,7 @@ public class HomeFragment extends BaseFragment {
                 startActivity(new Intent(getContext(),GameActivity.class));
                 break;
             case R.id.fg_home_ll_recommend:
-                Toast.makeText(getActivity(), "tuijian", Toast.LENGTH_LONG).show();
+
                 break;
         }
     }

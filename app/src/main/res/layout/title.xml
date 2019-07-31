@@ -8,8 +8,8 @@
 
         <ImageView
             android:id="@+id/title_back"
-            android:layout_width="@dimen/dp_22"
-            android:layout_height="@dimen/dp_22"
+            android:layout_width="@dimen/dp_32"
+            android:layout_height="@dimen/dp_32"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_6"
             android:src="@drawable/back"/>

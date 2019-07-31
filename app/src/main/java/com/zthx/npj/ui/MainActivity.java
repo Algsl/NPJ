@@ -21,6 +21,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.zthx.npj.R;
+import com.zthx.npj.entity.NotificationBean;
 import com.zthx.npj.ui.fragment.DiscoverFragment;
 import com.zthx.npj.ui.fragment.GameFragment;
 import com.zthx.npj.ui.fragment.HomeFragment;
@@ -29,11 +30,15 @@ import com.zthx.npj.ui.fragment.ShoppingCart1Fragment;
 import com.zthx.npj.ui.fragment.ShoppingCartFragment;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.api.BasicCallback;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -80,8 +85,19 @@ public class MainActivity extends AppCompatActivity {
         // Example of a call to a native method
         setNotification();
         registerMessageReceiver();
+        loginIM();
         //Log.e("测试", "onCreate: "+SharePerferenceUtils.getToken(this));
     }
+
+    private void loginIM() {
+        JMessageClient.login("18435224024", "18435224024", new BasicCallback() {
+            @Override
+            public void gotResult(int i, String s) {
+
+            }
+        });
+    }
+
 
     private void initJPush() {
         JPushInterface.init(getApplicationContext());

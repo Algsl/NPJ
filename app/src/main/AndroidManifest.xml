@@ -30,7 +30,6 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true">
-
         <meta-data
             android:name="com.google.android.gms.car.application"
             android:resource="@xml/automotive_app_desc" /> <!-- android:theme="@style/Theme.AppCompat.Light.NoActionBar" -->
@@ -142,8 +141,11 @@
         <activity android:name=".ui.MyTeamActivity" />
         <activity android:name=".ui.MapAddressActivity" />
         <activity android:name=".ui.GameActivity" />
-        <activity android:name=".ui.UserMsgActivity"/>
-        <activity android:name=".ui.ServicesChatActivity"/>
+        <activity android:name=".ui.UserMsgActivity" />
+        <activity android:name=".ui.ServicesChatActivity" />
+        <activity android:name=".ui.ImgArticalActivity" />
+        <activity android:name=".ui.NotificationDetailActivity"/>
+        <activity android:name=".ui.NotificationListActivity"/>
 
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -152,7 +154,9 @@
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="wx76500efa65d19915" />
             </intent-filter>
         </activity>
@@ -193,13 +197,13 @@
                 android:resource="@xml/file_path" />
         </provider>
 
-
         <receiver
             android:name=".services.PushReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+
                 <category android:name="com.zthx.npj" />
             </intent-filter>
         </receiver>
@@ -207,10 +211,26 @@
         <service
             android:name=".services.PushService"
             android:enabled="true"
-            android:exported="true" android:process=":pushcore">
+            android:exported="true"
+            android:process=":pushcore">
             <intent-filter>
                 <action android:name="cn.jiguang.user.service.action" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name=".services.MyReceiver"
+            android:exported="false"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!--Required  用户接收SDK通知栏信息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <category android:name="com.zthx.npj" />
+            </intent-filter>
+        </receiver>
     </application>
+
 </manifest>

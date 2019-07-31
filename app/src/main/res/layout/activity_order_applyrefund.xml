@@ -79,7 +79,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="货物状态"
+            android:text="申请类型"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_12"
             android:textColor="@color/text3"
@@ -100,7 +100,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/at_confirm_order_iv_go"
             android:layout_marginRight="@dimen/dp_6"
-            android:text="请选择"
+            android:text="退货退款"
             android:textSize="@dimen/sp_14"
             android:textColor="@color/text6"/>
     </RelativeLayout>

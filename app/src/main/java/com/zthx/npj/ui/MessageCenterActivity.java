@@ -1,10 +1,10 @@
 package com.zthx.npj.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,6 +19,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.model.Conversation;
+import cn.jpush.im.android.api.model.UserInfo;
 
 public class MessageCenterActivity extends ActivityBase {
 
@@ -38,6 +41,8 @@ public class MessageCenterActivity extends ActivityBase {
     RelativeLayout titleTheme;
     @BindView(R.id.at_message_center_iv1)
     ImageView atMessageCenterIv1;
+    @BindView(R.id.at_message_center_rl_kefu_message)
+    RelativeLayout atMessageCenterRlKefuMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,23 +50,40 @@ public class MessageCenterActivity extends ActivityBase {
         setContentView(R.layout.activity_message_center);
         ButterKnife.bind(this);
         back(titleThemeBack);
-        changeTitle(titleThemeTitle,"消息中心");
+        changeTitle(titleThemeTitle, "消息中心");
 
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         atMessageCenterRv.setLayoutManager(manager);
-        List<CommentGoodsBeen> list = new ArrayList<>();
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        MessageCenterAdapter mAdapter = new MessageCenterAdapter(this, list);
+        final List<Conversation> lists=JMessageClient.getConversationList();
+        MessageCenterAdapter mAdapter = new MessageCenterAdapter(this, lists);
         atMessageCenterRv.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new MessageCenterAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                String targetId=lists.get(position).getTargetId();
+                UserInfo userInfo= (UserInfo) lists.get(position).getTargetInfo();
+                Log.e("测试", "onItemClick: "+userInfo);
+                openActivity(ServicesChatActivity.class,targetId,"我的小店铺");
+            }
+        });
     }
 
-    @OnClick(R.id.at_message_center_rl_system_message)
-    public void onViewClicked() {
-        startActivity(new Intent(this, SystemMessageActivity.class));
+
+    @OnClick({R.id.at_message_center_rl_system_message, R.id.at_message_center_rl_kefu_message})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.at_message_center_rl_system_message:
+                openActivity(NotificationListActivity.class);
+                break;
+            case R.id.at_message_center_rl_kefu_message:
+                openActivity(ServicesChatActivity.class,"gsla1","农品街客服");
+                break;
+        }
     }
+
+   /*@OnClick(R.id.at_message_center_rl_system_message)
+    public void onViewClicked() {
+        //startActivity(new Intent(this, SystemMessageActivity.class));
+        openActivity(NotificationListActivity.class);
+    }*/
 }

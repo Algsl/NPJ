@@ -118,6 +118,7 @@ public class CreateSigTextMessageActivity extends Activity {
                     String customFromName = mEt_customName.getText().toString();
                     String extraKey = mEt_extraKey.getText().toString();
                     String extraValue = mEt_extraValue.getText().toString();
+
                     boolean retainOfflineMsg = mCb_retainOfflineMsg.isChecked();
                     boolean showNotification = mCb_showNotification.isChecked();
                     boolean enableCustomNotify = mCb_enableCustomNotify.isChecked();

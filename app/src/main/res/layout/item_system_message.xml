@@ -5,6 +5,7 @@
     android:layout_height="@dimen/dp_125"
     android:orientation="vertical"
     android:background="@drawable/white_conner_8"
+    android:layout_marginTop="@dimen/dp_10"
     android:layout_marginLeft="@dimen/dp_12"
     android:layout_marginRight="@dimen/dp_12">
 

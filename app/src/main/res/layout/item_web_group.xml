@@ -2,30 +2,31 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_25"
+    android:layout_height="@dimen/dp_42"
     android:orientation="vertical"
-    android:layout_marginTop="@dimen/dp_5"
-    android:layout_marginRight="@dimen/dp_12"
-    android:layout_marginLeft="@dimen/dp_12">
+    android:layout_marginRight="@dimen/dp_12">
     <ImageView
-        android:id="@+id/iv1"
+        android:id="@+id/item_webGroup_iv_img"
         android:layout_width="@dimen/dp_23"
         android:layout_height="@dimen/dp_23"
-        android:layout_marginTop="@dimen/dp_1"
-        android:src="@drawable/logo"/>
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:src="@drawable/discover_img_artical1"/>
     <TextView
         android:id="@+id/item_webGroup_tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/iv1"
+        android:layout_toRightOf="@id/item_webGroup_iv_img"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/dp_12"
         android:textSize="@dimen/sp_15"
         android:text="1.0-蓝莓的简介"/>
     <ImageView
+        android:id="@+id/item_webGroup_iv_zhishi"
         android:layout_width="@dimen/dp_22"
         android:layout_height="@dimen/dp_22"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/logo"/>
+        android:layout_marginRight="@dimen/dp_12"
+        android:src="@drawable/xiala_zhishi4"/>
 </RelativeLayout>

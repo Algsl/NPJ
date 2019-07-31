@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
@@ -16,8 +17,18 @@ public class WebFragmentAdapter extends BaseExpandableListAdapter {
     private List<String> mGroup;
     private List<List<String>> mChild;
     private Context mContext;
+    private int mCurrentItem=0;
+    private boolean mClicked=false;
 
-    public WebFragmentAdapter(Context context,List<String> group,List<List<String>> child){
+    public void setCurrentItem(int currentItem) {
+        mCurrentItem= currentItem;
+    }
+
+    public void setmClicked(boolean mClicked) {
+        this.mClicked = mClicked;
+    }
+
+    public WebFragmentAdapter(Context context, List<String> group, List<List<String>> child){
         mContext=context;
         mGroup=group;
         mChild=child;
@@ -61,23 +72,35 @@ public class WebFragmentAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         ViewHolderGroup viewHolderGroup=null;
-        View view1=null;
-        if(view1==null){
-            view1=LayoutInflater.from(mContext).inflate(R.layout.item_web_group,null);
-            viewHolderGroup.groupTitle=view1.findViewById(R.id.item_webGroup_tv_title);
-            view1.setTag(viewHolderGroup);
+        if(view==null){
+            viewHolderGroup=new ViewHolderGroup();
+            view=LayoutInflater.from(mContext).inflate(R.layout.item_web_group,viewGroup,false);
+            viewHolderGroup.groupTitle=view.findViewById(R.id.item_webGroup_tv_title);
+            viewHolderGroup.img=view.findViewById(R.id.item_webGroup_iv_img);
+            viewHolderGroup.zhishi=view.findViewById(R.id.item_webGroup_iv_zhishi);
+            view.setTag(viewHolderGroup);
         }else{
-            viewHolderGroup= (ViewHolderGroup) view1.getTag();
+            viewHolderGroup= (ViewHolderGroup) view.getTag();
+        }
+        if(mCurrentItem==i && mClicked){
+            viewHolderGroup.img.setImageResource(R.drawable.discover_img_artikel);
+            viewHolderGroup.zhishi.setImageResource(R.drawable.xiala_zhishi3);
+            viewHolderGroup.groupTitle.setTextColor(mContext.getResources().getColor(R.color.app_theme));
+        }else{
+            viewHolderGroup.img.setImageResource(R.drawable.discover_img_artical1);
+            viewHolderGroup.zhishi.setImageResource(R.drawable.xiala_zhishi4);
+            viewHolderGroup.groupTitle.setTextColor(mContext.getResources().getColor(R.color.text3));
         }
         viewHolderGroup.groupTitle.setText(mGroup.get(i));
-        return view1;
+        return view;
     }
 
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
         ViewHolderChild viewHolderChild=null;
         if(view==null){
-            view=LayoutInflater.from(mContext).inflate(R.layout.item_web_item,null);
+            viewHolderChild=new ViewHolderChild();
+            view=LayoutInflater.from(mContext).inflate(R.layout.item_web_item,viewGroup,false);
             viewHolderChild.childTitle=view.findViewById(R.id.item_webItem_tv_title);
             view.setTag(viewHolderChild);
         }else{
@@ -89,13 +112,15 @@ public class WebFragmentAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean isChildSelectable(int i, int i1) {
-        return false;
+        return true;
     }
 
     public class ViewHolderGroup{
         private TextView groupTitle;
+        private ImageView img,zhishi;
     }
     public class ViewHolderChild{
         private TextView childTitle;
     }
+
 }

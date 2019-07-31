@@ -12,6 +12,7 @@
         android:layout_height="match_parent"/>-->
     <ExpandableListView
         android:id="@+id/fg_web_elv"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </FrameLayout>
