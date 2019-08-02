@@ -57,7 +57,7 @@ public class HttpUtils {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
         for(File file:files){
-            builder.addFormDataPart("images",file.getName(),RequestBody.create(MediaType.parse("image/png"),file));
+            builder.addFormDataPart("images[]",file.getName(),RequestBody.create(MediaType.parse("image/png"),file));
             Log.e("测试", "uploadMoreImg: "+file.getName() );
         }
         RequestBody requestBody = builder.build();

@@ -1,7 +1,13 @@
 package com.zthx.npj.ui.fragment;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,12 +25,14 @@ import com.google.gson.Gson;
 import com.zthx.npj.R;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.entity.JsonBean;
+import com.zthx.npj.net.api.URLConstant;
+import com.zthx.npj.net.been.AddPurchaseBean;
+import com.zthx.npj.net.been.AddSupplyBean;
 import com.zthx.npj.net.been.UploadPicsBean;
 import com.zthx.npj.net.been.UploadPicsResponseBean;
-import com.zthx.npj.net.been.UploadPurchaseBean;
-import com.zthx.npj.net.been.UploadSupplyBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.ActivityBase;
@@ -35,6 +43,7 @@ import com.zthx.npj.utils.SharePerferenceUtils;
 import org.json.JSONArray;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +51,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.zhouzhuo.zzimagebox.ZzImageBox;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class SupplyMessageActivity extends ActivityBase {
 
@@ -116,15 +128,19 @@ public class SupplyMessageActivity extends ActivityBase {
     LinearLayout atSupplyMessageLlZhiding;
     @BindView(R.id.at_supply_message_btn_publish)
     Button atSupplyMessageBtnPublish;
+
+    private static final int CHOOSE_PHOTO1 = 1;
+    private static final int CHOOSE_PHOTO2 = 2;
+
     private ArrayList<JsonBean> options1Items = new ArrayList<>(); //省
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();//市
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();//区
-
-    private ArrayList<String> picPaths = new ArrayList<>();//照片路径
-
+    private ArrayList<String> picPaths1 = new ArrayList<>();//照片路径
+    private ArrayList<String> picPaths2=new ArrayList<>();
     private int supplyType = 1;
-    private UploadPurchaseBean uploadPurchaseBean = new UploadPurchaseBean();
-    private UploadSupplyBean uploadSupplyBean = new UploadSupplyBean();
+    AddPurchaseBean purchaseBean=new AddPurchaseBean();
+    AddSupplyBean supplyBean=new AddSupplyBean();
+    private String address=URLConstant.REQUEST_URL1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,26 +149,23 @@ public class SupplyMessageActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle, "供应信息");
 
         supplyType = getIntent().getIntExtra(Const.SUPPLY_TYPE, 1);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        switch (supplyType){
+            case 1:
+                changeTitle(acTitle, "采购信息");
+                acSupplyLl.setVisibility(View.GONE);
+                acQiugouLl.setVisibility(View.VISIBLE);
+                atSupplyMessageLlZhiding.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                changeTitle(acTitle, "供应信息");
+                acSupplyLl.setVisibility(View.VISIBLE);
+                acQiugouLl.setVisibility(View.GONE);
+                atSupplyMessageLlZhiding.setVisibility(View.GONE);
+                break;
+        }
 
         //添加商品图片
         atSupplyMessageThreePic.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
@@ -161,31 +174,64 @@ public class SupplyMessageActivity extends ActivityBase {
             }
             @Override
             public void onDeleteClick(int position, String url, String realPath, int realType) {
+                picPaths1.remove(position);
                 atSupplyMessageThreePic.removeImage(position);
             }
             @Override
             public void onAddClick() {
-                atSupplyMessageThreePic.addImage(getPicPath());
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, CHOOSE_PHOTO1);
             }
         });
+
         //上传9张图片
         atSupplyMessageNinePic.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
             @Override
             public void onImageClick(int position, String url, String realPath, int realType, ImageView iv) {
             }
-
             @Override
             public void onDeleteClick(int position, String url, String realPath, int realType) {
+                picPaths2.remove(position);
                 atSupplyMessageNinePic.removeImage(position);
             }
             @Override
             public void onAddClick() {
-                atSupplyMessageNinePic.addImage(getPicPath());
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, CHOOSE_PHOTO2);
             }
         });
     }
 
-    @OnClick({R.id.at_supply_message_address, R.id.at_supply_message_btn_publish})
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case CHOOSE_PHOTO1:
+                if(resultCode==RESULT_OK){
+                    Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+                    cursor.moveToFirst();
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String path = cursor.getString(columnIndex);  //获取照片路径
+                    picPaths1.add(path);
+                    atSupplyMessageThreePic.addImage(path);
+                }
+                break;
+            case CHOOSE_PHOTO2:
+                Uri selectedImage=data.getData();
+                String[] filePathColumn={MediaStore.Images.Media.DATA};
+                Cursor cursor=getContentResolver().query(selectedImage,filePathColumn,null,null,null);
+                cursor.moveToFirst();
+                int columnIndex=cursor.getColumnIndex(filePathColumn[0]);
+                String path=cursor.getString(columnIndex);
+                picPaths2.add(path);
+                atSupplyMessageNinePic.addImage(path);
+                break;
+        }
+    }
+
+    @OnClick({R.id.at_supply_message_address, R.id.at_supply_message_btn_publish,R.id.at_qg_message_address})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //地址选择器
@@ -199,148 +245,109 @@ public class SupplyMessageActivity extends ActivityBase {
                 break;
             //确认发布
             case R.id.at_supply_message_btn_publish:
-                issueConfirm();
+                uploadImage();
                 break;
         }
     }
 
-    private void issueConfirm() {
-        switch (supplyType){
-            case 1://采购
-                acSupplyLl.setVisibility(View.GONE);
-                acQiugouLl.setVisibility(View.VISIBLE);
-                atSupplyMessageLlZhiding.setVisibility(View.VISIBLE);
-
-                break;
-            case 2://供应
-                acSupplyLl.setVisibility(View.VISIBLE);
-                acQiugouLl.setVisibility(View.GONE);
-                atSupplyMessageLlZhiding.setVisibility(View.GONE);
-                break;
-        }
-    }
-
-    /**
-     * 差个获取照片方法
-     *
-     * @return
-     */
-    private String getPicPath() {
-        return null;
-    }
-
-
-
-    /**
-     * 上传所有信息，根据类型上传供应和求购
-     */
-    private void uploadData() {
-        if (supplyType == 1) {
-            DiscoverSubscribe.uploadSupply(uploadSupplyBean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                @Override
-                public void onSuccess(String result) {
-                    Toast.makeText(SupplyMessageActivity.this, "上传成功！", Toast.LENGTH_SHORT);
-                    finish();
-                }
-                @Override
-                public void onFault(String errorMsg) {
-
-                }
-            }, this));
-        } else {
-            DiscoverSubscribe.uploadPurchase(uploadPurchaseBean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                @Override
-                public void onSuccess(String result) {
-                    Toast.makeText(SupplyMessageActivity.this, "上传成功！", Toast.LENGTH_SHORT);
-                    finish();
-                }
-                @Override
-                public void onFault(String errorMsg) {
-                }
-            }));
-        }
-    }
-
-    /**
-     * 先上传3张的banner图片，上传3张图片
-     */
-    private void getData() {
-        List<String> allRealPath = atSupplyMessageThreePic.getAllRealPath();
-        UploadPicsBean pics = new UploadPicsBean();
-        File[] files = new File[allRealPath.size()];
-        for (int i = 0; i < allRealPath.size(); i++) {
-            files[i] = new File(allRealPath.get(i));
-        }
-        pics.setImges(files);
-        SetSubscribe.upLoadFiles(pics, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+    private void uploadImage() {
+        HttpUtils.uploadMoreImg(address, picPaths1, new Callback() {
             @Override
-            public void onSuccess(String result) {
+            public void onFailure(Call call, IOException e) {
 
-                UploadPicsResponseBean uploadPicsResponseBean = GsonUtils.fromJson(result, UploadPicsResponseBean.class);
-                if (supplyType == 1) {
-                    uploadSupplyBean.setGoods_img(uploadPicsResponseBean.getData().getImg());
-                } else {
-                    uploadPurchaseBean.setImg(uploadPicsResponseBean.getData().getImg());
-                }
-                setNinePic();
             }
 
             @Override
-            public void onFault(String errorMsg) {
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.e("测试", "onResponse: "+response);
+                UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                UploadPicsResponseBean.DataBean data = bean.getData();
+                switch (supplyType){
+                    case 1:
+                        purchaseBean.setImg(data.getImg());
+                        break;
+                    case 2:
+                        supplyBean.setGoods_img(data.getImg());
+                        break;
+                }
+                uploadContentImg();
+            }
+        });
+    }
+
+    private void uploadContentImg() {
+        HttpUtils.uploadMoreImg(address, picPaths2, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
 
             }
-        }, this));
 
-    }
-    /**
-     * 再上传9张的详情图片
-     */
-    private void setNinePic() {
-        List<String> allRealPath = atSupplyMessageNinePic.getAllRealPath();
-        UploadPicsBean pics = new UploadPicsBean();
-        File[] files = new File[allRealPath.size()];
-        for (int i = 0; i < allRealPath.size(); i++) {
-            files[i] = new File(allRealPath.get(i));
-        }
-        SetSubscribe.upLoadFiles(pics, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
-            public void onSuccess(String result) {
-                UploadPicsResponseBean uploadPicsResponseBean = GsonUtils.fromJson(result, UploadPicsResponseBean.class);
-
-                if (supplyType == 1) {
-                    uploadSupplyBean.setContent(uploadPicsResponseBean.getData().getImg());
-                    uploadSupplyBean.setUser_id(SharePerferenceUtils.getUserId(SupplyMessageActivity.this));
-                    uploadSupplyBean.setToken(SharePerferenceUtils.getToken(SupplyMessageActivity.this));
-                    uploadSupplyBean.setTitle(atSupplyMessageTitle.getText().toString().trim());
-                    uploadSupplyBean.setPrice(atSupplyMessageEtPrice.getText().toString().trim());
-                    uploadSupplyBean.setLng(SharePerferenceUtils.getLng(SupplyMessageActivity.this));
-                    uploadSupplyBean.setLat(SharePerferenceUtils.getLat(SupplyMessageActivity.this));
-                    uploadSupplyBean.setGoods_unit(atSupplyMessageTvUnit.getText().toString());
-                    uploadSupplyBean.setGoods_num(atSupplyMessageNum.getText().toString());
-                    uploadSupplyBean.setGoods_name(atSupplyMessageName.getText().toString());
-                } else {
-
-                    uploadPurchaseBean.setContent(uploadPicsResponseBean.getData().getImg());
-                    uploadPurchaseBean.setUser_id(SharePerferenceUtils.getUserId(SupplyMessageActivity.this));
-                    uploadPurchaseBean.setToken(SharePerferenceUtils.getToken(SupplyMessageActivity.this));
-                    uploadPurchaseBean.setTitle(atSupplyMessageTitle.getText().toString().trim());
-                    uploadPurchaseBean.setLng(SharePerferenceUtils.getLng(SupplyMessageActivity.this));
-                    uploadPurchaseBean.setLat(SharePerferenceUtils.getLat(SupplyMessageActivity.this));
-                    uploadPurchaseBean.setUnit(atSupplyMessageTvUnit.getText().toString());
-                    uploadPurchaseBean.setAmount(atSupplyMessageNum.getText().toString());
-                    uploadPurchaseBean.setMin_price(atSupplyMessageEtMin.getText().toString());
-                    uploadPurchaseBean.setMax_price(atSupplyMessageEtMax.getText().toString());
-                    uploadPurchaseBean.setIs_top(atSupplyMessageRbZhiding.isChecked() ? "1" : "0");
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.e("测试", "onResponse: "+response);
+                UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                UploadPicsResponseBean.DataBean data = bean.getData();
+                switch (supplyType){
+                    case 1:
+                        purchaseBean.setContent(data.getImg());
+                        purchaseBean.setUser_id(SharePerferenceUtils.getUserId(SupplyMessageActivity.this));
+                        purchaseBean.setToken(SharePerferenceUtils.getToken(SupplyMessageActivity.this));
+                        purchaseBean.setTitle(atQgMessageTitle.getText().toString().trim());
+                        purchaseBean.setLng(SharePerferenceUtils.getLng(SupplyMessageActivity.this));
+                        purchaseBean.setLat(SharePerferenceUtils.getLat(SupplyMessageActivity.this));
+                        purchaseBean.setUnit(atQgMessageTvUnit.getText().toString());
+                        purchaseBean.setAmount(atQgMessageNum.getText().toString());
+                        purchaseBean.setMin_price(atSupplyMessageEtMin.getText().toString());
+                        purchaseBean.setMax_price(atSupplyMessageEtMax.getText().toString());
+                        purchaseBean.setIs_top(atSupplyMessageRbZhiding.isChecked() ? "1" : "0");
+                        purchaseBean.setCity(atQgMessageTvAddress.getText().toString());
+                        break;
+                    case 2:
+                        supplyBean.setContent(data.getImg());
+                        supplyBean.setUser_id(SharePerferenceUtils.getUserId(SupplyMessageActivity.this));
+                        supplyBean.setToken(SharePerferenceUtils.getToken(SupplyMessageActivity.this));
+                        supplyBean.setTitle(atSupplyMessageTitle.getText().toString().trim());
+                        supplyBean.setPrice(atSupplyMessageEtPrice.getText().toString().trim());
+                        supplyBean.setLng(SharePerferenceUtils.getLng(SupplyMessageActivity.this));
+                        supplyBean.setLat(SharePerferenceUtils.getLat(SupplyMessageActivity.this));
+                        supplyBean.setGoods_unit(atSupplyMessageTvUnit.getText().toString());
+                        supplyBean.setGoods_num(atSupplyMessageNum.getText().toString());
+                        supplyBean.setGoods_name(atSupplyMessageName.getText().toString());
+                        supplyBean.setCity(atSupplyMessageTvAddress.getText().toString());
+                        supplyBean.setBuy_num(atSupplyMessageWhole.getText().toString().trim());
+                        break;
                 }
                 uploadData();
-
             }
+        });
+    }
 
-            @Override
-            public void onFault(String errorMsg) {
 
-            }
-        }, this));
+    private void uploadData() {
+        switch (supplyType){
+            case 1://采购
+                DiscoverSubscribe.addPurchase(purchaseBean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        finish();
+                    }
+                    @Override
+                    public void onFault(String errorMsg) {
+                    }
+                }));
+                break;
+            case 2://供应
+                DiscoverSubscribe.addSupply(supplyBean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        finish();
+                    }
+                    @Override
+                    public void onFault(String errorMsg) {
+                    }
+                }));
+                break;
+        }
     }
 
     private void initJsonData() {//解析数据 （省市区三级联动）
@@ -412,9 +419,18 @@ public class SupplyMessageActivity extends ActivityBase {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
-                atSupplyMessageTvAddress.setText(options1Items.get(options1).getPickerViewText() + "  "
-                        + options2Items.get(options1).get(options2) + "  "
-                        + options3Items.get(options1).get(options2).get(options3));
+                switch (supplyType){
+                    case 1:
+                        atQgMessageTvAddress.setText(options1Items.get(options1).getPickerViewText() + "  "
+                                + options2Items.get(options1).get(options2) + "  "
+                                + options3Items.get(options1).get(options2).get(options3));
+                        break;
+                    case 2:
+                        atSupplyMessageTvAddress.setText(options1Items.get(options1).getPickerViewText() + "  "
+                                + options2Items.get(options1).get(options2) + "  "
+                                + options3Items.get(options1).get(options2).get(options3));
+                        break;
+                }
 
             }
         })

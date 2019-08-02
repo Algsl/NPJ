@@ -52,6 +52,11 @@ public class MessageCenterActivity extends ActivityBase {
         back(titleThemeBack);
         changeTitle(titleThemeTitle, "消息中心");
 
+        setChatData();
+
+    }
+
+    private void setChatData() {
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         atMessageCenterRv.setLayoutManager(manager);
         final List<Conversation> lists=JMessageClient.getConversationList();
@@ -62,12 +67,17 @@ public class MessageCenterActivity extends ActivityBase {
             public void onItemClick(int position) {
                 String targetId=lists.get(position).getTargetId();
                 UserInfo userInfo= (UserInfo) lists.get(position).getTargetInfo();
-                Log.e("测试", "onItemClick: "+userInfo);
-                openActivity(ServicesChatActivity.class,targetId,"我的小店铺");
+                openActivity(ServicesChatActivity.class,targetId,userInfo.getNickname());
             }
         });
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setChatData();
+    }
 
     @OnClick({R.id.at_message_center_rl_system_message, R.id.at_message_center_rl_kefu_message})
     public void onViewClicked(View view) {

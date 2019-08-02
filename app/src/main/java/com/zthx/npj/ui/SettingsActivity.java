@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -43,6 +44,8 @@ import java.io.IOException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.api.BasicCallback;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -294,6 +297,16 @@ public class SettingsActivity extends ActivityBase {
                         cursor.close();
                         Bitmap bitmap = BitmapFactory.decodeFile(path);
                         fgSettingIvHeadimg.setImageBitmap(bitmap);
+                        JMessageClient.updateUserAvatar(new File(path), new BasicCallback() {
+                            @Override
+                            public void gotResult(int i, String s) {
+                                if (i == 0) {
+                                    Log.e("测试", "gotResult: "+i+" "+s);
+                                } else {
+                                    Log.e("测试", "gotResult: "+i+" "+s);
+                                }
+                            }
+                        });
                         HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
                             @Override
                             public void onFailure(Call call, IOException e) {

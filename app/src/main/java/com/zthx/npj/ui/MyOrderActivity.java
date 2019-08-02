@@ -48,7 +48,7 @@ public class MyOrderActivity extends ActivityBase {
         list.add("待发货");
         list.add("待收货");
         list.add("待评价");
-        list.add("售后/退款");
+        list.add("售后");
         List<Fragment> list2 = new ArrayList<>();
         list2.add(new OrderListFragment().newIntent("100"));
         list2.add(new OrderListFragment().newIntent("1"));

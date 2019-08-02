@@ -65,6 +65,11 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
         viewHolder.mTvNeedNum.setText(list.get(i).getAmount());
         viewHolder.mTvDistance.setText(list.get(i).getDistance()+"米");
         viewHolder.mTvTitle.setText(list.get(i).getTitle());
+        if(list.get(i).getIs_top()==0){
+            viewHolder.mTvIsTop.setVisibility(View.GONE);
+        }else{
+            viewHolder.mTvIsTop.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -77,6 +82,7 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
         TextView mTvTitle;
         TextView mTvNeedNum;
         TextView mTvDistance;
+        TextView mTvIsTop;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -84,6 +90,7 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
             mTvTitle = itemView.findViewById(R.id.item_discover_need_tv_title);
             mTvNeedNum = itemView.findViewById(R.id.item_discover_need_tv_num);
             mTvDistance= itemView.findViewById(R.id.item_discover_need_tv_distance);
+            mTvIsTop=itemView.findViewById(R.id.item_discover_need_tv_isTop);
         }
     }
 }

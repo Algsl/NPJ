@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
     style="@style/jmui_chat_item_receive_layout"
     xmlns:android="http://schemas.android.com/apk/res/android">
 

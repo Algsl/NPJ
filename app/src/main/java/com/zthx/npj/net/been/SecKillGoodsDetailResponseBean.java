@@ -32,6 +32,15 @@ public class SecKillGoodsDetailResponseBean extends BaseReponseBean {
         private String sold;
         private String sale_num;
         private int is_free_shipping;
+        private boolean isCollect;
+
+        public boolean isCollect() {
+            return isCollect;
+        }
+
+        public void setCollect(boolean collect) {
+            isCollect = collect;
+        }
 
         public long getId() {
             return id;

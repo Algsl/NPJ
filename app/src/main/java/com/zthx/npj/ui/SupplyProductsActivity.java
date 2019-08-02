@@ -6,12 +6,15 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -23,13 +26,16 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.LocalStoreAdapter;
 import com.zthx.npj.base.Const;
+import com.zthx.npj.net.been.BaoJiaBean;
 import com.zthx.npj.net.been.NeedDetailResponseBean;
 import com.zthx.npj.net.been.SupplyDetailResponseBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.GlideImageLoader;
 import com.zthx.npj.view.MyCircleView;
 
@@ -91,24 +97,27 @@ public class SupplyProductsActivity extends ActivityBase {
     TextView atSupplyProductTvBaojia;
 
     private String type;
-    private int goodsId;
+    private String goodsId;
+    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supply_products);
         ButterKnife.bind(this);
-        goodsId = getIntent().getIntExtra(Const.SUPPLY_ID, 1);
+        goodsId = getIntent().getStringExtra("goods_id");
         type = getIntent().getAction();
-
+        Log.e("测试", "onCreate: "+goodsId );
         if (type.equals(Const.SUPPLY_DETAIL)) {
             atSupplyProductLlSupplyDetail.setVisibility(View.VISIBLE);
             atSupplyProductLlNeedDetail.setVisibility(View.GONE);
-            getSupplyData(goodsId + "");
+            getSupplyData(goodsId);
         } else {
             atSupplyProductLlSupplyDetail.setVisibility(View.GONE);
             atSupplyProductLlNeedDetail.setVisibility(View.VISIBLE);
-            getNeedData(goodsId + "");
+            getNeedData(goodsId);
+            atSupplyProductsBtnBuyNow.setText("我要报价");
         }
     }
 
@@ -243,17 +252,64 @@ public class SupplyProductsActivity extends ActivityBase {
                 if (type.equals(Const.SUPPLY_DETAIL)) {
                     openActivity(SupplyBillActivity.class,goodsId+"");
                 } else {
-
+                    showPublishPopwindow();
                 }
                 break;
         }
     }
+    public void showPublishPopwindow() {
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_baojia, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView);
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_350));
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_271));
+        // 设置PopupWindow的背景
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        //window.setOutsideTouchable(false);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        window.setFocusable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+        EditText baojiaContent=contentView.findViewById(R.id.pw_baojia_et_content);
+        EditText baojiaRemark=contentView.findViewById(R.id.pw_baojia_et_remark);
+        Button commit=contentView.findViewById(R.id.pw_baojia_btn_commit);
+        final String content=baojiaContent.getText().toString().trim();
+        final String remark=baojiaRemark.getText().toString().trim();
+        commit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BaoJiaBean bean=new BaoJiaBean();
+                bean.setUser_id(user_id);
+                bean.setToken(token);
+                bean.setContent(content);
+                bean.setRemark(remark);
+                bean.setList_id(goodsId);
+                DiscoverSubscribe.baojia(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        backgroundAlpha(1f);
+                        window.dismiss();
+                    }
 
-    @OnClick()
-    public void onViewClicked() {
-//        showPopupWindow(atSupplyProductsBtnBuyNow);
-//
+                    @Override
+                    public void onFault(String errorMsg) {
 
+                    }
+                }));
+            }
+        });
+    }
 
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha;
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getWindow().setAttributes(lp);
     }
 }

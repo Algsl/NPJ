@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.api.BasicCallback;
 import me.zhouzhuo.zzimagebox.ZzImageBox;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -99,7 +103,6 @@ public class StoreManagerActivity extends ActivityBase {
         zzImageBox.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
             @Override
             public void onImageClick(int position, String url, String realPath, int realType, ImageView iv) {
-
             }
 
             @Override

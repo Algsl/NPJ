@@ -34,7 +34,7 @@ public class GlobalEventListener {
         final Intent notificationIntent = new Intent(appContext, ServicesChatActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         notificationIntent.putExtra("key0",fromUser.getUserName());
-        notificationIntent.putExtra("key1","我的小店铺");
+        notificationIntent.putExtra("key1",fromUser.getNickname());
         /*notificationIntent.putExtra(ServicesChatActivity.EXTRA_FROM_USERNAME, fromUser.getUserName());
         notificationIntent.putExtra(ServicesChatActivity.EXTRA_FROM_APPKEY, fromUser.getAppKey());
         notificationIntent.putExtra(ServicesChatActivity.EXTRA_MSG_TYPE, msg.getContentType().toString());

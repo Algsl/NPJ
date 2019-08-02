@@ -1,6 +1,7 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.zthx.npj.view.MyCircleView;
 
 import java.util.List;
 
+import cn.jpush.im.android.api.callback.GetAvatarBitmapCallback;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.UserInfo;
 
@@ -59,7 +61,17 @@ public class MessageCenterAdapter extends RecyclerView.Adapter<MessageCenterAdap
         if (mList!= null && mList.size() > 0) {
             Conversation conversation=mList.get(i);
             UserInfo userInfo= (UserInfo) mList.get(i).getTargetInfo();
-            viewHolder.name.setText(userInfo.getUserName());
+            userInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {
+                @Override
+                public void gotResult(int i, String s, Bitmap bitmap) {
+                    if(i==0){
+                        viewHolder.img.setImageBitmap(bitmap);
+                    }else{
+                        viewHolder.img.setImageResource(R.drawable.logo);
+                    }
+                }
+            });
+            viewHolder.name.setText(userInfo.getNickname());
             viewHolder.msg.setText(conversation.getLatestText());
             TimeFormat timeFormat=new TimeFormat(mContext,conversation.getLastMsgDate());
             viewHolder.lastTime.setText(timeFormat.getDetailTime());

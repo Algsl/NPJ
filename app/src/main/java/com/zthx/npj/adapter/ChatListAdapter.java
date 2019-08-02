@@ -1,6 +1,8 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.utils.TimeFormat;
 
@@ -19,15 +22,25 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.callback.GetAvatarBitmapCallback;
 import cn.jpush.im.android.api.content.TextContent;
 import cn.jpush.im.android.api.enums.MessageDirect;
 import cn.jpush.im.android.api.model.Message;
+import cn.jpush.im.android.api.model.UserInfo;
 
 public class ChatListAdapter extends BaseAdapter {
 
-
+    //发送和接受文本消息
     private final int TYPE_SEND_TXT=0;
     private final int TYPE_RECEIVE_TXT=1;
+
+    //发送和接受图片消息
+    private final int TYPE_SEND_IMAGE = 2;
+    private final int TYPE_RECEIVER_IMAGE = 3;
+
+    //自定义消息
+    private final int TYPE_CUSTOM_TXT = 13;
 
     private List<Message> mList;
     private Context mContext;
@@ -63,7 +76,7 @@ public class ChatListAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         final Message msg = mList.get(i);
         TextContent content= (TextContent) msg.getContent();
-        ViewHolder holder;
+        final ViewHolder holder;
         if(view==null){
             holder=new ViewHolder();
             view=createViewByType(msg,i);
@@ -101,7 +114,6 @@ public class ChatListAdapter extends BaseAdapter {
             if (i == 0 || i == 18
                     || (i - 18) % 18 == 0) {
                 TimeFormat timeFormat = new TimeFormat(mContext, nowDate);
-
                 holder.msgTime.setText(timeFormat.getDetailTime());
                 holder.msgTime.setVisibility(View.VISIBLE);
             } else {
@@ -116,15 +128,39 @@ public class ChatListAdapter extends BaseAdapter {
                 }
             }
         }
+        if(String.valueOf(mList.get(i).getDirect()).equals("send")){
+            UserInfo userInfo=JMessageClient.getMyInfo();
+            userInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {
+                @Override
+                public void gotResult(int i, String s, Bitmap bitmap) {
+                    holder.headIcon.setImageBitmap(bitmap);
+                }
+            });
+        }else{
+            UserInfo userInfo= (UserInfo) mList.get(i).getTargetInfo();
+            userInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {
+                @Override
+                public void gotResult(int i, String s, Bitmap bitmap) {
+                    if(i==0){
+                        holder.headIcon.setImageBitmap(bitmap);
+                    }else{
+                        holder.headIcon.setImageResource(R.drawable.logo);
+                    }
+                }
+            });
+        }
         String extraBusiness = content.getStringExtra("businessCard");
         if (extraBusiness != null) {
             holder.txtContent.setVisibility(View.GONE);
             holder.ll_businessCard.setVisibility(View.VISIBLE);
+            holder.headIcon.setImageResource(R.drawable.confirm_wechat);
         } else {
             holder.ll_businessCard.setVisibility(View.GONE);
             holder.txtContent.setVisibility(View.VISIBLE);
         }
         holder.txtContent.setText(content.getText());
+
+
         return view;
     }
 

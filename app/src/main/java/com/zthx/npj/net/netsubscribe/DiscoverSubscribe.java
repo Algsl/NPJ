@@ -1,7 +1,9 @@
 package com.zthx.npj.net.netsubscribe;
 
+import com.zthx.npj.net.been.AddPurchaseBean;
 import com.zthx.npj.net.been.AddSupplyBean;
 import com.zthx.npj.net.been.AkVideoBean;
+import com.zthx.npj.net.been.BaoJiaBean;
 import com.zthx.npj.net.been.BuyVideoBean;
 import com.zthx.npj.net.been.ConfirmSupplyBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
@@ -13,9 +15,6 @@ import com.zthx.npj.net.been.SolutionSearchBean;
 import com.zthx.npj.net.been.SupplyBuy2Bean;
 import com.zthx.npj.net.been.SupplyListBean;
 import com.zthx.npj.net.been.UploadCommentBean;
-import com.zthx.npj.net.been.UploadCompanyBean;
-import com.zthx.npj.net.been.UploadPurchaseBean;
-import com.zthx.npj.net.been.UploadSupplyBean;
 import com.zthx.npj.net.been.VideoInfoBean;
 import com.zthx.npj.net.been.VideoOrderBean;
 import com.zthx.npj.net.netutils.RetrofitFactory;
@@ -128,25 +127,6 @@ public class DiscoverSubscribe {
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 
-    /**
-     * 供应信息发布上传
-     * @param bean
-     * @param subscriber
-     */
-    public static void uploadSupply(UploadSupplyBean bean, DisposableObserver<ResponseBody> subscriber) {
-        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().uploadSupplyForBody(bean);
-        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
-    }
-
-    /**
-     * 采购信息发布上传
-     * @param bean
-     * @param subscriber
-     */
-    public static void uploadPurchase(UploadPurchaseBean bean, DisposableObserver<ResponseBody> subscriber) {
-        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().uploadPurchaseForBody(bean);
-        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
-    }
 
     /**
      * 供应列表
@@ -314,6 +294,39 @@ public class DiscoverSubscribe {
         bean.setLng(bean.getLng());
         bean.setBuy_num(bean.getBuy_num());
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().addSupply(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 发布采购信息
+     * @param bean
+     * @param subscriber
+     */
+    public static void addPurchase(AddPurchaseBean bean, DisposableObserver<ResponseBody> subscriber) {
+        bean.setUser_id(bean.getUser_id());
+        bean.setToken(bean.getToken());
+        bean.setImg(bean.getImg());
+        bean.setTitle(bean.getTitle());
+        bean.setAmount(bean.getAmount());
+        bean.setUnit(bean.getUnit());
+        bean.setCity(bean.getCity());
+        bean.setMin_price(bean.getMin_price());
+        bean.setMax_price(bean.getMax_price());
+        bean.setContent(bean.getContent());
+        bean.setLat(bean.getLat());
+        bean.setLng(bean.getLng());
+        bean.setIs_top(bean.getIs_top());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().addPurchase(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我要报价
+     * @param bean
+     * @param subscriber
+     */
+    public static void baojia(BaoJiaBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().baoJia(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

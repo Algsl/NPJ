@@ -266,6 +266,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/dp_20"
                         android:textColor="@color/text9"
+                        android:hint="请填写供应价格"
                         android:textSize="@dimen/sp_13"/>
 
                     <ImageView

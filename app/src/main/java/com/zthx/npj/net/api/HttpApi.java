@@ -134,14 +134,10 @@ public interface HttpApi  {
     @POST("index.php/api/user/buyvideo.html")
     Observable<ResponseBody> buyVideoForBody(@Body BuyVideoBean bean);
 
-    @POST("index.php/api/user/addsupply.html")
-    Observable<ResponseBody> uploadSupplyForBody(@Body UploadSupplyBean bean);
 
     @POST("index.php/api/set/uploadimagegroup.html")
     Observable<ResponseBody> uploadPicsForBody(@Body UploadPicsBean bean);
 
-    @POST("index.php/api/user/addpurchase.html")
-    Observable<ResponseBody> uploadPurchaseForBody(@Body UploadPurchaseBean bean);
 
     @POST("index.php/api/index/supplylist.html")
     Observable<ResponseBody> supplyListForBody(@Body SupplyListBean bean);
@@ -472,5 +468,11 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/addsupply.html")
     Observable<ResponseBody> addSupply(@Body AddSupplyBean bean);
+
+    @POST("index.php/api/user/addpurchase.html")
+    Observable<ResponseBody> addPurchase(@Body AddPurchaseBean bean);
+
+    @POST("index.php/api/user/baojia.html")
+    Observable<ResponseBody> baoJia(@Body BaoJiaBean bean);
 }
 

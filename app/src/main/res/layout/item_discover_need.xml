@@ -27,17 +27,33 @@
         android:layout_toRightOf="@id/item_discover_need_pic"
         android:orientation="vertical"
         android:layout_marginLeft="@dimen/dp_10">
-
-        <TextView
-            android:id="@+id/item_discover_need_tv_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="四川正宗纯天然无公害橘子，支持微商发货，数量有限，欢迎采购"
             android:layout_marginTop="@dimen/dp_8"
-            android:textColor="@color/text3"
-            android:textSize="@dimen/sp_15"
-            android:layout_marginRight="@dimen/sp_12"
-            android:maxLines="2"/>
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/item_discover_need_tv_isTop"
+                android:layout_width="@dimen/dp_35"
+                android:layout_height="@dimen/dp_18"
+                android:textSize="@dimen/sp_12"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:background="@drawable/theme_conner_5"
+                android:text="置顶"/>
+            <TextView
+                android:id="@+id/item_discover_need_tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="【采购】大型超市急需新鲜脐橙2000斤，有意请联系"
+                android:textColor="@color/text3"
+                android:textSize="@dimen/sp_15"
+                android:lines="2"
+                android:ellipsize="end"
+                android:layout_marginRight="@dimen/sp_12"
+                android:maxLines="2"/>
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -56,16 +72,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="销量过万"
-                android:textSize="@dimen/sp_11"
-                android:textColor="@android:color/white"
-                android:background="#38BDB5"
-                android:paddingRight="@dimen/dp_6"
-                android:paddingLeft="@dimen/dp_6"
-                android:layout_marginLeft="@dimen/dp_10"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="商家认证"
                 android:textSize="@dimen/sp_11"
                 android:textColor="@android:color/white"
@@ -74,36 +80,12 @@
                 android:paddingLeft="@dimen/dp_6"
                 android:layout_marginLeft="@dimen/dp_10"/>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/dp_4">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="七天退换"
-                android:textSize="@dimen/sp_11"
-                android:textColor="@android:color/white"
-                android:background="#4FA0F1"
-                android:paddingRight="@dimen/dp_6"
-                android:paddingLeft="@dimen/dp_6"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="信用最高"
-                android:textSize="@dimen/sp_11"
-                android:textColor="@android:color/white"
-                android:background="#81AB64"
-                android:paddingRight="@dimen/dp_6"
-                android:paddingLeft="@dimen/dp_6"
-                android:layout_marginLeft="@dimen/dp_10"/>
-        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/item_discover_need_rl"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20">
             <TextView
                 android:id="@+id/item_discover_need_tv_caigou_num"
                 android:layout_width="wrap_content"

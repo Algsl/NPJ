@@ -123,7 +123,7 @@ public class MyCollectActivity extends ActivityBase {
                     SetSubscribe.delCollection(user_id, token, data.get(position).getId() + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
-                            finish();
+                            getCollection();
                         }
 
                         @Override

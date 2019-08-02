@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -147,7 +148,7 @@ public class DiscoverSupplyFragment extends Fragment {
                     public void onItemClick(int position) {
                         Intent intent = new Intent(getActivity(), SupplyProductsActivity.class);
                         intent.setAction(Const.SUPPLY_DETAIL);
-                        intent.putExtra(Const.SUPPLY_ID, data.get(position).getId());
+                        intent.putExtra("goods_id", data.get(position).getId()+"");
                         startActivity(intent);
                     }
                 });
@@ -171,24 +172,20 @@ public class DiscoverSupplyFragment extends Fragment {
         DiscoverSubscribe.needList(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-
                 final ArrayList<NeedListResponseBean.DataBean> data = GsonUtils.fromJson(result, NeedListResponseBean.class).getData();
                 LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                 fgDiscoverNeedRv.setLayoutManager(manager);
-                /*if (mAdapter != null) {
-                    mAdapter2.updateData(data);
-                } else {}*/
                 mAdapter2 = new DiscoverNeedAdapter(getActivity(), data);
                 mAdapter2.setOnItemClickListener(new DiscoverNeedAdapter.ItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
                         Intent intent = new Intent(getActivity(), SupplyProductsActivity.class);
                         intent.setAction(Const.NEED_DETAIL);
-                        intent.putExtra(Const.SUPPLY_ID, data.get(position).getId());
+                        intent.putExtra("goods_id", data.get(position).getId()+"");
                         startActivity(intent);
                     }
                 });
-                fgDiscoverNeedRv.setAdapter(mAdapter);
+                fgDiscoverNeedRv.setAdapter(mAdapter2);
             }
 
             @Override
@@ -319,6 +316,8 @@ public class DiscoverSupplyFragment extends Fragment {
         if (position == 1) {
             fgDiscoverSupplyTvSupply.setTextColor(getResources().getColor(android.R.color.white));
             fgDiscoverSupplyTvSupply.setBackgroundColor(getResources().getColor(R.color.app_theme));
+            fgDiscoverNeedRv.setVisibility(View.GONE);
+            fgDiscoverSupplyRv.setVisibility(View.VISIBLE);
             fgDiscoverSupplyLlSupply.setVisibility(View.VISIBLE);
             fgDiscoverSupplyLlNeed.setVisibility(View.GONE);
             getSupplyData(type1);
@@ -327,6 +326,8 @@ public class DiscoverSupplyFragment extends Fragment {
             fgDiscoverSupplyTvNeed.setBackgroundColor(getResources().getColor(R.color.app_theme));
             fgDiscoverSupplyLlSupply.setVisibility(View.GONE);
             fgDiscoverSupplyLlNeed.setVisibility(View.VISIBLE);
+            fgDiscoverNeedRv.setVisibility(View.VISIBLE);
+            fgDiscoverSupplyRv.setVisibility(View.GONE);
             getNeedData(type2);
         } else {
             fgDiscoverSupplyTvCompany.setTextColor(getResources().getColor(android.R.color.white));

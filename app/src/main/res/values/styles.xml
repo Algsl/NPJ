@@ -52,7 +52,7 @@
 
 
     <style name="roomRatingBar" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressDrawable">@drawable/rattingbar_full</item>
+        <item name="android:progressDrawable">@drawable/collect_star</item>
         <item name="android:minHeight">@dimen/dp_15</item>
         <item name="android:maxHeight">@dimen/dp_15</item>
     </style>
@@ -119,5 +119,9 @@
         <item name="android:layout_marginRight">8dp</item>
         <item name="android:src">@drawable/logo</item>
         <item name="android:scaleType">fitXY</item>
+    </style>
+    <style name="StockTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 </resources>

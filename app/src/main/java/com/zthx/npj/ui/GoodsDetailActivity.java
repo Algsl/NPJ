@@ -135,6 +135,8 @@ public class GoodsDetailActivity extends ActivityBase {
     ImageView acGoodsDetailIvShare;
     @BindView(R.id.ac_goodsDetail_sv)
     ScrollView acGoodsDetailSv;
+    @BindView(R.id.ac_goodsDetail_iv_collect)
+    ImageView acGoodsDetailIvCollect;
 
 
     private String user_id = SharePerferenceUtils.getUserId(this);
@@ -241,6 +243,12 @@ public class GoodsDetailActivity extends ActivityBase {
         long min = ((time / (60 * 1000)) - hour * 60);
         long second = ((time / 1000) - hour * 60 - min * 60);
 
+        if (data.isCollect()) {
+            acGoodsDetailIvCollect.setImageResource(R.drawable.collected);
+        }else{
+            acGoodsDetailIvCollect.setImageResource(R.drawable.goods_detail_collect);
+        }
+
         atGoodsDetailTtv.setTimes(new long[]{hour, min, second});
         if (!atGoodsDetailTtv.isRun()) {
             atGoodsDetailTtv.run();
@@ -323,6 +331,7 @@ public class GoodsDetailActivity extends ActivityBase {
                 showPopupwindow(view);
                 break;
             case R.id.ac_goodsDetail_ll_collect:
+                acGoodsDetailIvCollect.setImageResource(R.drawable.collected);
                 goodsCollect();
                 break;
             case R.id.at_goods_detail_btn_pre_sell_detail:

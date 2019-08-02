@@ -9,6 +9,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,6 +122,9 @@ public class MineFragment
     @BindView(R.id.fg_mine_ll)
     LinearLayout fgMineLl;
 
+    //private String level=SharePerferenceUtils.getLevel(getContext());
+    private String user_id=SharePerferenceUtils.getUserId(getContext());
+    private String token=SharePerferenceUtils.getToken(getContext());
 
     public MineFragment() {
     }
@@ -199,6 +204,7 @@ public class MineFragment
                 .load(Uri.parse(data.getHead_img()))
                 .into(fgMineIvHeadPic);
         SharePerferenceUtils.putString(getContext(), "level", String.valueOf(data.getLevel()));
+
         switch (data.getLevel()) {
             case 0:
                 fgMineIvLevelimg.setImageResource(R.drawable.level0);
@@ -292,8 +298,7 @@ public class MineFragment
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 break;
             case R.id.fg_mine_iv_people_right:
-                String level = SharePerferenceUtils.getLevel(getContext());
-                if (level.equals("0")) {
+                if ("0".equals("0")) {
                     startActivity(new Intent(getActivity(), SpokesmanRightsNoPermissionActivity.class));
                 }
                 break;
@@ -333,7 +338,23 @@ public class MineFragment
                 }*/
                 break;
             case R.id.fg_mine_ll_my_offlinestore:
+                if("0".equals("0")){
+                   Toast toast=Toast.makeText(getContext(),"成为农品街代言人，才可使用线下门店的功能哦",Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
+                }else{
+                    SetSubscribe.myOfflineStore(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            Log.e("测试", "onSuccess: "+result);
+                        }
 
+                        @Override
+                        public void onFault(String errorMsg) {
+                            Log.e("测试", "onFault: "+errorMsg);
+                        }
+                    }));
+                }
                 break;
             case R.id.fg_mine_ll:
                 startActivity(new Intent(getContext(),UserMsgActivity.class));

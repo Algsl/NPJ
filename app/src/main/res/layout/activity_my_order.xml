@@ -15,10 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:background="@android:color/white"
-        app:tabGravity="center"
         app:tabIndicatorColor="@color/app_theme"
-        app:tabMode="fixed"
         app:tabSelectedTextColor="@color/app_theme"
+        app:tabTextAppearance="@style/StockTextAppearance"
         app:tabTextColor="@color/text3">
     </android.support.design.widget.TabLayout>
     <android.support.v4.view.ViewPager

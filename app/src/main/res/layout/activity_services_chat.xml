@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.AddAddressActivity">
-    <include layout="@layout/title"
+    <include layout="@layout/title_theme"
         android:id="@+id/ac_serviceChat_include"/>
     <!--<android.support.v7.widget.RecyclerView
         android:id="@+id/ac_serviceChat_rv"
@@ -17,6 +17,7 @@
         android:id="@+id/ac_serviceChat_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:layout_below="@id/ac_serviceChat_include"
         android:layout_above="@id/ac_serviceChat_ll"/>
     <RelativeLayout
@@ -44,7 +45,6 @@
                 android:imeOptions="actionSearch"
                 android:singleLine="true"/>
         </LinearLayout>
-
         <ImageView
             android:id="@+id/ac_serviceChat_iv_expression"
             android:layout_width="@dimen/dp_30"
@@ -73,5 +73,90 @@
             android:gravity="center"
             android:layout_marginLeft="@dimen/dp_18"
             android:layout_toRightOf="@id/ac_serviceChat_iv_expression"/>
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/line"
+            android:layout_marginTop="@dimen/dp_12"
+            android:layout_below="@id/ac_serviceChat_iv_expression"/>
+        <LinearLayout
+            android:id="@+id/ac_serviceChat_ll_add"
+            android:layout_below="@id/line"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_80"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/ac_serviceChat_ll_photoGraphic"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="@dimen/dp_40"
+                        android:src="@drawable/logo"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:text="相册"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ac_serviceChat_ll_takePhoto"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="@dimen/dp_40"
+                        android:src="@drawable/logo"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:text="拍摄"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="@dimen/dp_40"
+                        android:src="@drawable/logo"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:text="文件"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="@dimen/dp_40"
+                        android:src="@drawable/logo"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:text="位置"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
