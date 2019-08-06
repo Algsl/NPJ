@@ -143,6 +143,14 @@ public class SharePerferenceUtils {
         //return getString(context, "user_id", "");
     }
 
+    public static void setUserLevel(Context context, String level) {
+        putString(context,"user_level",level);
+    }
+
+    public static String getUserLevel(Context context) {
+        return getString(context, "user_level", "");
+    }
+
     public static ArrayList<NotificationBean> getList() {
         return list;
     }
@@ -160,13 +168,6 @@ public class SharePerferenceUtils {
     public static String getToken(Context context) {
         //return getString(context, "token", "");
         return "df36953ff3bcd6601432435d6f171894";
-    }
-    public static void setLevel(Context context,String level ){
-        putString(context,"level",level);
-    }
-
-    public static String getLevel(Context context) {
-        return getString(context, "level", "");
     }
 
     public static  void setMainBanner(Context context, String value) {

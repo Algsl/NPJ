@@ -6,8 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.ConfirmOrderActivity"
     android:background="@android:color/white">
-
-    <RelativeLayout
+    <include layout="@layout/title"
+        android:id="@+id/at_confirm_order_rl_title"/>
+    <!--<RelativeLayout
         android:id="@+id/at_confirm_order_rl_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_64">
@@ -18,7 +19,6 @@
             android:layout_marginLeft="@dimen/dp_6"
             android:layout_marginTop="@dimen/dp_13"
             android:src="@drawable/goods_detial_back" />
-
         <ImageView
             android:layout_width="@dimen/dp_25"
             android:layout_height="@dimen/dp_25"
@@ -33,7 +33,7 @@
             android:textColor="@color/text3"
             android:text="确认订单"
             android:layout_centerInParent="true"/>
-    </RelativeLayout>
+    </RelativeLayout>-->
 
     <ScrollView
         android:layout_below="@id/at_confirm_order_rl_title"
@@ -45,6 +45,7 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/dp_59">
             <LinearLayout
+                android:id="@+id/ac_confirmOrder_ll_chooseAddress"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40">
                 <ImageView
@@ -53,7 +54,6 @@
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/confirm_order_location"
                     android:layout_marginLeft="@dimen/dp_12"/>
-
                 <TextView
                     android:id="@+id/at_confirm_order_tv_address"
                     android:layout_width="wrap_content"
@@ -202,7 +202,8 @@
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginRight="@dimen/dp_12"></View>
             <RelativeLayout
-                android:visibility="gone"
+                android:id="@+id/at_confirm_order_rl_peisong"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40">
                 <TextView
@@ -219,13 +220,13 @@
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/dp_12"
-                    android:text="10.00"
+                    android:text="0.00"
                     android:textSize="@dimen/sp_14"
                     android:textColor="@color/app_theme"/>
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/at_confirm_order_rl_ziti"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40">
                 <TextView

@@ -84,8 +84,6 @@ public class ConfirmMySupplyOrderActivity extends ActivityBase {
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.at_confirm_order_iv_go)
     ImageView atConfirmOrderIvGo;
     @BindView(R.id.at_confirm_order_iv_my_hongbao)

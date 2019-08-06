@@ -11,7 +11,8 @@
         android:layout_height="@dimen/dp_150"
         android:layout_marginLeft="@dimen/dp_6"
         android:layout_marginTop="@dimen/dp_7"
-        android:src="@mipmap/ic_launcher"/>
+        android:scaleType="fitXY"
+        android:src="@drawable/logo"/>
     <RelativeLayout
         android:layout_width="@dimen/dp_351"
         android:layout_height="@dimen/dp_34"

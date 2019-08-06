@@ -27,8 +27,7 @@ public class TrustedStore2Activity extends ActivityBase {
 
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
+
     @BindView(R.id.at_trust_store2_tv_2000)
     TextView atTrustStore2Tv2000;
     @BindView(R.id.at_trust_store2_tv2_2000)

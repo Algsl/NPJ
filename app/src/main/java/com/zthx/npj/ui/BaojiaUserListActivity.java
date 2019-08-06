@@ -31,8 +31,6 @@ public class BaojiaUserListActivity extends ActivityBase {
     TextView titleThemeTitle;
     @BindView(R.id.title_theme_tv_right)
     TextView titleThemeTvRight;
-    @BindView(R.id.title_theme)
-    RelativeLayout titleTheme;
     @BindView(R.id.ac_baojia_userlist_rv)
     RecyclerView acBaojiaUserlistRv;
 

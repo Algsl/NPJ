@@ -61,6 +61,7 @@ public class OrderListFragment extends Fragment {
     }
 
     private void getOrder() {
+        Log.e("测试", "getOrder: "+getArguments().getString("order_state"));
         String order_state=getArguments().getString("order_state");
         SetSubscribe.myOrder(user_id,token,order_state,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override

@@ -40,8 +40,6 @@ public class LocationStoreActivity extends ActivityBase {
     ImageView titleBack;
     @BindView(R.id.ac_title)
     TextView acTitle;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.at_location_store_locate)
     ImageView atLocationStoreLocate;
     @BindView(R.id.at_location_store_et_search)

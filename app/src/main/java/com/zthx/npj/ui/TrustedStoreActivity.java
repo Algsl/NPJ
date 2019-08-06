@@ -29,8 +29,7 @@ public class TrustedStoreActivity extends ActivityBase {
     Button atTrustStoreBtnAttestation;
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
+
     @BindView(R.id.at_trust_store_tv_baozhengjin)
     TextView atTrustStoreTvBaozhengjin;
     @BindView(R.id.at_trust_store_ll_baozhengjin)

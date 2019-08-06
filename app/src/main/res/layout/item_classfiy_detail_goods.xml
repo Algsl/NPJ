@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dp_170"
-    android:layout_height="@dimen/dp_248"
+    android:layout_height="@dimen/dp_243"
     android:orientation="vertical"
     android:layout_marginLeft="@dimen/dp_10"
     android:layout_marginTop="@dimen/dp_10"
@@ -37,31 +37,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/go_to_game"
-        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_7"
         android:layout_marginLeft="@dimen/dp_5"
         android:textColor="@color/text3"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textSize="@dimen/sp_15"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_7"
         android:layout_marginLeft="@dimen/dp_5">
 
         <TextView
             android:id="@+id/item_tv_classfiy_detail_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_3"
             android:textSize="@dimen/sp_12"
+            android:text="限量首发"
             android:textColor="@color/text6"/>
-
         <TextView
             android:id="@+id/item_tv_classfiy_detail_goods_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="会员价 26.00"
-            android:textSize="@dimen/sp_12"
+            android:text="￥26.00"
+            android:textSize="@dimen/sp_14"
             android:layout_marginLeft="@dimen/dp_2"
             android:layout_toRightOf="@id/item_tv_classfiy_detail_text"
             android:textColor="@color/app_theme"/>
@@ -73,9 +75,9 @@
             android:layout_alignParentRight="true"
             android:textSize="@dimen/sp_12"
             android:textColor="@color/text6"
+            android:layout_centerInParent="true"
             android:layout_marginRight="@dimen/dp_12"
-            android:textStyle="italic"
-            android:text="200"/>
+            android:text="￥200"/>
 
     </RelativeLayout>
 

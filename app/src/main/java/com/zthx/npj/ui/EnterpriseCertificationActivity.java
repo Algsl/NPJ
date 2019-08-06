@@ -30,8 +30,6 @@ public class EnterpriseCertificationActivity extends ActivityBase {
     Button atEnterpriseCertificationBtnAttestation;
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.title_back)
     ImageView titleBack;
     @BindView(R.id.ac_title)

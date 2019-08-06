@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.DiscoverFragment"
     android:background="@color/background"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
     <View
         android:layout_width="match_parent"
@@ -33,7 +34,6 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/discover_message" />
     </LinearLayout>
-
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"

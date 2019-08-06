@@ -1,6 +1,5 @@
 package com.zthx.npj.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,7 +8,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.UserMoneyAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,12 +15,6 @@ import butterknife.OnClick;
 
 public class MyWalletActivity extends ActivityBase {
 
-    @BindView(R.id.ac_title)
-    TextView acTitle;
-    @BindView(R.id.at_location_store_tv_ruzhu)
-    TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.at_my_wallet_tv_money)
     TextView atMyWalletTvMoney;
     @BindView(R.id.at_myWallet_tv_mx)
@@ -33,8 +25,14 @@ public class MyWalletActivity extends ActivityBase {
     Button atMyWalletBtnTiqu;
     @BindView(R.id.ac_myWallet_rl_inManage)
     RelativeLayout acMyWalletRlInManage;
-    @BindView(R.id.title_back)
-    ImageView titleBack;
+    @BindView(R.id.title_theme_back)
+    ImageView titleThemeBack;
+    @BindView(R.id.title_theme_title)
+    TextView titleThemeTitle;
+    @BindView(R.id.title_theme_tv_right)
+    TextView titleThemeTvRight;
+    @BindView(R.id.title_theme_img_right)
+    ImageView titleThemeImgRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +40,9 @@ public class MyWalletActivity extends ActivityBase {
         setContentView(R.layout.activity_my_wallet);
         ButterKnife.bind(this);
 
-        back(titleBack);
-        changeTitle(acTitle,"我的钱包");
-        changeRightText(atLocationStoreTvRuzhu,"充值",RechargeActivity.class,null);
+        back(titleThemeBack);
+        changeTitle(titleThemeTitle, "我的钱包");
+        changeRightText(titleThemeTvRight, "充值", RechargeActivity.class, null);
 
     }
 

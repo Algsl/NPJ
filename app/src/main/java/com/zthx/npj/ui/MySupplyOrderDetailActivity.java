@@ -67,9 +67,6 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
-    @BindView(R.id.title)
-    RelativeLayout title;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -35,8 +35,6 @@ public class SpokesmanRightsActivity extends ActivityBase {
     ImageView titleThemeBack;
     @BindView(R.id.title_theme_tv_right)
     TextView titleThemeTvRight;
-    @BindView(R.id.title_theme)
-    RelativeLayout titleTheme;
     @BindView(R.id.at_spokesman_right_tv_jine)
     TextView atSpokesmanRightTvJine;
     @BindView(R.id.at_spokesman_right_tv_money)

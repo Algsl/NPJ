@@ -41,8 +41,6 @@ public class MyCollectActivity extends ActivityBase {
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.ac_myCollect_tv_goods)
     TextView acMyCollectTvGoods;
     @BindView(R.id.ac_myStore_tv_stores)

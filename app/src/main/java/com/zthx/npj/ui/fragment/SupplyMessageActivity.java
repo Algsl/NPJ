@@ -66,8 +66,6 @@ public class SupplyMessageActivity extends ActivityBase {
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.at_supply_message_three_pic)
     ZzImageBox atSupplyMessageThreePic;
     @BindView(R.id.at_supply_message_title)

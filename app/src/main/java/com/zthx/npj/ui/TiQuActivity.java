@@ -26,8 +26,6 @@ public class TiQuActivity extends ActivityBase{
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.ac_tiqu_rv_mingxi)
     RecyclerView acTiquRvMingxi;
 

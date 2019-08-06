@@ -40,8 +40,6 @@ public class FeedbackActivity extends ActivityBase {
     TextView titleThemeTitle;
     @BindView(R.id.title_theme_tv_right)
     TextView titleThemeTvRight;
-    @BindView(R.id.title_theme)
-    RelativeLayout titleTheme;
     @BindView(R.id.ac_feedBack_tv_title1)
     TextView acFeedBackTvTitle1;
     @BindView(R.id.ac_feedBack_tv_title2)

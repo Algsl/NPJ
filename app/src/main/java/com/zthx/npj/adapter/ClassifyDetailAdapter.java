@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.zxing.common.StringUtils;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.GoodsListResponseBean;
-import com.zthx.npj.ui.fragment.ClassfiyDetailActivity;
 
 import java.util.ArrayList;
 
@@ -58,11 +59,14 @@ public class ClassifyDetailAdapter extends RecyclerView.Adapter<ClassifyDetailAd
             });
         }
         if (mList!= null && mList.size() > 0) {
-            Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.mIvGoods);
-            viewHolder.mTvPrice.setText("会员价 "+mList.get(i).getMarket_price());
-            viewHolder.mTvSellNum.setText("已售"+mList.get(i).getSold()+"件");
+            //Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.mIvGoods);
+            int num=(int)(Math.random()*11+1);
+            viewHolder.mIvGoods.setImageResource(R.drawable.classify0+num);
+            viewHolder.mTvPrice.setText("￥"+(int)Double.parseDouble(mList.get(i).getMember_price()));
+            viewHolder.mTvSellNum.setText(mList.get(i).getSold()+"件已售");
             viewHolder.mTvTitle.setText(mList.get(i).getGoods_name());
-            viewHolder.mTvOldPrice.setText("价格 "+mList.get(i).getMember_price());
+            viewHolder.mTvOldPrice.setText("￥"+(int)Double.parseDouble(mList.get(i).getMarket_price()));
+            viewHolder.mTvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
     }
 

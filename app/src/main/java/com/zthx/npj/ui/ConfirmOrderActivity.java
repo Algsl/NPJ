@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,7 +31,6 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.LocalStoreAdapter;
-import com.zthx.npj.adapter.LocationStoreAdapter;
 import com.zthx.npj.aliapi.OrderInfoUtil2_0;
 import com.zthx.npj.aliapi.PayResult;
 import com.zthx.npj.base.BaseConstant;
@@ -62,8 +63,6 @@ public class ConfirmOrderActivity extends ActivityBase {
 
     @BindView(R.id.at_confirm_order_rl_ziti)
     RelativeLayout atConfirmOrderRlZiti;
-    @BindView(R.id.at_confirm_order_rl_title)
-    RelativeLayout atConfirmOrderRlTitle;
     @BindView(R.id.at_confirm_order_tv_address)
     TextView atConfirmOrderTvAddress;
     @BindView(R.id.at_confirm_order_tv_store_name)
@@ -104,8 +103,6 @@ public class ConfirmOrderActivity extends ActivityBase {
     Button acConfirmOrderBtnPay;
     @BindView(R.id.ac_confirmOrder_et_remark)
     EditText acConfirmOrderEtRemark;
-    @BindView(R.id.ac_confirmOrder_iv_back)
-    ImageView acConfirmOrderIvBack;
     @BindView(R.id.ac_confirmOrder_iv_type3)
     ImageView acConfirmOrderIvType3;
     @BindView(R.id.ac_confirmOrder_iv_type2)
@@ -116,14 +113,26 @@ public class ConfirmOrderActivity extends ActivityBase {
     Button acConfirmOrderBtnZiti;
     @BindView(R.id.ac_confirmORder_btn_peisong)
     Button acConfirmORderBtnPeisong;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
+    @BindView(R.id.at_confirm_order_rl_peisong)
+    RelativeLayout atConfirmOrderRlPeisong;
+    @BindView(R.id.ac_confirmOrder_ll_chooseAddress)
+    LinearLayout acConfirmOrderLlChooseAddress;
     private String attId;
     private String goodsId;
+    private String address_id="";
+    private String allAddress="";
 
     ConfirmPreSellResponseBean.DataBean data;
     YsBuyOneResponseBean.DataBean data1;
     private String pay_code = "2";
-    private ArrayList<LocalStoreResponseBean.DataBean> localData=new ArrayList<>();
-    private String RSA_PRIVATE ="MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
+    private ArrayList<LocalStoreResponseBean.DataBean> localData = new ArrayList<>();
+    private String RSA_PRIVATE = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
             "NEU5up1siPOXKJBU0ypde7oPfm9gyy2ajgcw6v3KF2ryjot5AKlBED6qdQPRa5Sk\n" +
             "jIf8ZE1W+x8CVOvEC2m1lCglpm5zbAw2EGXdE4NNH6D0tcxIHza94RFkVilx1rjc\n" +
             "5hQ1OnwnLCDWN2UbOBl6jyom+iqUWSnFu7pEm5J8ZlNyr654LmDvCQXoPio28VSk\n" +
@@ -159,11 +168,13 @@ public class ConfirmOrderActivity extends ActivityBase {
         setContentView(R.layout.activity_confirm_order);
         ButterKnife.bind(this);
 
-        api= WXAPIFactory.createWXAPI(this, null);
+        api = WXAPIFactory.createWXAPI(this, null);
         // 将该app注册到微信
         api.registerApp("wx76500efa65d19915");
-        
-        back(acConfirmOrderIvBack);
+
+        back(titleBack);
+        changeTitle(acTitle, "确认订单");
+        changeRightImg(acTitleIv, R.drawable.goods_detail_home, null, null);
 
         getLocalStore("2");
         if (Const.GIFT.equals(getIntent().getAction())) {
@@ -184,17 +195,17 @@ public class ConfirmOrderActivity extends ActivityBase {
         bean.setLng(SharePerferenceUtils.getLng(this));
         bean.setPage("1");
         bean.setType(type);
-        MainSubscribe.getLocalStore(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.getLocalStore(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: "+result );
-                LocalStoreResponseBean bean=GsonUtils.fromJson(result,LocalStoreResponseBean.class);
-                localData=bean.getData();
+                Log.e("测试", "onSuccess: " + result);
+                LocalStoreResponseBean bean = GsonUtils.fromJson(result, LocalStoreResponseBean.class);
+                localData = bean.getData();
             }
 
             @Override
             public void onFault(String errorMsg) {
-                Log.e("测试", "onSuccess: "+errorMsg);
+                Log.e("测试", "onSuccess: " + errorMsg);
             }
         }));
     }
@@ -253,7 +264,9 @@ public class ConfirmOrderActivity extends ActivityBase {
         }, this));
     }
 
-    @OnClick({R.id.at_confirm_order_rl_ziti, R.id.ac_confirmOrder_btn_pay, R.id.ac_confirmOrder_iv_type3, R.id.ac_confirmOrder_iv_type2, R.id.ac_confirmOrder_iv_type1,R.id.ac_confirmOrder_btn_ziti, R.id.ac_confirmORder_btn_peisong})
+    @OnClick({R.id.at_confirm_order_rl_ziti, R.id.ac_confirmOrder_btn_pay, R.id.ac_confirmOrder_iv_type3,
+            R.id.ac_confirmOrder_iv_type2, R.id.ac_confirmOrder_iv_type1, R.id.ac_confirmOrder_btn_ziti,
+            R.id.ac_confirmORder_btn_peisong,R.id.ac_confirmOrder_ll_chooseAddress})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.ac_confirmOrder_btn_pay:
@@ -262,15 +275,15 @@ public class ConfirmOrderActivity extends ActivityBase {
                 bean.setToken(SharePerferenceUtils.getToken(this));
                 bean.setAtt_id(attId);
                 bean.setPre_id(goodsId);
-                bean.setAddress_id(data.getAddress_id()+"");
+                bean.setAddress_id(data.getAddress_id() + "");
                 bean.setPay_code(pay_code);
                 bean.setRemark(acConfirmOrderEtRemark.getText().toString().trim());
                 PreSellSubscribe.ysBuyOne(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
                         YsBuyOneResponseBean bean = GsonUtils.fromJson(result, YsBuyOneResponseBean.class);
-                        data1=bean.getData();
-                        switch (pay_code){
+                        data1 = bean.getData();
+                        switch (pay_code) {
                             case "1":
                                 alipay();
                                 break;
@@ -288,6 +301,10 @@ public class ConfirmOrderActivity extends ActivityBase {
 
                     }
                 }));
+                break;
+            case R.id.ac_confirmOrder_ll_chooseAddress:
+                Intent intent=new Intent(this,AddressListActivity.class);
+                startActivityForResult(intent,0);
                 break;
             case R.id.ac_confirmOrder_iv_type3:
                 pay_code = "3";
@@ -313,21 +330,35 @@ public class ConfirmOrderActivity extends ActivityBase {
                 acConfirmORderBtnPeisong.setBackgroundColor(getResources().getColor(R.color.white));
                 acConfirmORderBtnPeisong.setTextColor(getResources().getColor(R.color.text3));
                 showPublishPopwindow();
+                atConfirmOrderRlZiti.setVisibility(View.VISIBLE);
+                atConfirmOrderRlPeisong.setVisibility(View.GONE);
                 break;
             case R.id.ac_confirmORder_btn_peisong:
                 acConfirmOrderBtnZiti.setBackgroundColor(getResources().getColor(R.color.white));
                 acConfirmOrderBtnZiti.setTextColor(getResources().getColor(R.color.text3));
                 acConfirmORderBtnPeisong.setBackgroundColor(getResources().getColor(R.color.app_theme));
                 acConfirmORderBtnPeisong.setTextColor(getResources().getColor(R.color.white));
+                atConfirmOrderRlPeisong.setVisibility(View.VISIBLE);
+                atConfirmOrderRlZiti.setVisibility(View.GONE);
                 break;
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==0){
+            address_id=data.getStringExtra("address_id");
+            atConfirmOrderTvAddress.setText(data.getStringExtra("address"));
+        }
+    }
+
     private void yuepay() {
+        finish();
     }
 
     private void wxpay() {
-        GiftSubscribe.pay("weixin",data1.getOrder_sn(),data1.getPay_money(),new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        GiftSubscribe.pay("weixin", data1.getOrder_sn(), data1.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setWXResult(result);
@@ -339,9 +370,10 @@ public class ConfirmOrderActivity extends ActivityBase {
             }
         }));
     }
+
     private void setWXResult(String result) {
-        PayResponse1Bean bean=GsonUtils.fromJson(result,PayResponse1Bean.class);
-        PayResponse1Bean.DataBean data=bean.getData();
+        PayResponse1Bean bean = GsonUtils.fromJson(result, PayResponse1Bean.class);
+        PayResponse1Bean.DataBean data = bean.getData();
         PayReq req = new PayReq();
         req.appId = data.getAppid();//你的微信appid
         req.partnerId = data.getPartnerid();//商户号
@@ -349,16 +381,16 @@ public class ConfirmOrderActivity extends ActivityBase {
         req.nonceStr = data.getNoncestr();//随机字符串
         req.timeStamp = data.getTimestamp();//时间戳
         req.packageValue = "Sign=WXPay";//扩展字段,这里固定填写Sign=WXPay
-        req.sign =data.getSign();//签名
+        req.sign = data.getSign();//签名
         //req.extData			= "app data";
         // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
         api.sendReq(req);
-        Log.e("测试", "setWXResult: "+data.getAppid()+" "+data.getPartnerid()+" "+data.getPrepayid()
-                +" "+data.getNoncestr()+" "+data.getTimestamp()+" "+data.getSign());
+        Log.e("测试", "setWXResult: " + data.getAppid() + " " + data.getPartnerid() + " " + data.getPrepayid()
+                + " " + data.getNoncestr() + " " + data.getTimestamp() + " " + data.getSign());
     }
 
     private void alipay() {
-        GiftSubscribe.pay("alipay",data1.getOrder_sn(),data1.getPay_money(),new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        GiftSubscribe.pay("alipay", data1.getOrder_sn(), data1.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setPayResult(result);
@@ -370,14 +402,15 @@ public class ConfirmOrderActivity extends ActivityBase {
             }
         }));
     }
+
     private void setPayResult(String result) {
-        PayResponseBean bean=GsonUtils.fromJson(result,PayResponseBean.class);
-        PayResponseBean.DataBean data=bean.getData();
+        PayResponseBean bean = GsonUtils.fromJson(result, PayResponseBean.class);
+        PayResponseBean.DataBean data = bean.getData();
         alipay(data.getAlipay());
     }
 
-    public void alipay(String str){
-        Log.e("测试", "alipay: "+str);
+    public void alipay(String str) {
+        Log.e("测试", "alipay: " + str);
         boolean rsa = false;
         //构造支付订单参数列表
         Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa);
@@ -449,11 +482,11 @@ public class ConfirmOrderActivity extends ActivityBase {
         // 显示PopupWindow，其中：
         // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
         window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
-        RecyclerView localStore=contentView.findViewById(R.id.pw_localStore_rv_storeList);
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
+        RecyclerView localStore = contentView.findViewById(R.id.pw_localStore_rv_storeList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         localStore.setLayoutManager(layoutManager);
-        Log.e("测试", "showPublishPopwindow: "+localData.get(0).getStore_name());
-        LocalStoreAdapter localStoreAdapter=new LocalStoreAdapter(this,localData);
+        Log.e("测试", "showPublishPopwindow: " + localData.get(0).getStore_name());
+        LocalStoreAdapter localStoreAdapter = new LocalStoreAdapter(this, localData);
         localStore.setAdapter(localStoreAdapter);
         localStoreAdapter.setOnItemClickListener(new LocalStoreAdapter.ItemClickListener() {
             @Override

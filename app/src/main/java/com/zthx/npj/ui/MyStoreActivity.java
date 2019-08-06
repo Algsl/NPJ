@@ -67,8 +67,6 @@ public class MyStoreActivity extends ActivityBase {
     TextView titleThemeTitle;
     @BindView(R.id.title_theme_tv_right)
     TextView titleThemeTvRight;
-    @BindView(R.id.title_theme)
-    RelativeLayout titleTheme;
 
     private MyStoreActivity mActivity;
     private static final int CHOOSE_PHOTO = 1;

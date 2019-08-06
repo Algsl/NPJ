@@ -62,8 +62,6 @@ public class PublishGoodsActivity extends ActivityBase {
     TextView titleThemeTitle;
     @BindView(R.id.title_theme_tv_right)
     TextView titleThemeTvRight;
-    @BindView(R.id.title_theme)
-    RelativeLayout titleTheme;
     @BindView(R.id.ac_pulishGoods_et_goodsName)
     EditText acPulishGoodsEtGoodsName;
     @BindView(R.id.ac_pulishGoods_et_goodsDesc)

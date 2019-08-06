@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.HomeGoodsBeen;
 import com.zthx.npj.net.been.RecommendResponseBean;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.List;
 public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.ViewHolder> {
     private ArrayList<RecommendResponseBean.DataBean> list;
     private Context mContext;
+    private String level;
 
     private ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
@@ -58,10 +60,15 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.View
                 }
             });
         }
+        level=SharePerferenceUtils.getUserLevel(mContext);
         Glide.with(mContext).load(list.get(i).getGoods_img()).into(viewHolder.mIvGoods);
         Glide.with(mContext).load(list.get(i).getStore_img()).into(viewHolder.mIvMall);
         viewHolder.mTvMallName.setText(list.get(i).getStore_name());
-        viewHolder.mTvNewPrice.setText("￥"+list.get(i).getMember_price());
+        if(level.equals("0")){
+            viewHolder.mTvNewPrice.setText("￥"+list.get(i).getUser_price());
+        }else{
+            viewHolder.mTvNewPrice.setText("￥"+list.get(i).getMember_price());
+        }
         viewHolder.mTvOldPrice.setText("￥"+list.get(i).getMarket_price());
         viewHolder.mTvOldPrice.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG);
         viewHolder.mTvTitle.setText(list.get(i).getGoods_name());

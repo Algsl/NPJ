@@ -36,8 +36,6 @@ public class SecKillActivity extends ActivityBase {
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +92,6 @@ public class SecKillActivity extends ActivityBase {
         list.add("已结束");
         list.add("抢购进行中");
         list.add("即将开场");
-        /*list2.add(new SecKillOverFragment());
-        list2.add(new SecKillFragment());
-        list2.add(new SecKillStartFragment());*/
         list2.add(new SeckillListFragment().newIntent("1"));
         list2.add(new SeckillListFragment().newIntent("2"));
         list2.add(new SeckillListFragment().newIntent("3"));

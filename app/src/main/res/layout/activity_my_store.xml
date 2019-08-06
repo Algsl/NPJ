@@ -9,7 +9,7 @@
     
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_205"
+        android:layout_height="@dimen/dp_235"
         android:background="@drawable/sopksemanrights_bg"
         android:orientation="vertical">
 

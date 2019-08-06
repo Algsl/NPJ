@@ -21,8 +21,6 @@ public class GoodsBillDetailActivity extends ActivityBase {
     TextView titleThemeTvRight;
     @BindView(R.id.title_theme_img_right)
     ImageView titleThemeImgRight;
-    @BindView(R.id.title_theme)
-    RelativeLayout titleTheme;
     @BindView(R.id.at_goods_bill_detail_rv)
     RecyclerView atGoodsBillDetailRv;
 

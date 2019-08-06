@@ -34,8 +34,6 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.ac_storeManager_et_storeName)
     EditText acStoreManagerEtStoreName;
     @BindView(R.id.ac_storeManager_et_consumption)

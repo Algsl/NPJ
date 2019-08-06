@@ -37,8 +37,6 @@ public class MessageCenterActivity extends ActivityBase {
     TextView titleThemeTitle;
     @BindView(R.id.title_theme_tv_right)
     TextView titleThemeTvRight;
-    @BindView(R.id.title_theme)
-    RelativeLayout titleTheme;
     @BindView(R.id.at_message_center_iv1)
     ImageView atMessageCenterIv1;
     @BindView(R.id.at_message_center_rl_kefu_message)

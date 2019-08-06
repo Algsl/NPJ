@@ -55,8 +55,6 @@ public class PurchaserCertification2Activity extends ActivityBase {
 
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.at_purchaser_certification2_et_mobile)
     EditText atPurchaserCertification2EtMobile;
     @BindView(R.id.at_purchaser_certification2_et_id)

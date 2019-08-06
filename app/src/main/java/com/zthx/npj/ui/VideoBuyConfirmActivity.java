@@ -68,8 +68,7 @@ public class VideoBuyConfirmActivity extends ActivityBase {
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
-    @BindView(R.id.title)
-    RelativeLayout title;
+
 
     private String pay_code = "1";
     private String list_id = "";

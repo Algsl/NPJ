@@ -75,9 +75,14 @@ public class AddressListActivity extends ActivityBase {
             @Override
             public void onItemClick(int position) {
                 String key0=getIntent().getStringExtra("key0");
-                if(key0.equals("1")){
+                /*if(key0.equals("1")){
                     openActivity(SupplyBillActivity.class,dataList.get(position).getId()+"");
-                }
+                }*/
+                Intent intent=new Intent();
+                intent.putExtra("address_id",dataList.get(position).getId()+"");
+                intent.putExtra("address",dataList.get(position).getAlladdress());
+                setResult(0,intent);
+                finish();
             }
 
             @Override

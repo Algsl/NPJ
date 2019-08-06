@@ -44,6 +44,7 @@ public class GoodSizePopupwindow extends PopupWindow {
         mBuyNow = view.findViewById(R.id.item_pop_goods_buy);
         labelsView = (LabelsView) view.findViewById(R.id.labels);
         cancel=view.findViewById(R.id.pp_goodsSize_iv_cancel);
+        final TextView choose=view.findViewById(R.id.pop_goods_size_tv_choice);
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +61,7 @@ public class GoodSizePopupwindow extends PopupWindow {
             case "2":
                 secKillOldPrice.setVisibility(View.GONE);
                 OldPrice.setVisibility(View.VISIBLE);
+                mAddShoppingCar.setVisibility(View.GONE);
                 break;
             case "3":
                 break;
@@ -92,6 +94,12 @@ public class GoodSizePopupwindow extends PopupWindow {
             }
         }
         labelsView.setLabels(label); //直接设置一个字符串数组就可以了。
+        labelsView.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
+            @Override
+            public void onLabelClick(View label, String labelText, int position) {
+                choose.setText("已选："+labelText);
+            }
+        });
 //        ======================================================
         // 设置外部可点击
         this.setOutsideTouchable(false);

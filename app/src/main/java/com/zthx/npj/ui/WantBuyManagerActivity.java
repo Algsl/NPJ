@@ -37,8 +37,6 @@ public class WantBuyManagerActivity extends ActivityBase {
     TextView titleThemeTitle;
     @BindView(R.id.title_theme_tv_right)
     TextView titleThemeTvRight;
-    @BindView(R.id.title_theme)
-    RelativeLayout titleTheme;
     @BindView(R.id.at_want_buy_manager_rv_supply_list1)
     RecyclerView atWantBuyManagerRvSupplyList1;
     @BindView(R.id.at_swant_buy_manager_rv_supply_list2)

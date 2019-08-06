@@ -3,12 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_30"
+        android:background="@color/background"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_47"
         android:orientation="horizontal">
-
         <ImageView
             android:id="@+id/at_classfiy_iv_back"
             android:layout_width="@dimen/dp_32"

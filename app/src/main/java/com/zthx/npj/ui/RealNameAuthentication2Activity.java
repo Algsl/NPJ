@@ -76,8 +76,6 @@ public class RealNameAuthentication2Activity extends ActivityBase {
     TextView acTitle;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
-    @BindView(R.id.title)
-    RelativeLayout title;
 
     private File avatarFile;
     private Uri avatarUri;

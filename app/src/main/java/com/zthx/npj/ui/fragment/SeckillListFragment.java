@@ -39,7 +39,6 @@ public class SeckillListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_seckill_list, container, false);
         unbinder = ButterKnife.bind(this, view);
-
         return view;
     }
 
@@ -78,6 +77,7 @@ public class SeckillListFragment extends Fragment {
     }
 
     private void getSeckillStart() {
+        Log.e("测试", "getSeckillStart: ");
         SecKillSubscribe.getSecKillOverList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -90,7 +90,7 @@ public class SeckillListFragment extends Fragment {
             }
         }));
     }
-
+    //限时秒杀即将开始
     private void setSeckillStart(String result) {
         String test="{\n" +
                 "    \"code\": 1,\n" +
@@ -133,17 +133,17 @@ public class SeckillListFragment extends Fragment {
         adapter.setOnItemClickListener(new SecKillAdpter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Log.e("测试", "onItemClick: "+position);
                 Intent intent=new Intent(getActivity(),GoodsDetailActivity.class);
                 intent.setAction("miaosha");
                 intent.putExtra(Const.GOODS_ID,data.get(position).getId());
-                intent.putExtra(Const.SECKILL_STATUS,getArguments().getString("type"));
+                intent.putExtra(Const.SECKILL_STATUS,3);
                 startActivity(intent);
             }
         });
     }
 
     private void getSeckillGoing() {
+        Log.e("测试", "getSeckillGoing: ");
         SecKillSubscribe.getSecKillTodayList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -156,7 +156,7 @@ public class SeckillListFragment extends Fragment {
             }
         }));
     }
-
+    //限时秒杀进行中
     private void setSeckillGoing(String result) {
         String test="{\n" +
                 "    \"code\": 1,\n" +
@@ -203,13 +203,14 @@ public class SeckillListFragment extends Fragment {
                 Intent intent=new Intent(getActivity(),GoodsDetailActivity.class);
                 intent.setAction("miaosha");
                 intent.putExtra(Const.GOODS_ID,data.get(position).getId());
-                intent.putExtra(Const.SECKILL_STATUS,getArguments().getString("type"));
+                intent.putExtra(Const.SECKILL_STATUS,2);
                 startActivity(intent);
             }
         });
     }
 
     private void getSeckillOver() {
+        Log.e("测试", "getSeckillOver: " );
         SecKillSubscribe.getSecKillOverList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -222,7 +223,7 @@ public class SeckillListFragment extends Fragment {
             }
         }));
     }
-
+    //限时秒杀已结束
     private void setSeckillOver(String result) {
         String test="{\n" +
                 "    \"code\": 1,\n" +
@@ -269,7 +270,7 @@ public class SeckillListFragment extends Fragment {
                 Intent intent=new Intent(getActivity(),GoodsDetailActivity.class);
                 intent.setAction("miaosha");
                 intent.putExtra(Const.GOODS_ID,data.get(position).getId());
-                intent.putExtra(Const.SECKILL_STATUS,getArguments().getString("type"));
+                intent.putExtra(Const.SECKILL_STATUS,1);
                 startActivity(intent);
             }
         });

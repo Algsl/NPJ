@@ -29,8 +29,6 @@ public class CommentActivity extends ActivityBase {
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.ac_orderComment_rb_goodsStar)
     RatingBar acOrderCommentRbGoodsStar;
     @BindView(R.id.ac_orderComment_tv_goods)

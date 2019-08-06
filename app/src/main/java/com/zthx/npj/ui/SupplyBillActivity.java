@@ -1,6 +1,8 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,8 +31,6 @@ public class SupplyBillActivity extends ActivityBase {
     RelativeLayout atSupplyBillLlChoiceAddress;
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.at_supply_bill_iv1)
     ImageView atSupplyBillIv1;
     @BindView(R.id.at_supply_bill_head_pic)
@@ -118,7 +118,8 @@ public class SupplyBillActivity extends ActivityBase {
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.at_supply_bill_ll_choice_address:
-                openActivity(AddressListActivity.class, "1");
+                Intent intent=new Intent(this,AddressListActivity.class);
+                startActivityForResult(intent,0);
                 break;
             case R.id.at_supply_bill_btn_buy:
                 SupplyBuy2Bean bean=new SupplyBuy2Bean();
@@ -142,6 +143,15 @@ public class SupplyBillActivity extends ActivityBase {
                     }
                 }));
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==0){
+            address_id=data.getStringExtra("address_id");
+            atSupplyBillTvAddress.setText(data.getStringExtra("address"));
         }
     }
 }

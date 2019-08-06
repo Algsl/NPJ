@@ -13,10 +13,10 @@
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_190"
+            android:layout_height="@dimen/dp_220"
             android:background="@drawable/sopksemanrights_bg">
             <include
-                layout="@layout/title"></include>
+                layout="@layout/title_theme"></include>
             <TextView
                 android:id="@+id/at_my_wallet_tv_jine"
                 android:layout_width="wrap_content"

@@ -24,6 +24,8 @@ import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetAvatarBitmapCallback;
+import cn.jpush.im.android.api.content.ImageContent;
+import cn.jpush.im.android.api.content.MessageContent;
 import cn.jpush.im.android.api.content.TextContent;
 import cn.jpush.im.android.api.enums.MessageDirect;
 import cn.jpush.im.android.api.model.Message;
@@ -39,11 +41,10 @@ public class ChatListAdapter extends BaseAdapter {
     private final int TYPE_SEND_IMAGE = 2;
     private final int TYPE_RECEIVER_IMAGE = 3;
 
-    //自定义消息
-    private final int TYPE_CUSTOM_TXT = 13;
 
     private List<Message> mList;
     private Context mContext;
+    private  TextContent content;
 
     public ChatListAdapter(Context context, List<Message> list){
         mContext=context;
@@ -59,7 +60,16 @@ public class ChatListAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
         Message msg = mList.get(position);
-        return msg.getDirect() == MessageDirect.send ? TYPE_SEND_TXT : TYPE_RECEIVE_TXT;
+        switch (msg.getContentType()) {
+            case text:
+                return msg.getDirect() == MessageDirect.send ? TYPE_SEND_TXT
+                        : TYPE_RECEIVE_TXT;
+            case image:
+                return msg.getDirect() == MessageDirect.send ? TYPE_SEND_IMAGE
+                        : TYPE_RECEIVER_IMAGE;
+            default:
+                return 0;
+        }
     }
 
     @Override
@@ -75,7 +85,7 @@ public class ChatListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         final Message msg = mList.get(i);
-        TextContent content= (TextContent) msg.getContent();
+
         final ViewHolder holder;
         if(view==null){
             holder=new ViewHolder();
@@ -88,6 +98,8 @@ public class ChatListAdapter extends BaseAdapter {
             holder.sendingIv = (ImageView) view.findViewById(R.id.jmui_sending_iv);
             holder.resend = (ImageButton) view.findViewById(R.id.jmui_fail_resend_ib);
             holder.text_receipt = (TextView) view.findViewById(R.id.text_receipt);
+            holder.picture = (ImageView) view.findViewById(R.id.jmui_picture_iv);
+            holder.progressTv = (TextView) view.findViewById(R.id.jmui_progress_tv);
             view.setTag(holder);
         }else{
             holder= (ViewHolder) view.getTag();
@@ -149,16 +161,27 @@ public class ChatListAdapter extends BaseAdapter {
                 }
             });
         }
-        String extraBusiness = content.getStringExtra("businessCard");
-        if (extraBusiness != null) {
-            holder.txtContent.setVisibility(View.GONE);
-            holder.ll_businessCard.setVisibility(View.VISIBLE);
-            holder.headIcon.setImageResource(R.drawable.confirm_wechat);
-        } else {
-            holder.ll_businessCard.setVisibility(View.GONE);
-            holder.txtContent.setVisibility(View.VISIBLE);
+        switch (msg.getContentType()){
+            case text:
+               content= (TextContent) msg.getContent();
+                holder.txtContent.setText(content.getText());
+                String extraBusiness = content.getStringExtra("businessCard");
+                if (extraBusiness != null) {
+                    holder.txtContent.setVisibility(View.GONE);
+                    holder.ll_businessCard.setVisibility(View.VISIBLE);
+                    holder.headIcon.setImageResource(R.drawable.confirm_wechat);
+                } else {
+                    holder.ll_businessCard.setVisibility(View.GONE);
+                    holder.txtContent.setVisibility(View.VISIBLE);
+                }
+                break;
+            case image:
+                ImageContent content= (ImageContent) msg.getContent();
+                Log.e("测试", "getView: "+content.getMediaID());
+
+                break;
         }
-        holder.txtContent.setText(content.getText());
+
 
 
         return view;
@@ -173,9 +196,18 @@ public class ChatListAdapter extends BaseAdapter {
     }
 
     private View createViewByType(Message msg, int position) {
-        return getItemViewType(position) == TYPE_SEND_TXT ?
-                LayoutInflater.from(mContext).inflate(R.layout.jmui_chat_item_send_text, null) :
-                LayoutInflater.from(mContext).inflate(R.layout.jmui_chat_item_receive_text, null);
+        switch (msg.getContentType()) {
+            case text:
+                return getItemViewType(position) == TYPE_SEND_TXT ?
+                        LayoutInflater.from(mContext).inflate(R.layout.jmui_chat_item_send_text, null) :
+                        LayoutInflater.from(mContext).inflate(R.layout.jmui_chat_item_receive_text, null);
+            case image:
+                return getItemViewType(position) == TYPE_SEND_IMAGE ?
+                        LayoutInflater.from(mContext).inflate(R.layout.jmui_chat_item_send_image, null) :
+                        LayoutInflater.from(mContext).inflate(R.layout.jmui_chat_item_receive_image, null);
+            default:
+                return null;
+        }
     }
 
     public class ViewHolder{
@@ -191,5 +223,7 @@ public class ChatListAdapter extends BaseAdapter {
         public TextView tv_nickUser;
         public TextView tv_userName;
         public TextView text_receipt;
+        public ImageView picture;
+        public TextView progressTv;
     }
 }

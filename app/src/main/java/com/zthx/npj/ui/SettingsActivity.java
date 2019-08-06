@@ -74,8 +74,6 @@ public class SettingsActivity extends ActivityBase {
     TextView titleThemeTitle;
     @BindView(R.id.title_theme_tv_right)
     TextView titleThemeTvRight;
-    @BindView(R.id.title_theme)
-    RelativeLayout titleTheme;
     @BindView(R.id.ac_setting_iv_msg)
     ImageView acSettingIvMsg;
     @BindView(R.id.ac_setting_tv_cache)

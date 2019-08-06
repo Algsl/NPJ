@@ -25,8 +25,6 @@ public class HelpDetailActivity extends ActivityBase{
     TextView titleThemeTitle;
     @BindView(R.id.title_theme_tv_right)
     TextView titleThemeTvRight;
-    @BindView(R.id.title_theme)
-    RelativeLayout titleTheme;
     @BindView(R.id.ac_helpDetail_tv_title)
     TextView acHelpDetailTvTitle;
     @BindView(R.id.ac_helpDetail_tv_content)

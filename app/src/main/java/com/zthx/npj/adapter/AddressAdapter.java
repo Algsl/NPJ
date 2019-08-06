@@ -45,7 +45,8 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onItemClick(position);
                 }
             });
             viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {

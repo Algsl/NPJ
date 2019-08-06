@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,8 +43,6 @@ public class CellPhoneLoginActivity extends ActivityBase {
 
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.at_cellphone_login_iv_delete)
     ImageView atCellphoneLoginIvDelete;
     @BindView(R.id.at_cellphone_login_tv_get_code)

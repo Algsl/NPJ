@@ -33,8 +33,6 @@ public class ApplyRefundActivity extends ActivityBase {
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.ac_order_applyRefund_iv_goodsImg)
     ImageView acOrderApplyRefundIvGoodsImg;
     @BindView(R.id.at_order_applyRefund_tv_goodsName)

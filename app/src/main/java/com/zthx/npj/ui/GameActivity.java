@@ -2,20 +2,35 @@ package com.zthx.npj.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.service.wallpaper.WallpaperService;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.Engine;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.widget.Toast;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
-import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.R;
 
-import org.egret.egretnativeandroid.EgretNativeAndroid;
-import org.egret.runtime.launcherInterface.INativePlayer;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class GameActivity extends Activity {
-    private EgretNativeAndroid nativeAndroid;
+    @BindView(R.id.ac_game_wv)
+    WebView acGameWv;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
+        ButterKnife.bind(this);
+        acGameWv.loadUrl("http://game.npj-vip.com/");
+        acGameWv.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return false;
+            }
+        });
+    }
+
+    /*private EgretNativeAndroid nativeAndroid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,5 +103,5 @@ public class GameActivity extends Activity {
 
     private interface IRuntimeInterface {
         public void callback(String message);
-    }
+    }*/
 }

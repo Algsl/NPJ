@@ -38,8 +38,6 @@ public class HelpActivity extends ActivityBase {
     TextView titleThemeTitle;
     @BindView(R.id.title_theme_tv_right)
     TextView titleThemeTvRight;
-    @BindView(R.id.title_theme)
-    RelativeLayout titleTheme;
     @BindView(R.id.at_help_tv_kefu_tel)
     TextView atHelpTvKefuTel;
     @BindView(R.id.at_help_tv_kefu_online)

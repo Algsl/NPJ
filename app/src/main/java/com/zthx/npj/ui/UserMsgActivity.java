@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -43,8 +43,6 @@ public class UserMsgActivity extends ActivityBase {
     TextView titleThemeTvRight;
     @BindView(R.id.title_theme_img_right)
     ImageView titleThemeImgRight;
-    @BindView(R.id.title_theme)
-    RelativeLayout titleTheme;
     @BindView(R.id.ac_userMsg_mcv_headImg)
     MyCircleView acUserMsgMcvHeadImg;
     @BindView(R.id.ac_userMsg_tv_level)
@@ -61,6 +59,8 @@ public class UserMsgActivity extends ActivityBase {
     ScrollView acUserMsgSv;
     @BindView(R.id.ac_userMsg_iv_show)
     ImageView acUserMsgIvShow;
+    @BindView(R.id.title_theme)
+    LinearLayout titleTheme;
 
     private IWXAPI api;
     private Bitmap bmp;
@@ -172,7 +172,7 @@ public class UserMsgActivity extends ActivityBase {
                 WXImageObject imgObj = new WXImageObject(bmp);
                 WXMediaMessage msg = new WXMediaMessage();
                 msg.mediaObject = imgObj;
-                Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 120,120, true);
+                Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 120, 120, true);
                 bmp.recycle();
                 msg.thumbData = bmpToByteArray(thumbBmp, true);  // 设置所图；
                 msg.title = "标题";
@@ -192,7 +192,7 @@ public class UserMsgActivity extends ActivityBase {
                 WXImageObject imgObj = new WXImageObject(bmp);
                 WXMediaMessage msg = new WXMediaMessage();
                 msg.mediaObject = imgObj;
-                Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 120,120, true);
+                Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 120, 120, true);
                 bmp.recycle();
                 msg.thumbData = bmpToByteArray(thumbBmp, true);  // 设置所图；
                 msg.title = "标题";

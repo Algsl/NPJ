@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,19 +16,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.alibaba.mobileim.YWAPI;
+import com.alibaba.mobileim.YWIMKit;
+import com.alibaba.wxlib.util.SysUtil;
 import com.zthx.npj.R;
+import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.entity.NotificationBean;
+import com.zthx.npj.net.been.UserResponseBean;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.fragment.DiscoverFragment;
 import com.zthx.npj.ui.fragment.GameFragment;
 import com.zthx.npj.ui.fragment.HomeFragment;
 import com.zthx.npj.ui.fragment.MineFragment;
 import com.zthx.npj.ui.fragment.ShoppingCart1Fragment;
 import com.zthx.npj.ui.fragment.ShoppingCartFragment;
+import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
@@ -74,10 +85,16 @@ public class MainActivity extends AppCompatActivity {
     private MineFragment mMineFragment;
     //private GameFragment mGameFragment;
 
+    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS); //去除半透明状态栏
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN); //全屏显示
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initJPush();
@@ -86,7 +103,22 @@ public class MainActivity extends AppCompatActivity {
         setNotification();
         registerMessageReceiver();
         loginIM();
-        //Log.e("测试", "onCreate: "+SharePerferenceUtils.getToken(this));
+        getUserMsg();
+    }
+
+    private void getUserMsg() {
+        SetSubscribe.getUserInfo(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                UserResponseBean bean=GsonUtils.fromJson(result,UserResponseBean.class);
+                SharePerferenceUtils.setUserLevel(MainActivity.this,bean.getData().getLevel()+"");
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 
     private void loginIM() {

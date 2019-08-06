@@ -30,8 +30,6 @@ public class StoreGoodsListActivity extends ActivityBase {
     TextView titleThemeTitle;
     @BindView(R.id.title_theme_tv_right)
     TextView titleThemeTvRight;
-    @BindView(R.id.title_theme)
-    RelativeLayout titleTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

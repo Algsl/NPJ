@@ -34,8 +34,6 @@ public class MembershipPackageActivity extends ActivityBase {
 
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.at_membership_package_head_pic)
     MyCircleView atMembershipPackageHeadPic;
     @BindView(R.id.at_membership_package_tv_name)

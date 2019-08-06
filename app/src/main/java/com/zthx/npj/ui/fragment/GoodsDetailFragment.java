@@ -17,7 +17,6 @@ import com.zthx.npj.R;
  */
 public class GoodsDetailFragment extends Fragment {
 
-
     public GoodsDetailFragment() {
         // Required empty public constructor
     }

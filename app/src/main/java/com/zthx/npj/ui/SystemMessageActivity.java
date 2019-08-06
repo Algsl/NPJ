@@ -29,8 +29,6 @@ public class SystemMessageActivity extends ActivityBase {
     TextView titleThemeTvRight;
     @BindView(R.id.title_theme_img_right)
     ImageView titleThemeImgRight;
-    @BindView(R.id.title_theme)
-    RelativeLayout titleTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

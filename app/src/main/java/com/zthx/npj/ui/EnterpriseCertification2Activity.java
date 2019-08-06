@@ -55,8 +55,6 @@ public class EnterpriseCertification2Activity extends ActivityBase {
 
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.at_enterprise_certification2_et_name)
     EditText atEnterpriseCertification2EtName;
     @BindView(R.id.at_enterprise_certification2_et_des)

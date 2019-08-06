@@ -30,8 +30,6 @@ public class NotificationListActivity extends ActivityBase {
     TextView titleThemeTvRight;
     @BindView(R.id.title_theme_img_right)
     ImageView titleThemeImgRight;
-    @BindView(R.id.title_theme)
-    RelativeLayout titleTheme;
     @BindView(R.id.ac_notification_recycle)
     RecyclerView acNotificationRecycle;
 

@@ -38,8 +38,6 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

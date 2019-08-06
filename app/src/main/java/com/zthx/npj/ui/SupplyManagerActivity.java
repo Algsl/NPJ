@@ -36,8 +36,6 @@ public class SupplyManagerActivity extends ActivityBase {
     TextView titleThemeTitle;
     @BindView(R.id.title_theme_tv_right)
     TextView titleThemeTvRight;
-    @BindView(R.id.title_theme)
-    RelativeLayout titleTheme;
     @BindView(R.id.at_supply_manager_rv_supply_list1)
     RecyclerView atSupplyManagerRvSupplyList1;
     @BindView(R.id.at_supply_manager_rv_supply_list2)

@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:background="@android:color/white"
-        android:id="@+id/title">
 
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_80"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:id="@+id/title">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_30"
+        android:background="@color/white"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50">
         <ImageView
             android:id="@+id/title_back"
             android:layout_width="@dimen/dp_32"
@@ -39,3 +47,4 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_12"/>
     </RelativeLayout>
+</LinearLayout>

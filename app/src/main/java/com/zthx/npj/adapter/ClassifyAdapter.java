@@ -58,7 +58,9 @@ public class ClassifyAdapter extends RecyclerView.Adapter<ClassifyAdapter.ViewHo
             });
         }
         if(mList.size()>0){
-            Glide.with(mContext).load(Uri.parse(mList.get(i).getImage())).into(viewHolder.iv_icon);
+            //Glide.with(mContext).load(Uri.parse(mList.get(i).getImage())).into(viewHolder.iv_icon);
+            int num=(int)(Math.random()*11+1);
+            viewHolder.iv_icon.setImageResource(R.drawable.classify0+num);
             viewHolder.tv_name.setText(mList.get(i).getName());
         }
     }

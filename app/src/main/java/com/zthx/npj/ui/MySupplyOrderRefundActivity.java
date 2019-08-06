@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,8 +44,6 @@ public class MySupplyOrderRefundActivity extends ActivityBase {
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
-    @BindView(R.id.title)
-    RelativeLayout title;
     @BindView(R.id.ac_order_applyRefund_iv_goodsImg)
     ImageView acOrderApplyRefundIvGoodsImg;
     @BindView(R.id.at_order_applyRefund_tv_goodsName)
