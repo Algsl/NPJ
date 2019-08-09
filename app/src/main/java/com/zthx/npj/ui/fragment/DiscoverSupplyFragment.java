@@ -2,6 +2,7 @@ package com.zthx.npj.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,24 +11,34 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.DiscoverNeedAdapter;
 import com.zthx.npj.adapter.DiscoverSupplyAdapter;
 import com.zthx.npj.base.Const;
+import com.zthx.npj.net.been.BannerResponseBean;
 import com.zthx.npj.net.been.NeedListResponseBean;
 import com.zthx.npj.net.been.SupplyListBean;
 import com.zthx.npj.net.been.SupplyListResponseBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
+import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.SupplyProductsActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
 
@@ -82,10 +93,18 @@ public class DiscoverSupplyFragment extends Fragment {
     RecyclerView fgDiscoverNeedRv;
     @BindView(R.id.fg_discover_supply_ll_need)
     LinearLayout fgDiscoverSupplyLlNeed;
-    @BindView(R.id.fg_discover_supply_rv_search)
-    RelativeLayout fgDiscoverSupplyRvSearch;
+    @BindView(R.id.fg_discover_btn_cancel)
+    Button fgDiscoverBtnCancel;
+    @BindView(R.id.fg_discover_btn_issue)
+    Button fgDiscoverBtnIssue;
     @BindView(R.id.fg_discover_supply_ll)
     LinearLayout fgDiscoverSupplyLl;
+    @BindView(R.id.fg_discover_supply_rv_search)
+    RelativeLayout fgDiscoverSupplyRvSearch;
+    @BindView(R.id.fg_discover_wv_business)
+    WebView fgDiscoverWvBusiness;
+    @BindView(R.id.banner)
+    Banner banner;
 
 
     private String type1 = "1";
@@ -120,7 +139,7 @@ public class DiscoverSupplyFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
 
         getSupplyData(type1);
-
+        initBanner();
         return view;
     }
 
@@ -148,7 +167,7 @@ public class DiscoverSupplyFragment extends Fragment {
                     public void onItemClick(int position) {
                         Intent intent = new Intent(getActivity(), SupplyProductsActivity.class);
                         intent.setAction(Const.SUPPLY_DETAIL);
-                        intent.putExtra("goods_id", data.get(position).getId()+"");
+                        intent.putExtra("goods_id", data.get(position).getId() + "");
                         startActivity(intent);
                     }
                 });
@@ -181,7 +200,7 @@ public class DiscoverSupplyFragment extends Fragment {
                     public void onItemClick(int position) {
                         Intent intent = new Intent(getActivity(), SupplyProductsActivity.class);
                         intent.setAction(Const.NEED_DETAIL);
-                        intent.putExtra("goods_id", data.get(position).getId()+"");
+                        intent.putExtra("goods_id", data.get(position).getId() + "");
                         startActivity(intent);
                     }
                 });
@@ -213,7 +232,12 @@ public class DiscoverSupplyFragment extends Fragment {
     }
 
 
-    @OnClick({R.id.fg_discover_need_tv_new, R.id.fg_discover_need_tv_location, R.id.fg_discover_supply_ll_caigou, R.id.fg_discover_supply_ll_gongying, R.id.fg_discover_supply_tv_supply, R.id.fg_discover_supply_tv_need, R.id.fg_discover_supply_tv_company, R.id.fg_discover_supply_tv_new, R.id.fg_discover_supply_tv_location, R.id.fg_discover_supply_tv_sell_num, R.id.fg_discover_supply_tv_xinyong, R.id.fg_discover_supply_tv_price})
+    @OnClick({R.id.fg_discover_need_tv_new, R.id.fg_discover_need_tv_location, R.id.fg_discover_supply_ll_caigou,
+            R.id.fg_discover_supply_ll_gongying, R.id.fg_discover_supply_tv_supply, R.id.fg_discover_supply_tv_need,
+            R.id.fg_discover_supply_tv_company, R.id.fg_discover_supply_tv_new, R.id.fg_discover_supply_tv_location,
+            R.id.fg_discover_supply_tv_sell_num, R.id.fg_discover_supply_tv_xinyong, R.id.fg_discover_supply_tv_price,
+            R.id.fg_discover_btn_cancel, R.id.fg_discover_btn_issue
+    })
     public void onViewClicked(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -233,12 +257,8 @@ public class DiscoverSupplyFragment extends Fragment {
             case R.id.fg_discover_supply_tv_supply:
                 changeButtonColor(1);
                 getSupplyData(type1);
-                fgDiscoverSupplyLl.setVisibility(View.VISIBLE);
-                fgDiscoverSupplyRvSearch.setVisibility(View.GONE);
                 break;
             case R.id.fg_discover_supply_tv_need:
-                fgDiscoverSupplyLl.setVisibility(View.GONE);
-                fgDiscoverSupplyRvSearch.setVisibility(View.VISIBLE);
                 changeButtonColor(2);
                 getNeedData(type2);
                 break;
@@ -246,7 +266,7 @@ public class DiscoverSupplyFragment extends Fragment {
                 changeButtonColor(3);
                 break;
 
-                //供应模块
+            //供应模块
             case R.id.fg_discover_supply_tv_new:
                 selectType("1");
                 getSupplyData(type1);
@@ -276,6 +296,15 @@ public class DiscoverSupplyFragment extends Fragment {
                 intent = new Intent(getActivity(), SupplyMessageActivity.class);
                 intent.putExtra(Const.SUPPLY_TYPE, 2);
                 startActivity(intent);
+                break;
+
+            case R.id.fg_discover_btn_cancel:
+                fgDiscoverSupplyRvSearch.setVisibility(View.VISIBLE);
+                fgDiscoverSupplyLl.setVisibility(View.GONE);
+                break;
+            case R.id.fg_discover_btn_issue:
+                fgDiscoverSupplyRvSearch.setVisibility(View.GONE);
+                fgDiscoverSupplyLl.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -320,6 +349,7 @@ public class DiscoverSupplyFragment extends Fragment {
             fgDiscoverSupplyRv.setVisibility(View.VISIBLE);
             fgDiscoverSupplyLlSupply.setVisibility(View.VISIBLE);
             fgDiscoverSupplyLlNeed.setVisibility(View.GONE);
+            fgDiscoverWvBusiness.setVisibility(View.GONE);
             getSupplyData(type1);
         } else if (position == 2) {
             fgDiscoverSupplyTvNeed.setTextColor(getResources().getColor(android.R.color.white));
@@ -328,12 +358,69 @@ public class DiscoverSupplyFragment extends Fragment {
             fgDiscoverSupplyLlNeed.setVisibility(View.VISIBLE);
             fgDiscoverNeedRv.setVisibility(View.VISIBLE);
             fgDiscoverSupplyRv.setVisibility(View.GONE);
+            fgDiscoverWvBusiness.setVisibility(View.GONE);
             getNeedData(type2);
         } else {
             fgDiscoverSupplyTvCompany.setTextColor(getResources().getColor(android.R.color.white));
             fgDiscoverSupplyTvCompany.setBackgroundColor(getResources().getColor(R.color.app_theme));
             fgDiscoverSupplyLlSupply.setVisibility(View.GONE);
             fgDiscoverSupplyLlNeed.setVisibility(View.GONE);
+            fgDiscoverWvBusiness.setVisibility(View.VISIBLE);
+            fgDiscoverWvBusiness.loadUrl("http://nong.gold600.com/cx");
+            fgDiscoverWvBusiness.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    view.loadUrl(url);
+                    return true;
+                }
+            });
         }
+    }
+
+    private void initBanner() {
+        MainSubscribe.getMainBanner("3",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                BannerResponseBean bean = GsonUtils.fromJson(result, BannerResponseBean.class);
+                ArrayList<BannerResponseBean.DataBean> data = bean.getData();
+                ArrayList<Uri> list = new ArrayList<>();
+                ArrayList<String> list2 = new ArrayList<>();
+                for (int i = 0; i < data.size(); i++) {
+                    list.add(Uri.parse(data.get(i).getImg()));
+                    list2.add(data.get(i).getTitle());
+                }
+                //设置banner样式
+                banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+                banner.setIndicatorGravity(BannerConfig.CENTER);
+                //设置图片加载器
+                banner.setImageLoader(new GlideImageLoader());
+                //设置图片集合
+                banner.setImages(list);
+                //设置banner动画效果
+                banner.setBannerAnimation(Transformer.DepthPage);
+                //设置自动轮播，默认为true
+                banner.isAutoPlay(true);
+                //设置标题集合（当banner样式有显示title时）
+                banner.setBannerTitles(list2);
+                //设置轮播时间
+                banner.setDelayTime(3000);
+                //设置指示器位置（当banner模式中有指示器时）
+                banner.setIndicatorGravity(BannerConfig.RIGHT);
+                //设置banner点击事件
+                banner.setOnBannerListener(new OnBannerListener() {
+                    @Override
+                    public void OnBannerClick(int position) {
+                        Log.e("huang", "position = " + position);
+                    }
+                });
+                //banner设置方法全部调用完毕时最后调用
+                banner.start();
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 }

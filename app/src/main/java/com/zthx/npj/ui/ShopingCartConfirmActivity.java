@@ -178,7 +178,6 @@ public class ShopingCartConfirmActivity extends ActivityBase {
                     type.put(store_id,goods_type);
                     remark.put(store_id,result);
                     ziti_id.put(store_id,ztId);
-                    Log.e("测试", "onViewClicked: "+store_id+" "+result+" "+ztId+" "+goods_type);
                 }
 
                 CartOrderOneBean bean=new CartOrderOneBean();
@@ -193,12 +192,12 @@ public class ShopingCartConfirmActivity extends ActivityBase {
                 SetSubscribe.cartOrderOne(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.e("测试", "onSuccess: "+result);
+
                     }
 
                     @Override
                     public void onFault(String errorMsg) {
-                        Log.e("测试", "onFault: "+errorMsg);
+
                     }
                 }));
                 break;

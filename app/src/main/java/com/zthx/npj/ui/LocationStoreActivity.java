@@ -1,21 +1,27 @@
 package com.zthx.npj.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.LocationStoreAdapter;
 import com.zthx.npj.base.Const;
+import com.zthx.npj.net.been.BannerResponseBean;
 import com.zthx.npj.net.been.LocalStoreBean;
 import com.zthx.npj.net.been.LocalStoreResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
@@ -23,6 +29,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
 
@@ -54,6 +61,8 @@ public class LocationStoreActivity extends ActivityBase {
     TextView acLocationStoreTvType4;
     @BindView(R.id.ac_localtionStore_tv_address)
     TextView acLocaltionStoreTvAddress;
+    @BindView(R.id.banner)
+    Banner banner;
     private String type = "1";
 
     private String lng = SharePerferenceUtils.getLng(this);
@@ -72,6 +81,7 @@ public class LocationStoreActivity extends ActivityBase {
 
         getLocalStore(type);
 
+        initBanner();
     }
 
     private void getLocalStore(String type) {
@@ -198,5 +208,52 @@ public class LocationStoreActivity extends ActivityBase {
             }
         });
         atLocationStoreRv.setAdapter(mAdapter);
+    }
+
+    private void initBanner() {
+        MainSubscribe.getMainBanner("3",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                BannerResponseBean bean = GsonUtils.fromJson(result, BannerResponseBean.class);
+                ArrayList<BannerResponseBean.DataBean> data = bean.getData();
+                ArrayList<Uri> list = new ArrayList<>();
+                ArrayList<String> list2 = new ArrayList<>();
+                for (int i = 0; i < data.size(); i++) {
+                    list.add(Uri.parse(data.get(i).getImg()));
+                    list2.add(data.get(i).getTitle());
+                }
+                //设置banner样式
+                banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+                banner.setIndicatorGravity(BannerConfig.CENTER);
+                //设置图片加载器
+                banner.setImageLoader(new GlideImageLoader());
+                //设置图片集合
+                banner.setImages(list);
+                //设置banner动画效果
+                banner.setBannerAnimation(Transformer.DepthPage);
+                //设置自动轮播，默认为true
+                banner.isAutoPlay(true);
+                //设置标题集合（当banner样式有显示title时）
+                banner.setBannerTitles(list2);
+                //设置轮播时间
+                banner.setDelayTime(3000);
+                //设置指示器位置（当banner模式中有指示器时）
+                banner.setIndicatorGravity(BannerConfig.RIGHT);
+                //设置banner点击事件
+                banner.setOnBannerListener(new OnBannerListener() {
+                    @Override
+                    public void OnBannerClick(int position) {
+                        Log.e("huang", "position = " + position);
+                    }
+                });
+                //banner设置方法全部调用完毕时最后调用
+                banner.start();
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 }

@@ -122,10 +122,8 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartAdapte
     }
 
     private void setShoppingCart(String result) {
-        Log.e("测试", "setShoppingCart: "+result );
         try {
             JSONArray array=new JSONArray(result);
-            Log.e("测试", "setShoppingCart: "+array.get(0).toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

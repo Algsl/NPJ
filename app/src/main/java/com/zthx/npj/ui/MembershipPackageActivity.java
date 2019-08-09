@@ -42,8 +42,8 @@ public class MembershipPackageActivity extends ActivityBase {
     TextView atMembershipPackageTvTuijian;
     @BindView(R.id.at_membership_package_tv_share)
     TextView atMembershipPackageTvShare;
-    @BindView(R.id.at_membership_package_tv_logo)
-    TextView atMembershipPackageTvLogo;
+    /*@BindView(R.id.at_membership_package_tv_logo)
+    TextView atMembershipPackageTvLogo;*/
     @BindView(R.id.at_membership_package_tb)
     TabLayout atMembershipPackageTb;
     @BindView(R.id.at_membership_package_viewpager)
@@ -65,7 +65,7 @@ public class MembershipPackageActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle, "礼包店");
+        changeTitle(acTitle, "会员礼包");
 
         getUserInfo();
 

@@ -1,4 +1,0 @@
-#Fri Aug 02 10:37:54 CST 2019
-base.0=E\:\\AllProject\\StudioProject\\NPJ\\JPushExample(1394145)\\build\\intermediates\\transforms\\dexMerger\\debug\\0
-path.0=classes.dex
-renamed.0=classes.dex

@@ -10,11 +10,14 @@
     <include
         layout="@layout/title"></include>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_270"
-        android:background="@color/app_theme">
-
+        android:background="@color/app_theme"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_91">
         <com.zthx.npj.view.MyCircleView
             android:layout_width="@dimen/dp_70"
             android:layout_height="@dimen/dp_70"
@@ -25,10 +28,11 @@
 
         <TextView
             android:id="@+id/at_membership_package_tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_23"
             android:text="闭眼看世界"
             android:textSize="@dimen/sp_13"
+            android:gravity="center"
             android:textColor="@android:color/white"
             android:layout_toRightOf="@id/at_membership_package_head_pic"
             android:layout_marginTop="@dimen/dp_25"
@@ -38,12 +42,12 @@
             android:id="@+id/ac_membership_iv_level"
             android:layout_width="@dimen/dp_80"
             android:layout_height="@dimen/dp_23"
-            android:text="金牌代言人"
             android:textColor="@android:color/white"
             android:textSize="@dimen/sp_12"
-            android:gravity="center"
-            android:layout_toRightOf="@id/at_membership_package_head_pic"
+            android:layout_marginTop="@dimen/dp_5"
             android:layout_marginLeft="@dimen/dp_9"
+            android:layout_toRightOf="@id/at_membership_package_head_pic"
+            android:src="@drawable/level0"
             android:layout_below="@id/at_membership_package_tv_name"/>
         
         <TextView
@@ -70,8 +74,12 @@
             android:textSize="@dimen/sp_13"
             android:textColor="@android:color/white"
             android:gravity="center"/>
-
-        <LinearLayout
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/gift1"/>
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_135"
             android:orientation="vertical"
@@ -126,8 +134,8 @@
                 android:gravity="center"
                 android:background="@drawable/stroke_app_theme"
                 android:layout_marginTop="@dimen/dp_5"/>
-        </LinearLayout>
-    </RelativeLayout>
+        </LinearLayout>-->
+    </LinearLayout>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/at_membership_package_tb"

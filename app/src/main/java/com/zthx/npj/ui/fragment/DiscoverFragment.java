@@ -1,6 +1,7 @@
 package com.zthx.npj.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.DiscoverViewPagerAdapter;
+import com.zthx.npj.ui.MessageCenterActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,5 +84,6 @@ public class DiscoverFragment extends BaseFragment {
 
     @OnClick(R.id.fg_discover_iv_message)
     public void onViewClicked() {
+        startActivity(new Intent(getContext(),MessageCenterActivity.class));
     }
 }

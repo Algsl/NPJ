@@ -77,7 +77,6 @@ public class SeckillListFragment extends Fragment {
     }
 
     private void getSeckillStart() {
-        Log.e("测试", "getSeckillStart: ");
         SecKillSubscribe.getSecKillOverList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -143,7 +142,6 @@ public class SeckillListFragment extends Fragment {
     }
 
     private void getSeckillGoing() {
-        Log.e("测试", "getSeckillGoing: ");
         SecKillSubscribe.getSecKillTodayList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -199,7 +197,6 @@ public class SeckillListFragment extends Fragment {
         adapter.setOnItemClickListener(new SecKillAdpter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Log.e("测试", "onItemClick: "+position);
                 Intent intent=new Intent(getActivity(),GoodsDetailActivity.class);
                 intent.setAction("miaosha");
                 intent.putExtra(Const.GOODS_ID,data.get(position).getId());
@@ -266,7 +263,6 @@ public class SeckillListFragment extends Fragment {
         adapter.setOnItemClickListener(new SecKillAdpter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Log.e("测试", "onItemClick: "+position);
                 Intent intent=new Intent(getActivity(),GoodsDetailActivity.class);
                 intent.setAction("miaosha");
                 intent.putExtra(Const.GOODS_ID,data.get(position).getId());

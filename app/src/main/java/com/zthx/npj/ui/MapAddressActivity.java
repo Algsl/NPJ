@@ -260,7 +260,6 @@ public class MapAddressActivity extends ActivityBase {
                 list.add(reverseGeoCodeResult.getPoiList().get(i).getName());
             }
             acMapTvAddress.setText(reverseGeoCodeResult.getAddress());
-            Log.e("测试", "onGetGeoCodeResult: " + list);
             showPublishPopwindow(list);
         }
     };

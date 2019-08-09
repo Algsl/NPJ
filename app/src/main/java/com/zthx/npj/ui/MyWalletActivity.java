@@ -46,7 +46,7 @@ public class MyWalletActivity extends ActivityBase {
 
     }
 
-    @OnClick({R.id.at_location_store_tv_ruzhu, R.id.at_myWallet_tv_mx, R.id.ac_myallet_rl_bankCard, R.id.at_my_wallet_btn_tiqu, R.id.ac_myWallet_rl_inManage})
+    @OnClick({ R.id.at_myWallet_tv_mx, R.id.ac_myallet_rl_bankCard, R.id.at_my_wallet_btn_tiqu, R.id.ac_myWallet_rl_inManage})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_myWallet_tv_mx:

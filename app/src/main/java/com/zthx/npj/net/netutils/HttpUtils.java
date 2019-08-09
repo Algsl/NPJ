@@ -37,7 +37,6 @@ public class HttpUtils {
     public static void uploadImg(String address,String path,okhttp3.Callback callback){
         OkHttpClient client = new OkHttpClient();
         File file = new File(path);
-        Log.e("测试", "onResponse: "+file.getName());
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", file.getName(),
@@ -58,7 +57,6 @@ public class HttpUtils {
         builder.setType(MultipartBody.FORM);
         for(File file:files){
             builder.addFormDataPart("images[]",file.getName(),RequestBody.create(MediaType.parse("image/png"),file));
-            Log.e("测试", "uploadMoreImg: "+file.getName() );
         }
         RequestBody requestBody = builder.build();
         Request request = new Request.Builder().url(address).post(requestBody).build();

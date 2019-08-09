@@ -20,6 +20,7 @@
         android:layout_height="@dimen/dp_90"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/dp_12"
+        android:scaleType="fitXY"
         android:src="@mipmap/ic_launcher"/>
     <LinearLayout
         android:layout_width="match_parent"

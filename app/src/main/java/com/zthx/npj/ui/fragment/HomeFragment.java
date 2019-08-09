@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Outline;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,6 +50,7 @@ import com.zthx.npj.ui.MembershipPackageActivity;
 import com.zthx.npj.ui.MessageCenterActivity;
 import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.ui.SecKillActivity;
+import com.zthx.npj.ui.TestActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.GlideImageLoader;
@@ -185,8 +188,6 @@ public class HomeFragment extends BaseFragment {
             list.add(Uri.parse(data.get(i).getImg()));
             list2.add(data.get(i).getTitle());
         }
-
-
         //设置banner样式
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         banner.setIndicatorGravity(BannerConfig.CENTER);
@@ -196,6 +197,13 @@ public class HomeFragment extends BaseFragment {
         banner.setImages(list);
         //设置banner动画效果
         banner.setBannerAnimation(Transformer.DepthPage);
+        banner.setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), 14);
+            }
+        });
+        banner.setClipToOutline(true);
         //设置自动轮播，默认为true
         banner.isAutoPlay(true);
         //设置标题集合（当banner样式有显示title时）
@@ -255,7 +263,7 @@ public class HomeFragment extends BaseFragment {
                 startActivity(new Intent(getContext(),GameActivity.class));
                 break;
             case R.id.fg_home_ll_recommend:
-
+                startActivity(new Intent(getContext(),TestActivity.class));
                 break;
         }
     }

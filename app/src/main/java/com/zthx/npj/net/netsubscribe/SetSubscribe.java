@@ -1443,7 +1443,6 @@ public class SetSubscribe {
         bean.setUser_id(user_id);
         bean.setToken(token);
         bean.setCart_id(cart_id);
-        Log.e("测试", "cartOrder: "+user_id+" "+token+" "+cart_id);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().cartOrder(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }

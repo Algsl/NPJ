@@ -15,6 +15,7 @@
             android:layout_marginLeft="@dimen/dp_12"
             android:layout_marginTop="@dimen/dp_10"
             android:background="@drawable/white_conner"
+            android:scaleType="fitXY"
             android:src="@drawable/logo"/>
         <LinearLayout
             android:layout_width="match_parent"

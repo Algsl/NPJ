@@ -119,15 +119,12 @@ public class MySupplyOrderRefundActivity extends ActivityBase {
         switch (requestCode) {
             case CHOOSE_PHOTO:
                 if (resultCode == RESULT_OK) {
-                    Log.e("测试", "onActivityResult: " + "执行");
                     Uri selectImg = data.getData();
                     String[] filePath = {MediaStore.Images.Media.DATA};
                     Cursor cursor = getContentResolver().query(selectImg, filePath, null, null, null);
                     cursor.moveToFirst();
                     int index = cursor.getColumnIndex(filePath[0]);
-                    Log.e("测试", "onActivityResult: " + index);
                     final String path = cursor.getString(index);
-                    Log.e("测试", "onActivityResult: " + path);
                     cursor.close();
                     Bitmap bitmap = BitmapFactory.decodeFile(path);
                     acOrderApplyRefundIvImg.setImageBitmap(bitmap);
@@ -170,7 +167,6 @@ public class MySupplyOrderRefundActivity extends ActivityBase {
                 bean.setRefund_price(data.getOrder_price());
                 bean.setRefund_desc(acOrderApplyRefundEtReason.getText().toString().trim());
                 bean.setRefund_img(img);
-                Log.e("测试", user_id + " " + token + " " + getIntent().getStringExtra("order_id"));
                 SetSubscribe.mySupplyOrderRefund(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {

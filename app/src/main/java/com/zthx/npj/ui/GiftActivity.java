@@ -155,7 +155,7 @@ public class GiftActivity extends ActivityBase {
         atGiftDetailBanner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                Log.e("huang", "position = " + position);
+
             }
         });
         //banner设置方法全部调用完毕时最后调用

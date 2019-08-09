@@ -8,12 +8,12 @@
         android:layout_width="@dimen/dp_90"
         android:layout_height="@dimen/dp_90"
         android:layout_centerVertical="true"
-        android:background="@color/line"
         android:layout_marginLeft="@dimen/dp_12">
         <ImageView
             android:id="@+id/item_sec_kill_iv_goods_pic"
             android:layout_width="@dimen/dp_90"
             android:layout_height="@dimen/dp_90"
+            android:scaleType="fitXY"
             android:layout_centerVertical="true"
             android:src="@drawable/logo"/>
     </LinearLayout>
@@ -59,7 +59,7 @@
         <com.zthx.npj.view.SaleProgressView
             android:id="@+id/item_sec_kill_spv"
             android:layout_width="@dimen/dp_150"
-            android:layout_height="@dimen/dp_12"
+            android:layout_height="@dimen/dp_15"
             android:layout_marginTop="@dimen/dp_8"
             app:nearOverText="即将售罄"
             app:overText="已售罄"/>
@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/dp_18"
+        android:layout_marginBottom="@dimen/dp_13"
         android:layout_toRightOf="@id/item_secKill_ll"
         android:layout_marginLeft="@dimen/dp_10">
 
@@ -89,6 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="￥1"
+            android:textStyle="bold"
             android:textSize="@dimen/sp_15"
             android:textColor="@color/app_theme" />
 
@@ -134,7 +135,7 @@
         android:layout_height="@dimen/dp_20"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/dp_19"
+        android:layout_marginBottom="@dimen/dp_13"
         android:layout_marginRight="@dimen/dp_11"
         android:text="马上抢"
         android:background="@drawable/buton_stroke_theme"

@@ -77,21 +77,27 @@ public class TrustedStoreActivity extends ActivityBase {
         }, this));
     }
 
-    @OnClick(R.id.at_trust_store_btn_attestation)
-    public void onViewClicked() {
+    @OnClick({R.id.at_trust_store_btn_attestation,R.id.at_trust_bottom})
+    public void onViewClicked(View v) {
+        switch (v.getId()){
+            case R.id.at_trust_store_btn_attestation:
+                CertSubscribe.isChengXinAlready2Cert(SharePerferenceUtils.getUserId(this), BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
 
-        CertSubscribe.isChengXinAlready2Cert(SharePerferenceUtils.getUserId(this), BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
+                        startActivity(new Intent(TrustedStoreActivity.this, TrustedStore2Activity.class));
+                    }
 
-                startActivity(new Intent(TrustedStoreActivity.this, TrustedStore2Activity.class));
-            }
+                    @Override
+                    public void onFault(String errorMsg) {
 
-            @Override
-            public void onFault(String errorMsg) {
-
-                Toast.makeText(TrustedStoreActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
-            }
-        }, this));
+                        Toast.makeText(TrustedStoreActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
+                    }
+                }, this));
+                break;
+            case R.id.at_trust_bottom:
+                openActivity(ConsultActivity.class);
+                break;
+        }
     }
 }

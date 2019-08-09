@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -148,9 +149,8 @@ public class MyStoreActivity extends ActivityBase {
         window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
 
          pwStoreEditMCVStoreImg= contentView.findViewById(R.id.pw_storEdit_mcv_storeImg);
-        TextView pwStoreEditTvStoreName = contentView.findViewById(R.id.pw_storEdit_et_storeName);
+        final TextView pwStoreEditTvStoreName = contentView.findViewById(R.id.pw_storEdit_et_storeName);
         pwStoreEditTvStoreName.setFocusable(true);
-        store_name=pwStoreEditTvStoreName.getText().toString().trim();
         Button pwStoreEditBtnCommit = contentView.findViewById(R.id.pw_storEdit_btn_commit);
         ImageView cancel=contentView.findViewById(R.id.pw_storeEdit_iv_diss);
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -171,10 +171,12 @@ public class MyStoreActivity extends ActivityBase {
         pwStoreEditBtnCommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                store_name=pwStoreEditTvStoreName.getText().toString().trim();
                 SetSubscribe.setStore(user_id, token, store_name, store_img, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
                         window.dismiss();
+                        backgroundAlpha(1f);
                         getMyStore();
                     }
 
@@ -206,7 +208,6 @@ public class MyStoreActivity extends ActivityBase {
                         public void onFailure(Call call, IOException e) {
 
                         }
-
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
                             UploadImgResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadImgResponseBean.class);

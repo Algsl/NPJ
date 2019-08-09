@@ -36,6 +36,8 @@ public class MyAttestationActivity extends ActivityBase {
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
+    @BindView(R.id.at_my_attestation_ll_zizhi)
+    LinearLayout atMyAttestationLlZizhi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class MyAttestationActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,"我的认证");
+        changeTitle(acTitle, "我的认证");
         getCertData();
     }
 
@@ -75,7 +77,7 @@ public class MyAttestationActivity extends ActivityBase {
         }));
     }
 
-    @OnClick({R.id.at_my_attestation_ll_people, R.id.at_my_attestation_ll_company, R.id.at_my_attestation_ll_buy, R.id.at_my_attestation_ll_trust})
+    @OnClick({R.id.at_my_attestation_ll_people, R.id.at_my_attestation_ll_company, R.id.at_my_attestation_ll_buy, R.id.at_my_attestation_ll_trust,R.id.at_my_attestation_ll_zizhi})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_my_attestation_ll_people:
@@ -90,6 +92,10 @@ public class MyAttestationActivity extends ActivityBase {
             case R.id.at_my_attestation_ll_trust:
                 startActivity(new Intent(this, TrustedStoreActivity.class));
                 break;
+            case R.id.at_my_attestation_ll_zizhi:
+                openActivity(ZiZhiActivity.class);
+                break;
         }
     }
+
 }

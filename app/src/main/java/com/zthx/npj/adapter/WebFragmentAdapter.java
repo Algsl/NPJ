@@ -9,13 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
+import com.zthx.npj.net.been.TwjcListResponseBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WebFragmentAdapter extends BaseExpandableListAdapter {
 
-    private List<String> mGroup;
-    private List<List<String>> mChild;
+    private ArrayList<TwjcListResponseBean.DataBean> mGroup;
     private Context mContext;
     private int mCurrentItem=0;
     private boolean mClicked=false;
@@ -28,10 +29,9 @@ public class WebFragmentAdapter extends BaseExpandableListAdapter {
         this.mClicked = mClicked;
     }
 
-    public WebFragmentAdapter(Context context, List<String> group, List<List<String>> child){
+    public WebFragmentAdapter(Context context, ArrayList<TwjcListResponseBean.DataBean> group){
         mContext=context;
         mGroup=group;
-        mChild=child;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class WebFragmentAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int i) {
-        return mChild.size();
+        return mGroup.get(i).getList().size();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class WebFragmentAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int i, int i1) {
-        return mChild.get(i).get(i1);
+        return mGroup.get(i).getList().get(i1);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class WebFragmentAdapter extends BaseExpandableListAdapter {
             viewHolderGroup.zhishi.setImageResource(R.drawable.xiala_zhishi4);
             viewHolderGroup.groupTitle.setTextColor(mContext.getResources().getColor(R.color.text3));
         }
-        viewHolderGroup.groupTitle.setText(mGroup.get(i));
+        viewHolderGroup.groupTitle.setText(mGroup.get(i).getTitle());
         return view;
     }
 
@@ -106,7 +106,7 @@ public class WebFragmentAdapter extends BaseExpandableListAdapter {
         }else{
             viewHolderChild= (ViewHolderChild) view.getTag();
         }
-        viewHolderChild.childTitle.setText(mChild.get(i).get(i1));
+        viewHolderChild.childTitle.setText(mGroup.get(i).getList().get(i1).getTitle());
         return view;
     }
 

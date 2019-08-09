@@ -16,8 +16,14 @@ import android.widget.ExpandableListView;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.GoodsImgDetailAdapter;
 import com.zthx.npj.adapter.WebFragmentAdapter;
+import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.GoodsImgDetailResponseBean;
+import com.zthx.npj.net.been.TwjcListResponseBean;
+import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.ImgArticalActivity;
+import com.zthx.npj.utils.GsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +43,11 @@ import butterknife.Unbinder;
 public class WebFragment extends Fragment {
     Unbinder unbinder;
     private OnFragmentInteractionListener mListener;
-    private List<String> group;
-    private List<List<String>> child;
+    private ArrayList<TwjcListResponseBean.DataBean> group=new ArrayList<>();
+    private ArrayList<TwjcListResponseBean.DataBean.List> child=new ArrayList<>();
     private ExpandableListView fgWebElv;
-    private List<Boolean> clicked=new ArrayList<>();
+   // private List<Boolean> clicked=new ArrayList<>();
+    private String videoId="";
     public WebFragment() {
         // Required empty public constructor
     }
@@ -55,6 +62,7 @@ public class WebFragment extends Fragment {
     public static WebFragment newInstance(String id) {
         WebFragment fragment = new WebFragment();
         Bundle args = new Bundle();
+        args.putString("zuowuId",id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,13 +79,35 @@ public class WebFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_web, container, false);
         fgWebElv=view.findViewById(R.id.fg_web_elv);
         unbinder = ButterKnife.bind(this, view);
-        initData();
-        setData();
+        videoId=getArguments().getString("zuowuId");
+        getTwjcList();
+        //initData();
+        //setData();
         return view;
     }
 
+    private void getTwjcList() {
+        DiscoverSubscribe.twjcList(videoId,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setTwjcList(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setTwjcList(String result) {
+        TwjcListResponseBean bean=GsonUtils.fromJson(result,TwjcListResponseBean.class);
+        group=bean.getData();
+        setData();
+    }
+
     private void setData() {
-        final WebFragmentAdapter adapter=new WebFragmentAdapter(getContext(),group,child);
+        final WebFragmentAdapter adapter=new WebFragmentAdapter(getContext(),group);
         fgWebElv.setGroupIndicator(null);
         fgWebElv.setAdapter(adapter);
         fgWebElv.setDivider(null);
@@ -86,9 +116,9 @@ public class WebFragment extends Fragment {
             public void onGroupExpand(int i) {
                 for(int j=0,count=fgWebElv.getExpandableListAdapter().getGroupCount();j<count;j++){
                     if(i!=j){
-                        if(clicked.get(j)){
+                        /*if(clicked.get(j)){
                             clicked.set(j,false);
-                        }
+                        }*/
                         adapter.notifyDataSetChanged();
                         fgWebElv.collapseGroup(j);
                     }
@@ -98,9 +128,9 @@ public class WebFragment extends Fragment {
         fgWebElv.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
-                clicked.set(i,!clicked.get(i));
+                //clicked.set(i,!clicked.get(i));
                 adapter.setCurrentItem(i);
-                adapter.setmClicked(clicked.get(i));
+                //adapter.setmClicked(clicked.get(i));
                 adapter.notifyDataSetChanged();
                 return false;
             }
@@ -108,7 +138,9 @@ public class WebFragment extends Fragment {
         fgWebElv.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                startActivity(new Intent(getContext(),ImgArticalActivity.class));
+                Intent intent=new Intent(getContext(),ImgArticalActivity.class);
+                intent.putExtra("list_id",group.get(i).getList().get(i1).getId()+"");
+                startActivity(intent);
                 return false;
             }
         });
@@ -171,7 +203,7 @@ public class WebFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void initData(){
+    /*public void initData(){
         group = new ArrayList<String>();
         child = new ArrayList<List<String>>();
         addInfo("1.0-蓝莓的简介", new String[] {"1.1蓝莓的生长过程","1.2蓝莓的发源地","1.3蓝莓的生长过程"});
@@ -180,14 +212,14 @@ public class WebFragment extends Fragment {
         clicked.add(false);
         clicked.add(false);
         clicked.add(false);
-    }
+    }*/
 
-    public void addInfo(String g, String[] c){
+    /*public void addInfo(String g, String[] c){
         group.add(g);
         List<String> item = new ArrayList<>();
         for(int i = 0; i < c.length; i++){
             item.add(c[i]);
         }
         child.add(item);
-    }
+    }*/
 }

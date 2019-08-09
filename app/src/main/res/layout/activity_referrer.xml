@@ -4,13 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background">
-    <include layout="@layout/title_theme" />
+    <include layout="@layout/title_theme"
+        android:id="@+id/ac_title"/>
     <LinearLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_190"
         android:background="@drawable/mine_title_gb"
-        android:layout_marginTop="@dimen/dp_50"
+        android:layout_below="@id/ac_title"
         android:orientation="vertical">
         <com.zthx.npj.view.MyCircleView
             android:id="@+id/ac_referrer_mcv_headImg"
@@ -42,7 +43,7 @@
         android:layout_width="@dimen/dp_300"
         android:layout_height="@dimen/dp_120"
         android:layout_marginLeft="@dimen/dp_38"
-        android:layout_marginTop="@dimen/dp_210"
+        android:layout_marginTop="@dimen/dp_240"
         android:orientation="vertical"
         android:background="@drawable/white_conner_5">
         <TextView

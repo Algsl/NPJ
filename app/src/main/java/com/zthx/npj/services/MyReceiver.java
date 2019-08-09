@@ -38,9 +38,6 @@ public class MyReceiver extends BroadcastReceiver {
                 lists.add(bean);
                 SharePerferenceUtils.setList(lists);
             }
-            Log.e(TAG, "onReceive: "+(title==null));
-            Log.e(TAG, "onReceive: "+title.equals(null) );
-            Log.e(TAG, "onReceive: "+title.equals("") );
             if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
                 String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
                 Log.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);

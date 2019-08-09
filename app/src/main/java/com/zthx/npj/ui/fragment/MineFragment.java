@@ -29,7 +29,10 @@ import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.GiftActivity;
 import com.zthx.npj.ui.HelpActivity;
+import com.zthx.npj.ui.MembershipPackageActivity;
+import com.zthx.npj.ui.MessageCenterActivity;
 import com.zthx.npj.ui.MyAttestationActivity;
 import com.zthx.npj.ui.MyCollectActivity;
 import com.zthx.npj.ui.MyCouponActivity;
@@ -121,10 +124,12 @@ public class MineFragment
     LinearLayout fgMineLlMyOfflinestore;
     @BindView(R.id.fg_mine_ll)
     LinearLayout fgMineLl;
+    @BindView(R.id.fg_mine_iv_jihuo)
+    ImageView fgMineIvJihuo;
 
     //private String level=SharePerferenceUtils.getLevel(getContext());
-    private String user_id=SharePerferenceUtils.getUserId(getContext());
-    private String token=SharePerferenceUtils.getToken(getContext());
+    private String user_id = SharePerferenceUtils.getUserId(getContext());
+    private String token = SharePerferenceUtils.getToken(getContext());
 
     public MineFragment() {
     }
@@ -134,6 +139,7 @@ public class MineFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -275,7 +281,9 @@ public class MineFragment
             R.id.fg_mine_ll_wait_evaluate,//待评价
             R.id.fg_mine_ll_custom_service,//退款/售后
             R.id.fg_mine_ll_my_offlinestore,
-            R.id.fg_mine_ll
+            R.id.fg_mine_ll,
+            R.id.fg_mine_iv_jihuo,
+            R.id.fg_mine_iv_message
     })
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -321,7 +329,6 @@ public class MineFragment
                 }else{
                     Toast.makeText(getContext(),"您还不是代言人，暂不能开店",Toast.LENGTH_LONG).show();
                 }*/
-
                 break;
             case R.id.fg_mine_ll_my_attestation:
                 startActivity(new Intent(getActivity(), MyAttestationActivity.class));
@@ -338,26 +345,32 @@ public class MineFragment
                 }*/
                 break;
             case R.id.fg_mine_ll_my_offlinestore:
-                if("0".equals("0")){
-                   Toast toast=Toast.makeText(getContext(),"成为农品街代言人，才可使用线下门店的功能哦",Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER,0,0);
+                if ("0".equals("0")) {
+                    Toast toast = Toast.makeText(getContext(), "成为农品街代言人，才可使用线下门店的功能哦", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
-                }else{
-                    SetSubscribe.myOfflineStore(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                } else {
+                    SetSubscribe.myOfflineStore(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
-                            Log.e("测试", "onSuccess: "+result);
+                            Log.e("测试", "onSuccess: " + result);
                         }
 
                         @Override
                         public void onFault(String errorMsg) {
-                            Log.e("测试", "onFault: "+errorMsg);
+                            Log.e("测试", "onFault: " + errorMsg);
                         }
                     }));
                 }
                 break;
             case R.id.fg_mine_ll:
-                startActivity(new Intent(getContext(),UserMsgActivity.class));
+                startActivity(new Intent(getContext(), UserMsgActivity.class));
+                break;
+            case R.id.fg_mine_iv_jihuo:
+                startActivity(new Intent(getContext(),MembershipPackageActivity.class));
+                break;
+            case R.id.fg_mine_iv_message:
+                startActivity(new Intent(getContext(),MessageCenterActivity.class));
                 break;
         }
     }

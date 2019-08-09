@@ -126,23 +126,48 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_10"
-        android:background="@android:color/white">
-        
-        <ImageView
-            android:layout_width="@dimen/dp_18"
-            android:layout_height="@dimen/dp_17"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_105"
-            android:src="@drawable/discover_programmer"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_16"
-            android:textColor="#333333"
-            android:text="农作物系统解决方案"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_129"/>
-        
+        android:background="@android:color/white"
+        android:gravity="center">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_17"
+                android:layout_centerVertical="true"
+                android:src="@drawable/discover_programmer"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:textSize="@dimen/sp_16"
+                android:textColor="#333333"
+                android:text="农作物系统解决方案"
+                android:layout_centerVertical="true"/>
+            <LinearLayout
+                android:id="@+id/fg_discover_ll"
+                android:visibility="gone"
+                android:layout_width="@dimen/dp_140"
+                android:layout_height="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_30"
+                android:background="@color/background">
+                <EditText
+                    android:id="@+id/fg_discover_et_search"
+                    android:layout_width="@dimen/dp_120"
+                    android:layout_height="@dimen/dp_26"
+                    android:backgroundTint="@color/line"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:lines="1"
+                    android:hint="请输入农作物"
+                    android:textSize="@dimen/sp_14"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
+                    android:background="@null"/>
+            </LinearLayout>
+        </LinearLayout>
         <ImageView
             android:id="@+id/fg_discoverService_iv_search"
             android:layout_width="@dimen/dp_26"
@@ -151,7 +176,6 @@
             android:layout_marginRight="@dimen/dp_12"
             android:src="@drawable/discover_service_search"
             android:layout_centerVertical="true"/>
-
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

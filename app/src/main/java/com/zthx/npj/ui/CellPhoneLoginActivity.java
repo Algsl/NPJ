@@ -139,7 +139,6 @@ public class CellPhoneLoginActivity extends ActivityBase {
         LoginSubscribe.MobileLogin(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试",result );
                 PhoneLoginResponseBean bean = GsonUtils.fromJson(result, PhoneLoginResponseBean.class);
                 SharePerferenceUtils.setUserId(CellPhoneLoginActivity.this, bean.getData().getUser_id());
                 SharePerferenceUtils.setToken(CellPhoneLoginActivity.this, bean.getData().getToken());
@@ -163,12 +162,11 @@ public class CellPhoneLoginActivity extends ActivityBase {
         bean.setMobile(atCellphoneLoginEtPhone.getText().toString().trim());
         bean.setCode(atCellphoneLoginEtCode.getText().toString().trim());
         bean.setSession_id(mCodeId);
+
         bean.setUser_id(SharePerferenceUtils.getUserId(this));
-        Log.e("测试", "authLoginByMobile: "+atCellphoneLoginEtPhone.getText().toString().trim()+" "+atCellphoneLoginEtCode.getText().toString().trim()+" "+mCodeId+SharePerferenceUtils.getUserId(this));
         LoginSubscribe.authLoginByMobile(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: "+result);
                 AuthLoginByMobileResponseBean bean = GsonUtils.fromJson(result, AuthLoginByMobileResponseBean.class);
                 SharePerferenceUtils.setUserId(CellPhoneLoginActivity.this, bean.getData().getUser_id());
                 SharePerferenceUtils.setToken(CellPhoneLoginActivity.this, bean.getData().getToken());

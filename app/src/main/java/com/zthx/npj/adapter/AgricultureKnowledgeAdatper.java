@@ -54,18 +54,7 @@ public class AgricultureKnowledgeAdatper extends RecyclerView.Adapter<Agricultur
                 }
             });
         }
-        //Glide.with(mContext).load(mList.get(i).getImg()).into(viewHolder.mIvPic);
-        switch ((int) mList.get(i).getId()){
-            case 1:
-                viewHolder.mIvPic.setImageResource(R.drawable.apple);
-                break;
-            case 2:
-                viewHolder.mIvPic.setImageResource(R.drawable.xigua);
-                break;
-            case 4:
-                viewHolder.mIvPic.setImageResource(R.drawable.lanmei);
-                break;
-        }
+        Glide.with(mContext).load(mList.get(i).getImg()).into(viewHolder.mIvPic);
         viewHolder.mTvName.setText(mList.get(i).getTitle());
     }
 

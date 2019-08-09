@@ -9,7 +9,6 @@
 
     <include layout="@layout/title"
         android:id="@+id/at_myOrderDetail_rl_title"/>
-
     <ScrollView
         android:layout_below="@id/at_myOrderDetail_rl_title"
         android:layout_width="match_parent"
@@ -31,6 +30,7 @@
                     android:layout_marginLeft="@dimen/dp_12"/>
 
                 <TextView
+                    android:id="@+id/at_myOrderDetail_tv_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -39,7 +39,7 @@
                     android:textColor="@color/text3"
                     android:textSize="@dimen/sp_15"/>
             </LinearLayout>
-            <RelativeLayout
+            <!--<RelativeLayout
                 android:id="@+id/at_myOrderDetail_rl_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                     android:textColor="@color/text6"
                     android:textSize="@dimen/sp_13"
                     android:maxLines="2"/>
-            </RelativeLayout>
+            </RelativeLayout>-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_10"

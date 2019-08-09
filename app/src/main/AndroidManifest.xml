@@ -161,6 +161,12 @@
         <activity android:name=".ui.ImgArticalActivity" />
         <activity android:name=".ui.NotificationDetailActivity"/>
         <activity android:name=".ui.NotificationListActivity"/>
+        <activity android:name=".ui.WebViewActivity"/>
+        <activity android:name=".ui.DefaultPageActivity"/>
+        <activity android:name=".ui.StoreActivity"/>
+        <activity android:name=".ui.ZiZhiActivity"/>
+        <activity android:name=".ui.ZiZhiInfoActivity"/>
+        <activity android:name=".ui.ConsultActivity"/>
 
 
         <activity

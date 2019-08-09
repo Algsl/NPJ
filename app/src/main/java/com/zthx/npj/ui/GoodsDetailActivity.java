@@ -144,6 +144,8 @@ public class GoodsDetailActivity extends ActivityBase {
     LinearLayout acGoodsDetailLlWuliu;
     @BindView(R.id.ac_goodsDetail_ll_know)
     LinearLayout acGoodsDetailLlKnow;
+    @BindView(R.id.ac_goodsDetail_iv_home)
+    ImageView acGoodsDetailIvHome;
 
 
     private String user_id = SharePerferenceUtils.getUserId(this);
@@ -304,7 +306,6 @@ public class GoodsDetailActivity extends ActivityBase {
         PreSellDetailResponseBean preSellDetailResponseBean = GsonUtils.fromJson(result, PreSellDetailResponseBean.class);
         PreSellDetailResponseBean.DataBean data = preSellDetailResponseBean.getData();
         mPreData = data;
-        Log.e("测试", "setPreSellData: " + mPreData.getAttribute_value().size());
         atGoodsDetailTvPreSellTitle.setText(data.getGoods_name());
         atGoodsDetailTvPreSellPrice.setText("¥" + data.getGoods_price());
         atGoodsDetailTvPreSellYuding.setText(data.getUser_num());
@@ -354,7 +355,8 @@ public class GoodsDetailActivity extends ActivityBase {
 
     @OnClick({R.id.at_goods_detail_btn_add_shopping_cart, R.id.at_goods_detail_btn_buy_now, R.id.ac_goodsDetail_ll_collect,
             R.id.ac_goodsDetail_ll_store, R.id.at_goods_detail_btn_pre_sell_know, R.id.at_goods_detail_btn_pre_sell_comment,
-            R.id.at_goods_detail_btn_pre_sell_detail, R.id.ac_goodsDetail_chooseSize, R.id.ac_goodsDetail_iv_share})
+            R.id.at_goods_detail_btn_pre_sell_detail, R.id.ac_goodsDetail_chooseSize, R.id.ac_goodsDetail_iv_share,
+            R.id.ac_goodsDetail_iv_home})
     public void onViewClicked(View view) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acGoodsDetailRvContent.setLayoutManager(layoutManager);
@@ -397,6 +399,12 @@ public class GoodsDetailActivity extends ActivityBase {
             case R.id.ac_goodsDetail_iv_share:
                 Bitmap bmp = SimpleUtil.shotScrollView(acGoodsDetailSv);
                 showSingleBottomDialog(bmp);
+                break;
+            case R.id.ac_goodsDetail_ll_store:
+                openActivity(StoreActivity.class);
+                break;
+            case R.id.ac_goodsDetail_iv_home:
+                openActivity(MainActivity.class);
                 break;
         }
     }

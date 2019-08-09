@@ -288,6 +288,7 @@
                     android:text="共一件商品  总计："/>
             </RelativeLayout>
             <RelativeLayout
+                android:id="@+id/ac_confirmOrder_rl_toDYR"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_30"
                 android:background="#d4f1ee">

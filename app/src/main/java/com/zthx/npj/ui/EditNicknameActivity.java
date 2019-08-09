@@ -34,7 +34,6 @@ public class EditNicknameActivity extends ActivityBase {
         setContentView(R.layout.activity_edit_nickname);
         ButterKnife.bind(this);
         final String type = getIntent().getStringExtra("key0");
-        Log.e("测试", "onCreate: "+type);
         if(type.equals("1")){
             acEditNickname.setHint("昵称");
         }else{

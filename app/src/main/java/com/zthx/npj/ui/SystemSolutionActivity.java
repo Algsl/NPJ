@@ -1,19 +1,24 @@
 package com.zthx.npj.ui;
 
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.DiscoverViewPagerAdapter;
 import com.zthx.npj.base.Const;
+import com.zthx.npj.media.AndroidMediaController;
 import com.zthx.npj.media.IRenderView;
 import com.zthx.npj.media.IjkVideoView;
+import com.zthx.npj.media.MyMediaController;
 import com.zthx.npj.net.been.SolutionVideoResponseBean;
 import com.zthx.npj.ui.fragment.VideoListFragment;
 import com.zthx.npj.ui.fragment.WebFragment;
@@ -23,6 +28,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 
 public class SystemSolutionActivity extends ActivityBase implements VideoListFragment.OnFragmentInteractionListener, WebFragment.OnFragmentInteractionListener {
 
@@ -39,6 +45,8 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
 
+    private WindowManager wm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +55,8 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
 
         back(titleBack);
         changeTitle(acTitle,getIntent().getStringExtra("title"));
+
+        wm=SystemSolutionActivity.this.getWindowManager();
 
         List<String> list = new ArrayList<>();
         list.add("视频选集");
@@ -66,6 +76,26 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
     public void onFragmentInteraction(SolutionVideoResponseBean.DataBean dataBean) {
         atSystemSolutionPlayer.stopPlayback();
         atSystemSolutionPlayer.release(true);
+        MyMediaController controller=new MyMediaController(this);
+        controller.setListener(new MyMediaController.OnVideoListener() {
+            @Override
+            public void onPause(boolean pause) {
+
+            }
+            @Override
+            public void onFullScreen(boolean full) {
+                if (full) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                } else {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    //做自己想做的操作
+                }
+            }
+        });
+        controller.attach(atSystemSolutionPlayer);
+        atSystemSolutionPlayer.setMediaController(controller);
         atSystemSolutionPlayer.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT);
         atSystemSolutionPlayer.setVideoURI(Uri.parse(dataBean.getVideo()));
         atSystemSolutionPlayer.start();
@@ -73,6 +103,28 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
 
     @Override
     public void onDataGet(SolutionVideoResponseBean.DataBean dataBean) {
+
+        MyMediaController controller=new MyMediaController(this);
+        controller.setListener(new MyMediaController.OnVideoListener() {
+            @Override
+            public void onPause(boolean pause) {
+
+            }
+
+            @Override
+            public void onFullScreen(boolean full) {
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) atSystemSolutionPlayer.getLayoutParams();
+                if (full) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                } else {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                }
+            }
+        });
+        controller.attach(atSystemSolutionPlayer);
+        atSystemSolutionPlayer.setMediaController(controller);
         atSystemSolutionPlayer.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT);
         atSystemSolutionPlayer.setVideoURI(Uri.parse(dataBean.getVideo()));
         atSystemSolutionPlayer.start();

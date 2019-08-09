@@ -12,14 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_30"
         android:background="@android:color/white"/>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
         android:orientation="horizontal"
         android:background="@android:color/white">
         <android.support.design.widget.TabLayout
             android:id="@+id/fg_discover_main_tab"
-            android:layout_width="@dimen/dp_340"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/dp_50"
             android:background="@android:color/white"
             app:tabGravity="center"
@@ -32,8 +32,11 @@
             android:layout_width="@dimen/dp_22"
             android:layout_height="@dimen/dp_22"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/discover_message" />
-    </LinearLayout>
+            android:src="@drawable/discover_message"
+            android:layout_marginRight="@dimen/dp_12"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"

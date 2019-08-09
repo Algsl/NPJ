@@ -40,7 +40,6 @@ public class SignUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Log.e("测试", "sign: "+signed+" "+Base64.encode(signed) );
 		return Base64.encode(signed);
 	}
 

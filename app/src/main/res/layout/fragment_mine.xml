@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.fragment.MineFragment"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:focusableInTouchMode="true"
+    android:focusable="true">
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_30"
@@ -341,6 +343,7 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/fg_mine_iv_jihuo"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_70"
                 android:layout_marginRight="@dimen/dp_12"
@@ -493,7 +496,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/fg_mine_rv_like"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/dp_280"
                 android:layout_marginTop="@dimen/dp_13"/>
         </LinearLayout>
 

@@ -2,8 +2,6 @@ package com.zthx.npj.ui;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -25,12 +23,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MySupplyOrderDetailActivity extends ActivityBase {
-    @BindView(R.id.at_myOrderDetail_rl_title)
-    RelativeLayout atMyOrderDetailRlTitle;
     @BindView(R.id.at_myOrderDetail_ll_address)
     LinearLayout atMyOrderDetailLlAddress;
-    @BindView(R.id.item_choice_address_tv_name)
-    TextView itemChoiceAddressTvName;
     @BindView(R.id.at_myOrderDetail_tv_storeName)
     TextView atMyOrderDetailTvStoreName;
     @BindView(R.id.at_myOrderDetail_iv_goodsImg)
@@ -45,12 +39,6 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
     TextView atMyOrderDetailTvIsFreeShipping;
     @BindView(R.id.at_myOrderDetail_tv_orderPrice)
     TextView atMyOrderDetailTvOrderPrice;
-    @BindView(R.id.at_myOrderDetail_rl_address)
-    RelativeLayout atMyOrderDetailRlAddress;
-    @BindView(R.id.item_choice_address_tv_phone)
-    TextView itemChoiceAddressTvPhone;
-    @BindView(R.id.item_choice_address_tv_address)
-    TextView itemChoiceAddressTvAddress;
     @BindView(R.id.at_myOrderDetail_tv_orderSn)
     TextView atMyOrderDetailTvOrderSn;
     @BindView(R.id.at_myOrderDetail_tv_payType)
@@ -67,6 +55,9 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
+    @BindView(R.id.at_myOrderDetail_tv_address)
+    TextView atMyOrderDetailTvAddress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,8 +66,8 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
 
         back(titleBack);
         titleBack.setImageResource(R.drawable.goods_detial_back);
-        changeTitle(acTitle,"订单详情");
-        changeRightImg(acTitleIv,R.drawable.goods_detail_home,null,null);
+        changeTitle(acTitle, "订单详情");
+        changeRightImg(acTitleIv, R.drawable.goods_detail_home, null, null);
 
         getMyStoreOrderDetail();
     }
@@ -104,12 +95,14 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
         if (data.getAddress().equals(null)) {
 
         } else {
-            atMyOrderDetailLlAddress.setVisibility(View.GONE);
+            /*atMyOrderDetailLlAddress.setVisibility(View.GONE);
             atMyOrderDetailRlAddress.setVisibility(View.VISIBLE);
             itemChoiceAddressTvName.setText(data.getConsignee());
             itemChoiceAddressTvPhone.setText(data.getMobile());
+            itemChoiceAddressTvAddress.setText(data.getAddress());*/
+            atMyOrderDetailTvAddress.setText(data.getAddress());
             atMyOrderDetailTvStoreName.setText("京东旗舰店");
-            itemChoiceAddressTvAddress.setText(data.getAddress());
+
             Glide.with(this).load(Uri.parse(data.getGoods_img())).into(atMyOrderDetailIvGoodsImg);
             atMyOrderDetailTvGoodsName.setText(data.getTitle());
             atMyOrderDetailTvGoodsPrice.setText("￥" + data.getGoods_price());
@@ -121,5 +114,6 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
             atMyOrderDetailTvPayTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
         }
     }
+
 
 }

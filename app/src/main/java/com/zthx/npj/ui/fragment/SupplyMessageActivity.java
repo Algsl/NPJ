@@ -257,7 +257,6 @@ public class SupplyMessageActivity extends ActivityBase {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.e("测试", "onResponse: "+response);
                 UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
                 UploadPicsResponseBean.DataBean data = bean.getData();
                 switch (supplyType){

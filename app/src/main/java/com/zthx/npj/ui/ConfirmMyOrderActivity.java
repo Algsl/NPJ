@@ -286,8 +286,6 @@ public class ConfirmMyOrderActivity extends ActivityBase {
         //req.extData			= "app data";
         // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
         api.sendReq(req);
-        Log.e("测试", "setWXResult: "+data.getAppid()+" "+data.getPartnerid()+" "+data.getPrepayid()
-        +" "+data.getNoncestr()+" "+data.getTimestamp()+" "+data.getSign());
     }
 
     private void alipay() {
@@ -312,7 +310,6 @@ public class ConfirmMyOrderActivity extends ActivityBase {
     }
 
     public void alipay(String str){
-        Log.e("测试", "alipay: "+str);
         boolean rsa = false;
         //构造支付订单参数列表
         Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa);

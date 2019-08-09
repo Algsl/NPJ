@@ -108,7 +108,6 @@ public class SupplyProductsActivity extends ActivityBase {
         ButterKnife.bind(this);
         goodsId = getIntent().getStringExtra("goods_id");
         type = getIntent().getAction();
-        Log.e("测试", "onCreate: "+goodsId );
         if (type.equals(Const.SUPPLY_DETAIL)) {
             atSupplyProductLlSupplyDetail.setVisibility(View.VISIBLE);
             atSupplyProductLlNeedDetail.setVisibility(View.GONE);

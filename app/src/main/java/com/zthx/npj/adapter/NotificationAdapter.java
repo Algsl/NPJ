@@ -61,7 +61,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             viewHolder.nowTime.setText(new SimpleDateFormat("yy/MM/dd  HH:mm").format(mList.get(i).getNowTime()));
         }
         long minTime=new Date().getTime()-mList.get(i).getNowTime().getTime();
-        Log.e("测试", "onBindViewHolder: "+minTime);
         if(mList.size()>10 && (minTime/1000/60/60/24)>3){
             mList.remove(mList.get(i));
         }

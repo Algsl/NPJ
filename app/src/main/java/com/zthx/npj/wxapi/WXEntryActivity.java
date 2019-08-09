@@ -85,7 +85,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 				if (type == RETURN_MSG_TYPE_LOGIN) {
 					//用户换取access_token的code，仅在ErrCode为0时有效
 					final String code = ((SendAuth.Resp) resp).code;
-					Log.e("测试", "code:------>" + code);
 					HttpUtils.sendOkHttpRequest("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx76500efa65d19915&secret=a42f02f8f260d62a636e23b1fa585c7a&code=" + code + "&grant_type=authorization_code", new Callback() {
 						@Override
 						public void onFailure(Call call, IOException e) {
@@ -170,7 +169,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
 				@Override
 				public void onFault(String errorMsg) {//未绑定手机号
-					Log.e("测试", "onFault: "+errorMsg);
 					AuthLoginResponseBean bean = GsonUtils.fromJson(errorMsg,AuthLoginResponseBean.class);
 					SharePerferenceUtils.setUserId(WXEntryActivity.this, bean.getData().getUser_id());
 					Intent intent=new Intent(WXEntryActivity.this,CellPhoneLoginActivity.class);

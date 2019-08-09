@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -68,6 +67,8 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
     LinearLayout acAgricultureLl1;
     @BindView(R.id.ac_agriculture_ll2)
     LinearLayout acAgricultureLl2;
+    @BindView(R.id.ac_agriculture_knowledge_iv_message)
+    ImageView acAgricultureKnowledgeIvMessage;
 
     private AKAdapter mAdapter;
 
@@ -108,7 +109,8 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
     }
 
 
-    @OnClick({R.id.at_ak_ll_1, R.id.at_ak_ll_2, R.id.at_ak_ll_3, R.id.at_ak_ll_4,R.id.at_ak_iv_search})
+    @OnClick({R.id.at_ak_ll_1, R.id.at_ak_ll_2, R.id.at_ak_ll_3, R.id.at_ak_ll_4, R.id.at_ak_iv_search,
+            R.id.ac_agriculture_knowledge_iv_message})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_ak_ll_1:
@@ -140,6 +142,9 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                     }
                 });
                 break;
+            case R.id.ac_agriculture_knowledge_iv_message:
+                openActivity(MessageCenterActivity.class);
+                break;
         }
     }
 
@@ -153,9 +158,9 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                 atAkRv.setLayoutManager(layoutManager);
                 AKAdapter adapter = new AKAdapter(AgricultureKnowledgeActivity.this, data);
                 atAkRv.setAdapter(adapter);
-                if(data.size()>0){
-                    acAgricultureTvSearchResult.setText("共搜索到"+data.size()+"个视频");
-                }else{
+                if (data.size() > 0) {
+                    acAgricultureTvSearchResult.setText("共搜索到" + data.size() + "个视频");
+                } else {
                     acAgricultureTvSearchResult.setText("共搜索到0个视频");
                 }
 
@@ -230,5 +235,9 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
             atAkTv4.setTextColor(getResources().getColor(R.color.app_theme));
             atAkIv4.setImageResource(R.drawable.everthing_knowledge_theme);
         }
+    }
+
+    @OnClick()
+    public void onViewClicked() {
     }
 }

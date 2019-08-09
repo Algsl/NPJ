@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
@@ -23,6 +24,8 @@ public class RealNameAuthenticationActivity extends ActivityBase {
     ImageView titleBack;
     @BindView(R.id.ac_title)
     TextView acTitle;
+    @BindView(R.id.at_trust_bottom)
+    LinearLayout atTrustBottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +34,19 @@ public class RealNameAuthenticationActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,"实人认证");
+        changeTitle(acTitle, "实人认证");
     }
 
-    @OnClick({R.id.at_location_store_tv_ruzhu, R.id.at_real_name_authentication_btn_attestation})
+    @OnClick({R.id.at_location_store_tv_ruzhu, R.id.at_real_name_authentication_btn_attestation,R.id.at_trust_bottom})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_location_store_tv_ruzhu:
                 break;
             case R.id.at_real_name_authentication_btn_attestation:
                 startActivity(new Intent(this, RealNameAuthentication2Activity.class));
+                break;
+            case R.id.at_trust_bottom:
+                openActivity(ConsultActivity.class);
                 break;
         }
     }

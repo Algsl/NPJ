@@ -1,51 +1,50 @@
 package com.zthx.npj.ui;
 
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.PopupWindow;
-import android.widget.TextView;
+import android.support.annotation.Nullable;
+import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.SDKInitializer;
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.MapPoi;
-import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
-import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.geocode.GeoCodeResult;
-import com.baidu.mapapi.search.geocode.GeoCoder;
-import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.MapAddressAdapter;
+import com.zthx.npj.entity.PaoMaBean;
+import com.zthx.npj.view.MyPaoMaView;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class TestActivity extends ActivityBase {
-    @BindView(R.id.ac_map_tv_address)
+    @BindView(R.id.ac_test_mpm_text)
+    MyPaoMaView acTestMpmText;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_test);
+        ButterKnife.bind(this);
+
+        ArrayList<PaoMaBean> mList = new ArrayList<>();
+        mList.add(new PaoMaBean(BitmapFactory.decodeResource(getResources(),R.drawable.logo),"国货PK美国货,结果让人震惊"));
+        mList.add(new PaoMaBean(BitmapFactory.decodeResource(getResources(),R.drawable.test),"这次XiPhone,可能让你迷路"));
+        mList.add(new PaoMaBean(BitmapFactory.decodeResource(getResources(),R.drawable.game),"为什么吉普,奥巴马都爱钓鱼"));
+        mList.add(new PaoMaBean(BitmapFactory.decodeResource(getResources(),R.drawable.jianshe),"虽然我字难看,但我钢笔好看啊"));
+
+        acTestMpmText.setFrontColor(Color.RED);
+        acTestMpmText.setBackColor(Color.BLACK);
+        acTestMpmText.setmTexts(mList);
+        acTestMpmText.setmDuration(500);
+        acTestMpmText.setmInterval(2000);
+        acTestMpmText.setOnClickLitener(new MyPaoMaView.onClickLitener() {
+            @Override
+            public void onClick(String mUrl) {
+                Toast.makeText(TestActivity.this, "点击了" + mUrl, Toast.LENGTH_LONG).show();
+            }
+        });
+//blog.csdn.net/weixin_40430041/article/details/78804176
+    }
+    /*@BindView(R.id.ac_map_tv_address)
     TextView acMapTvAddress;
     @BindView(R.id.ac_map_et_addressDetail)
     EditText acMapEtAddressDetail;
@@ -85,7 +84,6 @@ public class TestActivity extends ActivityBase {
                 OverlayOptions options = new MarkerOptions().position(latLng).icon(bitmap);
                 baiduMap.addOverlay(options);
                 initGeoCoder(latLng);
-                Log.e("测试", "onMapClick: " + latLng.describeContents());
             }
 
             @Override
@@ -95,22 +93,16 @@ public class TestActivity extends ActivityBase {
         });
     }
 
-    /**
-     * 初始化控件
-     */
+
     public void initView() {
         mapView = (MapView) findViewById(R.id.mapView);
     }
 
-    /**
-     * 初始化地图
-     */
+
     public void initMap() {
         //得到地图实例
         baiduMap = mapView.getMap();
-        /*
-        设置地图类型
-         */
+
         //普通地图
         baiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         //卫星地图
@@ -168,10 +160,6 @@ public class TestActivity extends ActivityBase {
 
     }
 
-    /**
-     * 实现定位监听 位置一旦有所改变就会调用这个方法
-     * 可以在这个方法里面获取到定位之后获取到的一系列数据
-     */
     public class MyLocationListener implements BDLocationListener {
 
         @Override
@@ -209,13 +197,7 @@ public class TestActivity extends ActivityBase {
         }
     }
 
-    /**
-     * 设置中心点和添加marker
-     *
-     * @param map
-     * @param bdLocation
-     * @param isShowLoc
-     */
+
     public void setPosition2Center(BaiduMap map, BDLocation bdLocation, Boolean isShowLoc) {
         MyLocationData locData = new MyLocationData.Builder()
                 .accuracy(bdLocation.getRadius())
@@ -251,7 +233,6 @@ public class TestActivity extends ActivityBase {
                 list.add(reverseGeoCodeResult.getPoiList().get(i).getName());
             }
             acMapTvAddress.setText("选择的位置为： " + reverseGeoCodeResult.getAddress());
-            Log.e("测试", "onGetGeoCodeResult: " + list);
             showPublishPopwindow(list);
         }
     };
@@ -296,5 +277,5 @@ public class TestActivity extends ActivityBase {
         lp.alpha = bgAlpha;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         getWindow().setAttributes(lp);
-    }
+    }*/
 }

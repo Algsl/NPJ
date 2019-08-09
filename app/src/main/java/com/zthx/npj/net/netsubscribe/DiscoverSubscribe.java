@@ -14,6 +14,7 @@ import com.zthx.npj.net.been.PayVideoBean;
 import com.zthx.npj.net.been.SolutionSearchBean;
 import com.zthx.npj.net.been.SupplyBuy2Bean;
 import com.zthx.npj.net.been.SupplyListBean;
+import com.zthx.npj.net.been.TwjcListBean;
 import com.zthx.npj.net.been.UploadCommentBean;
 import com.zthx.npj.net.been.VideoInfoBean;
 import com.zthx.npj.net.been.VideoOrderBean;
@@ -327,6 +328,18 @@ public class DiscoverSubscribe {
      */
     public static void baojia(BaoJiaBean bean, DisposableObserver<ResponseBody> subscriber) {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().baoJia(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 图文教程
+     * @param id
+     * @param subscriber
+     */
+    public static void twjcList(String id, DisposableObserver<ResponseBody> subscriber) {
+        TwjcListBean bean=new TwjcListBean();
+        bean.setId(id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().twjcList(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

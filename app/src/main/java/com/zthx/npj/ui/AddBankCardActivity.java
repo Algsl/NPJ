@@ -86,7 +86,6 @@ public class AddBankCardActivity extends ActivityBase {
         BankResponseBean bean=GsonUtils.fromJson(result,BankResponseBean.class);
         ArrayList<BankResponseBean.DataBean> data=bean.getData();
         String[] items=new String[data.size()];
-        Log.e("测试", "setBankList: "+data.get(0).getBank_name());
         for(int i=0;i<data.size();i++){
             items[i]=data.get(i).getBank_name();
         }

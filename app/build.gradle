@@ -99,6 +99,9 @@ dependencies {
 //    implementation 'tv.danmaku.ijk.media:ijkplayer-x86_64:0.6.1'
     implementation 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.8'
 
+    //视频播放控制器
+
+
     implementation 'com.github.zhouzhuo810:ZzImageBox:1.1.5'
 
     //时间地点选择器

@@ -54,7 +54,7 @@ public class HistorySearchAdapter extends RecyclerView.Adapter<HistorySearchAdap
         if(mList.size()>0){
             viewHolder.searchHistory.setText(mList.get(i).getTitle());
         }else {
-            Log.e("测试", "onBindViewHolder: "+mList.get(i).getTitle());
+
         }
 
     }

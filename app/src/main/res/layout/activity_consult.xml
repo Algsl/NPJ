@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <include layout="@layout/title"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="@dimen/sp_16"
+                android:textColor="@color/text3"
+                android:layout_marginTop="@dimen/dp_26"
+                android:text="农品街企业认证协议"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_12"
+                android:textSize="@dimen/sp_15"
+                android:textColor="@color/text6"
+                android:lineHeight="@dimen/dp_23"
+                android:text="农品街公司：
+    本保证人承诺向农品街公司提供的用于进行企业认证的主体身份资料及相关资质证明等均真实、完整、合法、有效，且使用的名称、品牌、商标、商号等不侵害任何第三方的合法权益。
+
+    本保证人保证在农品街平台发布及销售的商品、信息等均应遵守相关法律法规及农品街平台的相关规定，不得发布及销售质量不合格、以假充真以及其他侵害消费者及任何第三方合法权益的商品。
+
+    本保证人对上述保证负责，并为农品街公司就任何所有来自第三方对本保证人的指控及诉讼进行辩护，并承担由此产生的法律和经济上的责任，承诺赔偿农品街公司遭受的实际损失、预期利益以及支付的公证费、鉴定费、诉讼费、仲裁费、律师费等。同时，本保证人有义务为农品街公司消除影响、恢复商誉。农品街公司对此无需承担任何经济责任和法律责任。
+                            "/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

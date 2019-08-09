@@ -64,6 +64,7 @@ public class VideoListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //获取视频播放列表
         DiscoverSubscribe.getSolutionVideoList(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -143,8 +144,9 @@ public class VideoListFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
+        //点击播放接口
         void onFragmentInteraction(SolutionVideoResponseBean.DataBean dataBean);
-
+        //自动播放接口
         void onDataGet(SolutionVideoResponseBean.DataBean dataBean);
     }
 }

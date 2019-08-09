@@ -239,7 +239,6 @@ public class ConfirmMySupplyOrderActivity extends ActivityBase {
         Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa);
         //构造支付订单参数信息
         String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
-        Log.e("测试", "alipay: " + orderParam);
         //对支付参数信息进行签名
         String sign = OrderInfoUtil2_0.getSign(params, RSA_PRIVATE, rsa);
         //订单信息

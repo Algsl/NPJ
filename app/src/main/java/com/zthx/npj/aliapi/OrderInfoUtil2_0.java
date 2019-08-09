@@ -161,7 +161,6 @@ public class OrderInfoUtil2_0 {
 		String tailValue = map.get(tailKey);
 		authInfo.append(buildKeyValue(tailKey, tailValue, false));
 		String oriSign = SignUtils.sign(authInfo.toString(), rsaKey, rsa2);
-		Log.e("测试", "getSign: "+oriSign );
 		String encodedSign = "";
 
 		try {

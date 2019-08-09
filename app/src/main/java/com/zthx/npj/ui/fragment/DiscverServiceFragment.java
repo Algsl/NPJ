@@ -2,6 +2,7 @@ package com.zthx.npj.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -22,12 +24,16 @@ import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AgricultureKnowledgeAdatper;
 import com.zthx.npj.base.Const;
+import com.zthx.npj.net.been.BannerResponseBean;
 import com.zthx.npj.net.been.DiscoverSolutionListResponseBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
+import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.AgricultureKnowledgeActivity;
+import com.zthx.npj.ui.DefaultPageActivity;
 import com.zthx.npj.ui.SystemSolutionActivity;
+import com.zthx.npj.ui.WebViewActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.view.GlideImageLoader;
 
@@ -47,7 +53,6 @@ import butterknife.Unbinder;
 public class DiscverServiceFragment extends Fragment {
 
     private static DiscverServiceFragment mFragment;
-    public Banner banner;
     @BindView(R.id.fg_discover_ll_agriculture_knowledge)
     LinearLayout fgDiscoverLlAgricultureKnowledge;
     Unbinder unbinder;
@@ -65,7 +70,14 @@ public class DiscverServiceFragment extends Fragment {
     RecyclerView fgDiscoverServiceRv;
     @BindView(R.id.fg_discoverService_iv_search)
     ImageView fgDiscoverServiceIvSearch;
+    @BindView(R.id.fg_discover_et_search)
+    EditText fgDiscoverEtSearch;
+    @BindView(R.id.fg_discover_ll)
+    LinearLayout fgDiscoverLl;
     private RecyclerView mRecyclerView;
+
+    private Intent intent1 = null;
+    private boolean flag=false;
 
     public DiscverServiceFragment() {
         // Required empty public constructor
@@ -93,17 +105,18 @@ public class DiscverServiceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View View = inflater.inflate(R.layout.fragment_discver_service, container, false);
         unbinder = ButterKnife.bind(this, View);
-        banner = View.findViewById(R.id.banner_discover_service);
+
+        intent1 = new Intent(getContext(), DefaultPageActivity.class);
+
         mRecyclerView = View.findViewById(R.id.fg_discover_service_rv);
         List<Integer> list = new ArrayList<>();
         list.add(R.drawable.supply_top);
         list.add(R.drawable.discover_top);
         list.add(R.drawable.local_top);
-        initBanner(list);
 
 
         getDataList();
-
+        initBanner();
         return View;
     }
 
@@ -153,37 +166,6 @@ public class DiscverServiceFragment extends Fragment {
         super.onDetach();
     }
 
-    /**
-     * 初始化轮播图
-     *
-     * @param list
-     */
-    private void initBanner(List<Integer> list) {
-        //设置banner样式
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-        banner.setIndicatorGravity(BannerConfig.CENTER);
-        //设置图片加载器
-        banner.setImageLoader(new GlideImageLoader());
-        //设置图片集合
-        banner.setImages(list);
-        //设置banner动画效果
-        banner.setBannerAnimation(Transformer.DepthPage);
-        //设置自动轮播，默认为true
-        banner.isAutoPlay(true);
-        //设置轮播时间
-        banner.setDelayTime(3000);
-        //设置指示器位置（当banner模式中有指示器时）
-        banner.setIndicatorGravity(BannerConfig.RIGHT);
-        //设置banner点击事件
-        banner.setOnBannerListener(new OnBannerListener() {
-            @Override
-            public void OnBannerClick(int position) {
-                Log.e("huang", "position = " + position);
-            }
-        });
-        //banner设置方法全部调用完毕时最后调用
-        banner.start();
-    }
 
     @Override
     public void onDestroyView() {
@@ -192,23 +174,85 @@ public class DiscverServiceFragment extends Fragment {
     }
 
 
-    @OnClick({R.id.fg_discover_ll_agriculture_knowledge, R.id.fg_discover_ll_information, R.id.fg_discover_ll_auction, R.id.fg_discover_ll_goods_for_goods, R.id.fg_discover_ll_loan,R.id.fg_discoverService_iv_search})
+    @OnClick({R.id.fg_discover_ll_agriculture_knowledge, R.id.fg_discover_ll_information, R.id.fg_discover_ll_auction, R.id.fg_discover_ll_goods_for_goods, R.id.fg_discover_ll_loan, R.id.fg_discoverService_iv_search})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fg_discover_ll_agriculture_knowledge:
                 startActivity(new Intent(getActivity(), AgricultureKnowledgeActivity.class));
                 break;
             case R.id.fg_discover_ll_information:
+                Intent intent = new Intent(getContext(), WebViewActivity.class);
+                intent.putExtra("discover_url", "http://nc.mofcom.gov.cn/channel/jghq2017/index.shtml");
+                startActivity(intent);
                 break;
             case R.id.fg_discover_ll_auction:
+                startActivity(intent1);
                 break;
             case R.id.fg_discover_ll_goods_for_goods:
+                startActivity(intent1);
                 break;
             case R.id.fg_discover_ll_loan:
+                startActivity(intent1);
                 break;
             case R.id.fg_discoverService_iv_search:
-                startActivity(new Intent(getActivity(), AgricultureKnowledgeActivity.class));
+                toggle();
                 break;
         }
+    }
+
+    private void toggle() {
+        flag=!flag;
+        if(flag){
+            fgDiscoverLl.setVisibility(View.VISIBLE);
+        }else{
+            fgDiscoverLl.setVisibility(View.GONE);
+        }
+    }
+
+    private void initBanner() {
+        MainSubscribe.getMainBanner("4", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                BannerResponseBean bean = GsonUtils.fromJson(result, BannerResponseBean.class);
+                ArrayList<BannerResponseBean.DataBean> data = bean.getData();
+                ArrayList<Uri> list = new ArrayList<>();
+                ArrayList<String> list2 = new ArrayList<>();
+                for (int i = 0; i < data.size(); i++) {
+                    list.add(Uri.parse(data.get(i).getImg()));
+                    list2.add(data.get(i).getTitle());
+                }
+                //设置banner样式
+                bannerDiscoverService.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+                bannerDiscoverService.setIndicatorGravity(BannerConfig.CENTER);
+                //设置图片加载器
+                bannerDiscoverService.setImageLoader(new GlideImageLoader());
+                //设置图片集合
+                bannerDiscoverService.setImages(list);
+                //设置banner动画效果
+                bannerDiscoverService.setBannerAnimation(Transformer.DepthPage);
+                //设置自动轮播，默认为true
+                bannerDiscoverService.isAutoPlay(true);
+                //设置标题集合（当banner样式有显示title时）
+                bannerDiscoverService.setBannerTitles(list2);
+                //设置轮播时间
+                bannerDiscoverService.setDelayTime(3000);
+                //设置指示器位置（当banner模式中有指示器时）
+                bannerDiscoverService.setIndicatorGravity(BannerConfig.RIGHT);
+                //设置banner点击事件
+                bannerDiscoverService.setOnBannerListener(new OnBannerListener() {
+                    @Override
+                    public void OnBannerClick(int position) {
+                        Log.e("huang", "position = " + position);
+                    }
+                });
+                //banner设置方法全部调用完毕时最后调用
+                bannerDiscoverService.start();
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 }

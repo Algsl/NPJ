@@ -2,8 +2,10 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
@@ -20,6 +22,8 @@ public class PurchaserCertificationActivity extends ActivityBase {
     ImageView titleBack;
     @BindView(R.id.ac_title)
     TextView acTitle;
+    @BindView(R.id.at_trust_bottom)
+    LinearLayout atTrustBottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +31,18 @@ public class PurchaserCertificationActivity extends ActivityBase {
         setContentView(R.layout.activity_purchaser_certification);
         ButterKnife.bind(this);
         back(titleBack);
-        changeTitle(acTitle,"采购认证");
+        changeTitle(acTitle, "采购认证");
     }
 
-    @OnClick(R.id.at_purchaser_certification_btn_attestation)
-    public void onViewClicked() {
-        startActivity(new Intent(this, PurchaserCertification2Activity.class));
+    @OnClick({R.id.at_purchaser_certification_btn_attestation,R.id.at_trust_bottom})
+    public void onViewClicked(View v) {
+        switch (v.getId()){
+            case R.id.at_trust_bottom:
+                openActivity(ConsultActivity.class);
+                break;
+            case R.id.at_purchaser_certification_btn_attestation:
+                startActivity(new Intent(this, PurchaserCertification2Activity.class));
+                break;
+        }
     }
 }

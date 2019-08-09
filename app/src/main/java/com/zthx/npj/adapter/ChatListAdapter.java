@@ -177,7 +177,6 @@ public class ChatListAdapter extends BaseAdapter {
                 break;
             case image:
                 ImageContent content= (ImageContent) msg.getContent();
-                Log.e("测试", "getView: "+content.getMediaID());
 
                 break;
         }

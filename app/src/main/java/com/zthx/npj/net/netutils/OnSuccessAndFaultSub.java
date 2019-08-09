@@ -143,7 +143,7 @@ public class OnSuccessAndFaultSub extends DisposableObserver<ResponseBody>
         } catch (Exception e2) {
             e2.printStackTrace();
         } finally {
-            Log.e("OnSuccessAndFaultSub", "error:" + e.getMessage());
+
             //            mOnSuccessAndFaultListener.onFault("error:" + e.getMessage());
             dismissProgressDialog();
             progressDialog = null;

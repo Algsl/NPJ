@@ -348,7 +348,6 @@ public class RealNameAuthentication2Activity extends ActivityBase {
         SetSubscribe.upLoadFile(file, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: " + result);
                 UpLoadPicResponseBean bean = GsonUtils.fromJson(result, UpLoadPicResponseBean.class);
                 UpLoadPicResponseBean.DataBean data = bean.getData();
                 if (view == atRealNameAuthentication2LlIdZheng) {

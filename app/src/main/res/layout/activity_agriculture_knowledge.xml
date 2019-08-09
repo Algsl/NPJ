@@ -5,7 +5,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.AgricultureKnowledgeActivity">
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_30"
+        android:background="@color/white"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_64"
@@ -42,6 +45,7 @@
             android:layout_marginLeft="@dimen/dp_12"/>
 
         <ImageView
+            android:id="@+id/ac_agriculture_knowledge_iv_message"
             android:layout_width="@dimen/dp_22"
             android:layout_height="@dimen/dp_22"
             android:layout_alignParentRight="true"

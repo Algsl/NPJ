@@ -123,10 +123,12 @@ public class ConfirmOrderActivity extends ActivityBase {
     RelativeLayout atConfirmOrderRlPeisong;
     @BindView(R.id.ac_confirmOrder_ll_chooseAddress)
     LinearLayout acConfirmOrderLlChooseAddress;
+    @BindView(R.id.ac_confirmOrder_rl_toDYR)
+    RelativeLayout acConfirmOrderRlToDYR;
     private String attId;
     private String goodsId;
-    private String address_id="";
-    private String allAddress="";
+    private String address_id = "";
+    private String allAddress = "";
 
     ConfirmPreSellResponseBean.DataBean data;
     YsBuyOneResponseBean.DataBean data1;
@@ -180,6 +182,7 @@ public class ConfirmOrderActivity extends ActivityBase {
         if (Const.GIFT.equals(getIntent().getAction())) {
             goodsId = getIntent().getStringExtra(Const.GOODS_ID);
             atConfirmOrderRlHongbao.setVisibility(View.VISIBLE);
+            acConfirmOrderRlToDYR.setVisibility(View.GONE);
             getGiftConfirmData(goodsId);
         } else {
             attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
@@ -198,14 +201,13 @@ public class ConfirmOrderActivity extends ActivityBase {
         MainSubscribe.getLocalStore(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: " + result);
                 LocalStoreResponseBean bean = GsonUtils.fromJson(result, LocalStoreResponseBean.class);
                 localData = bean.getData();
             }
 
             @Override
             public void onFault(String errorMsg) {
-                Log.e("测试", "onSuccess: " + errorMsg);
+
             }
         }));
     }
@@ -266,7 +268,7 @@ public class ConfirmOrderActivity extends ActivityBase {
 
     @OnClick({R.id.at_confirm_order_rl_ziti, R.id.ac_confirmOrder_btn_pay, R.id.ac_confirmOrder_iv_type3,
             R.id.ac_confirmOrder_iv_type2, R.id.ac_confirmOrder_iv_type1, R.id.ac_confirmOrder_btn_ziti,
-            R.id.ac_confirmORder_btn_peisong,R.id.ac_confirmOrder_ll_chooseAddress})
+            R.id.ac_confirmORder_btn_peisong, R.id.ac_confirmOrder_ll_chooseAddress})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.ac_confirmOrder_btn_pay:
@@ -303,8 +305,8 @@ public class ConfirmOrderActivity extends ActivityBase {
                 }));
                 break;
             case R.id.ac_confirmOrder_ll_chooseAddress:
-                Intent intent=new Intent(this,AddressListActivity.class);
-                startActivityForResult(intent,0);
+                Intent intent = new Intent(this, AddressListActivity.class);
+                startActivityForResult(intent, 0);
                 break;
             case R.id.ac_confirmOrder_iv_type3:
                 pay_code = "3";
@@ -347,8 +349,8 @@ public class ConfirmOrderActivity extends ActivityBase {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==0){
-            address_id=data.getStringExtra("address_id");
+        if (requestCode == 0) {
+            address_id = data.getStringExtra("address_id");
             atConfirmOrderTvAddress.setText(data.getStringExtra("address"));
         }
     }
@@ -385,8 +387,6 @@ public class ConfirmOrderActivity extends ActivityBase {
         //req.extData			= "app data";
         // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
         api.sendReq(req);
-        Log.e("测试", "setWXResult: " + data.getAppid() + " " + data.getPartnerid() + " " + data.getPrepayid()
-                + " " + data.getNoncestr() + " " + data.getTimestamp() + " " + data.getSign());
     }
 
     private void alipay() {
@@ -410,7 +410,6 @@ public class ConfirmOrderActivity extends ActivityBase {
     }
 
     public void alipay(String str) {
-        Log.e("测试", "alipay: " + str);
         boolean rsa = false;
         //构造支付订单参数列表
         Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa);

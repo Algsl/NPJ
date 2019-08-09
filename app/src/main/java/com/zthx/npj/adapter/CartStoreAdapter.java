@@ -156,7 +156,6 @@ public class CartStoreAdapter extends RecyclerView.Adapter<CartStoreAdapter.View
     }
 
     public void showPublishPopwindow(final TextView str, final int i) {
-        Log.e("测试", "showPublishPopwindow: "+i);
         backgroundAlpha(0.5f);
         View contentView = LayoutInflater.from(mContext).inflate(R.layout.popupwindow_local_store, null);
         WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();

@@ -2,11 +2,9 @@ package com.zthx.npj.ui;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,12 +23,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MyStoreOrderDetailActivity extends ActivityBase {
-    @BindView(R.id.at_myOrderDetail_rl_title)
-    RelativeLayout atMyOrderDetailRlTitle;
     @BindView(R.id.at_myOrderDetail_ll_address)
     LinearLayout atMyOrderDetailLlAddress;
-    @BindView(R.id.item_choice_address_tv_name)
-    TextView itemChoiceAddressTvName;
     @BindView(R.id.at_myOrderDetail_tv_storeName)
     TextView atMyOrderDetailTvStoreName;
     @BindView(R.id.at_myOrderDetail_iv_goodsImg)
@@ -45,12 +39,6 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     TextView atMyOrderDetailTvIsFreeShipping;
     @BindView(R.id.at_myOrderDetail_tv_orderPrice)
     TextView atMyOrderDetailTvOrderPrice;
-    @BindView(R.id.at_myOrderDetail_rl_address)
-    RelativeLayout atMyOrderDetailRlAddress;
-    @BindView(R.id.item_choice_address_tv_phone)
-    TextView itemChoiceAddressTvPhone;
-    @BindView(R.id.item_choice_address_tv_address)
-    TextView itemChoiceAddressTvAddress;
     @BindView(R.id.at_myOrderDetail_tv_orderSn)
     TextView atMyOrderDetailTvOrderSn;
     @BindView(R.id.at_myOrderDetail_tv_payType)
@@ -59,6 +47,12 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     TextView atMyOrderDetailTvCreateTime;
     @BindView(R.id.at_myOrderDetail_tv_payTime)
     TextView atMyOrderDetailTvPayTime;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
+    @BindView(R.id.at_myOrderDetail_tv_address)
+    TextView atMyOrderDetailTvAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +60,8 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
         setContentView(R.layout.activity_myorder_detail);
         ButterKnife.bind(this);
 
+        back(titleBack);
+        changeTitle(acTitle, "订单详情");
 
         getMyStoreOrderDetail();
     }
@@ -93,11 +89,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
         if (data.getAddress().equals(null)) {
 
         } else {
-            atMyOrderDetailLlAddress.setVisibility(View.GONE);
-            atMyOrderDetailRlAddress.setVisibility(View.VISIBLE);
-            itemChoiceAddressTvName.setText(data.getConsignee());
-            itemChoiceAddressTvPhone.setText(data.getMobile());
-            itemChoiceAddressTvAddress.setText(data.getHouse_number());
+            atMyOrderDetailTvAddress.setText(data.getAddress());
             atMyOrderDetailTvStoreName.setText("京东旗舰店");
             Glide.with(this).load(Uri.parse(data.getGoods_img())).into(atMyOrderDetailIvGoodsImg);
             atMyOrderDetailTvGoodsName.setText(data.getGoods_name());
