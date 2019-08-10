@@ -13,17 +13,48 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <include layout="@layout/title_theme"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_120"
+            android:layout_height="@dimen/dp_203"
             android:background="@drawable/mine_title_gb"
-            android:orientation="vertical"/>
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginTop="@dimen/dp_30">
+                <ImageView
+                    android:id="@+id/title_theme_back"
+                    android:layout_width="@dimen/dp_32"
+                    android:layout_height="@dimen/dp_32"
+                    android:onClick="click"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_6"
+                    android:src="@drawable/white_back"/>
+                <TextView
+                    android:id="@+id/title_theme_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textSize="@dimen/sp_18"
+                    android:textColor="@android:color/white"
+                    android:text="个人资料" />
+                <ImageView
+                    android:id="@+id/title_theme_img_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_12"
+                    android:textSize="@dimen/sp_13"
+                    android:src="@drawable/item_goods_more1"
+                    android:textColor="@android:color/white"/>
+            </RelativeLayout>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_150"
             android:layout_marginLeft="@dimen/dp_12"
-            android:layout_marginTop="-80dp"
+            android:layout_marginTop="-100dp"
             android:layout_marginRight="@dimen/dp_12"
             android:background="@drawable/white_conner"
             android:orientation="vertical">

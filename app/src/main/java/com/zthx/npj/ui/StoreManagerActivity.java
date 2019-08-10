@@ -149,7 +149,7 @@ public class StoreManagerActivity extends ActivityBase {
                 startActivity(new Intent(StoreManagerActivity.this, StoreManagerQRCodeActivity.class));
                 break;
             case R.id.ac_storeManager_btn_ruzhu:
-                HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL, paths, new Callback() {
+                HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
 
@@ -159,6 +159,7 @@ public class StoreManagerActivity extends ActivityBase {
                     public void onResponse(Call call, Response response) throws IOException {
                         UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
                         UploadPicsResponseBean.DataBean data = bean.getData();
+                        Log.e("测试", "onResponse: "+data.getImgaes() +" "+data.getImg() );
                         offlineStore(data.getImg());
                     }
                 });

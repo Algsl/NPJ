@@ -36,7 +36,7 @@
                        android:background="@color/background"/>
 
                    <EditText
-                       android:id="@+id/at_enterprise_certification2_et_name"
+                       android:id="@+id/at_zizhi_et_name"
                        android:layout_width="0dp"
                        android:layout_weight="3.5"
                        android:layout_height="match_parent"
@@ -71,7 +71,7 @@
                        android:layout_height="match_parent"
                        android:layout_weight="3.5">
                        <EditText
-                           android:id="@+id/at_enterprise_certification2_et_type"
+                           android:id="@+id/at_zizhi_et_type"
                            android:layout_width="match_parent"
                            android:layout_height="match_parent"
                            android:background="@android:color/white"
@@ -107,7 +107,7 @@
                    android:layout_marginTop="@dimen/dp_12"/>
 
                <LinearLayout
-                   android:id="@+id/at_enterprise_certification2_ll_company_pic"
+                   android:id="@+id/at_zizhi_ll_zizhipic"
                    android:layout_width="@dimen/dp_250"
                    android:layout_height="@dimen/dp_130"
                    android:orientation="vertical"
@@ -131,7 +131,7 @@
                </LinearLayout>
             </LinearLayout>
            <Button
-               android:id="@+id/at_enterprise_certification2_btn_confirm"
+               android:id="@+id/at_zizhi_btn_confirm"
                android:layout_width="match_parent"
                android:layout_height="@dimen/dp_40"
                android:background="@color/app_theme"

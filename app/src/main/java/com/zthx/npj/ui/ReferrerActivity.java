@@ -29,8 +29,6 @@ public class ReferrerActivity extends ActivityBase {
     ImageView titleThemeBack;
     @BindView(R.id.title_theme_title)
     TextView titleThemeTitle;
-    @BindView(R.id.title_theme_tv_right)
-    TextView titleThemeTvRight;
     @BindView(R.id.ac_referrer_mcv_headImg)
     MyCircleView acReferrerMcvHeadImg;
     @BindView(R.id.ac_referrer_tv_nickName)

@@ -47,7 +47,7 @@ public class MyOrderActivity extends ActivityBase {
         list.add("待发货");
         list.add("待收货");
         list.add("待评价");
-        list.add("售后");
+        list.add("售后/退款");
         List<Fragment> list2 = new ArrayList<>();
         list2.add(new OrderListFragment().newIntent("100"));
         list2.add(new OrderListFragment().newIntent("1"));
@@ -58,8 +58,6 @@ public class MyOrderActivity extends ActivityBase {
 
         DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
         atMyOrderVp.setAdapter(mAdapter);
-        atMyOrderTab.setTabMode(TabLayout.MODE_FIXED);
-        atMyOrderTab.setTabGravity(TabLayout.GRAVITY_CENTER);
         atMyOrderTab.setupWithViewPager(atMyOrderVp);
 
     }

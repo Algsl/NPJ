@@ -1,5 +1,6 @@
 package com.zthx.npj.ui.fragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -25,10 +26,13 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommenGoodsAdatper;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.MyOfflineStoreResponseBean;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.EditMyOfflineStoreActivity;
+import com.zthx.npj.ui.EnterpriseCertificationActivity;
 import com.zthx.npj.ui.GiftActivity;
 import com.zthx.npj.ui.HelpActivity;
 import com.zthx.npj.ui.MembershipPackageActivity;
@@ -42,10 +46,15 @@ import com.zthx.npj.ui.MySupplyActivity;
 import com.zthx.npj.ui.MyWalletActivity;
 import com.zthx.npj.ui.SettingsActivity;
 import com.zthx.npj.ui.SpokesmanRightsNoPermissionActivity;
+import com.zthx.npj.ui.StoreManagerActivity;
 import com.zthx.npj.ui.UserMsgActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.MyCircleView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,6 +139,7 @@ public class MineFragment
     //private String level=SharePerferenceUtils.getLevel(getContext());
     private String user_id = SharePerferenceUtils.getUserId(getContext());
     private String token = SharePerferenceUtils.getToken(getContext());
+    private String level="";
 
     public MineFragment() {
     }
@@ -200,6 +210,7 @@ public class MineFragment
     private void setUserInfo(String result) {
         UserResponseBean userResponseBean = GsonUtils.fromJson(result, UserResponseBean.class);
         UserResponseBean.DataBean data = userResponseBean.getData();
+        level=data.getLevel()+"";
         fgMineTvName.setText(data.getNick_name());
         fgMineTvTel.setText(data.getMobile());
         fgMineTvWord.setText(data.getSignature());
@@ -306,9 +317,7 @@ public class MineFragment
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 break;
             case R.id.fg_mine_iv_people_right:
-                if ("0".equals("0")) {
                     startActivity(new Intent(getActivity(), SpokesmanRightsNoPermissionActivity.class));
-                }
                 break;
             case R.id.fg_mine_ll_collect:
                 startActivity(new Intent(getActivity(), MyCollectActivity.class));
@@ -323,12 +332,20 @@ public class MineFragment
                 startActivity(new Intent(getActivity(), MyWalletActivity.class));
                 break;
             case R.id.fg_mine_ll_my_store:
-                startActivity(new Intent(getActivity(), MyStoreActivity.class));
-                /*if(type.equals("0")){
-                    startActivity(new Intent(getActivity(), MyStoreActivity.class));
-                }else{
-                    Toast.makeText(getContext(),"您还不是代言人，暂不能开店",Toast.LENGTH_LONG).show();
-                }*/
+                if(level.equals("0")){
+                    CommonDialog dialog=new CommonDialog(getContext(), R.style.dialog, "您还不是代言人，暂不能开店", new CommonDialog.OnCloseListener() {
+                        @Override
+                        public void onClick(Dialog dialog, boolean confirm) {
+                            if(confirm){
+                                startActivity(new Intent(getContext(),MembershipPackageActivity.class));
+                            }
+                        }
+                    });
+                    dialog.setPositiveButton("成为代言人");
+                    dialog.show();
+                 }else{
+                    startActivity(new Intent(getContext(), MyStoreActivity.class));
+                }
                 break;
             case R.id.fg_mine_ll_my_attestation:
                 startActivity(new Intent(getActivity(), MyAttestationActivity.class));
@@ -337,15 +354,24 @@ public class MineFragment
                 startActivity(new Intent(getActivity(), HelpActivity.class));
                 break;
             case R.id.fg_mine_ll_my_supply:
-                startActivity(new Intent(getActivity(), MySupplyActivity.class));
-                /*if(type.equals("0")){
-                    startActivity(new Intent(getActivity(), MySupplyActivity.class));
+                if(level.equals("0")){
+                    CommonDialog dialog1=new CommonDialog(getContext(), R.style.dialog, "您还不是代言人，暂不能开店", new CommonDialog.OnCloseListener() {
+                        @Override
+                        public void onClick(Dialog dialog, boolean confirm) {
+                            if(confirm){
+                                startActivity(new Intent(getContext(),MembershipPackageActivity.class));
+                            }
+                        }
+                    });
+                    dialog1.setPositiveButton("成为代言人");
+                    dialog1.show();
                 }else{
-                    Toast.makeText(getContext(),"您还不是代言人，暂不能开店",Toast.LENGTH_LONG).show();
-                }*/
+                    startActivity(new Intent(getContext(), MyStoreActivity.class));
+                }
+
                 break;
             case R.id.fg_mine_ll_my_offlinestore:
-                if ("0".equals("0")) {
+                if (level.equals("0")) {
                     Toast toast = Toast.makeText(getContext(), "成为农品街代言人，才可使用线下门店的功能哦", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
@@ -353,12 +379,30 @@ public class MineFragment
                     SetSubscribe.myOfflineStore(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
-                            Log.e("测试", "onSuccess: " + result);
+                            Log.e("测试", "onSuccess: "+result);
+                            try {
+                                JSONObject object=new JSONObject(result);
+                                String code=object.getString("code")+"";
+                                if(code.equals("1")){
+                                    startActivity(new Intent(getContext(),EditMyOfflineStoreActivity.class));
+                                }else if(code.equals("2")){
+                                    Toast.makeText(getContext(),"线下门店审核中",Toast.LENGTH_LONG).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-
                         @Override
                         public void onFault(String errorMsg) {
-                            Log.e("测试", "onFault: " + errorMsg);
+                            try {
+                                JSONObject object=new JSONObject(errorMsg);
+                                String code=object.getString("code")+"";
+                                if(code.equals("-2")){
+                                    startActivity(new Intent(getContext(),StoreManagerActivity.class));
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }));
                 }

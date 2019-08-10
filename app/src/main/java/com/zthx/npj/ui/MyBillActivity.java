@@ -47,7 +47,7 @@ public class MyBillActivity extends ActivityBase {
         list.add("待发货");
         list.add("待收货");
         list.add("待评价");
-        list.add("售后");
+        list.add("售后/退款");
         List<Fragment> list2 = new ArrayList<>();
         list2.add(new MyBillListFragment().newInstence("100"));
         list2.add(new MyBillListFragment().newInstence("1"));
@@ -58,8 +58,6 @@ public class MyBillActivity extends ActivityBase {
 
         DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
         atWantBuyManagerVp.setAdapter(mAdapter);
-        atWantBuyManagerTab.setTabMode(TabLayout.MODE_FIXED);
-        atWantBuyManagerTab.setTabGravity(TabLayout.GRAVITY_CENTER);
         atWantBuyManagerTab.setupWithViewPager(atWantBuyManagerVp);
     }
 }

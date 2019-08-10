@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@color/white"
         android:layout_below="@id/title">
         <ImageView
             android:layout_width="match_parent"
@@ -181,13 +182,33 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="请选择以下其中一种方式上传相关材料：
-1.营业执照（推荐）
-2.档口照片
-3.名片/工牌
-                        "
+                android:text="请选择以下其中一种方式上传相关材料："
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginTop="@dimen/dp_10"
+                android:textColor="@color/text3"
+                android:textSize="@dimen/sp_14"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1.营业执照（推荐）"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_3"
+                android:textColor="@color/text3"
+                android:textSize="@dimen/sp_14"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2.档口照片"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_3"
+                android:textColor="@color/text3"
+                android:textSize="@dimen/sp_14"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3.名片/工牌"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_3"
                 android:textColor="@color/text3"
                 android:textSize="@dimen/sp_14"/>
         </LinearLayout>
@@ -224,6 +245,7 @@
         android:layout_above="@id/at_trust_bottom"
         android:layout_marginLeft="@dimen/dp_12"
         android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_5"
         android:background="@drawable/theme_conner_5"
         android:text="开始认证"
         android:textColor="@android:color/white"

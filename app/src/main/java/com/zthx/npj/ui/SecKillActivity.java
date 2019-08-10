@@ -103,7 +103,6 @@ public class SecKillActivity extends ActivityBase {
             //设置标签选中
             tv1.setSelected(true);
             //选中后字体变大
-
             tv1.setTextColor(getResources().getColor(R.color.app_theme));
         } else {
             //设置标签取消选中

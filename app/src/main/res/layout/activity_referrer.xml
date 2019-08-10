@@ -4,15 +4,35 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background">
-    <include layout="@layout/title_theme"
-        android:id="@+id/ac_title"/>
+    <!--<include layout="@layout/title_theme"
+        android:id="@+id/ac_title"/>-->
     <LinearLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_190"
-        android:background="@drawable/mine_title_gb"
+        android:layout_height="@dimen/dp_300"
+        android:background="@drawable/superior"
         android:layout_below="@id/ac_title"
         android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginTop="@dimen/dp_30">
+            <ImageView
+                android:id="@+id/title_theme_back"
+                android:layout_width="@dimen/dp_32"
+                android:layout_height="@dimen/dp_32"
+                android:onClick="click"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_6"
+                android:src="@drawable/white_back"/>
+            <TextView
+                android:id="@+id/title_theme_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/sp_18"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
         <com.zthx.npj.view.MyCircleView
             android:id="@+id/ac_referrer_mcv_headImg"
             android:layout_width="@dimen/dp_90"

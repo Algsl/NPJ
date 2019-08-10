@@ -82,10 +82,12 @@ public class EnterpriseCertificationActivity extends ActivityBase {
 
     private void showDialog() {
         CommonDialog commonDialog = new CommonDialog(this, R.style.dialog, "请先完成实人认证\n" +
-                "在进行企业认证\n", new CommonDialog.OnCloseListener() {
+                "再进行企业认证\n", new CommonDialog.OnCloseListener() {
             @Override
             public void onClick(Dialog dialog, boolean confirm) {
-
+                if(confirm){
+                    openActivity(RealNameAuthenticationActivity.class);
+                }
             }
         });
         commonDialog.setNegativeButton("取消");

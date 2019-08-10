@@ -54,10 +54,11 @@ public class MyAttestationActivity extends ActivityBase {
         CertSubscribe.getMyCert(SharePerferenceUtils.getUserId(this), BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-
                 MyCertResponseBean myCertResponseBean = GsonUtils.fromJson(result, MyCertResponseBean.class);
                 if (myCertResponseBean.getName_cert() == 1) {
                     atMyAttestationLlPeople.setBackgroundResource(R.drawable.shirenrenzheng_c_bg);
+                }else if(myCertResponseBean.getName_cert()==2){
+
                 }
                 if (myCertResponseBean.getCompany_cert() == 1) {
                     atMyAttestationLlCompany.setBackgroundResource(R.drawable.qiyerenzheng_c_bg);

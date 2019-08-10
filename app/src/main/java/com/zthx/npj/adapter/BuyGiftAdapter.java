@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ public class BuyGiftAdapter extends RecyclerView.Adapter<BuyGiftAdapter.ViewHold
     private ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
         void onItemClick(int position) ;
+        void onBuyClick(int position);
     }
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
@@ -59,6 +61,13 @@ public class BuyGiftAdapter extends RecyclerView.Adapter<BuyGiftAdapter.ViewHold
                     mItemClickListener.onItemClick(position);
                 }
             });
+            viewHolder.buyNow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onBuyClick(position);
+                }
+            });
         }
         Glide.with(mContext).load(Uri.parse(list.get(i).getImg())).into(viewHolder.mIvGoods);
         viewHolder.mTvPrice.setText(list.get(i).getPrice());
@@ -76,6 +85,7 @@ public class BuyGiftAdapter extends RecyclerView.Adapter<BuyGiftAdapter.ViewHold
         TextView mTvTitle;
         TextView mTvPrice;
         TextView mTvDes;
+        Button buyNow;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -83,6 +93,7 @@ public class BuyGiftAdapter extends RecyclerView.Adapter<BuyGiftAdapter.ViewHold
             mTvTitle = itemView.findViewById(R.id.item_buy_gift_tv_title);
             mTvDes = itemView.findViewById(R.id.item_buy_gift_tv_des);
             mTvPrice = itemView.findViewById(R.id.item_buy_gift_tv_price);
+            buyNow=itemView.findViewById(R.id.item_buyGift_btn_buy);
         }
     }
 }

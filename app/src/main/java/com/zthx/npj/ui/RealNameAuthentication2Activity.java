@@ -118,7 +118,6 @@ public class RealNameAuthentication2Activity extends ActivityBase {
     }
 
     private void upLoadInformation() {
-
         UpLoadMyCertBean bean = new UpLoadMyCertBean();
         bean.setUser_id(SharePerferenceUtils.getUserId(this));
         bean.setToken(BaseConstant.TOKEN);

@@ -172,6 +172,8 @@ public class OnSuccessAndFaultSub extends DisposableObserver<ResponseBody>
             } else {
                 if(resultCode==2){
                     mOnSuccessAndFaultListener.onFault(result);
+                }else if(resultCode==-2){
+                    mOnSuccessAndFaultListener.onFault(result);
                 }else{
                     String errorMsg = jsonObject.getString("msg");
                     mOnSuccessAndFaultListener.onFault(errorMsg);

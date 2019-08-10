@@ -39,8 +39,6 @@ public class UserMsgActivity extends ActivityBase {
     ImageView titleThemeBack;
     @BindView(R.id.title_theme_title)
     TextView titleThemeTitle;
-    @BindView(R.id.title_theme_tv_right)
-    TextView titleThemeTvRight;
     @BindView(R.id.title_theme_img_right)
     ImageView titleThemeImgRight;
     @BindView(R.id.ac_userMsg_mcv_headImg)
@@ -59,8 +57,8 @@ public class UserMsgActivity extends ActivityBase {
     ScrollView acUserMsgSv;
     @BindView(R.id.ac_userMsg_iv_show)
     ImageView acUserMsgIvShow;
-    @BindView(R.id.title_theme)
-    LinearLayout titleTheme;
+    //@BindView(R.id.title_theme)
+    //LinearLayout titleTheme;
 
     private IWXAPI api;
     private Bitmap bmp;
@@ -76,9 +74,6 @@ public class UserMsgActivity extends ActivityBase {
 
 
         back(titleThemeBack);
-        changeTitle(titleThemeTitle, "个人资料");
-        titleTheme.setBackgroundColor(getResources().getColor(R.color.background_img));
-        titleThemeImgRight.setImageResource(R.drawable.item_goods_more1);
     }
 
     @OnClick(R.id.title_theme_img_right)

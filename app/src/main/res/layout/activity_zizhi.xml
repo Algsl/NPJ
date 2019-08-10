@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.zthx.npj.ui.TrustedStoreActivity">
     <ScrollView
         android:layout_width="match_parent"
@@ -163,8 +164,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineHeight="@dimen/dp_21"
-                    android:text="1.完成实人认证和企业认证
-2.上传特殊经营资质许可认证"
+                    android:text="1.完成实人认证和企业认证"
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:textColor="@color/text3"
+                    android:textSize="@dimen/sp_14"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineHeight="@dimen/dp_21"
+                    android:text="2.上传特殊经营资质许可认证"
                     android:layout_marginLeft="@dimen/dp_12"
                     android:layout_marginTop="@dimen/dp_10"
                     android:textColor="@color/text3"
@@ -201,6 +210,7 @@
         android:layout_above="@id/at_trust_bottom"
         android:layout_marginLeft="@dimen/dp_12"
         android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_5"
         android:background="@drawable/theme_conner_5"
         android:text="开始认证"
         android:textColor="@android:color/white"

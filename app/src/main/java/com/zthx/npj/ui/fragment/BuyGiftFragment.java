@@ -19,6 +19,7 @@ import com.zthx.npj.net.been.GiftListResponseBean;
 import com.zthx.npj.net.netsubscribe.GiftSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.ConfirmOrderActivity;
 import com.zthx.npj.ui.GiftActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
@@ -80,6 +81,14 @@ public class BuyGiftFragment extends Fragment {
                         intent.putExtra(Const.GOODS_ID,data.get(position).getId());
                         startActivity(intent);
                     }
+
+                    @Override
+                    public void onBuyClick(int position) {
+                        Intent intent = new Intent(getContext(), ConfirmOrderActivity.class);
+                        intent.putExtra(Const.GOODS_ID, data.get(position).getId()+"");
+                        intent.setAction(Const.GIFT);
+                        startActivity(intent);
+                    }
                 });
                 fgBuyGiftRv.setAdapter(mAdapter);
             }
@@ -109,6 +118,14 @@ public class BuyGiftFragment extends Fragment {
                     public void onItemClick(int position) {
                         Intent intent = new Intent(getActivity(), GiftActivity.class);
                         intent.putExtra(Const.GOODS_ID,data.get(position).getId());
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onBuyClick(int position) {
+                        Intent intent = new Intent(getContext(), ConfirmOrderActivity.class);
+                        intent.putExtra(Const.GOODS_ID, data.get(position).getId()+"");
+                        intent.setAction(Const.GIFT);
                         startActivity(intent);
                     }
                 });

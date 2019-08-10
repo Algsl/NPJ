@@ -6,10 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.MyOrderActivity"
     android:orientation="vertical">
-
     <include
         layout="@layout/title"></include>
-
     <android.support.design.widget.TabLayout
         android:id="@+id/at_my_order_tab"
         android:layout_width="match_parent"
@@ -17,7 +15,8 @@
         android:background="@android:color/white"
         app:tabIndicatorColor="@color/app_theme"
         app:tabSelectedTextColor="@color/app_theme"
-        app:tabTextAppearance="@style/StockTextAppearance"
+        app:tabGravity="center"
+        app:tabMode="scrollable"
         app:tabTextColor="@color/text3">
     </android.support.design.widget.TabLayout>
     <android.support.v4.view.ViewPager

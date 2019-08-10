@@ -13,6 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:background="@color/white"
             android:layout_below="@id/title">
             <include
                 layout="@layout/title"></include>
@@ -245,6 +246,7 @@
         android:layout_above="@id/at_trust_bottom"
         android:layout_marginLeft="@dimen/dp_12"
         android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_5"
         android:background="@drawable/theme_conner_5"
         android:text="开始认证"
         android:textColor="@android:color/white"

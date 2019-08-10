@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -113,7 +114,11 @@ public class HelpActivity extends ActivityBase {
                 new CommonDialog(this, R.style.dialog, "400-800-1234", new CommonDialog.OnCloseListener() {
                     @Override
                     public void onClick(Dialog dialog, boolean confirm) {
-
+                        if (confirm){
+                            Log.e("测试", "onClick: "+"确定" );
+                        }else{
+                            Log.e("测试", "onClick: "+"取消");
+                        }
                     }
                 }).show();
                 break;

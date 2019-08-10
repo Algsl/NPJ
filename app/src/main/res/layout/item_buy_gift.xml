@@ -46,6 +46,7 @@
             android:textColor="@color/app_theme"/>
 
         <Button
+            android:id="@+id/item_buyGift_btn_buy"
             android:layout_width="@dimen/dp_80"
             android:layout_height="@dimen/dp_25"
             android:layout_alignParentRight="true"

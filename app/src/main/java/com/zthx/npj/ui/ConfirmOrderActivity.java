@@ -350,6 +350,7 @@ public class ConfirmOrderActivity extends ActivityBase {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
+            Log.e("测试", "onActivityResult: "+data);
             address_id = data.getStringExtra("address_id");
             atConfirmOrderTvAddress.setText(data.getStringExtra("address"));
         }

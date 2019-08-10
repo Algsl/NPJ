@@ -477,5 +477,14 @@ public interface HttpApi  {
 
     @POST("index.php/api/index/twjclist.html")
     Observable<ResponseBody> twjcList(@Body TwjcListBean bean);
+
+    @POST("index.php/api/usercert/zizhi.html")
+    Observable<ResponseBody> zizhi(@Body ZiZhiBean bean);
+
+    @POST("index.php/api/usercert/zizhi2.html")
+    Observable<ResponseBody> zizhi2(@Body ZiZhi2Bean bean);
+
+    @POST("index.php/api/usercert/zizhi3.html")
+    Observable<ResponseBody> zizhi3(@Body ZiZhi3Bean bean);
 }
 
