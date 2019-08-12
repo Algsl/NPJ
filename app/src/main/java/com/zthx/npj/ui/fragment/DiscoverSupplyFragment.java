@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -366,12 +368,31 @@ public class DiscoverSupplyFragment extends Fragment {
             fgDiscoverSupplyLlSupply.setVisibility(View.GONE);
             fgDiscoverSupplyLlNeed.setVisibility(View.GONE);
             fgDiscoverWvBusiness.setVisibility(View.VISIBLE);
-            fgDiscoverWvBusiness.loadUrl("http://nong.gold600.com/cx");
+
+            /*fgDiscoverWvBusiness.loadUrl("http://nong.gold600.com/cx");
             fgDiscoverWvBusiness.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                     view.loadUrl(url);
                     return true;
+                }
+            });*/
+            fgDiscoverWvBusiness.loadUrl("http://www.agronet.com.cn/Company/List_oc164.html");
+            WebSettings settings = fgDiscoverWvBusiness.getSettings();
+            settings.setJavaScriptEnabled(true);
+            settings.setBuiltInZoomControls(true);
+            settings.setBlockNetworkImage(true);
+            fgDiscoverWvBusiness.setWebChromeClient(new WebChromeClient() {
+                @Override
+                public void onProgressChanged(WebView view, int newProgress) {
+                    if (newProgress == 100) {
+                        // 网页加载完成
+                        // loadDialog.dismiss();
+                        fgDiscoverWvBusiness.getSettings().setBlockNetworkImage(false);
+                    } else {
+                        // 网页加载中
+                        // loadDialog.show();
+                    }
                 }
             });
         }

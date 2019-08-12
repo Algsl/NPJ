@@ -135,7 +135,8 @@
         android:layout_width="@dimen/dp_231"
         android:layout_height="@dimen/dp_30"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dp_11"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_10"
         android:background="@drawable/stroke_app_theme"
         android:orientation="horizontal">
 

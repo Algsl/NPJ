@@ -2,7 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_132">
+    android:layout_height="@dimen/dp_132"
+    android:background="@color/white">
 
     <com.zthx.npj.view.MyCircleView
         android:layout_width="@dimen/dp_60"
@@ -30,12 +31,12 @@
         android:gravity="center"
         android:textColor="@android:color/white"
         android:textSize="@dimen/sp_12"
-        android:background="@drawable/bg_daiyanren"
         android:layout_toRightOf="@id/item_quotation_people_tv_name"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginLeft="@dimen/dp_10"/>
 
     <TextView
+        android:id="@+id/item_quotation_tv_seeInfo"
         android:layout_width="@dimen/dp_65"
         android:layout_height="@dimen/dp_17"
         android:text="查看名片"

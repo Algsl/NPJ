@@ -35,6 +35,9 @@ public class ReleaseSupplyActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_release_supply);
         ButterKnife.bind(this);
+
+        back(titleThemeBack);
+        changeTitle(titleThemeTitle,"发布供求");
     }
 
     @OnClick({R.id.fg_discover_supply_ll_caigou, R.id.fg_discover_supply_ll_gongying})

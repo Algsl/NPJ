@@ -106,8 +106,7 @@ public class SplashActivity extends ActivityBase{
             ActivityCompat.requestPermissions(this,mRequestPermission.toArray(new String[mRequestPermission.size()]),100);
         }else{
             if (NetUtil.isNetworkConnected(this)) {
-                //openGPSSettings();
-                getMainBannerAndList();
+                openGPSSettings();
             } else {
                 Toast.makeText(this, "无网络连接", Toast.LENGTH_SHORT);
                 finish();
@@ -122,8 +121,7 @@ public class SplashActivity extends ActivityBase{
             case 100:
                 if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
                     if (NetUtil.isNetworkConnected(this)) {
-                       // openGPSSettings();
-                        getMainBannerAndList();
+                        openGPSSettings();
                     } else {
                         Toast.makeText(this, "无网络连接", Toast.LENGTH_SHORT);
                         finish();

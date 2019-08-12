@@ -26,6 +26,7 @@ public class QuotationPeopleListAdapter extends RecyclerView.Adapter<QuotationPe
     private ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
         void onItemClick(int position) ;
+        void onSeeInfo(int position);
     }
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
@@ -55,6 +56,13 @@ public class QuotationPeopleListAdapter extends RecyclerView.Adapter<QuotationPe
                     mItemClickListener.onItemClick(position);
                 }
             });
+            viewHolder.mSeeInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onSeeInfo(position);
+                }
+            });
         }
         if (list!= null && list.size() > 0) {
             viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
@@ -76,6 +84,7 @@ public class QuotationPeopleListAdapter extends RecyclerView.Adapter<QuotationPe
         TextView mTvTitle;
         TextView mTvPrice;
         TextView mTvSellNum;
+        TextView mSeeInfo;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -83,6 +92,7 @@ public class QuotationPeopleListAdapter extends RecyclerView.Adapter<QuotationPe
             mTvTitle = itemView.findViewById(R.id.item_tv_comment_goods_title);
             mTvPrice = itemView.findViewById(R.id.item_tv_comment_goods_price);
             mTvSellNum = itemView.findViewById(R.id.item_tv_comment_goods_sell_num);
+            mSeeInfo=itemView.findViewById(R.id.item_quotation_tv_seeInfo);
         }
     }
 }

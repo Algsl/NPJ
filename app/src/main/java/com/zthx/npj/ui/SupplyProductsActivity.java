@@ -1,11 +1,9 @@
 package com.zthx.npj.ui;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -26,12 +25,15 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.LocalStoreAdapter;
+import com.zthx.npj.adapter.CommentAdapter;
+import com.zthx.npj.adapter.SupplyProductsAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BaoJiaBean;
+import com.zthx.npj.net.been.CommentResponseBean;
 import com.zthx.npj.net.been.NeedDetailResponseBean;
 import com.zthx.npj.net.been.SupplyDetailResponseBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
+import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
@@ -77,8 +79,6 @@ public class SupplyProductsActivity extends ActivityBase {
     MyCircleView atSupplyProductsIvHeadPic;
     @BindView(R.id.at_supply_products_tv_name)
     TextView atSupplyProductsTvName;
-    @BindView(R.id.at_supply_products_tv_level)
-    TextView atSupplyProductsTvLevel;
     @BindView(R.id.at_supply_products_tv_diwei)
     TextView atSupplyProductsTvDiwei;
     @BindView(R.id.at_supply_products_tv_xinyufen)
@@ -95,19 +95,37 @@ public class SupplyProductsActivity extends ActivityBase {
     LinearLayout atSupplyProductLlNeedDetail;
     @BindView(R.id.at_supply_product_tv_baojia)
     TextView atSupplyProductTvBaojia;
+    @BindView(R.id.ac_supply_iv_back)
+    ImageView acSupplyIvBack;
+    @BindView(R.id.ac_supply_iv_home)
+    ImageView acSupplyIvHome;
+    @BindView(R.id.ac_supplyProducts_seeInfo)
+    TextView acSupplyProductsSeeInfo;
+    @BindView(R.id.at_supply_products_tv_level)
+    ImageView atSupplyProductsTvLevel;
+    @BindView(R.id.ac_supply_tv_detail)
+    TextView acSupplyTvDetail;
+    @BindView(R.id.ac_supply_tv_common)
+    TextView acSupplyTvCommon;
 
     private String type;
     private String goodsId;
-    private String user_id=SharePerferenceUtils.getUserId(this);
-    private String token=SharePerferenceUtils.getToken(this);
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
+    private SupplyDetailResponseBean.DataBean supplyData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supply_products);
         ButterKnife.bind(this);
+
+        back(acSupplyIvBack);
+
         goodsId = getIntent().getStringExtra("goods_id");
         type = getIntent().getAction();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SupplyProductsActivity.this);
+        atSupplyProductsRvPic.setLayoutManager(layoutManager);
         if (type.equals(Const.SUPPLY_DETAIL)) {
             atSupplyProductLlSupplyDetail.setVisibility(View.VISIBLE);
             atSupplyProductLlNeedDetail.setVisibility(View.GONE);
@@ -120,14 +138,13 @@ public class SupplyProductsActivity extends ActivityBase {
         }
     }
 
+    //求购详情
     private void getNeedData(String id) {
-
         DiscoverSubscribe.needDetail(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-
                 NeedDetailResponseBean.DataBean data = GsonUtils.fromJson(result, NeedDetailResponseBean.class).getData();
-
+                showLevel(data.getLevel());
                 atNeedProductsTvCaigouNum.setVisibility(View.VISIBLE);
                 atSupplyProductsLlNeedBaojia.setVisibility(View.VISIBLE);
                 atSupplyProductsLlSupplyGuanggao.setVisibility(View.GONE);
@@ -137,12 +154,27 @@ public class SupplyProductsActivity extends ActivityBase {
                 atSupplyProductsTvPrice.setText(data.getAmount());
                 atSupplyProductsTvUnit.setText(data.getUnit());
                 atSupplyProductsTvTitle.setText(data.getTitle());
-                atSupplyProductsTvLookNum.setText(data.getHits() + "人看过");
-                atSupplyProductTvBaojia.setText(data.getUser_count() + "人已报价");
+
+                if (data.getHits() != null) {
+                    atSupplyProductsTvLookNum.setText(data.getHits() + "人看过");
+                } else {
+                    atSupplyProductsTvLookNum.setText("0人看过");
+                }
+                if (data.getUser_count() >= 0) {
+                    atSupplyProductTvBaojia.setText(data.getUser_count() + "人已报价");
+                } else {
+                    atSupplyProductTvBaojia.setText("0人已报价");
+                }
+                if (data.getReputation() >= 0) {
+                    atSupplyProductsTvXinyufen.setText("信誉分： " + data.getReputation());
+                } else {
+                    atSupplyProductsTvXinyufen.setText("信誉分： 0");
+                }
                 Glide.with(SupplyProductsActivity.this).load(data.getHead_img()).into(atSupplyProductsIvHeadPic);
                 atSupplyProductsTvName.setText(data.getNick_name());
-                atSupplyProductsTvLevel.setText(data.getLevel() + "");
                 atSupplyProductsTvXinyufen.setText("信誉分" + data.getReputation());
+                SupplyProductsAdapter adapter = new SupplyProductsAdapter(SupplyProductsActivity.this, data.getContent());
+                atSupplyProductsRvPic.setAdapter(adapter);
             }
 
             @Override
@@ -152,26 +184,46 @@ public class SupplyProductsActivity extends ActivityBase {
         }, this));
     }
 
+    //供应详情
     private void getSupplyData(String id) {
         DiscoverSubscribe.supplyDetail(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-
                 SupplyDetailResponseBean supplyDetailResponseBean = GsonUtils.fromJson(result, SupplyDetailResponseBean.class);
-                initBanner(supplyDetailResponseBean.getData().getGoods_img());
-                atSupplyProductsTvPrice.setText(supplyDetailResponseBean.getData().getPrice());
-                atSupplyProductsTvUnit.setText(supplyDetailResponseBean.getData().getGoods_unit());
-                atSupplyProductsTvTitle.setText(supplyDetailResponseBean.getData().getTitle());
-                atSupplyProductsTvLookNum.setText(supplyDetailResponseBean.getData().getHits() + "人看过");
-                atSupplyProductsTvSellNum.setText("已售 " + supplyDetailResponseBean.getData().getSold());
-                Glide.with(SupplyProductsActivity.this).load(supplyDetailResponseBean.getData().getHead_img()).into(atSupplyProductsIvHeadPic);
-                atSupplyProductsTvName.setText(supplyDetailResponseBean.getData().getNick_name());
+                supplyData = supplyDetailResponseBean.getData();
+                initBanner(supplyData.getGoods_img());
+
+                showLevel(supplyData.getLevel());
+                atSupplyProductsTvPrice.setText("￥" + supplyData.getPrice());
+                atSupplyProductsTvUnit.setText("元/" + supplyData.getGoods_unit());
+                atSupplyProductsTvTitle.setText(supplyData.getTitle());
+                if (supplyData.getHits() == null) {
+                    atSupplyProductsTvLookNum.setText("0人看过");
+                } else {
+                    atSupplyProductsTvLookNum.setText(supplyData.getHits() + "人看过");
+                }
+                if (supplyData.getSold() == null) {
+                    atSupplyProductsTvSellNum.setText("已售 0");
+                } else {
+                    atSupplyProductsTvSellNum.setText("已售 " + supplyData.getSold());
+                }
+                if (supplyData.getReputation() == null) {
+                    atSupplyProductsTvXinyufen.setText("信誉分： 0");
+                } else {
+                    atSupplyProductsTvXinyufen.setText("信誉分： " + supplyData.getReputation());
+                }
+                /*atSupplyProductsTvLookNum.setText(data.getHits() + "人看过");
+                atSupplyProductsTvSellNum.setText("已售 " + data.getSold());
+                atSupplyProductsTvXinyufen.setText("信誉分： " + data.getReputation());*/
+
+                Glide.with(SupplyProductsActivity.this).load(supplyData.getHead_img()).into(atSupplyProductsIvHeadPic);
+                atSupplyProductsTvName.setText(supplyData.getNick_name());
                 //目前level没有给出具体分级名称
-                atSupplyProductsTvLevel.setText(supplyDetailResponseBean.getData().getLevel() + "");
-                atSupplyProductsTvXinyufen.setText("信誉分： " + supplyDetailResponseBean.getData().getReputation());
                 //还剩一个recycleView的图片单元要补
-
-
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SupplyProductsActivity.this);
+                atSupplyProductsRvPic.setLayoutManager(layoutManager);
+                SupplyProductsAdapter adapter = new SupplyProductsAdapter(SupplyProductsActivity.this, supplyData.getContent());
+                atSupplyProductsRvPic.setAdapter(adapter);
             }
 
             @Override
@@ -179,25 +231,6 @@ public class SupplyProductsActivity extends ActivityBase {
 
             }
         }, this));
-    }
-
-
-    private void showPopupWindow(View view) {
-        // 用于PopupWindow的View
-        View contentView = LayoutInflater.from(SupplyProductsActivity.this).inflate(R.layout.popupwindow_supply_producets, null);
-        // 创建PopupWindow对象，其中：
-        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
-        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
-        PopupWindow window = new PopupWindow(contentView, 100, 100, true);
-        // 设置PopupWindow的背景
-        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        // 设置PopupWindow是否能响应外部点击事件
-        window.setOutsideTouchable(true);
-        // 设置PopupWindow是否能响应点击事件
-        window.setTouchable(true);
-        // 显示PopupWindow，其中：
-        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
-        window.showAtLocation(view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
     }
 
     /**
@@ -239,7 +272,8 @@ public class SupplyProductsActivity extends ActivityBase {
         atSupplyProductsBanner.start();
     }
 
-    @OnClick({R.id.at_supply_products_btn_buy_now, R.id.at_supply_products_ll_call, R.id.at_supply_products_ll_chat})
+    @OnClick({R.id.at_supply_products_btn_buy_now, R.id.at_supply_products_ll_call, R.id.at_supply_products_ll_chat,
+            R.id.ac_supply_iv_home, R.id.ac_supplyProducts_seeInfo,R.id.ac_supply_tv_detail, R.id.ac_supply_tv_common})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_supply_products_ll_call:
@@ -249,13 +283,51 @@ public class SupplyProductsActivity extends ActivityBase {
 
             case R.id.at_supply_products_btn_buy_now:
                 if (type.equals(Const.SUPPLY_DETAIL)) {
-                    openActivity(SupplyBillActivity.class,goodsId+"");
+                    openActivity(SupplyBillActivity.class, goodsId + "");
                 } else {
                     showPublishPopwindow();
                 }
                 break;
+            case R.id.ac_supply_iv_home:
+                openActivity(MainActivity.class);
+                break;
+            case R.id.ac_supplyProducts_seeInfo:
+                openActivity(UserMsgActivity.class);
+                break;
+            case R.id.ac_supply_tv_detail:
+                acSupplyTvDetail.setBackgroundColor(getResources().getColor(R.color.app_theme));
+                acSupplyTvDetail.setTextColor(getResources().getColor(R.color.white));
+                acSupplyTvCommon.setBackgroundColor(getResources().getColor(R.color.white));
+                acSupplyTvCommon.setTextColor(getResources().getColor(R.color.text3));
+                SupplyProductsAdapter adapter = new SupplyProductsAdapter(SupplyProductsActivity.this, supplyData.getContent());
+                atSupplyProductsRvPic.setAdapter(adapter);
+                break;
+            case R.id.ac_supply_tv_common:
+                acSupplyTvDetail.setBackgroundColor(getResources().getColor(R.color.white));
+                acSupplyTvDetail.setTextColor(getResources().getColor(R.color.text3));
+                acSupplyTvCommon.setBackgroundColor(getResources().getColor(R.color.app_theme));
+                acSupplyTvCommon.setTextColor(getResources().getColor(R.color.white));
+                getComment();
+                break;
         }
     }
+
+    private void getComment() {
+        MainSubscribe.getStoreComment(goodsId,"1",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                CommentResponseBean bean=GsonUtils.fromJson(result,CommentResponseBean.class);
+                CommentAdapter adapter=new CommentAdapter(SupplyProductsActivity.this,bean.getData());
+                atSupplyProductsRvPic.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
     public void showPublishPopwindow() {
         backgroundAlpha(0.5f);
         View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_baojia, null);
@@ -275,21 +347,21 @@ public class SupplyProductsActivity extends ActivityBase {
         // 显示PopupWindow，其中：
         // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
         window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
-        EditText baojiaContent=contentView.findViewById(R.id.pw_baojia_et_content);
-        EditText baojiaRemark=contentView.findViewById(R.id.pw_baojia_et_remark);
-        Button commit=contentView.findViewById(R.id.pw_baojia_btn_commit);
-        final String content=baojiaContent.getText().toString().trim();
-        final String remark=baojiaRemark.getText().toString().trim();
+        final EditText baojiaContent = contentView.findViewById(R.id.pw_baojia_et_content);
+        final EditText baojiaRemark = contentView.findViewById(R.id.pw_baojia_et_remark);
+        Button commit = contentView.findViewById(R.id.pw_baojia_btn_commit);
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BaoJiaBean bean=new BaoJiaBean();
+                String content = baojiaContent.getText().toString().trim();
+                String remark = baojiaRemark.getText().toString().trim();
+                BaoJiaBean bean = new BaoJiaBean();
                 bean.setUser_id(user_id);
                 bean.setToken(token);
                 bean.setContent(content);
                 bean.setRemark(remark);
                 bean.setList_id(goodsId);
-                DiscoverSubscribe.baojia(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                DiscoverSubscribe.baojia(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
                         backgroundAlpha(1f);
@@ -303,6 +375,13 @@ public class SupplyProductsActivity extends ActivityBase {
                 }));
             }
         });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
     }
 
     public void backgroundAlpha(float bgAlpha) {
@@ -311,4 +390,43 @@ public class SupplyProductsActivity extends ActivityBase {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         getWindow().setAttributes(lp);
     }
+
+    public void showLevel(int level) {
+        switch (level) {
+            case 0:
+                atSupplyProductsTvLevel.setImageResource(R.drawable.level0);
+                break;
+            case 1:
+                atSupplyProductsTvLevel.setImageResource(R.drawable.level1);
+                break;
+            case 2:
+                atSupplyProductsTvLevel.setImageResource(R.drawable.level2);
+                break;
+            case 3:
+                atSupplyProductsTvLevel.setImageResource(R.drawable.level3);
+                break;
+            case 4:
+                atSupplyProductsTvLevel.setImageResource(R.drawable.level4);
+                break;
+            case 5:
+                atSupplyProductsTvLevel.setImageResource(R.drawable.level5);
+                break;
+            case 6:
+                atSupplyProductsTvLevel.setImageResource(R.drawable.level6);
+                break;
+            case 7:
+                atSupplyProductsTvLevel.setImageResource(R.drawable.level7);
+                break;
+            case 8:
+                atSupplyProductsTvLevel.setImageResource(R.drawable.level8);
+                break;
+            case 9:
+                atSupplyProductsTvLevel.setImageResource(R.drawable.level9);
+                break;
+            case 10:
+                atSupplyProductsTvLevel.setImageResource(R.drawable.level10);
+                break;
+        }
+    }
+
 }

@@ -1,9 +1,11 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.MySupplyListResponseBean;
 import com.zthx.npj.net.been.PurchaseListResponseBean;
+import com.zthx.npj.utils.ImageCircleConner;
 
 import java.util.ArrayList;
 
@@ -45,7 +50,7 @@ public class PurchaseListAdapter extends RecyclerView.Adapter<PurchaseListAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(mContext).inflate(R.layout.item_store_goods_list,viewGroup,false);
+        View view= LayoutInflater.from(mContext).inflate(R.layout.item_want_buy_list,viewGroup,false);
         return new PurchaseListAdapter.ViewHolder(view);
     }
 
@@ -88,12 +93,14 @@ public class PurchaseListAdapter extends RecyclerView.Adapter<PurchaseListAdapte
                 }
             });
         }
-        Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
-        viewHolder.goodsName.setText(mList.get(i).getGoods_name());
-        viewHolder.marketPrice.setText("市场价："+mList.get(i).getMarket_price());
-        viewHolder.memberPrice.setText("会员价："+mList.get(i).getMember_price());
-        viewHolder.sold.setText(mList.get(i).getSold());
-        viewHolder.goodsNumber.setText(mList.get(i).getInventory());
+        Glide.with(mContext).load(Uri.parse(mList.get(i).getImg())).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                viewHolder.goodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
+            }
+        });
+        viewHolder.goodsName.setText(mList.get(i).getTitle());
+        viewHolder.amount.setText(mList.get(i).getAmount()+mList.get(i).getUnit());
         if(type.equals("1")){
             viewHolder.onSale.setText("下架");
         }else{
@@ -108,19 +115,17 @@ public class PurchaseListAdapter extends RecyclerView.Adapter<PurchaseListAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView goodsImg;
-        TextView goodsName,marketPrice,memberPrice,sold,goodsNumber,onSale,shareGoods,deleteGoods,editGoods;
+        TextView goodsName,amount,onSale,shareGoods,deleteGoods,editGoods;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            goodsImg=itemView.findViewById(R.id.item_storeGoodsList_iv_goodsImg);
-            goodsName=itemView.findViewById(R.id.item_storeGoodsList_tv_goodsName);
-            marketPrice=itemView.findViewById(R.id.item_storeGoodsList_tv_marketPrice);
-            memberPrice=itemView.findViewById(R.id.item_storeGoodsList_tv_memberPrice);
-            sold=itemView.findViewById(R.id.item_storeGoodsList_tv_sold);
-            goodsNumber=itemView.findViewById(R.id.item_storeGoodsList_tv_inventory);
-            onSale=itemView.findViewById(R.id.item_storeGoodsList_tv_onSale);
-            shareGoods=itemView.findViewById(R.id.item_storeGoodsList_tv_share);
-            deleteGoods=itemView.findViewById(R.id.item_storeGoodsList_tv_delete);
-            editGoods=itemView.findViewById(R.id.item_storeGoodsList_tv_edit);
+            goodsImg=itemView.findViewById(R.id.item_want_buy_manager_list_pic);
+            goodsName=itemView.findViewById(R.id.item_want_buy_manager_list_title);
+            amount=itemView.findViewById(R.id.item_wantBuy_tv_amount);
+
+            onSale=itemView.findViewById(R.id.item_wantBuy_btn_sale);
+            shareGoods=itemView.findViewById(R.id.item_wantBuy_btn_share);
+            deleteGoods=itemView.findViewById(R.id.item_wantBuy_btn_delete);
+            editGoods=itemView.findViewById(R.id.item_wantBuy_btn_edit);
         }
     }
 }

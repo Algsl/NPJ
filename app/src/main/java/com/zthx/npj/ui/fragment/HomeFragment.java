@@ -263,9 +263,34 @@ public class HomeFragment extends BaseFragment {
                 startActivity(new Intent(getContext(),GameActivity.class));
                 break;
             case R.id.fg_home_ll_recommend:
-                startActivity(new Intent(getContext(),TestActivity.class));
+                getRecommend();
                 break;
         }
+    }
+
+    private void getRecommend() {
+        MainSubscribe.getRecommend("","1",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                RecommendResponseBean bean=GsonUtils.fromJson(result,RecommendResponseBean.class);
+                final ArrayList<RecommendResponseBean.DataBean> data=bean.getData();
+                HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);
+                mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                        startActivity(intent);
+                    }
+                });
+                fgHomeShoppingCast.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 
     @Override

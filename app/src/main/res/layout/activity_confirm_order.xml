@@ -328,7 +328,7 @@
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/at_confirm_order_rl_hongbao"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40">
                 <ImageView
@@ -348,10 +348,12 @@
                     android:layout_toRightOf="@id/at_confirm_order_iv_my_hongbao"
                     android:layout_marginLeft="@dimen/dp_10"/>
 
-                <EditText
+                <TextView
+                    android:id="@+id/ac_confirmOrder_tv_hongbao"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:gravity="right"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/dp_12"
                     android:background="@null"

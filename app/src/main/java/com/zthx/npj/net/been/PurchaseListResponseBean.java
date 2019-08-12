@@ -4,25 +4,26 @@ import java.util.ArrayList;
 
 public class PurchaseListResponseBean extends BaseReponseBean{
     public class DataBean{
-        /*private long id;
+        private long id;
         private long user_id;
         private String title;
-        private String goods_name;
-        private String goods_num;
-        private String goods_unit;
+        private String img;
+        private String spec;
+        private String amount;
+        private String unit;
         private String city;
-        private String price;
-        private String goods_img;
+        private String min_price;
+        private String max_price;
         private String content;
-        private String remark;
-        private long create_time;
+        private String create_time;
         private String update_time;
+        private String remark;
         private String lat;
         private String lng;
-        private long status;
+        private String status;
+        private String baojia_status;
+        private String is_top;
         private String hits;
-        private String sold;
-        private String buy_num;
 
         public long getId() {
             return id;
@@ -48,28 +49,36 @@ public class PurchaseListResponseBean extends BaseReponseBean{
             this.title = title;
         }
 
-        public String getGoods_name() {
-            return goods_name;
+        public String getImg() {
+            return img;
         }
 
-        public void setGoods_name(String goods_name) {
-            this.goods_name = goods_name;
+        public void setImg(String img) {
+            this.img = img;
         }
 
-        public String getGoods_num() {
-            return goods_num;
+        public String getSpec() {
+            return spec;
         }
 
-        public void setGoods_num(String goods_num) {
-            this.goods_num = goods_num;
+        public void setSpec(String spec) {
+            this.spec = spec;
         }
 
-        public String getGoods_unit() {
-            return goods_unit;
+        public String getAmount() {
+            return amount;
         }
 
-        public void setGoods_unit(String goods_unit) {
-            this.goods_unit = goods_unit;
+        public void setAmount(String amount) {
+            this.amount = amount;
+        }
+
+        public String getUnit() {
+            return unit;
+        }
+
+        public void setUnit(String unit) {
+            this.unit = unit;
         }
 
         public String getCity() {
@@ -80,20 +89,20 @@ public class PurchaseListResponseBean extends BaseReponseBean{
             this.city = city;
         }
 
-        public String getPrice() {
-            return price;
+        public String getMin_price() {
+            return min_price;
         }
 
-        public void setPrice(String price) {
-            this.price = price;
+        public void setMin_price(String min_price) {
+            this.min_price = min_price;
         }
 
-        public String getGoods_img() {
-            return goods_img;
+        public String getMax_price() {
+            return max_price;
         }
 
-        public void setGoods_img(String goods_img) {
-            this.goods_img = goods_img;
+        public void setMax_price(String max_price) {
+            this.max_price = max_price;
         }
 
         public String getContent() {
@@ -104,19 +113,11 @@ public class PurchaseListResponseBean extends BaseReponseBean{
             this.content = content;
         }
 
-        public String getRemark() {
-            return remark;
-        }
-
-        public void setRemark(String remark) {
-            this.remark = remark;
-        }
-
-        public long getCreate_time() {
+        public String getCreate_time() {
             return create_time;
         }
 
-        public void setCreate_time(long create_time) {
+        public void setCreate_time(String create_time) {
             this.create_time = create_time;
         }
 
@@ -126,6 +127,14 @@ public class PurchaseListResponseBean extends BaseReponseBean{
 
         public void setUpdate_time(String update_time) {
             this.update_time = update_time;
+        }
+
+        public String getRemark() {
+            return remark;
+        }
+
+        public void setRemark(String remark) {
+            this.remark = remark;
         }
 
         public String getLat() {
@@ -144,12 +153,28 @@ public class PurchaseListResponseBean extends BaseReponseBean{
             this.lng = lng;
         }
 
-        public long getStatus() {
+        public String getStatus() {
             return status;
         }
 
-        public void setStatus(long status) {
+        public void setStatus(String status) {
             this.status = status;
+        }
+
+        public String getBaojia_status() {
+            return baojia_status;
+        }
+
+        public void setBaojia_status(String baojia_status) {
+            this.baojia_status = baojia_status;
+        }
+
+        public String getIs_top() {
+            return is_top;
+        }
+
+        public void setIs_top(String is_top) {
+            this.is_top = is_top;
         }
 
         public String getHits() {
@@ -158,94 +183,6 @@ public class PurchaseListResponseBean extends BaseReponseBean{
 
         public void setHits(String hits) {
             this.hits = hits;
-        }
-
-        public String getSold() {
-            return sold;
-        }
-
-        public void setSold(String sold) {
-            this.sold = sold;
-        }
-
-        public String getBuy_num() {
-            return buy_num;
-        }
-
-        public void setBuy_num(String buy_num) {
-            this.buy_num = buy_num;
-        }*/
-        private long id;
-        private String goods_name;
-        private String market_price;
-        private String member_price;
-        private String user_price;
-        private String sold;
-        private String inventory;
-        private String goods_img;
-
-        public long getId() {
-            return id;
-        }
-
-        public void setId(long id) {
-            this.id = id;
-        }
-
-        public String getGoods_name() {
-            return goods_name;
-        }
-
-        public void setGoods_name(String goods_name) {
-            this.goods_name = goods_name;
-        }
-
-        public String getMarket_price() {
-            return market_price;
-        }
-
-        public void setMarket_price(String market_price) {
-            this.market_price = market_price;
-        }
-
-        public String getMember_price() {
-            return member_price;
-        }
-
-        public void setMember_price(String member_price) {
-            this.member_price = member_price;
-        }
-
-        public String getUser_price() {
-            return user_price;
-        }
-
-        public void setUser_price(String user_price) {
-            this.user_price = user_price;
-        }
-
-        public String getSold() {
-            return sold;
-        }
-
-        public void setSold(String sold) {
-            this.sold = sold;
-        }
-
-        public String getInventory() {
-            return inventory;
-        }
-
-        public void setInventory(String inventory) {
-            this.inventory = inventory;
-        }
-
-        public String getGoods_img() {
-            return goods_img;
-        }
-
-        public void setGoods_img(String goods_img) {
-            this.goods_img = goods_img;
         }
     }
     private ArrayList<DataBean> data;

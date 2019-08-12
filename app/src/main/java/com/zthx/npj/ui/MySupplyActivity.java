@@ -97,7 +97,6 @@ public class MySupplyActivity extends ActivityBase {
                 break;
             case R.id.at_my_supply_ll_want_buy_manager:
                 startActivity(new Intent(this, WantBuyManagerActivity.class));
-
                 break;
             case R.id.at_my_supply_ll_publish_supply:
                 startActivity(new Intent(this, ReleaseSupplyActivity.class));

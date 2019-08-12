@@ -125,6 +125,8 @@ public class ConfirmOrderActivity extends ActivityBase {
     LinearLayout acConfirmOrderLlChooseAddress;
     @BindView(R.id.ac_confirmOrder_rl_toDYR)
     RelativeLayout acConfirmOrderRlToDYR;
+    @BindView(R.id.ac_confirmOrder_tv_hongbao)
+    TextView acConfirmOrderTvHongbao;
     private String attId;
     private String goodsId;
     private String address_id = "";
@@ -268,7 +270,7 @@ public class ConfirmOrderActivity extends ActivityBase {
 
     @OnClick({R.id.at_confirm_order_rl_ziti, R.id.ac_confirmOrder_btn_pay, R.id.ac_confirmOrder_iv_type3,
             R.id.ac_confirmOrder_iv_type2, R.id.ac_confirmOrder_iv_type1, R.id.ac_confirmOrder_btn_ziti,
-            R.id.ac_confirmORder_btn_peisong, R.id.ac_confirmOrder_ll_chooseAddress})
+            R.id.ac_confirmORder_btn_peisong, R.id.ac_confirmOrder_ll_chooseAddress,R.id.at_confirm_order_rl_hongbao})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.ac_confirmOrder_btn_pay:
@@ -343,6 +345,9 @@ public class ConfirmOrderActivity extends ActivityBase {
                 atConfirmOrderRlPeisong.setVisibility(View.VISIBLE);
                 atConfirmOrderRlZiti.setVisibility(View.GONE);
                 break;
+            case R.id.at_confirm_order_rl_hongbao:
+                showHongBaoPopwindow();
+                break;
         }
     }
 
@@ -350,7 +355,7 @@ public class ConfirmOrderActivity extends ActivityBase {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
-            Log.e("测试", "onActivityResult: "+data);
+            Log.e("测试", "onActivityResult: " + data);
             address_id = data.getStringExtra("address_id");
             atConfirmOrderTvAddress.setText(data.getStringExtra("address"));
         }
@@ -492,6 +497,56 @@ public class ConfirmOrderActivity extends ActivityBase {
             @Override
             public void onItemClick(int position) {
                 atConfirmOrderTvToStore.setText(localData.get(position).getStore_name());
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+    }
+
+    public void showHongBaoPopwindow() {
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_hongbao, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView);
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_180));
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_350));
+        // 设置PopupWindow的背景
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        //window.setOutsideTouchable(false);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        window.setFocusable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+
+        final EditText input=contentView.findViewById(R.id.pw_hongbao_et_input);
+        Button confirm=contentView.findViewById(R.id.pw_hongbao_btn_comfirm);
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String hongbaoMa=input.getText().toString().trim();
+                acConfirmOrderTvHongbao.setText(hongbaoMa);
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
                 backgroundAlpha(1f);
                 window.dismiss();
             }

@@ -81,7 +81,7 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
         }
 
         viewHolder.mTvTitle.setText(list.get(i).getTitle());
-        viewHolder.mTvSupplyUnit.setText(list.get(i).getGoods_unit());
+        viewHolder.mTvSupplyUnit.setText("元/"+list.get(i).getGoods_unit());
     }
 
     @Override

@@ -91,6 +91,7 @@
                 android:id="@+id/item_discover_need_tv_caigou_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:text="采购量："
                 android:textColor="@color/text6"
                 android:textSize="@dimen/sp_13"/>
@@ -99,6 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2000斤 "
+                android:textStyle="bold"
                 android:layout_toRightOf="@id/item_discover_need_tv_caigou_num"
                 android:textColor="@color/app_theme"
                 android:textSize="@dimen/sp_15"

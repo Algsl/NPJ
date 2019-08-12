@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -48,13 +49,13 @@ public class BaojiaUserListActivity extends ActivityBase {
         back(titleThemeBack);
         changeTitle(titleThemeTitle,"报价商家列表");
         titleThemeTvRight.setVisibility(View.VISIBLE);
-        changeRightText(titleThemeTvRight,"发布供求",null,null);
+        changeRightText(titleThemeTvRight,"发布供求",ReleaseSupplyActivity.class,null);
 
         getBaojiaUserList();
     }
 
     private void getBaojiaUserList() {
-        String id = getIntent().getStringExtra("user_id");
+        String id = getIntent().getStringExtra("baojia_id");
         SetSubscribe.baojiaUserList(user_id, token, id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -68,7 +69,7 @@ public class BaojiaUserListActivity extends ActivityBase {
         }));
     }
 
-    private void setBaojiaUserList(String result) {
+    private void setBaojiaUserList(final String result) {
         BaojiaUserListResponseBean bean = GsonUtils.fromJson(result, BaojiaUserListResponseBean.class);
         final ArrayList<BaojiaUserListResponseBean.DataBean> data = bean.getData();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -79,9 +80,14 @@ public class BaojiaUserListActivity extends ActivityBase {
             @Override
             public void onSeeClick(int position) {
                 Intent intent = new Intent(BaojiaUserListActivity.this, BaojiaUserDetailActivity.class);
-                intent.putExtra("id", data.get(position).getId() + "");
-                intent.putExtra("user_id", getIntent().getStringExtra("user_id"));
+                intent.putExtra("result",result);
+                intent.putExtra("position",position);
                 startActivity(intent);
+            }
+
+            @Override
+            public void onSeeInfo(int position) {
+                openActivity(UserMsgActivity.class);
             }
         });
     }

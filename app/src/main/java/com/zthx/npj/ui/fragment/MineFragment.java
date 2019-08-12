@@ -366,7 +366,7 @@ public class MineFragment
                     dialog1.setPositiveButton("成为代言人");
                     dialog1.show();
                 }else{
-                    startActivity(new Intent(getContext(), MyStoreActivity.class));
+                    startActivity(new Intent(getContext(), MySupplyActivity.class));
                 }
 
                 break;

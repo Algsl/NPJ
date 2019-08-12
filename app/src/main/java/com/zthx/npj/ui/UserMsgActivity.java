@@ -161,6 +161,7 @@ public class UserMsgActivity extends ActivityBase {
         //设置对话框大小
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
+        dialog.setCancelable(true);
         dialog.findViewById(R.id.dialog_share_friends).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

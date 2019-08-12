@@ -185,8 +185,6 @@ public class StoreGoodsBillActivity extends ActivityBase {
                 }));
             }
         });
-
-
     }
 
     private void setKuaiDiList(String result) {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class SupplyOrderResponseBean {
     public class DataBean{
+        private long id;
         private String goods_img;
         private String title;
         private String goods_name;
@@ -12,6 +13,14 @@ public class SupplyOrderResponseBean {
         private long order_num;
         private long order_time;
         private long order_state;
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
 
         public String getGoods_img() {
             return goods_img;

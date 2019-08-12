@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -139,7 +140,7 @@ public class WantBuyManagerActivity extends ActivityBase {
                 SetSubscribe.purchaseDel(user_id,token,data.get(position).getId()+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-
+                        getWantBuy();
                     }
 
                     @Override
@@ -215,7 +216,7 @@ public class WantBuyManagerActivity extends ActivityBase {
             @Override
             public void onSeeClick(int position) {
                 Intent intent=new Intent(WantBuyManagerActivity.this,BaojiaUserListActivity.class);
-                intent.putExtra("user_id",data.get(position).getUser_id()+"");
+                intent.putExtra("baojia_id",data.get(position).getId()+"");
                 startActivity(intent);
             }
         });

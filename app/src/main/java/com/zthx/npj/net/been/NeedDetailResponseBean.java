@@ -33,7 +33,7 @@ public class NeedDetailResponseBean extends BaseReponseBean {
         private int level;
         private String certification;
         private int reputation;
-        private long hits;
+        private String hits;
         private int user_count;
 
         public long getId() {
@@ -140,11 +140,11 @@ public class NeedDetailResponseBean extends BaseReponseBean {
             this.reputation = reputation;
         }
 
-        public long getHits() {
+        public String getHits() {
             return hits;
         }
 
-        public void setHits(long hits) {
+        public void setHits(String hits) {
             this.hits = hits;
         }
 
