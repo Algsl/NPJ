@@ -87,6 +87,7 @@ public class OrderListFragment extends Fragment {
             public void onItemClick(int position) {
                 Intent intent=new Intent(getContext(), MyStoreOrderDetailActivity.class);
                 intent.putExtra("order_id",data.get(position).getId()+"");
+                intent.putExtra("order_state",data.get(position).getOrder_state()+"");
                 startActivity(intent);
             }
             //取消订单

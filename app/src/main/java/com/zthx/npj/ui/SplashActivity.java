@@ -192,6 +192,7 @@ public class SplashActivity extends ActivityBase{
     }
 
     private void openGPSSettings() {
+        //getMainBannerAndList();
         if (checkGPSIsOpen()) {
             getMainBannerAndList();
             initLocation(); //自己写的定位方法

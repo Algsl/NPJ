@@ -9,6 +9,7 @@ public class TwjcListResponseBean extends BaseReponseBean{
         private String title;
         private long create_time;
         private long update_time;
+        private boolean isSelected;
         public class List{
             private long id;
             private String title;
@@ -29,6 +30,15 @@ public class TwjcListResponseBean extends BaseReponseBean{
                 this.title = title;
             }
         }
+
+        public boolean isSelected() {
+            return isSelected;
+        }
+
+        public void setSelected(boolean selected) {
+            isSelected = selected;
+        }
+
         private ArrayList<List> list;
 
         public ArrayList<List> getList() {

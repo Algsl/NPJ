@@ -2,6 +2,7 @@ package com.zthx.npj.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -48,7 +49,9 @@ public class DiscoverFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_discover, container, false);
-        view.requestApplyInsets();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            view.requestApplyInsets();
+        }
         view.setFitsSystemWindows(false);
         unbinder = ButterKnife.bind(this, view);
         List<String> list = new ArrayList<>();

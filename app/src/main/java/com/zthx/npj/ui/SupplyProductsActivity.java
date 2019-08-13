@@ -107,6 +107,10 @@ public class SupplyProductsActivity extends ActivityBase {
     TextView acSupplyTvDetail;
     @BindView(R.id.ac_supply_tv_common)
     TextView acSupplyTvCommon;
+    @BindView(R.id.ac_supply_tv_company)
+    TextView acSupplyTvCompany;
+    @BindView(R.id.ac_supply_tv_realName)
+    TextView acSupplyTvRealName;
 
     private String type;
     private String goodsId;
@@ -154,6 +158,17 @@ public class SupplyProductsActivity extends ActivityBase {
                 atSupplyProductsTvPrice.setText(data.getAmount());
                 atSupplyProductsTvUnit.setText(data.getUnit());
                 atSupplyProductsTvTitle.setText(data.getTitle());
+
+                if(data.getCertification()!=null){
+                    String[] strs=data.getCertification().split(",");
+                    for(String str:strs){
+                        if(str.equals("1")){
+                            acSupplyTvRealName.setVisibility(View.VISIBLE);
+                        }else if(str.equals("2")){
+                            acSupplyTvCompany.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
 
                 if (data.getHits() != null) {
                     atSupplyProductsTvLookNum.setText(data.getHits() + "人看过");
@@ -211,6 +226,17 @@ public class SupplyProductsActivity extends ActivityBase {
                     atSupplyProductsTvXinyufen.setText("信誉分： 0");
                 } else {
                     atSupplyProductsTvXinyufen.setText("信誉分： " + supplyData.getReputation());
+                }
+
+                if (supplyData.getCertification() != null) {
+                    String[] strs = supplyData.getCertification().split(",");
+                    for (String str : strs) {
+                        if (str.equals("1")) {
+                            acSupplyTvRealName.setVisibility(View.VISIBLE);
+                        }else if(str.equals("2")){
+                            acSupplyTvCompany.setVisibility(View.VISIBLE);
+                        }
+                    }
                 }
                 /*atSupplyProductsTvLookNum.setText(data.getHits() + "人看过");
                 atSupplyProductsTvSellNum.setText("已售 " + data.getSold());
@@ -273,7 +299,7 @@ public class SupplyProductsActivity extends ActivityBase {
     }
 
     @OnClick({R.id.at_supply_products_btn_buy_now, R.id.at_supply_products_ll_call, R.id.at_supply_products_ll_chat,
-            R.id.ac_supply_iv_home, R.id.ac_supplyProducts_seeInfo,R.id.ac_supply_tv_detail, R.id.ac_supply_tv_common})
+            R.id.ac_supply_iv_home, R.id.ac_supplyProducts_seeInfo, R.id.ac_supply_tv_detail, R.id.ac_supply_tv_common})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_supply_products_ll_call:
@@ -313,11 +339,11 @@ public class SupplyProductsActivity extends ActivityBase {
     }
 
     private void getComment() {
-        MainSubscribe.getStoreComment(goodsId,"1",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.getStoreComment(goodsId, "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                CommentResponseBean bean=GsonUtils.fromJson(result,CommentResponseBean.class);
-                CommentAdapter adapter=new CommentAdapter(SupplyProductsActivity.this,bean.getData());
+                CommentResponseBean bean = GsonUtils.fromJson(result, CommentResponseBean.class);
+                CommentAdapter adapter = new CommentAdapter(SupplyProductsActivity.this, bean.getData());
                 atSupplyProductsRvPic.setAdapter(adapter);
             }
 

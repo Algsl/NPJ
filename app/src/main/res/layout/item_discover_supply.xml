@@ -23,6 +23,7 @@
         android:scaleType="fitXY"
         android:src="@mipmap/ic_launcher"/>
     <LinearLayout
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/item_discover_supply_pic"
@@ -33,11 +34,12 @@
             android:id="@+id/item_discover_supply_tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="四川正宗纯天然无公害橘子，支持微商发货，数量有限，欢迎采购"
+            android:text="四川正宗纯天然无公害橘子支持微商发货，数量有限，欢迎采购"
             android:layout_marginTop="@dimen/dp_8"
             android:textColor="@color/text3"
             android:textSize="@dimen/sp_15"
             android:layout_marginRight="@dimen/sp_12"
+            android:ellipsize="end"
             android:maxLines="2"/>
 
         <LinearLayout
@@ -46,6 +48,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="@dimen/dp_4">
             <TextView
+                android:id="@+id/item_discoverSupply_tv_company"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="企业保证"
@@ -53,7 +56,8 @@
                 android:textColor="@android:color/white"
                 android:background="#F39B1F"
                 android:paddingRight="@dimen/dp_6"
-                android:paddingLeft="@dimen/dp_6"/>
+                android:paddingLeft="@dimen/dp_6"
+                android:layout_marginRight="@dimen/dp_10"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -63,8 +67,9 @@
                 android:background="#38BDB5"
                 android:paddingRight="@dimen/dp_6"
                 android:paddingLeft="@dimen/dp_6"
-                android:layout_marginLeft="@dimen/dp_10"/>
+                android:layout_marginRight="@dimen/dp_10"/>
             <TextView
+                android:id="@+id/item_discoverSupply_tv_realName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="商家认证"
@@ -72,8 +77,7 @@
                 android:textColor="@android:color/white"
                 android:background="#EB6877"
                 android:paddingRight="@dimen/dp_6"
-                android:paddingLeft="@dimen/dp_6"
-                android:layout_marginLeft="@dimen/dp_10"/>
+                android:paddingLeft="@dimen/dp_6"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -112,7 +116,8 @@
         <RelativeLayout
             android:id="@+id/item_discover_supply_rl"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_3">
             <TextView
                 android:id="@+id/item_discover_supply_tv_price"
                 android:layout_width="wrap_content"

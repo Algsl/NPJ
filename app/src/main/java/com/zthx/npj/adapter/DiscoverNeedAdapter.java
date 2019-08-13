@@ -80,6 +80,19 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
         }else{
             viewHolder.mTvIsTop.setVisibility(View.VISIBLE);
         }
+        if(list.get(i).getCert()==null){
+            viewHolder.company.setVisibility(View.GONE);
+            viewHolder.realName.setVisibility(View.GONE);
+        }else{
+            String[] strs=list.get(i).getCert().split(",");
+            for(String str:strs){
+                if(str.equals("1")){
+                    viewHolder.realName.setVisibility(View.VISIBLE);
+                }else if(str.equals("2")){
+                    viewHolder.company.setVisibility(View.VISIBLE);
+                }
+            }
+        }
     }
 
     @Override
@@ -93,7 +106,7 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
         TextView mTvNeedNum;
         TextView mTvDistance;
         TextView mTvIsTop;
-
+        TextView company,realName;
         ViewHolder(View itemView) {
             super(itemView);
             mIvPic = itemView.findViewById(R.id.item_discover_need_pic);
@@ -101,6 +114,8 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
             mTvNeedNum = itemView.findViewById(R.id.item_discover_need_tv_num);
             mTvDistance= itemView.findViewById(R.id.item_discover_need_tv_distance);
             mTvIsTop=itemView.findViewById(R.id.item_discover_need_tv_isTop);
+            company=itemView.findViewById(R.id.item_discoverNeed_tv_company);
+            realName=itemView.findViewById(R.id.item_discoverNeed_tv_realName);
         }
     }
 }

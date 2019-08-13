@@ -1,6 +1,10 @@
 package com.zthx.npj.net.netsubscribe;
 
+import com.zthx.npj.net.been.CompanyBean;
 import com.zthx.npj.net.been.GiftListBean;
+import com.zthx.npj.net.been.IntegrityBean;
+import com.zthx.npj.net.been.RealNameBean;
+import com.zthx.npj.net.been.StockBean;
 import com.zthx.npj.net.been.UpLoadMyCertBean;
 import com.zthx.npj.net.been.UploadCaigouBean;
 import com.zthx.npj.net.been.UploadChengXinCertBean;
@@ -147,4 +151,61 @@ public class CertSubscribe {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().zizhi3(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
+
+    /**
+     * 实人认证
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void realName(String user_id,String token, DisposableObserver<ResponseBody> subscriber) {
+        RealNameBean bean=new RealNameBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().realName(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 企业认证
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void company(String user_id,String token, DisposableObserver<ResponseBody> subscriber) {
+        CompanyBean bean=new CompanyBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().company(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 采购认证
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void stock(String user_id,String token, DisposableObserver<ResponseBody> subscriber) {
+        StockBean bean=new StockBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().stock(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 诚信认证
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void integrity(String user_id,String token, DisposableObserver<ResponseBody> subscriber) {
+        IntegrityBean bean=new IntegrityBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().integrity(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
 }

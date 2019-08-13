@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Outline;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -88,8 +90,8 @@ public class HomeFragment extends BaseFragment {
     LinearLayout fgHomeLlLocal;
     @BindView(R.id.fg_home_ll_gift)
     LinearLayout fgHomeLlGift;
-    //    @BindView(R.id.fg_home_refresh)
-//    SmartRefreshLayout fgHomeRefresh;
+    //@BindView(R.id.fg_home_refresh)
+    //SmartRefreshLayout fgHomeRefresh;
     @BindView(R.id.fg_home_rl_go_game)
     RelativeLayout fgHomeLlGoGame;
     @BindView(R.id.fg_home_ll_recommend)
@@ -197,13 +199,15 @@ public class HomeFragment extends BaseFragment {
         banner.setImages(list);
         //设置banner动画效果
         banner.setBannerAnimation(Transformer.DepthPage);
-        banner.setOutlineProvider(new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View view, Outline outline) {
-                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), 14);
-            }
-        });
-        banner.setClipToOutline(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            banner.setOutlineProvider(new ViewOutlineProvider() {
+                @Override
+                public void getOutline(View view, Outline outline) {
+                    outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), 14);
+                }
+            });
+            banner.setClipToOutline(true);
+        }
         //设置自动轮播，默认为true
         banner.isAutoPlay(true);
         //设置标题集合（当banner样式有显示title时）

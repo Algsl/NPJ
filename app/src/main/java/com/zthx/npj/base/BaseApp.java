@@ -3,6 +3,7 @@ package com.zthx.npj.base;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.zthx.npj.baidumap.LocationService;
 import com.zthx.npj.services.GlobalEventListener;
@@ -31,6 +32,12 @@ public class BaseApp extends Application {
         JPushInterface.init(this);
         JMessageClient.registerEventReceiver(new GlobalEventListener(getApplicationContext()));
         app = this;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     public static Context getConText(){

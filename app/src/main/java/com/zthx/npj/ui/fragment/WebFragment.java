@@ -119,6 +119,9 @@ public class WebFragment extends Fragment {
                         /*if(clicked.get(j)){
                             clicked.set(j,false);
                         }*/
+                        if(group.get(j).isSelected()){
+                            group.get(j).setSelected(false);
+                        }
                         adapter.notifyDataSetChanged();
                         fgWebElv.collapseGroup(j);
                     }
@@ -129,8 +132,9 @@ public class WebFragment extends Fragment {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
                 //clicked.set(i,!clicked.get(i));
+                group.get(i).setSelected(!group.get(i).isSelected());
                 adapter.setCurrentItem(i);
-                //adapter.setmClicked(clicked.get(i));
+                adapter.setmClicked(group.get(i).isSelected());
                 adapter.notifyDataSetChanged();
                 return false;
             }

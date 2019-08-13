@@ -27,6 +27,7 @@
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/item_discover_need_pic"
         android:orientation="vertical"
+        android:gravity="center_vertical"
         android:layout_marginLeft="@dimen/dp_10">
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,7 +42,8 @@
                 android:textColor="@color/white"
                 android:gravity="center"
                 android:background="@drawable/theme_conner_5"
-                android:text="置顶"/>
+                android:text="置顶"
+                android:layout_marginRight="@dimen/dp_5"/>
             <TextView
                 android:id="@+id/item_discover_need_tv_title"
                 android:layout_width="wrap_content"
@@ -56,12 +58,13 @@
         </LinearLayout>
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="@dimen/dp_4">
             <TextView
+                android:id="@+id/item_discoverNeed_tv_company"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="企业保证"
@@ -69,8 +72,11 @@
                 android:textColor="@android:color/white"
                 android:background="#F39B1F"
                 android:paddingRight="@dimen/dp_6"
-                android:paddingLeft="@dimen/dp_6"/>
+                android:paddingLeft="@dimen/dp_6"
+                android:layout_marginRight="@dimen/dp_10"/>
             <TextView
+                android:id="@+id/item_discoverNeed_tv_realName"
+                android:layout_toRightOf="@id/item_discoverNeed_tv_company"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="商家认证"
@@ -78,15 +84,23 @@
                 android:textColor="@android:color/white"
                 android:background="#EB6877"
                 android:paddingRight="@dimen/dp_6"
-                android:paddingLeft="@dimen/dp_6"
-                android:layout_marginLeft="@dimen/dp_10"/>
-        </LinearLayout>
+                android:paddingLeft="@dimen/dp_6" />
+            <TextView
+                android:id="@+id/item_discover_need_tv_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1.5km"
+                android:textColor="@color/text6"
+                android:textSize="@dimen/sp_12"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_12" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/item_discover_need_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20">
+            android:layout_marginTop="@dimen/dp_10">
             <TextView
                 android:id="@+id/item_discover_need_tv_caigou_num"
                 android:layout_width="wrap_content"
@@ -116,17 +130,5 @@
                 android:layout_marginRight="@dimen/dp_12"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
-
     </LinearLayout>
-    <TextView
-        android:id="@+id/item_discover_need_tv_distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1.5km"
-        android:textColor="@color/text6"
-        android:textSize="@dimen/sp_12"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="@dimen/dp_12"
-        android:layout_marginBottom="@dimen/dp_30"/>
 </RelativeLayout>

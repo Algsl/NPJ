@@ -10,6 +10,15 @@ public class MyCertResponseBean extends BaseReponseBean {
     private int company_cert;
     private int stock_cert;
     private int integrity_cert;
+    private int zizhi_cert;
+
+    public int getZizhi_cert() {
+        return zizhi_cert;
+    }
+
+    public void setZizhi_cert(int zizhi_cert) {
+        this.zizhi_cert = zizhi_cert;
+    }
 
     public int getName_cert() {
         return name_cert;

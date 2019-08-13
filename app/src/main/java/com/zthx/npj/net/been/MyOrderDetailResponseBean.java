@@ -11,12 +11,21 @@ public class MyOrderDetailResponseBean extends BaseReponseBean{
         private String goods_price;
         private long goods_num;
         private String order_price;
+        private String store_name;
         private String shipping_fee;
         private long order_time;
         private String order_sn;
         private long order_state;
         private String express_name;
         private String express_number;
+
+        public String getStore_name() {
+            return store_name;
+        }
+
+        public void setStore_name(String store_name) {
+            this.store_name = store_name;
+        }
 
         public String getConsignee() {
             return consignee;

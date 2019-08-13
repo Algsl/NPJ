@@ -32,6 +32,7 @@
         android:text="您的认证申请已提交成功，我们会在三个工作日内给予审核，请注意查收短信信息！"/>
     
     <Button
+        android:id="@+id/ac_confirmAttestation_btn_back"
         android:layout_width="@dimen/dp_208"
         android:layout_height="@dimen/dp_40"
         android:background="@drawable/theme_conner_5"

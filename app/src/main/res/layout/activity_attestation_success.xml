@@ -9,8 +9,9 @@
 
     <include
         layout="@layout/title"></include>
-    
+
     <ImageView
+        android:id="@+id/ac_attestation_iv_fail"
         android:layout_width="@dimen/dp_140"
         android:layout_height="@dimen/dp_162"
         android:layout_gravity="center_horizontal"
@@ -18,6 +19,7 @@
         android:src="@drawable/shirenrenzheng_iv"/>
 
     <TextView
+        android:id="@+id/ac_attestation_tv_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="未通过"
@@ -27,6 +29,7 @@
         android:layout_marginTop="@dimen/dp_44"/>
 
     <TextView
+        android:id="@+id/ac_attestation_tv_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -36,6 +39,7 @@
         android:layout_marginTop="@dimen/dp_14"/>
 
     <Button
+        android:id="@+id/ac_attestation_btn_reUp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:layout_marginLeft="@dimen/dp_12"

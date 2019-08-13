@@ -486,5 +486,17 @@ public interface HttpApi  {
 
     @POST("index.php/api/usercert/zizhi3.html")
     Observable<ResponseBody> zizhi3(@Body ZiZhi3Bean bean);
+
+    @POST("index.php/api/usercert/realname.html")
+    Observable<ResponseBody> realName(@Body RealNameBean bean);
+
+    @POST("index.php/api/usercert/company.html")
+    Observable<ResponseBody> company(@Body CompanyBean bean);
+
+    @POST("index.php/api/usercert/stock.html")
+    Observable<ResponseBody> stock(@Body StockBean bean);
+
+    @POST("index.php/api/usercert/integrity.html")
+    Observable<ResponseBody> integrity(@Body IntegrityBean bean);
 }
 

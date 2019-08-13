@@ -79,9 +79,22 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
         }else{
             viewHolder.mTvDistance.setText(list.get(i).getDistance()+"m");
         }
-
         viewHolder.mTvTitle.setText(list.get(i).getTitle());
         viewHolder.mTvSupplyUnit.setText("元/"+list.get(i).getGoods_unit());
+        if(list.get(i).getCert()==null){
+            viewHolder.company.setVisibility(View.GONE);
+            viewHolder.realName.setVisibility(View.GONE);
+        }else{
+            String cert=list.get(i).getCert();
+            String[] strs=cert.split(",");
+            for(String str:strs){
+                if(str.equals("1")){
+                    viewHolder.realName.setVisibility(View.VISIBLE);
+                }else if(str.equals("2")){
+                    viewHolder.company.setVisibility(View.VISIBLE);
+                }
+            }
+        }
     }
 
     @Override
@@ -98,6 +111,7 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
         TextView mTvSupplyUnit;
         TextView mTvSellNum;
         TextView mTvDistance;
+        TextView company,realName;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -108,6 +122,8 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
             mTvSupplyUnit = itemView.findViewById(R.id.item_discover_supply_tv_price_danwei);
             mRlSupply = itemView.findViewById(R.id.item_discover_supply_rl);
             mRlNeed = itemView.findViewById(R.id.item_discover_need_rl);
+            company=itemView.findViewById(R.id.item_discoverSupply_tv_company);
+            realName=itemView.findViewById(R.id.item_discoverSupply_tv_realName);
         }
     }
 }
