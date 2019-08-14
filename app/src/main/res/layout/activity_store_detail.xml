@@ -135,6 +135,7 @@
                android:layout_width="match_parent"
                android:layout_height="@dimen/dp_68">
                <ImageView
+                   android:id="@+id/ac_storeDetail_showLocation"
                    android:layout_width="@dimen/dp_20"
                    android:layout_height="@dimen/dp_20"
                    android:src="@drawable/location_store_locate"

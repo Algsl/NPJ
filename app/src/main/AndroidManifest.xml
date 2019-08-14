@@ -167,6 +167,8 @@
         <activity android:name=".ui.ZiZhiActivity"/>
         <activity android:name=".ui.ZiZhiInfoActivity"/>
         <activity android:name=".ui.ConsultActivity"/>
+        <activity android:name=".ui.ShowLocationActivity"/>
+        <activity android:name=".ui.StoreGoodsClassifyActivity"/>
 
 
         <activity

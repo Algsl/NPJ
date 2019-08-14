@@ -21,12 +21,24 @@ public class NeedDetailResponseBean extends BaseReponseBean {
     public class DataBean{
 
         private long id;
+        private String user_id;
         private String title;
         private ArrayList<String> img;
+        private String spec;
         private String amount;
         private String unit;
+        private String city;
+        private String min_price;
+        private String max_price;
         private ArrayList<String> content;
+        private String create_time;
+        private String update_time;
+        private String remark;
+        private String lat;
+        private String lng;
         private int status;
+        private String baojia_status;
+        private String is_top;
         private String mobile;
         private String head_img;
         private String nick_name;
@@ -35,6 +47,102 @@ public class NeedDetailResponseBean extends BaseReponseBean {
         private int reputation;
         private String hits;
         private int user_count;
+
+        public String getSpec() {
+            return spec;
+        }
+
+        public void setSpec(String spec) {
+            this.spec = spec;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public String getMin_price() {
+            return min_price;
+        }
+
+        public void setMin_price(String min_price) {
+            this.min_price = min_price;
+        }
+
+        public String getMax_price() {
+            return max_price;
+        }
+
+        public void setMax_price(String max_price) {
+            this.max_price = max_price;
+        }
+
+        public String getCreate_time() {
+            return create_time;
+        }
+
+        public void setCreate_time(String create_time) {
+            this.create_time = create_time;
+        }
+
+        public String getUpdate_time() {
+            return update_time;
+        }
+
+        public void setUpdate_time(String update_time) {
+            this.update_time = update_time;
+        }
+
+        public String getRemark() {
+            return remark;
+        }
+
+        public void setRemark(String remark) {
+            this.remark = remark;
+        }
+
+        public String getLat() {
+            return lat;
+        }
+
+        public void setLat(String lat) {
+            this.lat = lat;
+        }
+
+        public String getLng() {
+            return lng;
+        }
+
+        public void setLng(String lng) {
+            this.lng = lng;
+        }
+
+        public String getBaojia_status() {
+            return baojia_status;
+        }
+
+        public void setBaojia_status(String baojia_status) {
+            this.baojia_status = baojia_status;
+        }
+
+        public String getIs_top() {
+            return is_top;
+        }
+
+        public void setIs_top(String is_top) {
+            this.is_top = is_top;
+        }
+
+        public String getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(String user_id) {
+            this.user_id = user_id;
+        }
 
         public long getId() {
             return id;

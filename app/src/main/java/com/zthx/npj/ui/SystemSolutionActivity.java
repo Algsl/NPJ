@@ -134,4 +134,16 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        atSystemSolutionPlayer.suspend();
+    }
 }

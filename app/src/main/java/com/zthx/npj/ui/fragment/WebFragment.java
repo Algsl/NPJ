@@ -174,17 +174,6 @@ public class WebFragment extends Fragment {
         mListener = null;
     }
 
-    private void setGoodsDetail() {
-        GoodsImgDetailResponseBean bean = new GoodsImgDetailResponseBean();
-        ArrayList<String> lists = new ArrayList<>();
-        lists.add("1");
-        lists.add("2");
-        lists.add("3");
-        /*RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        acGoodsDetailRvContent.setLayoutManager(layoutManager);
-        GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(getContext(), lists);
-        acGoodsDetailRvContent.setAdapter(adapter);*/
-    }
 
     @Override
     public void onDestroyView() {
@@ -206,24 +195,4 @@ public class WebFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-    /*public void initData(){
-        group = new ArrayList<String>();
-        child = new ArrayList<List<String>>();
-        addInfo("1.0-蓝莓的简介", new String[] {"1.1蓝莓的生长过程","1.2蓝莓的发源地","1.3蓝莓的生长过程"});
-        addInfo("2.0-蓝莓病虫害防治方法",  new String[] {"2.1蓝莓的生长过程","2.2蓝莓的发源地","2.3蓝莓的生长过程"});
-        addInfo("3.0-蓝莓的生长及主要虫害",  new String[] {"3.1蓝莓的生长过程","3.2蓝莓的发源地","3.3蓝莓的生长过程"});
-        clicked.add(false);
-        clicked.add(false);
-        clicked.add(false);
-    }*/
-
-    /*public void addInfo(String g, String[] c){
-        group.add(g);
-        List<String> item = new ArrayList<>();
-        for(int i = 0; i < c.length; i++){
-            item.add(c[i]);
-        }
-        child.add(item);
-    }*/
 }

@@ -401,7 +401,7 @@ public class GoodsDetailActivity extends ActivityBase {
                 showSingleBottomDialog(bmp);
                 break;
             case R.id.ac_goodsDetail_ll_store:
-                openActivity(StoreActivity.class);
+                openActivity(StoreActivity.class,mGoodsData.getUser_id());
                 break;
             case R.id.ac_goodsDetail_iv_home:
                 openActivity(MainActivity.class);

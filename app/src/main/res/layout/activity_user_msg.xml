@@ -74,7 +74,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/dp_13"
                         android:src="@drawable/logo"/>
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/ac_userMsg_tv_level"
                         android:layout_width="@dimen/dp_80"
                         android:layout_height="@dimen/dp_23"
@@ -82,7 +82,15 @@
                         android:text="金牌代言人"
                         android:textColor="@color/white"
                         android:textSize="@dimen/sp_12"
-                        android:background="@drawable/bg_daiyanren"/>
+                        android:background="@drawable/bg_daiyanren"/>-->
+                    <ImageView
+                        android:id="@+id/ac_userMsg_tv_level"
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="@dimen/dp_23"
+                        android:gravity="center"
+                        android:text="金牌代言人"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_12"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -92,6 +100,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <TextView
+                            android:id="@+id/ac_userMsg_tv_beDYR"
                             android:gravity="center"
                             android:layout_width="@dimen/dp_100"
                             android:layout_height="@dimen/dp_20"
@@ -157,98 +166,105 @@
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/dp_10"
-                android:background="@color/white">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_10"
+            android:background="@color/background"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_80"
-            android:background="@color/white"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white">
             <LinearLayout
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text3"
-                    android:textSize="@dimen/sp_15"
-                    android:text="523人"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text9"
-                    android:textSize="@dimen/sp_12"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:text="访问次数"/>
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_80"
+                android:background="@color/white"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/ac_userMsg_tv_hits"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text3"
+                        android:textSize="@dimen/sp_15"
+                        android:text="523人"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text9"
+                        android:textSize="@dimen/sp_12"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:text="访问次数"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/ac_userMsg_tv_attNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text3"
+                        android:textSize="@dimen/sp_15"
+                        android:text="1125人"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text9"
+                        android:textSize="@dimen/sp_12"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:text="粉丝数"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/ac_userMsg_tv_historyMoney"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text3"
+                        android:textSize="@dimen/sp_15"
+                        android:text="1200元"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text9"
+                        android:textSize="@dimen/sp_12"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:text="历史交易"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/ac_userMsg_tv_reputation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text3"
+                        android:textSize="@dimen/sp_15"
+                        android:text="259分"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text9"
+                        android:textSize="@dimen/sp_12"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:text="信誉分"/>
+                </LinearLayout>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text3"
-                    android:textSize="@dimen/sp_15"
-                    android:text="1125人"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text9"
-                    android:textSize="@dimen/sp_12"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:text="粉丝数"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text3"
-                    android:textSize="@dimen/sp_15"
-                    android:text="1200元"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text9"
-                    android:textSize="@dimen/sp_12"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:text="历史交易"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text3"
-                    android:textSize="@dimen/sp_15"
-                    android:text="259分"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text9"
-                    android:textSize="@dimen/sp_12"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:text="信誉分"/>
-            </LinearLayout>
-        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_70"

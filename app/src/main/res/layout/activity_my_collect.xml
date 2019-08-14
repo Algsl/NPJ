@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.MyCollectActivity"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
     android:orientation="vertical">
 
     <include
@@ -21,12 +23,12 @@
            android:layout_height="match_parent"
            android:orientation="vertical"
            android:background="@android:color/white">
-
            <LinearLayout
                android:layout_width="@dimen/dp_155"
                android:layout_height="@dimen/dp_30"
                android:layout_gravity="center_horizontal"
-               android:layout_marginTop="@dimen/dp_11"
+               android:layout_marginTop="@dimen/dp_10"
+               android:layout_marginBottom="@dimen/dp_10"
                android:background="@drawable/stroke_app_theme"
                android:orientation="horizontal">
 

@@ -41,8 +41,8 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     TextView atMyOrderDetailTvGoodsNum;
     @BindView(R.id.at_myOrderDetail_tv_isFreeShipping)
     TextView atMyOrderDetailTvIsFreeShipping;
-    @BindView(R.id.at_myOrderDetail_tv_orderPrice)
-    TextView atMyOrderDetailTvOrderPrice;
+    //@BindView(R.id.at_myOrderDetail_tv_orderPrice)
+    //TextView atMyOrderDetailTvOrderPrice;
     @BindView(R.id.at_myOrderDetail_tv_orderSn)
     TextView atMyOrderDetailTvOrderSn;
     @BindView(R.id.at_myOrderDetail_tv_payType)
@@ -51,8 +51,6 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     TextView atMyOrderDetailTvCreateTime;
     @BindView(R.id.at_myOrderDetail_tv_payTime)
     TextView atMyOrderDetailTvPayTime;
-    @BindView(R.id.at_myOrderDetail_tv_address)
-    TextView atMyOrderDetailTvAddress;
     @BindView(R.id.title_theme_back)
     ImageView titleThemeBack;
     @BindView(R.id.title_theme_title)
@@ -117,8 +115,12 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     TextView acMyOrderDetailTvChat;
     @BindView(R.id.ac_myOrderDetail_tv_call)
     TextView acMyOrderDetailTvCall;
+    @BindView(R.id.ac_myOrderDetail_ll_paySend)
+    LinearLayout acMyOrderDetailLlPaySend;
+    @BindView(R.id.ac_myOrderDetail_ll_refundNum)
+    LinearLayout acMyOrderDetailLlRefundNum;
 
-    private String order_state="";
+    private String order_state = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,8 +131,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
         back(titleThemeBack);
         changeTitle(titleThemeTitle, "订单详情");
 
-        order_state=getIntent().getStringExtra("order_state");
-
+        order_state = getIntent().getStringExtra("order_state");
 
 
         getMyStoreOrderDetail();
@@ -156,7 +157,9 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     private void setMyOrderDetail(String result) {
         MyOrderDetailResponseBean bean = GsonUtils.fromJson(result, MyOrderDetailResponseBean.class);
         MyOrderDetailResponseBean.DataBean data = bean.getData();
-        atMyOrderDetailTvAddress.setText(data.getAddress());
+        acMyOrderDetailTvUserName.setText(data.getConsignee());
+        acMyOrderDetailTvCellPhone.setText(data.getMobile());
+        acMyOrderDetailTvAddress.setText(data.getAddress());
         atMyOrderDetailTvStoreName.setText(data.getStore_name());
 
         Glide.with(this).load(Uri.parse(data.getGoods_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
@@ -165,17 +168,26 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                 atMyOrderDetailIvGoodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource, 16));
             }
         });
+        Glide.with(this).load(Uri.parse(data.getGoods_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                atMyOrderDetailIvGoodsImg1.setImageBitmap(ImageCircleConner.toRoundCorner(resource, 16));
+            }
+        });
         atMyOrderDetailTvGoodsName.setText(data.getGoods_name());
+        atMyOrderDetailTvGoodsName1.setText(data.getGoods_name());
         atMyOrderDetailTvGoodsPrice.setText(data.getGoods_price());
+        atMyOrderDetailTvGoodsPrice1.setText(data.getGoods_price());
         atMyOrderDetailTvGoodsNum.setText("x " + data.getGoods_num());
-
+        atMyOrderDetailTvGoodsNum1.setText("x " + data.getGoods_num());
         atMyOrderDetailTvIsFreeShipping.setText(data.getShipping_fee());
-        atMyOrderDetailTvOrderPrice.setText(data.getOrder_price());
+        //atMyOrderDetailTvOrderPrice.setText(data.getOrder_price());
+
         atMyOrderDetailTvOrderSn.setText(data.getOrder_sn());
         atMyOrderDetailTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time())));
         atMyOrderDetailTvPayTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time())));
 
-        switch (order_state){
+        switch (order_state) {
             case "1":
                 acMyOrderDetailTvStatus.setText("待付款");
                 acMyOrderDetailTvHint.setText("剩余24时00分自动关闭");
@@ -193,6 +205,9 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                 acMyOrderDetailTvHint.setText("期待再次为您服务");
                 break;
             case "6":
+                acMyOrderDetailLlPaySend.setVisibility(View.GONE);
+                acMyOrderDetailLlRefund.setVisibility(View.VISIBLE);
+                acMyOrderDetailLlRefundNum.setVisibility(View.VISIBLE);
                 acMyOrderDetailTvStatus.setText("已提交退款申请，等待卖家处理");
                 acMyOrderDetailTvHint.setText("剩余2天4时自动确认");
 

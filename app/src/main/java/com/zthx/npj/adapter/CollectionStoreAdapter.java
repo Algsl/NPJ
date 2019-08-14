@@ -1,6 +1,7 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,8 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CollectionStoreResponseBean;
+import com.zthx.npj.utils.ImageCircleConner;
 
 import java.util.ArrayList;
 
@@ -61,7 +65,13 @@ public class CollectionStoreAdapter extends RecyclerView.Adapter<CollectionStore
                 }
             });
         }
-        Glide.with(mContext).load(Uri.parse(mList.get(i).getStore_img())).into(viewHolder.storeImg);
+        //Glide.with(mContext).load(Uri.parse(mList.get(i).getStore_img())).into(viewHolder.storeImg);
+        Glide.with(mContext).load(Uri.parse(mList.get(i).getStore_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                viewHolder.storeImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
+            }
+        });
         viewHolder.storeName.setText(mList.get(i).getStore_name());
         viewHolder.goodsCount.setText(mList.get(i).getCount()+"");
     }

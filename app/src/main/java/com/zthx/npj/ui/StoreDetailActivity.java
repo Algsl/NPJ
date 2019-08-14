@@ -1,14 +1,13 @@
 package com.zthx.npj.ui;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.youth.banner.Banner;
@@ -27,7 +26,6 @@ import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,6 +79,8 @@ public class StoreDetailActivity extends ActivityBase {
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.banner_discover_service)
     Banner bannerDiscoverService;
+    @BindView(R.id.ac_storeDetail_showLocation)
+    ImageView acStoreDetailShowLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,7 @@ public class StoreDetailActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,"店铺详情");
+        changeTitle(acTitle, "店铺详情");
 
         getStoreDetail(getIntent().getStringExtra(Const.STORE_ID));
         getStoreComment(getIntent().getStringExtra(Const.STORE_ID));
@@ -111,7 +111,7 @@ public class StoreDetailActivity extends ActivityBase {
     }
 
     private void setComment(String result) {
-        String test="{\n" +
+        String test = "{\n" +
                 "    \"code\": 1,\n" +
                 "    \"data\": [\n" +
                 "        {\n" +
@@ -160,13 +160,7 @@ public class StoreDetailActivity extends ActivityBase {
         }));
     }
 
-    @OnClick(R.id.at_store_detail_btn_pay)
-    public void onViewClicked() {
-        openActivity(PayToStoreActivity.class,getIntent().getStringExtra(Const.STORE_ID));
-    }
-
     public void setData(String result) {
-
         StoreDetailResponseBean storeDetailResponseBean = GsonUtils.fromJson(result, StoreDetailResponseBean.class);
         StoreDetailResponseBean.DataBean data = storeDetailResponseBean.getData();
         initBanner(data.getStore_img());
@@ -231,5 +225,19 @@ public class StoreDetailActivity extends ActivityBase {
         });
         //banner设置方法全部调用完毕时最后调用
         bannerDiscoverService.start();
+    }
+
+    @OnClick({R.id.ac_storeDetail_showLocation, R.id.at_store_detail_iv_call,R.id.at_store_detail_btn_pay})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ac_storeDetail_showLocation:
+                openActivity(ShowLocationActivity.class);
+                break;
+            case R.id.at_store_detail_iv_call:
+                break;
+            case R.id.at_store_detail_btn_pay:
+                openActivity(PayToStoreActivity.class, getIntent().getStringExtra(Const.STORE_ID));
+                break;
+        }
     }
 }

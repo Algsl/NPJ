@@ -117,6 +117,7 @@ public class SupplyProductsActivity extends ActivityBase {
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
     private SupplyDetailResponseBean.DataBean supplyData;
+    private String sn_user_id="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,6 +186,9 @@ public class SupplyProductsActivity extends ActivityBase {
                 } else {
                     atSupplyProductsTvXinyufen.setText("信誉分： 0");
                 }
+
+                sn_user_id=data.getUser_id();
+
                 Glide.with(SupplyProductsActivity.this).load(data.getHead_img()).into(atSupplyProductsIvHeadPic);
                 atSupplyProductsTvName.setText(data.getNick_name());
                 atSupplyProductsTvXinyufen.setText("信誉分" + data.getReputation());
@@ -227,7 +231,7 @@ public class SupplyProductsActivity extends ActivityBase {
                 } else {
                     atSupplyProductsTvXinyufen.setText("信誉分： " + supplyData.getReputation());
                 }
-
+                sn_user_id=supplyData.getUser_id();
                 if (supplyData.getCertification() != null) {
                     String[] strs = supplyData.getCertification().split(",");
                     for (String str : strs) {
@@ -318,7 +322,7 @@ public class SupplyProductsActivity extends ActivityBase {
                 openActivity(MainActivity.class);
                 break;
             case R.id.ac_supplyProducts_seeInfo:
-                openActivity(UserMsgActivity.class);
+                openActivity(UserMsgActivity.class,sn_user_id);
                 break;
             case R.id.ac_supply_tv_detail:
                 acSupplyTvDetail.setBackgroundColor(getResources().getColor(R.color.app_theme));

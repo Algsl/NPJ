@@ -498,5 +498,20 @@ public interface HttpApi  {
 
     @POST("index.php/api/usercert/integrity.html")
     Observable<ResponseBody> integrity(@Body IntegrityBean bean);
+
+    @POST("index.php/api/index/lookuser.html")
+    Observable<ResponseBody> lookUser(@Body LookUserBean bean);
+
+    @POST("index.php/api/user/attention.html")
+    Observable<ResponseBody> attention(@Body AttentionBean bean);
+
+    @POST("index.php/api/index/storeinfo.html")
+    Observable<ResponseBody> storeInfo(@Body StoreInfoBean bean);
+
+    @POST("index.php/api/index/storegoodslist.html")
+    Observable<ResponseBody> storeGoodsList(@Body StoreGoodsListBean bean);
+
+    @POST("index.php/api/index/searchstoregoods.html")
+    Observable<ResponseBody> searchStoreGoods(@Body SearchStoreGoodsBean bean);
 }
 

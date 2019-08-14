@@ -56,6 +56,7 @@
                     android:id="@+id/textView" />
 
                 <TextView
+                    android:id="@+id/ac_quotationDetail_seeInfo"
                     android:layout_width="@dimen/dp_65"
                     android:layout_height="@dimen/dp_17"
                     android:background="@drawable/stroke_zise_5"

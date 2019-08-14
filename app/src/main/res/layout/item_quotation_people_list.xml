@@ -35,7 +35,7 @@
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginLeft="@dimen/dp_10"/>
 
-    <TextView
+    <!--<TextView
         android:id="@+id/item_quotation_tv_seeInfo"
         android:layout_width="@dimen/dp_65"
         android:layout_height="@dimen/dp_17"
@@ -46,7 +46,7 @@
         android:background="@drawable/stroke_gray_10"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/dp_12"
-        android:layout_marginTop="@dimen/dp_12"/>
+        android:layout_marginTop="@dimen/dp_12"/>-->
 
     <TextView
         android:id="@+id/item_quotation_people_tv_day"

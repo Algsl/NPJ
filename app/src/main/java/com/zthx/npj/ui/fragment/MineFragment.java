@@ -410,7 +410,9 @@ public class MineFragment
                 }
                 break;
             case R.id.fg_mine_ll:
-                startActivity(new Intent(getContext(), UserMsgActivity.class));
+                Intent intent=new Intent(getContext(),UserMsgActivity.class);
+                intent.putExtra("key0",user_id);
+                startActivity(intent);
                 break;
             case R.id.fg_mine_iv_jihuo:
                 startActivity(new Intent(getContext(),MembershipPackageActivity.class));

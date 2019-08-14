@@ -20,6 +20,7 @@ import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.MyCircleView;
 
@@ -58,6 +59,7 @@ public class BaojiaUserDetailActivity extends ActivityBase {
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
     private String id = "";
+    private String bjuser_id="";
 
 
     @Override
@@ -73,10 +75,12 @@ public class BaojiaUserDetailActivity extends ActivityBase {
         int position = getIntent().getIntExtra("position", 0);
 
         BaojiaUserListResponseBean bean = GsonUtils.fromJson(result, BaojiaUserListResponseBean.class);
+
         id = bean.getData().get(position).getId() + "";
         Glide.with(this).load(Uri.parse(bean.getData().get(position).getHead_img())).into(acBaojiaDetailMvHeadImg);
         acBaojiaDetailTvNickName.setText(bean.getData().get(position).getNick_name());
-        switch ((int) bean.getData().get(position).getLevel()) {
+        MyCustomUtils.showLevelImg((int)bean.getData().get(position).getLevel(),acBaojiaDetailTvLevel);
+        /*switch ((int) bean.getData().get(position).getLevel()) {
             case 0:
                 acBaojiaDetailTvLevel.setImageResource(R.drawable.level0);
                 break;
@@ -110,8 +114,7 @@ public class BaojiaUserDetailActivity extends ActivityBase {
             case 10:
                 acBaojiaDetailTvLevel.setImageResource(R.drawable.level10);
                 break;
-        }
-
+        }*/
         getBaojiaDetail();
     }
 
@@ -121,6 +124,7 @@ public class BaojiaUserDetailActivity extends ActivityBase {
             public void onSuccess(String result) {
                 BaojiaUserDetailResponseBean bean = GsonUtils.fromJson(result, BaojiaUserDetailResponseBean.class);
                 ArrayList<BaojiaUserDetailResponseBean.DataBean> data = bean.getData();
+                bjuser_id=data.get(0).getUser_id();
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(BaojiaUserDetailActivity.this);
                 acBaojiaDetailRv.setLayoutManager(layoutManager);
                 BaojiaUserDetailAdapter adapter = new BaojiaUserDetailAdapter(BaojiaUserDetailActivity.this, data);
@@ -138,7 +142,7 @@ public class BaojiaUserDetailActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_baojia_tv_seeInfo:
-                openActivity(UserMsgActivity.class);
+                openActivity(UserMsgActivity.class,bjuser_id);
                 break;
             case R.id.ac_baojia_btn_chat:
                 break;

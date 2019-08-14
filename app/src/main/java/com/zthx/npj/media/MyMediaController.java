@@ -46,6 +46,7 @@ public class MyMediaController implements IMediaController, View.OnClickListener
         seekBar = controllerRoot.findViewById(R.id.seek_bar);
         btnFull = controllerRoot.findViewById(R.id.btn_full);
         btnPlay = controllerRoot.findViewById(R.id.btn_play);
+
         btnFull.setOnCheckedChangeListener(this);
         btnPlay.setOnClickListener(this);
         seekBar.setOnSeekBarChangeListener(this);
@@ -57,7 +58,7 @@ public class MyMediaController implements IMediaController, View.OnClickListener
         videoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(IMediaPlayer iMediaPlayer) {
-                isDragging = false;
+                isDragging = true;//修改
                 isShowing = true;
                 handler.sendEmptyMessage(MESSAGE_SHOW_PROGRESS);
                 handler.sendEmptyMessageDelayed(SET_VIEW_HIDE, TIME_OUT);

@@ -1,5 +1,6 @@
 package com.zthx.npj.net.netsubscribe;
 
+import com.zthx.npj.entity.StoreInfo;
 import com.zthx.npj.net.been.BannerBean;
 import com.zthx.npj.net.been.CategoryBean;
 import com.zthx.npj.net.been.CommentBean;
@@ -13,7 +14,10 @@ import com.zthx.npj.net.been.OrderPushBean;
 import com.zthx.npj.net.been.RecommendBean;
 import com.zthx.npj.net.been.SearchBean;
 import com.zthx.npj.net.been.SearchStoreBean;
+import com.zthx.npj.net.been.SearchStoreGoodsBean;
 import com.zthx.npj.net.been.StoreDetailBean;
+import com.zthx.npj.net.been.StoreGoodsListBean;
+import com.zthx.npj.net.been.StoreInfoBean;
 import com.zthx.npj.net.been.UserBean;
 import com.zthx.npj.net.been.VideoInfoBean;
 import com.zthx.npj.net.been.VideoOrderBean;
@@ -198,6 +202,48 @@ public class MainSubscribe {
         bean.setLat(lat);
         bean.setTitle(title);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().searchStore(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 店铺信息
+     * @param store_id
+     * @param user_id
+     * @param subscriber
+     */
+    public static void storeInfo(String store_id,String user_id, DisposableObserver<ResponseBody> subscriber) {
+        StoreInfoBean bean=new StoreInfoBean();
+        bean.setStore_id(store_id);
+        bean.setUser_id(user_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().storeInfo(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 店铺商品
+     * @param store_id
+     * @param type
+     * @param subscriber
+     */
+    public static void storeGoodsList(String store_id,String type, DisposableObserver<ResponseBody> subscriber) {
+        StoreGoodsListBean bean=new StoreGoodsListBean();
+        bean.setStore_id(store_id);
+        bean.setType(type);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().storeGoodsList(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 店铺搜索商品
+     * @param store_id
+     * @param keyword
+     * @param subscriber
+     */
+    public static void searchStoreGoods(String store_id,String keyword, DisposableObserver<ResponseBody> subscriber) {
+        SearchStoreGoodsBean bean=new SearchStoreGoodsBean();
+        bean.setStore_id(store_id);
+        bean.setKeyword(keyword);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().searchStoreGoods(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 

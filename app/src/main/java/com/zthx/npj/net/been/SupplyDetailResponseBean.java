@@ -21,7 +21,7 @@ public class SupplyDetailResponseBean extends BaseReponseBean {
     public class DataBean{
 
         private long id;
-        private long user_id;
+        private String user_id;
         private String title;
         private String goods_name;
         private String goods_num;
@@ -30,8 +30,15 @@ public class SupplyDetailResponseBean extends BaseReponseBean {
         private String price;
         private ArrayList<String> goods_img;
         private ArrayList<String> content;
+        private String remark;
+        private String create_time;
+        private String update_time;
+        private String lat;
+        private String lng;
+        private String status;
         private String hits;
         private String sold;
+        private String buy_num;
         private String mobile;
         private String head_img;
         private String nick_name;
@@ -39,20 +46,77 @@ public class SupplyDetailResponseBean extends BaseReponseBean {
         private String certification;
         private String reputation;
 
+
+        public String getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(String user_id) {
+            this.user_id = user_id;
+        }
+
+        public String getRemark() {
+            return remark;
+        }
+
+        public void setRemark(String remark) {
+            this.remark = remark;
+        }
+
+        public String getCreate_time() {
+            return create_time;
+        }
+
+        public void setCreate_time(String create_time) {
+            this.create_time = create_time;
+        }
+
+        public String getUpdate_time() {
+            return update_time;
+        }
+
+        public void setUpdate_time(String update_time) {
+            this.update_time = update_time;
+        }
+
+        public String getLat() {
+            return lat;
+        }
+
+        public void setLat(String lat) {
+            this.lat = lat;
+        }
+
+        public String getLng() {
+            return lng;
+        }
+
+        public void setLng(String lng) {
+            this.lng = lng;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public String getBuy_num() {
+            return buy_num;
+        }
+
+        public void setBuy_num(String buy_num) {
+            this.buy_num = buy_num;
+        }
+
         public long getId() {
             return id;
         }
 
         public void setId(long id) {
             this.id = id;
-        }
-
-        public long getUser_id() {
-            return user_id;
-        }
-
-        public void setUser_id(long user_id) {
-            this.user_id = user_id;
         }
 
         public String getTitle() {

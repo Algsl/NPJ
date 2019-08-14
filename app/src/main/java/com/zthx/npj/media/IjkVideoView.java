@@ -288,6 +288,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     // REMOVED: addSubtitleSource
     // REMOVED: mPendingSubtitleTracks
 
+    //停止播放
     public void stopPlayback() {
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();

@@ -160,6 +160,7 @@ public class WantBuyManagerActivity extends ActivityBase {
     @OnClick({R.id.ac_wantBuy_tv_wantBuy, R.id.ac_wantBuy_tv_baojia, R.id.ac_wantBuy_tv_issue, R.id.ac_wantBuy_tv_unIssue})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            //求购列表
             case R.id.ac_wantBuy_tv_wantBuy:
                 acWantBuyTvWantBuy.setBackgroundColor(getResources().getColor(R.color.app_theme));
                 acWantBuyTvWantBuy.setTextColor(getResources().getColor(android.R.color.white));
@@ -167,6 +168,7 @@ public class WantBuyManagerActivity extends ActivityBase {
                 acWantBuyTvBaojia.setTextColor(getResources().getColor(R.color.text3));
                 getWantBuy();
                 break;
+                //报价列表
             case R.id.ac_wantBuy_tv_baojia:
                 acWantBuyTvBaojia.setBackgroundColor(getResources().getColor(R.color.app_theme));
                 acWantBuyTvBaojia.setTextColor(getResources().getColor(android.R.color.white));

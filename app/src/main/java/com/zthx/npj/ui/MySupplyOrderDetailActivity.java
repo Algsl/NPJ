@@ -37,8 +37,8 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
     TextView atMyOrderDetailTvGoodsNum;
     @BindView(R.id.at_myOrderDetail_tv_isFreeShipping)
     TextView atMyOrderDetailTvIsFreeShipping;
-    @BindView(R.id.at_myOrderDetail_tv_orderPrice)
-    TextView atMyOrderDetailTvOrderPrice;
+    //@BindView(R.id.at_myOrderDetail_tv_orderPrice)
+    //TextView atMyOrderDetailTvOrderPrice;
     @BindView(R.id.at_myOrderDetail_tv_orderSn)
     TextView atMyOrderDetailTvOrderSn;
     @BindView(R.id.at_myOrderDetail_tv_payType)
@@ -55,8 +55,6 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
-    @BindView(R.id.at_myOrderDetail_tv_address)
-    TextView atMyOrderDetailTvAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,27 +90,18 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
     private void setMyOrderDetail(String result) {
         MySupplyOrderConfirmResponseBean bean = GsonUtils.fromJson(result, MySupplyOrderConfirmResponseBean.class);
         MySupplyOrderConfirmResponseBean.DataBean data = bean.getData();
-        if (data.getAddress().equals(null)) {
+        atMyOrderDetailTvStoreName.setText(data.getStore_name());
 
-        } else {
-            /*atMyOrderDetailLlAddress.setVisibility(View.GONE);
-            atMyOrderDetailRlAddress.setVisibility(View.VISIBLE);
-            itemChoiceAddressTvName.setText(data.getConsignee());
-            itemChoiceAddressTvPhone.setText(data.getMobile());
-            itemChoiceAddressTvAddress.setText(data.getAddress());*/
-            atMyOrderDetailTvAddress.setText(data.getAddress());
-            atMyOrderDetailTvStoreName.setText("京东旗舰店");
+        Glide.with(this).load(Uri.parse(data.getGoods_img())).into(atMyOrderDetailIvGoodsImg);
+        atMyOrderDetailTvGoodsName.setText(data.getTitle());
+        atMyOrderDetailTvGoodsPrice.setText("￥" + data.getGoods_price());
+        atMyOrderDetailTvGoodsNum.setText("x " + data.getOrder_num());
+        atMyOrderDetailTvIsFreeShipping.setText(data.getShipping_fee());
+        atMyOrderDetailTvOrderSn.setText(data.getOrder_sn());
+        atMyOrderDetailTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
+        atMyOrderDetailTvPayTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
 
-            Glide.with(this).load(Uri.parse(data.getGoods_img())).into(atMyOrderDetailIvGoodsImg);
-            atMyOrderDetailTvGoodsName.setText(data.getTitle());
-            atMyOrderDetailTvGoodsPrice.setText("￥" + data.getGoods_price());
-            atMyOrderDetailTvGoodsNum.setText("x " + data.getOrder_num());
-            atMyOrderDetailTvIsFreeShipping.setText(data.getShipping_fee());
-            atMyOrderDetailTvOrderPrice.setText(data.getOrder_price());
-            atMyOrderDetailTvOrderSn.setText(data.getOrder_sn());
-            atMyOrderDetailTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
-            atMyOrderDetailTvPayTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
-        }
+
     }
 
 

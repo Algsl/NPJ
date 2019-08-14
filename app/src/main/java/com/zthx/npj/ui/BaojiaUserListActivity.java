@@ -84,11 +84,6 @@ public class BaojiaUserListActivity extends ActivityBase {
                 intent.putExtra("position",position);
                 startActivity(intent);
             }
-
-            @Override
-            public void onSeeInfo(int position) {
-                openActivity(UserMsgActivity.class);
-            }
         });
     }
 }

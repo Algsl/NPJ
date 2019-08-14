@@ -3,10 +3,12 @@ package com.zthx.npj.net.netsubscribe;
 import com.zthx.npj.net.been.AddPurchaseBean;
 import com.zthx.npj.net.been.AddSupplyBean;
 import com.zthx.npj.net.been.AkVideoBean;
+import com.zthx.npj.net.been.AttentionBean;
 import com.zthx.npj.net.been.BaoJiaBean;
 import com.zthx.npj.net.been.BuyVideoBean;
 import com.zthx.npj.net.been.ConfirmSupplyBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
+import com.zthx.npj.net.been.LookUserBean;
 import com.zthx.npj.net.been.NewsBean;
 import com.zthx.npj.net.been.NewsListBean;
 import com.zthx.npj.net.been.NullBean;
@@ -340,6 +342,34 @@ public class DiscoverSubscribe {
         TwjcListBean bean=new TwjcListBean();
         bean.setId(id);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().twjcList(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 查看名片
+     * @param user_id
+     * @param subscriber
+     */
+    public static void lookUser(String user_id, DisposableObserver<ResponseBody> subscriber) {
+        LookUserBean bean=new LookUserBean();
+        bean.setUser_id(user_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().lookUser(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 关注
+     * @param user_id
+     * @param token
+     * @param att_user_id
+     * @param subscriber
+     */
+    public static void attention(String user_id,String token,String att_user_id, DisposableObserver<ResponseBody> subscriber) {
+        AttentionBean bean=new AttentionBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setAtt_user_id(att_user_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().attention(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

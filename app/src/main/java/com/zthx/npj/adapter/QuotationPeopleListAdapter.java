@@ -92,7 +92,7 @@ public class QuotationPeopleListAdapter extends RecyclerView.Adapter<QuotationPe
             mTvTitle = itemView.findViewById(R.id.item_tv_comment_goods_title);
             mTvPrice = itemView.findViewById(R.id.item_tv_comment_goods_price);
             mTvSellNum = itemView.findViewById(R.id.item_tv_comment_goods_sell_num);
-            mSeeInfo=itemView.findViewById(R.id.item_quotation_tv_seeInfo);
+           // mSeeInfo=itemView.findViewById(R.id.item_quotation_tv_seeInfo);
         }
     }
 }

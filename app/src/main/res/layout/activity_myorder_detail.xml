@@ -107,15 +107,6 @@
                                     android:text="河南省 郑州市 管城回族区 中州锦绣花苑"/>
                             </LinearLayout>
                         </LinearLayout>
-                        <TextView
-                            android:id="@+id/at_myOrderDetail_tv_address"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="选择收货地址"
-                            android:layout_marginLeft="@dimen/dp_10"
-                            android:textColor="@color/text3"
-                            android:textSize="@dimen/sp_15"/>
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"

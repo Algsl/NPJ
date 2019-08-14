@@ -15,17 +15,15 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
-import com.zthx.npj.net.been.MyGoodsBean;
-import com.zthx.npj.net.been.MyGoodsResponseBean;
+import com.zthx.npj.net.been.SearchStoreGoodsResponseBean;
 import com.zthx.npj.net.been.StoreGoodsListResponseBean;
 import com.zthx.npj.utils.ImageCircleConner;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class StoreGoodsAdapter extends RecyclerView.Adapter<StoreGoodsAdapter.ViewHolder> {
+public class StoreGoodsSearchAdapter extends RecyclerView.Adapter<StoreGoodsSearchAdapter.ViewHolder> {
 
-    private ArrayList<StoreGoodsListResponseBean.DataBean> mList;
+    private ArrayList<SearchStoreGoodsResponseBean.DataBean> mList;
     private Context mContext;
     private ItemClickListener mItemClickListener;
     private long mLevel;
@@ -40,7 +38,7 @@ public class StoreGoodsAdapter extends RecyclerView.Adapter<StoreGoodsAdapter.Vi
     }
 
 
-    public StoreGoodsAdapter(Context context,ArrayList<StoreGoodsListResponseBean.DataBean> list,long level){
+    public StoreGoodsSearchAdapter(Context context, ArrayList<SearchStoreGoodsResponseBean.DataBean> list, long level){
         mContext=context;
         mList=list;
         mLevel=level;
@@ -50,7 +48,7 @@ public class StoreGoodsAdapter extends RecyclerView.Adapter<StoreGoodsAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view=LayoutInflater.from(mContext).inflate(R.layout.item_classfiy_detail_goods,viewGroup,false);
-        return new StoreGoodsAdapter.ViewHolder(view);
+        return new StoreGoodsSearchAdapter.ViewHolder(view);
     }
 
     @Override

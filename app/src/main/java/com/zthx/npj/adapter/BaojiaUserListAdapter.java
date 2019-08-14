@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.BaojiaListResponseBean;
 import com.zthx.npj.net.been.BaojiaUserListResponseBean;
+import com.zthx.npj.utils.MyCustomUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,7 +39,6 @@ public class BaojiaUserListAdapter extends RecyclerView.Adapter<BaojiaUserListAd
 
     public interface ItemClickListener{
         void onSeeClick(int position);
-        void onSeeInfo(int position);
     }
 
 
@@ -60,19 +60,13 @@ public class BaojiaUserListAdapter extends RecyclerView.Adapter<BaojiaUserListAd
                     mItemClickListener.onSeeClick(position);
                 }
             });
-            viewHolder.seeInfo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position=viewHolder.getLayoutPosition();
-                    mItemClickListener.onSeeInfo(position);
-                }
-            });
         }
         Glide.with(mContext).load(Uri.parse(mList.get(i).getHead_img())).into(viewHolder.goodsImg);
         viewHolder.name.setText(mList.get(i).getNick_name());
         viewHolder.day.setText("已持续经营365天");
         viewHolder.time.setText(new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss").format(new Date(mList.get(i).getCreate_time()*1000)));
-        switch (mList.get(i).getLevel()+""){
+        MyCustomUtils.showLevelImg((int)mList.get(i).getLevel(),viewHolder.level);
+        /*switch (mList.get(i).getLevel()+""){
             case "0":
                 viewHolder.level.setImageResource(R.drawable.level0);break;
             case "1":
@@ -95,7 +89,7 @@ public class BaojiaUserListAdapter extends RecyclerView.Adapter<BaojiaUserListAd
                 viewHolder.level.setImageResource(R.drawable.level9);break;
             case "10":
                 viewHolder.level.setImageResource(R.drawable.level10);break;
-        }
+        }*/
     }
 
     @Override
@@ -105,7 +99,7 @@ public class BaojiaUserListAdapter extends RecyclerView.Adapter<BaojiaUserListAd
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView goodsImg,level;
-        TextView name,time,day,see,seeInfo;
+        TextView name,time,day,see;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             goodsImg=itemView.findViewById(R.id.item_quotation_people_head_pic);
@@ -114,7 +108,7 @@ public class BaojiaUserListAdapter extends RecyclerView.Adapter<BaojiaUserListAd
             time=itemView.findViewById(R.id.item_quotation_people_tv_time);
             day=itemView.findViewById(R.id.item_quotation_people_tv_day);
             see=itemView.findViewById(R.id.item_quotation_people_tv_see);
-            seeInfo=itemView.findViewById(R.id.item_quotation_tv_seeInfo);
+            //seeInfo=itemView.findViewById(R.id.item_quotation_tv_seeInfo);
         }
     }
 }

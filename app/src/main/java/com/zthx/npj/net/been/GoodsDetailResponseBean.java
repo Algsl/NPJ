@@ -20,12 +20,22 @@ public class GoodsDetailResponseBean extends BaseReponseBean {
 
     public class DataBean {
         private long id;
+        private String user_id;
         private String goods_name;
         private String goods_desc;
         private ArrayList<String> goods_img;
         private String user_price;
         private String member_price;
         private String market_price;
+
+
+        public String getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(String user_id) {
+            this.user_id = user_id;
+        }
 
         public String getUser_price() {
             return user_price;

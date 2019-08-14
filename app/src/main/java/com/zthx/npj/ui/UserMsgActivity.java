@@ -4,9 +4,11 @@ import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,17 +16,27 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.R;
+import com.zthx.npj.net.been.AttentionResponseBean;
+import com.zthx.npj.net.been.LookUserResponseBean;
+import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GetAddressUtil;
+import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.utils.SimpleUtil;
 import com.zthx.npj.view.MyCircleView;
 
@@ -43,8 +55,6 @@ public class UserMsgActivity extends ActivityBase {
     ImageView titleThemeImgRight;
     @BindView(R.id.ac_userMsg_mcv_headImg)
     MyCircleView acUserMsgMcvHeadImg;
-    @BindView(R.id.ac_userMsg_tv_level)
-    TextView acUserMsgTvLevel;
     @BindView(R.id.ac_userMsg_tv_nickName)
     TextView acUserMsgTvNickName;
     @BindView(R.id.ac_userMsg_tv_signature)
@@ -57,17 +67,35 @@ public class UserMsgActivity extends ActivityBase {
     ScrollView acUserMsgSv;
     @BindView(R.id.ac_userMsg_iv_show)
     ImageView acUserMsgIvShow;
-    //@BindView(R.id.title_theme)
-    //LinearLayout titleTheme;
+    @BindView(R.id.ac_userMsg_tv_level)
+    ImageView acUserMsgTvLevel;
+    @BindView(R.id.ac_userMsg_tv_hits)
+    TextView acUserMsgTvHits;
+    @BindView(R.id.ac_userMsg_tv_attNum)
+    TextView acUserMsgTvAttNum;
+    @BindView(R.id.ac_userMsg_tv_historyMoney)
+    TextView acUserMsgTvHistoryMoney;
+    @BindView(R.id.ac_userMsg_tv_reputation)
+    TextView acUserMsgTvReputation;
+    @BindView(R.id.ac_userMsg_tv_beDYR)
+    TextView acUserMsgTvBeDYR;
+
 
     private IWXAPI api;
     private Bitmap bmp;
+    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
+    private String att_user_id="";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_msg);
         ButterKnife.bind(this);
+
+       att_user_id = getIntent().getStringExtra("key0");
+        getLookUser(att_user_id);
+
 
         api = WXAPIFactory.createWXAPI(this, "wx76500efa65d19915", false);
         api.registerApp("wx76500efa65d19915");
@@ -76,9 +104,44 @@ public class UserMsgActivity extends ActivityBase {
         back(titleThemeBack);
     }
 
-    @OnClick(R.id.title_theme_img_right)
-    public void onViewClicked() {
-        showItemPopwindow();
+    private void getLookUser(String user_id) {
+        DiscoverSubscribe.lookUser(user_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setLookUser(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setLookUser(String result) {
+        LookUserResponseBean bean = GsonUtils.fromJson(result, LookUserResponseBean.class);
+        LookUserResponseBean.DataBean data = bean.getData();
+        Glide.with(this).load(Uri.parse(data.getHead_img())).into(acUserMsgMcvHeadImg);
+        acUserMsgTvNickName.setText(data.getNick_name());
+        acUserMsgTvSignature.setText(data.getSignature() == null ? "这个人很懒，什么也没留下" : data.getSignature());
+        MyCustomUtils.showLevelImg((int) data.getLevel(), acUserMsgTvLevel);
+        acUserMsgTvHits.setText(data.getHits() == null ? "0" : data.getHits());
+        acUserMsgTvAttNum.setText(data.getAtt_num() == null ? "0" : data.getAtt_num());
+        acUserMsgTvHistoryMoney.setText(data.getHistory_money());
+        acUserMsgTvReputation.setText(data.getReputation() == null ? "0" : data.getReputation());
+        acUserMsgTvAddress.setText(new GetAddressUtil(this).getAddress(Double.parseDouble(data.getLng()), Double.parseDouble(data.getLat())));
+    }
+
+    @OnClick({R.id.title_theme_img_right,R.id.ac_userMsg_tv_beDYR})
+    public void onViewClicked(View v) {
+        switch (v.getId()){
+            case R.id.ac_userMsg_tv_beDYR:
+                openActivity(MembershipPackageActivity.class);
+                break;
+            case R.id.title_theme_img_right:
+                showItemPopwindow();
+                break;
+        }
     }
 
 
@@ -89,10 +152,11 @@ public class UserMsgActivity extends ActivityBase {
         window.setHeight((int) getResources().getDimension(R.dimen.dp_135));
         window.setWidth((int) getResources().getDimension(R.dimen.dp_100));
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        window.setOutsideTouchable(false);
+        window.setOutsideTouchable(true);
         window.setTouchable(true);
         window.showAtLocation(getWindow().getDecorView(), Gravity.TOP | Gravity.RIGHT, 0, 0);
         TextView share = contentView.findViewById(R.id.pw_mineMenu_tv_share);
+        TextView attention=contentView.findViewById(R.id.pw_mineMenu_tv_attention);
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,6 +184,42 @@ public class UserMsgActivity extends ActivityBase {
 
                 //通过IWXAPI发送请求
                 api.sendReq(req);*/
+            }
+        });
+        attention.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DiscoverSubscribe.attention(user_id,token,att_user_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        window.dismiss();
+                        backgroundAlpha(1f);
+                        AttentionResponseBean bean=GsonUtils.fromJson(result,AttentionResponseBean.class);
+                        switch (bean.getData().getStatus()){
+                            case 1:
+                                Toast.makeText(UserMsgActivity.this,"关注成功",Toast.LENGTH_SHORT).show();
+                                break;
+                            case 2:
+                                Toast.makeText(UserMsgActivity.this,"关注失败",Toast.LENGTH_SHORT).show();
+                                break;
+                            case 3:
+                                Toast.makeText(UserMsgActivity.this,"已经关注过了",Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
+            }
+        });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+                window.dismiss();
             }
         });
     }
