@@ -673,7 +673,7 @@
                     android:id="@+id/ac_goodsDetail_iv_collect"
                     android:layout_width="@dimen/dp_22"
                     android:layout_height="@dimen/dp_22"
-                    android:src="@drawable/goods_detail_collect"/>
+                    android:src="@drawable/uncollect_star"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -725,7 +725,6 @@
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
     </LinearLayout>
-
     <ImageView
         android:id="@+id/ac_goodsDetail_iv_share"
         android:layout_width="@dimen/dp_40"
@@ -735,5 +734,85 @@
         android:layout_marginBottom="@dimen/dp_80"
         android:layout_marginRight="@dimen/dp_12"
         android:src="@drawable/goods_detail_share"/>
-
+    <RelativeLayout
+        android:id="@+id/ac_goodsDetail_ll_inncer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_400"
+        android:layout_marginLeft="@dimen/dp_50"
+        android:layout_marginRight="@dimen/dp_50"
+        android:layout_centerVertical="true"
+        android:background="@drawable/white_conner_5"
+        android:orientation="vertical"
+        android:visibility="visible">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_240"
+            android:id="@+id/ac_goodsDetail_iv_innerGoodsImg"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:src="@drawable/test"/>
+        <TextView
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ac_goodsDetail_tv_innerGoodsTitle"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginRight="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_below="@id/ac_goodsDetail_iv_innerGoodsImg"
+            android:lines="2"
+            android:ellipsize="end"
+            android:text="异丙甲草胺绿色无污染大豆田玉米田小麦田均可放心使用;会员可享受包邮"/>
+        <TextView
+            android:id="@+id/ac_goodsDetail_tv_innerGoodsPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥100"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp_15"
+            android:textColor="@color/app_theme"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_below="@id/ac_goodsDetail_iv_innerGoodsImg"
+            android:layout_marginRight="@dimen/dp_12"/>
+        <ImageView
+            android:id="@+id/ac_goodsDetail_iv_qrcode"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_10"
+            android:src="@drawable/logo"
+            android:layout_below="@id/ac_goodsDetail_tv_innerGoodsTitle" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.保存图片至相册"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toRightOf="@id/ac_goodsDetail_iv_qrcode"
+            android:layout_below="@id/ac_goodsDetail_tv_innerGoodsTitle"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2.农品街扫一扫打开"
+            android:layout_marginTop="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toRightOf="@id/ac_goodsDetail_iv_qrcode"
+            android:layout_below="@id/ac_goodsDetail_tv_innerGoodsTitle"/>
+        <ImageView
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_20"
+            android:src="@drawable/logo"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/ac_goodsDetail_tv_innerGoodsTitle" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:text="保存并分享"/>
+    </RelativeLayout>
 </RelativeLayout>

@@ -132,7 +132,24 @@
         <activity android:name=".ui.BankCardActivity" />
         <activity android:name=".ui.AddBankCardActivity" />
         <activity android:name=".ui.WithDrawActivity" />
-        <activity android:name=".ui.TestActivity" />
+        <activity android:name=".ui.TestActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!--下面所设置的data值需要和html端对应-->
+                <!--在data里设置了 scheme和host，则该Activity可以接收和处理类似于 "test://article/attr"的链接-->
+                <!--<data
+                    android:host="game.npj-vip.com"
+                    android:scheme="http"
+                    android:pathPrefix="/h5/jumpApp.html"/>-->
+                <data
+                    android:host="article"
+                    android:scheme="test"
+                    android:pathPrefix="/attr" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.ShopLogActivity" />
         <activity android:name=".ui.VipJLActivity" />
         <activity android:name=".ui.InComeLogActivity" />
@@ -178,9 +195,7 @@
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:scheme="wx76500efa65d19915" />
             </intent-filter>
         </activity>

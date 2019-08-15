@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/item_webGroup_iv_img"
         android:layout_centerVertical="true"
+        android:textColor="@color/text3"
         android:textSize="@dimen/sp_15"
         android:text="1.0-蓝莓的简介"/>
     <ImageView

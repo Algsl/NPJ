@@ -26,6 +26,7 @@ import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.zthx.npj.R;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
 
@@ -50,8 +51,9 @@ public class ShowLocationActivity extends ActivityBase {
     //BDAbstractLocationListener为7.2版本新增的Abstract类型的监听接口，原有BDLocationListener接口
     private BDLocationListener myListener = new MyLocationListener();
     //经纬度
-    private double lat, lon, lat1, lon1;
     private GeoCoder mSearch;
+    private String Lat="";
+    private String Lng="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,10 @@ public class ShowLocationActivity extends ActivityBase {
         back(titleBack);
         changeTitle(acTitle,"商家位置");
 
+        Lat=getIntent().getStringExtra("key0");
+        Lng=getIntent().getStringExtra("key1");
+
+
         initView();
         initMap();
         baiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
@@ -74,9 +80,8 @@ public class ShowLocationActivity extends ActivityBase {
                 BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.location_store_locate);
                 OverlayOptions options = new MarkerOptions().position(latLng).icon(bitmap);
                 baiduMap.addOverlay(options);
-                initGeoCoder(latLng);
-                lat1 = latLng.latitude;
-                lon1 = latLng.longitude;
+                LatLng latLng1=new LatLng(Double.parseDouble(Lat),Double.parseDouble(Lng));
+                initGeoCoder(latLng1);
             }
 
             @Override
@@ -183,9 +188,6 @@ public class ShowLocationActivity extends ActivityBase {
             location.getBuildingID();    //室内精准定位下，获取楼宇ID
             location.getBuildingName();    //室内精准定位下，获取楼宇名称
             location.getFloor();    //室内精准定位下，获取当前位置所处的楼层信息
-            //经纬度
-            lat = location.getLatitude();
-            lon = location.getLongitude();
 
             //这个判断是为了防止每次定位都重新设置中心点和marker
             if (isFirstLocation) {

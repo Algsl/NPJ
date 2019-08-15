@@ -5,6 +5,7 @@ import com.zthx.npj.net.been.BannerBean;
 import com.zthx.npj.net.been.CategoryBean;
 import com.zthx.npj.net.been.CommentBean;
 import com.zthx.npj.net.been.DelHistoryBean;
+import com.zthx.npj.net.been.GoodsByCateBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
 import com.zthx.npj.net.been.GoodsListBean;
 import com.zthx.npj.net.been.HistoryBean;
@@ -244,6 +245,22 @@ public class MainSubscribe {
         bean.setStore_id(store_id);
         bean.setKeyword(keyword);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().searchStoreGoods(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 店铺分类商品
+     * @param store_id
+     * @param cate_id
+     * @param type
+     * @param subscriber
+     */
+    public static void goodsByCate(String store_id,String cate_id,String type, DisposableObserver<ResponseBody> subscriber) {
+        GoodsByCateBean bean=new GoodsByCateBean();
+        bean.setStore_id(store_id);
+        bean.setCate_id(cate_id);
+        bean.setType(type);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().goodsByCate(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 

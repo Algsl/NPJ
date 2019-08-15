@@ -248,6 +248,7 @@
             android:orientation="vertical"
             android:visibility="gone">
             <TextView
+                android:id="@+id/ac_store_tv_searchTitle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
                 android:text="搜索结果"
@@ -266,6 +267,35 @@
                 android:layout_marginTop="@dimen/dp_50"
                 android:gravity="center"
                 android:text="搜索结果不存在，换个关键词试试？"/>
+        </LinearLayout>
+
+        <!--分类搜索结果-->
+        <LinearLayout
+            android:id="@+id/ac_store_ll_classifyResult"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/ac_store_tv_classifyTitle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:text="搜索结果"
+                android:gravity="center"
+                android:textColor="@color/text3"
+                android:textSize="@dimen/sp_15"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ac_store_rv2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:id="@+id/ac_store_tv_classifyNoResult"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_50"
+                android:gravity="center"
+                android:text="该分类暂无商品，请切换其他分类试试？"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

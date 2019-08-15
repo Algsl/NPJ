@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,8 +22,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.GoodsByCateAdapter;
 import com.zthx.npj.adapter.StoreGoodsAdapter;
 import com.zthx.npj.adapter.StoreGoodsSearchAdapter;
+import com.zthx.npj.net.been.GoodsByCateResponseBean;
 import com.zthx.npj.net.been.SearchStoreGoodsResponseBean;
 import com.zthx.npj.net.been.StoreGoodsListResponseBean;
 import com.zthx.npj.net.been.StoreInfoResponseBean;
@@ -88,6 +91,14 @@ public class StoreActivity extends ActivityBase {
     RecyclerView acStoreRv1;
     @BindView(R.id.ac_store_tv_noResult)
     TextView acStoreTvNoResult;
+    @BindView(R.id.ac_store_tv_classifyTitle)
+    TextView acStoreTvClassifyTitle;
+    @BindView(R.id.ac_store_rv2)
+    RecyclerView acStoreRv2;
+    @BindView(R.id.ac_store_tv_classifyNoResult)
+    TextView acStoreTvClassifyNoResult;
+    @BindView(R.id.ac_store_ll_classifyResult)
+    LinearLayout acStoreLlClassifyResult;
 
     private boolean saleFlag = false;
     private boolean collectFlag;
@@ -113,6 +124,7 @@ public class StoreActivity extends ActivityBase {
     private void getStoreGoodsList() {
         acStoreLlTuijian.setVisibility(View.VISIBLE);
         acStoreLlSearch.setVisibility(View.GONE);
+        acStoreLlClassifyResult.setVisibility(View.GONE);
         MainSubscribe.storeGoodsList(store_id, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -175,7 +187,7 @@ public class StoreActivity extends ActivityBase {
 
 
     @OnClick({R.id.ac_store_iv_collect, R.id.ac_store_tv_tuijian, R.id.ac_store_tv_goods, R.id.ac_store_rl,
-            R.id.at_store_et_search,R.id.ac_store_iv_message,R.id.ac_store_ll_classify})
+            R.id.at_store_et_search, R.id.ac_store_iv_message, R.id.ac_store_ll_classify})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_store_iv_collect:
@@ -225,14 +237,86 @@ public class StoreActivity extends ActivityBase {
                 openActivity(MessageCenterActivity.class);
                 break;
             case R.id.ac_store_ll_classify:
-                openActivity(StoreGoodsClassifyActivity.class);
+                Intent intent = new Intent(StoreActivity.this, StoreGoodsClassifyActivity.class);
+                startActivityForResult(intent, 1);
                 break;
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            switch (resultCode){
+                case 1:
+                    getClassifyResult(data);
+                    break;
+                case 2:
+                    getClassifyAll();
+                    break;
+                case 0:
+                    getStoreGoodsList();
+                    break;
+            }
+        }
+    }
+
+    private void getClassifyAll() {
+        acStoreLlTuijian.setVisibility(View.GONE);
+        acStoreLlSearch.setVisibility(View.GONE);
+        acStoreLlClassifyResult.setVisibility(View.VISIBLE);
+        acStoreTvClassifyTitle.setText("全部分类");
+        MainSubscribe.storeGoodsList(store_id, "2", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                GoodsByCateResponseBean bean=GsonUtils.fromJson(result,GoodsByCateResponseBean.class);
+                GridLayoutManager layoutManager = new GridLayoutManager(StoreActivity.this, 2);
+                acStoreRv2.setLayoutManager(layoutManager);
+                GoodsByCateAdapter adapter = new GoodsByCateAdapter(StoreActivity.this, bean.getData(), level);
+                acStoreRv2.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void getClassifyResult(Intent data) {
+        String type = data.getStringExtra("type");
+        String cate_id = data.getStringExtra("cate_id");
+        String title=data.getStringExtra("title");
+        acStoreTvClassifyTitle.setText(title);
+        acStoreLlTuijian.setVisibility(View.GONE);
+        acStoreLlSearch.setVisibility(View.GONE);
+        acStoreLlClassifyResult.setVisibility(View.VISIBLE);
+        MainSubscribe.goodsByCate(store_id,cate_id,type,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                GoodsByCateResponseBean bean=GsonUtils.fromJson(result,GoodsByCateResponseBean.class);
+                if(bean==null){
+                    acStoreTvClassifyNoResult.setVisibility(View.VISIBLE);
+                }else{
+                    GridLayoutManager layoutManager = new GridLayoutManager(StoreActivity.this, 2);
+                    acStoreRv2.setLayoutManager(layoutManager);
+                    GoodsByCateAdapter adapter = new GoodsByCateAdapter(StoreActivity.this, bean.getData(), level);
+                    acStoreRv2.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+
     private void searchStoreGoods(String str) {
         acStoreLlTuijian.setVisibility(View.GONE);
         acStoreLlSearch.setVisibility(View.VISIBLE);
+        acStoreLlClassifyResult.setVisibility(View.GONE);
         MainSubscribe.searchStoreGoods(store_id, str, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -248,7 +332,7 @@ public class StoreActivity extends ActivityBase {
 
     private void setSearchStoreGoods(String result) {
         SearchStoreGoodsResponseBean bean = GsonUtils.fromJson(result, SearchStoreGoodsResponseBean.class);
-        if(bean!=null){
+        if (bean != null) {
             ArrayList<SearchStoreGoodsResponseBean.DataBean> data = bean.getData();
             acStoreRv1.setVisibility(View.VISIBLE);
             acStoreTvNoResult.setVisibility(View.GONE);
@@ -256,7 +340,7 @@ public class StoreActivity extends ActivityBase {
             acStoreRv1.setLayoutManager(layoutManager);
             StoreGoodsSearchAdapter adapter = new StoreGoodsSearchAdapter(this, data, level);
             acStoreRv1.setAdapter(adapter);
-        }else{
+        } else {
             acStoreRv1.setVisibility(View.GONE);
             acStoreTvNoResult.setVisibility(View.VISIBLE);
         }

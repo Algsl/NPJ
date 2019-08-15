@@ -25,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -51,6 +53,8 @@ import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.ImageCircleConner;
+import com.zthx.npj.utils.QRCodeUtil;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.utils.SimpleUtil;
 import com.zthx.npj.view.GlideImageLoader;
@@ -147,6 +151,17 @@ public class GoodsDetailActivity extends ActivityBase {
     @BindView(R.id.ac_goodsDetail_iv_home)
     ImageView acGoodsDetailIvHome;
 
+    @BindView(R.id.ac_goodsDetail_iv_innerGoodsImg)
+    ImageView acGoodsDetailIvInnerGoodsImg;
+    @BindView(R.id.ac_goodsDetail_tv_innerGoodsTitle)
+    TextView acGoodsDetailTvInnerGoodsTitle;
+    @BindView(R.id.ac_goodsDetail_iv_qrcode)
+    ImageView acGoodsDetailIvQrcode;
+    @BindView(R.id.ac_goodsDetail_tv_innerGoodsPrice)
+    TextView acGoodsDetailTvInnerGoodsPrice;
+    @BindView(R.id.ac_goodsDetail_ll_inncer)
+    RelativeLayout acGoodsDetailLlInncer;
+
 
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
@@ -167,6 +182,24 @@ public class GoodsDetailActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_detail);
         ButterKnife.bind(this);
+
+        acGoodsDetailLlInncer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                acGoodsDetailIvQrcode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("helloworld", 60));
+                Glide.with(GoodsDetailActivity.this).load(Uri.parse(mGoodsData.getGoods_img().get(0))).asBitmap().into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        acGoodsDetailIvInnerGoodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
+                    }
+                });
+                acGoodsDetailTvInnerGoodsTitle.setText(mGoodsData.getGoods_name());
+                acGoodsDetailTvInnerGoodsPrice.setText(mGoodsData.getMarket_price());
+                Bitmap bitmap = SimpleUtil.createViewBitmap(view);
+                showSingleBottomDialog(bitmap);
+            }
+        });
 
         api = WXAPIFactory.createWXAPI(this, "wx76500efa65d19915", false);
         api.registerApp("wx76500efa65d19915");
@@ -397,11 +430,12 @@ public class GoodsDetailActivity extends ActivityBase {
                 showPopupwindow(view);
                 break;
             case R.id.ac_goodsDetail_iv_share:
-                Bitmap bmp = SimpleUtil.shotScrollView(acGoodsDetailSv);
-                showSingleBottomDialog(bmp);
+                acGoodsDetailLlInncer.setVisibility(View.VISIBLE);
+                //Bitmap bmp = SimpleUtil.shotScrollView(acGoodsDetailSv);
+                //showSingleBottomDialog(bmp);
                 break;
             case R.id.ac_goodsDetail_ll_store:
-                openActivity(StoreActivity.class,mGoodsData.getUser_id());
+                openActivity(StoreActivity.class, mGoodsData.getUser_id());
                 break;
             case R.id.ac_goodsDetail_iv_home:
                 openActivity(MainActivity.class);
@@ -512,13 +546,18 @@ public class GoodsDetailActivity extends ActivityBase {
                     Intent intent = new Intent(GoodsDetailActivity.this, ConfirmOrderActivity.class);
                     if ("miaosha".equals(getIntent().getAction())) {
                         intent.putExtra(Const.ATTRIBUTE_ID, mPreData.getAttribute_value().get(0).getId() + "");
+                        intent.setAction(Const.GIFT);
                     } else if (Const.PRESELL.equals(getIntent().getAction())) {
                         intent.putExtra(Const.ATTRIBUTE_ID, mPreData.getAttribute_value().get(0).getId() + "");
+                        intent.setAction(Const.PRESELL);
                     } else {
-                        intent.putExtra(Const.ATTRIBUTE_ID, "1");
+                        intent.putExtra(Const.ATTRIBUTE_ID, "0");
+                        intent.setAction(Const.GOODS);
                     }
+                    Log.e("测试", "onClick: " + goodsId);
                     intent.putExtra(Const.GOODS_ID, goodsId);
                     startActivity(intent);
+                    sizePopWin.dismiss();
                     break;
             }
         }
@@ -526,7 +565,6 @@ public class GoodsDetailActivity extends ActivityBase {
 
     private void showPopupwindow(View view) {
         String type = "1";
-
         if ("miaosha".equals(getIntent().getAction())) {
             type = "1";
             sizePopWin = new GoodSizePopupwindow(this, onClickListener, type, mPreData.getAttribute_value());

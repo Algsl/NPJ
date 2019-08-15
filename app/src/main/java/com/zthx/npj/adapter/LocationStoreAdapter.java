@@ -67,7 +67,8 @@ public class LocationStoreAdapter extends RecyclerView.Adapter<LocationStoreAdap
         });
         viewHolder.mTvStoreName.setText(list.get(i).getStore_name());
         viewHolder.mTvAddress.setText(list.get(i).getAddress2());
-        viewHolder.mTvDistance.setText(list.get(i).getDistance()+"米");
+        double distance=(double)list.get(i).getDistance();
+        viewHolder.mTvDistance.setText(distance>1000?(distance/1000)+"km":distance+"m");
         viewHolder.mTvPopularity.setText("当前人气"+list.get(i).getPopularity());
         viewHolder.mTvOffer.setText("葫芦币折扣"+ list.get(i).getOffer() + "%现金");
         viewHolder.mTvRelief.setText("新会员减免"+ list.get(i).getRelief() +"元现");

@@ -22,7 +22,6 @@
             android:background="@drawable/store_manager_qrcode_bg"
             android:orientation="vertical"
             android:gravity="center_horizontal">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,6 +31,7 @@
                 android:layout_marginTop="@dimen/dp_101"/>
 
             <ImageView
+                android:id="@+id/ac_storeManager_iv_QRCode"
                 android:layout_width="@dimen/dp_157"
                 android:layout_height="@dimen/dp_159"
                 android:layout_marginTop="@dimen/dp_13"
@@ -45,7 +45,6 @@
                 android:textColor="@color/app_theme"
                 android:textSize="@dimen/sp_16"/>
         </LinearLayout>
-
     </RelativeLayout>
     
     <LinearLayout
@@ -61,7 +60,9 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,10 +71,12 @@
                 android:textColor="@color/text6"
                 android:layout_marginLeft="@dimen/dp_10"/>
 
-            <TextView
+            <EditText
+                android:id="@+id/ac_storeManager_et_receiveName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="真的自闭了"
+                android:background="@null"
                 android:textColor="@color/text3"
                 android:textSize="@dimen/sp_15"
                 android:layout_marginLeft="@dimen/dp_15"/>
@@ -94,18 +97,24 @@
                 android:layout_marginLeft="@dimen/dp_10"/>
 
             <ImageView
+                android:id="@+id/ac_storeManager_iv_min"
                 android:layout_width="@dimen/dp_20"
                 android:layout_height="@dimen/dp_20"
                 android:src="@drawable/store_manager_qr_jian"
                 android:layout_marginLeft="@dimen/dp_15"/>
 
-            <View
+            <ProgressBar
+                android:id="@+id/ac_storeManager_pb"
                 android:layout_width="@dimen/dp_170"
                 android:layout_height="@dimen/dp_7"
                 android:background="@color/background"
-                android:layout_marginLeft="@dimen/dp_10"></View>
+                android:layout_marginLeft="@dimen/dp_10"
+                android:max="100"
+                android:progress="10"
+                style="@android:style/Widget.ProgressBar.Horizontal"/>
 
             <ImageView
+                android:id="@+id/ac_storeManager_iv_add"
                 android:layout_width="@dimen/dp_20"
                 android:layout_height="@dimen/dp_20"
                 android:src="@drawable/store_manager_qr_jia"
@@ -127,15 +136,17 @@
             android:src="@drawable/store_manager_qr_tongzhi"
             android:layout_marginLeft="@dimen/dp_14"/>
         <TextView
+            android:id="@+id/ac_storeManager_tv_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="优惠比率25%，用户支付时葫芦币抵扣25%消费金额"
+            android:text="优惠比率10%，用户支付时葫芦币抵扣10%消费金额"
             android:layout_marginLeft="@dimen/dp_8"
             android:textSize="@dimen/sp_12"
             android:textColor="@color/text9"/>
     </LinearLayout>
     
     <Button
+        android:id="@+id/ac_storeManager_save"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_35"
         android:layout_marginLeft="@dimen/dp_22"

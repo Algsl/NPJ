@@ -1,12 +1,12 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
@@ -19,6 +19,7 @@ import com.zthx.npj.utils.GsonUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class StoreGoodsClassifyActivity extends ActivityBase {
     @BindView(R.id.title_back)
@@ -27,6 +28,8 @@ public class StoreGoodsClassifyActivity extends ActivityBase {
     TextView acTitle;
     @BindView(R.id.ac_storeGoodsClassify_elv)
     ExpandableListView acStoreGoodsClassifyElv;
+    @BindView(R.id.ac_storeGoodsClassify_rl)
+    RelativeLayout acStoreGoodsClassifyRl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class StoreGoodsClassifyActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,"店铺商品分类");
+        changeTitle(acTitle, "店铺商品分类");
 
         getCategory();
     }
@@ -44,13 +47,53 @@ public class StoreGoodsClassifyActivity extends ActivityBase {
         MainSubscribe.category(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                CategoryResponseBean bean=GsonUtils.fromJson(result,CategoryResponseBean.class);
-                StoreGoodsClassifyELVAdapter adapter=new StoreGoodsClassifyELVAdapter(StoreGoodsClassifyActivity.this,bean.getData());
+                final CategoryResponseBean bean = GsonUtils.fromJson(result, CategoryResponseBean.class);
+                final StoreGoodsClassifyELVAdapter adapter = new StoreGoodsClassifyELVAdapter(StoreGoodsClassifyActivity.this, bean.getData());
                 acStoreGoodsClassifyElv.setAdapter(adapter);
+                acStoreGoodsClassifyElv.setGroupIndicator(null);
+                acStoreGoodsClassifyElv.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+                    @Override
+                    public void onGroupExpand(int i) {
+                        for (int j = 0, count = acStoreGoodsClassifyElv.getExpandableListAdapter().getGroupCount(); j < count; j++) {
+                            if (i != j) {
+                                if (bean.getData().get(j).isSelected()) {
+                                    bean.getData().get(j).setSelected(false);
+                                }
+                                adapter.notifyDataSetChanged();
+                                acStoreGoodsClassifyElv.collapseGroup(j);
+                            }
+                        }
+                    }
+                });
+                acStoreGoodsClassifyElv.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                    @Override
+                    public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+                        bean.getData().get(i).setSelected(!bean.getData().get(i).isSelected());
+                        adapter.setmCurrentItem(i);
+                        adapter.setmClicked(bean.getData().get(i).isSelected());
+                        adapter.notifyDataSetChanged();
+                        return false;
+                    }
+                });
                 adapter.setOnItemClick(new StoreGoodsClassifyELVAdapter.ItemClick() {
                     @Override
-                    public void returnNum(int position) {
-                        Log.e("测试", "returnNum: "+position);
+                    public void childId(int position, String title) {
+                        Intent intent = getIntent();
+                        intent.putExtra("cate_id", position + "");
+                        intent.putExtra("title", title);
+                        intent.putExtra("type", "2");
+                        setResult(1, intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void groupId(int position, String title) {
+                        Intent intent = getIntent();
+                        intent.putExtra("cate_id", position + "");
+                        intent.putExtra("title", title);
+                        intent.putExtra("type", "1");
+                        setResult(1, intent);
+                        finish();
                     }
                 });
             }
@@ -62,4 +105,10 @@ public class StoreGoodsClassifyActivity extends ActivityBase {
         }));
     }
 
+    @OnClick(R.id.ac_storeGoodsClassify_rl)
+    public void onViewClicked() {
+        Intent intent=getIntent();
+        setResult(2,intent);
+        finish();
+    }
 }

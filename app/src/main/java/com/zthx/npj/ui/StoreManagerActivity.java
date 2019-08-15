@@ -28,6 +28,7 @@ import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.fragment.SupplyMessageActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
@@ -134,11 +135,17 @@ public class StoreManagerActivity extends ActivityBase {
                 }
                 break;
             case 1:
-                if(requestCode==1){
+                if(resultCode==1){
                     acStoreManagerTvAddress.setText(data.getStringExtra("address"));
                     acStoreManagerEtAddress2.setText(data.getStringExtra("addressDetail"));
                 }
                 break;
+            case 3:
+                if(resultCode==0){
+
+                }else if(resultCode==1){
+                    acStoreManagerTvOffer.setText(data.getStringExtra("offer"));
+                }
         }
     }
 
@@ -146,7 +153,8 @@ public class StoreManagerActivity extends ActivityBase {
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.at_store_manager_tv_code:
-                startActivity(new Intent(StoreManagerActivity.this, StoreManagerQRCodeActivity.class));
+                Intent intent1=new Intent(StoreManagerActivity.this,StoreManagerQRCodeActivity.class);
+                startActivityForResult(intent1,3);
                 break;
             case R.id.ac_storeManager_btn_ruzhu:
                 HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {

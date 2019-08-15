@@ -6,6 +6,31 @@
     android:background="@color/white"
     android:orientation="vertical">
     <include layout="@layout/title"/>
+    <RelativeLayout
+        android:id="@+id/ac_storeGoodsClassify_rl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/sp_15"
+            android:textColor="@color/text3"
+            android:text="全部商品"/>
+        <ImageView
+            android:layout_width="@dimen/dp_25"
+            android:layout_height="@dimen/dp_25"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/goods_detail_select"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_alignParentBottom="true"
+            android:background="@color/background"/>
+    </RelativeLayout>
     <ExpandableListView
         android:id="@+id/ac_storeGoodsClassify_elv"
         android:layout_marginLeft="@dimen/dp_12"

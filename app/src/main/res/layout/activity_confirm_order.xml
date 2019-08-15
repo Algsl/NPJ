@@ -8,33 +8,6 @@
     android:background="@android:color/white">
     <include layout="@layout/title"
         android:id="@+id/at_confirm_order_rl_title"/>
-    <!--<RelativeLayout
-        android:id="@+id/at_confirm_order_rl_title"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_64">
-        <ImageView
-            android:id="@+id/ac_confirmOrder_iv_back"
-            android:layout_width="@dimen/dp_25"
-            android:layout_height="@dimen/dp_25"
-            android:layout_marginLeft="@dimen/dp_6"
-            android:layout_marginTop="@dimen/dp_13"
-            android:src="@drawable/goods_detial_back" />
-        <ImageView
-            android:layout_width="@dimen/dp_25"
-            android:layout_height="@dimen/dp_25"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_12"
-            android:src="@drawable/goods_detail_home" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_18"
-            android:textColor="@color/text3"
-            android:text="确认订单"
-            android:layout_centerInParent="true"/>
-    </RelativeLayout>-->
-
     <ScrollView
         android:layout_below="@id/at_confirm_order_rl_title"
         android:layout_width="match_parent"
@@ -472,17 +445,23 @@
                 android:background="@color/background"
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginRight="@dimen/dp_12"></View>
-            <EditText
-                android:id="@+id/ac_confirmOrder_et_remark"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginRight="@dimen/dp_12"
-                android:background="@drawable/gray_conner"
-                android:hint="买家留言200字以内（选填）"
                 android:layout_marginTop="@dimen/dp_10"
-                android:textSize="@dimen/sp_14"
-                android:padding="@dimen/dp_13"/>
+                android:focusableInTouchMode="true"
+                android:focusable="true">
+                <EditText
+                    android:id="@+id/ac_confirmOrder_et_remark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gray_conner"
+                    android:hint="买家留言200字以内（选填）"
+                    android:textSize="@dimen/sp_14"
+                    android:padding="@dimen/dp_13"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
     

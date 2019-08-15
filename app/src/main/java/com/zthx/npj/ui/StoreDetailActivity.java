@@ -1,6 +1,9 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -81,6 +84,10 @@ public class StoreDetailActivity extends ActivityBase {
     Banner bannerDiscoverService;
     @BindView(R.id.ac_storeDetail_showLocation)
     ImageView acStoreDetailShowLocation;
+
+    private String lat="";
+    private String lng="";
+    private String mobile="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +171,9 @@ public class StoreDetailActivity extends ActivityBase {
         StoreDetailResponseBean storeDetailResponseBean = GsonUtils.fromJson(result, StoreDetailResponseBean.class);
         StoreDetailResponseBean.DataBean data = storeDetailResponseBean.getData();
         initBanner(data.getStore_img());
+        lat=data.getLat();
+        lng=data.getLng();
+        mobile=data.getContact();
         atStoreDetailName.setText(data.getStore_name());
         switch (data.getPopularity()) {
             case 1:
@@ -231,9 +241,12 @@ public class StoreDetailActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_storeDetail_showLocation:
-                openActivity(ShowLocationActivity.class);
+                openActivity(ShowLocationActivity.class,lat,lng);
                 break;
             case R.id.at_store_detail_iv_call:
+                Log.e("测试", "tel:"+mobile);
+                Intent intent=new Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+mobile));
+                startActivity(intent);
                 break;
             case R.id.at_store_detail_btn_pay:
                 openActivity(PayToStoreActivity.class, getIntent().getStringExtra(Const.STORE_ID));

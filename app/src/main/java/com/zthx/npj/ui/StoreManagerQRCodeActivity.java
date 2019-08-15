@@ -1,14 +1,21 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zthx.npj.R;
+import com.zthx.npj.utils.QRCodeUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class StoreManagerQRCodeActivity extends ActivityBase {
 
@@ -20,6 +27,20 @@ public class StoreManagerQRCodeActivity extends ActivityBase {
     TextView titleThemeTvRight;
     @BindView(R.id.title_theme_img_right)
     ImageView titleThemeImgRight;
+    @BindView(R.id.ac_storeManager_et_receiveName)
+    EditText acStoreManagerEtReceiveName;
+    @BindView(R.id.ac_storeManager_iv_min)
+    ImageView acStoreManagerIvMin;
+    @BindView(R.id.ac_storeManager_pb)
+    ProgressBar acStoreManagerPb;
+    @BindView(R.id.ac_storeManager_iv_add)
+    ImageView acStoreManagerIvAdd;
+    @BindView(R.id.ac_storeManager_tv_hint)
+    TextView acStoreManagerTvHint;
+    @BindView(R.id.ac_storeManager_save)
+    Button acStoreManagerSave;
+    @BindView(R.id.ac_storeManager_iv_QRCode)
+    ImageView acStoreManagerIvQRCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +49,37 @@ public class StoreManagerQRCodeActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleThemeBack);
-        changeTitle(titleThemeTitle,"我的收款码");
-        changeRightText(titleThemeTvRight,"账单",StoreManagerBillActivity.class,null);
+        changeTitle(titleThemeTitle, "我的收款码");
+        changeRightText(titleThemeTvRight, "账单", StoreManagerBillActivity.class, null);
+
+        acStoreManagerIvQRCode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("https://123.sogou.com/?22641-4322",160));
+    }
+
+    @OnClick({R.id.ac_storeManager_iv_min, R.id.ac_storeManager_iv_add, R.id.ac_storeManager_save})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ac_storeManager_iv_min:
+                if (acStoreManagerPb.getProgress() - 10 >= 0) {
+                    acStoreManagerPb.setProgress(acStoreManagerPb.getProgress() - 10);
+                    acStoreManagerTvHint.setText("优惠比率" + acStoreManagerPb.getProgress() + "%，用户支付时葫芦币抵扣" + acStoreManagerPb.getProgress() + "%消费金额");
+                } else {
+                    Toast.makeText(StoreManagerQRCodeActivity.this, "不能再减了", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.ac_storeManager_iv_add:
+                if (acStoreManagerPb.getProgress() + 10 <= 100) {
+                    acStoreManagerPb.setProgress(acStoreManagerPb.getProgress() + 10);
+                    acStoreManagerTvHint.setText("优惠比率" + acStoreManagerPb.getProgress() + "%，用户支付时葫芦币抵扣" + acStoreManagerPb.getProgress() + "%消费金额");
+                } else {
+                    Toast.makeText(StoreManagerQRCodeActivity.this, "再加就赔了！！！", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.ac_storeManager_save:
+                Intent intent = getIntent();
+                intent.putExtra("offer", acStoreManagerPb.getProgress() + "%");
+                setResult(1, intent);
+                finish();
+                break;
+        }
     }
 }

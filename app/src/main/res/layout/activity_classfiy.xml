@@ -10,7 +10,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_47"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
         <ImageView
             android:id="@+id/at_classfiy_iv_back"
             android:layout_width="@dimen/dp_32"

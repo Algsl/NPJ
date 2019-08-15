@@ -164,7 +164,6 @@ public class OnSuccessAndFaultSub extends DisposableObserver<ResponseBody>
     public void onNext(ResponseBody body) {
         try {
             final String result = body.string();
-            Log.e("body", result);
             JSONObject jsonObject = new JSONObject(result);
             int resultCode = jsonObject.getInt("code");
             if (resultCode == 1) {

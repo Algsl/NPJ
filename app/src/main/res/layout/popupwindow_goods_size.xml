@@ -14,7 +14,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_20"
-            android:background="#777777"/>
+            android:background="@color/black"
+            android:alpha="0.5"/>
         <ImageView
             android:id="@+id/pop_goods_size_iv_pic"
             android:layout_width="@dimen/dp_80"
@@ -159,10 +160,10 @@
             tag:labelBackground="@drawable/label_bg"
             tag:labelTextColor="@drawable/label_text"
             tag:labelTextSize="14sp"
-            tag:labelTextPaddingBottom="@dimen/dp_10"
+            tag:labelTextPaddingBottom="@dimen/dp_4"
             tag:labelTextPaddingLeft="@dimen/dp_10"
             tag:labelTextPaddingRight="@dimen/dp_10"
-            tag:labelTextPaddingTop="4.5dp"
+            tag:labelTextPaddingTop="@dimen/dp_4"
             tag:lineMargin="10dp"
             tag:wordMargin="10dp"
             tag:selectType="SINGLE"

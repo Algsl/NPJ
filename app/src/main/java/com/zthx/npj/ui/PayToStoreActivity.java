@@ -18,12 +18,14 @@ import butterknife.ButterKnife;
 
 public class PayToStoreActivity extends ActivityBase {
 
-    @BindView(R.id.ac_payToStore_iv_back)
-    ImageView acPayToStoreIvBack;
     @BindView(R.id.at_pay_to_store_iv_pic)
     ImageView atPayToStoreIvPic;
     @BindView(R.id.ac_payToStore_tv_storeName)
     TextView acPayToStoreTvStoreName;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +33,15 @@ public class PayToStoreActivity extends ActivityBase {
         setContentView(R.layout.activity_pay_to_store);
         ButterKnife.bind(this);
 
-        back(acPayToStoreIvBack);
+        back(titleBack);
+        changeTitle(acTitle,"付款");
 
-        String store_id=getIntent().getStringExtra("key0");
+        String store_id = getIntent().getStringExtra("key0");
         getStoreDetail(store_id);
     }
 
     private void getStoreDetail(String store_id) {
-        MainSubscribe.getStoreDetail(store_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.getStoreDetail(store_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setStoreDetail(result);
@@ -52,7 +55,8 @@ public class PayToStoreActivity extends ActivityBase {
     }
 
     private void setStoreDetail(String result) {
-        StoreDetailResponseBean bean= GsonUtils.fromJson(result,StoreDetailResponseBean.class);
+        StoreDetailResponseBean bean = GsonUtils.fromJson(result, StoreDetailResponseBean.class);
+        //Glide.with(this).load(Uri.parse(bean.getData().getStore_img().get(0))).into(atPayToStoreIvPic);
         Glide.with(this).load(Uri.parse(bean.getData().getStore_img().get(0))).into(atPayToStoreIvPic);
         acPayToStoreTvStoreName.setText(bean.getData().getStore_name());
     }

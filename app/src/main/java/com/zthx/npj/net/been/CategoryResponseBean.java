@@ -7,6 +7,9 @@ public class CategoryResponseBean extends BaseReponseBean{
         private long id;
         private String name;
         private String image;
+        private boolean isSelected;
+
+
         public class Child{
             private long id;
             private String name;
@@ -36,6 +39,15 @@ public class CategoryResponseBean extends BaseReponseBean{
                 this.image = image;
             }
         }
+
+        public boolean isSelected() {
+            return isSelected;
+        }
+
+        public void setSelected(boolean selected) {
+            isSelected = selected;
+        }
+
         private ArrayList<Child> child;
 
         public long getId() {

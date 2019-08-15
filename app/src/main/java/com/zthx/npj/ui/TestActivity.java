@@ -1,7 +1,9 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -28,6 +30,8 @@ public class TestActivity extends ActivityBase {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+
+        getResult();
 
         /*ArrayList<PaoMaBean> mList = new ArrayList<>();
         mList.add(new PaoMaBean(BitmapFactory.decodeResource(getResources(), R.drawable.logo), "国货PK美国货,结果让人震惊"));
@@ -65,6 +69,20 @@ public class TestActivity extends ActivityBase {
         //进行关联
         tabLayout.setupWithViewPager(viewPager);
     }
+
+    private void getResult() {
+        Intent mgetvalue = getIntent();
+        String maction = mgetvalue.getAction();
+        if (Intent.ACTION_VIEW.equals(maction )) {
+            Uri uri = mgetvalue.getData();
+            if (uri != null) {
+                String title = uri.getQueryParameter("title");
+                String content = uri.getQueryParameter("content");
+                Toast.makeText(TestActivity.this, title+" "+content, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     class MyAdapter extends FragmentPagerAdapter {
 
         //带参的构造方法

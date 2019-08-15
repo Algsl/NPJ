@@ -7,8 +7,8 @@
     tools:context=".ui.PayToStoreActivity"
     android:orientation="vertical"
     android:background="@color/background">
-
-    <RelativeLayout
+    <include layout="@layout/title"/>
+    <!--<RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
         android:background="@android:color/white">
@@ -29,25 +29,27 @@
             android:textSize="@dimen/sp_18"
             android:textColor="@color/text3"
             />
-    </RelativeLayout>
+    </RelativeLayout>-->
     
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_170"
         android:layout_marginRight="@dimen/dp_12"
-        android:layout_marginLeft="@dimen/dp_12">
+        android:layout_marginLeft="@dimen/dp_12"
+        android:background="@drawable/white_conner_5">
 
         <ImageView
             android:id="@+id/at_pay_to_store_iv_pic"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" 
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
             android:src="@drawable/logo"/>
         
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_30"
             android:layout_alignParentTop="true"
-            android:background="@android:color/black"
+            android:background="@drawable/black_conner_5"
             android:alpha="0.3"
             android:gravity="center">
             <TextView

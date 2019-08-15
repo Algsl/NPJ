@@ -1,8 +1,25 @@
 package com.zthx.npj.net.been;
 
+import java.util.ArrayList;
+
 public class MyOfflineStoreResponseBean extends BaseReponseBean{
     public class DataBean{
         private long id;
+        private String user_id;
+        private String store_name;
+        private String consumption;
+        private String business_hours;
+        private String contact;
+        private String address;
+        private String address2;
+        private String offer;
+        private String relief;
+        private ArrayList<String> store_img;
+        private String lat;
+        private String lng;
+        private long status;
+        private String create_time;
+        private String update_time;
 
         public long getId() {
             return id;
@@ -12,17 +29,13 @@ public class MyOfflineStoreResponseBean extends BaseReponseBean{
             this.id = id;
         }
 
-        private String store_name;
-        private String consumption;
-        private String business_hours;
-        private String contact;
-        private String address;
-        private String address2;
-        private String offer;
-        private String relief;
-        private String store_img;
-        private String lat;
-        private String lng;
+        public String getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(String user_id) {
+            this.user_id = user_id;
+        }
 
         public String getStore_name() {
             return store_name;
@@ -88,11 +101,11 @@ public class MyOfflineStoreResponseBean extends BaseReponseBean{
             this.relief = relief;
         }
 
-        public String getStore_img() {
+        public ArrayList<String> getStore_img() {
             return store_img;
         }
 
-        public void setStore_img(String store_img) {
+        public void setStore_img(ArrayList<String> store_img) {
             this.store_img = store_img;
         }
 
@@ -111,7 +124,32 @@ public class MyOfflineStoreResponseBean extends BaseReponseBean{
         public void setLng(String lng) {
             this.lng = lng;
         }
+
+        public long getStatus() {
+            return status;
+        }
+
+        public void setStatus(long status) {
+            this.status = status;
+        }
+
+        public String getCreate_time() {
+            return create_time;
+        }
+
+        public void setCreate_time(String create_time) {
+            this.create_time = create_time;
+        }
+
+        public String getUpdate_time() {
+            return update_time;
+        }
+
+        public void setUpdate_time(String update_time) {
+            this.update_time = update_time;
+        }
     }
+
     private DataBean data;
 
     public DataBean getData() {

@@ -135,6 +135,8 @@ public class ConfirmOrderActivity extends ActivityBase {
     ConfirmPreSellResponseBean.DataBean data;
     YsBuyOneResponseBean.DataBean data1;
     private String pay_code = "2";
+    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
     private ArrayList<LocalStoreResponseBean.DataBean> localData = new ArrayList<>();
     private String RSA_PRIVATE = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
             "NEU5up1siPOXKJBU0ypde7oPfm9gyy2ajgcw6v3KF2ryjot5AKlBED6qdQPRa5Sk\n" +
@@ -189,6 +191,7 @@ public class ConfirmOrderActivity extends ActivityBase {
         } else {
             attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
             goodsId = getIntent().getStringExtra(Const.GOODS_ID);
+            Log.e("测试", "onCreate: "+attId+" "+goodsId );
             getData();
         }
 
@@ -214,7 +217,7 @@ public class ConfirmOrderActivity extends ActivityBase {
         }));
     }
 
-
+    //礼包店确认订单
     private void getGiftConfirmData(String goodsId) {
 
         GiftSubscribe.getGiftConfirm(SharePerferenceUtils.getUserId(this), SharePerferenceUtils.getToken(this), goodsId, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
@@ -239,15 +242,18 @@ public class ConfirmOrderActivity extends ActivityBase {
         }, this));
     }
 
+    //新品预售和普通商品确认订单
     private void getData() {
         ConfirmPreSellBean bean = new ConfirmPreSellBean();
-        bean.setToken(BaseConstant.TOKEN);
+        bean.setToken(token);
         bean.setAtt_id(attId);
         bean.setPre_id(goodsId);
-        bean.setUser_id(SharePerferenceUtils.getUserId(this));
+        bean.setUser_id(user_id);
+        Log.e("测试", "getData: "+token+" "+attId+" "+goodsId+" "+user_id);
         PreSellSubscribe.getConfirmPreSell(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
+                Log.e("测试", "onSuccess: "+result );
                 ConfirmPreSellResponseBean confirmPreSellResponseBean = GsonUtils.fromJson(result, ConfirmPreSellResponseBean.class);
                 data = confirmPreSellResponseBean.getData();
                 atConfirmOrderTvAddress.setText(data.getAddress());
@@ -258,7 +264,6 @@ public class ConfirmOrderActivity extends ActivityBase {
                 atConfirmOrderTvGoodsPrice.setText("¥" + data.getGoods_price());
                 atConfirmOrderTvGoodsNum.setText("x" + data.getAttributes().getPre_number());
                 atConfirmOrderTvPrice.setText("¥" + data.getAttributes().getPre_price());
-
             }
 
             @Override
@@ -274,6 +279,7 @@ public class ConfirmOrderActivity extends ActivityBase {
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.ac_confirmOrder_btn_pay:
+                //确认订单
                 YsBuyOneBean bean = new YsBuyOneBean();
                 bean.setUser_id(SharePerferenceUtils.getUserId(this));
                 bean.setToken(SharePerferenceUtils.getToken(this));
@@ -355,9 +361,25 @@ public class ConfirmOrderActivity extends ActivityBase {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
-            Log.e("测试", "onActivityResult: " + data);
-            address_id = data.getStringExtra("address_id");
-            atConfirmOrderTvAddress.setText(data.getStringExtra("address"));
+            switch (requestCode){
+                case 1:
+                    address_id = data.getStringExtra("address_id");
+                    atConfirmOrderTvAddress.setText(data.getStringExtra("address"));
+                    break;
+                case 0:
+                    if (Const.GIFT.equals(getIntent().getAction())) {
+                        goodsId = getIntent().getStringExtra(Const.GOODS_ID);
+                        atConfirmOrderRlHongbao.setVisibility(View.VISIBLE);
+                        acConfirmOrderRlToDYR.setVisibility(View.GONE);
+                        getGiftConfirmData(goodsId);
+                    } else {
+                        attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
+                        goodsId = getIntent().getStringExtra(Const.GOODS_ID);
+                        getData();
+                    }
+                    break;
+            }
+
         }
     }
 

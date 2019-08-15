@@ -19,15 +19,15 @@
                 android:layout_height="wrap_content">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_168"
+                    android:layout_height="@dimen/dp_198"
                     android:background="@drawable/mine_title_gb">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/dp_10"
-                        android:fitsSystemWindows="true">
+                        android:layout_marginTop="@dimen/dp_30"
+                        android:paddingLeft="@dimen/dp_10">
                         <ImageView
                             android:layout_marginTop="@dimen/dp_10"
                             android:layout_marginBottom="@dimen/dp_10"

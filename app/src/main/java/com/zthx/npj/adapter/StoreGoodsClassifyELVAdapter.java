@@ -20,8 +20,26 @@ public class StoreGoodsClassifyELVAdapter extends BaseExpandableListAdapter {
     private ArrayList<CategoryResponseBean.DataBean> mList;
     private Context mContext;
     private ItemClick mItemClick;
+    private int mCurrentItem=0;
+    private boolean mClicked=false;
 
-    public StoreGoodsClassifyELVAdapter(Context context,ArrayList<CategoryResponseBean.DataBean> list){
+    public int getmCurrentItem() {
+        return mCurrentItem;
+    }
+
+    public void setmCurrentItem(int mCurrentItem) {
+        this.mCurrentItem = mCurrentItem;
+    }
+
+    public boolean ismClicked() {
+        return mClicked;
+    }
+
+    public void setmClicked(boolean mClicked) {
+        this.mClicked = mClicked;
+    }
+
+    public StoreGoodsClassifyELVAdapter(Context context, ArrayList<CategoryResponseBean.DataBean> list){
         mContext=context;
         mList=list;
     }
@@ -32,7 +50,8 @@ public class StoreGoodsClassifyELVAdapter extends BaseExpandableListAdapter {
 
 
     public interface ItemClick{
-        void returnNum(int position);
+        void childId(int position,String title);
+        void groupId(int position,String title);
     }
 
     @Override
@@ -82,6 +101,11 @@ public class StoreGoodsClassifyELVAdapter extends BaseExpandableListAdapter {
         }else{
             viewHolderGroup= (ViewHolderGroup) view.getTag();
         }
+        if(mCurrentItem==i && mClicked){
+           viewHolderGroup.arrow.setImageResource(R.drawable.xiala_zhishi2);
+        }else{
+            viewHolderGroup.arrow.setImageResource(R.drawable.goods_detail_select);
+        }
         viewHolderGroup.title.setText(mList.get(i).getName());
         return view;
     }
@@ -93,6 +117,7 @@ public class StoreGoodsClassifyELVAdapter extends BaseExpandableListAdapter {
         if(view==null){
             viewHolderChild=new ViewHolderChild();
             view=LayoutInflater.from(mContext).inflate(R.layout.activity_storegoods_classify_child,viewGroup,false);
+            viewHolderChild.seeAll=view.findViewById(R.id.ac_storeGoodsClassify_tv_seeAll);
             viewHolderChild.rv=view.findViewById(R.id.ac_storeGoodsClassify_rv);
             view.setTag(viewHolderChild);
         }else{
@@ -105,7 +130,13 @@ public class StoreGoodsClassifyELVAdapter extends BaseExpandableListAdapter {
         adapter.setOnItemClickListener(new StoreGoodsClassifyAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                mItemClick.returnNum((int)mList.get(a).getChild().get(position).getId());
+                mItemClick.childId((int)mList.get(a).getChild().get(position).getId(),mList.get(a).getChild().get(position).getName());
+            }
+        });
+        viewHolderChild.seeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mItemClick.groupId((int)mList.get(i).getId(),mList.get(i).getName());
             }
         });
         return view;
@@ -122,5 +153,6 @@ public class StoreGoodsClassifyELVAdapter extends BaseExpandableListAdapter {
     }
     public class ViewHolderChild{
         private RecyclerView rv;
+        private TextView seeAll;
     }
 }

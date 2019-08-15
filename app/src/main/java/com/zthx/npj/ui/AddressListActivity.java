@@ -81,7 +81,7 @@ public class AddressListActivity extends ActivityBase {
                 Intent intent=new Intent();
                 intent.putExtra("address_id",dataList.get(position).getId()+"");
                 intent.putExtra("address",dataList.get(position).getAlladdress());
-                setResult(0,intent);
+                setResult(1,intent);
                 finish();
             }
 

@@ -188,19 +188,20 @@ public class PublishGoodsActivity extends ActivityBase {
                 UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
                 UploadPicsResponseBean.DataBean data = bean.getData();
                 goodsImg = data.getImg();
-            }
-        });
-        HttpUtils.uploadMoreImg(requestUrl, paths2, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+                HttpUtils.uploadMoreImg(requestUrl, paths2, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
 
-            }
+                    }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
-                UploadPicsResponseBean.DataBean data = bean.getData();
-                goodsContent = data.getImg();
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                        UploadPicsResponseBean.DataBean data = bean.getData();
+                        goodsContent = data.getImg();
+                        pulishGoods();
+                    }
+                });
             }
         });
     }
@@ -255,7 +256,6 @@ public class PublishGoodsActivity extends ActivityBase {
                 break;
             case R.id.ac_pulishGoods_btn_pulish:
                 publishImages();
-                pulishGoods();
                 break;
             case R.id.ac_publishGoods_iv_hint1:
                 showPublishPopwindow(str1,R.dimen.dp_195);
