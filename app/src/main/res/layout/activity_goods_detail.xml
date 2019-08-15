@@ -737,16 +737,16 @@
     <RelativeLayout
         android:id="@+id/ac_goodsDetail_ll_inncer"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_400"
-        android:layout_marginLeft="@dimen/dp_50"
-        android:layout_marginRight="@dimen/dp_50"
+        android:layout_height="@dimen/dp_472"
+        android:layout_marginLeft="@dimen/dp_40"
+        android:layout_marginRight="@dimen/dp_40"
         android:layout_centerVertical="true"
         android:background="@drawable/white_conner_5"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_240"
+            android:layout_height="@dimen/dp_300"
             android:id="@+id/ac_goodsDetail_iv_innerGoodsImg"
             android:layout_gravity="center"
             android:scaleType="fitXY"
@@ -787,23 +787,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1.保存图片至相册"
-            android:layout_marginTop="@dimen/dp_20"
-            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginLeft="@dimen/dp_5"
             android:layout_toRightOf="@id/ac_goodsDetail_iv_qrcode"
             android:layout_below="@id/ac_goodsDetail_tv_innerGoodsTitle"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2.农品街扫一扫打开"
-            android:layout_marginTop="@dimen/dp_40"
-            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_50"
+            android:layout_marginLeft="@dimen/dp_5"
             android:layout_toRightOf="@id/ac_goodsDetail_iv_qrcode"
             android:layout_below="@id/ac_goodsDetail_tv_innerGoodsTitle"/>
         <ImageView
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_60"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
             android:layout_marginLeft="@dimen/dp_12"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_10"
             android:src="@drawable/logo"
             android:layout_alignParentRight="true"
             android:layout_below="@id/ac_goodsDetail_tv_innerGoodsTitle" />

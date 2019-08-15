@@ -36,6 +36,7 @@ import com.zthx.npj.net.been.EditOfflineStoreBean;
 import com.zthx.npj.net.been.FeedBackBean;
 import com.zthx.npj.net.been.GoodsCateBean;
 import com.zthx.npj.net.been.GoodsInfoBean;
+import com.zthx.npj.net.been.GoodsOrderBean;
 import com.zthx.npj.net.been.InComeBean;
 import com.zthx.npj.net.been.InComeLogBean;
 import com.zthx.npj.net.been.KuaiDiBean;
@@ -1539,6 +1540,16 @@ public class SetSubscribe {
         bean.setUser_id(user_id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().userAppLog(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 普通商品确认订单
+     * @param bean
+     * @param subscriber
+     */
+    public static void goodsOrder(GoodsOrderBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().goodsOrder(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

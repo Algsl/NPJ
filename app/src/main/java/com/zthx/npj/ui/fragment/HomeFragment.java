@@ -320,6 +320,13 @@ public class HomeFragment extends BaseFragment {
             case REQUEST_CODE_SCAN:
                 if(resultCode==RESULT_OK){
                     String context=data.getStringExtra(Constant.CODED_CONTENT);
+                    String[] strs=context.split(",");
+                    /*Intent intent=new Intent(getContext(),GoodsDetailActivity.class);
+                    intent.putExtra("goods_id",strs[2]);
+                    startActivity(intent);*/
+                    for(String str:strs){
+                        Log.e("测试", "onActivityResult: "+str );
+                    }
                     Toast.makeText(getContext(),context,Toast.LENGTH_LONG).show();
                 }
                 break;

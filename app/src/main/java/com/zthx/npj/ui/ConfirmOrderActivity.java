@@ -1,6 +1,7 @@
 package com.zthx.npj.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -38,6 +41,8 @@ import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.ConfirmPreSellBean;
 import com.zthx.npj.net.been.ConfirmPreSellResponseBean;
 import com.zthx.npj.net.been.GIftConfirmResponseBean;
+import com.zthx.npj.net.been.GoodsOrderBean;
+import com.zthx.npj.net.been.GoodsOrderResponseBean;
 import com.zthx.npj.net.been.LocalStoreBean;
 import com.zthx.npj.net.been.LocalStoreResponseBean;
 import com.zthx.npj.net.been.PayResponse1Bean;
@@ -47,9 +52,11 @@ import com.zthx.npj.net.been.YsBuyOneResponseBean;
 import com.zthx.npj.net.netsubscribe.GiftSubscribe;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.PreSellSubscribe;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.ImageCircleConner;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
@@ -132,8 +139,10 @@ public class ConfirmOrderActivity extends ActivityBase {
     private String address_id = "";
     private String allAddress = "";
 
-    ConfirmPreSellResponseBean.DataBean data;
-    YsBuyOneResponseBean.DataBean data1;
+    private ConfirmPreSellResponseBean.DataBean data;
+    private YsBuyOneResponseBean.DataBean data1;
+    private GoodsOrderResponseBean.DataBean ptdata;
+
     private String pay_code = "2";
     private String user_id=SharePerferenceUtils.getUserId(this);
     private String token=SharePerferenceUtils.getToken(this);
@@ -188,13 +197,55 @@ public class ConfirmOrderActivity extends ActivityBase {
             atConfirmOrderRlHongbao.setVisibility(View.VISIBLE);
             acConfirmOrderRlToDYR.setVisibility(View.GONE);
             getGiftConfirmData(goodsId);
-        } else {
+        } else if(Const.PRESELL.equals(getIntent().getAction())){
             attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
             goodsId = getIntent().getStringExtra(Const.GOODS_ID);
-            Log.e("测试", "onCreate: "+attId+" "+goodsId );
             getData();
+        }else{
+            attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
+            goodsId = getIntent().getStringExtra(Const.GOODS_ID);
+            getGoodsData();
         }
 
+    }
+
+    private void getGoodsData() {
+        GoodsOrderBean bean=new GoodsOrderBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setGoods_id(goodsId);
+        bean.setItem_id(attId);
+        bean.setGoods_num("2");
+        SetSubscribe.goodsOrder(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setGoodsData(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setGoodsData(String result) {
+        GoodsOrderResponseBean bean = GsonUtils.fromJson(result, GoodsOrderResponseBean.class);
+        ptdata = bean.getData();
+        atConfirmOrderTvAddress.setText(ptdata.getAddress());
+        atConfirmOrderTvStoreName.setText(ptdata.getStore_name());
+        //Glide.with(ConfirmOrderActivity.this).load(ptdata.getGoods_img()).into(atConfirmOrderIvPic);
+        Glide.with(ConfirmOrderActivity.this).load(ptdata.getGoods_img()).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                atConfirmOrderIvPic.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
+            }
+        });
+        atConfirmOrderTvTitle.setText(ptdata.getGoods_name());
+        atConfirmOrderTvSize.setText("规格： " + ptdata.getAttributes().getId());
+        atConfirmOrderTvGoodsPrice.setText("¥" + ptdata.getGoods_price());
+        atConfirmOrderTvGoodsNum.setText("x" + ptdata.getAttributes().getPre_number());
+        atConfirmOrderTvPrice.setText("¥" + ptdata.getAttributes().getPre_price());
     }
 
     private void getLocalStore(String type) {

@@ -1,12 +1,10 @@
 package com.zthx.npj.net.been;
 
-import java.util.ArrayList;
-
 /**
  * Created by huangxin on 2019/6/10.
  */
 
-public class ConfirmPreSellResponseBean extends BaseReponseBean{
+public class GoodsOrderResponseBean extends BaseReponseBean{
     public class DataBean{
         private long id;
         private String goods_name;

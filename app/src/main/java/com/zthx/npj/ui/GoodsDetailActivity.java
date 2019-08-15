@@ -186,16 +186,6 @@ public class GoodsDetailActivity extends ActivityBase {
         acGoodsDetailLlInncer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                acGoodsDetailIvQrcode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("helloworld", 60));
-                Glide.with(GoodsDetailActivity.this).load(Uri.parse(mGoodsData.getGoods_img().get(0))).asBitmap().into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        acGoodsDetailIvInnerGoodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-                    }
-                });
-                acGoodsDetailTvInnerGoodsTitle.setText(mGoodsData.getGoods_name());
-                acGoodsDetailTvInnerGoodsPrice.setText(mGoodsData.getMarket_price());
                 Bitmap bitmap = SimpleUtil.createViewBitmap(view);
                 showSingleBottomDialog(bitmap);
             }
@@ -247,14 +237,14 @@ public class GoodsDetailActivity extends ActivityBase {
             atGoodsDetailBtnPreSellKnow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    atGoodsDetailBtnPreSellDetail.setBackgroundColor(getResources().getColor(R.color.white));
-                    atGoodsDetailBtnPreSellDetail.setTextColor(getResources().getColor(R.color.text3));
-                    atGoodsDetailBtnPreSellComment.setBackgroundColor(getResources().getColor(R.color.white));
-                    atGoodsDetailBtnPreSellComment.setTextColor(getResources().getColor(R.color.text3));
-                    atGoodsDetailBtnPreSellKnow.setBackgroundColor(getResources().getColor(R.color.app_theme));
-                    atGoodsDetailBtnPreSellKnow.setTextColor(getResources().getColor(R.color.white));
-                    acGoodsDetailLlKnow.setVisibility(View.VISIBLE);
-                    acGoodsDetailRvContent.setVisibility(View.GONE);
+                atGoodsDetailBtnPreSellDetail.setBackgroundColor(getResources().getColor(R.color.white));
+                atGoodsDetailBtnPreSellDetail.setTextColor(getResources().getColor(R.color.text3));
+                atGoodsDetailBtnPreSellComment.setBackgroundColor(getResources().getColor(R.color.white));
+                atGoodsDetailBtnPreSellComment.setTextColor(getResources().getColor(R.color.text3));
+                atGoodsDetailBtnPreSellKnow.setBackgroundColor(getResources().getColor(R.color.app_theme));
+                atGoodsDetailBtnPreSellKnow.setTextColor(getResources().getColor(R.color.white));
+                acGoodsDetailLlKnow.setVisibility(View.VISIBLE);
+                acGoodsDetailRvContent.setVisibility(View.GONE);
                 }
             });
         } else {
@@ -431,8 +421,16 @@ public class GoodsDetailActivity extends ActivityBase {
                 break;
             case R.id.ac_goodsDetail_iv_share:
                 acGoodsDetailLlInncer.setVisibility(View.VISIBLE);
-                //Bitmap bmp = SimpleUtil.shotScrollView(acGoodsDetailSv);
-                //showSingleBottomDialog(bmp);
+                String str="goodsDetail,goods,"+goodsId;
+                acGoodsDetailIvQrcode.setImageBitmap(QRCodeUtil.createQRCodeBitmap(str, 80));
+                Glide.with(GoodsDetailActivity.this).load(Uri.parse(mGoodsData.getGoods_img().get(0))).asBitmap().into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        acGoodsDetailIvInnerGoodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
+                    }
+                });
+                acGoodsDetailTvInnerGoodsTitle.setText(mGoodsData.getGoods_name());
+                acGoodsDetailTvInnerGoodsPrice.setText("￥"+mGoodsData.getMarket_price());
                 break;
             case R.id.ac_goodsDetail_ll_store:
                 openActivity(StoreActivity.class, mGoodsData.getUser_id());
@@ -672,6 +670,7 @@ public class GoodsDetailActivity extends ActivityBase {
         dialog.findViewById(R.id.dialog_share_friends).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                acGoodsDetailLlInncer.setVisibility(View.GONE);
                 WXImageObject imgObj = new WXImageObject(bmp);
                 WXMediaMessage msg = new WXMediaMessage();
                 msg.mediaObject = imgObj;
@@ -692,6 +691,7 @@ public class GoodsDetailActivity extends ActivityBase {
         dialog.findViewById(R.id.dialog_share_pyq).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                acGoodsDetailLlInncer.setVisibility(View.GONE);
                 WXImageObject imgObj = new WXImageObject(bmp);
                 WXMediaMessage msg = new WXMediaMessage();
                 msg.mediaObject = imgObj;
@@ -713,6 +713,7 @@ public class GoodsDetailActivity extends ActivityBase {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                acGoodsDetailLlInncer.setVisibility(View.GONE);
             }
         });
     }
