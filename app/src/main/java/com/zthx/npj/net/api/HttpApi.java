@@ -74,20 +74,20 @@ public interface HttpApi  {
     @POST("index.php/api/index/spikedetails.html")
     Observable<ResponseBody> getSecKillGoodsDetailForBody(@Body GoodsDetailBean bean);
 
-    @POST("index.php/api/user/giftlist.htm")
+    @POST("index.php/api/user/giftlist.html")
     Observable<ResponseBody> getGiftListForBody(@Body GiftListBean bean);
 
-    @POST("index.php/api/user/useradvantage.htm")
+    @POST("index.php/api/user/useradvantage.html")
     Observable<ResponseBody> getSpokesmanQuanForBody(@Body GiftListBean bean);
 
-    @POST("index.php/api/user/giftdetail.htm")
+    @POST("index.php/api/user/giftdetail.html")
     Observable<ResponseBody> getGiftDetailForBody(@Body GiftDetailBean bean);
 
-    @POST("index.php/api/user/giftorder.htm")
+    @POST("index.php/api/user/giftorder.html")
     Observable<ResponseBody> getGiftConfirmForBody(@Body GiftDetailBean bean);
 
     @POST("index.php/api/usercert/cert.html")
-    Observable<ResponseBody> getMyCertForBody(@Body GiftListBean bean);
+    Observable<ResponseBody> getMyCertForBody(@Body CertBean bean);
 
     @POST("index.php/api/set/uploadimg.html")
     Observable<ResponseBody> upLoadFileForBody(@Body UpLoadFileBean bean);
@@ -96,7 +96,7 @@ public interface HttpApi  {
     Observable<ResponseBody> upLoadMyCertForBody(@Body UpLoadMyCertBean bean);
 
     @POST("index.php/api/usercert/company2.html")
-    Observable<ResponseBody> isPersonCertDoneForBody(@Body GiftListBean bean);
+    Observable<ResponseBody> isPersonCertDoneForBody(@Body CertBean bean);
 
     @POST("index.php/api/usercert/company3.html")
     Observable<ResponseBody> uploadCompanyForBody(@Body UploadCompanyBean bean);
@@ -105,10 +105,10 @@ public interface HttpApi  {
     Observable<ResponseBody> uploadCaigouForBody(@Body UploadCaigouBean bean);
 
     @POST("index.php/api/usercert/integrity.html")
-    Observable<ResponseBody> isChengxinCerAlreadyForBody(@Body GiftListBean bean);
+    Observable<ResponseBody> isChengxinCerAlreadyForBody(@Body CertBean bean);
 
     @POST("index.php/api/usercert/integrity2.html")
-    Observable<ResponseBody> isChengxinCerAlready2ForBody(@Body GiftListBean bean);
+    Observable<ResponseBody> isChengxinCerAlready2ForBody(@Body CertBean bean);
 
     @POST("index.php/api/usercert/integrity3.html")
     Observable<ResponseBody> uploadChengxinCertForBody(@Body UploadChengXinCertBean bean);

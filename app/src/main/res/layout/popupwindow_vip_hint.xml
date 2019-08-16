@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_400"
+    android:layout_marginLeft="@dimen/dp_12"
+    android:layout_marginRight="@dimen/dp_12"
+    android:background="@drawable/white_conner_5"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:textSize="@dimen/sp_15"
+        android:lineHeight="@dimen/dp_20"
+        android:textColor="@color/text3"
+        android:layout_marginTop="@dimen/dp_26"
+        android:text="         点击下方“生成推广海报”按钮，可以生成不同的海报，保存海报至相册，转发给朋友或发送朋友圈。"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:textSize="@dimen/sp_15"
+        android:lineHeight="@dimen/dp_20"
+        android:textColor="@color/text3"
+        android:layout_marginTop="@dimen/dp_5"
+        android:text="         朋友注册成为农品街代言人，平台奖励您150元现金，朋友购物，您将获得商品利润49%的佣金。"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:textSize="@dimen/sp_15"
+        android:lineHeight="@dimen/dp_20"
+        android:textColor="@color/text3"
+        android:layout_marginTop="@dimen/dp_5"
+        android:text="         朋友推荐朋友成为农品街代言人，平台奖励您30元现金，朋友的朋友购物，您将获得商品14%的佣金"/>
+    <TextView
+        android:id="@+id/pw_vipHint_tv_generateHB"
+        android:layout_width="@dimen/dp_254"
+        android:layout_height="@dimen/dp_50"
+        android:layout_gravity="center"
+        android:text="生成推广海报"
+        android:gravity="center"
+        android:textSize="@dimen/dp_20"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/dp_20"
+        android:background="@drawable/generate_hb"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:textSize="@dimen/sp_12"
+        android:lineHeight="@dimen/dp_16"
+        android:textColor="@color/text6"
+        android:layout_marginTop="@dimen/dp_17"
+        android:text="         将生成的海报发送给朋友，朋友通过扫码进入农品街礼包店购买任意一商品成为代言人后，即可免费领取平台赠送的相关产品。"/>
+</LinearLayout>

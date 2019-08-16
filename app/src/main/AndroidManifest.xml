@@ -53,12 +53,22 @@
             android:value="PHUVgcMQuv0RmOk9nMH8IGnp5qGduaCy" /> <!-- 活动页面 -->
         <activity
             android:name=".ui.MainActivity"
-            android:theme="@style/TranslucentTheme"/>
+            android:theme="@style/TranslucentTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="http"
+                    android:host="game.npj-vip.com"
+                    android:pathPrefix="/jumpApp.html" />
+            </intent-filter>
+        </activity>
            <!-- android:theme="@style/TranslucentTheme" -->
-        <activity android:name=".ui.BaseActivity" />
+        <activity android:name=".ui.BaseActivity"/>
         <activity android:name=".ui.HomeSearchActivity" />
         <activity android:name=".ui.fragment.ClassfiyDetailActivity" />
-        <activity android:name=".ui.GoodsDetailActivity" />
+        <activity android:name=".ui.GoodsDetailActivity"/>
         <activity android:name=".ui.SecKillActivity" />
         <activity android:name=".ui.ConfirmOrderActivity" />
         <activity android:name=".ui.PreSellActivity" />
@@ -132,24 +142,7 @@
         <activity android:name=".ui.BankCardActivity" />
         <activity android:name=".ui.AddBankCardActivity" />
         <activity android:name=".ui.WithDrawActivity" />
-        <activity android:name=".ui.TestActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <!--下面所设置的data值需要和html端对应-->
-                <!--在data里设置了 scheme和host，则该Activity可以接收和处理类似于 "test://article/attr"的链接-->
-                <!--<data
-                    android:host="game.npj-vip.com"
-                    android:scheme="http"
-                    android:pathPrefix="/h5/jumpApp.html"/>-->
-                <data
-                    android:host="article"
-                    android:scheme="test"
-                    android:pathPrefix="/attr" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".ui.TestActivity" />
         <activity android:name=".ui.ShopLogActivity" />
         <activity android:name=".ui.VipJLActivity" />
         <activity android:name=".ui.InComeLogActivity" />
@@ -186,7 +179,7 @@
         <activity android:name=".ui.ConsultActivity"/>
         <activity android:name=".ui.ShowLocationActivity"/>
         <activity android:name=".ui.StoreGoodsClassifyActivity"/>
-
+        <activity android:name=".ui.HaiBaoActivity"/>
 
         <activity
             android:name=".wxapi.WXEntryActivity"

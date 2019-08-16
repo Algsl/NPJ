@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,7 @@ import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.wxlib.util.SysUtil;
 import com.zthx.npj.R;
 import com.zthx.npj.base.BaseApp;
+import com.zthx.npj.base.Const;
 import com.zthx.npj.entity.NotificationBean;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
@@ -110,7 +112,26 @@ public class MainActivity extends AppCompatActivity {
         registerMessageReceiver();
         loginIM();
         getUserMsg();
+
+        getBrowserResult();
     }
+
+    private void getBrowserResult() {
+        Intent mgetvalue = getIntent();
+        String maction = mgetvalue.getAction();
+        if (Intent.ACTION_VIEW.equals(maction )) {
+            Uri uri = mgetvalue.getData();
+            if (uri != null) {
+                String title = uri.getQueryParameter("type");
+                String content = uri.getQueryParameter("id");
+                Intent intent=new Intent(MainActivity.this,GoodsDetailActivity.class);
+                intent.setAction(Const.GOODS);
+                intent.putExtra(Const.GOODS_ID, content+"");
+                startActivity(intent);
+            }
+        }
+    }
+
 
     private void getUserMsg() {
         SetSubscribe.getUserInfo(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {

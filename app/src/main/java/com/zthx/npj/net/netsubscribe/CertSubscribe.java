@@ -1,5 +1,6 @@
 package com.zthx.npj.net.netsubscribe;
 
+import com.zthx.npj.net.been.CertBean;
 import com.zthx.npj.net.been.CompanyBean;
 import com.zthx.npj.net.been.GiftListBean;
 import com.zthx.npj.net.been.IntegrityBean;
@@ -31,7 +32,7 @@ public class CertSubscribe {
      * @param subscriber
      */
     public static void getMyCert(String id,String token, DisposableObserver<ResponseBody> subscriber) {
-        GiftListBean bean = new GiftListBean();
+        CertBean bean=new CertBean();
         bean.setId(id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getMyCertForBody(bean);
@@ -53,7 +54,7 @@ public class CertSubscribe {
      * @param subscriber
      */
     public static void isPersonCertDone(String id,String token, DisposableObserver<ResponseBody> subscriber) {
-        GiftListBean bean = new GiftListBean();
+        CertBean bean=new CertBean();
         bean.setId(id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().isPersonCertDoneForBody(bean);
@@ -87,7 +88,7 @@ public class CertSubscribe {
      * @param subscriber
      */
     public static void isChengXinAlreadyCert(String id,String token, DisposableObserver<ResponseBody> subscriber) {
-        GiftListBean bean = new GiftListBean();
+        CertBean bean=new CertBean();
         bean.setId(id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().isChengxinCerAlreadyForBody(bean);
@@ -101,7 +102,7 @@ public class CertSubscribe {
      * @param subscriber
      */
     public static void isChengXinAlready2Cert(String id,String token, DisposableObserver<ResponseBody> subscriber) {
-        GiftListBean bean = new GiftListBean();
+        CertBean bean=new CertBean();
         bean.setId(id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().isChengxinCerAlready2ForBody(bean);

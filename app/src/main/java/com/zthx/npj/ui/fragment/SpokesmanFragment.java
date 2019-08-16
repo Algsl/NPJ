@@ -36,6 +36,9 @@ public class SpokesmanFragment extends Fragment {
     RecyclerView fgSpokesmanRv;
     Unbinder unbinder;
 
+    private String user_id=SharePerferenceUtils.getUserId(getContext());
+    private String token=SharePerferenceUtils.getToken(getContext());
+
     public SpokesmanFragment() {
         // Required empty public constructor
     }
@@ -57,46 +60,25 @@ public class SpokesmanFragment extends Fragment {
     }
 
     private void getData() {
-
-        GiftSubscribe.getSpokesmanQuan(SharePerferenceUtils.getUserId(getActivity()), SharePerferenceUtils.getToken(getActivity()), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        GiftSubscribe.getSpokesmanQuan(user_id,token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
-                fgSpokesmanRv.setLayoutManager(manager);
                 SpokesmanQuanLiResponsebean spokesmanQuanLiResponsebean = GsonUtils.fromJson(result, SpokesmanQuanLiResponsebean.class);
                 ArrayList<SpokesmanQuanLiResponsebean.DataBean> data = spokesmanQuanLiResponsebean.getData();
-                SpokesmanQuanLiAdapter mAdapter = new SpokesmanQuanLiAdapter(getActivity(),data);
+                LinearLayoutManager manager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+                fgSpokesmanRv.setLayoutManager(manager);
+                SpokesmanQuanLiAdapter mAdapter = new SpokesmanQuanLiAdapter(getContext(),data);
                 fgSpokesmanRv.setAdapter(mAdapter);
             }
 
             @Override
             public void onFault(String errorMsg) {
-                String result="{\n" +
-                        "    \"code\": 1,\n" +
-                        "    \"data\": [\n" +
-                        "        {\n" +
-                        "            \"id\": 1,\n" +
-                        "            \"title\": \"终身免费领取面膜\",\n" +
-                        "            \"description\": \"每天收取8到48克芦荟汁，也可以摘取好友的芦荟汁，达到298克即可免费兑换一盒价值298元的面膜！\",\n" +
-                        "            \"img\": \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
-                        "            \"remark\": \"mianmo\"\n" +
-                        "        },\n" +
-                        "        {\n" +
-                        "            \"id\": 2,\n" +
-                        "            \"title\": \"可以发布自己的礼包\",\n" +
-                        "            \"description\": \"可以发布自己的礼包可以发布自己的礼包可以发布自己的礼包可以发布自己的礼包可以发布自己的礼包\",\n" +
-                        "            \"img\": \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
-                        "            \"remark\": \"libao\"\n" +
-                        "        }\n" +
-                        "    ],\n" +
-                        "    \"msg\": \"加载成功\"\n" +
-                        "}";
-                RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+                /*RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
                 fgSpokesmanRv.setLayoutManager(layoutManager);
                 SpokesmanQuanLiResponsebean spokesmanQuanLiResponsebean = GsonUtils.fromJson(result, SpokesmanQuanLiResponsebean.class);
                 ArrayList<SpokesmanQuanLiResponsebean.DataBean> data = spokesmanQuanLiResponsebean.getData();
                 SpokesmanQuanLiAdapter mAdapter = new SpokesmanQuanLiAdapter(getContext(),data);
-                fgSpokesmanRv.setAdapter(mAdapter);
+                fgSpokesmanRv.setAdapter(mAdapter);*/
             }
         }));
     }

@@ -83,6 +83,8 @@ public class TestActivity extends ActivityBase {
         }
     }
 
+
+
     class MyAdapter extends FragmentPagerAdapter {
 
         //带参的构造方法

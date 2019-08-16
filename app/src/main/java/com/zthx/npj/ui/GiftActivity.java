@@ -3,11 +3,12 @@ package com.zthx.npj.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.youth.banner.Banner;
@@ -15,6 +16,7 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.GoodsImgDetailAdapter;
 import com.zthx.npj.base.BaseConstant;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.GiftDetailResponseBean;
@@ -53,6 +55,10 @@ public class GiftActivity extends ActivityBase {
     ImageView titleBack;
     @BindView(R.id.ac_title)
     TextView acTitle;
+    @BindView(R.id.ac_gift_rv_imgs)
+    RecyclerView acGiftRvImgs;
+    @BindView(R.id.ac_gift_ll_know)
+    LinearLayout acGiftLlKnow;
 
     private String mId;
 
@@ -65,7 +71,7 @@ public class GiftActivity extends ActivityBase {
         getData(mId);
 
         back(titleBack);
-        changeTitle(acTitle,"商品详情");
+        changeTitle(acTitle, "商品详情");
     }
 
 
@@ -74,37 +80,20 @@ public class GiftActivity extends ActivityBase {
             @Override
             public void onSuccess(String result) {
                 GiftDetailResponseBean giftDetailResponseBean = GsonUtils.fromJson(result, GiftDetailResponseBean.class);
-                GiftDetailResponseBean.DataBean data=giftDetailResponseBean.getData();
+                GiftDetailResponseBean.DataBean data = giftDetailResponseBean.getData();
                 atGiftDetailTvPrice.setText("¥" + data.getPrice());
                 atGiftDetailTvTitle.setText(data.getTitle());
                 atGiftDetailTvDes.setText(data.getDescription());
                 initBanner(data.getImggroup());
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(GiftActivity.this);
+                acGiftRvImgs.setLayoutManager(layoutManager);
+                GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(GiftActivity.this, data.getImggroup());
+                acGiftRvImgs.setAdapter(adapter);
             }
 
             @Override
             public void onFault(String errorMsg) {
-                String test = "{\n" +
-                        "    \"code\": 1,\n" +
-                        "    \"data\": {\n" +
-                        "        \"id\": 1,\n" +
-                        "        \"title\": \"水多多面膜\",\n" +
-                        "        \"description\": \"水多多专属礼包产品\",\n" +
-                        "        \"imggroup\": [\n" +
-                        "            \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
-                        "            \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
-                        "            \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\"\n" +
-                        "        ],\n" +
-                        "        \"price\": \"298.00\",\n" +
-                        "        \"content\": null\n" +
-                        "    },\n" +
-                        "    \"msg\": \"加载成功\"\n" +
-                        "}";
-                GiftDetailResponseBean giftDetailResponseBean = GsonUtils.fromJson(test, GiftDetailResponseBean.class);
-                GiftDetailResponseBean.DataBean data=giftDetailResponseBean.getData();
-                atGiftDetailTvPrice.setText("¥" + data.getPrice());
-                atGiftDetailTvTitle.setText(data.getTitle());
-                atGiftDetailTvDes.setText(data.getDescription());
-                initBanner(data.getImggroup());
+
             }
         }));
     }
@@ -113,8 +102,20 @@ public class GiftActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_gift_detail_tv_detail:
+                atGiftDetailTvNeedknow.setBackgroundColor(getResources().getColor(R.color.white));
+                atGiftDetailTvNeedknow.setTextColor(getResources().getColor(R.color.text3));
+                atGiftDetailTvDetail.setBackgroundColor(getResources().getColor(R.color.app_theme));
+                atGiftDetailTvDetail.setTextColor(getResources().getColor(R.color.white));
+                acGiftRvImgs.setVisibility(View.VISIBLE);
+                acGiftLlKnow.setVisibility(View.GONE);
                 break;
             case R.id.at_gift_detail_tv_needknow:
+                atGiftDetailTvDetail.setBackgroundColor(getResources().getColor(R.color.white));
+                atGiftDetailTvDetail.setTextColor(getResources().getColor(R.color.text3));
+                atGiftDetailTvNeedknow.setBackgroundColor(getResources().getColor(R.color.app_theme));
+                atGiftDetailTvNeedknow.setTextColor(getResources().getColor(R.color.white));
+                acGiftRvImgs.setVisibility(View.GONE);
+                acGiftLlKnow.setVisibility(View.VISIBLE);
                 break;
             case R.id.at_gift_detail_btn_buy:
                 Intent intent = new Intent(this, ConfirmOrderActivity.class);

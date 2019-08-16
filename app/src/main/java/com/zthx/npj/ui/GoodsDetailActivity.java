@@ -43,7 +43,6 @@ import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AddCartBean;
 import com.zthx.npj.net.been.CommentResponseBean;
 import com.zthx.npj.net.been.GoodsDetailResponseBean;
-import com.zthx.npj.net.been.GoodsImgDetailResponseBean;
 import com.zthx.npj.net.been.PreSellDetailResponseBean;
 import com.zthx.npj.net.been.SecKillGoodsDetailResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
@@ -161,6 +160,12 @@ public class GoodsDetailActivity extends ActivityBase {
     TextView acGoodsDetailTvInnerGoodsPrice;
     @BindView(R.id.ac_goodsDetail_ll_inncer)
     RelativeLayout acGoodsDetailLlInncer;
+    @BindView(R.id.ac_goodsDetail_ll_bar)
+    LinearLayout acGoodsDetailLlBar;
+    @BindView(R.id.ac_goodsDetail_save)
+    TextView acGoodsDetailSave;
+    @BindView(R.id.ac_goodsDetail_ll_inner)
+    LinearLayout acGoodsDetailLlInner;
 
 
     private String user_id = SharePerferenceUtils.getUserId(this);
@@ -170,9 +175,9 @@ public class GoodsDetailActivity extends ActivityBase {
     private String type = "1";
     private int count = 1;
 
-    private PreSellDetailResponseBean.DataBean mPreData;
-    private GoodsDetailResponseBean.DataBean mGoodsData;
-    private SecKillGoodsDetailResponseBean.DataBean mSeckillData;
+    private PreSellDetailResponseBean.DataBean mPreData = new PreSellDetailResponseBean().getData();
+    private GoodsDetailResponseBean.DataBean mGoodsData = new GoodsDetailResponseBean().getData();
+    private SecKillGoodsDetailResponseBean.DataBean mSeckillData = new SecKillGoodsDetailResponseBean().getData();
     private IWXAPI api;
     private GoodSizePopupwindow sizePopWin = null;
 
@@ -183,34 +188,23 @@ public class GoodsDetailActivity extends ActivityBase {
         setContentView(R.layout.activity_goods_detail);
         ButterKnife.bind(this);
 
-        acGoodsDetailLlInncer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap bitmap = SimpleUtil.createViewBitmap(view);
-                showSingleBottomDialog(bitmap);
-            }
-        });
 
         api = WXAPIFactory.createWXAPI(this, "wx76500efa65d19915", false);
         api.registerApp("wx76500efa65d19915");
 
-        String id = getIntent().getStringExtra(Const.GOODS_ID);
-        goodsId = id;
+        goodsId = getIntent().getStringExtra(Const.GOODS_ID);
 
-        acGoodsDetailIvBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        back(acGoodsDetailIvBack);
 
-        setGoodsDetail();
+
+        //秒杀商品
         if ("miaosha".equals(getIntent().getAction())) {//限时秒杀
             int status = getIntent().getIntExtra(Const.SECKILL_STATUS, 1);
             if (status == 1) {//秒杀已结束
                 atGoodsDetailRlWillBegin.setVisibility(View.GONE);
                 atGoodsDetailRlSecKill.setVisibility(View.GONE);
                 atGoodsDetailRlSecKillDone.setVisibility(View.VISIBLE);
+                acGoodsDetailLlBar.setVisibility(View.GONE);
             } else if (status == 2) {//秒杀进行中
                 atGoodsDetailRlWillBegin.setVisibility(View.GONE);
                 atGoodsDetailRlSecKill.setVisibility(View.VISIBLE);
@@ -223,7 +217,7 @@ public class GoodsDetailActivity extends ActivityBase {
             type = "4";
             atGoodsDetailLlGoods.setVisibility(View.VISIBLE);
             atGoodsDetailLlPresell.setVisibility(View.GONE);
-            getSecKillDetail(id);
+            getSecKillDetail();
         } else if (Const.PRESELL.equals(getIntent().getAction())) {
             type = "3";
             atGoodsDetailRlSecKill.setVisibility(View.GONE);
@@ -233,44 +227,39 @@ public class GoodsDetailActivity extends ActivityBase {
             acGoodsDetailLlStore.setVisibility(View.GONE);
             acGoodsDetailLlWuliu.setVisibility(View.VISIBLE);
             atGoodsDetailBtnPreSellKnow.setVisibility(View.VISIBLE);
-            getPreSellDetail(id);
+            getPreSellDetail(goodsId);
             atGoodsDetailBtnPreSellKnow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                atGoodsDetailBtnPreSellDetail.setBackgroundColor(getResources().getColor(R.color.white));
-                atGoodsDetailBtnPreSellDetail.setTextColor(getResources().getColor(R.color.text3));
-                atGoodsDetailBtnPreSellComment.setBackgroundColor(getResources().getColor(R.color.white));
-                atGoodsDetailBtnPreSellComment.setTextColor(getResources().getColor(R.color.text3));
-                atGoodsDetailBtnPreSellKnow.setBackgroundColor(getResources().getColor(R.color.app_theme));
-                atGoodsDetailBtnPreSellKnow.setTextColor(getResources().getColor(R.color.white));
-                acGoodsDetailLlKnow.setVisibility(View.VISIBLE);
-                acGoodsDetailRvContent.setVisibility(View.GONE);
+                    atGoodsDetailBtnPreSellDetail.setBackgroundColor(getResources().getColor(R.color.white));
+                    atGoodsDetailBtnPreSellDetail.setTextColor(getResources().getColor(R.color.text3));
+                    atGoodsDetailBtnPreSellComment.setBackgroundColor(getResources().getColor(R.color.white));
+                    atGoodsDetailBtnPreSellComment.setTextColor(getResources().getColor(R.color.text3));
+                    atGoodsDetailBtnPreSellKnow.setBackgroundColor(getResources().getColor(R.color.app_theme));
+                    atGoodsDetailBtnPreSellKnow.setTextColor(getResources().getColor(R.color.white));
+                    acGoodsDetailLlKnow.setVisibility(View.VISIBLE);
+                    acGoodsDetailRvContent.setVisibility(View.GONE);
                 }
             });
         } else {
             type = "1";
             atGoodsDetailRlSecKill.setVisibility(View.GONE);
             atGoodsDetailLlPresell.setVisibility(View.GONE);
-            getGoodsDetail(id);
+            getGoodsDetail(goodsId);
         }
 
     }
 
-    private void setGoodsDetail() {
-        GoodsImgDetailResponseBean bean = new GoodsImgDetailResponseBean();
-        ArrayList<String> lists = new ArrayList<>();
-        lists.add("1");
-        lists.add("2");
-        lists.add("3");
+    private void setGoodsContent(ArrayList<String> lists) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acGoodsDetailRvContent.setLayoutManager(layoutManager);
         GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(this, lists);
         acGoodsDetailRvContent.setAdapter(adapter);
     }
 
-    private void getSecKillDetail(String id) {
-
-        SecKillSubscribe.getSecKillGoodsDetail(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+    //秒杀商品详情
+    private void getSecKillDetail() {
+        SecKillSubscribe.getSecKillGoodsDetail(goodsId, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setSecKillData(result);
@@ -284,8 +273,11 @@ public class GoodsDetailActivity extends ActivityBase {
     }
 
     private void setSecKillData(String result) {
+        Log.e("测试", "setSecKillData: " + result);
         SecKillGoodsDetailResponseBean secKillGoodsDetailResponseBean = GsonUtils.fromJson(result, SecKillGoodsDetailResponseBean.class);
         mSeckillData = secKillGoodsDetailResponseBean.getData();
+        initBanner(mSeckillData.getGroup_img());
+        setGoodsContent(mSeckillData.getGroup_img());
         atGoodsDetailTvGoodsTitle.setText(mSeckillData.getGoods_name());
         atGoodsDetailTvGoodsNewPrice.setText("¥" + mSeckillData.getGoods_price());
         atGoodsDetailTvGoodsOldPrice.setText("¥" + mSeckillData.getMarket_price());
@@ -308,9 +300,9 @@ public class GoodsDetailActivity extends ActivityBase {
             atGoodsDetailTtv.run();
         }
         atGoodsDetailSpv.setTotalAndCurrentCount(Integer.parseInt(mSeckillData.getGoods_num()), Integer.parseInt(mSeckillData.getSale_num()));
-        initBanner(mSeckillData.getGroup_img());
     }
 
+    //预售商品详情
     private void getPreSellDetail(String id) {
         PreSellSubscribe.getPreSellDetail(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
@@ -329,15 +321,18 @@ public class GoodsDetailActivity extends ActivityBase {
         PreSellDetailResponseBean preSellDetailResponseBean = GsonUtils.fromJson(result, PreSellDetailResponseBean.class);
         PreSellDetailResponseBean.DataBean data = preSellDetailResponseBean.getData();
         mPreData = data;
+        initBanner(mPreData.getGroup_img());
+        setGoodsContent(mPreData.getGroup_img());
         atGoodsDetailTvPreSellTitle.setText(data.getGoods_name());
         atGoodsDetailTvPreSellPrice.setText("¥" + data.getGoods_price());
         atGoodsDetailTvPreSellYuding.setText(data.getUser_num());
         atGoodsDetailTvPreSellYushou.setText(data.getSale_price());
         atGoodsDetailTvPreSellDacheng.setText(data.getProportion() + "%");
         atPreSellPb.setProgress(Integer.parseInt(data.getProportion() + ""));
-        initBanner(data.getGroup_img());
     }
 
+
+    //普通商品详情
     private void getGoodsDetail(String id) {
         MainSubscribe.getGoodsDetail(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
@@ -353,8 +348,11 @@ public class GoodsDetailActivity extends ActivityBase {
     }
 
     private void setGoodsData(String result) {
+        Log.e("测试", "setGoodsData: " + result);
         GoodsDetailResponseBean goodsDetailResponseBean = GsonUtils.fromJson(result, GoodsDetailResponseBean.class);
         mGoodsData = goodsDetailResponseBean.getData();
+        initBanner(mGoodsData.getGoods_img());
+        setGoodsContent(mGoodsData.getGoods_img());
         String level = SharePerferenceUtils.getUserLevel(this);
         if (level.equals("0")) {//普通会员价
             atGoodsDetailTvGoodsNewPrice.setText("¥" + mGoodsData.getUser_price());
@@ -373,39 +371,41 @@ public class GoodsDetailActivity extends ActivityBase {
             str = mGoodsData.getYunfei() + "元";
         }
         atGoodsDetailTvGoodsIsBaoyou.setText("快递 " + str);
-        initBanner(mGoodsData.getGoods_img());
+        //setGoodsDetail(mGoodsData.getGoods_img());
     }
 
     @OnClick({R.id.at_goods_detail_btn_add_shopping_cart, R.id.at_goods_detail_btn_buy_now, R.id.ac_goodsDetail_ll_collect,
             R.id.ac_goodsDetail_ll_store, R.id.at_goods_detail_btn_pre_sell_know, R.id.at_goods_detail_btn_pre_sell_comment,
             R.id.at_goods_detail_btn_pre_sell_detail, R.id.ac_goodsDetail_chooseSize, R.id.ac_goodsDetail_iv_share,
-            R.id.ac_goodsDetail_iv_home})
+            R.id.ac_goodsDetail_iv_home,R.id.ac_goodsDetail_save})
     public void onViewClicked(View view) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acGoodsDetailRvContent.setLayoutManager(layoutManager);
         switch (view.getId()) {
-            case R.id.at_goods_detail_btn_add_shopping_cart:
+            case R.id.at_goods_detail_btn_add_shopping_cart://加入购物车
                 showPopupwindow(view);
                 break;
-            case R.id.at_goods_detail_btn_buy_now:
+            case R.id.at_goods_detail_btn_buy_now://立即购买
                 showPopupwindow(view);
                 break;
-            case R.id.ac_goodsDetail_ll_collect:
+            case R.id.ac_goodsDetail_ll_collect://收藏
                 acGoodsDetailIvCollect.setImageResource(R.drawable.collected);
                 goodsCollect();
                 break;
-            case R.id.at_goods_detail_btn_pre_sell_detail:
+            case R.id.at_goods_detail_btn_pre_sell_detail://商品详情
+                acGoodsDetailLlKnow.setVisibility(View.GONE);
+                acGoodsDetailRvContent.setVisibility(View.VISIBLE);
                 atGoodsDetailBtnPreSellDetail.setBackgroundColor(getResources().getColor(R.color.app_theme));
                 atGoodsDetailBtnPreSellDetail.setTextColor(getResources().getColor(R.color.white));
                 atGoodsDetailBtnPreSellComment.setBackgroundColor(getResources().getColor(R.color.white));
                 atGoodsDetailBtnPreSellComment.setTextColor(getResources().getColor(R.color.text3));
                 atGoodsDetailBtnPreSellKnow.setBackgroundColor(getResources().getColor(R.color.white));
                 atGoodsDetailBtnPreSellKnow.setTextColor(getResources().getColor(R.color.text3));
-                setGoodsDetail();
+                getGoodsContent();
+                break;
+            case R.id.at_goods_detail_btn_pre_sell_comment://评论
                 acGoodsDetailLlKnow.setVisibility(View.GONE);
                 acGoodsDetailRvContent.setVisibility(View.VISIBLE);
-                break;
-            case R.id.at_goods_detail_btn_pre_sell_comment:
                 atGoodsDetailBtnPreSellDetail.setBackgroundColor(getResources().getColor(R.color.white));
                 atGoodsDetailBtnPreSellDetail.setTextColor(getResources().getColor(R.color.text3));
                 atGoodsDetailBtnPreSellComment.setBackgroundColor(getResources().getColor(R.color.app_theme));
@@ -413,30 +413,46 @@ public class GoodsDetailActivity extends ActivityBase {
                 atGoodsDetailBtnPreSellKnow.setBackgroundColor(getResources().getColor(R.color.white));
                 atGoodsDetailBtnPreSellKnow.setTextColor(getResources().getColor(R.color.text3));
                 getComments();
-                acGoodsDetailLlKnow.setVisibility(View.GONE);
-                acGoodsDetailRvContent.setVisibility(View.VISIBLE);
                 break;
-            case R.id.ac_goodsDetail_chooseSize:
+            case R.id.ac_goodsDetail_chooseSize://选择规格
                 showPopupwindow(view);
                 break;
-            case R.id.ac_goodsDetail_iv_share:
-                acGoodsDetailLlInncer.setVisibility(View.VISIBLE);
-                String str="goodsDetail,goods,"+goodsId;
+            case R.id.ac_goodsDetail_iv_share://分享
+                acGoodsDetailLlInner.setVisibility(View.VISIBLE);
+                String str = "http://game.npj-vip.com/jumpApp.html?page=goodsDetail&type=goods&id="+goodsId;
                 acGoodsDetailIvQrcode.setImageBitmap(QRCodeUtil.createQRCodeBitmap(str, 80));
                 Glide.with(GoodsDetailActivity.this).load(Uri.parse(mGoodsData.getGoods_img().get(0))).asBitmap().into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        acGoodsDetailIvInnerGoodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
+                        acGoodsDetailIvInnerGoodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource, 16));
                     }
                 });
                 acGoodsDetailTvInnerGoodsTitle.setText(mGoodsData.getGoods_name());
-                acGoodsDetailTvInnerGoodsPrice.setText("￥"+mGoodsData.getMarket_price());
+                acGoodsDetailTvInnerGoodsPrice.setText("￥" + mGoodsData.getMarket_price());
                 break;
-            case R.id.ac_goodsDetail_ll_store:
+            case R.id.ac_goodsDetail_ll_store://店铺
                 openActivity(StoreActivity.class, mGoodsData.getUser_id());
                 break;
-            case R.id.ac_goodsDetail_iv_home:
+            case R.id.ac_goodsDetail_iv_home://首页
                 openActivity(MainActivity.class);
+                break;
+            case R.id.ac_goodsDetail_save:
+                Bitmap bitmap = SimpleUtil.createViewBitmap(acGoodsDetailLlInncer);
+                showSingleBottomDialog(bitmap);
+                break;
+        }
+    }
+
+    private void getGoodsContent() {
+        switch (type) {
+            case "4":
+                setGoodsContent(mSeckillData.getGroup_img());
+                break;
+            case "3":
+                setGoodsContent(mPreData.getGroup_img());
+                break;
+            case "1":
+                setGoodsContent(mGoodsData.getGoods_img());
                 break;
         }
     }
@@ -456,32 +472,7 @@ public class GoodsDetailActivity extends ActivityBase {
     }
 
     private void setComment(String result) {
-        String test = "{\n" +
-                "    \"code\": 1,\n" +
-                "    \"data\": [\n" +
-                "        {\n" +
-                "            \"id\": 50,\n" +
-                "            \"user_id\": 25,\n" +
-                "            \"goods_id\": 1,\n" +
-                "            \"store_id\": 23,\n" +
-                "            \"content\": \"商品质量非常好，期待下次合作\",\n" +
-                "            \"img\": [\n" +
-                "                \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
-                "                \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\"\n" +
-                "            ],\n" +
-                "            \"status\": 0,\n" +
-                "            \"create_time\": 1556095903,\n" +
-                "            \"type\": 1,\n" +
-                "            \"goods_star\": 5,\n" +
-                "            \"logistics_star\": 5,\n" +
-                "            \"service_star\": 5,\n" +
-                "            \"nick_name\": \"用户15853102073\",\n" +
-                "            \"head_img\": \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\"\n" +
-                "        }\n" +
-                "    ],\n" +
-                "    \"msg\": \"加载成功\"\n" +
-                "}";
-        CommentResponseBean bean = GsonUtils.fromJson(test, CommentResponseBean.class);
+        CommentResponseBean bean = GsonUtils.fromJson(result, CommentResponseBean.class);
         ArrayList<CommentResponseBean.DataBean> data = bean.getData();
         CommentAdapter adapter = new CommentAdapter(this, data);
         acGoodsDetailRvContent.setAdapter(adapter);
@@ -552,7 +543,6 @@ public class GoodsDetailActivity extends ActivityBase {
                         intent.putExtra(Const.ATTRIBUTE_ID, "0");
                         intent.setAction(Const.GOODS);
                     }
-                    Log.e("测试", "onClick: " + goodsId);
                     intent.putExtra(Const.GOODS_ID, goodsId);
                     startActivity(intent);
                     sizePopWin.dismiss();
@@ -670,7 +660,7 @@ public class GoodsDetailActivity extends ActivityBase {
         dialog.findViewById(R.id.dialog_share_friends).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                acGoodsDetailLlInncer.setVisibility(View.GONE);
+                acGoodsDetailLlInner.setVisibility(View.GONE);
                 WXImageObject imgObj = new WXImageObject(bmp);
                 WXMediaMessage msg = new WXMediaMessage();
                 msg.mediaObject = imgObj;
@@ -691,7 +681,7 @@ public class GoodsDetailActivity extends ActivityBase {
         dialog.findViewById(R.id.dialog_share_pyq).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                acGoodsDetailLlInncer.setVisibility(View.GONE);
+                acGoodsDetailLlInner.setVisibility(View.GONE);
                 WXImageObject imgObj = new WXImageObject(bmp);
                 WXMediaMessage msg = new WXMediaMessage();
                 msg.mediaObject = imgObj;
@@ -712,8 +702,8 @@ public class GoodsDetailActivity extends ActivityBase {
         dialog.findViewById(R.id.dl_photo_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                acGoodsDetailLlInner.setVisibility(View.GONE);
                 dialog.dismiss();
-                acGoodsDetailLlInncer.setVisibility(View.GONE);
             }
         });
     }

@@ -34,7 +34,7 @@ public class GoodsImgDetailAdapter extends RecyclerView.Adapter<GoodsImgDetailAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Glide.with(mContext).load(Uri.parse("http://img.xingkongwl.cn/20190304/201903041832091984.jpg")).into(viewHolder.img);
+        Glide.with(mContext).load(Uri.parse(mList.get(i))).into(viewHolder.img);
     }
 
     @Override

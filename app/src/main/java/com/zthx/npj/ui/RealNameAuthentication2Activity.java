@@ -135,7 +135,6 @@ public class RealNameAuthentication2Activity extends ActivityBase {
         CertSubscribe.upLoadMyCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: "+result);
                 startActivity(new Intent(RealNameAuthentication2Activity.this, ConfirmAttestationSuccessActivity.class));
             }
 

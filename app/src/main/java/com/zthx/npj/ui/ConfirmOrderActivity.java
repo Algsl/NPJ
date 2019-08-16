@@ -300,7 +300,6 @@ public class ConfirmOrderActivity extends ActivityBase {
         bean.setAtt_id(attId);
         bean.setPre_id(goodsId);
         bean.setUser_id(user_id);
-        Log.e("测试", "getData: "+token+" "+attId+" "+goodsId+" "+user_id);
         PreSellSubscribe.getConfirmPreSell(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {

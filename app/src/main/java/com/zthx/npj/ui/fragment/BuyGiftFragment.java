@@ -78,7 +78,7 @@ public class BuyGiftFragment extends Fragment {
                     @Override
                     public void onItemClick(int position) {
                         Intent intent = new Intent(getActivity(), GiftActivity.class);
-                        intent.putExtra(Const.GOODS_ID,data.get(position).getId());
+                        intent.putExtra(Const.GOODS_ID,data.get(position).getId()+"");
                         startActivity(intent);
                     }
 
@@ -95,41 +95,6 @@ public class BuyGiftFragment extends Fragment {
 
             @Override
             public void onFault(String errorMsg) {
-                String test="{\n" +
-                        "    \"code\": 1,\n" +
-                        "    \"data\": [\n" +
-                        "        {\n" +
-                        "            \"id\": 1,\n" +
-                        "            \"title\": \"水多多面膜\",\n" +
-                        "            \"description\": \"水多多专属礼包产品\",\n" +
-                        "           \"img\": \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
-                        "            \"price\": \"298.00\"\n" +
-                        "        }\n" +
-                        "    ],\n" +
-                        "    \"msg\": \"加载成功\"\n" +
-                        "}";
-                GiftListResponseBean giftListResponseBean = GsonUtils.fromJson(test, GiftListResponseBean.class);
-                final ArrayList<GiftListResponseBean.DataBean> data = giftListResponseBean.getData();
-                RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
-                fgBuyGiftRv.setLayoutManager(layoutManager);
-                BuyGiftAdapter mAdapter = new BuyGiftAdapter(getContext(), data);
-                mAdapter.setOnItemClickListener(new BuyGiftAdapter.ItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        Intent intent = new Intent(getActivity(), GiftActivity.class);
-                        intent.putExtra(Const.GOODS_ID,data.get(position).getId());
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onBuyClick(int position) {
-                        Intent intent = new Intent(getContext(), ConfirmOrderActivity.class);
-                        intent.putExtra(Const.GOODS_ID, data.get(position).getId()+"");
-                        intent.setAction(Const.GIFT);
-                        startActivity(intent);
-                    }
-                });
-                fgBuyGiftRv.setAdapter(mAdapter);
             }
         }));
     }

@@ -320,14 +320,14 @@ public class HomeFragment extends BaseFragment {
             case REQUEST_CODE_SCAN:
                 if(resultCode==RESULT_OK){
                     String context=data.getStringExtra(Constant.CODED_CONTENT);
-                    String[] strs=context.split(",");
-                    /*Intent intent=new Intent(getContext(),GoodsDetailActivity.class);
-                    intent.putExtra("goods_id",strs[2]);
-                    startActivity(intent);*/
-                    for(String str:strs){
-                        Log.e("测试", "onActivityResult: "+str );
-                    }
-                    Toast.makeText(getContext(),context,Toast.LENGTH_LONG).show();
+                    Uri uri = Uri.parse(context);
+                    String page=uri.getQueryParameter("page");
+                    String type=uri.getQueryParameter("type");
+                    String id=uri.getQueryParameter("id");
+                    Intent intent=new Intent(getContext(),GoodsDetailActivity.class);
+                    intent.setAction(type);
+                    intent.putExtra("goods_id",id+"");
+                    startActivity(intent);
                 }
                 break;
         }

@@ -1,6 +1,8 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -11,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.zthx.npj.R;
@@ -144,4 +147,6 @@ public class BaseActivity extends AppCompatActivity {
         }
         super.onDestroy();
     }
+
+
 }

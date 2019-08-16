@@ -25,7 +25,7 @@ public class GiftSubscribe {
      */
     public static void getGiftList(String id,String token, DisposableObserver<ResponseBody> subscriber) {
         GiftListBean bean = new GiftListBean();
-        bean.setId(id);
+        bean.setUser_id(id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getGiftListForBody(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
@@ -39,7 +39,7 @@ public class GiftSubscribe {
      */
     public static void getSpokesmanQuan(String id,String token, DisposableObserver<ResponseBody> subscriber) {
         GiftListBean bean = new GiftListBean();
-        bean.setId(id);
+        bean.setUser_id(id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getSpokesmanQuanForBody(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);

@@ -1,6 +1,7 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -13,9 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.GiftListResponseBean;
+import com.zthx.npj.utils.ImageCircleConner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,8 +73,14 @@ public class BuyGiftAdapter extends RecyclerView.Adapter<BuyGiftAdapter.ViewHold
                 }
             });
         }
-        Glide.with(mContext).load(Uri.parse(list.get(i).getImg())).into(viewHolder.mIvGoods);
-        viewHolder.mTvPrice.setText(list.get(i).getPrice());
+        //Glide.with(mContext).load(Uri.parse(list.get(i).getImg())).into(viewHolder.mIvGoods);
+        Glide.with(mContext).load(Uri.parse(list.get(i).getImg())).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                viewHolder.mIvGoods.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
+            }
+        });
+        viewHolder.mTvPrice.setText("￥"+list.get(i).getPrice());
         viewHolder.mTvDes.setText(list.get(i).getDescription());
         viewHolder.mTvTitle.setText(list.get(i).getTitle());
     }

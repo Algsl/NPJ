@@ -18,13 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_170"
             android:layout_marginRight="@dimen/dp_12"
-            android:layout_marginLeft="@dimen/dp_12"></com.youth.banner.Banner>
+            android:layout_marginLeft="@dimen/dp_12"/>
         
         <TextView
             android:id="@+id/at_gift_detail_tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="￥255"
+            android:textStyle="bold"
             android:textColor="@color/app_theme"
             android:textSize="@dimen/sp_15"
             android:layout_marginLeft="@dimen/dp_12"
@@ -78,11 +79,50 @@
                 android:textColor="@color/text3"
                 android:gravity="center"/>
         </LinearLayout>
-        <android.support.v4.view.ViewPager
+       <android.support.v7.widget.RecyclerView
+           android:id="@+id/ac_gift_rv_imgs"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"/>
+        <LinearLayout
+            android:id="@+id/ac_gift_ll_know"
+            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </android.support.v4.view.ViewPager>
+            android:layout_height="@dimen/dp_400"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_20"
+                android:gravity="center"
+                android:textSize="@dimen/sp_15"
+                android:textColor="@color/text3"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:text="预售须知"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_12"
+                android:textSize="@dimen/sp_13"
+                android:lineHeight="@dimen/dp_20"
+                android:text="1. 预售定金：指买家在购买双十一预售商品时，预先支付的一定数额的预付款，不具备担保性质，主要用作购买双十一预售商品时确定购买名额，当合同不能履行时，除不可抗力外，应根据双方当事人的过错承担违约责任。买家未如期支付尾款，或买家申请退款且根据《天猫规则》，《淘宝争议处理规范》等相关规则判定为非卖家责任的，定金均不退还。天猫国际预售商品需遵守天猫国际预售相关规则。 "/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_5"
+                android:lineHeight="@dimen/dp_20"
+                android:text="2. 预售尾款：指双十一预售商品价格减去定金后买家还需支付的对应数额的金钱。"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_5"
+                android:lineHeight="@dimen/dp_20"
+                android:text="3. 预售商品：指商品详情页有预售标识的预售商品。"/>
+        </LinearLayout>
     </LinearLayout>
     
     <Button

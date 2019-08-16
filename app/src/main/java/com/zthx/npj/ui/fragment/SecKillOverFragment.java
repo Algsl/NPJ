@@ -57,12 +57,13 @@ public class SecKillOverFragment extends Fragment {
         SecKillSubscribe.getSecKillOverList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
+
                 SecKillTodayResponseBean secKillTodayResponseBean = GsonUtils.fromJson(result, SecKillTodayResponseBean.class);
                 final ArrayList<SecKillTodayResponseBean.DataBean> data = secKillTodayResponseBean.getData();
 
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
-                fgSecKillOverRv.setLayoutManager(linearLayoutManager);
-                SecKillAdpter adapter = new SecKillAdpter(getActivity(),data,"2");
+                RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+                fgSecKillOverRv.setLayoutManager(layoutManager);
+                SecKillAdpter adapter = new SecKillAdpter(getContext(),data,"2");
                 adapter.setOnItemClickListener(new SecKillAdpter.ItemClickListener() {
                     @Override
                     public void onItemClick(int position) {

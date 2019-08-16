@@ -28,7 +28,7 @@ public class SecKillSubscribe {
      * @param subscriber
      */
     public static void getSecKillOverList(DisposableObserver<ResponseBody> subscriber) {
-        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getSecKillTodayForBody(new NullBean());
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getSecKillOverForBody(new NullBean());
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 

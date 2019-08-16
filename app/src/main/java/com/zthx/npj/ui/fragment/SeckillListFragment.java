@@ -77,7 +77,7 @@ public class SeckillListFragment extends Fragment {
     }
 
     private void getSeckillStart() {
-        SecKillSubscribe.getSecKillOverList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SecKillSubscribe.getSecKillStartList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setSeckillStart(result);
@@ -91,39 +91,7 @@ public class SeckillListFragment extends Fragment {
     }
     //限时秒杀即将开始
     private void setSeckillStart(String result) {
-        String test="{\n" +
-                "    \"code\": 1,\n" +
-                "    \"data\": [\n" +
-                "        {\n" +
-                "            \"id\": 1,\n" +
-                "            \"goods_name\": \"绿色安全无污染除草剂\",\n" +
-                "            \"goods_desc\": \"前1000份1元限时秒杀\",\n" +
-                "            \"goods_num\": \"1000\",\n" +
-                "            \"goods_price\": \"100.00\",\n" +
-                "            \"market_price\": \"120.00\",\n" +
-                "            \"goods_img\": \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
-                "            \"sale_num\": null,\n" +
-                "            \"status\": 0,\n" +
-                "            \"begin_time\": 1558368000,\n" +
-                "            \"end_time\": 1558454399\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"id\": 2,\n" +
-                "            \"goods_name\": \"飞利浦蒸馏机健康安全三年保修\",\n" +
-                "            \"goods_desc\": \"前1000份降价处理\",\n" +
-                "            \"goods_num\": \"1000\",\n" +
-                "            \"goods_price\": \"50.00\",\n" +
-                "            \"market_price\": \"120.00\",\n" +
-                "            \"goods_img\": \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
-                "            \"sale_num\": null,\n" +
-                "            \"status\": 0,\n" +
-                "            \"begin_time\": 1558454400,\n" +
-                "            \"end_time\": 1558540799\n" +
-                "        }\n" +
-                "    ],\n" +
-                "    \"msg\": \"加载成功\"\n" +
-                "}";
-        SecKillTodayResponseBean bean=GsonUtils.fromJson(test,SecKillTodayResponseBean.class);
+        SecKillTodayResponseBean bean=GsonUtils.fromJson(result,SecKillTodayResponseBean.class);
         final ArrayList<SecKillTodayResponseBean.DataBean> data=bean.getData();
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
         fgSeckillListRv.setLayoutManager(layoutManager);
@@ -134,7 +102,7 @@ public class SeckillListFragment extends Fragment {
             public void onItemClick(int position) {
                 Intent intent=new Intent(getActivity(),GoodsDetailActivity.class);
                 intent.setAction("miaosha");
-                intent.putExtra(Const.GOODS_ID,data.get(position).getId());
+                intent.putExtra(Const.GOODS_ID,data.get(position).getId()+"");
                 intent.putExtra(Const.SECKILL_STATUS,3);
                 startActivity(intent);
             }
@@ -156,39 +124,7 @@ public class SeckillListFragment extends Fragment {
     }
     //限时秒杀进行中
     private void setSeckillGoing(String result) {
-        String test="{\n" +
-                "    \"code\": 1,\n" +
-                "    \"data\": [\n" +
-                "        {\n" +
-                "            \"id\": 1,\n" +
-                "            \"goods_name\": \"绿色安全无污染除草剂\",\n" +
-                "            \"goods_desc\": \"前1000份1元限时秒杀\",\n" +
-                "            \"goods_num\": \"1000\",\n" +
-                "            \"goods_price\": \"100.00\",\n" +
-                "            \"market_price\": \"120.00\",\n" +
-                "            \"goods_img\": \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
-                "            \"sale_num\": null,\n" +
-                "            \"status\": 0,\n" +
-                "            \"begin_time\": 1558368000,\n" +
-                "            \"end_time\": 1558454399\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"id\": 2,\n" +
-                "            \"goods_name\": \"飞利浦蒸馏机健康安全三年保修\",\n" +
-                "            \"goods_desc\": \"前1000份降价处理\",\n" +
-                "            \"goods_num\": \"1000\",\n" +
-                "            \"goods_price\": \"50.00\",\n" +
-                "            \"market_price\": \"120.00\",\n" +
-                "            \"goods_img\": \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
-                "            \"sale_num\": null,\n" +
-                "            \"status\": 0,\n" +
-                "            \"begin_time\": 1558454400,\n" +
-                "            \"end_time\": 1558540799\n" +
-                "        }\n" +
-                "    ],\n" +
-                "    \"msg\": \"加载成功\"\n" +
-                "}";
-        SecKillTodayResponseBean bean=GsonUtils.fromJson(test,SecKillTodayResponseBean.class);
+        SecKillTodayResponseBean bean=GsonUtils.fromJson(result,SecKillTodayResponseBean.class);
         final ArrayList<SecKillTodayResponseBean.DataBean> data=bean.getData();
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
         fgSeckillListRv.setLayoutManager(layoutManager);
@@ -199,7 +135,7 @@ public class SeckillListFragment extends Fragment {
             public void onItemClick(int position) {
                 Intent intent=new Intent(getActivity(),GoodsDetailActivity.class);
                 intent.setAction("miaosha");
-                intent.putExtra(Const.GOODS_ID,data.get(position).getId());
+                intent.putExtra(Const.GOODS_ID,data.get(position).getId()+"");
                 intent.putExtra(Const.SECKILL_STATUS,2);
                 startActivity(intent);
             }
@@ -207,7 +143,6 @@ public class SeckillListFragment extends Fragment {
     }
 
     private void getSeckillOver() {
-        Log.e("测试", "getSeckillOver: " );
         SecKillSubscribe.getSecKillOverList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -222,39 +157,7 @@ public class SeckillListFragment extends Fragment {
     }
     //限时秒杀已结束
     private void setSeckillOver(String result) {
-        String test="{\n" +
-                "    \"code\": 1,\n" +
-                "    \"data\": [\n" +
-                "        {\n" +
-                "            \"id\": 1,\n" +
-                "            \"goods_name\": \"绿色安全无污染除草剂\",\n" +
-                "            \"goods_desc\": \"前1000份1元限时秒杀\",\n" +
-                "            \"goods_num\": \"1000\",\n" +
-                "            \"goods_price\": \"100.00\",\n" +
-                "            \"market_price\": \"120.00\",\n" +
-                "            \"goods_img\": \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
-                "            \"sale_num\": null,\n" +
-                "            \"status\": 0,\n" +
-                "            \"begin_time\": 1558368000,\n" +
-                "            \"end_time\": 1558454399\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"id\": 2,\n" +
-                "            \"goods_name\": \"飞利浦蒸馏机健康安全三年保修\",\n" +
-                "            \"goods_desc\": \"前1000份降价处理\",\n" +
-                "            \"goods_num\": \"1000\",\n" +
-                "            \"goods_price\": \"50.00\",\n" +
-                "            \"market_price\": \"120.00\",\n" +
-                "            \"goods_img\": \"http://img.xingkongwl.cn/20190304/201903041832091984.jpg\",\n" +
-                "            \"sale_num\": null,\n" +
-                "            \"status\": 0,\n" +
-                "            \"begin_time\": 1558454400,\n" +
-                "            \"end_time\": 1558540799\n" +
-                "        }\n" +
-                "    ],\n" +
-                "    \"msg\": \"加载成功\"\n" +
-                "}";
-        SecKillTodayResponseBean bean=GsonUtils.fromJson(test,SecKillTodayResponseBean.class);
+        SecKillTodayResponseBean bean=GsonUtils.fromJson(result,SecKillTodayResponseBean.class);
         final ArrayList<SecKillTodayResponseBean.DataBean> data=bean.getData();
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
         fgSeckillListRv.setLayoutManager(layoutManager);
@@ -265,7 +168,7 @@ public class SeckillListFragment extends Fragment {
             public void onItemClick(int position) {
                 Intent intent=new Intent(getActivity(),GoodsDetailActivity.class);
                 intent.setAction("miaosha");
-                intent.putExtra(Const.GOODS_ID,data.get(position).getId());
+                intent.putExtra(Const.GOODS_ID,data.get(position).getId()+"");
                 intent.putExtra(Const.SECKILL_STATUS,1);
                 startActivity(intent);
             }

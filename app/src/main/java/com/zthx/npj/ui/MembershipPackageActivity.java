@@ -1,12 +1,19 @@
 package com.zthx.npj.ui;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -122,7 +129,52 @@ public class MembershipPackageActivity extends ActivityBase {
                 openActivity(ReferrerActivity.class);
                 break;
             case R.id.at_membership_package_tv_share:
+                showPublishPopwindow();
                 break;
         }
+    }
+
+    public void showPublishPopwindow() {
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_vip_hint, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView);
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_320));
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_400));
+        // 设置PopupWindow的背景
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(true);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+        TextView tv=contentView.findViewById(R.id.pw_vipHint_tv_generateHB);
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openActivity(HaiBaoActivity.class);
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+    }
+
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha;
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getWindow().setAttributes(lp);
     }
 }

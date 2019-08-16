@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginTop="@dimen/dp_5"
+    android:layout_marginTop="@dimen/dp_10"
+    android:layout_marginBottom="@dimen/dp_10"
     android:layout_marginRight="@dimen/dp_12"
     android:layout_marginLeft="@dimen/dp_12">
     
@@ -23,25 +24,28 @@
         android:text="手工蛋黄酥纯手工制作新加坡美作蛋糕"
         android:textSize="@dimen/sp_15"
         android:textColor="@color/text3"
-        android:layout_marginTop="@dimen/dp_10"/>
+        android:layout_marginTop="@dimen/dp_5"/>
 
     <TextView
         android:id="@+id/item_buy_gift_tv_des"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_5"
         android:text="购买礼包升级为代言人"
         android:textColor="@color/text9"
         android:textSize="@dimen/sp_13"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_5">
 
         <TextView
             android:id="@+id/item_buy_gift_tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="￥1299"
+            android:textStyle="bold"
             android:textSize="@dimen/sp_15"
             android:textColor="@color/app_theme"/>
 
