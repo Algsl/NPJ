@@ -93,10 +93,10 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     private int mSurfaceWidth;
     private int mSurfaceHeight;
     private int mVideoRotationDegree;
+    private int mCurrentBufferPercentage;
     private IMediaController mMediaController;
     private IMediaPlayer.OnCompletionListener mOnCompletionListener;
     private IMediaPlayer.OnPreparedListener mOnPreparedListener;
-    private int mCurrentBufferPercentage;
     private IMediaPlayer.OnErrorListener mOnErrorListener;
     private IMediaPlayer.OnInfoListener mOnInfoListener;
     private int mSeekWhenPrepared;  // recording the seek position while preparing
@@ -153,7 +153,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     // REMOVED: onInitializeAccessibilityEvent
     // REMOVED: onInitializeAccessibilityNodeInfo
     // REMOVED: resolveAdjustedSize
-
+    //初始化视频
     private void initVideoView(Context context) {
         mAppContext = context.getApplicationContext();
         mSettings = new Settings(mAppContext);
@@ -181,6 +181,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                 Gravity.BOTTOM);
         addView(subtitleDisplay, layoutParams_txt);
     }
+
 
     public void setRenderView(IRenderView renderView) {
         if (mRenderView != null) {
@@ -376,7 +377,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 
     public void setMediaController(IMediaController controller) {
         if (mMediaController != null) {
-            mMediaController.hide();
+            mMediaController.show();
         }
         mMediaController = controller;
         attachMediaController();

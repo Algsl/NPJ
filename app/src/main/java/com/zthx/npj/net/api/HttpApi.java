@@ -519,5 +519,8 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/goodsorder.html")
     Observable<ResponseBody> goodsOrder(@Body GoodsOrderBean bean);
+
+    @POST("index.php/api/index/childhome.html")
+    Observable<ResponseBody> childHome(@Body ChildHomeBean bean);
 }
 

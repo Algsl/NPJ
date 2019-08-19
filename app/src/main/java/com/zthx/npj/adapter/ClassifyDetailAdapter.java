@@ -1,6 +1,7 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -13,9 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.zxing.common.StringUtils;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.GoodsListResponseBean;
+import com.zthx.npj.utils.ImageCircleConner;
 
 import java.util.ArrayList;
 
@@ -59,9 +63,12 @@ public class ClassifyDetailAdapter extends RecyclerView.Adapter<ClassifyDetailAd
             });
         }
         if (mList!= null && mList.size() > 0) {
-            //Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.mIvGoods);
-            int num=(int)(Math.random()*11+1);
-            viewHolder.mIvGoods.setImageResource(R.drawable.classify0+num);
+            Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    viewHolder.mIvGoods.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
+                }
+            });
             viewHolder.mTvPrice.setText("￥"+(int)Double.parseDouble(mList.get(i).getMember_price()));
             viewHolder.mTvSellNum.setText(mList.get(i).getSold()+"件已售");
             viewHolder.mTvTitle.setText(mList.get(i).getGoods_name());

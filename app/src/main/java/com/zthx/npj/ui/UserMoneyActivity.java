@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -110,6 +111,7 @@ public class UserMoneyActivity extends ActivityBase {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acMyWalletRvMingxi.setLayoutManager(layoutManager);
         UserMoneyAdapter adapter = new UserMoneyAdapter(this, mingXis);
+        acMyWalletRvMingxi.setItemAnimator(new DefaultItemAnimator());
         acMyWalletRvMingxi.setAdapter(adapter);
     }
 

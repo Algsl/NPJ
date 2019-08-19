@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -28,6 +29,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 
 public class SystemSolutionActivity extends ActivityBase implements VideoListFragment.OnFragmentInteractionListener, WebFragment.OnFragmentInteractionListener {
@@ -72,10 +74,9 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
 
     }
 
+    //点击播放设置
     @Override
     public void onFragmentInteraction(SolutionVideoResponseBean.DataBean dataBean) {
-        atSystemSolutionPlayer.stopPlayback();
-        atSystemSolutionPlayer.release(true);
         MyMediaController controller=new MyMediaController(this);
         controller.setListener(new MyMediaController.OnVideoListener() {
             @Override
@@ -94,13 +95,15 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
                 }
             }
         });
-        controller.attach(atSystemSolutionPlayer);
+        atSystemSolutionPlayer.stopPlayback();
+        atSystemSolutionPlayer.release(true);
         atSystemSolutionPlayer.setMediaController(controller);
         atSystemSolutionPlayer.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT);
         atSystemSolutionPlayer.setVideoURI(Uri.parse(dataBean.getVideo()));
         atSystemSolutionPlayer.start();
     }
 
+    //自动播放设置
     @Override
     public void onDataGet(SolutionVideoResponseBean.DataBean dataBean) {
 

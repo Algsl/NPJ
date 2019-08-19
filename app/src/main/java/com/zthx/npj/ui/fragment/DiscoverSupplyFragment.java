@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -173,6 +174,7 @@ public class DiscoverSupplyFragment extends Fragment {
                         startActivity(intent);
                     }
                 });
+                fgDiscoverSupplyRv.setItemAnimator(new DefaultItemAnimator());
                 fgDiscoverSupplyRv.setAdapter(mAdapter);
 
             }
@@ -206,6 +208,7 @@ public class DiscoverSupplyFragment extends Fragment {
                         startActivity(intent);
                     }
                 });
+                fgDiscoverNeedRv.setItemAnimator(new DefaultItemAnimator());
                 fgDiscoverNeedRv.setAdapter(mAdapter2);
             }
 

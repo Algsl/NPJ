@@ -2,6 +2,7 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
@@ -72,6 +73,7 @@ public class LocalSpokesmanActivity extends ActivityBase {
                                     finish();
                                 }
                             });
+                            atLocalSpokesmanRv.setItemAnimator(new DefaultItemAnimator());
                             atLocalSpokesmanRv.setAdapter(mAdapter);
                         }
 

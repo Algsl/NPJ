@@ -1,8 +1,6 @@
 package com.zthx.npj.ui.fragment;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Outline;
 import android.net.Uri;
@@ -22,10 +20,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -42,7 +38,6 @@ import com.zthx.npj.net.been.RecommendResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
-import com.zthx.npj.ui.ApplyRefundActivity;
 import com.zthx.npj.ui.ClassfiysActivity;
 import com.zthx.npj.ui.GameActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
@@ -52,7 +47,6 @@ import com.zthx.npj.ui.MembershipPackageActivity;
 import com.zthx.npj.ui.MessageCenterActivity;
 import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.ui.SecKillActivity;
-import com.zthx.npj.ui.TestActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.GlideImageLoader;
@@ -102,9 +96,11 @@ public class HomeFragment extends BaseFragment {
     TextView fgHomeTvTitle;
     @BindView(R.id.fg_home_ll_classify)
     LinearLayout fgHomeLlClassify;
+    @BindView(R.id.fg_home_tv_myLower)
+    TextView fgHomeTvMyLower;
     private Unbinder unbinder;
 
-    private static final int REQUEST_CODE_SCAN=1;
+    private static final int REQUEST_CODE_SCAN = 1;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -145,6 +141,7 @@ public class HomeFragment extends BaseFragment {
         //设置添加或删除item时的动画，这里使用默认动画
         fgHomeShoppingCast.setItemAnimator(new DefaultItemAnimator());
         //设置适配器
+        fgHomeShoppingCast.setItemAnimator(new DefaultItemAnimator());
         fgHomeShoppingCast.setAdapter(mAdapter);
         return view;
     }
@@ -232,8 +229,8 @@ public class HomeFragment extends BaseFragment {
         Intent intent;
         switch (view.getId()) {
             case R.id.fg_home_iv_scan:
-                intent=new Intent(getActivity(), CaptureActivity.class);
-                startActivityForResult(intent,REQUEST_CODE_SCAN);
+                intent = new Intent(getActivity(), CaptureActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_SCAN);
                 break;
             case R.id.fg_home_et_search:
                 intent = new Intent(getActivity(), HomeSearchActivity.class);
@@ -264,20 +261,21 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.fg_home_rl_go_game:
-                startActivity(new Intent(getContext(),GameActivity.class));
+                startActivity(new Intent(getContext(), GameActivity.class));
                 break;
             case R.id.fg_home_ll_recommend:
-                getRecommend();
+                fgHomeTvMyLower.setText("下级用户首页");
+                getChildHome();
                 break;
         }
     }
 
-    private void getRecommend() {
-        MainSubscribe.getRecommend("","1",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+    private void getChildHome() {
+        MainSubscribe.childHome("30", "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                RecommendResponseBean bean=GsonUtils.fromJson(result,RecommendResponseBean.class);
-                final ArrayList<RecommendResponseBean.DataBean> data=bean.getData();
+                RecommendResponseBean bean = GsonUtils.fromJson(result, RecommendResponseBean.class);
+                final ArrayList<RecommendResponseBean.DataBean> data = bean.getData();
                 HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);
                 mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
                     @Override
@@ -287,6 +285,7 @@ public class HomeFragment extends BaseFragment {
                         startActivity(intent);
                     }
                 });
+                fgHomeShoppingCast.setItemAnimator(new DefaultItemAnimator());
                 fgHomeShoppingCast.setAdapter(mAdapter);
             }
 
@@ -316,17 +315,17 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_CODE_SCAN:
-                if(resultCode==RESULT_OK){
-                    String context=data.getStringExtra(Constant.CODED_CONTENT);
+                if (resultCode == RESULT_OK) {
+                    String context = data.getStringExtra(Constant.CODED_CONTENT);
                     Uri uri = Uri.parse(context);
-                    String page=uri.getQueryParameter("page");
-                    String type=uri.getQueryParameter("type");
-                    String id=uri.getQueryParameter("id");
-                    Intent intent=new Intent(getContext(),GoodsDetailActivity.class);
+                    String page = uri.getQueryParameter("page");
+                    String type = uri.getQueryParameter("type");
+                    String id = uri.getQueryParameter("id");
+                    Intent intent = new Intent(getContext(), GoodsDetailActivity.class);
                     intent.setAction(type);
-                    intent.putExtra("goods_id",id+"");
+                    intent.putExtra("goods_id", id + "");
                     startActivity(intent);
                 }
                 break;

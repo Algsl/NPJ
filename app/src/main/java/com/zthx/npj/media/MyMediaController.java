@@ -22,13 +22,22 @@ import java.util.Locale;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 
-public class MyMediaController implements IMediaController, View.OnClickListener, AppCompatCheckBox.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
+public class MyMediaController extends MediaController implements IMediaController, View.OnClickListener, AppCompatCheckBox.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
     private View controllerRoot;
     private AppCompatTextView tvStart;
     private AppCompatTextView tvEnd;
     private AppCompatSeekBar seekBar;
     private AppCompatCheckBox btnFull;
     private AppCompatImageButton btnPlay;
+
+    private static final int SET_VIEW_HIDE = 1;
+    private static final int SET_VIEW_SHOW = 6;
+    private static final int TIME_OUT = 3000;
+    private static final int MESSAGE_SHOW_PROGRESS = 2;
+    private static final int PAUSE_IMAGE_HIDE = 3;
+    private static final int MESSAGE_SEEK_NEW_POSITION = 4;
+    private static final int MESSAGE_HIDE_CONTROL = 5;
+    private long newPosition = 1;
 
     private boolean isShowing;
     private MediaController.MediaPlayerControl player;
@@ -37,6 +46,7 @@ public class MyMediaController implements IMediaController, View.OnClickListener
     private AudioManager audioManager;
 
     public MyMediaController(Context context) {
+        super(context);
 
         audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         controllerRoot = LayoutInflater.from(context).inflate(R.layout.activity_video_controll, null);
@@ -55,17 +65,18 @@ public class MyMediaController implements IMediaController, View.OnClickListener
 
     public void attach(IjkVideoView videoView) {
         videoView.addView(controllerRoot);
-        videoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
+
+        videoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {//视频预处理完成后调用，获取屏幕宽、高、宽高比
             @Override
             public void onPrepared(IMediaPlayer iMediaPlayer) {
-                isDragging = true;//修改
-                isShowing = true;
-                handler.sendEmptyMessage(MESSAGE_SHOW_PROGRESS);
-                handler.sendEmptyMessageDelayed(SET_VIEW_HIDE, TIME_OUT);
+                isDragging = false;
+                isShowing = true;//进度条显示标识
+                handler.sendEmptyMessage(MESSAGE_SHOW_PROGRESS);//显示播放进度
+                handler.sendEmptyMessageDelayed(SET_VIEW_HIDE, TIME_OUT);//3秒后进度条自动隐藏
             }
         });
 
-        videoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
+        videoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {//视频播放完成后调用
             @Override
             public void onCompletion(IMediaPlayer iMediaPlayer) {
                 btnPlay.setImageResource(R.drawable.item_pause);
@@ -240,14 +251,7 @@ public class MyMediaController implements IMediaController, View.OnClickListener
         tvStart.setText(string);
     }
 
-    private static final int SET_VIEW_HIDE = 1;
-    private static final int SET_VIEW_SHOW = 6;
-    private static final int TIME_OUT = 3000;
-    private static final int MESSAGE_SHOW_PROGRESS = 2;
-    private static final int PAUSE_IMAGE_HIDE = 3;
-    private static final int MESSAGE_SEEK_NEW_POSITION = 4;
-    private static final int MESSAGE_HIDE_CONTROL = 5;
-    private long newPosition = 1;
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -287,13 +291,12 @@ public class MyMediaController implements IMediaController, View.OnClickListener
 
     public void setListener(OnVideoListener listener) {
         mListener = listener;
-
     }
+
 
     public interface OnVideoListener {
         //暂停
         void onPause(boolean pause);
-
         //全屏
         void onFullScreen(boolean full);
     }

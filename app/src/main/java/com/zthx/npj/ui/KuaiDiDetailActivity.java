@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
@@ -94,6 +95,7 @@ public class KuaiDiDetailActivity extends ActivityBase {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acKuaidiRvItem.setLayoutManager(layoutManager);
         KuaiDiDetailAdapter adapter = new KuaiDiDetailAdapter(this, data);
+        acKuaidiRvItem.setItemAnimator(new DefaultItemAnimator());
         acKuaidiRvItem.setAdapter(adapter);
     }
 }

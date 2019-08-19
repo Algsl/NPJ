@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -144,6 +145,7 @@ public class StoreActivity extends ActivityBase {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         acStoreRv.setLayoutManager(layoutManager);
         StoreGoodsAdapter adapter = new StoreGoodsAdapter(this, data, level);
+        acStoreRv.setItemAnimator(new DefaultItemAnimator());
         acStoreRv.setAdapter(adapter);
     }
 
@@ -273,6 +275,7 @@ public class StoreActivity extends ActivityBase {
                 GridLayoutManager layoutManager = new GridLayoutManager(StoreActivity.this, 2);
                 acStoreRv2.setLayoutManager(layoutManager);
                 GoodsByCateAdapter adapter = new GoodsByCateAdapter(StoreActivity.this, bean.getData(), level);
+                acStoreRv2.setItemAnimator(new DefaultItemAnimator());
                 acStoreRv2.setAdapter(adapter);
             }
 
@@ -301,6 +304,7 @@ public class StoreActivity extends ActivityBase {
                     GridLayoutManager layoutManager = new GridLayoutManager(StoreActivity.this, 2);
                     acStoreRv2.setLayoutManager(layoutManager);
                     GoodsByCateAdapter adapter = new GoodsByCateAdapter(StoreActivity.this, bean.getData(), level);
+                    acStoreRv2.setItemAnimator(new DefaultItemAnimator());
                     acStoreRv2.setAdapter(adapter);
                 }
             }
@@ -339,6 +343,7 @@ public class StoreActivity extends ActivityBase {
             GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
             acStoreRv1.setLayoutManager(layoutManager);
             StoreGoodsSearchAdapter adapter = new StoreGoodsSearchAdapter(this, data, level);
+            acStoreRv1.setItemAnimator(new DefaultItemAnimator());
             acStoreRv1.setAdapter(adapter);
         } else {
             acStoreRv1.setVisibility(View.GONE);

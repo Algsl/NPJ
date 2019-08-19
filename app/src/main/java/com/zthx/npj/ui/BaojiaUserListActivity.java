@@ -3,6 +3,7 @@ package com.zthx.npj.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -75,6 +76,7 @@ public class BaojiaUserListActivity extends ActivityBase {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acBaojiaUserlistRv.setLayoutManager(layoutManager);
         BaojiaUserListAdapter adapter = new BaojiaUserListAdapter(this, data);
+        acBaojiaUserlistRv.setItemAnimator(new DefaultItemAnimator());
         acBaojiaUserlistRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaojiaUserListAdapter.ItemClickListener() {
             @Override

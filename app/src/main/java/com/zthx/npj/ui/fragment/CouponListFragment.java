@@ -3,6 +3,7 @@ package com.zthx.npj.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -108,6 +109,7 @@ public class CouponListFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
         fgCouponListRv.setLayoutManager(layoutManager);
         MyCouponAdapter adapter=new MyCouponAdapter(getContext(),bean.getData(),getArguments().getString("status"));
+        fgCouponListRv.setItemAnimator(new DefaultItemAnimator());
         fgCouponListRv.setAdapter(adapter);
     }
 

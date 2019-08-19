@@ -182,6 +182,7 @@ public class MineFragment
         //设置添加或删除item时的动画，这里使用默认动画
         fgMineRvLike.setItemAnimator(new DefaultItemAnimator());
         //设置适配器
+        fgMineRvLike.setItemAnimator(new DefaultItemAnimator());
         fgMineRvLike.setAdapter(mAdapter);
 
         return view;
@@ -210,6 +211,8 @@ public class MineFragment
     }
 
     private void setUserInfo(String result) {
+        Log.e("测试", "setUserInfo: "+result);
+        Log.e("测试", "setUserInfo: "+SharePerferenceUtils.getToken(getContext()));
         UserResponseBean userResponseBean = GsonUtils.fromJson(result, UserResponseBean.class);
         UserResponseBean.DataBean data = userResponseBean.getData();
         level=data.getLevel()+"";

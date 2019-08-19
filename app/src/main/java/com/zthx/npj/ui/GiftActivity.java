@@ -3,6 +3,7 @@ package com.zthx.npj.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -88,6 +89,7 @@ public class GiftActivity extends ActivityBase {
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(GiftActivity.this);
                 acGiftRvImgs.setLayoutManager(layoutManager);
                 GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(GiftActivity.this, data.getImggroup());
+                acGiftRvImgs.setItemAnimator(new DefaultItemAnimator());
                 acGiftRvImgs.setAdapter(adapter);
             }
 

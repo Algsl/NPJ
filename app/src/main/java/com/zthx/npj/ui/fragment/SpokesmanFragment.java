@@ -3,6 +3,7 @@ package com.zthx.npj.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -68,6 +69,7 @@ public class SpokesmanFragment extends Fragment {
                 LinearLayoutManager manager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
                 fgSpokesmanRv.setLayoutManager(manager);
                 SpokesmanQuanLiAdapter mAdapter = new SpokesmanQuanLiAdapter(getContext(),data);
+                fgSpokesmanRv.setItemAnimator(new DefaultItemAnimator());
                 fgSpokesmanRv.setAdapter(mAdapter);
             }
 

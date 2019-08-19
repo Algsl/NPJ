@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -83,6 +84,7 @@ public class ShopLogActivity extends ActivityBase {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acShopLogRvMingxi.setLayoutManager(layoutManager);
         ShopLogAdapter adapter = new ShopLogAdapter(this, bean.getData());
+        acShopLogRvMingxi.setItemAnimator(new DefaultItemAnimator());
         acShopLogRvMingxi.setAdapter(adapter);
     }
 

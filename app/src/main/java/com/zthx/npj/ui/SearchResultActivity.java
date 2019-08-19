@@ -3,6 +3,7 @@ package com.zthx.npj.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -84,6 +85,7 @@ public class SearchResultActivity extends ActivityBase {
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SearchResultActivity.this);
                 atHomeSearchRvResult.setLayoutManager(layoutManager);
                 SearchResultAdapter adapter=new SearchResultAdapter(SearchResultActivity.this,data);
+                atHomeSearchRvResult.setItemAnimator(new DefaultItemAnimator());
                 atHomeSearchRvResult.setAdapter(adapter);
                 adapter.setOnItemClickListener(new SearchResultAdapter.ItemClickListener() {
                     @Override

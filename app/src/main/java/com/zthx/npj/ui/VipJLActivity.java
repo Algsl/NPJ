@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -89,6 +90,7 @@ public class VipJLActivity extends ActivityBase {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acVipJLRvMingxi.setLayoutManager(layoutManager);
         VipJLAdapter adapter = new VipJLAdapter(this, bean.getData());
+        acVipJLRvMingxi.setItemAnimator(new DefaultItemAnimator());
         acVipJLRvMingxi.setAdapter(adapter);
     }
 

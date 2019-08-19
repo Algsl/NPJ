@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -126,6 +127,7 @@ public class CartStoreAdapter extends RecyclerView.Adapter<CartStoreAdapter.View
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(mContext);
         viewHolder.itemCartStoreRv.setLayoutManager(layoutManager);
         CartGoodsAdapter adapter=new CartGoodsAdapter(mContext,mList.get(i));
+        viewHolder.itemCartStoreRv.setItemAnimator(new DefaultItemAnimator());
         viewHolder.itemCartStoreRv.setAdapter(adapter);
     }
 
@@ -180,6 +182,7 @@ public class CartStoreAdapter extends RecyclerView.Adapter<CartStoreAdapter.View
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(mContext);
         localStore.setLayoutManager(layoutManager);
         LocalStoreAdapter localStoreAdapter=new LocalStoreAdapter(mContext,localData);
+        localStore.setItemAnimator(new DefaultItemAnimator());
         localStore.setAdapter(localStoreAdapter);
 
         localStoreAdapter.setOnItemClickListener(new LocalStoreAdapter.ItemClickListener() {

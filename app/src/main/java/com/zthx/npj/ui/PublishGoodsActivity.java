@@ -9,30 +9,23 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.GoodsCateGroupAdapter;
+import com.zthx.npj.adapter.GoodsCateAdapter;
 import com.zthx.npj.net.been.AddGoodsBean;
-import com.zthx.npj.net.been.GoodsCateBean;
 import com.zthx.npj.net.been.GoodsCateResponseBean;
 import com.zthx.npj.net.been.UploadPicsResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
@@ -402,24 +395,52 @@ public class PublishGoodsActivity extends ActivityBase {
         // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
         final PopupWindow window = new PopupWindow(contentView);
         window.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-        window.setWidth((int) getResources().getDimension(R.dimen.dp_271));
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_350));
         // 设置PopupWindow的背景
 
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         // 设置PopupWindow是否能响应外部点击事件
-        window.setOutsideTouchable(false);
+        window.setOutsideTouchable(true);
         // 设置PopupWindow是否能响应点击事件
         window.setTouchable(true);
         // 显示PopupWindow，其中：
         // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
-        window.showAtLocation(getWindow().getDecorView(), Gravity.RIGHT, 0, 0);
+        window.showAtLocation(getWindow().getDecorView(), Gravity.RIGHT, 0, 80);
         final GoodsCateResponseBean bean=GsonUtils.fromJson(itemResult,GoodsCateResponseBean.class);
-        GoodsCateGroupAdapter adapter=new GoodsCateGroupAdapter(this,bean.getData());
+        final ExpandableListView elv=contentView.findViewById(R.id.pw_storeCartId_elv);
+        final GoodsCateAdapter adapter=new GoodsCateAdapter(this,bean.getData());
+        elv.setAdapter(adapter);
+        elv.setDivider(null);
+        elv.setGroupIndicator(null);
+        int groupCount = elv.getCount();
+        for (int i=0; i<groupCount; i++)
+        {
+            elv.expandGroup(i);
+        };
+        adapter.setOnItemClickListener(new GoodsCateAdapter.ItemClickListener() {
+            @Override
+            public void groupMsg(String cate_id, String cate_name) {
+
+            }
+
+            @Override
+            public void childMsg(String id, String cate_name) {
+                cate_id=id;
+                acPulishGoodsTvCateId.setText(cate_name);
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+
+        /*GoodsCateGroupAdapter adapter=new GoodsCateGroupAdapter(this,bean.getData());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         RecyclerView rv=contentView.findViewById(R.id.pw_storeCartId_rv_group);
         rv.setLayoutManager(layoutManager);
-        rv.setAdapter(adapter);
-        ImageView cancel=contentView.findViewById(R.id.pw_storeCartId_btn_cancel);
+        rv.setItemAnimator(new DefaultItemAnimator());
+        rv.setAdapter(adapter);*/
+
+
+        /*ImageView cancel=contentView.findViewById(R.id.pw_storeCartId_btn_cancel);
         Button confirm=contentView.findViewById(R.id.pw_storeCartId_btn_confirm);
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -434,6 +455,13 @@ public class PublishGoodsActivity extends ActivityBase {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });*/
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
                 backgroundAlpha(1f);
                 window.dismiss();
             }

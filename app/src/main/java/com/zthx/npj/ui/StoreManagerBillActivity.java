@@ -1,6 +1,7 @@
 package com.zthx.npj.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
@@ -49,6 +50,7 @@ public class StoreManagerBillActivity extends ActivityBase {
         atStoreManagerBillRv.setLayoutManager(manager);
         StoreManagerBillResponseBean bean=new StoreManagerBillResponseBean();
         StoreBillMessageAdapter mAdapter = new StoreBillMessageAdapter(this, bean.getData());
+        atStoreManagerBillRv.setItemAnimator(new DefaultItemAnimator());
         atStoreManagerBillRv.setAdapter(mAdapter);
     }
 }

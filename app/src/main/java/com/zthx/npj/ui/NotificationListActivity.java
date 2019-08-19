@@ -2,6 +2,7 @@ package com.zthx.npj.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
@@ -50,6 +51,7 @@ public class NotificationListActivity extends ActivityBase {
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
         acNotificationRecycle.setLayoutManager(layoutManager);
         NotificationAdapter adapter=new NotificationAdapter(this,lists);
+        acNotificationRecycle.setItemAnimator(new DefaultItemAnimator());
         acNotificationRecycle.setAdapter(adapter);
         adapter.setOnItemClickListener(new NotificationAdapter.ItemClickListener() {
             @Override

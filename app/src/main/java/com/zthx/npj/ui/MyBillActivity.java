@@ -57,6 +57,7 @@ public class MyBillActivity extends ActivityBase {
         list2.add(new MyBillListFragment().newInstence("6"));
 
         DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
+
         atWantBuyManagerVp.setAdapter(mAdapter);
         atWantBuyManagerTab.setupWithViewPager(atWantBuyManagerVp);
     }

@@ -1,6 +1,7 @@
 package com.zthx.npj.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -59,6 +60,7 @@ public class MessageCenterActivity extends ActivityBase {
         atMessageCenterRv.setLayoutManager(manager);
         final List<Conversation> lists=JMessageClient.getConversationList();
         MessageCenterAdapter mAdapter = new MessageCenterAdapter(this, lists);
+        atMessageCenterRv.setItemAnimator(new DefaultItemAnimator());
         atMessageCenterRv.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new MessageCenterAdapter.ItemClickListener() {
             @Override

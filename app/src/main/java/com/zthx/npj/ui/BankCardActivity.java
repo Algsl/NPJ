@@ -3,6 +3,7 @@ package com.zthx.npj.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
@@ -77,6 +78,7 @@ public class BankCardActivity extends ActivityBase {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acBankCardRlvAllCard.setLayoutManager(layoutManager);
         BankCardAdapter adapter = new BankCardAdapter(this, data);
+        acBankCardRlvAllCard.setItemAnimator(new DefaultItemAnimator());
         acBankCardRlvAllCard.setAdapter(adapter);
     }
 }

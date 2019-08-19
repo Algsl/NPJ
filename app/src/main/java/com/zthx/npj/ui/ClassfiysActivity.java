@@ -1,6 +1,7 @@
 package com.zthx.npj.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -105,6 +106,7 @@ public class ClassfiysActivity extends ActivityBase {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false);
         acClassifyRv.setLayoutManager(layoutManager);
         classifyAdapter = new ClassifyAdapter(this, data.get(currentItem).getChild());
+        acClassifyRv.setItemAnimator(new DefaultItemAnimator());
         acClassifyRv.setAdapter(classifyAdapter);
         classifyAdapter.setOnItemClickListener(new ClassifyAdapter.ItemClickListener() {
             @Override

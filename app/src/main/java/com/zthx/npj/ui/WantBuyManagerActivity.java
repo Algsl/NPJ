@@ -3,6 +3,7 @@ package com.zthx.npj.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -94,6 +95,7 @@ public class WantBuyManagerActivity extends ActivityBase {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         atWantBuyManagerRvSupplyList1.setLayoutManager(layoutManager);
         PurchaseListAdapter adapter = new PurchaseListAdapter(this,data,type);
+        atWantBuyManagerRvSupplyList1.setItemAnimator(new DefaultItemAnimator());
         atWantBuyManagerRvSupplyList1.setAdapter(adapter);
         adapter.setOnItemClickListener(new PurchaseListAdapter.ItemClickListener() {
             @Override
@@ -213,6 +215,7 @@ public class WantBuyManagerActivity extends ActivityBase {
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
         atWantBuyManagerRvSupplyBill.setLayoutManager(layoutManager);
         BaojiaListAdapter adapter=new BaojiaListAdapter(this,data);
+        atWantBuyManagerRvSupplyBill.setItemAnimator(new DefaultItemAnimator());
         atWantBuyManagerRvSupplyBill.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaojiaListAdapter.ItemClickListener() {
             @Override

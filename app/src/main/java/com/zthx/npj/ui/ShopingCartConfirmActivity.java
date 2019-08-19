@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -106,6 +107,7 @@ public class ShopingCartConfirmActivity extends ActivityBase {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acConfirmCartOrderRv.setLayoutManager(layoutManager);
         CartStoreAdapter adapter = new CartStoreAdapter(this, data.getList(),this);
+        acConfirmCartOrderRv.setItemAnimator(new DefaultItemAnimator());
         acConfirmCartOrderRv.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new CartStoreAdapter.ItemClickListener() {

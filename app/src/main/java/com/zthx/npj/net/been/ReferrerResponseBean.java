@@ -6,7 +6,7 @@ public class ReferrerResponseBean extends BaseReponseBean{
         private String nick_name;
         private String mobile;
         private String head_img;
-        private long level;
+        private int level;
 
         public long getId() {
             return id;
@@ -40,11 +40,11 @@ public class ReferrerResponseBean extends BaseReponseBean{
             this.head_img = head_img;
         }
 
-        public long getLevel() {
+        public int getLevel() {
             return level;
         }
 
-        public void setLevel(long level) {
+        public void setLevel(int level) {
             this.level = level;
         }
     }

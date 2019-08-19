@@ -3,6 +3,7 @@ package com.zthx.npj.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
@@ -65,6 +66,7 @@ public class TiQuActivity extends ActivityBase{
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acTiquRvMingxi.setLayoutManager(layoutManager);
         TiQuAdapter adapter = new TiQuAdapter(this, bean.getData());
+        acTiquRvMingxi.setItemAnimator(new DefaultItemAnimator());
         acTiquRvMingxi.setAdapter(adapter);
     }
 }

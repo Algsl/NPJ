@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -118,36 +119,12 @@ public class StoreDetailActivity extends ActivityBase {
     }
 
     private void setComment(String result) {
-        String test = "{\n" +
-                "    \"code\": 1,\n" +
-                "    \"data\": [\n" +
-                "        {\n" +
-                "            \"id\": 50,\n" +
-                "            \"user_id\": 25,\n" +
-                "            \"goods_id\": 1,\n" +
-                "            \"store_id\": 23,\n" +
-                "            \"content\": \"商品质量非常好，期待下次合作\",\n" +
-                "            \"img\": [\n" +
-                "                \"http://www.test666.com/public/upload/20190420/defa05252410178d8f8a9b1bb6f1d274.jpg\",\n" +
-                "                \"http://www.test666.com/public/upload/20190420/defa05252410178d8f8a9b1bb6f1d274.jpg\"\n" +
-                "            ],\n" +
-                "            \"status\": 0,\n" +
-                "            \"create_time\": 1556095903,\n" +
-                "            \"type\": 1,\n" +
-                "            \"goods_star\": 5,\n" +
-                "            \"logistics_star\": 5,\n" +
-                "            \"service_star\": 5,\n" +
-                "            \"nick_name\": \"用户15853102073\",\n" +
-                "            \"head_img\": \"http://app.npj-vip.com/public/upload/20190711/80d23137c98abfb897db59eb918b892e.jpg\"\n" +
-                "        }\n" +
-                "    ],\n" +
-                "    \"msg\": \"加载成功\"\n" +
-                "}";
-        CommentResponseBean bean = GsonUtils.fromJson(test, CommentResponseBean.class);
+        CommentResponseBean bean = GsonUtils.fromJson(result, CommentResponseBean.class);
         ArrayList<CommentResponseBean.DataBean> data = bean.getData();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         atStoreDetailRv.setLayoutManager(layoutManager);
         CommentAdapter adapter = new CommentAdapter(this, data);
+        atStoreDetailRv.setItemAnimator(new DefaultItemAnimator());
         atStoreDetailRv.setAdapter(adapter);
     }
 
@@ -244,7 +221,6 @@ public class StoreDetailActivity extends ActivityBase {
                 openActivity(ShowLocationActivity.class,lat,lng);
                 break;
             case R.id.at_store_detail_iv_call:
-                Log.e("测试", "tel:"+mobile);
                 Intent intent=new Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+mobile));
                 startActivity(intent);
                 break;

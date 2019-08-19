@@ -1,6 +1,8 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,14 +11,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.SystemMessageBean;
+import com.zthx.npj.net.been.SystemMessageResponseBean;
+import com.zthx.npj.utils.ImageCircleConner;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SystemMessageAdapter extends RecyclerView.Adapter<SystemMessageAdapter.ViewHolder> {
 
-    private List<CommentGoodsBeen> mList;
+    private ArrayList<SystemMessageResponseBean.DataBean> mList;
     private Context mContext;
 
     private ItemClickListener mItemClickListener ;
@@ -28,7 +39,7 @@ public class SystemMessageAdapter extends RecyclerView.Adapter<SystemMessageAdap
 
     }
 
-    public SystemMessageAdapter(Context context, List<CommentGoodsBeen> list) {
+    public SystemMessageAdapter(Context context, ArrayList<SystemMessageResponseBean.DataBean> list) {
         mList = list;
         mContext = context;
     }
@@ -51,14 +62,16 @@ public class SystemMessageAdapter extends RecyclerView.Adapter<SystemMessageAdap
                 }
             });
         }
-        if (mList!= null && mList.size() > 0) {
-//            viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
-//            viewHolder.mTvPrice.setText(list.get(i).getGoodsPrice());
-//            viewHolder.mTvSellNum.setText(list.get(i).getGoodsSellNum());
-//            viewHolder.mTvTitle.setText(list.get(i).getGoodsTitle());
-        } else {
-
-        }
+        Glide.with(mContext).load(Uri.parse(mList.get(i).getMsgImg())).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                viewHolder.msgIv.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
+            }
+        });
+        viewHolder.title.setText(mList.get(i).getMsgTitle());
+        viewHolder.content.setText(mList.get(i).getMsgContent());
+        viewHolder.msgFrom.setText(mList.get(i).getMsgFrom());
+        viewHolder.nowTime.setText(new SimpleDateFormat("yy/MM/dd").format(new Date(mList.get(i).getMsgTime())));
     }
 
     @Override
@@ -67,17 +80,16 @@ public class SystemMessageAdapter extends RecyclerView.Adapter<SystemMessageAdap
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mIvGoods;
-        TextView mTvTitle;
-        TextView mTvPrice;
-        TextView mTvSellNum;
+        ImageView msgIv;
+        TextView title,content,nowTime,msgFrom;
 
         ViewHolder(View itemView) {
             super(itemView);
-            mIvGoods = itemView.findViewById(R.id.item_iv_comment_goods);
-            mTvTitle = itemView.findViewById(R.id.item_tv_comment_goods_title);
-            mTvPrice = itemView.findViewById(R.id.item_tv_comment_goods_price);
-            mTvSellNum = itemView.findViewById(R.id.item_tv_comment_goods_sell_num);
+            msgIv=itemView.findViewById(R.id.item_systemMsg_iv_msg);
+            title=itemView.findViewById(R.id.item_systemMsg_tv_title);
+            content=itemView.findViewById(R.id.item_systemMsg_tv_content);
+            nowTime=itemView.findViewById(R.id.item_systemMsg_tv_time);
+            msgFrom=itemView.findViewById(R.id.item_systemMsg_tv_from);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.zthx.npj.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -78,6 +79,7 @@ public class MyCollectActivity extends ActivityBase {
         }
         CommenGoodsAdatper mAdapter = new CommenGoodsAdatper(this, list3);
         //设置适配器
+        atMyCollectLikeRv.setItemAnimator(new DefaultItemAnimator());
         atMyCollectLikeRv.setAdapter(mAdapter);
     }
 
@@ -104,6 +106,7 @@ public class MyCollectActivity extends ActivityBase {
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             atMyCollectGoodsRv.setLayoutManager(layoutManager);
             CollectionAdapter adapter = new CollectionAdapter(this, data);
+            atMyCollectGoodsRv.setItemAnimator(new DefaultItemAnimator());
             atMyCollectGoodsRv.setAdapter(adapter);
             adapter.setOnItemClickListener(new CollectionAdapter.ItemClickListener() {
                 @Override
@@ -139,6 +142,7 @@ public class MyCollectActivity extends ActivityBase {
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             atMyCollectStoreRv.setLayoutManager(layoutManager);
             CollectionStoreAdapter adapter = new CollectionStoreAdapter(this, data);
+            atMyCollectStoreRv.setItemAnimator(new DefaultItemAnimator());
             atMyCollectStoreRv.setAdapter(adapter);
             adapter.setOnItemClickListener(new CollectionStoreAdapter.ItemClickListener() {
                 @Override

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -564,6 +565,7 @@ public class ConfirmOrderActivity extends ActivityBase {
         localStore.setLayoutManager(layoutManager);
         Log.e("测试", "showPublishPopwindow: " + localData.get(0).getStore_name());
         LocalStoreAdapter localStoreAdapter = new LocalStoreAdapter(this, localData);
+        localStore.setItemAnimator(new DefaultItemAnimator());
         localStore.setAdapter(localStoreAdapter);
         localStoreAdapter.setOnItemClickListener(new LocalStoreAdapter.ItemClickListener() {
             @Override

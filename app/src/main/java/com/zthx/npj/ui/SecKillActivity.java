@@ -74,6 +74,7 @@ public class SecKillActivity extends ActivityBase {
 
     private void initTable(List<String> list, List<Fragment> list2) {
         SecKillViewPagerAdapter mAdapter = new SecKillViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
+
         atSecKillViewPager.setAdapter(mAdapter);
         atSecKillMainTab.setTabGravity(TabLayout.GRAVITY_CENTER);
         atSecKillMainTab.setSelectedTabIndicatorColor(getResources().getColor(R.color.app_theme));

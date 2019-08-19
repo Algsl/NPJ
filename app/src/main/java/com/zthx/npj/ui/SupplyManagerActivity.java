@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -109,6 +110,7 @@ public class SupplyManagerActivity extends ActivityBase {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         atSupplyManagerRvSupplyList1.setLayoutManager(layoutManager);
         MySupplyListAdapter adapter = new MySupplyListAdapter(this, data,type);
+        atSupplyManagerRvSupplyList1.setItemAnimator(new DefaultItemAnimator());
         atSupplyManagerRvSupplyList1.setAdapter(adapter);
         adapter.setOnItemClickListener(new MySupplyListAdapter.ItemClickListener() {
             @Override
@@ -243,6 +245,7 @@ public class SupplyManagerActivity extends ActivityBase {
 
             }
         });
+        atSupplyManagerRvSupplyBill.setItemAnimator(new DefaultItemAnimator());
         atSupplyManagerRvSupplyBill.setAdapter(adapter);
     }
 

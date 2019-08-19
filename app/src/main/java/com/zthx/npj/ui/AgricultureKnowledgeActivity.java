@@ -2,6 +2,7 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -92,6 +93,7 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(AgricultureKnowledgeActivity.this);
                 atAkRv.setLayoutManager(layoutManager);
                 NewsListAdapter adapter = new NewsListAdapter(AgricultureKnowledgeActivity.this, data);
+                atAkRv.setItemAnimator(new DefaultItemAnimator());
                 atAkRv.setAdapter(adapter);
                 adapter.setOnItemClickListener(new NewsListAdapter.ItemClickListener() {
                     @Override
@@ -157,6 +159,7 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(AgricultureKnowledgeActivity.this);
                 atAkRv.setLayoutManager(layoutManager);
                 AKAdapter adapter = new AKAdapter(AgricultureKnowledgeActivity.this, data);
+                atAkRv.setItemAnimator(new DefaultItemAnimator());
                 atAkRv.setAdapter(adapter);
                 if (data.size() > 0) {
                     acAgricultureTvSearchResult.setText("共搜索到" + data.size() + "个视频");
@@ -203,6 +206,7 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                         }
                     });
                 }
+                atAkRv.setItemAnimator(new DefaultItemAnimator());
                 atAkRv.setAdapter(mAdapter);
             }
 

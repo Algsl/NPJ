@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -71,18 +72,20 @@ public class VideoListFragment extends Fragment {
             public void onSuccess(String result) {
                 SolutionVideoResponseBean solutionVideoResponseBean = GsonUtils.fromJson(result, SolutionVideoResponseBean.class);
                 final ArrayList<SolutionVideoResponseBean.DataBean> data = solutionVideoResponseBean.getData();
-                LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                 fgVideoListRv.setLayoutManager(manager);
+                //未发生点击事件时，默认播放第一个视频
                 if (mListener != null) {
                     mListener.onDataGet(data.get(0));
                 }
-                SelectVideoAdapter mAdapter = new SelectVideoAdapter(getActivity(), data);
+                SelectVideoAdapter mAdapter = new SelectVideoAdapter(getContext(), data);
                 mAdapter.setOnItemClickListener(new SelectVideoAdapter.ItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
                         onButtonPressed(data.get(position));
                     }
                 });
+                fgVideoListRv.setItemAnimator(new DefaultItemAnimator());
                 fgVideoListRv.setAdapter(mAdapter);
             }
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -96,6 +97,7 @@ public class SeckillListFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
         fgSeckillListRv.setLayoutManager(layoutManager);
         SecKillAdpter adapter=new SecKillAdpter(getContext(),data,getArguments().getString("type"));
+        fgSeckillListRv.setItemAnimator(new DefaultItemAnimator());
         fgSeckillListRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new SecKillAdpter.ItemClickListener() {
             @Override
@@ -129,6 +131,7 @@ public class SeckillListFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
         fgSeckillListRv.setLayoutManager(layoutManager);
         SecKillAdpter adapter=new SecKillAdpter(getContext(),data,getArguments().getString("type"));
+        fgSeckillListRv.setItemAnimator(new DefaultItemAnimator());
         fgSeckillListRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new SecKillAdpter.ItemClickListener() {
             @Override
@@ -162,6 +165,7 @@ public class SeckillListFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
         fgSeckillListRv.setLayoutManager(layoutManager);
         SecKillAdpter adapter=new SecKillAdpter(getContext(),data,getArguments().getString("type"));
+        fgSeckillListRv.setItemAnimator(new DefaultItemAnimator());
         fgSeckillListRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new SecKillAdpter.ItemClickListener() {
             @Override

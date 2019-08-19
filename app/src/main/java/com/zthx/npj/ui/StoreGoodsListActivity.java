@@ -47,6 +47,7 @@ public class StoreGoodsListActivity extends ActivityBase {
         list2.add(new StoreGoodsListFragment().newIntent("1"));
         list2.add(new StoreGoodsListFragment().newIntent("2"));
         DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
+
         atStoreGoodsListVp.setAdapter(mAdapter);
         atStoreGoodsListTab.setTabMode(TabLayout.MODE_FIXED);
         atStoreGoodsListTab.setTabGravity(TabLayout.GRAVITY_CENTER);

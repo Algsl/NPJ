@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -288,6 +289,7 @@ public class MapAddressActivity extends ActivityBase {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         addressDetail.setLayoutManager(layoutManager);
         MapAddressAdapter adapter = new MapAddressAdapter(this, list);
+        addressDetail.setItemAnimator(new DefaultItemAnimator());
         addressDetail.setAdapter(adapter);
         adapter.setOnItemClickListener(new MapAddressAdapter.ItemClickListener() {
             @Override

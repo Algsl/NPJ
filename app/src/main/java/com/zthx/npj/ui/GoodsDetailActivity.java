@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -254,6 +255,7 @@ public class GoodsDetailActivity extends ActivityBase {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acGoodsDetailRvContent.setLayoutManager(layoutManager);
         GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(this, lists);
+        acGoodsDetailRvContent.setItemAnimator(new DefaultItemAnimator());
         acGoodsDetailRvContent.setAdapter(adapter);
     }
 
@@ -419,8 +421,8 @@ public class GoodsDetailActivity extends ActivityBase {
                 break;
             case R.id.ac_goodsDetail_iv_share://分享
                 acGoodsDetailLlInner.setVisibility(View.VISIBLE);
-                String str = "http://game.npj-vip.com/jumpApp.html?page=goodsDetail&type=goods&id="+goodsId;
-                acGoodsDetailIvQrcode.setImageBitmap(QRCodeUtil.createQRCodeBitmap(str, 80));
+                String str = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=goods&id="+goodsId;
+                acGoodsDetailIvQrcode.setImageBitmap(QRCodeUtil.createQRCodeBitmap(str, 100));
                 Glide.with(GoodsDetailActivity.this).load(Uri.parse(mGoodsData.getGoods_img().get(0))).asBitmap().into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -475,6 +477,7 @@ public class GoodsDetailActivity extends ActivityBase {
         CommentResponseBean bean = GsonUtils.fromJson(result, CommentResponseBean.class);
         ArrayList<CommentResponseBean.DataBean> data = bean.getData();
         CommentAdapter adapter = new CommentAdapter(this, data);
+        acGoodsDetailRvContent.setItemAnimator(new DefaultItemAnimator());
         acGoodsDetailRvContent.setAdapter(adapter);
     }
 

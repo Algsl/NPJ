@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -88,10 +89,12 @@ public class HelpActivity extends ActivityBase {
         switch (type){
             case "1":
                 acHelpRvProblem1.setLayoutManager(layoutManager);
+                acHelpRvProblem1.setItemAnimator(new DefaultItemAnimator());
                 acHelpRvProblem1.setAdapter(adapter);
                 break;
             case "2":
                 acHelpRvProblem2.setLayoutManager(layoutManager);
+                acHelpRvProblem2.setItemAnimator(new DefaultItemAnimator());
                 acHelpRvProblem2.setAdapter(adapter);
                 break;
         }

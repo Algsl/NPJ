@@ -1,6 +1,7 @@
 package com.zthx.npj.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
@@ -68,6 +69,7 @@ public class AskForPartnerActivity extends ActivityBase {
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         atAskForPartnerRv.setLayoutManager(manager);
         AskForPartnerAdapter mAdapter = new AskForPartnerAdapter(this, data);
+        atAskForPartnerRv.setItemAnimator(new DefaultItemAnimator());
         atAskForPartnerRv.setAdapter(mAdapter);
     }
 

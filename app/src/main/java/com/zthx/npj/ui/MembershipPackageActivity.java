@@ -83,6 +83,7 @@ public class MembershipPackageActivity extends ActivityBase {
         list2.add(new BuyGiftFragment());
         list2.add(new SpokesmanFragment());
         DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
+
         atMembershipPackageVp.setAdapter(mAdapter);
         atMembershipPackageTb.setTabMode(TabLayout.MODE_FIXED);
         atMembershipPackageTb.setTabGravity(TabLayout.GRAVITY_CENTER);

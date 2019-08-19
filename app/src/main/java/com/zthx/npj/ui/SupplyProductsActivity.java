@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -193,6 +194,7 @@ public class SupplyProductsActivity extends ActivityBase {
                 atSupplyProductsTvName.setText(data.getNick_name());
                 atSupplyProductsTvXinyufen.setText("信誉分" + data.getReputation());
                 SupplyProductsAdapter adapter = new SupplyProductsAdapter(SupplyProductsActivity.this, data.getContent());
+                atSupplyProductsRvPic.setItemAnimator(new DefaultItemAnimator());
                 atSupplyProductsRvPic.setAdapter(adapter);
             }
 
@@ -253,6 +255,7 @@ public class SupplyProductsActivity extends ActivityBase {
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SupplyProductsActivity.this);
                 atSupplyProductsRvPic.setLayoutManager(layoutManager);
                 SupplyProductsAdapter adapter = new SupplyProductsAdapter(SupplyProductsActivity.this, supplyData.getContent());
+                atSupplyProductsRvPic.setItemAnimator(new DefaultItemAnimator());
                 atSupplyProductsRvPic.setAdapter(adapter);
             }
 
@@ -330,6 +333,7 @@ public class SupplyProductsActivity extends ActivityBase {
                 acSupplyTvCommon.setBackgroundColor(getResources().getColor(R.color.white));
                 acSupplyTvCommon.setTextColor(getResources().getColor(R.color.text3));
                 SupplyProductsAdapter adapter = new SupplyProductsAdapter(SupplyProductsActivity.this, supplyData.getContent());
+                atSupplyProductsRvPic.setItemAnimator(new DefaultItemAnimator());
                 atSupplyProductsRvPic.setAdapter(adapter);
                 break;
             case R.id.ac_supply_tv_common:
@@ -348,6 +352,7 @@ public class SupplyProductsActivity extends ActivityBase {
             public void onSuccess(String result) {
                 CommentResponseBean bean = GsonUtils.fromJson(result, CommentResponseBean.class);
                 CommentAdapter adapter = new CommentAdapter(SupplyProductsActivity.this, bean.getData());
+                atSupplyProductsRvPic.setItemAnimator(new DefaultItemAnimator());
                 atSupplyProductsRvPic.setAdapter(adapter);
             }
 

@@ -2,6 +2,7 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -89,6 +90,7 @@ public class HomeSearchActivity extends ActivityBase {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false);
         acHomeSearchRvHot.setLayoutManager(layoutManager);
         HotSearchAdapter adapter = new HotSearchAdapter(this, bean.getData());
+        acHomeSearchRvHot.setItemAnimator(new DefaultItemAnimator());
         acHomeSearchRvHot.setAdapter(adapter);
         adapter.setOnItemClickListener(new HotSearchAdapter.ItemClickListener() {
             @Override
@@ -118,6 +120,7 @@ public class HomeSearchActivity extends ActivityBase {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false);
         acHomeSearchRvHistory.setLayoutManager(layoutManager);
         HistorySearchAdapter adapter = new HistorySearchAdapter(this, bean.getData());
+        acHomeSearchRvHistory.setItemAnimator(new DefaultItemAnimator());
         acHomeSearchRvHistory.setAdapter(adapter);
         adapter.setOnItemClickListener(new HistorySearchAdapter.ItemClickListener() {
             @Override

@@ -3,6 +3,7 @@ package com.zthx.npj.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +20,17 @@ public class GoodsCateItemAdapter extends RecyclerView.Adapter<GoodsCateItemAdap
     private Context mContext;
     private ItemClickListener mItemClickListener;
 
-    public interface ItemClickListener{
-        void onItemClick(int position);
-    }
+
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         mItemClickListener=itemClickListener;
     }
 
+    public interface ItemClickListener{
+        void onResult(String id,String name);
+    }
+
     public GoodsCateItemAdapter(Context context,ArrayList<GoodsCateResponseBean.DataBean.Child> list){
+        Log.e("测试", "GoodsCateItemAdapter: "+list);
         mContext=context;
         mList=list;
     }
@@ -35,20 +39,23 @@ public class GoodsCateItemAdapter extends RecyclerView.Adapter<GoodsCateItemAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(mContext).inflate(R.layout.item_store_cartid_item,viewGroup,false);
+        View view=LayoutInflater.from(mContext).inflate(R.layout.activity_goodscate_item,viewGroup,false);
         return new GoodsCateItemAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
+        Log.e("测试", "onBindViewHolder: "+mList.get(i).getName());
+        viewHolder.itemText.setText(mList.get(i).getName());
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position=viewHolder.getLayoutPosition();
-                mItemClickListener.onItemClick(position);
+                String id=mList.get(position).getId()+"";
+                String name=mList.get(position).getName();
+                mItemClickListener.onResult(id,name);
             }
         });
-        viewHolder.content.setText(mList.get(i).getName());
     }
 
     @Override
@@ -57,10 +64,10 @@ public class GoodsCateItemAdapter extends RecyclerView.Adapter<GoodsCateItemAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView content;
+        private TextView itemText;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            content=itemView.findViewById(R.id.item_storeCartid_item_tv_title);
+            itemText=itemView.findViewById(R.id.ac_goodsCate_tv_item);
         }
     }
 }

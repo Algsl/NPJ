@@ -1,8 +1,10 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,8 +46,10 @@ public class ReferrerActivity extends ActivityBase {
     @BindView(R.id.ac_referrer_tv_level)
     TextView acReferrerTvLevel;
 
+
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
+    private String mobile="";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,6 +66,7 @@ public class ReferrerActivity extends ActivityBase {
         GiftSubscribe.referrer(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
+                Log.e("测试", "onSuccess: "+result );
                 setMyReferrer(result);
             }
 
@@ -74,27 +79,23 @@ public class ReferrerActivity extends ActivityBase {
 
     private void setMyReferrer(String result) {
         ReferrerResponseBean bean = GsonUtils.fromJson(result, ReferrerResponseBean.class);
-        if(bean.getData().getNick_name().equals("")){
-            Glide.with(this).load(Uri.parse(bean.getData().getHead_img())).into(acReferrerMcvHeadImg);
-            acReferrerTvNickName.setText(bean.getData().getNick_name());
-            acReferrerTvMobile.setText("手机号" + bean.getData().getMobile());
-            switch ((int) bean.getData().getLevel()){
-                case 0:acReferrerTvLevel.setText("普通会员");break;
-                case 1:acReferrerTvLevel.setText("VIP代言人");break;
-                case 2:acReferrerTvLevel.setText("天使代言人");break;
-                case 3:acReferrerTvLevel.setText("金牌代言人");break;
-                case 4:acReferrerTvLevel.setText("钻石代言人");break;
-                case 5:acReferrerTvLevel.setText("首席代言人");break;
-                case 6:acReferrerTvLevel.setText("天使股东代言人");break;
-                case 7:acReferrerTvLevel.setText("金牌股东代言人");break;
-                case 8:acReferrerTvLevel.setText("钻石股东代言人");break;
-                case 9:acReferrerTvLevel.setText("首席股东代言人");break;
-                case 10:acReferrerTvLevel.setText("城市代言人");break;
-            }
-        }else{
-            Toast.makeText(ReferrerActivity.this,"您还没有推荐人",Toast.LENGTH_LONG).show();
+        Glide.with(this).load(Uri.parse(bean.getData().getHead_img())).into(acReferrerMcvHeadImg);
+        acReferrerTvNickName.setText(bean.getData().getNick_name());
+        acReferrerTvMobile.setText("手机号" + bean.getData().getMobile());
+        switch ((int) bean.getData().getLevel()){
+            case 0:acReferrerTvLevel.setText("普通会员");break;
+            case 1:acReferrerTvLevel.setText("VIP代言人");break;
+            case 2:acReferrerTvLevel.setText("天使代言人");break;
+            case 3:acReferrerTvLevel.setText("金牌代言人");break;
+            case 4:acReferrerTvLevel.setText("钻石代言人");break;
+            case 5:acReferrerTvLevel.setText("首席代言人");break;
+            case 6:acReferrerTvLevel.setText("天使股东代言人");break;
+            case 7:acReferrerTvLevel.setText("金牌股东代言人");break;
+            case 8:acReferrerTvLevel.setText("钻石股东代言人");break;
+            case 9:acReferrerTvLevel.setText("首席股东代言人");break;
+            case 10:acReferrerTvLevel.setText("城市代言人");break;
         }
-
+        mobile=bean.getData().getMobile();
     }
 
     @OnClick({R.id.ac_referrer_tv_chat, R.id.ac_referrer_tv_change})
@@ -104,7 +105,8 @@ public class ReferrerActivity extends ActivityBase {
 
                 break;
             case R.id.ac_referrer_tv_change:
-
+                Intent intent=new Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+mobile));
+                startActivity(intent);
                 break;
         }
     }
