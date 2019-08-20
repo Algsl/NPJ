@@ -1,25 +1,20 @@
 package com.zthx.npj.ui;
 
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dueeeke.videocontroller.StandardVideoController;
+import com.dueeeke.videoplayer.player.IjkVideoView;
+import com.dueeeke.videoplayer.player.PlayerConfig;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.DiscoverViewPagerAdapter;
 import com.zthx.npj.base.Const;
-import com.zthx.npj.media.AndroidMediaController;
-import com.zthx.npj.media.IRenderView;
-import com.zthx.npj.media.IjkVideoView;
-import com.zthx.npj.media.MyMediaController;
 import com.zthx.npj.net.been.SolutionVideoResponseBean;
 import com.zthx.npj.ui.fragment.VideoListFragment;
 import com.zthx.npj.ui.fragment.WebFragment;
@@ -29,7 +24,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 
 public class SystemSolutionActivity extends ActivityBase implements VideoListFragment.OnFragmentInteractionListener, WebFragment.OnFragmentInteractionListener {
@@ -38,14 +32,14 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
     TabLayout atSystemSolutionTb;
     @BindView(R.id.at_system_solution_vp)
     ViewPager atSystemSolutionVp;
-    @BindView(R.id.at_system_solution_player)
-    IjkVideoView atSystemSolutionPlayer;
     @BindView(R.id.title_back)
     ImageView titleBack;
     @BindView(R.id.ac_title)
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
+    @BindView(R.id.player)
+    IjkVideoView ijkVideoView;
 
     private WindowManager wm;
 
@@ -56,9 +50,9 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,getIntent().getStringExtra("title"));
+        changeTitle(acTitle, getIntent().getStringExtra("title"));
 
-        wm=SystemSolutionActivity.this.getWindowManager();
+        wm = SystemSolutionActivity.this.getWindowManager();
 
         List<String> list = new ArrayList<>();
         list.add("视频选集");
@@ -77,7 +71,7 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
     //点击播放设置
     @Override
     public void onFragmentInteraction(SolutionVideoResponseBean.DataBean dataBean) {
-        MyMediaController controller=new MyMediaController(this);
+        /*MyMediaController controller=new MyMediaController(this);
         controller.setListener(new MyMediaController.OnVideoListener() {
             @Override
             public void onPause(boolean pause) {
@@ -95,19 +89,21 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
                 }
             }
         });
-        atSystemSolutionPlayer.stopPlayback();
-        atSystemSolutionPlayer.release(true);
         atSystemSolutionPlayer.setMediaController(controller);
+        atSystemSolutionPlayer.release(true);
         atSystemSolutionPlayer.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT);
         atSystemSolutionPlayer.setVideoURI(Uri.parse(dataBean.getVideo()));
-        atSystemSolutionPlayer.start();
+        atSystemSolutionPlayer.start();*/
+        ijkVideoView.setUrl(dataBean.getVideo()); //设置视频地址
+        StandardVideoController controller = new StandardVideoController(this);
+        ijkVideoView.setVideoController(controller); //设置控制器，如需定制可继承 BaseVideoController
+        ijkVideoView.start();
     }
 
     //自动播放设置
     @Override
     public void onDataGet(SolutionVideoResponseBean.DataBean dataBean) {
-
-        MyMediaController controller=new MyMediaController(this);
+        /*MyMediaController controller=new MyMediaController(this);
         controller.setListener(new MyMediaController.OnVideoListener() {
             @Override
             public void onPause(boolean pause) {
@@ -130,7 +126,22 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
         atSystemSolutionPlayer.setMediaController(controller);
         atSystemSolutionPlayer.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT);
         atSystemSolutionPlayer.setVideoURI(Uri.parse(dataBean.getVideo()));
-        atSystemSolutionPlayer.start();
+        atSystemSolutionPlayer.start();*/
+        ijkVideoView.setUrl(dataBean.getVideo()); //设置视频地址
+        StandardVideoController controller = new StandardVideoController(this);
+        ijkVideoView.setVideoController(controller); //设置控制器，如需定制可继承 BaseVideoController
+        //ijkVideoView.start(); //开始播放，不调用则不自动播放
+        //高级设置（可选，须在 start()之前调用方可生效）
+        /*PlayerConfig playerConfig = new PlayerConfig.Builder()
+                .enableCache() //启用边播边缓存功能
+                .autoRotate() //启用重力感应自动进入/退出全屏功能
+                .enableMediaCodec()//启动硬解码，启用后可能导致视频黑屏，音画不同步
+                .usingSurfaceView() //启用 SurfaceView 显示视频，不调用默认使用 TextureView
+                .savingProgress() //保存播放进度
+                .disableAudioFocus() //关闭 AudioFocusChange 监听
+                .setLooping() //循环播放当前正在播放的视频
+                .build();
+        ijkVideoView.setPlayerConfig(playerConfig);*/
     }
 
     @Override
@@ -139,14 +150,28 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
+        ijkVideoView.pause();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ijkVideoView.resume();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        atSystemSolutionPlayer.suspend();
+        ijkVideoView.release();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (!ijkVideoView.onBackPressed()) {
+            super.onBackPressed();
+        }
     }
 }

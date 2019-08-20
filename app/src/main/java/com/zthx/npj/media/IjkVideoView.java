@@ -418,10 +418,8 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                 mHudViewHolder.updateLoadCost(mPrepareEndTime - mPrepareStartTime);
             }
             mCurrentState = STATE_PREPARED;
-
             // Get the capabilities of the player for this stream
             // REMOVED: Metadata
-
             if (mOnPreparedListener != null) {
                 mOnPreparedListener.onPrepared(mMediaPlayer);
             }

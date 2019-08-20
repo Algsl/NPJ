@@ -75,7 +75,7 @@ public class VideoListFragment extends Fragment {
                 LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                 fgVideoListRv.setLayoutManager(manager);
                 //未发生点击事件时，默认播放第一个视频
-                if (mListener != null) {
+                if (mListener!= null) {
                     mListener.onDataGet(data.get(0));
                 }
                 SelectVideoAdapter mAdapter = new SelectVideoAdapter(getContext(), data);

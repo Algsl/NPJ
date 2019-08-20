@@ -26,7 +26,6 @@
                     android:id="@+id/at_goods_detail_banner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
-
                 <RelativeLayout
                     android:id="@+id/at_goods_detail_rl_sec_kill"
                     android:layout_width="match_parent"
@@ -747,7 +746,7 @@
             android:layout_height="@dimen/dp_450"
             android:layout_marginLeft="@dimen/dp_40"
             android:layout_marginRight="@dimen/dp_40"
-            android:background="@color/white"
+            android:background="@drawable/white_conner"
             android:orientation="vertical"
             android:visibility="visible">
             <ImageView
@@ -787,7 +786,10 @@
                 android:layout_height="@dimen/dp_80"
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginTop="@dimen/dp_10"
+                android:scaleType="fitXY"
                 android:src="@drawable/logo"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_below="@id/ac_goodsDetail_tv_innerGoodsTitle" />
             <TextView
                 android:layout_width="wrap_content"

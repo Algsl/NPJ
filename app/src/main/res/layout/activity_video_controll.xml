@@ -8,7 +8,7 @@
         android:layout_height="@dimen/dp_48"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:background="@color/transparent"
+        android:background="@android:color/transparent"
         android:scaleType="centerInside"
         android:src="@drawable/item_pause" />
     <android.support.v7.widget.LinearLayoutCompat

@@ -115,17 +115,13 @@ dependencies {
     //bilibili视频框架
     implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
     implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'
-
     //    implementation 'tv.danmaku.ijk.media:ijkplayer-armv5:0.6.1'
-
     //    implementation 'tv.danmaku.ijk.media:ijkplayer-arm64:0.6.1'
-
     //    implementation 'tv.danmaku.ijk.media:ijkplayer-x86:0.6.1'
-
     //    implementation 'tv.danmaku.ijk.media:ijkplayer-x86_64:0.6.1'
     implementation 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.8'
 
-    //视频播放控制器
+    //图片选择器
     implementation 'com.github.zhouzhuo810:ZzImageBox:1.1.5'
 
     //时间地点选择器
@@ -133,9 +129,14 @@ dependencies {
 
     //接入微信支付
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    //okhttp3网络协议
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    implementation 'com.github.yuzhiqiang1993:zxing:2.1.1'
+    //zxing二维码扫描
+    implementation 'com.github.yuzhiqiang1993:zxing:2.2.8'
+
+
     implementation(name: 'egret', ext: 'aar')
+    //极光推送
     implementation 'cn.jiguang.sdk:jpush:3.3.4'
 
     // 此处以JPush 3.3.4 版本为例。
@@ -145,4 +146,9 @@ dependencies {
     // 此处以JMessage 2.9.0 版本为例
     implementation 'com.android.support:multidex:1.0.3'
     //implementation 'com.google.zxing:core:3.3.0'
+
+    //视频播放
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-java:2.5.4'
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-armv7a:2.5.4'
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-ui:2.5.4'
 }

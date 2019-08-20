@@ -13,11 +13,10 @@
         <include
             layout="@layout/title"></include>
 
-        <com.zthx.npj.media.IjkVideoView
-            android:id="@+id/at_system_solution_player"
+        <com.dueeeke.videoplayer.player.IjkVideoView
+            android:id="@+id/player"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_220">
-        </com.zthx.npj.media.IjkVideoView>
+            android:layout_height="300dp" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/at_system_solution_tb"

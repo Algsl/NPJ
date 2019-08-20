@@ -3,6 +3,7 @@ package com.zthx.npj.ui;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -175,6 +176,7 @@ public class GoodsDetailActivity extends ActivityBase {
     TextView tvCartNum;
     private String type = "1";
     private int count = 1;
+    private String imgStrMsg="";
 
     private PreSellDetailResponseBean.DataBean mPreData = new PreSellDetailResponseBean().getData();
     private GoodsDetailResponseBean.DataBean mGoodsData = new GoodsDetailResponseBean().getData();
@@ -421,16 +423,42 @@ public class GoodsDetailActivity extends ActivityBase {
                 break;
             case R.id.ac_goodsDetail_iv_share://分享
                 acGoodsDetailLlInner.setVisibility(View.VISIBLE);
-                String str = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=goods&id="+goodsId;
-                acGoodsDetailIvQrcode.setImageBitmap(QRCodeUtil.createQRCodeBitmap(str, 100));
-                Glide.with(GoodsDetailActivity.this).load(Uri.parse(mGoodsData.getGoods_img().get(0))).asBitmap().into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        acGoodsDetailIvInnerGoodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource, 16));
-                    }
-                });
-                acGoodsDetailTvInnerGoodsTitle.setText(mGoodsData.getGoods_name());
-                acGoodsDetailTvInnerGoodsPrice.setText("￥" + mGoodsData.getMarket_price());
+                switch (type){
+                    case "4":
+                        imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=miaosha&id="+goodsId;
+                        Glide.with(GoodsDetailActivity.this).load(Uri.parse(mSeckillData.getGroup_img().get(0))).asBitmap().into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                acGoodsDetailIvInnerGoodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource, 16));
+                            }
+                        });
+                        acGoodsDetailTvInnerGoodsTitle.setText(mSeckillData.getGoods_name());
+                        acGoodsDetailTvInnerGoodsPrice.setText("￥" + mSeckillData.getGoods_price());
+                        break;
+                    case "3":
+                        imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=presell&id="+goodsId;
+                        Glide.with(GoodsDetailActivity.this).load(Uri.parse(mPreData.getGroup_img().get(0))).asBitmap().into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                acGoodsDetailIvInnerGoodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource, 16));
+                            }
+                        });
+                        acGoodsDetailTvInnerGoodsTitle.setText(mPreData.getGoods_name());
+                        acGoodsDetailTvInnerGoodsPrice.setText("￥" + mPreData.getGoods_price());
+                        break;
+                    case "1":
+                        imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=goods&id="+goodsId;
+                        Glide.with(GoodsDetailActivity.this).load(Uri.parse(mGoodsData.getGoods_img().get(0))).asBitmap().into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                acGoodsDetailIvInnerGoodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource, 16));
+                            }
+                        });
+                        acGoodsDetailTvInnerGoodsTitle.setText(mGoodsData.getGoods_name());
+                        acGoodsDetailTvInnerGoodsPrice.setText("￥" + mGoodsData.getMember_price());
+                        break;
+                }
+                acGoodsDetailIvQrcode.setImageBitmap(QRCodeUtil.createQRCodeBitmap(imgStrMsg, 120));
                 break;
             case R.id.ac_goodsDetail_ll_store://店铺
                 openActivity(StoreActivity.class, mGoodsData.getUser_id());

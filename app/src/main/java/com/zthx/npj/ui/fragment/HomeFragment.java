@@ -271,9 +271,10 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void getChildHome() {
-        MainSubscribe.childHome("30", "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.childHome("29", "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
+                Log.e("测试", "onSuccess: "+result );
                 RecommendResponseBean bean = GsonUtils.fromJson(result, RecommendResponseBean.class);
                 final ArrayList<RecommendResponseBean.DataBean> data = bean.getData();
                 HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);
@@ -323,10 +324,14 @@ public class HomeFragment extends BaseFragment {
                     String page = uri.getQueryParameter("page");
                     String type = uri.getQueryParameter("type");
                     String id = uri.getQueryParameter("id");
-                    Intent intent = new Intent(getContext(), GoodsDetailActivity.class);
-                    intent.setAction(type);
-                    intent.putExtra("goods_id", id + "");
-                    startActivity(intent);
+                    if(page.equals("goodsDetail")){
+                        Intent intent = new Intent(getContext(), GoodsDetailActivity.class);
+                        intent.setAction(type);
+                        intent.putExtra("goods_id", id + "");
+                        startActivity(intent);
+                    }else if(page.equals("tuijian")){
+                        startActivity(new Intent(getContext(),MembershipPackageActivity.class));
+                    }
                 }
                 break;
         }

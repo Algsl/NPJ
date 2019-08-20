@@ -102,11 +102,11 @@ public class ReferrerActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_referrer_tv_chat:
-
-                break;
-            case R.id.ac_referrer_tv_change:
                 Intent intent=new Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+mobile));
                 startActivity(intent);
+                break;
+            case R.id.ac_referrer_tv_change:
+
                 break;
         }
     }

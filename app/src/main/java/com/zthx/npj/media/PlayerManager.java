@@ -139,7 +139,7 @@ public class PlayerManager {
         this.activity=activity;
         screenWidthPixels = activity.getResources().getDisplayMetrics().widthPixels;
 
-        videoView = (IjkVideoView) activity.findViewById(R.id.at_system_solution_player);
+        videoView = (IjkVideoView) activity.findViewById(R.id.player);
         videoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(IMediaPlayer mp) {

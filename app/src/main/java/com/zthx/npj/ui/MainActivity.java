@@ -122,12 +122,17 @@ public class MainActivity extends AppCompatActivity {
         if (Intent.ACTION_VIEW.equals(maction )) {
             Uri uri = mgetvalue.getData();
             if (uri != null) {
-                String title = uri.getQueryParameter("type");
-                String content = uri.getQueryParameter("id");
-                Intent intent=new Intent(MainActivity.this,GoodsDetailActivity.class);
-                intent.setAction(Const.GOODS);
-                intent.putExtra(Const.GOODS_ID, content+"");
-                startActivity(intent);
+                String page  = uri.getQueryParameter("page");
+                String type = uri.getQueryParameter("type");
+                String id = uri.getQueryParameter("id");
+                if(page.equals("goodsDetail")){
+                    Intent intent = new Intent(this, GoodsDetailActivity.class);
+                    intent.setAction(type);
+                    intent.putExtra("goods_id", id + "");
+                    startActivity(intent);
+                }else if(page.equals("tuijian")){
+                    startActivity(new Intent(this,MembershipPackageActivity.class));
+                }
             }
         }
     }
@@ -186,10 +191,12 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     mHomeFragment = new HomeFragment();
                     mFragments[0] = mHomeFragment;
+                    //startActivity(new Intent(MainActivity.this,LoadingActivity.class));
                     break;
                 case 1:
                     mDiscoverFragment = new DiscoverFragment();
                     mFragments[1] = mDiscoverFragment;
+                    //startActivity(new Intent(MainActivity.this,LoadingActivity.class));
                     break;
                 /*case 2:
                     mGameFragment = new GameFragment();
@@ -201,10 +208,12 @@ public class MainActivity extends AppCompatActivity {
                 case 2:
                     mShoppingCartFragment = new ShoppingCart1Fragment();
                     mFragments[2] = mShoppingCartFragment;
+                    //startActivity(new Intent(MainActivity.this,LoadingActivity.class));
                     break;
                 case 3:
                     mMineFragment = new MineFragment();
                     mFragments[3] = mMineFragment;
+                    //startActivity(new Intent(MainActivity.this,LoadingActivity.class));
                     break;
                 default:
                     break;

@@ -86,7 +86,8 @@ public class HaiBaoActivity extends ActivityBase {
                 Glide.with(HaiBaoActivity.this).load(Uri.parse(bean.getData().getHead_img())).into(acHaibaoMcvUserImg);
                 acHaibaoTvUserName.setText(bean.getData().getNick_name());
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
-                Bitmap bitmap1 = QRCodeUtil.createQRCodeBitmap("hello", 100, ImageCircleConner.toRoundCorner(bitmap, 190), 0.3f);
+                //Bitmap bitmap1 = QRCodeUtil.createQRCodeBitmap("hello", 80, ImageCircleConner.toRoundCorner(bitmap, 190), 0.2f);
+                Bitmap bitmap1 = QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?page=tuijian", 100, ImageCircleConner.toRoundCorner(bitmap, 190), 0.3f);
                 acHaibaoIvQrImg.setImageBitmap(bitmap1);
             }
 
@@ -169,11 +170,11 @@ public class HaiBaoActivity extends ActivityBase {
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
                 switch (i){
                     case 1:
-                        Bitmap bitmap1 = QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html", 100);
+                        Bitmap bitmap1 = QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?page=tuijian", 100);
                         acHaibaoIvQrImg.setImageBitmap(bitmap1);
                         break;
                     case 2:
-                        Bitmap bitmap2 = QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html", 100, ImageCircleConner.toRoundCorner(bitmap, 190), 0.3f);
+                        Bitmap bitmap2 = QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?page=tuijian", 100, ImageCircleConner.toRoundCorner(bitmap, 190), 0.3f);
                         acHaibaoIvQrImg.setImageBitmap(bitmap2);
                         break;
                 }
