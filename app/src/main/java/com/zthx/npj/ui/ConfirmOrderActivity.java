@@ -37,11 +37,10 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.LocalStoreAdapter;
 import com.zthx.npj.aliapi.OrderInfoUtil2_0;
 import com.zthx.npj.aliapi.PayResult;
-import com.zthx.npj.base.BaseConstant;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.ConfirmPreSellBean;
 import com.zthx.npj.net.been.ConfirmPreSellResponseBean;
-import com.zthx.npj.net.been.GIftConfirmResponseBean;
+import com.zthx.npj.net.been.GiftConfirmResponseBean;
 import com.zthx.npj.net.been.GoodsOrderBean;
 import com.zthx.npj.net.been.GoodsOrderResponseBean;
 import com.zthx.npj.net.been.LocalStoreBean;
@@ -193,16 +192,16 @@ public class ConfirmOrderActivity extends ActivityBase {
         changeRightImg(acTitleIv, R.drawable.goods_detail_home, null, null);
 
         getLocalStore("2");
-        if (Const.GIFT.equals(getIntent().getAction())) {
+        if (Const.GIFT.equals(getIntent().getAction())) {//礼包店确认订单
             goodsId = getIntent().getStringExtra(Const.GOODS_ID);
             atConfirmOrderRlHongbao.setVisibility(View.VISIBLE);
             acConfirmOrderRlToDYR.setVisibility(View.GONE);
             getGiftConfirmData(goodsId);
-        } else if(Const.PRESELL.equals(getIntent().getAction())){
+        } else if(Const.PRESELL.equals(getIntent().getAction())){//新品预售确认订单
             attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
             goodsId = getIntent().getStringExtra(Const.GOODS_ID);
             getData();
-        }else{
+        }else{//普通商品确认订单
             attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
             goodsId = getIntent().getStringExtra(Const.GOODS_ID);
             getGoodsData();
@@ -235,7 +234,7 @@ public class ConfirmOrderActivity extends ActivityBase {
         ptdata = bean.getData();
         atConfirmOrderTvAddress.setText(ptdata.getAddress());
         atConfirmOrderTvStoreName.setText(ptdata.getStore_name());
-        //Glide.with(ConfirmOrderActivity.this).load(ptdata.getGoods_img()).into(atConfirmOrderIvPic);
+        address_id=ptdata.getAddress_id()+"";
         Glide.with(ConfirmOrderActivity.this).load(ptdata.getGoods_img()).asBitmap().into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -271,20 +270,24 @@ public class ConfirmOrderActivity extends ActivityBase {
 
     //礼包店确认订单
     private void getGiftConfirmData(String goodsId) {
-
-        GiftSubscribe.getGiftConfirm(SharePerferenceUtils.getUserId(this), SharePerferenceUtils.getToken(this), goodsId, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        GiftSubscribe.getGiftConfirm(user_id, token, goodsId, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-
-                GIftConfirmResponseBean gIftConfirmResponseBean = GsonUtils.fromJson(result, GIftConfirmResponseBean.class);
-                atConfirmOrderTvTitle.setText(gIftConfirmResponseBean.getTitle());
-                Glide.with(ConfirmOrderActivity.this).load(gIftConfirmResponseBean.getImg()).into(atConfirmOrderIvPic);
-                atConfirmOrderTvGoodsPrice.setText(gIftConfirmResponseBean.getPrice());
-                if (gIftConfirmResponseBean.getStatus() == 0) {
+                GiftConfirmResponseBean gIftConfirmResponseBean = GsonUtils.fromJson(result, GiftConfirmResponseBean.class);
+                GiftConfirmResponseBean.DataBean data=gIftConfirmResponseBean.getData();
+                atConfirmOrderTvTitle.setText(data.getTitle());
+                Glide.with(ConfirmOrderActivity.this).load(data.getImg()).asBitmap().into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        atConfirmOrderIvPic.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
+                    }
+                });
+                atConfirmOrderTvGoodsPrice.setText(data.getPrice());
+                if ((int)data.getStatus() == 0) {
                     atConfirmOrderRlHongbao.setVisibility(View.GONE);
                 }
-                atConfirmOrderTvStoreName.setText(gIftConfirmResponseBean.getStore_name());
-                atConfirmOrderTvAddress.setText(gIftConfirmResponseBean.getAddress_id() + "");
+                atConfirmOrderTvStoreName.setText(data.getStore_name());
+                atConfirmOrderTvAddress.setText(data.getAddress() + "");
             }
 
             @Override
@@ -304,9 +307,9 @@ public class ConfirmOrderActivity extends ActivityBase {
         PreSellSubscribe.getConfirmPreSell(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: "+result );
                 ConfirmPreSellResponseBean confirmPreSellResponseBean = GsonUtils.fromJson(result, ConfirmPreSellResponseBean.class);
                 data = confirmPreSellResponseBean.getData();
+                address_id=data.getAddress_id()+"";
                 atConfirmOrderTvAddress.setText(data.getAddress());
                 atConfirmOrderTvStoreName.setText(data.getStore_name());
                 Glide.with(ConfirmOrderActivity.this).load(data.getGoods_img()).into(atConfirmOrderIvPic);
@@ -336,7 +339,7 @@ public class ConfirmOrderActivity extends ActivityBase {
                 bean.setToken(SharePerferenceUtils.getToken(this));
                 bean.setAtt_id(attId);
                 bean.setPre_id(goodsId);
-                bean.setAddress_id(data.getAddress_id() + "");
+                bean.setAddress_id(address_id);
                 bean.setPay_code(pay_code);
                 bean.setRemark(acConfirmOrderEtRemark.getText().toString().trim());
                 PreSellSubscribe.ysBuyOne(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {

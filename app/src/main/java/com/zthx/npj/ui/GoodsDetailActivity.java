@@ -3,7 +3,6 @@ package com.zthx.npj.ui;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -168,6 +167,8 @@ public class GoodsDetailActivity extends ActivityBase {
     TextView acGoodsDetailSave;
     @BindView(R.id.ac_goodsDetail_ll_inner)
     LinearLayout acGoodsDetailLlInner;
+    @BindView(R.id.ac_goodsDetail_rv_comment)
+    RecyclerView acGoodsDetailRvComment;
 
 
     private String user_id = SharePerferenceUtils.getUserId(this);
@@ -176,7 +177,7 @@ public class GoodsDetailActivity extends ActivityBase {
     TextView tvCartNum;
     private String type = "1";
     private int count = 1;
-    private String imgStrMsg="";
+    private String imgStrMsg = "";
 
     private PreSellDetailResponseBean.DataBean mPreData = new PreSellDetailResponseBean().getData();
     private GoodsDetailResponseBean.DataBean mGoodsData = new GoodsDetailResponseBean().getData();
@@ -242,6 +243,7 @@ public class GoodsDetailActivity extends ActivityBase {
                     atGoodsDetailBtnPreSellKnow.setTextColor(getResources().getColor(R.color.white));
                     acGoodsDetailLlKnow.setVisibility(View.VISIBLE);
                     acGoodsDetailRvContent.setVisibility(View.GONE);
+                    acGoodsDetailRvComment.setVisibility(View.GONE);
                 }
             });
         } else {
@@ -253,6 +255,7 @@ public class GoodsDetailActivity extends ActivityBase {
 
     }
 
+    //商品详情图片展示
     private void setGoodsContent(ArrayList<String> lists) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acGoodsDetailRvContent.setLayoutManager(layoutManager);
@@ -277,11 +280,10 @@ public class GoodsDetailActivity extends ActivityBase {
     }
 
     private void setSecKillData(String result) {
-        Log.e("测试", "setSecKillData: " + result);
         SecKillGoodsDetailResponseBean secKillGoodsDetailResponseBean = GsonUtils.fromJson(result, SecKillGoodsDetailResponseBean.class);
         mSeckillData = secKillGoodsDetailResponseBean.getData();
         initBanner(mSeckillData.getGroup_img());
-        setGoodsContent(mSeckillData.getGroup_img());
+        getGoodsContent();
         atGoodsDetailTvGoodsTitle.setText(mSeckillData.getGoods_name());
         atGoodsDetailTvGoodsNewPrice.setText("¥" + mSeckillData.getGoods_price());
         atGoodsDetailTvGoodsOldPrice.setText("¥" + mSeckillData.getMarket_price());
@@ -326,7 +328,7 @@ public class GoodsDetailActivity extends ActivityBase {
         PreSellDetailResponseBean.DataBean data = preSellDetailResponseBean.getData();
         mPreData = data;
         initBanner(mPreData.getGroup_img());
-        setGoodsContent(mPreData.getGroup_img());
+        getGoodsContent();
         atGoodsDetailTvPreSellTitle.setText(data.getGoods_name());
         atGoodsDetailTvPreSellPrice.setText("¥" + data.getGoods_price());
         atGoodsDetailTvPreSellYuding.setText(data.getUser_num());
@@ -352,11 +354,10 @@ public class GoodsDetailActivity extends ActivityBase {
     }
 
     private void setGoodsData(String result) {
-        Log.e("测试", "setGoodsData: " + result);
         GoodsDetailResponseBean goodsDetailResponseBean = GsonUtils.fromJson(result, GoodsDetailResponseBean.class);
         mGoodsData = goodsDetailResponseBean.getData();
         initBanner(mGoodsData.getGoods_img());
-        setGoodsContent(mGoodsData.getGoods_img());
+        getGoodsContent();
         String level = SharePerferenceUtils.getUserLevel(this);
         if (level.equals("0")) {//普通会员价
             atGoodsDetailTvGoodsNewPrice.setText("¥" + mGoodsData.getUser_price());
@@ -375,16 +376,13 @@ public class GoodsDetailActivity extends ActivityBase {
             str = mGoodsData.getYunfei() + "元";
         }
         atGoodsDetailTvGoodsIsBaoyou.setText("快递 " + str);
-        //setGoodsDetail(mGoodsData.getGoods_img());
     }
 
     @OnClick({R.id.at_goods_detail_btn_add_shopping_cart, R.id.at_goods_detail_btn_buy_now, R.id.ac_goodsDetail_ll_collect,
             R.id.ac_goodsDetail_ll_store, R.id.at_goods_detail_btn_pre_sell_know, R.id.at_goods_detail_btn_pre_sell_comment,
             R.id.at_goods_detail_btn_pre_sell_detail, R.id.ac_goodsDetail_chooseSize, R.id.ac_goodsDetail_iv_share,
-            R.id.ac_goodsDetail_iv_home,R.id.ac_goodsDetail_save})
+            R.id.ac_goodsDetail_iv_home, R.id.ac_goodsDetail_save})
     public void onViewClicked(View view) {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        acGoodsDetailRvContent.setLayoutManager(layoutManager);
         switch (view.getId()) {
             case R.id.at_goods_detail_btn_add_shopping_cart://加入购物车
                 showPopupwindow(view);
@@ -399,6 +397,7 @@ public class GoodsDetailActivity extends ActivityBase {
             case R.id.at_goods_detail_btn_pre_sell_detail://商品详情
                 acGoodsDetailLlKnow.setVisibility(View.GONE);
                 acGoodsDetailRvContent.setVisibility(View.VISIBLE);
+                acGoodsDetailRvComment.setVisibility(View.GONE);
                 atGoodsDetailBtnPreSellDetail.setBackgroundColor(getResources().getColor(R.color.app_theme));
                 atGoodsDetailBtnPreSellDetail.setTextColor(getResources().getColor(R.color.white));
                 atGoodsDetailBtnPreSellComment.setBackgroundColor(getResources().getColor(R.color.white));
@@ -409,7 +408,8 @@ public class GoodsDetailActivity extends ActivityBase {
                 break;
             case R.id.at_goods_detail_btn_pre_sell_comment://评论
                 acGoodsDetailLlKnow.setVisibility(View.GONE);
-                acGoodsDetailRvContent.setVisibility(View.VISIBLE);
+                acGoodsDetailRvContent.setVisibility(View.GONE);
+                acGoodsDetailRvComment.setVisibility(View.VISIBLE);
                 atGoodsDetailBtnPreSellDetail.setBackgroundColor(getResources().getColor(R.color.white));
                 atGoodsDetailBtnPreSellDetail.setTextColor(getResources().getColor(R.color.text3));
                 atGoodsDetailBtnPreSellComment.setBackgroundColor(getResources().getColor(R.color.app_theme));
@@ -423,9 +423,9 @@ public class GoodsDetailActivity extends ActivityBase {
                 break;
             case R.id.ac_goodsDetail_iv_share://分享
                 acGoodsDetailLlInner.setVisibility(View.VISIBLE);
-                switch (type){
+                switch (type) {
                     case "4":
-                        imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=miaosha&id="+goodsId;
+                        imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=miaosha&id=" + goodsId;
                         Glide.with(GoodsDetailActivity.this).load(Uri.parse(mSeckillData.getGroup_img().get(0))).asBitmap().into(new SimpleTarget<Bitmap>() {
                             @Override
                             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -436,7 +436,7 @@ public class GoodsDetailActivity extends ActivityBase {
                         acGoodsDetailTvInnerGoodsPrice.setText("￥" + mSeckillData.getGoods_price());
                         break;
                     case "3":
-                        imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=presell&id="+goodsId;
+                        imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=presell&id=" + goodsId;
                         Glide.with(GoodsDetailActivity.this).load(Uri.parse(mPreData.getGroup_img().get(0))).asBitmap().into(new SimpleTarget<Bitmap>() {
                             @Override
                             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -447,7 +447,7 @@ public class GoodsDetailActivity extends ActivityBase {
                         acGoodsDetailTvInnerGoodsPrice.setText("￥" + mPreData.getGoods_price());
                         break;
                     case "1":
-                        imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=goods&id="+goodsId;
+                        imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=goods&id=" + goodsId;
                         Glide.with(GoodsDetailActivity.this).load(Uri.parse(mGoodsData.getGoods_img().get(0))).asBitmap().into(new SimpleTarget<Bitmap>() {
                             @Override
                             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -502,11 +502,13 @@ public class GoodsDetailActivity extends ActivityBase {
     }
 
     private void setComment(String result) {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        acGoodsDetailRvComment.setLayoutManager(layoutManager);
         CommentResponseBean bean = GsonUtils.fromJson(result, CommentResponseBean.class);
         ArrayList<CommentResponseBean.DataBean> data = bean.getData();
         CommentAdapter adapter = new CommentAdapter(this, data);
-        acGoodsDetailRvContent.setItemAnimator(new DefaultItemAnimator());
-        acGoodsDetailRvContent.setAdapter(adapter);
+        acGoodsDetailRvComment.setItemAnimator(new DefaultItemAnimator());
+        acGoodsDetailRvComment.setAdapter(adapter);
     }
 
     private void goodsCollect() {

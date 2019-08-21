@@ -13,17 +13,17 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:paddingBottom="48dp"></FrameLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_80"
         android:layout_alignParentBottom="true">
         <RadioGroup
             android:id="@+id/ac_main_rg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:layout_alignParentBottom="true"
             android:orientation="horizontal">
             <RadioButton
-                android:layout_marginTop="@dimen/dp_30"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_50"
                 android:layout_weight="1"
@@ -37,7 +37,7 @@
                 android:textSize="@dimen/sp_12"
                 android:checked="true"/>
             <RadioButton
-                android:layout_marginTop="@dimen/dp_30"
+                android:layout_marginBottom="@dimen/dp_5"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_50"
                 android:paddingTop="@dimen/dp_5"
@@ -49,31 +49,20 @@
                 android:id="@+id/ll_main_check_02"
                 android:textSize="@dimen/sp_12"
                 android:text="发现" />
-            <LinearLayout
-                android:id="@+id/ll_main_check_03"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="@dimen/dp_80"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="@dimen/dp_40"
-                    android:layout_height="@dimen/dp_40"
-                    android:src="@drawable/game"
-                    android:layout_marginTop="@dimen/dp_14"/>
-
-                <TextView
-                    android:id="@+id/tv_home_game"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:paddingBottom="2dp"
-                    android:textSize="@dimen/sp_13"
-                    android:text="庄园" />
-            </LinearLayout>
             <RadioButton
+                android:visibility="invisible"
                 android:layout_marginTop="@dimen/dp_30"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_50"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:textColor="@drawable/activity_main_select_text"
+                android:drawableTop="@drawable/activity_main_select_shoppingcart"
+                android:textSize="@dimen/sp_12"
+                android:paddingTop="@dimen/dp_5"
+                android:text="购物车" />
+            <RadioButton
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_50"
                 android:layout_weight="1"
@@ -86,7 +75,6 @@
                 android:paddingTop="@dimen/dp_5"
                 android:text="购物车" />
             <RadioButton
-                android:layout_marginTop="@dimen/dp_30"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_50"
                 android:layout_weight="1"
@@ -99,6 +87,27 @@
                 android:paddingTop="@dimen/dp_5"
                 android:text="我的" />
         </RadioGroup>
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_main_check_03"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:src="@drawable/game"
+                android:layout_marginTop="@dimen/dp_14"/>
+            <TextView
+                android:id="@+id/tv_home_game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:paddingBottom="2dp"
+                android:textSize="@dimen/sp_13"
+                android:text="庄园" />
+        </LinearLayout>
+    </RelativeLayout>
     <!--</FrameLayout>-->
 </RelativeLayout>

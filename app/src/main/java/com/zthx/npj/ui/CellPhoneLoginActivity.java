@@ -191,6 +191,7 @@ public class CellPhoneLoginActivity extends ActivityBase {
         LoginSubscribe.getMobileCode(atCellphoneLoginEtPhone.getText().toString().trim(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
+                Log.e("测试", "onSuccess: "+result);
                 MsgCodeResponseBeen bean = GsonUtils.fromJson(result, MsgCodeResponseBeen.class);
                 mCodeId = bean.getData().getSession_id();
                 Toast.makeText(CellPhoneLoginActivity.this, "发送成功", Toast.LENGTH_SHORT).show();

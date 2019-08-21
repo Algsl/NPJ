@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class GoodsImgDetailAdapter extends RecyclerView.Adapter<GoodsImgDetailAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        Log.e("测试", "onBindViewHolder: "+mList.get(i) );
         Glide.with(mContext).load(Uri.parse(mList.get(i))).into(viewHolder.img);
     }
 

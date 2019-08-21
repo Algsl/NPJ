@@ -167,7 +167,7 @@ public class StoreManagerActivity extends ActivityBase {
                     public void onResponse(Call call, Response response) throws IOException {
                         UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
                         UploadPicsResponseBean.DataBean data = bean.getData();
-                        Log.e("测试", "onResponse: "+data.getImgaes() +" "+data.getImg() );
+                        Log.e("测试", "onResponse: "+data.getImages() +" "+data.getImg() );
                         offlineStore(data.getImg());
                     }
                 });

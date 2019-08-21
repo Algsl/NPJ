@@ -2,11 +2,17 @@ package com.zthx.npj.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.zthx.npj.R;
+import com.zthx.npj.utils.SharePerferenceUtils;
+
+import org.egret.egretnativeandroid.EgretNativeAndroid;
+import org.egret.runtime.launcherInterface.INativePlayer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,7 +21,7 @@ public class GameActivity extends Activity {
     @BindView(R.id.ac_game_wv)
     WebView acGameWv;
 
-    @Override
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
@@ -28,9 +34,9 @@ public class GameActivity extends Activity {
                 return false;
             }
         });
-    }
+    }*/
 
-    /*private EgretNativeAndroid nativeAndroid;
+    private EgretNativeAndroid nativeAndroid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,5 +109,5 @@ public class GameActivity extends Activity {
 
     private interface IRuntimeInterface {
         public void callback(String message);
-    }*/
+    }
 }

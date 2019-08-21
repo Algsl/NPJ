@@ -58,8 +58,8 @@ public class ClassfiysActivity extends ActivityBase {
         setContentView(R.layout.activity_classfiy);
         ButterKnife.bind(this);
         back(atClassfiyIvBack);
+
         loadData();
-        initView();
     }
 
 
@@ -69,7 +69,6 @@ public class ClassfiysActivity extends ActivityBase {
             public void onSuccess(String result) {
                 setClassify(result);
             }
-
             @Override
             public void onFault(String errorMsg) {
 
@@ -80,17 +79,15 @@ public class ClassfiysActivity extends ActivityBase {
     private void setClassify(String result) {
         CategoryResponseBean bean = GsonUtils.fromJson(result, CategoryResponseBean.class);
         data = bean.getData();
+
         for (int i = 0; i < data.size(); i++) {
             menuList.add(data.get(i).getName());
             showTitle.add(i);
         }
         setRight();
-
-    }
-
-    private void initView() {
         menuAdapter = new MenuAdapter(this, menuList);
         lvMenu.setAdapter(menuAdapter);
+        lvMenu.setDivider(null);
         lvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -102,12 +99,14 @@ public class ClassfiysActivity extends ActivityBase {
         });
     }
 
+
     public void setRight() {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false);
         acClassifyRv.setLayoutManager(layoutManager);
         classifyAdapter = new ClassifyAdapter(this, data.get(currentItem).getChild());
         acClassifyRv.setItemAnimator(new DefaultItemAnimator());
         acClassifyRv.setAdapter(classifyAdapter);
+
         classifyAdapter.setOnItemClickListener(new ClassifyAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {

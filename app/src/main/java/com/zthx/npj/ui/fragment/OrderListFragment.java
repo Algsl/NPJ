@@ -77,12 +77,13 @@ public class OrderListFragment extends Fragment {
     }
 
     private void setOrder(String result) {
+        Log.e("测试", "setOrder: "+result);
         OrderResponseBean bean= GsonUtils.fromJson(result,OrderResponseBean.class);
         final ArrayList<OrderResponseBean.DataBean> data=bean.getData();
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         fgOrderList.setLayoutManager(manager);
+        final OrderListAdapter mAdapter = new OrderListAdapter(getActivity(), data);
 
-        OrderListAdapter mAdapter = new OrderListAdapter(getActivity(), data);
         mAdapter.setOnItemClickListener(new OrderListAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -98,6 +99,7 @@ public class OrderListFragment extends Fragment {
                 SetSubscribe.cancelOrder(user_id,token,order_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
+                        mAdapter.notifyDataSetChanged();
                         getOrder();
                     }
 
@@ -109,11 +111,12 @@ public class OrderListFragment extends Fragment {
             }
             //删除订单
             @Override
-            public void onDeleteClick(int position) {
+            public void onDeleteClick(final int position) {
                 String order_id=data.get(position).getId();
                 SetSubscribe.delOrder(user_id,token,order_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
+                        mAdapter.notifyItemRemoved(position);
                         getOrder();
                     }
 

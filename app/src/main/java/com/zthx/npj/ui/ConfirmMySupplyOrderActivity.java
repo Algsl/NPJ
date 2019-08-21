@@ -39,8 +39,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ConfirmMySupplyOrderActivity extends ActivityBase {
-    @BindView(R.id.at_confirm_order_rl_title)
-    RelativeLayout atConfirmOrderRlTitle;
+    /*@BindView(R.id.at_confirm_order_rl_title)
+    RelativeLayout atConfirmOrderRlTitle;*/
     @BindView(R.id.at_confirm_myorder_tv_address)
     TextView atConfirmMyorderTvAddress;
     @BindView(R.id.at_confirm_myorder_tv_storeName)

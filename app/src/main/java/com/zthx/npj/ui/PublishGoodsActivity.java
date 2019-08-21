@@ -9,22 +9,28 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.scrat.app.selectorlibrary.ImageSelector;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.GoodsCateAdapter;
+import com.zthx.npj.adapter.ImageAdapter;
+import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.AddGoodsBean;
 import com.zthx.npj.net.been.GoodsCateResponseBean;
 import com.zthx.npj.net.been.UploadPicsResponseBean;
@@ -74,9 +80,9 @@ public class PublishGoodsActivity extends ActivityBase {
     @BindView(R.id.ac_pulishGoods_btn_pulish)
     Button acPulishGoodsBtnPulish;
     @BindView(R.id.ac_pulishGoods_iv_goodsImg)
-    ZzImageBox acPulishGoodsIvGoodsImg;
+    ImageView acPulishGoodsIvGoodsImg;
     @BindView(R.id.ac_pulishGoods_iv_goodsContent)
-    ZzImageBox acPulishGoodsIvGoodsContent;
+    ImageView acPulishGoodsIvGoodsContent;
 
 
     private static final int CHOOSE_PHOTO1 = 1;
@@ -89,22 +95,26 @@ public class PublishGoodsActivity extends ActivityBase {
     ImageView acPublishGoodsIvHint3;
     @BindView(R.id.ac_publishGoods_iv_hint4)
     ImageView acPublishGoodsIvHint4;
+    @BindView(R.id.rv_image1)
+    RecyclerView rvImage1;
+    @BindView(R.id.rv_image2)
+    RecyclerView rvImage2;
     private List<String> paths1 = new ArrayList<>();
     private List<String> paths2 = new ArrayList<>();
     private String requestUrl = "http://app.npj-vip.com/index.php/api/set/uploadimagegroup.html";
     private String goodsImg, goodsContent;
-    private String str1="平台结算价是本商品售出并在买家确认收货后，平台结算给您的价格，不设账期，可立即提现。如果卖家不点击“确认收货”，则在签收后7日内自动结算。";
-    private String str2="VIP代言价是代言人购买您商品时的价格，要求略高于结算价，平台将差价部分奖励给分享会员。\n" +
+    private String str1 = "平台结算价是本商品售出并在买家确认收货后，平台结算给您的价格，不设账期，可立即提现。如果卖家不点击“确认收货”，则在签收后7日内自动结算。";
+    private String str2 = "VIP代言价是代言人购买您商品时的价格，要求略高于结算价，平台将差价部分奖励给分享会员。\n" +
             "农品街设立“价高反馈功能，如果您发布的商品价格高于其他平台，用户通过该功能将直接下架您的商品，农品街不收取开店费，0佣金，0抽成,因此希望您按全网最低价销售商品。";
-    private String str3="市场参考价是您发布的商品在市场上的公开价格，要求高于代言价和结算价。";
-    private String str4="农品街-人人开店包邮原则，即：卖家承担物流运费。\n" +
+    private String str3 = "市场参考价是您发布的商品在市场上的公开价格，要求高于代言价和结算价。";
+    private String str4 = "农品街-人人开店包邮原则，即：卖家承担物流运费。\n" +
             "卖家在设定商品价格时需要将运费考虑其中。";
-    private String goods_type="0";
-    private String itemResult="";
-    private String user_id=SharePerferenceUtils.getUserId(this);
-    private String token=SharePerferenceUtils.getToken(this);
-    private String cate_id="";
-    private String cateName="";
+    private String goods_type = "0";
+    private String itemResult = "";
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
+    private String cate_id = "";
+    private String cateName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,11 +123,11 @@ public class PublishGoodsActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleThemeBack);
-        changeTitle(titleThemeTitle,"发布商品");
+        changeTitle(titleThemeTitle, "发布商品");
 
         getGoodsCate();
 
-        acPulishGoodsIvGoodsImg.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
+        /*acPulishGoodsIvGoodsImg.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
             @Override
             public void onImageClick(int position, String url, String realPath, int realType, ImageView iv) {
             }
@@ -151,14 +161,14 @@ public class PublishGoodsActivity extends ActivityBase {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, CHOOSE_PHOTO2);
             }
-        });
+        });*/
     }
 
     private void getGoodsCate() {
-        SetSubscribe.goodsCate(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.goodsCate(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                itemResult=result;
+                itemResult = result;
             }
 
             @Override
@@ -169,7 +179,7 @@ public class PublishGoodsActivity extends ActivityBase {
     }
 
 
-    public void publishImages(){
+    public void publishImages() {
         HttpUtils.uploadMoreImg(requestUrl, paths1, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -205,7 +215,10 @@ public class PublishGoodsActivity extends ActivityBase {
         switch (requestCode) {
             case CHOOSE_PHOTO1:
                 if (resultCode == RESULT_OK) {
-                    try {
+                    paths1=ImageSelector.getImagePaths(data);
+                    rvImage1.setLayoutManager(new GridLayoutManager(this,5));
+                    rvImage1.setAdapter(new ImageAdapter(this,paths1));
+                    /*try {
                         Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
                         Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
@@ -214,15 +227,19 @@ public class PublishGoodsActivity extends ActivityBase {
                         String path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
                         paths1.add(path);
+                        Log.e("测试", "onActivityResult: " + path);
                         acPulishGoodsIvGoodsImg.addImage(path);
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }
+                    }*/
                 }
                 break;
             case CHOOSE_PHOTO2:
                 if (resultCode == RESULT_OK) {
-                    try {
+                    paths2=ImageSelector.getImagePaths(data);
+                    rvImage2.setLayoutManager(new GridLayoutManager(this,5));
+                    rvImage2.setAdapter(new ImageAdapter(this,paths1));
+                    /*try {
                         Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
                         Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
@@ -234,36 +251,63 @@ public class PublishGoodsActivity extends ActivityBase {
                         acPulishGoodsIvGoodsContent.addImage(path);
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }
+                    }*/
                 }
                 break;
         }
     }
 
-    @OnClick({R.id.ac_pulishGoods_tv_goodsType, R.id.ac_pulishGoods_btn_pulish,R.id.ac_publishGoods_iv_hint1, R.id.ac_publishGoods_iv_hint2, R.id.ac_publishGoods_iv_hint3,R.id.ac_publishGoods_iv_hint4
-            ,R.id.ac_pulishGoods_tv_cateId})
+    @OnClick({R.id.ac_pulishGoods_tv_goodsType, R.id.ac_pulishGoods_btn_pulish, R.id.ac_publishGoods_iv_hint1, R.id.ac_publishGoods_iv_hint2, R.id.ac_publishGoods_iv_hint3, R.id.ac_publishGoods_iv_hint4
+            , R.id.ac_pulishGoods_tv_cateId,R.id.ac_pulishGoods_iv_goodsImg,R.id.ac_pulishGoods_iv_goodsContent})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_pulishGoods_tv_goodsType:
                 showBottomDialog();
                 break;
             case R.id.ac_pulishGoods_btn_pulish:
-                publishImages();
+                if (acPulishGoodsEtGoodsName.getText().toString().trim().equals("")) {
+                    Toast.makeText(PublishGoodsActivity.this, "请填写商品名称", Toast.LENGTH_SHORT).show();
+                } else if (acPulishGoodsEtGoodsDesc.getText().toString().trim().equals("")) {
+                    Toast.makeText(PublishGoodsActivity.this, "请填写商品简介", Toast.LENGTH_SHORT).show();
+                } else if (paths1.size() <= 1 || paths2.size() <= 1) {
+                    Toast.makeText(PublishGoodsActivity.this, "请上传至少两张商品图片及详情图片", Toast.LENGTH_SHORT).show();
+                } else if (acPulishGoodsEtPlatformPrice.getText().toString().trim().equals("")) {
+                    Toast.makeText(PublishGoodsActivity.this, "请填写平台结算价格", Toast.LENGTH_SHORT).show();
+                } else if (acPulishGoodsEtMemberPrice.getText().toString().trim().equals("")) {
+                    Toast.makeText(PublishGoodsActivity.this, "请填写VIP会员价格", Toast.LENGTH_SHORT).show();
+                } else if (acPulishGoodsEtMarketPrice.getText().toString().trim().equals("")) {
+                    Toast.makeText(PublishGoodsActivity.this, "请填写市场参考价格", Toast.LENGTH_SHORT).show();
+                } else if (acPulishGoodsEtInventory.getText().toString().trim().equals("")) {
+                    Toast.makeText(PublishGoodsActivity.this, "请填写供应数量", Toast.LENGTH_SHORT).show();
+                } else if (cate_id.equals("")) {
+                    Toast.makeText(PublishGoodsActivity.this, "请选择商品分类", Toast.LENGTH_SHORT).show();
+                } else if (acPulishGoodsTvGoodsType.getText().toString().trim().equals("请选择")) {
+                    Toast.makeText(PublishGoodsActivity.this, "请选择商品显示类型", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(PublishGoodsActivity.this, "商品信息上传中，请等待", Toast.LENGTH_SHORT).show();
+                    publishImages();
+                }
                 break;
             case R.id.ac_publishGoods_iv_hint1:
-                showPublishPopwindow(str1,R.dimen.dp_195);
+                showPublishPopwindow(str1, R.dimen.dp_195);
                 break;
             case R.id.ac_publishGoods_iv_hint2:
-                showPublishPopwindow(str2,R.dimen.dp_280);
+                showPublishPopwindow(str2, R.dimen.dp_280);
                 break;
             case R.id.ac_publishGoods_iv_hint3:
-                showPublishPopwindow(str3,R.dimen.dp_154);
+                showPublishPopwindow(str3, R.dimen.dp_154);
                 break;
             case R.id.ac_publishGoods_iv_hint4:
-                showPublishPopwindow(str4,R.dimen.dp_175);
+                showPublishPopwindow(str4, R.dimen.dp_175);
                 break;
             case R.id.ac_pulishGoods_tv_cateId:
                 showItemPopwindow();
+                break;
+            case R.id.ac_pulishGoods_iv_goodsImg:
+                ImageSelector.show(this,CHOOSE_PHOTO1);
+                break;
+            case R.id.ac_pulishGoods_iv_goodsContent:
+                ImageSelector.show(this,CHOOSE_PHOTO2);
                 break;
         }
     }
@@ -292,17 +336,18 @@ public class PublishGoodsActivity extends ActivityBase {
         SetSubscribe.addGoods(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
+                Toast.makeText(PublishGoodsActivity.this, "商品上传成功", Toast.LENGTH_SHORT).show();
                 finish();
             }
 
             @Override
             public void onFault(String errorMsg) {
-
+                Toast.makeText(PublishGoodsActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
             }
         }));
     }
 
-    public void showPublishPopwindow(String str,int id) {
+    public void showPublishPopwindow(String str, int id) {
         backgroundAlpha(0.5f);
         View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_publish_goods, null);
         // 创建PopupWindow对象，其中：
@@ -321,8 +366,8 @@ public class PublishGoodsActivity extends ActivityBase {
         // 显示PopupWindow，其中：
         // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
         window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
-        TextView tv=contentView.findViewById(R.id.pw_publishGoods_tv_content);
-        Button btn=contentView.findViewById(R.id.pw_publishGoods_tv_know);
+        TextView tv = contentView.findViewById(R.id.pw_publishGoods_tv_content);
+        Button btn = contentView.findViewById(R.id.pw_publishGoods_tv_know);
         tv.setText(str);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -358,7 +403,7 @@ public class PublishGoodsActivity extends ActivityBase {
         dialog.findViewById(R.id.dl_showType_tv_all).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goods_type="0";
+                goods_type = "0";
                 acPulishGoodsTvGoodsType.setText("平台所有用户可显示购买");
                 dialog.dismiss();
             }
@@ -366,7 +411,7 @@ public class PublishGoodsActivity extends ActivityBase {
         dialog.findViewById(R.id.dl_showType_tv_invite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goods_type="1";
+                goods_type = "1";
                 acPulishGoodsTvGoodsType.setText("仅对直接邀请用户可显示购买");
                 dialog.dismiss();
             }
@@ -374,7 +419,7 @@ public class PublishGoodsActivity extends ActivityBase {
         dialog.findViewById(R.id.dl_showType_tv_inviteAndIndirecct).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goods_type="2";
+                goods_type = "2";
                 acPulishGoodsTvGoodsType.setText("仅对直接和间接邀请用户可显示购买");
                 dialog.dismiss();
             }
@@ -395,7 +440,7 @@ public class PublishGoodsActivity extends ActivityBase {
         // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
         final PopupWindow window = new PopupWindow(contentView);
         window.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-        window.setWidth((int) getResources().getDimension(R.dimen.dp_350));
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_300));
         // 设置PopupWindow的背景
 
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -406,17 +451,17 @@ public class PublishGoodsActivity extends ActivityBase {
         // 显示PopupWindow，其中：
         // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
         window.showAtLocation(getWindow().getDecorView(), Gravity.RIGHT, 0, 80);
-        final GoodsCateResponseBean bean=GsonUtils.fromJson(itemResult,GoodsCateResponseBean.class);
-        final ExpandableListView elv=contentView.findViewById(R.id.pw_storeCartId_elv);
-        final GoodsCateAdapter adapter=new GoodsCateAdapter(this,bean.getData());
+        final GoodsCateResponseBean bean = GsonUtils.fromJson(itemResult, GoodsCateResponseBean.class);
+        final ExpandableListView elv = contentView.findViewById(R.id.pw_storeCartId_elv);
+        final GoodsCateAdapter adapter = new GoodsCateAdapter(this, bean.getData());
         elv.setAdapter(adapter);
         elv.setDivider(null);
         elv.setGroupIndicator(null);
         int groupCount = elv.getCount();
-        for (int i=0; i<groupCount; i++)
-        {
+        for (int i = 0; i < groupCount; i++) {
             elv.expandGroup(i);
-        };
+        }
+        ;
         adapter.setOnItemClickListener(new GoodsCateAdapter.ItemClickListener() {
             @Override
             public void groupMsg(String cate_id, String cate_name) {
@@ -425,40 +470,12 @@ public class PublishGoodsActivity extends ActivityBase {
 
             @Override
             public void childMsg(String id, String cate_name) {
-                cate_id=id;
+                cate_id = id;
                 acPulishGoodsTvCateId.setText(cate_name);
                 backgroundAlpha(1f);
                 window.dismiss();
             }
         });
-
-        /*GoodsCateGroupAdapter adapter=new GoodsCateGroupAdapter(this,bean.getData());
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        RecyclerView rv=contentView.findViewById(R.id.pw_storeCartId_rv_group);
-        rv.setLayoutManager(layoutManager);
-        rv.setItemAnimator(new DefaultItemAnimator());
-        rv.setAdapter(adapter);*/
-
-
-        /*ImageView cancel=contentView.findViewById(R.id.pw_storeCartId_btn_cancel);
-        Button confirm=contentView.findViewById(R.id.pw_storeCartId_btn_confirm);
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cate_id=SharePerferenceUtils.getCateId();
-                cateName=SharePerferenceUtils.getCateName();
-                acPulishGoodsTvCateId.setText(cateName);
-                backgroundAlpha(1f);
-                window.dismiss();
-            }
-        });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                backgroundAlpha(1f);
-                window.dismiss();
-            }
-        });*/
         window.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -468,4 +485,5 @@ public class PublishGoodsActivity extends ActivityBase {
         });
 
     }
+
 }

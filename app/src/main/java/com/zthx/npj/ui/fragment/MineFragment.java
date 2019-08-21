@@ -211,8 +211,6 @@ public class MineFragment
     }
 
     private void setUserInfo(String result) {
-        Log.e("测试", "setUserInfo: "+result);
-        Log.e("测试", "setUserInfo: "+SharePerferenceUtils.getToken(getContext()));
         UserResponseBean userResponseBean = GsonUtils.fromJson(result, UserResponseBean.class);
         UserResponseBean.DataBean data = userResponseBean.getData();
         level=data.getLevel()+"";

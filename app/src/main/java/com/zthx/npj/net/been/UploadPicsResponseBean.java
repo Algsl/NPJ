@@ -7,27 +7,16 @@ import java.util.ArrayList;
  */
 
 public class UploadPicsResponseBean extends BaseReponseBean {
-
-    private DataBean data;
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
-    }
-
     public class DataBean{
+        private ArrayList<String> images;
+        private String img;
 
-        private ArrayList<String> imgaes;
-
-        public ArrayList<String> getImgaes() {
-            return imgaes;
+        public ArrayList<String> getImages() {
+            return images;
         }
 
-        public void setImgaes(ArrayList<String> imgaes) {
-            this.imgaes = imgaes;
+        public void setImages(ArrayList<String> images) {
+            this.images = images;
         }
 
         public String getImg() {
@@ -37,7 +26,14 @@ public class UploadPicsResponseBean extends BaseReponseBean {
         public void setImg(String img) {
             this.img = img;
         }
+    }
+    private DataBean data;
 
-        private String img;
+    public DataBean getData() {
+        return data;
+    }
+
+    public void setData(DataBean data) {
+        this.data = data;
     }
 }

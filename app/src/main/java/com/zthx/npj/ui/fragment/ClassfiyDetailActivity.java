@@ -7,8 +7,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
@@ -36,6 +36,8 @@ public class ClassfiyDetailActivity extends ActivityBase {
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
+    @BindView(R.id.ac_classify_tv_noGoodsHint)
+    TextView acClassifyTvNoGoodsHint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +46,12 @@ public class ClassfiyDetailActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,getIntent().getStringExtra("key1"));
+        changeTitle(acTitle, getIntent().getStringExtra("key1"));
 
         getGoodsList();
 
         //通过findViewById拿到RecyclerView实例
         //设置RecyclerView管理器
-
 
 
         //设置添加或删除item时的动画，这里使用默认动画
@@ -60,7 +61,7 @@ public class ClassfiyDetailActivity extends ActivityBase {
     }
 
     private void getGoodsList() {
-        MainSubscribe.goodsList(getIntent().getStringExtra("key0"),"0",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.goodsList(getIntent().getStringExtra("key0"), "0", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setGoodsList(result);
@@ -74,18 +75,25 @@ public class ClassfiyDetailActivity extends ActivityBase {
     }
 
     private void setGoodsList(String result) {
-        GoodsListResponseBean bean= GsonUtils.fromJson(result,GoodsListResponseBean.class);
-        final ArrayList<GoodsListResponseBean.DataBean> data=bean.getData();
+        GoodsListResponseBean bean = GsonUtils.fromJson(result, GoodsListResponseBean.class);
+        final ArrayList<GoodsListResponseBean.DataBean> data = bean.getData();
+        if(data.size()==0){
+            atClassfiyDetailRv.setVisibility(View.GONE);
+            acClassifyTvNoGoodsHint.setVisibility(View.VISIBLE);
+        }else{
+            atClassfiyDetailRv.setVisibility(View.VISIBLE);
+            acClassifyTvNoGoodsHint.setVisibility(View.GONE);
+        }
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
         atClassfiyDetailRv.setLayoutManager(layoutManager);
-        ClassifyDetailAdapter adapter=new ClassifyDetailAdapter(this,data);
+        ClassifyDetailAdapter adapter = new ClassifyDetailAdapter(this, data);
         atClassfiyDetailRv.setItemAnimator(new DefaultItemAnimator());
         atClassfiyDetailRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new ClassifyDetailAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent intent=new Intent(ClassfiyDetailActivity.this,GoodsDetailActivity.class);
-                intent.putExtra("goods_id",data.get(position).getId()+"");
+                Intent intent = new Intent(ClassfiyDetailActivity.this, GoodsDetailActivity.class);
+                intent.putExtra("goods_id", data.get(position).getId() + "");
                 startActivity(intent);
             }
         });

@@ -586,6 +586,12 @@
                 android:id="@+id/ac_goodsDetail_rv_content"
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_500"/>
+            <android.support.v7.widget.RecyclerView
+                android:visibility="gone"
+                android:id="@+id/ac_goodsDetail_rv_comment"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_400"/>
             <LinearLayout
                 android:id="@+id/ac_goodsDetail_ll_know"
