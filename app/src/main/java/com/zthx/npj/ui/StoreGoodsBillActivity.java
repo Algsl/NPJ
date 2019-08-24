@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -35,6 +34,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class StoreGoodsBillActivity extends ActivityBase {
 
@@ -51,6 +51,8 @@ public class StoreGoodsBillActivity extends ActivityBase {
     TextView titleThemeTitle;
     @BindView(R.id.title_theme_tv_right)
     TextView titleThemeTvRight;
+    @BindView(R.id.ac_storeGoodsBill_tv_toShare)
+    TextView acStoreGoodsBillTvToShare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,7 @@ public class StoreGoodsBillActivity extends ActivityBase {
         getKuaiDiList();
 
         back(titleThemeBack);
-        changeTitle(titleThemeTitle,"商品订单");
+        changeTitle(titleThemeTitle, "商品订单");
     }
 
     private void getKuaiDiList() {
@@ -95,6 +97,11 @@ public class StoreGoodsBillActivity extends ActivityBase {
     private void setMyStoreOrderList(String result) {
         MyOrderListResponseBean bean = GsonUtils.fromJson(result, MyOrderListResponseBean.class);
         final ArrayList<MyOrderListResponseBean.DataBean> data = bean.getData();
+        if (data.size() <= 0) {
+            atStoreGoodsBillRv.setVisibility(View.GONE);
+        } else {
+            atStoreGoodsBillRv.setVisibility(View.VISIBLE);
+        }
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         atStoreGoodsBillRv.setLayoutManager(manager);
         StoreGoodsBillAdapter mAdapter = new StoreGoodsBillAdapter(this, data);
@@ -213,5 +220,10 @@ public class StoreGoodsBillActivity extends ActivityBase {
         // 显示PopupWindow，其中：
         // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
         window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+    }
+
+    @OnClick(R.id.ac_storeGoodsBill_tv_toShare)
+    public void onViewClicked() {
+        openActivity(StoreGoodsListActivity.class);
     }
 }

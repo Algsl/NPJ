@@ -85,6 +85,11 @@ public class MyBillListFragment extends Fragment {
     private void setMySupplyOrder(String result) {
         MySupplyOrderResponseBean bean=GsonUtils.fromJson(result,MySupplyOrderResponseBean.class);
         final ArrayList<MySupplyOrderResponseBean.DataBean> data=bean.getData();
+        if(data.size()<=0){
+            fgWantBuyManagerList.setVisibility(View.GONE);
+        }else{
+            fgWantBuyManagerList.setVisibility(View.VISIBLE);
+        }
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
         fgWantBuyManagerList.setLayoutManager(layoutManager);
         MySupplyOrderAdapter adapter=new MySupplyOrderAdapter(getContext(),data);

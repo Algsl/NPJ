@@ -20,8 +20,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -98,9 +102,12 @@ public class HomeFragment extends BaseFragment {
     LinearLayout fgHomeLlClassify;
     @BindView(R.id.fg_home_tv_myLower)
     TextView fgHomeTvMyLower;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
     private Unbinder unbinder;
 
     private static final int REQUEST_CODE_SCAN = 1;
+    private boolean isChild;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -129,7 +136,7 @@ public class HomeFragment extends BaseFragment {
         RecommendResponseBean bean = GsonUtils.fromJson(mainRecommend, RecommendResponseBean.class);
         final ArrayList<RecommendResponseBean.DataBean> data = bean.getData();
 
-        HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);
+        final HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);
         mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -143,6 +150,20 @@ public class HomeFragment extends BaseFragment {
         //设置适配器
         fgHomeShoppingCast.setItemAnimator(new DefaultItemAnimator());
         fgHomeShoppingCast.setAdapter(mAdapter);
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                if(isChild){
+                    getChildHome();
+                }else{
+                    getGroupHome();
+                }
+                Toast.makeText(getContext(),"数据刷新完成",Toast.LENGTH_SHORT).show();
+                refreshlayout.finishRefresh();
+            }
+        });
+
         return view;
     }
 
@@ -264,17 +285,54 @@ public class HomeFragment extends BaseFragment {
                 startActivity(new Intent(getContext(), GameActivity.class));
                 break;
             case R.id.fg_home_ll_recommend:
-                fgHomeTvMyLower.setText("下级用户首页");
-                getChildHome();
+                toggle();
+
                 break;
         }
+    }
+
+    private void toggle() {
+        isChild = !isChild;
+        if (isChild) {
+            fgHomeTvMyLower.setText("下级用户首页");
+            getChildHome();
+        } else {
+            fgHomeTvMyLower.setText("精品推荐 好货不断");
+            getGroupHome();
+        }
+    }
+
+    private void getGroupHome() {
+        MainSubscribe.getRecommend(SharePerferenceUtils.getUserId(getContext()), "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                RecommendResponseBean bean = GsonUtils.fromJson(result, RecommendResponseBean.class);
+                final ArrayList<RecommendResponseBean.DataBean> data = bean.getData();
+                HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);
+                mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                        startActivity(intent);
+                    }
+                });
+                fgHomeShoppingCast.setItemAnimator(new DefaultItemAnimator());
+                fgHomeShoppingCast.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 
     private void getChildHome() {
         MainSubscribe.childHome("29", "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: "+result );
+                Log.e("测试", "onSuccess: " + result);
                 RecommendResponseBean bean = GsonUtils.fromJson(result, RecommendResponseBean.class);
                 final ArrayList<RecommendResponseBean.DataBean> data = bean.getData();
                 HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);
@@ -324,13 +382,13 @@ public class HomeFragment extends BaseFragment {
                     String page = uri.getQueryParameter("page");
                     String type = uri.getQueryParameter("type");
                     String id = uri.getQueryParameter("id");
-                    if(page.equals("goodsDetail")){
+                    if (page.equals("goodsDetail")) {
                         Intent intent = new Intent(getContext(), GoodsDetailActivity.class);
                         intent.setAction(type);
                         intent.putExtra("goods_id", id + "");
                         startActivity(intent);
-                    }else if(page.equals("tuijian")){
-                        startActivity(new Intent(getContext(),MembershipPackageActivity.class));
+                    } else if (page.equals("tuijian")) {
+                        startActivity(new Intent(getContext(), MembershipPackageActivity.class));
                     }
                 }
                 break;

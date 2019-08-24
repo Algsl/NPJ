@@ -94,6 +94,11 @@ public class StoreGoodsListFragment extends Fragment {
     private void setStoreGoods(String result) {
         MyGoodsResponseBean bean= GsonUtils.fromJson(result,MyGoodsResponseBean.class);
         final ArrayList<MyGoodsResponseBean.DataBean> data=bean.getData();
+        if (data.size()<=0){
+            fgStoreGoodsListRv.setVisibility(View.GONE);
+        }else{
+            fgStoreGoodsListRv.setVisibility(View.VISIBLE);
+        }
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         fgStoreGoodsListRv.setLayoutManager(manager);
         StoreGoodsListAdapter adapter=new StoreGoodsListAdapter(getContext(),data,getArguments().getString("type"));

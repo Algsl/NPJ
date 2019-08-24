@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -15,8 +16,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -69,11 +73,14 @@ public class MyStoreActivity extends ActivityBase {
     @BindView(R.id.title_theme_tv_right)
     TextView titleThemeTvRight;
 
-    private MyStoreActivity mActivity;
     private static final int CHOOSE_PHOTO = 1;
-    private String store_img = "";
+    private String store_img;
     private String store_name="";
     private MyCircleView pwStoreEditMCVStoreImg;
+
+    public MyStoreActivity() {
+        store_img = "";
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +103,8 @@ public class MyStoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showPublishPopwindow("1");
+                showToast("请先完善店铺信息");
+                showPwUnCancel();
             }
         }));
     }
@@ -122,12 +130,13 @@ public class MyStoreActivity extends ActivityBase {
                 startActivity(new Intent(this, StoreGoodsListActivity.class));
                 break;
             case R.id.title_theme_tv_right:
-                showPublishPopwindow("2");
+                showPublishPopwindow();
                 break;
         }
     }
 
-    public void showPublishPopwindow(final String showPwType) {
+    //修改店铺信息弹窗
+    public void showPublishPopwindow() {
         backgroundAlpha(0.5f);
         View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_store_edit, null);
         // 创建PopupWindow对象，其中：
@@ -150,10 +159,8 @@ public class MyStoreActivity extends ActivityBase {
 
          pwStoreEditMCVStoreImg= contentView.findViewById(R.id.pw_storEdit_mcv_storeImg);
         final TextView pwStoreEditTvStoreName = contentView.findViewById(R.id.pw_storEdit_et_storeName);
-        pwStoreEditTvStoreName.setFocusable(true);
         Button pwStoreEditBtnCommit = contentView.findViewById(R.id.pw_storEdit_btn_commit);
         pwStoreEditMCVStoreImg.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -174,7 +181,7 @@ public class MyStoreActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-
+                        showToast(errorMsg);
                     }
                 }));
             }
@@ -182,12 +189,8 @@ public class MyStoreActivity extends ActivityBase {
         window.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if (showPwType.equals("1")){
-                    finish();
-                }else{
-                    backgroundAlpha(1f);
-                    window.dismiss();
-                }
+                backgroundAlpha(1f);
+                window.dismiss();
             }
         });
     }
@@ -227,5 +230,66 @@ public class MyStoreActivity extends ActivityBase {
         lp.alpha = bgAlpha;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         getWindow().setAttributes(lp);
+    }
+
+    //添加店铺弹窗
+    public void showPwUnCancel() {
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_store_edit, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView);
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_360));
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_271));
+        // 设置PopupWindow的背景
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(true);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        window.setFocusable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+
+        pwStoreEditMCVStoreImg = contentView.findViewById(R.id.pw_storEdit_mcv_storeImg);
+        final TextView pwStoreEditTvStoreName = contentView.findViewById(R.id.pw_storEdit_et_storeName);
+        Button pwStoreEditBtnCommit = contentView.findViewById(R.id.pw_storEdit_btn_commit);
+        pwStoreEditMCVStoreImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, CHOOSE_PHOTO);
+            }
+        });
+        pwStoreEditBtnCommit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                store_name = pwStoreEditTvStoreName.getText().toString().trim();
+                SetSubscribe.setStore(user_id, token, store_name, store_img, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        window.dismiss();
+                        backgroundAlpha(1f);
+                        getMyStore();
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+                        showToast(errorMsg);
+                    }
+                }));
+            }
+        });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+                window.dismiss();
+                finish();
+            }
+        });
     }
 }

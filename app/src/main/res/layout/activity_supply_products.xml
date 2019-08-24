@@ -550,6 +550,7 @@
                    android:id="@+id/at_supply_products_rv_pic"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
+                   android:layout_marginBottom="@dimen/dp_50"
                    android:background="@color/white"/>
            </LinearLayout>
         </LinearLayout>

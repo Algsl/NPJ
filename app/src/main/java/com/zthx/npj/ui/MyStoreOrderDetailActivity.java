@@ -3,6 +3,10 @@ package com.zthx.npj.ui;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,7 +16,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.AlsoLikeAdatper;
+import com.zthx.npj.adapter.CommenGoodsAdatper;
+import com.zthx.npj.adapter.HomeGoodsAdapter;
+import com.zthx.npj.net.been.AlsoLikeResponseBean;
+import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.MyOrderDetailResponseBean;
+import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -21,10 +31,14 @@ import com.zthx.npj.utils.ImageCircleConner;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.baidu.mapapi.BMapManager.getContext;
 
 public class MyStoreOrderDetailActivity extends ActivityBase {
     @BindView(R.id.at_myOrderDetail_ll_address)
@@ -119,6 +133,20 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     LinearLayout acMyOrderDetailLlPaySend;
     @BindView(R.id.ac_myOrderDetail_ll_refundNum)
     LinearLayout acMyOrderDetailLlRefundNum;
+    @BindView(R.id.ac_myOrderDetail_rv_cai)
+    RecyclerView acMyOrderDetailRvCai;
+    @BindView(R.id.at_myOrderDetail_ll_orderSn)
+    LinearLayout atMyOrderDetailLlOrderSn;
+    @BindView(R.id.at_myOrderDetail_ll_payType)
+    LinearLayout atMyOrderDetailLlPayType;
+    @BindView(R.id.at_myOrderDetail_ll_createTime)
+    LinearLayout atMyOrderDetailLlCreateTime;
+    @BindView(R.id.at_myOrderDetail_ll_payTime)
+    LinearLayout atMyOrderDetailLlPayTime;
+    @BindView(R.id.at_myOrderDetail_ll_send)
+    LinearLayout atMyOrderDetailLlSend;
+    @BindView(R.id.at_myOrderDetail_ll_over)
+    LinearLayout atMyOrderDetailLlOver;
 
     private String order_state = "";
 
@@ -135,6 +163,8 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
 
 
         getMyStoreOrderDetail();
+        getAlsoLike();
+
     }
 
     private void getMyStoreOrderDetail() {
@@ -145,6 +175,35 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
             @Override
             public void onSuccess(String result) {
                 setMyOrderDetail(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                showToast(errorMsg);
+            }
+        }));
+    }
+
+    private void getAlsoLike() {
+        MainSubscribe.alsoLike("1",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                AlsoLikeResponseBean bean=GsonUtils.fromJson(result,AlsoLikeResponseBean.class);
+                ArrayList<AlsoLikeResponseBean.DataBean> data=bean.getData();
+                GridLayoutManager layoutManager = new GridLayoutManager(MyStoreOrderDetailActivity.this,2);
+                acMyOrderDetailRvCai.setLayoutManager(layoutManager);
+                AlsoLikeAdatper adatper=new AlsoLikeAdatper(MyStoreOrderDetailActivity.this,data);
+                //设置添加或删除item时的动画，这里使用默认动画
+                acMyOrderDetailRvCai.setItemAnimator(new DefaultItemAnimator());
+                //设置适配器
+                acMyOrderDetailRvCai.setItemAnimator(new DefaultItemAnimator());
+                acMyOrderDetailRvCai.setAdapter(adatper);
+                adatper.setOnItemClickListener(new AlsoLikeAdatper.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+
+                    }
+                });
             }
 
             @Override
@@ -176,12 +235,11 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
         });
         atMyOrderDetailTvGoodsName.setText(data.getGoods_name());
         atMyOrderDetailTvGoodsName1.setText(data.getGoods_name());
-        atMyOrderDetailTvGoodsPrice.setText(data.getGoods_price());
-        atMyOrderDetailTvGoodsPrice1.setText(data.getGoods_price());
+        atMyOrderDetailTvGoodsPrice.setText("￥ " + data.getGoods_price());
+        atMyOrderDetailTvGoodsPrice1.setText("￥ " + data.getGoods_price());
         atMyOrderDetailTvGoodsNum.setText("x " + data.getGoods_num());
         atMyOrderDetailTvGoodsNum1.setText("x " + data.getGoods_num());
-        atMyOrderDetailTvIsFreeShipping.setText(data.getShipping_fee());
-        //atMyOrderDetailTvOrderPrice.setText(data.getOrder_price());
+        atMyOrderDetailTvIsFreeShipping.setText("￥ "+data.getShipping_fee());
 
         atMyOrderDetailTvOrderSn.setText(data.getOrder_sn());
         atMyOrderDetailTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time())));
@@ -191,18 +249,53 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
             case "1":
                 acMyOrderDetailTvStatus.setText("待付款");
                 acMyOrderDetailTvHint.setText("剩余24时00分自动关闭");
+                acMyOrderDetailTvOption.setText("待付款");
                 break;
             case "2":
+                //头部
                 acMyOrderDetailTvStatus.setText("等待卖家发货");
-                acMyOrderDetailTvHint.setVisibility(View.GONE);
+                acMyOrderDetailTvHint.setVisibility(View.GONE);//头部类型下方的文字提示
+
+                //商品信息
+                acMyOrderDetailTvOption.setText("退换");
+
+                //订单
+                atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);//支付方式显示
+                atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);//支付时间显示
+
+                //底部
+                acMyOrderDetailTvApplyRefund.setVisibility(View.VISIBLE);//申请退换显示
+                acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
+                acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
                 break;
             case "3":
                 acMyOrderDetailTvStatus.setText("已发货");
                 acMyOrderDetailTvHint.setText("剩余9天4时自动确认");
+                acMyOrderDetailTvOption.setText("退换");
+                atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
+                atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
+                atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
+
+                acMyOrderDetailTvWuliu.setVisibility(View.VISIBLE);//查看物流
+                acMyOrderDetailTvDelay.setVisibility(View.VISIBLE);//延长收货
+                acMyOrderDetailTvConfirm.setVisibility(View.VISIBLE);//确认收货
+                acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
+                acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
                 break;
             case "4":
                 acMyOrderDetailTvStatus.setText("交易成功");
                 acMyOrderDetailTvHint.setText("期待再次为您服务");
+                acMyOrderDetailTvOption.setText("申请售后");
+                atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
+                atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
+                atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
+                atMyOrderDetailLlOver.setVisibility(View.VISIBLE);
+
+                acMyOrderDetailTvWuliu.setVisibility(View.VISIBLE);//查看物流
+                acMyOrderDetailTvDelete.setVisibility(View.VISIBLE);//删除订单
+                acMyOrderDetailTvComment.setVisibility(View.VISIBLE);//评价
+                acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
+                acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
                 break;
             case "6":
                 acMyOrderDetailLlPaySend.setVisibility(View.GONE);
@@ -210,7 +303,15 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                 acMyOrderDetailLlRefundNum.setVisibility(View.VISIBLE);
                 acMyOrderDetailTvStatus.setText("已提交退款申请，等待卖家处理");
                 acMyOrderDetailTvHint.setText("剩余2天4时自动确认");
+                atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
+                atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
+                atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
+                atMyOrderDetailLlOver.setVisibility(View.VISIBLE);
 
+                acMyOrderDetailTvChat.setVisibility(View.VISIBLE);//联系卖家
+                acMyOrderDetailTvCall.setVisibility(View.VISIBLE);//拨打电话
+                acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
+                acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
                 break;
         }
     }

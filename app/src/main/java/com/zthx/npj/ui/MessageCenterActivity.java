@@ -59,17 +59,19 @@ public class MessageCenterActivity extends ActivityBase {
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         atMessageCenterRv.setLayoutManager(manager);
         final List<Conversation> lists=JMessageClient.getConversationList();
-        MessageCenterAdapter mAdapter = new MessageCenterAdapter(this, lists);
-        atMessageCenterRv.setItemAnimator(new DefaultItemAnimator());
-        atMessageCenterRv.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new MessageCenterAdapter.ItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                String targetId=lists.get(position).getTargetId();
-                UserInfo userInfo= (UserInfo) lists.get(position).getTargetInfo();
-                openActivity(ServicesChatActivity.class,targetId,userInfo.getNickname());
-            }
-        });
+        if (lists!=null){
+            MessageCenterAdapter mAdapter = new MessageCenterAdapter(this, lists);
+            atMessageCenterRv.setItemAnimator(new DefaultItemAnimator());
+            atMessageCenterRv.setAdapter(mAdapter);
+            mAdapter.setOnItemClickListener(new MessageCenterAdapter.ItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    String targetId=lists.get(position).getTargetId();
+                    UserInfo userInfo= (UserInfo) lists.get(position).getTargetInfo();
+                    openActivity(ServicesChatActivity.class,targetId,userInfo.getNickname());
+                }
+            });
+        }
     }
 
 

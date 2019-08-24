@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -101,12 +102,18 @@ public class ServicesChatActivity extends ActivityBase {
     private void getChatMsg() {
         if (mConversation == null) {
             mConversation = JMessageClient.getSingleConversation(chat_name);
+            List<Message> lists = mConversation.getMessagesFromNewest(0, 18);
+            ChatListAdapter adapter = new ChatListAdapter(this, lists);
+            acServiceChatLv.setAdapter(adapter);
+            acServiceChatLv.setSelection(lists.size() - 1);
+            adapter.notifyDataSetInvalidated();
+        }else{
+            List<Message> lists = mConversation.getMessagesFromNewest(0, 18);
+            ChatListAdapter adapter = new ChatListAdapter(this, lists);
+            acServiceChatLv.setAdapter(adapter);
+            acServiceChatLv.setSelection(lists.size() - 1);
+            adapter.notifyDataSetInvalidated();
         }
-        List<Message> lists = mConversation.getMessagesFromNewest(0, 18);
-        ChatListAdapter adapter = new ChatListAdapter(this, lists);
-        acServiceChatLv.setAdapter(adapter);
-        acServiceChatLv.setSelection(lists.size() - 1);
-        adapter.notifyDataSetInvalidated();
     }
 
     //用户端发送消息设置

@@ -14,8 +14,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_20"
-            android:background="@color/black"
-            android:alpha="0.5"/>
+            android:background="@android:color/darker_gray"/>
         <ImageView
             android:id="@+id/pop_goods_size_iv_pic"
             android:layout_width="@dimen/dp_80"
@@ -24,7 +23,7 @@
             android:layout_marginLeft="@dimen/dp_12"
             android:src="@mipmap/ic_launcher"/>
         <TextView
-            android:id="@+id/pop_goods_size_tv_price"
+            android:id="@+id/pop_goods_size_tv_old_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="￥122"
@@ -43,14 +42,13 @@
             android:textColor="@color/text6"
             android:layout_toRightOf="@id/pop_goods_size_iv_pic"
             android:layout_marginLeft="@dimen/dp_14"
-            android:layout_below="@id/pop_goods_size_tv_price"
+            android:layout_below="@id/pop_goods_size_tv_old_price"
             android:layout_marginTop="@dimen/dp_6"/>
         <TextView
             android:id="@+id/pop_goods_size_tv_choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_2"
-            android:text="已选："
             android:textSize="@dimen/sp_13"
             android:textColor="@color/text6"
             android:layout_toRightOf="@id/pop_goods_size_iv_pic"
@@ -61,10 +59,10 @@
             android:layout_height="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_30"
             android:layout_marginLeft="@dimen/dp_10"
-            android:background="@drawable/gray_conner"
-            android:layout_toRightOf="@id/pop_goods_size_tv_price">
+            android:background="@drawable/black_conner_5"
+            android:layout_toRightOf="@id/pop_goods_size_tv_old_price">
             <TextView
-                android:id="@+id/pop_goods_size_tv_old_price"
+                android:id="@+id/pop_goods_size_tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_15"
                 android:layout_marginLeft="@dimen/dp_5"
@@ -80,7 +78,7 @@
             android:layout_width="@dimen/dp_75"
             android:layout_height="@dimen/dp_20"
             android:gravity="center"
-            android:layout_toRightOf="@id/pop_goods_size_tv_price"
+            android:layout_toRightOf="@id/pop_goods_size_tv_old_price"
             android:text="市场价:255"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginLeft="@dimen/dp_10"
@@ -142,9 +140,9 @@
         android:background="@android:color/white"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/pw_goodsSize_tv_spec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="规格"
             android:textSize="@dimen/sp_15"
             android:textColor="@color/text3"
             android:layout_marginTop="@dimen/dp_18"

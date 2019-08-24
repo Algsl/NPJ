@@ -82,6 +82,11 @@ public class SearchResultActivity extends ActivityBase {
                 atHomeSearchRvResult.setLayoutManager(manager);
                 SearchResponseBean searchResponseBean = GsonUtils.fromJson(result, SearchResponseBean.class);
                 final ArrayList<SearchResponseBean.DataBean> data = searchResponseBean.getData();
+                if(data.size()<=0){
+                    atHomeSearchRvResult.setVisibility(View.GONE);
+                }else{
+                    atHomeSearchRvResult.setVisibility(View.VISIBLE);
+                }
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SearchResultActivity.this);
                 atHomeSearchRvResult.setLayoutManager(layoutManager);
                 SearchResultAdapter adapter=new SearchResultAdapter(SearchResultActivity.this,data);

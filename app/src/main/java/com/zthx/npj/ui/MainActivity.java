@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS); //去除半透明状态栏
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN); //全屏显示
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//实现状态栏图标和文字颜色为暗色
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -110,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
         // Example of a call to a native method
         setNotification();
         registerMessageReceiver();
-        loginIM();
         getUserMsg();
 
         getBrowserResult();
@@ -144,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(String result) {
                 UserResponseBean bean=GsonUtils.fromJson(result,UserResponseBean.class);
                 SharePerferenceUtils.setUserLevel(MainActivity.this,bean.getData().getLevel()+"");
+                loginIM(bean.getData().getMobile(),bean.getData().getMobile());
             }
 
             @Override
@@ -153,8 +153,8 @@ public class MainActivity extends AppCompatActivity {
         }));
     }
 
-    private void loginIM() {
-        JMessageClient.login("18435224024", "18435224024", new BasicCallback() {
+    private void loginIM(String name,String pwd) {
+        JMessageClient.login(name, pwd, new BasicCallback() {
             @Override
             public void gotResult(int i, String s) {
 

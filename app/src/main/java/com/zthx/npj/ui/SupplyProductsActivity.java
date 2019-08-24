@@ -27,6 +27,7 @@ import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommentAdapter;
+import com.zthx.npj.adapter.GoodsImgDetailAdapter;
 import com.zthx.npj.adapter.SupplyProductsAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BaoJiaBean;
@@ -193,7 +194,8 @@ public class SupplyProductsActivity extends ActivityBase {
                 Glide.with(SupplyProductsActivity.this).load(data.getHead_img()).into(atSupplyProductsIvHeadPic);
                 atSupplyProductsTvName.setText(data.getNick_name());
                 atSupplyProductsTvXinyufen.setText("信誉分" + data.getReputation());
-                SupplyProductsAdapter adapter = new SupplyProductsAdapter(SupplyProductsActivity.this, data.getContent());
+                //SupplyProductsAdapter adapter = new SupplyProductsAdapter(SupplyProductsActivity.this, data.getContent());
+                GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(SupplyProductsActivity.this, data.getContent());
                 atSupplyProductsRvPic.setItemAnimator(new DefaultItemAnimator());
                 atSupplyProductsRvPic.setAdapter(adapter);
             }
@@ -254,7 +256,8 @@ public class SupplyProductsActivity extends ActivityBase {
                 //还剩一个recycleView的图片单元要补
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SupplyProductsActivity.this);
                 atSupplyProductsRvPic.setLayoutManager(layoutManager);
-                SupplyProductsAdapter adapter = new SupplyProductsAdapter(SupplyProductsActivity.this, supplyData.getContent());
+                //SupplyProductsAdapter adapter = new SupplyProductsAdapter(SupplyProductsActivity.this, supplyData.getContent());
+                GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(SupplyProductsActivity.this, supplyData.getContent());
                 atSupplyProductsRvPic.setItemAnimator(new DefaultItemAnimator());
                 atSupplyProductsRvPic.setAdapter(adapter);
             }

@@ -71,30 +71,9 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
     //点击播放设置
     @Override
     public void onFragmentInteraction(SolutionVideoResponseBean.DataBean dataBean) {
-        /*MyMediaController controller=new MyMediaController(this);
-        controller.setListener(new MyMediaController.OnVideoListener() {
-            @Override
-            public void onPause(boolean pause) {
-
-            }
-            @Override
-            public void onFullScreen(boolean full) {
-                if (full) {
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                } else {
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    //做自己想做的操作
-                }
-            }
-        });
-        atSystemSolutionPlayer.setMediaController(controller);
-        atSystemSolutionPlayer.release(true);
-        atSystemSolutionPlayer.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT);
-        atSystemSolutionPlayer.setVideoURI(Uri.parse(dataBean.getVideo()));
-        atSystemSolutionPlayer.start();*/
+        ijkVideoView.release();
         ijkVideoView.setUrl(dataBean.getVideo()); //设置视频地址
+        ijkVideoView.setTitle(dataBean.getTitle());
         StandardVideoController controller = new StandardVideoController(this);
         ijkVideoView.setVideoController(controller); //设置控制器，如需定制可继承 BaseVideoController
         ijkVideoView.start();
@@ -103,45 +82,10 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
     //自动播放设置
     @Override
     public void onDataGet(SolutionVideoResponseBean.DataBean dataBean) {
-        /*MyMediaController controller=new MyMediaController(this);
-        controller.setListener(new MyMediaController.OnVideoListener() {
-            @Override
-            public void onPause(boolean pause) {
-
-            }
-
-            @Override
-            public void onFullScreen(boolean full) {
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) atSystemSolutionPlayer.getLayoutParams();
-                if (full) {
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                } else {
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                }
-            }
-        });
-        controller.attach(atSystemSolutionPlayer);
-        atSystemSolutionPlayer.setMediaController(controller);
-        atSystemSolutionPlayer.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT);
-        atSystemSolutionPlayer.setVideoURI(Uri.parse(dataBean.getVideo()));
-        atSystemSolutionPlayer.start();*/
         ijkVideoView.setUrl(dataBean.getVideo()); //设置视频地址
+        ijkVideoView.setTitle(dataBean.getTitle());
         StandardVideoController controller = new StandardVideoController(this);
         ijkVideoView.setVideoController(controller); //设置控制器，如需定制可继承 BaseVideoController
-        //ijkVideoView.start(); //开始播放，不调用则不自动播放
-        //高级设置（可选，须在 start()之前调用方可生效）
-        /*PlayerConfig playerConfig = new PlayerConfig.Builder()
-                .enableCache() //启用边播边缓存功能
-                .autoRotate() //启用重力感应自动进入/退出全屏功能
-                .enableMediaCodec()//启动硬解码，启用后可能导致视频黑屏，音画不同步
-                .usingSurfaceView() //启用 SurfaceView 显示视频，不调用默认使用 TextureView
-                .savingProgress() //保存播放进度
-                .disableAudioFocus() //关闭 AudioFocusChange 监听
-                .setLooping() //循环播放当前正在播放的视频
-                .build();
-        ijkVideoView.setPlayerConfig(playerConfig);*/
     }
 
     @Override

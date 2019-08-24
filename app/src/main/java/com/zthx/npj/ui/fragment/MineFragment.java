@@ -23,13 +23,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.AlsoLikeAdatper;
 import com.zthx.npj.adapter.CommenGoodsAdatper;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
+import com.zthx.npj.net.been.AlsoLikeResponseBean;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.MyOfflineStoreResponseBean;
 import com.zthx.npj.net.been.RealNameResponseBean;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.CertSubscribe;
+import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -44,6 +47,7 @@ import com.zthx.npj.ui.MyCollectActivity;
 import com.zthx.npj.ui.MyCouponActivity;
 import com.zthx.npj.ui.MyOrderActivity;
 import com.zthx.npj.ui.MyStoreActivity;
+import com.zthx.npj.ui.MyStoreOrderDetailActivity;
 import com.zthx.npj.ui.MySupplyActivity;
 import com.zthx.npj.ui.MyWalletActivity;
 import com.zthx.npj.ui.SettingsActivity;
@@ -157,34 +161,6 @@ public class MineFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mine, container, false);
         unbinder = ButterKnife.bind(this, view);
-        //getUserInfo();
-        //设置RecyclerView管理器
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);
-        fgMineRvLike.setLayoutManager(layoutManager);
-        //初始化适配器
-        List<CommentGoodsBeen> list3 = new ArrayList<>();
-        CommentGoodsBeen HomeGoodsBeen = new CommentGoodsBeen();
-        HomeGoodsBeen.setGoodsPic("123");
-        HomeGoodsBeen.setGoodsTitle("1231245124");
-        HomeGoodsBeen.setGoodsSellNum("123");
-        HomeGoodsBeen.setGoodsPrice("1333");
-        for (int i = 0; i < 20; i++) {
-            list3.add(HomeGoodsBeen);
-        }
-        CommenGoodsAdatper mAdapter = new CommenGoodsAdatper(getActivity(), list3);
-        mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                Toast.makeText(getActivity(), "position==" + position, Toast.LENGTH_LONG)
-                        .show();
-            }
-        });
-        //设置添加或删除item时的动画，这里使用默认动画
-        fgMineRvLike.setItemAnimator(new DefaultItemAnimator());
-        //设置适配器
-        fgMineRvLike.setItemAnimator(new DefaultItemAnimator());
-        fgMineRvLike.setAdapter(mAdapter);
-
         return view;
     }
 
@@ -192,6 +168,37 @@ public class MineFragment
     public void onResume() {
         super.onResume();
         getUserInfo();
+        getAlsoLike();
+    }
+
+
+    private void getAlsoLike() {
+        MainSubscribe.alsoLike("1",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                AlsoLikeResponseBean bean=GsonUtils.fromJson(result,AlsoLikeResponseBean.class);
+                ArrayList<AlsoLikeResponseBean.DataBean> data=bean.getData();
+                GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2);
+                fgMineRvLike.setLayoutManager(layoutManager);
+                AlsoLikeAdatper adatper=new AlsoLikeAdatper(getContext(),data);
+                //设置添加或删除item时的动画，这里使用默认动画
+                fgMineRvLike.setItemAnimator(new DefaultItemAnimator());
+                //设置适配器
+                fgMineRvLike.setItemAnimator(new DefaultItemAnimator());
+                fgMineRvLike.setAdapter(adatper);
+                adatper.setOnItemClickListener(new AlsoLikeAdatper.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 
     private void getUserInfo() {

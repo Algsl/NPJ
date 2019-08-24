@@ -200,6 +200,8 @@ public class GoodsDetailActivity extends ActivityBase {
 
         back(acGoodsDetailIvBack);
 
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        acGoodsDetailRvContent.setLayoutManager(layoutManager);
 
         //秒杀商品
         if ("miaosha".equals(getIntent().getAction())) {//限时秒杀
@@ -257,8 +259,6 @@ public class GoodsDetailActivity extends ActivityBase {
 
     //商品详情图片展示
     private void setGoodsContent(ArrayList<String> lists) {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        acGoodsDetailRvContent.setLayoutManager(layoutManager);
         GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(this, lists);
         acGoodsDetailRvContent.setItemAnimator(new DefaultItemAnimator());
         acGoodsDetailRvContent.setAdapter(adapter);
@@ -274,12 +274,13 @@ public class GoodsDetailActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }, this));
     }
 
     private void setSecKillData(String result) {
+        Log.e("测试", "setSecKillData: " + result);
         SecKillGoodsDetailResponseBean secKillGoodsDetailResponseBean = GsonUtils.fromJson(result, SecKillGoodsDetailResponseBean.class);
         mSeckillData = secKillGoodsDetailResponseBean.getData();
         initBanner(mSeckillData.getGroup_img());
@@ -318,12 +319,13 @@ public class GoodsDetailActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }, this));
     }
 
     private void setPreSellData(String result) {
+        Log.e("测试", "setPreSellData: " + result);
         PreSellDetailResponseBean preSellDetailResponseBean = GsonUtils.fromJson(result, PreSellDetailResponseBean.class);
         PreSellDetailResponseBean.DataBean data = preSellDetailResponseBean.getData();
         mPreData = data;
@@ -348,12 +350,13 @@ public class GoodsDetailActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }, this));
     }
 
     private void setGoodsData(String result) {
+        Log.e("测试", "setGoodsData: " + result);
         GoodsDetailResponseBean goodsDetailResponseBean = GsonUtils.fromJson(result, GoodsDetailResponseBean.class);
         mGoodsData = goodsDetailResponseBean.getData();
         initBanner(mGoodsData.getGoods_img());
@@ -370,10 +373,10 @@ public class GoodsDetailActivity extends ActivityBase {
         atGoodsDetailSelledNum.setText("已售" + mGoodsData.getSold() + "");
         atGoodsDetailHoldNum.setText("库存" + mGoodsData.getInventory() + "");
         String str;
-        if (mGoodsData.getYunfei() == 0) {
+        if (mGoodsData.getIs_free_shipping() == 0) {
             str = "免运费";
         } else {
-            str = mGoodsData.getYunfei() + "元";
+            str = mGoodsData.getIs_free_shipping() + "元";
         }
         atGoodsDetailTvGoodsIsBaoyou.setText("快递 " + str);
     }
@@ -391,7 +394,7 @@ public class GoodsDetailActivity extends ActivityBase {
                 showPopupwindow(view);
                 break;
             case R.id.ac_goodsDetail_ll_collect://收藏
-                acGoodsDetailIvCollect.setImageResource(R.drawable.collected);
+                acGoodsDetailIvCollect.setImageResource(R.drawable.collect_star);
                 goodsCollect();
                 break;
             case R.id.at_goods_detail_btn_pre_sell_detail://商品详情
@@ -482,7 +485,7 @@ public class GoodsDetailActivity extends ActivityBase {
                 setGoodsContent(mPreData.getGroup_img());
                 break;
             case "1":
-                setGoodsContent(mGoodsData.getGoods_img());
+                setGoodsContent(mGoodsData.getGoods_content());
                 break;
         }
     }
@@ -496,7 +499,7 @@ public class GoodsDetailActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }
@@ -520,7 +523,7 @@ public class GoodsDetailActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }
@@ -560,7 +563,7 @@ public class GoodsDetailActivity extends ActivityBase {
 
                         @Override
                         public void onFault(String errorMsg) {
-
+                            showToast(errorMsg);
                         }
                     }));
                     break;
@@ -574,6 +577,7 @@ public class GoodsDetailActivity extends ActivityBase {
                         intent.setAction(Const.PRESELL);
                     } else {
                         intent.putExtra(Const.ATTRIBUTE_ID, "0");
+                        intent.putExtra("count",count+"");
                         intent.setAction(Const.GOODS);
                     }
                     intent.putExtra(Const.GOODS_ID, goodsId);
@@ -594,7 +598,7 @@ public class GoodsDetailActivity extends ActivityBase {
             sizePopWin = new GoodSizePopupwindow(this, onClickListener, type, mPreData.getAttribute_value());
         } else {
             type = "3";
-            sizePopWin = new GoodSizePopupwindow(this, onClickListener, type, null);
+            sizePopWin = new GoodSizePopupwindow(this, onClickListener, mGoodsData);
         }
         View contentView = sizePopWin.getContentView();
 //        addCartNumTv = ((TextView) contentView.findViewById(R.id.goodsRule_numTv));
@@ -605,8 +609,8 @@ public class GoodsDetailActivity extends ActivityBase {
         //设置Popupwindow关闭监听，当Popupwindow关闭，背景恢复1f
         tvCartNum = contentView.findViewById(R.id.item_pop_goods_tv_num);
         ImageView headImg = contentView.findViewById(R.id.pop_goods_size_iv_pic);
-        TextView marketPrice = contentView.findViewById(R.id.pop_goods_size_tv_price);
-        TextView memberPrice = contentView.findViewById(R.id.pop_goods_size_tv_old_price);
+        TextView marketPrice = contentView.findViewById(R.id.pop_goods_size_tv_old_price);
+        TextView memberPrice = contentView.findViewById(R.id.pop_goods_size_tv_price);
         TextView inventory = contentView.findViewById(R.id.pop_goods_size_tv_total_num);
         switch (type) {
             case "1":
