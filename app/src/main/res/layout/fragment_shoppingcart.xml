@@ -47,109 +47,16 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/sp_15" />
         </RelativeLayout>
+
         <ExpandableListView
             android:id="@+id/elv_shopping_car"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:background="#ededed"
             android:divider="@null"
             android:groupIndicator="@null"
             android:scrollbars="none"
             android:visibility="gone" />
-
-        <RelativeLayout
-            android:id="@+id/rl"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:background="#ffffff"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:id="@+id/ll_select_all"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingRight="10dp">
-
-                <ImageView
-                    android:id="@+id/iv_select_all"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/jianshe" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="6dp"
-                    android:text="全选"
-                    android:textColor="#666666"
-                    android:textSize="12dp" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btn_order"
-                android:layout_width="125dp"
-                android:layout_height="40dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:text="结算"
-                android:textColor="#ffffff"
-                android:textSize="16dp"
-                android:visibility="visible" />
-
-            <Button
-                android:id="@+id/btn_delete"
-                android:layout_width="125dp"
-                android:layout_height="40dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:text="删除"
-                android:textColor="#ffffff"
-                android:textSize="16dp"
-                android:visibility="gone" />
-
-            <RelativeLayout
-                android:id="@+id/rl_total_price"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_toLeftOf="@id/btn_order"
-                android:layout_toRightOf="@id/ll_select_all">
-
-                <TextView
-                    android:id="@+id/tv_total_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="10dp"
-                    android:maxLength="12"
-                    android:singleLine="true"
-                    android:text="￥0.00"
-                    android:textColor="#d8b691"
-                    android:textSize="15dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/tv_total_price"
-                    android:text="合计金额："
-                    android:textColor="#555555"
-                    android:textSize="13dp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#cccccc" />
-        </RelativeLayout>
     </LinearLayout>
 
     <RelativeLayout
@@ -175,5 +82,97 @@
             android:text="购物车竟然是空的"
             android:textColor="#808080"
             android:textSize="16dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/ll_select_all"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingRight="10dp">
+
+            <ImageView
+                android:id="@+id/iv_select_all"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="6dp"
+                android:text="全选"
+                android:textColor="#666666"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_order"
+            android:layout_width="125dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="结算"
+            android:textColor="#ffffff"
+            android:textSize="16dp"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="125dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="删除"
+            android:textColor="#ffffff"
+            android:textSize="16dp"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/rl_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/btn_order"
+            android:layout_toRightOf="@id/ll_select_all">
+
+            <TextView
+                android:id="@+id/tv_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="10dp"
+                android:maxLength="12"
+                android:singleLine="true"
+                android:text="￥0.00"
+                android:textColor="#d8b691"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/tv_total_price"
+                android:text="合计金额："
+                android:textColor="#555555"
+                android:textSize="13dp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#cccccc" />
     </RelativeLayout>
 </RelativeLayout>

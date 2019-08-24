@@ -11,6 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ActivityBase extends AppCompatActivity {
 
@@ -80,5 +81,9 @@ public class ActivityBase extends AppCompatActivity {
                 openActivity(mClass,id);
             }
         });
+    }
+
+    public void showToast(String str){
+        Toast.makeText(this,str,Toast.LENGTH_SHORT).show();
     }
 }

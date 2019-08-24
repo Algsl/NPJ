@@ -133,7 +133,6 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             });
         }
         if (list!= null && list.size() > 0) {
-            //Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
             Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {

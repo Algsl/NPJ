@@ -25,7 +25,6 @@ public class SolutionVideoResponseBean extends BaseReponseBean {
         private String duration;
         private String img;
         private String content;
-
         public String getTitle() {
             return title;
         }

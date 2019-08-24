@@ -1,6 +1,7 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,9 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.HomeGoodsBeen;
 import com.zthx.npj.net.been.RecommendResponseBean;
+import com.zthx.npj.utils.ImageCircleConner;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
@@ -61,7 +65,12 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.View
             });
         }
         level=SharePerferenceUtils.getUserLevel(mContext);
-        Glide.with(mContext).load(list.get(i).getGoods_img()).into(viewHolder.mIvGoods);
+        Glide.with(mContext).load(list.get(i).getGoods_img()).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                viewHolder.mIvGoods.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
+            }
+        });
         Glide.with(mContext).load(list.get(i).getStore_img()).into(viewHolder.mIvMall);
         viewHolder.mTvMallName.setText(list.get(i).getStore_name());
         if(level.equals("0")){

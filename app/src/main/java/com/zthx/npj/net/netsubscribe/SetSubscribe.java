@@ -34,6 +34,7 @@ import com.zthx.npj.net.been.EditHeadimgBean;
 import com.zthx.npj.net.been.EditNicknameBean;
 import com.zthx.npj.net.been.EditOfflineStoreBean;
 import com.zthx.npj.net.been.FeedBackBean;
+import com.zthx.npj.net.been.GoodsBuyOneBean;
 import com.zthx.npj.net.been.GoodsCateBean;
 import com.zthx.npj.net.been.GoodsInfoBean;
 import com.zthx.npj.net.been.GoodsOrderBean;
@@ -1550,6 +1551,16 @@ public class SetSubscribe {
      */
     public static void goodsOrder(GoodsOrderBean bean, DisposableObserver<ResponseBody> subscriber) {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().goodsOrder(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 购买商品提交订单
+     * @param bean
+     * @param subscriber
+     */
+    public static void goodsBuyOne(GoodsBuyOneBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().goodsBuyOne(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

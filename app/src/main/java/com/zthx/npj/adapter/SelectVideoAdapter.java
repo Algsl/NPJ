@@ -3,6 +3,7 @@ package com.zthx.npj.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,9 @@ public class SelectVideoAdapter extends RecyclerView.Adapter<SelectVideoAdapter.
     private Context mContext;
     private ArrayList<SolutionVideoResponseBean.DataBean> mList;
     private ItemClickListener mItemClickListener ;
+    private ArrayList<Boolean> isClicked=new ArrayList<>();
+
+
     public interface ItemClickListener{
         void onItemClick(int position) ;
     }
@@ -31,6 +35,11 @@ public class SelectVideoAdapter extends RecyclerView.Adapter<SelectVideoAdapter.
     public SelectVideoAdapter(Context context,ArrayList<SolutionVideoResponseBean.DataBean> list) {
         mContext = context;
         mList = list;
+        for(int i=0;i<list.size();i++){
+            isClicked.add(false);
+        }
+        notifyDataSetChanged();
+        isClicked.set(0,true);
     }
     @NonNull
     @Override
@@ -47,6 +56,12 @@ public class SelectVideoAdapter extends RecyclerView.Adapter<SelectVideoAdapter.
                 @Override
                 public void onClick(View v) {
                     int position = viewHolder.getLayoutPosition();
+
+                    for(int i=0;i<isClicked.size();i++){
+                        isClicked.set(i,false);
+                    }
+                    isClicked.set(position,true);
+                    notifyDataSetChanged();
                     // 这里利用回调来给RecyclerView设置点击事件
                     mItemClickListener.onItemClick(position);
                 }
@@ -54,6 +69,18 @@ public class SelectVideoAdapter extends RecyclerView.Adapter<SelectVideoAdapter.
         }
         viewHolder.mTvTitle.setText(mList.get(i).getTitle());
         viewHolder.mTvTime.setText(mList.get(i).getDuration());
+        if(isClicked.get(i)){
+            viewHolder.selectImg.setImageResource(R.drawable.item_play_theme);
+            viewHolder.selectTime.setImageResource(R.drawable.item_play_time_theme);
+            viewHolder.mTvTitle.setTextColor(mContext.getResources().getColor(R.color.app_theme));
+            viewHolder.mTvTime.setTextColor(mContext.getResources().getColor(R.color.app_theme));
+        }else{
+            viewHolder.selectImg.setImageResource(R.drawable.item_play);
+            viewHolder.selectTime.setImageResource(R.drawable.item_play_time);
+            viewHolder.mTvTitle.setTextColor(mContext.getResources().getColor(R.color.text6));
+            viewHolder.mTvTime.setTextColor(mContext.getResources().getColor(R.color.text6));
+        }
+
     }
 
     @Override
@@ -64,9 +91,11 @@ public class SelectVideoAdapter extends RecyclerView.Adapter<SelectVideoAdapter.
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView mTvTitle;
         TextView mTvTime;
-
+        ImageView selectImg,selectTime;
         ViewHolder(View itemView) {
             super(itemView);
+            selectImg=itemView.findViewById(R.id.item_select_video_iv_img);
+            selectTime=itemView.findViewById(R.id.item_select_video_iv_time);
             mTvTitle = itemView.findViewById(R.id.item_select_video_tv_title);
             mTvTime = itemView.findViewById(R.id.item_select_video_tv_time);
         }

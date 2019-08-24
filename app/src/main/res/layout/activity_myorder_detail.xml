@@ -19,7 +19,7 @@
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
+                android:layout_height="@dimen/dp_60"
                 android:background="@color/app_theme"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
@@ -529,7 +529,7 @@
                 <!--订单页面-->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_240"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginLeft="@dimen/dp_12"
                     android:paddingBottom="@dimen/dp_10">
@@ -553,6 +553,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/at_myOrderDetail_ll_orderSn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -572,8 +573,10 @@
                             android:text="12335354535"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/at_myOrderDetail_ll_payType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_marginTop="@dimen/dp_3"
                         android:orientation="horizontal">
                         <TextView
@@ -591,6 +594,7 @@
                             android:text="支付宝支付"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/at_myOrderDetail_ll_createTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_3"
@@ -610,7 +614,9 @@
                             android:text="2019-05-15  09：20：20"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/at_myOrderDetail_ll_payTime"
                         android:layout_width="match_parent"
+                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_3"
                         android:orientation="horizontal">
@@ -629,9 +635,11 @@
                             android:text="2019-05-15  09：20：20"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/at_myOrderDetail_ll_send"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_3"
+                        android:visibility="gone"
                         android:orientation="horizontal">
                         <TextView
                             android:layout_width="wrap_content"
@@ -648,10 +656,12 @@
                             android:text="2019-05-15  09：20：20"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/at_myOrderDetail_ll_over"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_3"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -689,8 +699,27 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_40"
+                    android:gravity="center"
+                    android:text="猜你喜欢"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ac_myOrderDetail_rv_cai"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"

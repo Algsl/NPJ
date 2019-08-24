@@ -104,21 +104,19 @@
                         android:textColorHint="@color/text9"
                         android:textSize="@dimen/sp_13"/>
                 </LinearLayout>
-                <ImageView
-                    android:visibility="visible"
+                <me.zhouzhuo.zzimagebox.ZzImageBox
                     android:id="@+id/ac_pulishGoods_iv_goodsImg"
-                    android:layout_width="@dimen/dp_60"
-                    android:layout_height="@dimen/dp_60"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:src="@drawable/add_pic"/>
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_image1"
-                    android:visibility="gone"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginRight="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_10"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    app:zib_left_margin="@dimen/dp_12"
+                    app:zib_right_margin="@dimen/dp_12"
+                    app:zib_img_padding="@dimen/dp_10"
+                    app:zib_img_size_one_line="3"
+                    app:zib_max_line="1"
+                    app:zib_img_deletable="true"
+                    app:zib_img_add="@drawable/iv_add"
+                    app:zib_img_default="@drawable/iv_default"
+                    app:zib_img_delete="@drawable/iv_delete"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -153,20 +151,19 @@
                         android:textColorHint="@color/text9"
                         android:textSize="@dimen/sp_13"/>
                 </LinearLayout>
-                <ImageView
+                <me.zhouzhuo.zzimagebox.ZzImageBox
                     android:id="@+id/ac_pulishGoods_iv_goodsContent"
-                    android:layout_width="@dimen/dp_60"
-                    android:layout_height="@dimen/dp_60"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:src="@drawable/add_pic"/>
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_image2"
-                    android:visibility="gone"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginRight="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_10"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    app:zib_left_margin="@dimen/dp_12"
+                    app:zib_right_margin="@dimen/dp_12"
+                    app:zib_img_padding="@dimen/dp_10"
+                    app:zib_img_size_one_line="3"
+                    app:zib_max_line="1"
+                    app:zib_img_deletable="true"
+                    app:zib_img_add="@drawable/iv_add"
+                    app:zib_img_default="@drawable/iv_default"
+                    app:zib_img_delete="@drawable/iv_delete"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"

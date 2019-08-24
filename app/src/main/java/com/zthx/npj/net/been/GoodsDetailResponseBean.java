@@ -24,10 +24,18 @@ public class GoodsDetailResponseBean extends BaseReponseBean {
         private String goods_name;
         private String goods_desc;
         private ArrayList<String> goods_img;
+        private ArrayList<String> goods_content;
         private String user_price;
         private String member_price;
         private String market_price;
 
+        public ArrayList<String> getGoods_content() {
+            return goods_content;
+        }
+
+        public void setGoods_content(ArrayList<String> goods_content) {
+            this.goods_content = goods_content;
+        }
 
         public String getUser_id() {
             return user_id;

@@ -296,9 +296,9 @@ public class GoodsDetailActivity extends ActivityBase {
         long second = ((time / 1000) - hour * 60 - min * 60);
 
         if (mSeckillData.isCollect()) {
-            acGoodsDetailIvCollect.setImageResource(R.drawable.collected);
+            acGoodsDetailIvCollect.setImageResource(R.drawable.collect_star);
         } else {
-            acGoodsDetailIvCollect.setImageResource(R.drawable.goods_detail_collect);
+            acGoodsDetailIvCollect.setImageResource(R.drawable.uncollect_star);
         }
 
         atGoodsDetailTtv.setTimes(new long[]{hour, min, second});

@@ -11,8 +11,6 @@
     <ImageView
         android:id="@+id/item_iv_comment_goods"
         android:layout_width="match_parent"
-        android:layout_marginLeft="@dimen/dp_4"
-        android:layout_marginRight="@dimen/dp_4"
         android:layout_height="@dimen/dp_171"
         android:src="@mipmap/ic_launcher"/>
 
@@ -23,6 +21,8 @@
         android:text="@string/go_to_game"
         android:layout_marginTop="@dimen/dp_5"
         android:layout_marginLeft="@dimen/dp_5"
+        android:lines="1"
+        android:ellipsize="end"
         android:textColor="@color/text3"
         android:textSize="@dimen/sp_15"/>
 

@@ -29,6 +29,7 @@ public class GoodSizePopupwindow extends PopupWindow {
     private final RelativeLayout addView;
     private final Button mAddShoppingCar;
     private final Button mBuyNow;
+    private final RelativeLayout goodsRlNum;
     private ImageView cancel;
     private Context mContext;
     private View view;
@@ -44,6 +45,7 @@ public class GoodSizePopupwindow extends PopupWindow {
         mBuyNow = view.findViewById(R.id.item_pop_goods_buy);
         labelsView = (LabelsView) view.findViewById(R.id.labels);
         cancel=view.findViewById(R.id.pp_goodsSize_iv_cancel);
+        goodsRlNum=view.findViewById(R.id.pw_goodsSize_rl_buy);
         final TextView choose=view.findViewById(R.id.pop_goods_size_tv_choice);
 
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +66,7 @@ public class GoodSizePopupwindow extends PopupWindow {
                 mAddShoppingCar.setVisibility(View.GONE);
                 break;
             case "3":
+                goodsRlNum.setVisibility(View.VISIBLE);
                 break;
         }
 //        // 设置按钮监听

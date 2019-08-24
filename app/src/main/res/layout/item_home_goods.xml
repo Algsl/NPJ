@@ -10,9 +10,7 @@
 
     <ImageView
         android:id="@+id/item_iv_home_goods"
-        android:layout_width="@dimen/dp_160"
-        android:layout_marginLeft="@dimen/dp_4"
-        android:layout_marginRight="@dimen/dp_4"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/dp_170"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
@@ -60,11 +58,11 @@
         android:orientation="horizontal">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_20"
+            android:layout_height="@dimen/dp_22"
             android:layout_marginTop="@dimen/dp_7"
             android:background="@drawable/theme_conner_15"
             android:layout_marginLeft="@dimen/dp_12"
-            android:layout_marginRight="@dimen/dp_5">
+            android:layout_marginRight="@dimen/dp_12">
             <TextView
                 android:id="@+id/item_tv_home_goods_mall_name"
                 android:layout_width="wrap_content"
@@ -78,11 +76,12 @@
         </RelativeLayout>
         <com.zthx.npj.view.MyCircleView
             android:id="@+id/item_iv_home_goods_mall"
-            android:layout_width="@dimen/dp_34"
-            android:layout_height="@dimen/dp_34"
+            android:layout_width="@dimen/dp_28"
+            android:layout_height="@dimen/dp_28"
             android:layout_marginLeft="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_4"
             android:layout_gravity="center"
+            android:scaleType="fitXY"
             android:src="@mipmap/ic_launcher"/>
     </RelativeLayout>
 </LinearLayout>

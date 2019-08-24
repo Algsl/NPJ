@@ -167,7 +167,7 @@ public class SharePerferenceUtils {
 
     public static String getToken(Context context) {
         return "626e71387b1294be674c5be8a4ae898f";
-       // return getString(context, "token", "");
+       //return getString(context, "token", "");
     }
 
     public static  void setMainBanner(Context context, String value) {

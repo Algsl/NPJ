@@ -4,11 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_marginTop="@dimen/dp_10"
     android:background="@android:color/white">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_10"
-        android:background="@color/line"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40">
@@ -49,6 +46,7 @@
             android:layout_height="@dimen/dp_80"
             android:src="@mipmap/ic_launcher"
             android:layout_centerVertical="true"
+            android:scaleType="fitXY"
             android:layout_marginLeft="@dimen/dp_12"/>
         <TextView
             android:id="@+id/item_orderList_tv_goodsName"

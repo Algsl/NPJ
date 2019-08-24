@@ -5,8 +5,8 @@
     android:layout_height="@dimen/dp_40"
     android:orientation="horizontal"
     android:gravity="center_vertical">
-
     <ImageView
+        android:id="@+id/item_select_video_iv_img"
         android:layout_width="@dimen/dp_23"
         android:layout_height="@dimen/dp_23"
         android:layout_marginLeft="@dimen/dp_12"
@@ -19,7 +19,10 @@
         android:text="1.0-导论导论导论导论导论导论导论导论导论导论"
         android:textSize="@dimen/sp_15"
         android:textColor="@color/text6"
+        android:layout_marginRight="@dimen/dp_5"
         android:layout_marginLeft="@dimen/dp_47"
+        android:lines="1"
+        android:ellipsize="end"
         android:maxEms="14"
         android:maxLines="1"/>
 
@@ -32,8 +35,8 @@
         android:textColor="@color/text6"
         android:textSize="@dimen/sp_12"
         android:layout_marginRight="@dimen/dp_12"/>
-
     <ImageView
+        android:id="@+id/item_select_video_iv_time"
         android:layout_width="@dimen/dp_22"
         android:layout_height="@dimen/dp_20"
         android:src="@drawable/item_play_time"

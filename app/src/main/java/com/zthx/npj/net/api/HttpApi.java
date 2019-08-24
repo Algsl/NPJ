@@ -522,5 +522,14 @@ public interface HttpApi  {
 
     @POST("index.php/api/index/childhome.html")
     Observable<ResponseBody> childHome(@Body ChildHomeBean bean);
+
+    @POST("index.php/api/user/goodsbuyone.html")
+    Observable<ResponseBody> goodsBuyOne(@Body GoodsBuyOneBean bean);
+
+    @POST("index.php/api/user/giftbuyone.html")
+    Observable<ResponseBody> giftBuyOne(@Body GiftBuyOneBean bean);
+
+    @POST("index.php/api/index/alsolike.html")
+    Observable<ResponseBody> alsoLike(@Body AlsoLikeBean bean);
 }
 

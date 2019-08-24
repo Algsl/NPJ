@@ -1,6 +1,7 @@
 package com.zthx.npj.net.netsubscribe;
 
 import com.zthx.npj.entity.StoreInfo;
+import com.zthx.npj.net.been.AlsoLikeBean;
 import com.zthx.npj.net.been.BannerBean;
 import com.zthx.npj.net.been.CategoryBean;
 import com.zthx.npj.net.been.ChildHomeBean;
@@ -276,6 +277,17 @@ public class MainSubscribe {
         bean.setUser_id(user_id);
         bean.setPage(page);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().childHome(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 猜你喜欢
+     * @param page
+     * @param subscriber
+     */
+    public static void alsoLike(String page, DisposableObserver<ResponseBody> subscriber) {
+        AlsoLikeBean bean=new AlsoLikeBean();
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().alsoLike(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

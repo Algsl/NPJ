@@ -1,5 +1,6 @@
 package com.zthx.npj.net.netsubscribe;
 
+import com.zthx.npj.net.been.GiftBuyOneBean;
 import com.zthx.npj.net.been.GiftDetailBean;
 import com.zthx.npj.net.been.GiftListBean;
 import com.zthx.npj.net.been.LocalSpokesmanBeen;
@@ -105,6 +106,16 @@ public class GiftSubscribe {
         bean.setOrder_sn(order_sn);
         bean.setPay_money(pay_money);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().pay(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 购买礼包生成订单
+     * @param bean
+     * @param subscriber
+     */
+    public static void giftBuyOne(GiftBuyOneBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().giftBuyOne(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 

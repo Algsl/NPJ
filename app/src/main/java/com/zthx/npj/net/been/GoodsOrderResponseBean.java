@@ -9,51 +9,15 @@ public class GoodsOrderResponseBean extends BaseReponseBean{
         private long id;
         private String goods_name;
         private String goods_img;
-        private String goods_price;
-        private String freight;
+        private long is_free_shipping;
+        private String user_id;
+        private String price;
         private String store_name;
-        public class Attributes{
-            private long id;
-            private String pre_number;
-            private String pre_price;
-
-            public long getId() {
-                return id;
-            }
-
-            public void setId(long id) {
-                this.id = id;
-            }
-
-            public String getPre_number() {
-                return pre_number;
-            }
-
-            public void setPre_number(String pre_number) {
-                this.pre_number = pre_number;
-            }
-
-            public String getPre_price() {
-                return pre_price;
-            }
-
-            public void setPre_price(String pre_price) {
-                this.pre_price = pre_price;
-            }
-        }
-        private Attributes attributes;
+        private String goods_num;
         private long address_id;
         private String consignee;
         private String mobile;
         private String address;
-
-        public Attributes getAttributes() {
-            return attributes;
-        }
-
-        public void setAttributes(Attributes attributes) {
-            this.attributes = attributes;
-        }
 
         public long getId() {
             return id;
@@ -79,20 +43,28 @@ public class GoodsOrderResponseBean extends BaseReponseBean{
             this.goods_img = goods_img;
         }
 
-        public String getGoods_price() {
-            return goods_price;
+        public long getIs_free_shipping() {
+            return is_free_shipping;
         }
 
-        public void setGoods_price(String goods_price) {
-            this.goods_price = goods_price;
+        public void setIs_free_shipping(long is_free_shipping) {
+            this.is_free_shipping = is_free_shipping;
         }
 
-        public String getFreight() {
-            return freight;
+        public String getUser_id() {
+            return user_id;
         }
 
-        public void setFreight(String freight) {
-            this.freight = freight;
+        public void setUser_id(String user_id) {
+            this.user_id = user_id;
+        }
+
+        public String getPrice() {
+            return price;
+        }
+
+        public void setPrice(String price) {
+            this.price = price;
         }
 
         public String getStore_name() {
@@ -103,6 +75,13 @@ public class GoodsOrderResponseBean extends BaseReponseBean{
             this.store_name = store_name;
         }
 
+        public String getGoods_num() {
+            return goods_num;
+        }
+
+        public void setGoods_num(String goods_num) {
+            this.goods_num = goods_num;
+        }
 
         public long getAddress_id() {
             return address_id;

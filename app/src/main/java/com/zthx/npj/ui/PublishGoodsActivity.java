@@ -26,7 +26,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.scrat.app.selectorlibrary.ImageSelector;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.GoodsCateAdapter;
 import com.zthx.npj.adapter.ImageAdapter;
@@ -80,9 +79,9 @@ public class PublishGoodsActivity extends ActivityBase {
     @BindView(R.id.ac_pulishGoods_btn_pulish)
     Button acPulishGoodsBtnPulish;
     @BindView(R.id.ac_pulishGoods_iv_goodsImg)
-    ImageView acPulishGoodsIvGoodsImg;
+    ZzImageBox acPulishGoodsIvGoodsImg;
     @BindView(R.id.ac_pulishGoods_iv_goodsContent)
-    ImageView acPulishGoodsIvGoodsContent;
+    ZzImageBox acPulishGoodsIvGoodsContent;
 
 
     private static final int CHOOSE_PHOTO1 = 1;
@@ -95,10 +94,7 @@ public class PublishGoodsActivity extends ActivityBase {
     ImageView acPublishGoodsIvHint3;
     @BindView(R.id.ac_publishGoods_iv_hint4)
     ImageView acPublishGoodsIvHint4;
-    @BindView(R.id.rv_image1)
-    RecyclerView rvImage1;
-    @BindView(R.id.rv_image2)
-    RecyclerView rvImage2;
+
     private List<String> paths1 = new ArrayList<>();
     private List<String> paths2 = new ArrayList<>();
     private String requestUrl = "http://app.npj-vip.com/index.php/api/set/uploadimagegroup.html";
@@ -127,9 +123,10 @@ public class PublishGoodsActivity extends ActivityBase {
 
         getGoodsCate();
 
-        /*acPulishGoodsIvGoodsImg.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
+        acPulishGoodsIvGoodsImg.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
             @Override
             public void onImageClick(int position, String url, String realPath, int realType, ImageView iv) {
+
             }
 
             @Override
@@ -161,7 +158,7 @@ public class PublishGoodsActivity extends ActivityBase {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, CHOOSE_PHOTO2);
             }
-        });*/
+        });
     }
 
     private void getGoodsCate() {
@@ -215,10 +212,7 @@ public class PublishGoodsActivity extends ActivityBase {
         switch (requestCode) {
             case CHOOSE_PHOTO1:
                 if (resultCode == RESULT_OK) {
-                    paths1=ImageSelector.getImagePaths(data);
-                    rvImage1.setLayoutManager(new GridLayoutManager(this,5));
-                    rvImage1.setAdapter(new ImageAdapter(this,paths1));
-                    /*try {
+                    try {
                         Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
                         Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
@@ -226,20 +220,17 @@ public class PublishGoodsActivity extends ActivityBase {
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         String path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
-                        paths1.add(path);
                         Log.e("测试", "onActivityResult: " + path);
+                        paths1.add(path);
                         acPulishGoodsIvGoodsImg.addImage(path);
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }*/
+                    }
                 }
                 break;
             case CHOOSE_PHOTO2:
                 if (resultCode == RESULT_OK) {
-                    paths2=ImageSelector.getImagePaths(data);
-                    rvImage2.setLayoutManager(new GridLayoutManager(this,5));
-                    rvImage2.setAdapter(new ImageAdapter(this,paths1));
-                    /*try {
+                    try {
                         Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
                         Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
@@ -251,14 +242,14 @@ public class PublishGoodsActivity extends ActivityBase {
                         acPulishGoodsIvGoodsContent.addImage(path);
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }*/
+                    }
                 }
                 break;
         }
     }
 
     @OnClick({R.id.ac_pulishGoods_tv_goodsType, R.id.ac_pulishGoods_btn_pulish, R.id.ac_publishGoods_iv_hint1, R.id.ac_publishGoods_iv_hint2, R.id.ac_publishGoods_iv_hint3, R.id.ac_publishGoods_iv_hint4
-            , R.id.ac_pulishGoods_tv_cateId,R.id.ac_pulishGoods_iv_goodsImg,R.id.ac_pulishGoods_iv_goodsContent})
+            , R.id.ac_pulishGoods_tv_cateId})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_pulishGoods_tv_goodsType:
@@ -302,12 +293,6 @@ public class PublishGoodsActivity extends ActivityBase {
                 break;
             case R.id.ac_pulishGoods_tv_cateId:
                 showItemPopwindow();
-                break;
-            case R.id.ac_pulishGoods_iv_goodsImg:
-                ImageSelector.show(this,CHOOSE_PHOTO1);
-                break;
-            case R.id.ac_pulishGoods_iv_goodsContent:
-                ImageSelector.show(this,CHOOSE_PHOTO2);
                 break;
         }
     }

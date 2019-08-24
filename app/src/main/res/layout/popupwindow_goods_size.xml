@@ -86,7 +86,7 @@
             android:layout_marginLeft="@dimen/dp_10"
             android:textSize="@dimen/sp_12"
             android:textColor="@color/text9"/>
-        
+
         <ImageView
             android:id="@+id/pp_goodsSize_iv_cancel"
             android:layout_width="@dimen/dp_22"
@@ -96,7 +96,7 @@
             android:layout_marginRight="@dimen/dp_9"
             android:src="@drawable/pop_goods_detail_size_delete"/>
     </RelativeLayout>
-    
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_30"
@@ -116,7 +116,7 @@
             android:layout_toRightOf="@id/iv_pop_lingdang"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_8"/>
-        
+
         <ImageView
             android:id="@+id/iv_pop_look"
             android:layout_width="@dimen/dp_7"
@@ -169,12 +169,13 @@
             tag:selectType="SINGLE"
             tag:maxSelect="30" />
     </LinearLayout>
-    
+
     <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/pw_goodsSize_rl_buy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_20">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -183,7 +184,6 @@
             android:layout_marginLeft="@dimen/dp_12"
             android:textColor="@color/text3"
             android:textSize="@dimen/sp_15"/>
-
         <LinearLayout
             android:layout_width="@dimen/dp_75"
             android:layout_height="@dimen/dp_22"
@@ -228,7 +228,7 @@
 
         </LinearLayout>
     </RelativeLayout>
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_49"

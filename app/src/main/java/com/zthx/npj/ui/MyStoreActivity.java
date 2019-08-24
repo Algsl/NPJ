@@ -96,7 +96,7 @@ public class MyStoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showPublishPopwindow("1");
             }
         }));
     }
@@ -122,13 +122,13 @@ public class MyStoreActivity extends ActivityBase {
                 startActivity(new Intent(this, StoreGoodsListActivity.class));
                 break;
             case R.id.title_theme_tv_right:
-                backgroundAlpha(0.5f);
-                showPublishPopwindow();
+                showPublishPopwindow("2");
                 break;
         }
     }
 
-    public void showPublishPopwindow() {
+    public void showPublishPopwindow(final String showPwType) {
+        backgroundAlpha(0.5f);
         View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_store_edit, null);
         // 创建PopupWindow对象，其中：
         // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
@@ -140,7 +140,7 @@ public class MyStoreActivity extends ActivityBase {
 
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         // 设置PopupWindow是否能响应外部点击事件
-        window.setOutsideTouchable(false);
+        window.setOutsideTouchable(true);
         // 设置PopupWindow是否能响应点击事件
         window.setTouchable(true);
         window.setFocusable(true);
@@ -152,14 +152,6 @@ public class MyStoreActivity extends ActivityBase {
         final TextView pwStoreEditTvStoreName = contentView.findViewById(R.id.pw_storEdit_et_storeName);
         pwStoreEditTvStoreName.setFocusable(true);
         Button pwStoreEditBtnCommit = contentView.findViewById(R.id.pw_storEdit_btn_commit);
-        ImageView cancel=contentView.findViewById(R.id.pw_storeEdit_iv_diss);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                backgroundAlpha(1f);
-                window.dismiss();
-            }
-        });
         pwStoreEditMCVStoreImg.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -185,6 +177,17 @@ public class MyStoreActivity extends ActivityBase {
 
                     }
                 }));
+            }
+        });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if (showPwType.equals("1")){
+                    finish();
+                }else{
+                    backgroundAlpha(1f);
+                    window.dismiss();
+                }
             }
         });
     }
