@@ -9,8 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,13 +21,12 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.GoodsCateAdapter;
-import com.zthx.npj.adapter.ImageAdapter;
-import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.AddGoodsBean;
 import com.zthx.npj.net.been.GoodsCateResponseBean;
 import com.zthx.npj.net.been.UploadPicsResponseBean;
@@ -94,6 +91,12 @@ public class PublishGoodsActivity extends ActivityBase {
     ImageView acPublishGoodsIvHint3;
     @BindView(R.id.ac_publishGoods_iv_hint4)
     ImageView acPublishGoodsIvHint4;
+    @BindView(R.id.ac_pulishGoods_rl_cateId)
+    RelativeLayout acPulishGoodsRlCateId;
+    @BindView(R.id.ac_pulishGoods_rl_goodsType)
+    RelativeLayout acPulishGoodsRlGoodsType;
+    @BindView(R.id.at_publishGoods_iv_isTuiJian)
+    ImageView atPublishGoodsIvIsTuiJian;
 
     private List<String> paths1 = new ArrayList<>();
     private List<String> paths2 = new ArrayList<>();
@@ -111,6 +114,7 @@ public class PublishGoodsActivity extends ActivityBase {
     private String token = SharePerferenceUtils.getToken(this);
     private String cate_id = "";
     private String cateName = "";
+    private boolean isTuiJian;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -248,11 +252,12 @@ public class PublishGoodsActivity extends ActivityBase {
         }
     }
 
-    @OnClick({R.id.ac_pulishGoods_tv_goodsType, R.id.ac_pulishGoods_btn_pulish, R.id.ac_publishGoods_iv_hint1, R.id.ac_publishGoods_iv_hint2, R.id.ac_publishGoods_iv_hint3, R.id.ac_publishGoods_iv_hint4
-            , R.id.ac_pulishGoods_tv_cateId})
+    @OnClick({R.id.ac_pulishGoods_btn_pulish, R.id.ac_publishGoods_iv_hint1,
+            R.id.ac_publishGoods_iv_hint2, R.id.ac_publishGoods_iv_hint3, R.id.ac_publishGoods_iv_hint4,
+            R.id.ac_pulishGoods_rl_cateId, R.id.ac_pulishGoods_rl_goodsType, R.id.at_publishGoods_iv_isTuiJian})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.ac_pulishGoods_tv_goodsType:
+            case R.id.ac_pulishGoods_rl_goodsType:
                 showBottomDialog();
                 break;
             case R.id.ac_pulishGoods_btn_pulish:
@@ -291,9 +296,21 @@ public class PublishGoodsActivity extends ActivityBase {
             case R.id.ac_publishGoods_iv_hint4:
                 showPublishPopwindow(str4, R.dimen.dp_175);
                 break;
-            case R.id.ac_pulishGoods_tv_cateId:
+            case R.id.ac_pulishGoods_rl_cateId:
                 showItemPopwindow();
                 break;
+            case R.id.at_publishGoods_iv_isTuiJian:
+                toggle();
+                break;
+        }
+    }
+
+    private void toggle() {
+        isTuiJian=!isTuiJian;
+        if(isTuiJian){
+            atPublishGoodsIvIsTuiJian.setImageResource(R.drawable.at_edit_address_selector);
+        }else{
+            atPublishGoodsIvIsTuiJian.setImageResource(R.drawable.at_edit_address_not_selector);
         }
     }
 
@@ -435,7 +452,7 @@ public class PublishGoodsActivity extends ActivityBase {
         window.setTouchable(true);
         // 显示PopupWindow，其中：
         // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
-        window.showAtLocation(getWindow().getDecorView(), Gravity.RIGHT, 0, 80);
+        window.showAtLocation(getWindow().getDecorView(), Gravity.RIGHT, 0, 0);
         final GoodsCateResponseBean bean = GsonUtils.fromJson(itemResult, GoodsCateResponseBean.class);
         final ExpandableListView elv = contentView.findViewById(R.id.pw_storeCartId_elv);
         final GoodsCateAdapter adapter = new GoodsCateAdapter(this, bean.getData());
@@ -470,5 +487,4 @@ public class PublishGoodsActivity extends ActivityBase {
         });
 
     }
-
 }

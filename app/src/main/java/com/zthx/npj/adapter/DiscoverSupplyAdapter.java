@@ -74,11 +74,11 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
             }
         });
         viewHolder.mTvPrice.setText(list.get(i).getPrice());
-        if(Integer.valueOf(list.get(i).getDistance())>1000){
+        /*if(Integer.valueOf(list.get(i).getDistance())>1000){
             viewHolder.mTvDistance.setText((Integer.valueOf(list.get(i).getDistance())/1000)+"km");
         }else{
             viewHolder.mTvDistance.setText(list.get(i).getDistance()+"m");
-        }
+        }*/
         viewHolder.mTvTitle.setText(list.get(i).getTitle());
         viewHolder.mTvSupplyUnit.setText("元/"+list.get(i).getGoods_unit());
         if(list.get(i).getCert()==null){

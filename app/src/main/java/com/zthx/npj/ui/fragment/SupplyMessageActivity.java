@@ -1,5 +1,6 @@
 package com.zthx.npj.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -8,7 +9,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -234,10 +237,14 @@ public class SupplyMessageActivity extends ActivityBase {
         switch (view.getId()) {
             //地址选择器
             case R.id.at_supply_message_address:
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 initJsonData();
                 showPickerView();
                 break;
             case R.id.at_qg_message_address:
+                InputMethodManager imm1 = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm1.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 initJsonData();
                 showPickerView();
                 break;

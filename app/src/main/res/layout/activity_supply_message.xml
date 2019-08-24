@@ -18,19 +18,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <me.zhouzhuo.zzimagebox.ZzImageBox
-                android:id="@+id/at_supply_message_three_pic"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:zib_left_margin="@dimen/dp_12"
-                app:zib_right_margin="@dimen/dp_12"
-                app:zib_img_padding="@dimen/dp_10"
-                app:zib_img_size_one_line="3"
-                app:zib_max_line="3"
-                app:zib_img_deletable="true"
-                app:zib_img_add="@drawable/iv_add"
-                app:zib_img_default="@drawable/iv_default"
-                app:zib_img_delete="@drawable/iv_delete"></me.zhouzhuo.zzimagebox.ZzImageBox>
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_12">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="添加产品图片"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_110"/>
+                <me.zhouzhuo.zzimagebox.ZzImageBox
+                    android:id="@+id/at_supply_message_three_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:zib_left_margin="@dimen/dp_12"
+                    app:zib_right_margin="@dimen/dp_12"
+                    app:zib_img_padding="@dimen/dp_10"
+                    app:zib_img_size_one_line="5"
+                    app:zib_max_line="1"
+                    app:zib_img_deletable="true"
+                    app:zib_img_add="@drawable/iv_add"
+                    app:zib_img_default="@drawable/iv_default"
+                    app:zib_img_delete="@drawable/iv_delete"/>
+            </RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1"
@@ -121,6 +133,7 @@
                         android:textColor="@color/text3"
                         android:layout_centerVertical="true"/>
                     <EditText
+                        android:inputType="number"
                         android:id="@+id/at_supply_message_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -208,6 +221,7 @@
                         android:textColor="@color/text3"
                         android:layout_centerVertical="true"/>
                     <EditText
+                        android:inputType="number"
                         android:id="@+id/at_supply_message_whole"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -258,6 +272,7 @@
                         android:textColor="@color/text3"
                         android:layout_centerVertical="true"/>
                     <EditText
+                        android:inputType="number"
                         android:id="@+id/at_supply_message_et_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -373,6 +388,7 @@
                         android:textColor="@color/text3"
                         android:layout_centerVertical="true"/>
                     <EditText
+                        android:inputType="number"
                         android:id="@+id/at_qg_message_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -463,6 +479,7 @@
                         android:layout_marginTop="@dimen/dp_10"/>
 
                     <EditText
+                        android:inputType="number"
                         android:id="@+id/at_supply_message_et_min"
                         android:layout_width="@dimen/dp_60"
                         android:layout_height="@dimen/dp_18"
@@ -483,6 +500,7 @@
                         android:layout_marginTop="@dimen/dp_19"></View>
 
                     <EditText
+                        android:inputType="number"
                         android:id="@+id/at_supply_message_et_max"
                         android:layout_width="@dimen/dp_60"
                         android:layout_height="@dimen/dp_18"
@@ -533,7 +551,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginRight="@dimen/dp_12">
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="添加产品详情长图"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_110"/>
                 <me.zhouzhuo.zzimagebox.ZzImageBox
                     android:id="@+id/at_supply_message_nine_pic"
                     android:layout_width="match_parent"
@@ -541,20 +564,12 @@
                     app:zib_left_margin="@dimen/dp_12"
                     app:zib_right_margin="@dimen/dp_12"
                     app:zib_img_padding="@dimen/dp_10"
-                    app:zib_img_size_one_line="3"
-                    app:zib_max_line="3"
+                    app:zib_img_size_one_line="5"
+                    app:zib_max_line="2"
                     app:zib_img_deletable="true"
                     app:zib_img_add="@drawable/iv_add"
                     app:zib_img_default="@drawable/iv_default"
                     app:zib_img_delete="@drawable/iv_delete"></me.zhouzhuo.zzimagebox.ZzImageBox>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="添加产品详情长图（选填）"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp_110"/>
-
             </RelativeLayout>
             <EditText
                 android:id="@+id/at_supply_message_et_beizhu"
@@ -565,6 +580,7 @@
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginRight="@dimen/dp_12"
                 android:textSize="@dimen/sp_13"
+                android:layout_marginTop="@dimen/dp_10"
                 android:paddingTop="@dimen/dp_5"
                 android:gravity="top"/>
             <LinearLayout

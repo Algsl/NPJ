@@ -10,12 +10,16 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -78,6 +82,8 @@ public class DiscverServiceFragment extends Fragment {
 
     private Intent intent1 = null;
     private boolean flag=false;
+    private AgricultureKnowledgeAdatper mAdapter;
+
 
     public DiscverServiceFragment() {
         // Required empty public constructor
@@ -114,6 +120,9 @@ public class DiscverServiceFragment extends Fragment {
         list.add(R.drawable.discover_top);
         list.add(R.drawable.local_top);
 
+        //设置RecyclerView管理器
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 4, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(layoutManager);
 
         getDataList();
         initBanner();
@@ -125,27 +134,7 @@ public class DiscverServiceFragment extends Fragment {
         DiscoverSubscribe.getSolutionList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-
-                DiscoverSolutionListResponseBean discoverSolutionListResponseBean = GsonUtils.fromJson(result, DiscoverSolutionListResponseBean.class);
-                final ArrayList<DiscoverSolutionListResponseBean.DataBean> data = discoverSolutionListResponseBean.getData();
-                //设置RecyclerView管理器
-                GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 4, LinearLayoutManager.VERTICAL, false);
-                mRecyclerView.setLayoutManager(layoutManager);
-                //初始化适配器
-                AgricultureKnowledgeAdatper mAdapter = new AgricultureKnowledgeAdatper(data, getActivity());
-                mAdapter.setOnItemClickListener(new AgricultureKnowledgeAdatper.ItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        Intent intent = new Intent(getActivity(), SystemSolutionActivity.class);
-                        intent.putExtra(Const.VIDEO_ID, data.get(position).getId() + "");
-                        intent.putExtra("title", data.get(position).getTitle());
-                        startActivity(intent);
-                    }
-                });
-                //设置添加或删除item时的动画，这里使用默认动画
-                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                //设置适配器
-                mRecyclerView.setAdapter(mAdapter);
+               getResult(result);
             }
 
             @Override
@@ -155,6 +144,45 @@ public class DiscverServiceFragment extends Fragment {
         }));
     }
 
+    private void getSearchSolution(String str) {
+        DiscoverSubscribe.searchSolution(str,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                getResult(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void getResult(String result){
+        DiscoverSolutionListResponseBean discoverSolutionListResponseBean = GsonUtils.fromJson(result, DiscoverSolutionListResponseBean.class);
+        final ArrayList<DiscoverSolutionListResponseBean.DataBean> data = discoverSolutionListResponseBean.getData();
+        if(data.size()<=0){
+            mRecyclerView.setVisibility(View.GONE);
+        }else{
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
+        //初始化适配器
+        mAdapter = new AgricultureKnowledgeAdatper(data, getActivity());
+        mAdapter.notifyDataSetChanged();
+        mAdapter.setOnItemClickListener(new AgricultureKnowledgeAdatper.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(getActivity(), SystemSolutionActivity.class);
+                intent.putExtra(Const.VIDEO_ID, data.get(position).getId() + "");
+                intent.putExtra("title", data.get(position).getTitle());
+                startActivity(intent);
+            }
+        });
+        //设置添加或删除item时的动画，这里使用默认动画
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        //设置适配器
+        mRecyclerView.setAdapter(mAdapter);
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -174,8 +202,10 @@ public class DiscverServiceFragment extends Fragment {
     }
 
 
-    @OnClick({R.id.fg_discover_ll_agriculture_knowledge, R.id.fg_discover_ll_information, R.id.fg_discover_ll_auction, R.id.fg_discover_ll_goods_for_goods, R.id.fg_discover_ll_loan, R.id.fg_discoverService_iv_search})
-    public void onViewClicked(View view) {
+    @OnClick({R.id.fg_discover_ll_agriculture_knowledge, R.id.fg_discover_ll_information,
+            R.id.fg_discover_ll_auction, R.id.fg_discover_ll_goods_for_goods,
+            R.id.fg_discover_ll_loan, R.id.fg_discoverService_iv_search,R.id.fg_discover_et_search})
+    public void onViewClicked(final View view) {
         switch (view.getId()) {
             case R.id.fg_discover_ll_agriculture_knowledge:
                 startActivity(new Intent(getActivity(), AgricultureKnowledgeActivity.class));
@@ -197,6 +227,21 @@ public class DiscverServiceFragment extends Fragment {
             case R.id.fg_discoverService_iv_search:
                 toggle();
                 break;
+            case R.id.fg_discover_et_search:
+                fgDiscoverEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                        if(i==EditorInfo.IME_ACTION_SEARCH){
+                            String str=fgDiscoverEtSearch.getText().toString().trim();
+                            getSearchSolution(str);
+                            fgDiscoverEtSearch.setText("");
+                            InputMethodManager imm1 = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm1.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+                        return false;
+                    }
+                });
+                break;
         }
     }
 
@@ -206,6 +251,7 @@ public class DiscverServiceFragment extends Fragment {
             fgDiscoverLl.setVisibility(View.VISIBLE);
         }else{
             fgDiscoverLl.setVisibility(View.GONE);
+            getDataList();
         }
     }
 

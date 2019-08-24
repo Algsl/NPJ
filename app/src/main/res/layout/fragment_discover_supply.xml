@@ -108,6 +108,7 @@
             android:background="@drawable/stroke_theme_5"
             android:hint="搜索你想要的产品"
             android:textSize="@dimen/sp_15"
+            android:focusable="false"
             android:textColor="@color/text9"
             android:paddingLeft="@dimen/dp_30"
             android:paddingRight="@dimen/dp_60"/>

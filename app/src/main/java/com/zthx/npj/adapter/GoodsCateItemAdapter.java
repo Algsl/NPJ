@@ -30,7 +30,6 @@ public class GoodsCateItemAdapter extends RecyclerView.Adapter<GoodsCateItemAdap
     }
 
     public GoodsCateItemAdapter(Context context,ArrayList<GoodsCateResponseBean.DataBean.Child> list){
-        Log.e("测试", "GoodsCateItemAdapter: "+list);
         mContext=context;
         mList=list;
     }
@@ -45,7 +44,6 @@ public class GoodsCateItemAdapter extends RecyclerView.Adapter<GoodsCateItemAdap
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
-        Log.e("测试", "onBindViewHolder: "+mList.get(i).getName());
         viewHolder.itemText.setText(mList.get(i).getName());
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -49,6 +49,7 @@ import com.zthx.npj.ui.MyOrderActivity;
 import com.zthx.npj.ui.MyStoreActivity;
 import com.zthx.npj.ui.MyStoreOrderDetailActivity;
 import com.zthx.npj.ui.MySupplyActivity;
+import com.zthx.npj.ui.MyTeamActivity;
 import com.zthx.npj.ui.MyWalletActivity;
 import com.zthx.npj.ui.SettingsActivity;
 import com.zthx.npj.ui.SpokesmanRightsNoPermissionActivity;
@@ -302,7 +303,8 @@ public class MineFragment
             R.id.fg_mine_ll_wait_evaluate,//待评价
             R.id.fg_mine_ll_custom_service,//退款/售后
             R.id.fg_mine_ll_my_offlinestore,
-            R.id.fg_mine_ll,
+            R.id.fg_mine_iv_head_pic,
+            R.id.fg_mine_iv_levelimg,
             R.id.fg_mine_iv_jihuo,
             R.id.fg_mine_iv_message
     })
@@ -417,7 +419,7 @@ public class MineFragment
                     }));
                 }
                 break;
-            case R.id.fg_mine_ll:
+            case R.id.fg_mine_iv_head_pic:
                 Intent intent=new Intent(getContext(),UserMsgActivity.class);
                 intent.putExtra("key0",user_id);
                 startActivity(intent);
@@ -427,6 +429,9 @@ public class MineFragment
                 break;
             case R.id.fg_mine_iv_message:
                 startActivity(new Intent(getContext(),MessageCenterActivity.class));
+                break;
+            case R.id.fg_mine_iv_levelimg:
+                startActivity(new Intent(getContext(),MyTeamActivity.class));
                 break;
         }
     }

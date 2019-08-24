@@ -39,6 +39,7 @@ import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.SupplyProductsActivity;
+import com.zthx.npj.ui.SupplySearchActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.GlideImageLoader;
@@ -241,7 +242,7 @@ public class DiscoverSupplyFragment extends Fragment {
             R.id.fg_discover_supply_ll_gongying, R.id.fg_discover_supply_tv_supply, R.id.fg_discover_supply_tv_need,
             R.id.fg_discover_supply_tv_company, R.id.fg_discover_supply_tv_new, R.id.fg_discover_supply_tv_location,
             R.id.fg_discover_supply_tv_sell_num, R.id.fg_discover_supply_tv_xinyong, R.id.fg_discover_supply_tv_price,
-            R.id.fg_discover_btn_cancel, R.id.fg_discover_btn_issue
+            R.id.fg_discover_btn_cancel, R.id.fg_discover_btn_issue,R.id.fg_discover_supply_search
     })
     public void onViewClicked(View view) {
         Intent intent;
@@ -310,6 +311,10 @@ public class DiscoverSupplyFragment extends Fragment {
             case R.id.fg_discover_btn_issue:
                 fgDiscoverSupplyRvSearch.setVisibility(View.GONE);
                 fgDiscoverSupplyLl.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.fg_discover_supply_search:
+                startActivity(new Intent(getContext(),SupplySearchActivity.class));
                 break;
         }
     }

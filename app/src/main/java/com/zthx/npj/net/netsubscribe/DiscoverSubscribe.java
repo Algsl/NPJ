@@ -13,9 +13,12 @@ import com.zthx.npj.net.been.NewsBean;
 import com.zthx.npj.net.been.NewsListBean;
 import com.zthx.npj.net.been.NullBean;
 import com.zthx.npj.net.been.PayVideoBean;
+import com.zthx.npj.net.been.QiuGouBean;
+import com.zthx.npj.net.been.SearchSolutionBean;
 import com.zthx.npj.net.been.SolutionSearchBean;
 import com.zthx.npj.net.been.SupplyBuy2Bean;
 import com.zthx.npj.net.been.SupplyListBean;
+import com.zthx.npj.net.been.SupplySearchBean;
 import com.zthx.npj.net.been.TwjcListBean;
 import com.zthx.npj.net.been.UploadCommentBean;
 import com.zthx.npj.net.been.VideoInfoBean;
@@ -370,6 +373,42 @@ public class DiscoverSubscribe {
         bean.setToken(token);
         bean.setAtt_user_id(att_user_id);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().attention(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 解决方案搜索
+     * @param keyword
+     * @param subscriber
+     */
+    public static void searchSolution(String keyword, DisposableObserver<ResponseBody> subscriber) {
+        SearchSolutionBean bean=new SearchSolutionBean();
+        bean.setKeyword(keyword);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().searchSolution(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 供应搜索
+     * @param keyword
+     * @param subscriber
+     */
+    public static void supplySearch(String keyword, DisposableObserver<ResponseBody> subscriber) {
+        SupplySearchBean bean=new SupplySearchBean();
+        bean.setKeyword(keyword);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().supplySearch(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 求购搜索
+     * @param keyword
+     * @param subscriber
+     */
+    public static void qiugouSearch(String keyword, DisposableObserver<ResponseBody> subscriber) {
+        QiuGouBean bean=new QiuGouBean();
+        bean.setKeyword(keyword);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().qiugouSearch(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

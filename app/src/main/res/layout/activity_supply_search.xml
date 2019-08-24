@@ -19,19 +19,19 @@
         android:focusableInTouchMode="true">
 
         <ImageView
-            android:id="@+id/at_home_search_iv_back"
+            android:id="@+id/ac_supplySearch_iv_back"
             android:layout_width="@dimen/dp_22"
             android:layout_height="@dimen/dp_22"
             android:src="@drawable/back"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_5"/>
         <EditText
-            android:id="@+id/at_home_search_et_search"
+            android:id="@+id/ac_supplySearch_et_search"
             android:layout_width="@dimen/dp_245"
             android:layout_height="@dimen/dp_29"
             android:layout_centerVertical="true"
             android:background="@drawable/gray_conner"
-            android:layout_toRightOf="@id/at_home_search_iv_back"
+            android:layout_toRightOf="@id/ac_supplySearch_iv_back"
             android:layout_marginLeft="@dimen/dp_38"
             android:hint="搜索你想要的产品"
             android:textSize="@dimen/sp_15"
@@ -44,11 +44,11 @@
             android:layout_height="@dimen/dp_22"
             android:src="@drawable/home_search_gray"
             android:layout_centerVertical="true"
-            android:layout_alignLeft="@id/at_home_search_et_search"
+            android:layout_alignLeft="@id/ac_supplySearch_et_search"
             android:layout_marginLeft="@dimen/dp_11"/>
 
         <TextView
-            android:id="@+id/at_home_search_tv_search"
+            android:id="@+id/ac_supplySearch_tv_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -59,54 +59,59 @@
             android:layout_marginRight="@dimen/dp_12"/>
 
     </RelativeLayout>
-
     <LinearLayout
-        android:id="@+id/ac_homeSearch_ll1"
+        android:id="@+id/ac_supplySearch_ll_show"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_22">
-
+        <LinearLayout
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_40"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal"
+            android:background="@drawable/stroke_theme_2">
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="搜索历史"
-                android:textSize="@dimen/sp_12"
-                android:textColor="@color/text9"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/dp_12" />
-
-            <ImageView
-                android:id="@+id/ac_homeSearch_iv_delHistory"
-                android:layout_width="22dp"
-                android:layout_height="@dimen/dp_22"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/home_search_delete"
-                android:layout_marginRight="@dimen/dp_9"/>
-        </RelativeLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/ac_homeSearch_rv_history"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_22"
-            android:layout_marginTop="@dimen/dp_22">
+                android:id="@+id/ac_supplySearch_tv_supply"
+                android:layout_width="@dimen/dp_0"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@color/app_theme"
+                android:text="供应"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/dp_5"/>
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="热门搜索"
-                android:textSize="@dimen/sp_12"
-                android:textColor="@color/text9"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/dp_12" />
-        </RelativeLayout>
+                android:id="@+id/ac_supply_tv_qiugou"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@color/white"
+                android:text="求购"
+                android:textSize="@dimen/sp_16"
+                android:layout_margin="@dimen/dp_5"/>
+        </LinearLayout>
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/ac_homeSearch_rv_hot"
+            android:visibility="visible"
+            android:id="@+id/ac_supplySearch_rv_supply"
+            android:layout_marginTop="@dimen/dp_10"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"/>
+        <android.support.v7.widget.RecyclerView
+            android:visibility="gone"
+            android:id="@+id/ac_supplySearch_rv_qiugou"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_150"
+            android:text="搜索结果不存在，换个关键词试试？"/>
     </LinearLayout>
 </LinearLayout>

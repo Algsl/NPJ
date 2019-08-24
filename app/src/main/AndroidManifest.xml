@@ -192,20 +192,7 @@
         <activity android:name=".ui.StoreGoodsClassifyActivity"/>
         <activity android:name=".ui.HaiBaoActivity"/>
         <activity android:name=".ui.LoadingActivity"/>
-
-        <activity android:name="com.donkingliang.imageselector.ImageSelectorActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-
-        //图片预览Activity
-        <activity android:name="com.donkingliang.imageselector.PreviewActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-
-        //图片剪切Activity
-        <activity
-            android:name="com.donkingliang.imageselector.ClipImageActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".ui.SupplySearchActivity"/>
 
         <activity
             android:name=".wxapi.WXEntryActivity"

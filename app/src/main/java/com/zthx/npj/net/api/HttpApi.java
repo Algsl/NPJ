@@ -531,5 +531,14 @@ public interface HttpApi  {
 
     @POST("index.php/api/index/alsolike.html")
     Observable<ResponseBody> alsoLike(@Body AlsoLikeBean bean);
+
+    @POST("index.php/api/index/searchsolution.html")
+    Observable<ResponseBody> searchSolution(@Body SearchSolutionBean bean);
+
+    @POST("index.php/api/index/searchsupply.html")
+    Observable<ResponseBody> supplySearch(@Body SupplySearchBean bean);
+
+    @POST("index.php/api/index/searchpurchase.html")
+    Observable<ResponseBody> qiugouSearch(@Body QiuGouBean bean);
 }
 
