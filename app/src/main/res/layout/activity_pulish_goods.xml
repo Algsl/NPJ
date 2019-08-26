@@ -163,7 +163,7 @@
                     app:zib_right_margin="@dimen/dp_12"
                     app:zib_img_padding="@dimen/dp_10"
                     app:zib_img_size_one_line="5"
-                    app:zib_max_line="2"
+                    app:zib_max_line="4"
                     app:zib_img_deletable="true"
                     app:zib_img_add="@drawable/iv_add"
                     app:zib_img_default="@drawable/iv_default"

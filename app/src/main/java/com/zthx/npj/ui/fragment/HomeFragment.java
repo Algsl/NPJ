@@ -329,7 +329,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void getChildHome() {
-        MainSubscribe.childHome("29", "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.childHome(SharePerferenceUtils.getUserId(getContext()), "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 Log.e("测试", "onSuccess: " + result);

@@ -202,7 +202,7 @@ public class SupplyProductsActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }, this));
     }
@@ -264,7 +264,7 @@ public class SupplyProductsActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }, this));
     }
@@ -361,7 +361,7 @@ public class SupplyProductsActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }
@@ -408,7 +408,7 @@ public class SupplyProductsActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-
+                        showToast(errorMsg);
                     }
                 }));
             }

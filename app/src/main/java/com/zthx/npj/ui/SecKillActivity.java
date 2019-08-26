@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * 限时秒杀
+ * 限时抢购
  */
 public class SecKillActivity extends ActivityBase {
 
@@ -43,7 +43,7 @@ public class SecKillActivity extends ActivityBase {
         setContentView(R.layout.activity_sec_kill);
         ButterKnife.bind(this);
         back(titleBack);
-        changeTitle(acTitle,"限时秒杀");
+        changeTitle(acTitle,"限时抢购");
 
         List<String> list = new ArrayList<>();
         List<Fragment> list2 = new ArrayList<>();

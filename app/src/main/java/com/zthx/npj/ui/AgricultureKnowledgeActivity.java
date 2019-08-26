@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -84,7 +85,7 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
         getData("1");
     }
 
-    private void getNewsList(String s) {
+    private void getNewsList(final String s) {
         DiscoverSubscribe.newsList(s, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -92,7 +93,9 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                 final ArrayList<NewsListResponseBean.DataBean> data = bean.getData();
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(AgricultureKnowledgeActivity.this);
                 atAkRv.setLayoutManager(layoutManager);
+                Log.e("测试", "onSuccess: "+data.get(0).getImg() );
                 NewsListAdapter adapter = new NewsListAdapter(AgricultureKnowledgeActivity.this, data);
+                adapter.notifyDataSetChanged();
                 atAkRv.setItemAnimator(new DefaultItemAnimator());
                 atAkRv.setAdapter(adapter);
                 adapter.setOnItemClickListener(new NewsListAdapter.ItemClickListener() {
@@ -124,11 +127,11 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                 changeBackground("2");
                 break;
             case R.id.at_ak_ll_3:
-                getData("3");
+                getNewsList("4");
                 changeBackground("3");
                 break;
             case R.id.at_ak_ll_4:
-                getData("4");
+                getNewsList("5");
                 changeBackground("4");
                 break;
             case R.id.at_ak_iv_search:
@@ -243,5 +246,6 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
 
     @OnClick()
     public void onViewClicked() {
+
     }
 }

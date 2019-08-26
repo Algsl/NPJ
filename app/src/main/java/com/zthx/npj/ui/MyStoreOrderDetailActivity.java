@@ -1,11 +1,11 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,10 +17,8 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AlsoLikeAdatper;
-import com.zthx.npj.adapter.CommenGoodsAdatper;
-import com.zthx.npj.adapter.HomeGoodsAdapter;
+import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AlsoLikeResponseBean;
-import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.MyOrderDetailResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
@@ -33,12 +31,10 @@ import com.zthx.npj.utils.SharePerferenceUtils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.baidu.mapapi.BMapManager.getContext;
+import butterknife.OnClick;
 
 public class MyStoreOrderDetailActivity extends ActivityBase {
     @BindView(R.id.at_myOrderDetail_ll_address)
@@ -149,6 +145,9 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     LinearLayout atMyOrderDetailLlOver;
 
     private String order_state = "";
+    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
+    private String order_id="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,7 +169,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     private void getMyStoreOrderDetail() {
         String user_id = SharePerferenceUtils.getUserId(this);
         String token = SharePerferenceUtils.getToken(this);
-        String order_id = getIntent().getStringExtra("order_id");
+        order_id = getIntent().getStringExtra("order_id");
         SetSubscribe.myOrderDetail(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -185,14 +184,14 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     }
 
     private void getAlsoLike() {
-        MainSubscribe.alsoLike("1",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.alsoLike("1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                AlsoLikeResponseBean bean=GsonUtils.fromJson(result,AlsoLikeResponseBean.class);
-                ArrayList<AlsoLikeResponseBean.DataBean> data=bean.getData();
-                GridLayoutManager layoutManager = new GridLayoutManager(MyStoreOrderDetailActivity.this,2);
+                AlsoLikeResponseBean bean = GsonUtils.fromJson(result, AlsoLikeResponseBean.class);
+                final ArrayList<AlsoLikeResponseBean.DataBean> data = bean.getData();
+                GridLayoutManager layoutManager = new GridLayoutManager(MyStoreOrderDetailActivity.this, 2);
                 acMyOrderDetailRvCai.setLayoutManager(layoutManager);
-                AlsoLikeAdatper adatper=new AlsoLikeAdatper(MyStoreOrderDetailActivity.this,data);
+                AlsoLikeAdatper adatper = new AlsoLikeAdatper(MyStoreOrderDetailActivity.this, data);
                 //设置添加或删除item时的动画，这里使用默认动画
                 acMyOrderDetailRvCai.setItemAnimator(new DefaultItemAnimator());
                 //设置适配器
@@ -201,14 +200,16 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                 adatper.setOnItemClickListener(new AlsoLikeAdatper.ItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-
+                        Intent intent = new Intent(MyStoreOrderDetailActivity.this, GoodsDetailActivity.class);
+                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                        startActivity(intent);
                     }
                 });
             }
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }
@@ -239,7 +240,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
         atMyOrderDetailTvGoodsPrice1.setText("￥ " + data.getGoods_price());
         atMyOrderDetailTvGoodsNum.setText("x " + data.getGoods_num());
         atMyOrderDetailTvGoodsNum1.setText("x " + data.getGoods_num());
-        atMyOrderDetailTvIsFreeShipping.setText("￥ "+data.getShipping_fee());
+        atMyOrderDetailTvIsFreeShipping.setText("￥ " + data.getShipping_fee());
 
         atMyOrderDetailTvOrderSn.setText(data.getOrder_sn());
         atMyOrderDetailTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time())));
@@ -316,4 +317,75 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
         }
     }
 
+    @OnClick({R.id.ac_myOrderDetail_tv_cancel, R.id.ac_myOrderDetail_tv_pay, R.id.ac_myOrderDetail_tv_applyRefund, R.id.ac_myOrderDetail_tv_wuliu, R.id.ac_myOrderDetail_tv_delay, R.id.ac_myOrderDetail_tv_confirm, R.id.ac_myOrderDetail_tv_delete, R.id.ac_myOrderDetail_tv_comment, R.id.ac_myOrderDetail_tv_chat, R.id.ac_myOrderDetail_tv_call})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ac_myOrderDetail_tv_cancel:
+                SetSubscribe.cancelOrder(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        finish();
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+                        showToast(errorMsg);
+                    }
+                }));
+                break;
+            case R.id.ac_myOrderDetail_tv_pay:
+                Intent intent = new Intent(MyStoreOrderDetailActivity.this, ConfirmMyOrderActivity.class);
+                intent.putExtra("order_id", order_id);
+                startActivity(intent);
+                break;
+            case R.id.ac_myOrderDetail_tv_applyRefund:
+                Intent intent3 = new Intent(MyStoreOrderDetailActivity.this, ApplyRefundActivity.class);
+                intent3.putExtra("order_id", order_id);
+                startActivity(intent3);
+                break;
+            case R.id.ac_myOrderDetail_tv_wuliu:
+                Intent intent1 = new Intent(MyStoreOrderDetailActivity.this, KuaiDiDetailActivity.class);
+                intent1.putExtra("order_id", order_id);
+                startActivity(intent1);
+                break;
+            case R.id.ac_myOrderDetail_tv_delay:
+                break;
+            case R.id.ac_myOrderDetail_tv_confirm:
+                SetSubscribe.receiveConfirm(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        finish();
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+                        showToast(errorMsg);
+                    }
+                }));
+                break;
+            case R.id.ac_myOrderDetail_tv_delete:
+                SetSubscribe.delOrder(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        finish();
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+                        showToast(errorMsg);
+                    }
+                }));
+                break;
+            case R.id.ac_myOrderDetail_tv_comment:
+                Intent intent2 = new Intent(MyStoreOrderDetailActivity.this, CommentActivity.class);
+                intent2.putExtra("order_id", order_id);
+                startActivity(intent2);
+                break;
+            case R.id.ac_myOrderDetail_tv_chat:
+                break;
+            case R.id.ac_myOrderDetail_tv_call:
+
+                break;
+        }
+    }
 }

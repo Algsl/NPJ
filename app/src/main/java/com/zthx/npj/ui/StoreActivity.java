@@ -26,6 +26,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.GoodsByCateAdapter;
 import com.zthx.npj.adapter.StoreGoodsAdapter;
 import com.zthx.npj.adapter.StoreGoodsSearchAdapter;
+import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.GoodsByCateResponseBean;
 import com.zthx.npj.net.been.SearchStoreGoodsResponseBean;
 import com.zthx.npj.net.been.StoreGoodsListResponseBean;
@@ -141,12 +142,27 @@ public class StoreActivity extends ActivityBase {
 
     private void setStoreGoodsList(String result) {
         StoreGoodsListResponseBean bean = GsonUtils.fromJson(result, StoreGoodsListResponseBean.class);
-        ArrayList<StoreGoodsListResponseBean.DataBean> data = bean.getData();
+        final ArrayList<StoreGoodsListResponseBean.DataBean> data = bean.getData();
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         acStoreRv.setLayoutManager(layoutManager);
         StoreGoodsAdapter adapter = new StoreGoodsAdapter(this, data, level);
         acStoreRv.setItemAnimator(new DefaultItemAnimator());
         acStoreRv.setAdapter(adapter);
+        adapter.setOnItemClickListener(new StoreGoodsAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(StoreActivity.this, GoodsDetailActivity.class);
+                intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                startActivity(intent);
+            }
+
+            @Override
+            public void onShoppingCartClick(int position) {
+                Intent intent = new Intent(StoreActivity.this, GoodsDetailActivity.class);
+                intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                startActivity(intent);
+            }
+        });
     }
 
     //获取店铺信息
@@ -363,7 +379,7 @@ public class StoreActivity extends ActivityBase {
 
                 @Override
                 public void onFault(String errorMsg) {
-
+                    showToast(errorMsg);
                 }
             }));
         } else {

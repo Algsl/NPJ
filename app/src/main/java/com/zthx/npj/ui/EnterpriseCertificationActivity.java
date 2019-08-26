@@ -76,6 +76,7 @@ public class EnterpriseCertificationActivity extends ActivityBase {
             @Override
             public void onFault(String errorMsg) {
                 showDialog();
+                showToast(errorMsg);
             }
         }, this));
     }

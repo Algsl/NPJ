@@ -144,14 +144,14 @@ public class VideoBuyConfirmActivity extends ActivityBase {
 
                             @Override
                             public void onFault(String errorMsg) {
-
+                                showToast(errorMsg);
                             }
                         }));
                     }
 
                     @Override
                     public void onFault(String errorMsg) {
-
+                        showToast(errorMsg);
                     }
                 }));
                 break;

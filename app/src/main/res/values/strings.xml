@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">农品街</string>
-    <string name="SecKill">限时秒杀</string>
-    <string name="presell">新品预售</string>
+    <string name="SecKill">限时抢购</string>
+    <string name="presell">新品众筹</string>
     <string name="local_seller">附近商家</string>
     <string name="gift_mall">礼包店</string>
     <string name="go_to_game">进入游戏 GO</string>

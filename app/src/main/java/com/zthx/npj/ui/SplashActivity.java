@@ -52,7 +52,7 @@ public class SplashActivity extends ActivityBase{
 
                     @Override
                     public void onFault(String errorMsg) {
-
+                        showToast(errorMsg);
                     }
                 }));
             } else if (msg.what == 2) {
@@ -150,7 +150,7 @@ public class SplashActivity extends ActivityBase{
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
 

@@ -95,7 +95,7 @@ public class GiftActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }

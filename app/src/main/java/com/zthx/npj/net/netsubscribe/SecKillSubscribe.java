@@ -15,7 +15,7 @@ import okhttp3.ResponseBody;
 public class SecKillSubscribe {
 
     /**
-     * 获取当天秒杀列表
+     * 获取当天抢购列表
      * @param subscriber
      */
     public static void getSecKillTodayList(DisposableObserver<ResponseBody> subscriber) {
@@ -24,7 +24,7 @@ public class SecKillSubscribe {
     }
 
     /**
-     * 获取已结束秒杀列表
+     * 获取已结束抢购列表
      * @param subscriber
      */
     public static void getSecKillOverList(DisposableObserver<ResponseBody> subscriber) {
@@ -33,7 +33,7 @@ public class SecKillSubscribe {
     }
 
     /**
-     *获取即将开始秒杀列表
+     *获取即将开始抢购列表
      * @param subscriber
      */
     public static void getSecKillStartList(DisposableObserver<ResponseBody> subscriber) {

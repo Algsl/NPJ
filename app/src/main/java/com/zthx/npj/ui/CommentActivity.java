@@ -152,7 +152,7 @@ public class CommentActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }
@@ -187,7 +187,7 @@ public class CommentActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-
+                        showToast(errorMsg);
                     }
                 }));
                 break;

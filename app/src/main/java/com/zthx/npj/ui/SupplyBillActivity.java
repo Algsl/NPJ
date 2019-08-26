@@ -109,7 +109,7 @@ public class SupplyBillActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-
+                        showToast(errorMsg);
                     }
                 }, this));
     }
@@ -139,7 +139,7 @@ public class SupplyBillActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-
+                        showToast(errorMsg);
                     }
                 }));
                 break;

@@ -91,7 +91,7 @@ public class EditAddressActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }
@@ -141,7 +141,7 @@ public class EditAddressActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-
+                        showToast(errorMsg);
                     }
                 }));
                 break;
@@ -161,7 +161,7 @@ public class EditAddressActivity extends ActivityBase {
 
                 @Override
                 public void onFault(String errorMsg) {
-
+                    showToast(errorMsg);
                 }
             }));
         } else {

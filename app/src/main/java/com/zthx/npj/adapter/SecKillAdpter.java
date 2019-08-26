@@ -92,7 +92,7 @@ public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder
             case "3"://抢购即将开始
                 viewHolder.mSpv.setVisibility(View.GONE);
                 viewHolder.num.setVisibility(View.VISIBLE);
-                viewHolder.num.setText("秒杀份："+mList.get(i).getGoods_num()+"份");
+                viewHolder.num.setText("抢购份："+mList.get(i).getGoods_num()+"份");
                 viewHolder.ll1.setVisibility(View.GONE);
                 viewHolder.ll2.setVisibility(View.VISIBLE);
                 viewHolder.buy.setVisibility(View.GONE);

@@ -8,6 +8,7 @@ import com.zthx.npj.net.been.BaoJiaBean;
 import com.zthx.npj.net.been.BuyVideoBean;
 import com.zthx.npj.net.been.ConfirmSupplyBean;
 import com.zthx.npj.net.been.GoodsDetailBean;
+import com.zthx.npj.net.been.KnowledgeBean;
 import com.zthx.npj.net.been.LookUserBean;
 import com.zthx.npj.net.been.NewsBean;
 import com.zthx.npj.net.been.NewsListBean;
@@ -409,6 +410,16 @@ public class DiscoverSubscribe {
         QiuGouBean bean=new QiuGouBean();
         bean.setKeyword(keyword);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().qiugouSearch(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 农业知识分类
+     * @param subscriber
+     */
+    public static void knowledge( DisposableObserver<ResponseBody> subscriber) {
+        KnowledgeBean bean=new KnowledgeBean();
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().knowledge(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

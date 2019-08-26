@@ -81,7 +81,7 @@ public class LocalSpokesmanActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-
+                        showToast(errorMsg);
                     }
                 }, this
         ));

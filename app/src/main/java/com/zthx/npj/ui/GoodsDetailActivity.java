@@ -203,19 +203,19 @@ public class GoodsDetailActivity extends ActivityBase {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acGoodsDetailRvContent.setLayoutManager(layoutManager);
 
-        //秒杀商品
-        if ("miaosha".equals(getIntent().getAction())) {//限时秒杀
+        //抢购商品
+        if ("miaosha".equals(getIntent().getAction())) {//限时抢购
             int status = getIntent().getIntExtra(Const.SECKILL_STATUS, 1);
-            if (status == 1) {//秒杀已结束
+            if (status == 1) {//抢购已结束
                 atGoodsDetailRlWillBegin.setVisibility(View.GONE);
                 atGoodsDetailRlSecKill.setVisibility(View.GONE);
                 atGoodsDetailRlSecKillDone.setVisibility(View.VISIBLE);
                 acGoodsDetailLlBar.setVisibility(View.GONE);
-            } else if (status == 2) {//秒杀进行中
+            } else if (status == 2) {//抢购进行中
                 atGoodsDetailRlWillBegin.setVisibility(View.GONE);
                 atGoodsDetailRlSecKill.setVisibility(View.VISIBLE);
                 atGoodsDetailRlSecKillDone.setVisibility(View.GONE);
-            } else {//秒杀即将开始
+            } else {//抢购即将开始
                 atGoodsDetailRlWillBegin.setVisibility(View.VISIBLE);
                 atGoodsDetailRlSecKill.setVisibility(View.GONE);
                 atGoodsDetailRlSecKillDone.setVisibility(View.GONE);
@@ -264,7 +264,7 @@ public class GoodsDetailActivity extends ActivityBase {
         acGoodsDetailRvContent.setAdapter(adapter);
     }
 
-    //秒杀商品详情
+    //抢购商品详情
     private void getSecKillDetail() {
         SecKillSubscribe.getSecKillGoodsDetail(goodsId, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
@@ -309,7 +309,7 @@ public class GoodsDetailActivity extends ActivityBase {
         atGoodsDetailSpv.setTotalAndCurrentCount(Integer.parseInt(mSeckillData.getGoods_num()), Integer.parseInt(mSeckillData.getSale_num()));
     }
 
-    //预售商品详情
+    //众筹商品详情
     private void getPreSellDetail(String id) {
         PreSellSubscribe.getPreSellDetail(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override

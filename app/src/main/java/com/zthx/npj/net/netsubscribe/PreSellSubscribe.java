@@ -18,7 +18,7 @@ import okhttp3.ResponseBody;
 public class PreSellSubscribe {
 
     /**
-     * 获取新品预售列表
+     * 获取新品众筹列表
      * @
      * @param subscriber
      */
@@ -31,7 +31,7 @@ public class PreSellSubscribe {
     }
 
     /**
-     * 获取新品预售详情
+     * 获取新品众筹详情
      * @param id
      * @param subscriber
      */
@@ -43,7 +43,7 @@ public class PreSellSubscribe {
     }
 
     /**
-     * 新品预售确认订单
+     * 新品众筹确认订单
      * @param bean
      * @param subscriber
      */
@@ -53,7 +53,7 @@ public class PreSellSubscribe {
     }
 
     /**
-     * 新品预售生成订单
+     * 新品众筹生成订单
      * @param bean
      * @param subscriber
      */

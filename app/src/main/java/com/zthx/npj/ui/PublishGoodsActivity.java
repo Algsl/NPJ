@@ -174,7 +174,7 @@ public class PublishGoodsActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }
@@ -184,7 +184,7 @@ public class PublishGoodsActivity extends ActivityBase {
         HttpUtils.uploadMoreImg(requestUrl, paths1, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                showToast("图片上传失败");
             }
 
             @Override
@@ -195,7 +195,7 @@ public class PublishGoodsActivity extends ActivityBase {
                 HttpUtils.uploadMoreImg(requestUrl, paths2, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-
+                        showToast("图片上传失败");
                     }
 
                     @Override
@@ -224,7 +224,6 @@ public class PublishGoodsActivity extends ActivityBase {
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         String path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
-                        Log.e("测试", "onActivityResult: " + path);
                         paths1.add(path);
                         acPulishGoodsIvGoodsImg.addImage(path);
                     } catch (Exception e) {
@@ -344,7 +343,8 @@ public class PublishGoodsActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                Toast.makeText(PublishGoodsActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
+                showToast(errorMsg);
+                //Toast.makeText(PublishGoodsActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
             }
         }));
     }

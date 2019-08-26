@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class SystemSolutionActivity extends ActivityBase implements VideoListFragment.OnFragmentInteractionListener, WebFragment.OnFragmentInteractionListener {
+public class SystemSolutionActivity extends ActivityBase implements WebFragment.OnFragmentInteractionListener,VideoListFragment.OnFragmentInteractionListener{
 
     @BindView(R.id.at_system_solution_tb)
     TabLayout atSystemSolutionTb;
@@ -87,12 +87,6 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
         StandardVideoController controller = new StandardVideoController(this);
         ijkVideoView.setVideoController(controller); //设置控制器，如需定制可继承 BaseVideoController
     }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -117,5 +111,10 @@ public class SystemSolutionActivity extends ActivityBase implements VideoListFra
         if (!ijkVideoView.onBackPressed()) {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

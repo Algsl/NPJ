@@ -377,15 +377,15 @@ public class DiscoverSupplyFragment extends Fragment {
             fgDiscoverSupplyLlNeed.setVisibility(View.GONE);
             fgDiscoverWvBusiness.setVisibility(View.VISIBLE);
 
-            /*fgDiscoverWvBusiness.loadUrl("http://nong.gold600.com/cx");
+            fgDiscoverWvBusiness.loadUrl("http://www.agronet.com.cn/Company/List_oc164.html");
             fgDiscoverWvBusiness.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                     view.loadUrl(url);
                     return true;
                 }
-            });*/
-            fgDiscoverWvBusiness.loadUrl("http://www.agronet.com.cn/Company/List_oc164.html");
+            });
+           /* fgDiscoverWvBusiness.loadUrl("http://www.agronet.com.cn/Company/List_oc164.html");
             WebSettings settings = fgDiscoverWvBusiness.getSettings();
             settings.setJavaScriptEnabled(true);
             settings.setBuiltInZoomControls(true);
@@ -402,7 +402,7 @@ public class DiscoverSupplyFragment extends Fragment {
                         // loadDialog.show();
                     }
                 }
-            });
+            });*/
         }
     }
 

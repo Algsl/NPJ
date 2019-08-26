@@ -7,8 +7,6 @@
     tools:context=".ui.GoodsDetailActivity"
     android:focusableInTouchMode="true"
     android:focusable="true">
-    <!--<include layout="@layout/activity_goods_detail_scroll"
-        android:id="@+id/ac_goodsDetail_sv"/>-->
     <ScrollView
         android:id="@+id/ac_goodsDetail_sv"
         android:fillViewport="true"
@@ -144,7 +142,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_16"
                         android:textColor="@android:color/white"
-                        android:text="本场秒杀活动已结束"/>
+                        android:text="本场抢购活动已结束"/>
                 </LinearLayout>
 
                 <ImageView
@@ -329,14 +327,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="80"
+                            android:text="80.00"
                             android:textColor="@color/text3"
                             android:textSize="@dimen/sp_15"/>
                         <TextView
                             android:id="@+id/at_goods_detail_tv_pre_sell_yushou"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="预售金额"
+                            android:text="众筹金额"
                             android:textSize="@dimen/sp_12"
                             android:textColor="@color/text3"/>
                     </LinearLayout>
@@ -439,7 +437,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/dp_7"
                                 android:background="@drawable/stroke_theme_2"
-                                android:text="  预售中（12天后结束）"
+                                android:text="  众筹中（12天后结束）"
                                 android:textColor="@color/text3"
                                 android:textSize="@dimen/sp_12"
                                 android:maxLines="1" />
@@ -609,7 +607,7 @@
                     android:textColor="@color/text3"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginBottom="@dimen/dp_10"
-                    android:text="预售须知"/>
+                    android:text="众筹须知"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -617,7 +615,7 @@
                     android:layout_marginRight="@dimen/dp_12"
                     android:textSize="@dimen/sp_13"
                     android:lineHeight="@dimen/dp_20"
-                    android:text="1. 预售定金：指买家在购买双十一预售商品时，预先支付的一定数额的预付款，不具备担保性质，主要用作购买双十一预售商品时确定购买名额，当合同不能履行时，除不可抗力外，应根据双方当事人的过错承担违约责任。买家未如期支付尾款，或买家申请退款且根据《天猫规则》，《淘宝争议处理规范》等相关规则判定为非卖家责任的，定金均不退还。天猫国际预售商品需遵守天猫国际预售相关规则。 "/>
+                    android:text="1. 众筹定金：指买家在购买双十一众筹商品时，预先支付的一定数额的预付款，不具备担保性质，主要用作购买双十一众筹商品时确定购买名额，当合同不能履行时，除不可抗力外，应根据双方当事人的过错承担违约责任。买家未如期支付尾款，或买家申请退款且根据《天猫规则》，《淘宝争议处理规范》等相关规则判定为非卖家责任的，定金均不退还。天猫国际众筹商品需遵守天猫国际众筹相关规则。 "/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -625,7 +623,7 @@
                     android:layout_marginRight="@dimen/dp_12"
                     android:layout_marginTop="@dimen/dp_5"
                     android:lineHeight="@dimen/dp_20"
-                    android:text="2. 预售尾款：指双十一预售商品价格减去定金后买家还需支付的对应数额的金钱。"/>
+                    android:text="2. 众筹尾款：指双十一众筹商品价格减去定金后买家还需支付的对应数额的金钱。"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -633,7 +631,7 @@
                     android:layout_marginRight="@dimen/dp_12"
                     android:layout_marginTop="@dimen/dp_5"
                     android:lineHeight="@dimen/dp_20"
-                    android:text="3. 预售商品：指商品详情页有预售标识的预售商品。"/>
+                    android:text="3. 众筹商品：指商品详情页有众筹标识的众筹商品。"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

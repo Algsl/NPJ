@@ -211,7 +211,7 @@ public class ConfirmOrderActivity extends ActivityBase {
             atConfirmOrderRlHongbao.setVisibility(View.VISIBLE);
             acConfirmOrderRlToDYR.setVisibility(View.GONE);
             getGiftConfirmData(goodsId);
-        } else if (Const.PRESELL.equals(getIntent().getAction())) {//新品预售确认订单
+        } else if (Const.PRESELL.equals(getIntent().getAction())) {//新品众筹确认订单
             confirmType = "2";
             attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
             goodsId = getIntent().getStringExtra(Const.GOODS_ID);
@@ -326,7 +326,7 @@ public class ConfirmOrderActivity extends ActivityBase {
         }, this));
     }
 
-    //新品预售确认订单
+    //新品众筹确认订单
     private void getData() {
         ConfirmPreSellBean bean = new ConfirmPreSellBean();
         bean.setToken(token);

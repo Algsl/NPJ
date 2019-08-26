@@ -85,7 +85,7 @@
                 android:id="@+id/ll_main_check_05"
                 android:textSize="@dimen/sp_12"
                 android:paddingTop="@dimen/dp_5"
-                android:text="我的" />
+                android:text="个人中心" />
         </RadioGroup>
         <LinearLayout
             android:id="@+id/ll_main_check_03"

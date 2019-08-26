@@ -91,7 +91,8 @@ public class InputInvitationCodeActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-                        Toast.makeText(InputInvitationCodeActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
+                        showToast(errorMsg);
+                        //Toast.makeText(InputInvitationCodeActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
                     }
                 }, this));
     }

@@ -175,7 +175,7 @@ public class FeedbackActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-
+                        showToast(errorMsg);
                     }
                 }));
                 break;

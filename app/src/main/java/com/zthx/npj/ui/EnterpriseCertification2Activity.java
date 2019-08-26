@@ -130,7 +130,7 @@ public class EnterpriseCertification2Activity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }, this));
     }
@@ -348,7 +348,7 @@ public class EnterpriseCertification2Activity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }, this));
     }

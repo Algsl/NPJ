@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/text3"
             android:textSize="@dimen/sp_15"
-            android:text="前1000份1元限时秒杀"
+            android:text="前1000份1元限时抢购"
             android:maxLines="1"/>
         
         <com.zthx.npj.view.SaleProgressView
@@ -71,7 +71,7 @@
             android:textSize="@dimen/sp_13"
             android:textColor="@color/app_theme"
             android:layout_marginTop="@dimen/dp_5"
-            android:text="秒杀份：120份"/>
+            android:text="抢购份：120份"/>
     </LinearLayout>
 
     <LinearLayout

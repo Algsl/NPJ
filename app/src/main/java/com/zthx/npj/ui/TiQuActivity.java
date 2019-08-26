@@ -56,7 +56,7 @@ public class TiQuActivity extends ActivityBase{
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }

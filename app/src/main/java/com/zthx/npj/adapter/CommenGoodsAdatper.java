@@ -52,17 +52,6 @@ public class CommenGoodsAdatper extends RecyclerView.Adapter<CommenGoodsAdatper.
                 }
             });
         }
-        int num=(int)(Math.random()*11+1);
-        int str=(int)(Math.random()*3);
-        String[] strs=new String[]{"绿色杀菌杀虫剂","敌草快杀菌杀虫剂","大豆田杀菌杀虫剂","土豆田杀菌杀虫剂"};
-        if (list!= null && list.size() > 0) {
-            viewHolder.mIvGoods.setImageResource(R.drawable.classify0+num);
-            viewHolder.mTvPrice.setText("￥ "+(num*20));
-            viewHolder.mTvSellNum.setText("已售"+(10*num)+"件");
-            viewHolder.mTvTitle.setText(strs[str]);
-        } else {
-
-        }
     }
 
     @Override

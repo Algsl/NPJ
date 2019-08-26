@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommentAdapter;
 import com.zthx.npj.net.been.CommentResponseBean;
@@ -25,6 +27,7 @@ import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -94,7 +97,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }
@@ -108,8 +111,9 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         acStoreManagerEtContact.setText(data.getContact());
         acStoreManagerTvAddress.setText(data.getAddress());
         acStoreManagerEtAddress2.setText(data.getAddress2());
-        acStoreManagerTvOffer.setText(data.getOffer());
+        acStoreManagerTvOffer.setText(data.getOffer()+"%");
         acStoreManagerEtRelife.setText(data.getRelief());
+
         getComment();
     }
 
@@ -141,7 +145,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }
@@ -155,7 +159,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }

@@ -14,17 +14,16 @@
 
     <TextView
         android:id="@+id/item_select_video_tv_title"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp_240"
         android:layout_height="wrap_content"
         android:text="1.0-导论导论导论导论导论导论导论导论导论导论"
         android:textSize="@dimen/sp_15"
         android:textColor="@color/text6"
         android:layout_marginRight="@dimen/dp_5"
         android:layout_marginLeft="@dimen/dp_47"
-        android:lines="1"
-        android:ellipsize="end"
-        android:maxEms="14"
-        android:maxLines="1"/>
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:maxEms="14"/>
 
     <TextView
         android:id="@+id/item_select_video_tv_time"

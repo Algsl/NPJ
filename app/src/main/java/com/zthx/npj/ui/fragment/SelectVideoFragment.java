@@ -66,6 +66,7 @@ public class SelectVideoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getDataList(videoId);
     }
 
     @Override
@@ -74,7 +75,6 @@ public class SelectVideoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_select_video, container, false);
         unbinder = ButterKnife.bind(this, view);
-        getDataList(videoId);
         return view;
     }
 

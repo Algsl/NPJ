@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,12 +12,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.AlsoLikeAdatper;
 import com.zthx.npj.adapter.CollectionAdapter;
 import com.zthx.npj.adapter.CollectionStoreAdapter;
 import com.zthx.npj.adapter.CommenGoodsAdatper;
+import com.zthx.npj.base.Const;
+import com.zthx.npj.net.been.AlsoLikeResponseBean;
 import com.zthx.npj.net.been.CollectionResponseBean;
 import com.zthx.npj.net.been.CollectionStoreResponseBean;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -64,23 +69,38 @@ public class MyCollectActivity extends ActivityBase {
         changeTitle(acTitle,"收藏");
 
         getCollection();
+        getAlsoLike();
+    }
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
-        atMyCollectLikeRv.setLayoutManager(layoutManager);
-        //初始化适配器
-        List<CommentGoodsBeen> list3 = new ArrayList<>();
-        CommentGoodsBeen HomeGoodsBeen = new CommentGoodsBeen();
-        HomeGoodsBeen.setGoodsPic("123");
-        HomeGoodsBeen.setGoodsTitle("1231245124");
-        HomeGoodsBeen.setGoodsSellNum("123");
-        HomeGoodsBeen.setGoodsPrice("1333");
-        for (int i = 0; i < 20; i++) {
-            list3.add(HomeGoodsBeen);
-        }
-        CommenGoodsAdatper mAdapter = new CommenGoodsAdatper(this, list3);
-        //设置适配器
-        atMyCollectLikeRv.setItemAnimator(new DefaultItemAnimator());
-        atMyCollectLikeRv.setAdapter(mAdapter);
+    private void getAlsoLike() {
+        MainSubscribe.alsoLike("1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                AlsoLikeResponseBean bean = GsonUtils.fromJson(result, AlsoLikeResponseBean.class);
+                final ArrayList<AlsoLikeResponseBean.DataBean> data = bean.getData();
+                GridLayoutManager layoutManager = new GridLayoutManager(MyCollectActivity.this, 2);
+                atMyCollectLikeRv.setLayoutManager(layoutManager);
+                AlsoLikeAdatper adatper = new AlsoLikeAdatper(MyCollectActivity.this, data);
+                //设置添加或删除item时的动画，这里使用默认动画
+                atMyCollectLikeRv.setItemAnimator(new DefaultItemAnimator());
+                //设置适配器
+                atMyCollectLikeRv.setItemAnimator(new DefaultItemAnimator());
+                atMyCollectLikeRv.setAdapter(adatper);
+                adatper.setOnItemClickListener(new AlsoLikeAdatper.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Intent intent = new Intent(MyCollectActivity.this, GoodsDetailActivity.class);
+                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                showToast(errorMsg);
+            }
+        }));
     }
 
     private void getCollection() {
@@ -92,7 +112,7 @@ public class MyCollectActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }
@@ -129,7 +149,7 @@ public class MyCollectActivity extends ActivityBase {
 
                         @Override
                         public void onFault(String errorMsg) {
-
+                            showToast(errorMsg);
                         }
                     }));
                 }
@@ -160,7 +180,7 @@ public class MyCollectActivity extends ActivityBase {
 
                         @Override
                         public void onFault(String errorMsg) {
-
+                            showToast(errorMsg);
                         }
                     }));
                 }

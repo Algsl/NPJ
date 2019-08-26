@@ -1,25 +1,29 @@
 package com.zthx.npj.ui;
 
+
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dueeeke.videocontroller.StandardVideoController;
+import com.dueeeke.videoplayer.player.IjkVideoView;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.DiscoverViewPagerAdapter;
 import com.zthx.npj.base.BaseConstant;
 import com.zthx.npj.base.Const;
-import com.zthx.npj.media.IRenderView;
-import com.zthx.npj.media.IjkVideoView;
 import com.zthx.npj.net.been.AkVideoResponseBean;
+import com.zthx.npj.net.been.SolutionVideoResponseBean;
 import com.zthx.npj.net.been.UploadVideoCommentResponseBean;
 import com.zthx.npj.net.been.VideoInfoResponseBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
@@ -27,6 +31,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.fragment.SelectVideoFragment;
 import com.zthx.npj.ui.fragment.VideoCommentFragment;
+import com.zthx.npj.ui.fragment.VideoListFragment;
 import com.zthx.npj.ui.fragment.WebFragment;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
@@ -38,7 +43,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AgricultureVideoMainActivity extends ActivityBase implements SelectVideoFragment.OnFragmentInteractionListener {
+public class AgricultureVideoMainActivity extends ActivityBase implements WebFragment.OnFragmentInteractionListener,SelectVideoFragment.OnFragmentInteractionListener{
 
     @BindView(R.id.at_avm_tb)
     TabLayout atAvmTb;
@@ -53,13 +58,15 @@ public class AgricultureVideoMainActivity extends ActivityBase implements Select
 
     private String videoUrl = "";
     private String videoId;
+    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agriculture_video_main);
         ButterKnife.bind(this);
-        String id = getIntent().getStringExtra(Const.VIDEO_ID);
+        final String id = getIntent().getStringExtra(Const.VIDEO_ID);//视频id
         List<String> list = new ArrayList<>();
         list.add("选集");
         list.add("简介");
@@ -74,12 +81,11 @@ public class AgricultureVideoMainActivity extends ActivityBase implements Select
         atAvmTb.setTabGravity(TabLayout.GRAVITY_CENTER);
         atAvmTb.setupWithViewPager(atAvmVp);
 
-        atAkVideoEtComment.setOnKeyListener(new View.OnKeyListener() {
+        atAkVideoEtComment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if (keyEvent != null && KeyEvent.KEYCODE_ENTER == i && KeyEvent.ACTION_DOWN == keyEvent.getAction()) {
-                    uploadComment(videoId);
-                    return true;
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if(i==EditorInfo.IME_ACTION_SEND){
+                    uploadComment(id);
                 }
                 return false;
             }
@@ -109,17 +115,6 @@ public class AgricultureVideoMainActivity extends ActivityBase implements Select
     }
 
 
-    @Override
-    public void onFragmentInteraction(AkVideoResponseBean.DataBean dataBean) {
-        getVideoInfo(dataBean);
-        videoId = dataBean.getList_id()+"";
-    }
-
-    @Override
-    public void onDataGet(AkVideoResponseBean.DataBean dataBean) {
-        getVideoInfo(dataBean);
-        videoId = dataBean.getList_id()+"";
-    }
 
     private void getVideoInfo(AkVideoResponseBean.DataBean dataBean) {
         DiscoverSubscribe.getVideoInfo(dataBean.getId() + "", dataBean.getStatus() + "", SharePerferenceUtils.getUserId(this),
@@ -141,32 +136,20 @@ public class AgricultureVideoMainActivity extends ActivityBase implements Select
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_ak_video_player:
-                if ("".equals(videoUrl)) {
-                    Toast.makeText(this, "请先购买课程", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (atAkVideoPlayer.isPlaying()) {
-                        atAkVideoPlayer.pause();
-                        atAkVideoPlayer.release(true);
-                    }
-                    atAkVideoPlayer.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT);
-                    atAkVideoPlayer.setVideoURI(Uri.parse(videoUrl));
-                    atAkVideoPlayer.start();
-                }
                 break;
             case R.id.at_ak_video_btn_buy:
-                buyLisense(videoId);
+                //buyLisense(videoId);
                 break;
         }
     }
 
     private void buyLisense(String videoId) {
-        DiscoverSubscribe.buyVideo(videoId, SharePerferenceUtils.getUserId(this),BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        DiscoverSubscribe.buyVideo(videoId, user_id,token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 Intent intent = new Intent(AgricultureVideoMainActivity.this, VideoBuyConfirmActivity.class);
                 intent.putExtra(Const.VIDEO_BUY_INFO,result);
                 startActivity(intent);
-
             }
 
             @Override
@@ -174,5 +157,47 @@ public class AgricultureVideoMainActivity extends ActivityBase implements Select
 
             }
         },this));
+    }
+
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        atAkVideoPlayer.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        atAkVideoPlayer.resume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        atAkVideoPlayer.release();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (!atAkVideoPlayer.onBackPressed()) {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onFragmentInteraction(AkVideoResponseBean.DataBean dataBean) {
+
+    }
+
+    @Override
+    public void onDataGet(AkVideoResponseBean.DataBean dataBean) {
+
     }
 }

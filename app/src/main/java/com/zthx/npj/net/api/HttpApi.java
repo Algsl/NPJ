@@ -540,5 +540,8 @@ public interface HttpApi  {
 
     @POST("index.php/api/index/searchpurchase.html")
     Observable<ResponseBody> qiugouSearch(@Body QiuGouBean bean);
+
+    @POST("index.php/api/index/searchpurchase.html")
+    Observable<ResponseBody> knowledge(@Body KnowledgeBean bean);
 }
 

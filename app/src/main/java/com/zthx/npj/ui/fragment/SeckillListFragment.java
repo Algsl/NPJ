@@ -90,7 +90,7 @@ public class SeckillListFragment extends Fragment {
             }
         }));
     }
-    //限时秒杀即将开始
+    //限时抢购即将开始
     private void setSeckillStart(String result) {
         SecKillTodayResponseBean bean=GsonUtils.fromJson(result,SecKillTodayResponseBean.class);
         final ArrayList<SecKillTodayResponseBean.DataBean> data=bean.getData();
@@ -124,7 +124,7 @@ public class SeckillListFragment extends Fragment {
             }
         }));
     }
-    //限时秒杀进行中
+    //限时抢购进行中
     private void setSeckillGoing(String result) {
         SecKillTodayResponseBean bean=GsonUtils.fromJson(result,SecKillTodayResponseBean.class);
         final ArrayList<SecKillTodayResponseBean.DataBean> data=bean.getData();
@@ -158,7 +158,7 @@ public class SeckillListFragment extends Fragment {
             }
         }));
     }
-    //限时秒杀已结束
+    //限时抢购已结束
     private void setSeckillOver(String result) {
         SecKillTodayResponseBean bean=GsonUtils.fromJson(result,SecKillTodayResponseBean.class);
         final ArrayList<SecKillTodayResponseBean.DataBean> data=bean.getData();

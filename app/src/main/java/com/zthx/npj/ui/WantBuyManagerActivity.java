@@ -84,7 +84,7 @@ public class WantBuyManagerActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }
@@ -114,7 +114,7 @@ public class WantBuyManagerActivity extends ActivityBase {
 
                         @Override
                         public void onFault(String errorMsg) {
-
+                            showToast(errorMsg);
                         }
                     }));
                 }else{
@@ -126,7 +126,7 @@ public class WantBuyManagerActivity extends ActivityBase {
 
                         @Override
                         public void onFault(String errorMsg) {
-
+                            showToast(errorMsg);
                         }
                     }));
                 }
@@ -147,7 +147,7 @@ public class WantBuyManagerActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-
+                        showToast(errorMsg);
                     }
                 }));
             }
@@ -204,7 +204,7 @@ public class WantBuyManagerActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }

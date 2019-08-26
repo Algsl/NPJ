@@ -23,10 +23,6 @@ public class StoreManagerBillActivity extends ActivityBase {
 
     @BindView(R.id.at_store_manager_bill_rv)
     RecyclerView atStoreManagerBillRv;
-    @BindView(R.id.at_store_manager_bill_tv_money)
-    TextView atStoreManagerBillTvMoney;
-    @BindView(R.id.at_store_manager_bill_tv_log)
-    TextView atStoreManagerBillTvLog;
     @BindView(R.id.title_theme_back)
     ImageView titleThemeBack;
     @BindView(R.id.title_theme_title)

@@ -17,8 +17,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:background="@android:color/white">
         <ImageView
             android:id="@+id/at_location_store_locate"
@@ -30,14 +28,18 @@
 
         <TextView
             android:id="@+id/ac_localtionStore_tv_address"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_100"
             android:layout_height="wrap_content"
-            android:text="郑州市金水区..."
+            android:text="郑州市金水区"
             android:layout_centerVertical="true"
             android:textColor="@color/text9"
             android:textSize="@dimen/sp_12"
             android:layout_toRightOf="@id/at_location_store_locate"
-            android:layout_marginLeft="@dimen/dp_10"/>
+            android:layout_marginLeft="@dimen/dp_10"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:focusableInTouchMode="true"
+            android:focusable="true"/>
 
         <EditText
             android:id="@+id/at_location_store_et_search"

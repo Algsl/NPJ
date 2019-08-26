@@ -74,11 +74,13 @@ public class SelectVideoAdapter extends RecyclerView.Adapter<SelectVideoAdapter.
             viewHolder.selectTime.setImageResource(R.drawable.item_play_time_theme);
             viewHolder.mTvTitle.setTextColor(mContext.getResources().getColor(R.color.app_theme));
             viewHolder.mTvTime.setTextColor(mContext.getResources().getColor(R.color.app_theme));
+            viewHolder.mTvTitle.setSelected(true);
         }else{
             viewHolder.selectImg.setImageResource(R.drawable.item_play);
             viewHolder.selectTime.setImageResource(R.drawable.item_play_time);
             viewHolder.mTvTitle.setTextColor(mContext.getResources().getColor(R.color.text6));
             viewHolder.mTvTime.setTextColor(mContext.getResources().getColor(R.color.text6));
+            viewHolder.mTvTitle.setSelected(false);
         }
 
     }

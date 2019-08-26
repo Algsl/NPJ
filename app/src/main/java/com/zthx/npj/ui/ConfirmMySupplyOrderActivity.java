@@ -126,7 +126,7 @@ public class ConfirmMySupplyOrderActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }
@@ -192,7 +192,7 @@ public class ConfirmMySupplyOrderActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-
+                        showToast(errorMsg);
                     }
                 }));
                 break;
@@ -215,7 +215,7 @@ public class ConfirmMySupplyOrderActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }

@@ -26,6 +26,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.AlsoLikeAdatper;
 import com.zthx.npj.adapter.CommenGoodsAdatper;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
+import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AlsoLikeResponseBean;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.MyOfflineStoreResponseBean;
@@ -39,6 +40,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.EditMyOfflineStoreActivity;
 import com.zthx.npj.ui.EnterpriseCertificationActivity;
 import com.zthx.npj.ui.GiftActivity;
+import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.HelpActivity;
 import com.zthx.npj.ui.MembershipPackageActivity;
 import com.zthx.npj.ui.MessageCenterActivity;
@@ -178,7 +180,7 @@ public class MineFragment
             @Override
             public void onSuccess(String result) {
                 AlsoLikeResponseBean bean=GsonUtils.fromJson(result,AlsoLikeResponseBean.class);
-                ArrayList<AlsoLikeResponseBean.DataBean> data=bean.getData();
+                final ArrayList<AlsoLikeResponseBean.DataBean> data=bean.getData();
                 GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2);
                 fgMineRvLike.setLayoutManager(layoutManager);
                 AlsoLikeAdatper adatper=new AlsoLikeAdatper(getContext(),data);
@@ -190,7 +192,9 @@ public class MineFragment
                 adatper.setOnItemClickListener(new AlsoLikeAdatper.ItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-
+                        Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                        startActivity(intent);
                     }
                 });
             }
@@ -366,21 +370,7 @@ public class MineFragment
                 startActivity(new Intent(getActivity(), HelpActivity.class));
                 break;
             case R.id.fg_mine_ll_my_supply:
-                if(level.equals("0")){
-                    CommonDialog dialog1=new CommonDialog(getContext(), R.style.dialog, "您还不是代言人，暂不能开店", new CommonDialog.OnCloseListener() {
-                        @Override
-                        public void onClick(Dialog dialog, boolean confirm) {
-                            if(confirm){
-                                startActivity(new Intent(getContext(),MembershipPackageActivity.class));
-                            }
-                        }
-                    });
-                    dialog1.setPositiveButton("成为代言人");
-                    dialog1.show();
-                }else{
-                    startActivity(new Intent(getContext(), MySupplyActivity.class));
-                }
-
+                startActivity(new Intent(getContext(), MySupplyActivity.class));
                 break;
             case R.id.fg_mine_ll_my_offlinestore:
                 if (level.equals("0")) {

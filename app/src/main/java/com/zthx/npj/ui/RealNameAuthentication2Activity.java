@@ -140,6 +140,7 @@ public class RealNameAuthentication2Activity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
+                showToast(errorMsg);
                 Log.e("测试", "onFault: "+errorMsg);
             }
         }));

@@ -25,9 +25,9 @@ public class Const {
     public static final String SUPPLY_TYPE = "supply_type";
     public static final String SUPPLY_ID = "supply_id";
 
-    public static final int SECKILL_DONE = 0;//秒杀结束
-    public static final int SECKILL_DOING = 1;//秒杀进行中
-    public static final int SECKILL_WILLDO = 2;//秒杀即将开始
+    public static final int SECKILL_DONE = 0;//抢购结束
+    public static final int SECKILL_DOING = 1;//抢购进行中
+    public static final int SECKILL_WILLDO = 2;//抢购即将开始
 
 
     /**

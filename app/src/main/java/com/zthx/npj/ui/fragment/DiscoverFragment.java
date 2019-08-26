@@ -35,8 +35,7 @@ public class DiscoverFragment extends BaseFragment {
     TabLayout fgDiscoverMainTab;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
-    @BindView(R.id.fg_discover_iv_message)
-    ImageView fgDiscoverIvMessage;
+
     private Unbinder unbinder;
 
     @Override
@@ -85,8 +84,4 @@ public class DiscoverFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick(R.id.fg_discover_iv_message)
-    public void onViewClicked() {
-        startActivity(new Intent(getContext(),MessageCenterActivity.class));
-    }
 }

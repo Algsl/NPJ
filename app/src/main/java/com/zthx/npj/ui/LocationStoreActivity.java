@@ -8,12 +8,14 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -26,11 +28,15 @@ import com.zthx.npj.net.been.BannerResponseBean;
 import com.zthx.npj.net.been.LocalStoreBean;
 import com.zthx.npj.net.been.LocalStoreResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.GlideImageLoader;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -69,6 +75,9 @@ public class LocationStoreActivity extends ActivityBase {
     private String lng = SharePerferenceUtils.getLng(this);
     private String lat = SharePerferenceUtils.getLat(this);
     private String keyword = "";
+    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
+    private String level=SharePerferenceUtils.getUserLevel(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +87,9 @@ public class LocationStoreActivity extends ActivityBase {
 
         back(titleBack);
         changeTitle(acTitle, "附近商家");
-        changeRightText(atLocationStoreTvRuzhu, "立即入驻？", StoreManagerActivity.class, null);
 
+        atLocationStoreTvRuzhu.setText("我的店铺");
+        acLocaltionStoreTvAddress.setSelected(true);
         getLocalStore(type);
 
         initBanner();
@@ -114,12 +124,14 @@ public class LocationStoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }, LocationStoreActivity.this));
     }
 
-    @OnClick({R.id.ac_locationStore_tv_type1, R.id.ac_locationStore_tv_type2, R.id.ac_locationStore_tv_type3, R.id.ac_locationStore_tv_type4, R.id.at_location_store_et_search, R.id.at_location_store_locate})
+    @OnClick({R.id.ac_locationStore_tv_type1, R.id.ac_locationStore_tv_type2, R.id.ac_locationStore_tv_type3,
+            R.id.ac_locationStore_tv_type4, R.id.at_location_store_et_search, R.id.at_location_store_locate,
+            R.id.at_location_store_tv_ruzhu})
     public void onViewClicked(View view) {
         acLocationStoreTvType1.setTextColor(getResources().getColor(R.color.text6));
         acLocationStoreTvType1.setBackground(getResources().getDrawable(R.drawable.stroke_white_2));
@@ -169,6 +181,9 @@ public class LocationStoreActivity extends ActivityBase {
                 Intent intent = new Intent(this, MapAddressActivity.class);
                 startActivityForResult(intent, 1);
                 break;
+            case R.id.at_location_store_tv_ruzhu:
+                getMyStoreType();
+                break;
         }
     }
 
@@ -190,7 +205,7 @@ public class LocationStoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }
@@ -255,8 +270,46 @@ public class LocationStoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
     }
+    public void getMyStoreType(){
+        if (level.equals("0")) {
+            Toast toast = Toast.makeText(LocationStoreActivity.this, "成为农品街代言人，才可使用线下门店的功能哦", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        } else {
+            SetSubscribe.myOfflineStore(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    Log.e("测试", "onSuccess: "+result);
+                    try {
+                        JSONObject object=new JSONObject(result);
+                        String code=object.getString("code")+"";
+                        if(code.equals("1")){
+                            startActivity(new Intent(LocationStoreActivity.this,EditMyOfflineStoreActivity.class));
+                        }else if(code.equals("2")){
+                            Toast.makeText(LocationStoreActivity.this,"线下门店审核中",Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                @Override
+                public void onFault(String errorMsg) {
+                    try {
+                        JSONObject object=new JSONObject(errorMsg);
+                        String code=object.getString("code")+"";
+                        if(code.equals("-2")){
+                            startActivity(new Intent(LocationStoreActivity.this,StoreManagerActivity.class));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }));
+        }
+    }
+
 }

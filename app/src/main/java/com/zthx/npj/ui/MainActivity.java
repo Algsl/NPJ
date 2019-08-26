@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFault(String errorMsg) {
-
+                //showToast(errorMsg);
             }
         }));
     }

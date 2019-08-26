@@ -63,7 +63,7 @@ public class PreSellActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle, "新品预售");
+        changeTitle(acTitle, "新品众筹");
         getPreSellList("0");
         initBanner();
     }
