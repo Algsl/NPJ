@@ -145,7 +145,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_10"
-        android:background="@color/line"/>
+        android:background="@color/background"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
@@ -169,7 +169,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
-        android:background="@color/line"
+        android:background="@color/background"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/at_order_applyRefund_tv_ship"
@@ -203,7 +203,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
-        android:background="@color/line"/>
+        android:background="@color/background"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

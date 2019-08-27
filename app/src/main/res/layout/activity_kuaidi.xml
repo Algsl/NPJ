@@ -36,12 +36,12 @@
             android:layout_height="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginLeft="@dimen/dp_40"
-            android:background="@color/line"/>
+            android:background="@color/background"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_10"
-        android:background="@color/line"/>
+        android:background="@color/background"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ac_kuaidi_rv_item"
         android:layout_width="match_parent"

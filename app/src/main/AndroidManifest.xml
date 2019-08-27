@@ -193,6 +193,7 @@
         <activity android:name=".ui.HaiBaoActivity"/>
         <activity android:name=".ui.LoadingActivity"/>
         <activity android:name=".ui.SupplySearchActivity"/>
+        <activity android:name=".ui.ReportActivity"/>
 
         <activity
             android:name=".wxapi.WXEntryActivity"

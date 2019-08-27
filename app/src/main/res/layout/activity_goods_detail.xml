@@ -144,22 +144,6 @@
                         android:textColor="@android:color/white"
                         android:text="本场抢购活动已结束"/>
                 </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/ac_goodsDetail_iv_back"
-                    android:layout_width="@dimen/dp_25"
-                    android:layout_height="@dimen/dp_25"
-                    android:layout_marginLeft="@dimen/dp_6"
-                    android:layout_marginTop="@dimen/dp_43"
-                    android:src="@drawable/goods_detial_back" />
-                <ImageView
-                    android:id="@+id/ac_goodsDetail_iv_home"
-                    android:layout_width="@dimen/dp_25"
-                    android:layout_height="@dimen/dp_25"
-                    android:layout_marginRight="@dimen/dp_8"
-                    android:layout_marginTop="@dimen/dp_43"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/goods_detail_home" />
             </RelativeLayout>
 
             <LinearLayout
@@ -837,4 +821,19 @@
             android:paddingTop="@dimen/dp_8"
             android:paddingBottom="@dimen/dp_8"/>
     </LinearLayout>
+    <ImageView
+        android:id="@+id/ac_goodsDetail_iv_back"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginLeft="@dimen/dp_6"
+        android:layout_marginTop="@dimen/dp_43"
+        android:src="@drawable/goods_detial_back" />
+    <ImageView
+        android:id="@+id/ac_goodsDetail_iv_home"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_43"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/goods_detail_home" />
 </RelativeLayout>

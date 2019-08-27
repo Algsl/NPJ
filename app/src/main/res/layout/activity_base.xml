@@ -130,7 +130,7 @@
                 android:id="@+id/tv_bar_bottom_line"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/line"
+                android:background="@color/background"
                 android:visibility="gone"
                 />
         </LinearLayout>

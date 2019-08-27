@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_100"
+    android:layout_height="@dimen/dp_90"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/pw_storeManager_tv_managerCenter"
+        android:gravity="center"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_45"
+        android:text="管理中心"/>
+    <TextView
+        android:id="@+id/pw_storeManager_tv_openStore"
+        android:gravity="center"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_45"
+        android:text="关闭店铺"/>
+</LinearLayout>

@@ -76,8 +76,8 @@
         <View
             android:id="@+id/line"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
-            android:background="@color/line"
+            android:layout_height="@dimen/dp_100"
+            android:background="@color/background"
             android:layout_marginTop="@dimen/dp_12"
             android:layout_below="@id/ac_serviceChat_iv_expression"/>
         <LinearLayout

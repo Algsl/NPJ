@@ -8,22 +8,27 @@
     android:background="@color/background"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_30"
-        android:background="@android:color/white"/>
-    <android.support.design.widget.TabLayout
-        android:id="@+id/fg_discover_main_tab"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:background="@android:color/white"
-        app:tabGravity="center"
-        app:tabIndicatorColor="@color/app_theme"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/app_theme"
-        app:tabTextColor="@android:color/black"/>
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_30"
+            android:background="@android:color/white"/>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/fg_discover_main_tab"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:background="@android:color/white"
+            app:tabGravity="center"
+            app:tabIndicatorColor="@color/app_theme"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/app_theme"
+            app:tabTextColor="@android:color/black"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 </LinearLayout>

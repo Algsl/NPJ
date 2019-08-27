@@ -15,8 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -157,6 +159,14 @@ public class UserMsgActivity extends ActivityBase {
         window.showAtLocation(getWindow().getDecorView(), Gravity.TOP | Gravity.RIGHT, 0, 0);
         TextView share = contentView.findViewById(R.id.pw_mineMenu_tv_share);
         TextView attention=contentView.findViewById(R.id.pw_mineMenu_tv_attention);
+        TextView report=contentView.findViewById(R.id.pw_mineMenu_tv_report);
+        report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+                showPublishPopwindow();
+            }
+        });
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -306,6 +316,62 @@ public class UserMsgActivity extends ActivityBase {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+            }
+        });
+    }
+
+    public void showPublishPopwindow() {
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_report, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView);
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_270));
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_350));
+        // 设置PopupWindow的背景
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(true);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+        RelativeLayout reason1=contentView.findViewById(R.id.pw_report_rl_reason1);
+        RelativeLayout reason2=contentView.findViewById(R.id.pw_report_rl_reason2);
+        RelativeLayout reason3=contentView.findViewById(R.id.pw_report_rl_reason3);
+        RelativeLayout reason4=contentView.findViewById(R.id.pw_report_rl_reason4);
+        reason1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openActivity(ReportActivity.class,"该账号存在欺骗诈钱行为");
+            }
+        });
+        reason2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openActivity(ReportActivity.class,"该账号存在其它违法行为");
+            }
+        });
+        reason3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openActivity(ReportActivity.class,"该账号侵犯他人权益");
+            }
+        });
+        reason4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openActivity(ReportActivity.class,"该账号存在虚假信息");
+            }
+        });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+                window.dismiss();
             }
         });
     }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -116,18 +117,37 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
 
 
 
-    private void getVideoInfo(AkVideoResponseBean.DataBean dataBean) {
+    private void getVideoInfo(final AkVideoResponseBean.DataBean dataBean, final String type) {
         DiscoverSubscribe.getVideoInfo(dataBean.getId() + "", dataBean.getStatus() + "", SharePerferenceUtils.getUserId(this),
                 new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
+                        Log.e("测试", "onSuccess: "+result );
                         VideoInfoResponseBean videoInfoResponseBean = GsonUtils.fromJson(result, VideoInfoResponseBean.class);
                         videoUrl = videoInfoResponseBean.getData().getVideo();
+                       switch (type){
+                           case "1":
+                               atAkVideoPlayer.setUrl(videoUrl); //设置视频地址
+                               atAkVideoPlayer.setTitle(dataBean.getTitle());
+                               StandardVideoController controller = new StandardVideoController(AgricultureVideoMainActivity.this);
+                               atAkVideoPlayer.setVideoController(controller); //设置控制器，如需定制可继承 BaseVideoController
+                               break;
+                           case "2":
+                               atAkVideoPlayer.release();
+                               atAkVideoPlayer.setUrl(videoUrl); //设置视频地址
+                               atAkVideoPlayer.setTitle(dataBean.getTitle());
+                               StandardVideoController controller1 = new StandardVideoController(AgricultureVideoMainActivity.this);
+                               atAkVideoPlayer.setVideoController(controller1); //设置控制器，如需定制可继承 BaseVideoController
+                               atAkVideoPlayer.start();
+                               break;
+                       }
                     }
 
                     @Override
                     public void onFault(String errorMsg) {
+                        showToast(errorMsg);
                         videoUrl = "";
+                        videoId=dataBean.getList_id()+"";
                     }
                 }));
     }
@@ -138,7 +158,7 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
             case R.id.at_ak_video_player:
                 break;
             case R.id.at_ak_video_btn_buy:
-                //buyLisense(videoId);
+                buyLisense(videoId);
                 break;
         }
     }
@@ -193,11 +213,15 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
 
     @Override
     public void onFragmentInteraction(AkVideoResponseBean.DataBean dataBean) {
-
+        getVideoInfo(dataBean,"1");
+        Log.e("测试", "onFragmentInteraction: "+dataBean.getTitle() );
     }
 
     @Override
     public void onDataGet(AkVideoResponseBean.DataBean dataBean) {
-
+        Log.e("测试", "onDataGet: "+dataBean.getTitle());
+        getVideoInfo(dataBean,"2");
     }
+
+
 }

@@ -1,6 +1,9 @@
 package com.zthx.npj.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +13,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.utils.QRCodeUtil;
 
@@ -52,7 +58,14 @@ public class StoreManagerQRCodeActivity extends ActivityBase {
         changeTitle(titleThemeTitle, "我的收款码");
         changeRightText(titleThemeTvRight, "账单", StoreManagerBillActivity.class, null);
 
-        acStoreManagerIvQRCode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("https://123.sogou.com/?22641-4322",160));
+        String img=getIntent().getStringExtra("img");
+        Glide.with(this).load(Uri.parse(img)).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                acStoreManagerIvQRCode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("https://123.sogou.com/?22641-4322",(int)getResources().getDimension(R.dimen.dp_220),resource,0.3f));
+            }
+        });
+
     }
 
     @OnClick({R.id.ac_storeManager_iv_min, R.id.ac_storeManager_iv_add, R.id.ac_storeManager_save})

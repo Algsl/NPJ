@@ -93,7 +93,6 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                 final ArrayList<NewsListResponseBean.DataBean> data = bean.getData();
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(AgricultureKnowledgeActivity.this);
                 atAkRv.setLayoutManager(layoutManager);
-                Log.e("测试", "onSuccess: "+data.get(0).getImg() );
                 NewsListAdapter adapter = new NewsListAdapter(AgricultureKnowledgeActivity.this, data);
                 adapter.notifyDataSetChanged();
                 atAkRv.setItemAnimator(new DefaultItemAnimator());

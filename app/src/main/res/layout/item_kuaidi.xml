@@ -20,6 +20,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
-        android:background="@color/line"
+        android:background="@color/background"
         android:layout_marginTop="15dp"/>
 </LinearLayout>

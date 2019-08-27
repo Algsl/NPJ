@@ -11,7 +11,8 @@
     <ImageView
         android:id="@+id/item_iv_comment_goods"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_171"
+        android:layout_height="@dimen/dp_170"
+        android:scaleType="fitXY"
         android:src="@mipmap/ic_launcher"/>
 
     <TextView

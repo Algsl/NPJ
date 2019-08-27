@@ -62,8 +62,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
             });
         }
         if(mList.size()>0){
-            //Glide.with(mContext).load(Uri.parse(mList.get(i).getImg())).into(viewHolder.img);
-            Glide.with(mContext).load(Uri.parse(mList.get(i).getImg())).asBitmap().into(new SimpleTarget<Bitmap>() {
+            Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getImg())).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                     viewHolder.img.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));

@@ -8,7 +8,6 @@
     android:background="@color/background">
 
     <include layout="@layout/title"/>
-
     <!--<ImageView
         android:id="@+id/at_pre_sell_iv"
         android:layout_width="match_parent"
@@ -50,7 +49,9 @@
             android:gravity="center"/>
 
     </LinearLayout>
-
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/at_pre_sell_rv"
         android:layout_width="match_parent"
@@ -59,7 +60,6 @@
         android:layout_marginLeft="@dimen/dp_6"
         android:layout_marginRight="@dimen/dp_6">
     </android.support.v7.widget.RecyclerView>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/at_pre_sell_rv2"
         android:layout_width="match_parent"
@@ -68,5 +68,8 @@
         android:layout_marginLeft="@dimen/dp_6"
         android:layout_marginRight="@dimen/dp_6">
     </android.support.v7.widget.RecyclerView>
-
+    <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

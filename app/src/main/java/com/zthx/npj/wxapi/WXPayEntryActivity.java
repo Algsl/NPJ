@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -45,13 +46,17 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 	@SuppressLint("LongLogTag")
 	@Override
 	public void onResp(BaseResp resp) {
-		Log.d("测试", "onPayFinish, errCode = " + resp.errCode);
-
-		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+		if(resp.errCode==-2){
+			Toast.makeText(WXPayEntryActivity.this,"您取消了支付",Toast.LENGTH_SHORT).show();
+		}else if(resp.errCode==0){
+			Toast.makeText(WXPayEntryActivity.this,"支付成功",Toast.LENGTH_SHORT).show();
+		}
+		finish();
+		/*if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("支付提示");
 			builder.setMessage(resp.errCode);
 			builder.show();
-		}
+		}*/
 	}
 }

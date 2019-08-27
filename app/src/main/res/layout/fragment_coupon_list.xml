@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".ui.fragment.CouponListFragment">
 
      <android.support.v7.widget.RecyclerView
+         android:layout_marginTop="@dimen/dp_10"
          android:id="@+id/fg_coupon_list_rv"
          android:layout_width="match_parent"
          android:layout_height="match_parent">

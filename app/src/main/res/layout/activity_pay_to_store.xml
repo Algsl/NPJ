@@ -93,10 +93,12 @@
                 />
 
             <EditText
+                android:id="@+id/ac_payToStore_et_inputMoney"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:layout_marginLeft="@dimen/dp_20"
+                android:inputType="number"
                 android:hint="请输入付款金额"
                 android:textSize="@dimen/sp_13"
                 android:textColor="@color/text9"/>
@@ -131,22 +133,43 @@
                 android:layout_marginTop="@dimen/dp_20"/>
 
             <TextView
+                android:id="@+id/ac_payToStore_tv_payMoney"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/dp_42"
-                android:text="0.00"
+                android:text="￥0.00"
+                android:textStyle="bold"
+                android:textColor="@color/app_theme"
                 android:layout_marginTop="@dimen/dp_20"/>
         </RelativeLayout>
     </LinearLayout>
-    
-    <Button
+    <LinearLayout
         android:layout_width="@dimen/dp_292"
         android:layout_height="@dimen/dp_40"
-        android:background="@drawable/theme_conner_5"
         android:layout_gravity="center_horizontal"
-        android:text="升级成为代言人"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/sp_15"/>
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/ac_payToStore_btn_toVIP"
+            android:visibility="visible"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/theme_conner_5"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_15"
+            android:text="升级成为代言人"/>
+        <Button
+            android:id="@+id/ac_payToStore_btn_toPay"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/theme_conner_5"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_15"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:text="立即支付"/>
+    </LinearLayout>
+
 
 </LinearLayout>

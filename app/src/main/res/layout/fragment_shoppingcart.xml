@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:orientation="vertical">
-
     <LinearLayout
         android:id="@+id/ll_gouwuche"
         android:layout_width="match_parent"
@@ -169,7 +168,6 @@
                 android:textColor="#555555"
                 android:textSize="13dp" />
         </RelativeLayout>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
