@@ -12,7 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.OrderListAdapter;
 import com.zthx.npj.base.Const;
@@ -53,11 +57,30 @@ public class OrderListFragment extends Fragment {
     String token = SharePerferenceUtils.getToken(getContext());
     @BindView(R.id.fg_orderList_toMakeOrder)
     TextView fgOrderListToMakeOrder;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_order_list, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getOrder();
+                refreshlayout.finishRefresh();
+                Toast.makeText(getContext(),"刷新完成",Toast.LENGTH_SHORT).show();
+            }
+        });
+        return view;
+    }
+
 
     @Override
     public void onResume() {
@@ -215,14 +238,6 @@ public class OrderListFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_order_list, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        return view;
-    }
-
 
     @Override
     public void onAttach(Context context) {
@@ -242,6 +257,6 @@ public class OrderListFragment extends Fragment {
 
     @OnClick(R.id.fg_orderList_toMakeOrder)
     public void onViewClicked() {
-        startActivity(new Intent(getContext(),ClassfiysActivity.class));
+        startActivity(new Intent(getContext(), ClassfiysActivity.class));
     }
 }

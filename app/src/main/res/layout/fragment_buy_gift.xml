@@ -5,6 +5,7 @@
     android:background="@color/white"
     tools:context="com.zthx.npj.ui.fragment.BuyGiftFragment">
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.v7.widget.RecyclerView

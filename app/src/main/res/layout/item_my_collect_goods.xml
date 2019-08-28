@@ -10,6 +10,7 @@
         android:layout_height="@dimen/dp_70"
         android:src="@mipmap/ic_launcher"
         android:layout_centerVertical="true"
+        android:scaleType="fitXY"
         android:layout_marginLeft="@dimen/dp_12"/>
 
     <TextView

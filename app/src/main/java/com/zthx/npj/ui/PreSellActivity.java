@@ -10,7 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -25,7 +29,6 @@ import com.zthx.npj.net.netsubscribe.PreSellSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
-import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
@@ -52,9 +55,12 @@ public class PreSellActivity extends ActivityBase {
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.banner)
     Banner banner;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
 
     private boolean isIng = true;
+    private String type="0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +72,15 @@ public class PreSellActivity extends ActivityBase {
         changeTitle(acTitle, "新品众筹");
         getPreSellList("0");
         initBanner();
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getPreSellList(type);
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
     }
 
     private void getPreSellList(final String type) {
@@ -121,6 +136,7 @@ public class PreSellActivity extends ActivityBase {
                     atPreSellTvEd.setTextColor(getResources().getColor(R.color.text3));
                     atPreSellTvEd.setBackgroundColor(getResources().getColor(android.R.color.white));
                     isIng = true;
+                    type="0";
                     getPreSellList("0");
                 }
                 break;
@@ -131,6 +147,7 @@ public class PreSellActivity extends ActivityBase {
                     atPreSellTvEd.setTextColor(getResources().getColor(android.R.color.white));
                     atPreSellTvEd.setBackgroundColor(getResources().getColor(R.color.app_theme));
                     isIng = false;
+                    type="1";
                     getPreSellList("1");
                 }
                 break;
@@ -138,7 +155,7 @@ public class PreSellActivity extends ActivityBase {
     }
 
     private void initBanner() {
-        MainSubscribe.getMainBanner("2",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.getMainBanner("2", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 BannerResponseBean bean = GsonUtils.fromJson(result, BannerResponseBean.class);

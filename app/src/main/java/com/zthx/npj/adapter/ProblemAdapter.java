@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.ProblemResponseBean;
+import com.zthx.npj.view.MyCircleView;
 
 import java.util.ArrayList;
 
@@ -50,7 +51,7 @@ public class ProblemAdapter extends RecyclerView.Adapter<ProblemAdapter.ViewHold
                 @Override
                 public void onClick(View view) {
                     int position=viewHolder.getLayoutPosition();
-                    mItemClickListener.onItemClickListener(i);
+                    mItemClickListener.onItemClickListener(position);
                 }
             });
         }
@@ -66,7 +67,7 @@ public class ProblemAdapter extends RecyclerView.Adapter<ProblemAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView problemIv;
+        MyCircleView problemIv;
         TextView problemTitle;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

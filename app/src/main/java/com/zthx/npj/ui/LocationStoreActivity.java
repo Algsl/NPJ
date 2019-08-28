@@ -17,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -70,14 +73,16 @@ public class LocationStoreActivity extends ActivityBase {
     TextView acLocaltionStoreTvAddress;
     @BindView(R.id.banner)
     Banner banner;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
     private String type = "1";
 
     private String lng = SharePerferenceUtils.getLng(this);
     private String lat = SharePerferenceUtils.getLat(this);
     private String keyword = "";
-    private String user_id=SharePerferenceUtils.getUserId(this);
-    private String token=SharePerferenceUtils.getToken(this);
-    private String level=SharePerferenceUtils.getUserLevel(this);
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
+    private String level = SharePerferenceUtils.getUserLevel(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +96,15 @@ public class LocationStoreActivity extends ActivityBase {
         atLocationStoreTvRuzhu.setText("我的店铺");
         acLocaltionStoreTvAddress.setSelected(true);
         getLocalStore(type);
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getLocalStore(type);
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
 
         initBanner();
     }
@@ -229,7 +243,7 @@ public class LocationStoreActivity extends ActivityBase {
     }
 
     private void initBanner() {
-        MainSubscribe.getMainBanner("3",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.getMainBanner("3", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 BannerResponseBean bean = GsonUtils.fromJson(result, BannerResponseBean.class);
@@ -274,7 +288,8 @@ public class LocationStoreActivity extends ActivityBase {
             }
         }));
     }
-    public void getMyStoreType(){
+
+    public void getMyStoreType() {
         if (level.equals("0")) {
             Toast toast = Toast.makeText(LocationStoreActivity.this, "成为农品街代言人，才可使用线下门店的功能哦", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
@@ -283,26 +298,27 @@ public class LocationStoreActivity extends ActivityBase {
             SetSubscribe.myOfflineStore(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
-                    Log.e("测试", "onSuccess: "+result);
+                    Log.e("测试", "onSuccess: " + result);
                     try {
-                        JSONObject object=new JSONObject(result);
-                        String code=object.getString("code")+"";
-                        if(code.equals("1")){
-                            startActivity(new Intent(LocationStoreActivity.this,EditMyOfflineStoreActivity.class));
-                        }else if(code.equals("2")){
-                            Toast.makeText(LocationStoreActivity.this,"线下门店审核中",Toast.LENGTH_LONG).show();
+                        JSONObject object = new JSONObject(result);
+                        String code = object.getString("code") + "";
+                        if (code.equals("1")) {
+                            startActivity(new Intent(LocationStoreActivity.this, EditMyOfflineStoreActivity.class));
+                        } else if (code.equals("2")) {
+                            Toast.makeText(LocationStoreActivity.this, "线下门店审核中", Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
+
                 @Override
                 public void onFault(String errorMsg) {
                     try {
-                        JSONObject object=new JSONObject(errorMsg);
-                        String code=object.getString("code")+"";
-                        if(code.equals("-2")){
-                            startActivity(new Intent(LocationStoreActivity.this,StoreManagerActivity.class));
+                        JSONObject object = new JSONObject(errorMsg);
+                        String code = object.getString("code") + "";
+                        if (code.equals("-2")) {
+                            startActivity(new Intent(LocationStoreActivity.this, StoreManagerActivity.class));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

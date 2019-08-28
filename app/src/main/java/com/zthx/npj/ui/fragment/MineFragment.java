@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,24 +21,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AlsoLikeAdatper;
-import com.zthx.npj.adapter.CommenGoodsAdatper;
-import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AlsoLikeResponseBean;
-import com.zthx.npj.net.been.CommentGoodsBeen;
-import com.zthx.npj.net.been.MyOfflineStoreResponseBean;
-import com.zthx.npj.net.been.RealNameResponseBean;
 import com.zthx.npj.net.been.UserResponseBean;
-import com.zthx.npj.net.netsubscribe.CertSubscribe;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.EditMyOfflineStoreActivity;
-import com.zthx.npj.ui.EnterpriseCertificationActivity;
-import com.zthx.npj.ui.GiftActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.HelpActivity;
 import com.zthx.npj.ui.MembershipPackageActivity;
@@ -49,7 +43,6 @@ import com.zthx.npj.ui.MyCollectActivity;
 import com.zthx.npj.ui.MyCouponActivity;
 import com.zthx.npj.ui.MyOrderActivity;
 import com.zthx.npj.ui.MyStoreActivity;
-import com.zthx.npj.ui.MyStoreOrderDetailActivity;
 import com.zthx.npj.ui.MySupplyActivity;
 import com.zthx.npj.ui.MyTeamActivity;
 import com.zthx.npj.ui.MyWalletActivity;
@@ -66,7 +59,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -144,11 +136,13 @@ public class MineFragment
     LinearLayout fgMineLl;
     @BindView(R.id.fg_mine_iv_jihuo)
     ImageView fgMineIvJihuo;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
     //private String level=SharePerferenceUtils.getLevel(getContext());
     private String user_id = SharePerferenceUtils.getUserId(getContext());
     private String token = SharePerferenceUtils.getToken(getContext());
-    private String level="";
+    private String level = "";
 
     public MineFragment() {
     }
@@ -164,6 +158,16 @@ public class MineFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mine, container, false);
         unbinder = ButterKnife.bind(this, view);
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getUserInfo();
+                getAlsoLike();
+                     refreshlayout.finishRefresh();
+                     Toast.makeText(getContext(),"刷新完成",Toast.LENGTH_SHORT).show();
+            }
+        });
         return view;
     }
 
@@ -176,14 +180,14 @@ public class MineFragment
 
 
     private void getAlsoLike() {
-        MainSubscribe.alsoLike("1",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.alsoLike("1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                AlsoLikeResponseBean bean=GsonUtils.fromJson(result,AlsoLikeResponseBean.class);
-                final ArrayList<AlsoLikeResponseBean.DataBean> data=bean.getData();
-                GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2);
+                AlsoLikeResponseBean bean = GsonUtils.fromJson(result, AlsoLikeResponseBean.class);
+                final ArrayList<AlsoLikeResponseBean.DataBean> data = bean.getData();
+                GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
                 fgMineRvLike.setLayoutManager(layoutManager);
-                AlsoLikeAdatper adatper=new AlsoLikeAdatper(getContext(),data);
+                AlsoLikeAdatper adatper = new AlsoLikeAdatper(getContext(), data);
                 //设置添加或删除item时的动画，这里使用默认动画
                 fgMineRvLike.setItemAnimator(new DefaultItemAnimator());
                 //设置适配器
@@ -225,10 +229,10 @@ public class MineFragment
     private void setUserInfo(String result) {
         UserResponseBean userResponseBean = GsonUtils.fromJson(result, UserResponseBean.class);
         UserResponseBean.DataBean data = userResponseBean.getData();
-        level=data.getLevel()+"";
+        level = data.getLevel() + "";
         fgMineTvName.setText(data.getNick_name());
         fgMineTvTel.setText(data.getMobile());
-        fgMineTvWord.setText(data.getSignature());
+        fgMineTvWord.setText(data.getSignature() == null ? "这个人很懒，什么也没有留下" : data.getSignature());
         fgMineTvGourdCoin.setText(String.valueOf(data.getGourd_coin()));
         fgMineTvCouponNum.setText(String.valueOf(data.getCoupon_num()));
         fgMineTvCollectionNum.setText(String.valueOf(data.getCollection_num()));
@@ -333,7 +337,7 @@ public class MineFragment
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 break;
             case R.id.fg_mine_iv_people_right:
-                    startActivity(new Intent(getActivity(), SpokesmanRightsNoPermissionActivity.class));
+                startActivity(new Intent(getActivity(), SpokesmanRightsNoPermissionActivity.class));
                 break;
             case R.id.fg_mine_ll_collect:
                 startActivity(new Intent(getActivity(), MyCollectActivity.class));
@@ -348,18 +352,18 @@ public class MineFragment
                 startActivity(new Intent(getActivity(), MyWalletActivity.class));
                 break;
             case R.id.fg_mine_ll_my_store:
-                if(level.equals("0")){
-                    CommonDialog dialog=new CommonDialog(getContext(), R.style.dialog, "您还不是代言人，暂不能开店", new CommonDialog.OnCloseListener() {
+                if (level.equals("0")) {
+                    CommonDialog dialog = new CommonDialog(getContext(), R.style.dialog, "您还不是代言人，暂不能开店", new CommonDialog.OnCloseListener() {
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
-                            if(confirm){
-                                startActivity(new Intent(getContext(),MembershipPackageActivity.class));
+                            if (confirm) {
+                                startActivity(new Intent(getContext(), MembershipPackageActivity.class));
                             }
                         }
                     });
                     dialog.setPositiveButton("成为代言人");
                     dialog.show();
-                 }else{
+                } else {
                     startActivity(new Intent(getContext(), MyStoreActivity.class));
                 }
                 break;
@@ -381,26 +385,27 @@ public class MineFragment
                     SetSubscribe.myOfflineStore(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
-                            Log.e("测试", "onSuccess: "+result);
+                            Log.e("测试", "onSuccess: " + result);
                             try {
-                                JSONObject object=new JSONObject(result);
-                                String code=object.getString("code")+"";
-                                if(code.equals("1")){
-                                    startActivity(new Intent(getContext(),EditMyOfflineStoreActivity.class));
-                                }else if(code.equals("2")){
-                                    Toast.makeText(getContext(),"线下门店审核中",Toast.LENGTH_LONG).show();
+                                JSONObject object = new JSONObject(result);
+                                String code = object.getString("code") + "";
+                                if (code.equals("1")) {
+                                    startActivity(new Intent(getContext(), EditMyOfflineStoreActivity.class));
+                                } else if (code.equals("2")) {
+                                    Toast.makeText(getContext(), "线下门店审核中", Toast.LENGTH_LONG).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
+
                         @Override
                         public void onFault(String errorMsg) {
                             try {
-                                JSONObject object=new JSONObject(errorMsg);
-                                String code=object.getString("code")+"";
-                                if(code.equals("-2")){
-                                    startActivity(new Intent(getContext(),StoreManagerActivity.class));
+                                JSONObject object = new JSONObject(errorMsg);
+                                String code = object.getString("code") + "";
+                                if (code.equals("-2")) {
+                                    startActivity(new Intent(getContext(), StoreManagerActivity.class));
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -410,18 +415,18 @@ public class MineFragment
                 }
                 break;
             case R.id.fg_mine_iv_head_pic:
-                Intent intent=new Intent(getContext(),UserMsgActivity.class);
-                intent.putExtra("key0",user_id);
+                Intent intent = new Intent(getContext(), UserMsgActivity.class);
+                intent.putExtra("key0", user_id);
                 startActivity(intent);
                 break;
             case R.id.fg_mine_iv_jihuo:
-                startActivity(new Intent(getContext(),MembershipPackageActivity.class));
+                startActivity(new Intent(getContext(), MembershipPackageActivity.class));
                 break;
             case R.id.fg_mine_iv_message:
-                startActivity(new Intent(getContext(),MessageCenterActivity.class));
+                startActivity(new Intent(getContext(), MessageCenterActivity.class));
                 break;
             case R.id.fg_mine_iv_levelimg:
-                startActivity(new Intent(getContext(),MyTeamActivity.class));
+                startActivity(new Intent(getContext(), MyTeamActivity.class));
                 break;
         }
     }

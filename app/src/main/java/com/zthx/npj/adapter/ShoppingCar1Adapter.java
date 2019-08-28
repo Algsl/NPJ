@@ -200,6 +200,7 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
         //合计的计算
         total_price = 0.0;
         tvTotalPrice.setText("¥0.00");
+        btnOrder.setBackground(context.getResources().getDrawable(R.drawable.gray_conner_2));
         for (int i = 0; i < data.size(); i++) {
             ArrayList<CartListResponseBean.DataBean> goods = data.get(i);
             for (int y = 0; y < goods.size(); y++) {
@@ -216,6 +217,7 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
                     DecimalFormat decimalFormat = new DecimalFormat("0.00");
                     SharePerferenceUtils.setTotlePrice("¥" + decimalFormat.format(total_price));
                     tvTotalPrice.setText("¥" + decimalFormat.format(total_price));
+                    btnOrder.setBackground(context.getResources().getDrawable(R.drawable.theme_conner_5));
                 }
             }
         }

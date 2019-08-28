@@ -102,6 +102,7 @@ public class StoreGoodsListFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         fgStoreGoodsListRv.setLayoutManager(manager);
         StoreGoodsListAdapter adapter=new StoreGoodsListAdapter(getContext(),data,getArguments().getString("type"));
+        adapter.notifyDataSetChanged();
         adapter.setOnItemClickListener(new StoreGoodsListAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {

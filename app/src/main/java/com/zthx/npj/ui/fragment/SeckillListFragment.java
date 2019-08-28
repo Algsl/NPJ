@@ -8,11 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.SecKillAdpter;
 import com.zthx.npj.base.Const;
@@ -33,6 +36,8 @@ public class SeckillListFragment extends Fragment {
     @BindView(R.id.fg_seckill_list_rv)
     RecyclerView fgSeckillListRv;
     Unbinder unbinder;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
 
     @Nullable
@@ -40,13 +45,21 @@ public class SeckillListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_seckill_list, container, false);
         unbinder = ButterKnife.bind(this, view);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getSeckillMsg();
+                refreshlayout.finishRefresh();
+                Toast.makeText(getContext(), "刷新完成", Toast.LENGTH_SHORT).show();
+            }
+        });
         return view;
     }
 
-    public Fragment newIntent(String type){
-        SeckillListFragment fragment=new SeckillListFragment();
-        Bundle bundle=new Bundle();
-        bundle.putString("type",type);
+    public Fragment newIntent(String type) {
+        SeckillListFragment fragment = new SeckillListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("type", type);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -64,7 +77,7 @@ public class SeckillListFragment extends Fragment {
     }
 
     private void getSeckillMsg() {
-        switch (getArguments().getString("type")){
+        switch (getArguments().getString("type")) {
             case "1":
                 getSeckillOver();
                 break;
@@ -90,22 +103,23 @@ public class SeckillListFragment extends Fragment {
             }
         }));
     }
+
     //限时抢购即将开始
     private void setSeckillStart(String result) {
-        SecKillTodayResponseBean bean=GsonUtils.fromJson(result,SecKillTodayResponseBean.class);
-        final ArrayList<SecKillTodayResponseBean.DataBean> data=bean.getData();
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+        SecKillTodayResponseBean bean = GsonUtils.fromJson(result, SecKillTodayResponseBean.class);
+        final ArrayList<SecKillTodayResponseBean.DataBean> data = bean.getData();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         fgSeckillListRv.setLayoutManager(layoutManager);
-        SecKillAdpter adapter=new SecKillAdpter(getContext(),data,getArguments().getString("type"));
+        SecKillAdpter adapter = new SecKillAdpter(getContext(), data, getArguments().getString("type"));
         fgSeckillListRv.setItemAnimator(new DefaultItemAnimator());
         fgSeckillListRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new SecKillAdpter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent intent=new Intent(getActivity(),GoodsDetailActivity.class);
+                Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
                 intent.setAction("miaosha");
-                intent.putExtra(Const.GOODS_ID,data.get(position).getId()+"");
-                intent.putExtra(Const.SECKILL_STATUS,3);
+                intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                intent.putExtra(Const.SECKILL_STATUS, 3);
                 startActivity(intent);
             }
         });
@@ -124,22 +138,23 @@ public class SeckillListFragment extends Fragment {
             }
         }));
     }
+
     //限时抢购进行中
     private void setSeckillGoing(String result) {
-        SecKillTodayResponseBean bean=GsonUtils.fromJson(result,SecKillTodayResponseBean.class);
-        final ArrayList<SecKillTodayResponseBean.DataBean> data=bean.getData();
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+        SecKillTodayResponseBean bean = GsonUtils.fromJson(result, SecKillTodayResponseBean.class);
+        final ArrayList<SecKillTodayResponseBean.DataBean> data = bean.getData();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         fgSeckillListRv.setLayoutManager(layoutManager);
-        SecKillAdpter adapter=new SecKillAdpter(getContext(),data,getArguments().getString("type"));
+        SecKillAdpter adapter = new SecKillAdpter(getContext(), data, getArguments().getString("type"));
         fgSeckillListRv.setItemAnimator(new DefaultItemAnimator());
         fgSeckillListRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new SecKillAdpter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent intent=new Intent(getActivity(),GoodsDetailActivity.class);
+                Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
                 intent.setAction("miaosha");
-                intent.putExtra(Const.GOODS_ID,data.get(position).getId()+"");
-                intent.putExtra(Const.SECKILL_STATUS,2);
+                intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                intent.putExtra(Const.SECKILL_STATUS, 2);
                 startActivity(intent);
             }
         });
@@ -158,22 +173,23 @@ public class SeckillListFragment extends Fragment {
             }
         }));
     }
+
     //限时抢购已结束
     private void setSeckillOver(String result) {
-        SecKillTodayResponseBean bean=GsonUtils.fromJson(result,SecKillTodayResponseBean.class);
-        final ArrayList<SecKillTodayResponseBean.DataBean> data=bean.getData();
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+        SecKillTodayResponseBean bean = GsonUtils.fromJson(result, SecKillTodayResponseBean.class);
+        final ArrayList<SecKillTodayResponseBean.DataBean> data = bean.getData();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         fgSeckillListRv.setLayoutManager(layoutManager);
-        SecKillAdpter adapter=new SecKillAdpter(getContext(),data,getArguments().getString("type"));
+        SecKillAdpter adapter = new SecKillAdpter(getContext(), data, getArguments().getString("type"));
         fgSeckillListRv.setItemAnimator(new DefaultItemAnimator());
         fgSeckillListRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new SecKillAdpter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent intent=new Intent(getActivity(),GoodsDetailActivity.class);
+                Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
                 intent.setAction("miaosha");
-                intent.putExtra(Const.GOODS_ID,data.get(position).getId()+"");
-                intent.putExtra(Const.SECKILL_STATUS,1);
+                intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                intent.putExtra(Const.SECKILL_STATUS, 1);
                 startActivity(intent);
             }
         });

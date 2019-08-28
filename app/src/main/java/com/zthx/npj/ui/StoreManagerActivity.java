@@ -192,9 +192,9 @@ public class StoreManagerActivity extends ActivityBase {
         bean.setConsumption(getEtToString(acStoreManagerEtConsumption));
         bean.setBusiness_hours("9-12 2-6");
         bean.setContact(getEtToString(acStoreManagerEtContact));
-        bean.setAddress("111");
-        bean.setAddress2(getEtToString(acStoreManagerEtAddress2));
-        bean.setOffer("10");
+        bean.setAddress(acStoreManagerTvAddress.getText().toString());
+        bean.setAddress2(acStoreManagerEtAddress2.getText().toString());
+        bean.setOffer(acStoreManagerTvOffer.getText().toString());
         bean.setRelief(getEtToString(acStoreManagerEtRelife));
         bean.setStore_img(img);
         bean.setLat(SharePerferenceUtils.getLat(this));

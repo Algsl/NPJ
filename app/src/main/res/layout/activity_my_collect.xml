@@ -17,9 +17,10 @@
         android:layout_height="@dimen/dp_1"
         android:background="@color/background"/>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-       <ScrollView
+       <android.support.v4.widget.NestedScrollView
            android:layout_width="match_parent"
            android:layout_height="match_parent">
            <LinearLayout
@@ -93,7 +94,7 @@
                   </android.support.v7.widget.RecyclerView>
               </LinearLayout>
            </LinearLayout>
-       </ScrollView>
+       </android.support.v4.widget.NestedScrollView>
         <com.scwang.smartrefresh.layout.footer.ClassicsFooter
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

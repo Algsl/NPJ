@@ -8,19 +8,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AlsoLikeAdatper;
 import com.zthx.npj.adapter.CollectionAdapter;
 import com.zthx.npj.adapter.CollectionStoreAdapter;
-import com.zthx.npj.adapter.CommenGoodsAdatper;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AlsoLikeResponseBean;
 import com.zthx.npj.net.been.CollectionResponseBean;
 import com.zthx.npj.net.been.CollectionStoreResponseBean;
-import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -29,7 +29,6 @@ import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +52,8 @@ public class MyCollectActivity extends ActivityBase {
     TextView acMyStoreTvStores;
     @BindView(R.id.title_back)
     ImageView titleBack;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
     private boolean flag = true;
     private String type = "1";
@@ -66,8 +67,17 @@ public class MyCollectActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,"收藏");
+        changeTitle(acTitle, "收藏");
 
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getCollection();
+                getAlsoLike();
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
         getCollection();
         getAlsoLike();
     }
@@ -175,7 +185,7 @@ public class MyCollectActivity extends ActivityBase {
                     SetSubscribe.delCollection(user_id, token, data.get(position).getId() + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
-                           getCollection();
+                            getCollection();
                         }
 
                         @Override

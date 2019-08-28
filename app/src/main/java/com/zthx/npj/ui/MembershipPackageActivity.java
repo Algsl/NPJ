@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
@@ -64,6 +65,7 @@ public class MembershipPackageActivity extends ActivityBase {
 
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
+    private String level=SharePerferenceUtils.getUserLevel(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,9 +160,13 @@ public class MembershipPackageActivity extends ActivityBase {
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openActivity(HaiBaoActivity.class);
-                backgroundAlpha(1f);
-                window.dismiss();
+                if(level.equals("0")){
+                    Toast.makeText(MembershipPackageActivity.this,"您不是农品街代言人，无法生成分享海报",Toast.LENGTH_LONG).show();
+                }else{
+                    openActivity(HaiBaoActivity.class);
+                    backgroundAlpha(1f);
+                    window.dismiss();
+                }
             }
         });
         window.setOnDismissListener(new PopupWindow.OnDismissListener() {

@@ -196,15 +196,16 @@
                                 android:src="@drawable/item_location_store_dikou"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/dp_9"/>
+
                             <TextView
                                 android:id="@+id/tv_malv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text=" 农品街代言人优惠比率%（收款码比率）： "
-                                android:textSize="@dimen/sp_12"
                                 android:layout_centerVertical="true"
                                 android:layout_toRightOf="@id/iv_zhekou"
-                                android:textColor="@color/text3"/>
+                                android:text=" 农品街代言人优惠比率%（收款码比率）： "
+                                android:textColor="@color/text3"
+                                android:textSize="@dimen/sp_12" />
                             <TextView
                                 android:id="@+id/ac_storeManager_tv_offer"
                                 android:layout_width="wrap_content"

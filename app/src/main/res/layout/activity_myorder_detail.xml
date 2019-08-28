@@ -9,13 +9,14 @@
 
     <include layout="@layout/title_theme"
         android:id="@+id/at_myOrderDetail_rl_title"/>
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_below="@id/at_myOrderDetail_rl_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -713,10 +714,11 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/ac_myOrderDetail_rv_cai"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/dp_40"/>
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 
 

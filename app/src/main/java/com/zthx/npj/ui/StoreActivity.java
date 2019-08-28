@@ -109,6 +109,7 @@ public class StoreActivity extends ActivityBase {
     private String store_id = "";
     private String type = "1";
     private long level;
+    private  StoreInfoResponseBean.DataBean data;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -181,8 +182,9 @@ public class StoreActivity extends ActivityBase {
     }
 
     private void setStoreInfo(String result) {
+        Log.e("测试", "setStoreInfo: "+result );
         StoreInfoResponseBean bean = GsonUtils.fromJson(result, StoreInfoResponseBean.class);
-        StoreInfoResponseBean.DataBean data = bean.getData();
+        data= bean.getData();
 
         level = data.getLevel();
         Glide.with(this).load(Uri.parse(data.getStore_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
@@ -195,8 +197,7 @@ public class StoreActivity extends ActivityBase {
         acStoreTvFans.setText(data.getAtt_num() == null ? "0" : data.getAtt_num());
         acStoreTvGoodsNum.setText(data.getGoods_num());
         MyCustomUtils.showLevelImg((int) data.getLevel(), acStoreIvLevel);
-        collectFlag = data.getIs_shoucang().equals("0") ? false : true;
-        if (collectFlag) {
+        if (data.isCollect()) {
             acStoreIvCollect.setImageResource(R.drawable.collect_star);
         } else {
             acStoreIvCollect.setImageResource(R.drawable.uncollect_star);
@@ -209,7 +210,7 @@ public class StoreActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_store_iv_collect:
-                collectToggle();
+                collectStore();
                 break;
             case R.id.ac_store_tv_tuijian:
                 acStoreTvTuijian.setTextColor(getResources().getColor(R.color.app_theme));
@@ -367,25 +368,29 @@ public class StoreActivity extends ActivityBase {
         }
     }
 
+    public void collectStore(){
+        SetSubscribe.addCollection(user_id, token, store_id, "2", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                showToast("店铺收藏成功");
+                data.setCollect(true);
+                acStoreIvCollect.setImageResource(R.drawable.collect_star);
+            }
 
-    private void collectToggle() {
+            @Override
+            public void onFault(String errorMsg) {
+                showToast(errorMsg);
+            }
+        }));
+    }
+    /*private void collectToggle() {
         collectFlag = !collectFlag;
         if (collectFlag) {
-            SetSubscribe.addCollection(user_id, token, store_id, "2", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                @Override
-                public void onSuccess(String result) {
-                    acStoreIvCollect.setImageResource(R.drawable.collect_star);
-                }
 
-                @Override
-                public void onFault(String errorMsg) {
-                    showToast(errorMsg);
-                }
-            }));
         } else {
             acStoreIvCollect.setImageResource(R.drawable.uncollect_star);
         }
-    }
+    }*/
 
     private void toggle() {
         saleFlag = !saleFlag;

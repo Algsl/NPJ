@@ -173,11 +173,13 @@ public class GoodsDetailActivity extends ActivityBase {
 
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
+    private String level=SharePerferenceUtils.getUserLevel(this);
     private String goodsId;
     TextView tvCartNum;
     private String type = "1";
     private int count = 1;
     private String imgStrMsg = "";
+
 
     private PreSellDetailResponseBean.DataBean mPreData = new PreSellDetailResponseBean().getData();
     private GoodsDetailResponseBean.DataBean mGoodsData = new GoodsDetailResponseBean().getData();
@@ -356,17 +358,12 @@ public class GoodsDetailActivity extends ActivityBase {
     }
 
     private void setGoodsData(String result) {
-        Log.e("测试", "setGoodsData: " + result);
         GoodsDetailResponseBean goodsDetailResponseBean = GsonUtils.fromJson(result, GoodsDetailResponseBean.class);
         mGoodsData = goodsDetailResponseBean.getData();
         initBanner(mGoodsData.getGoods_img());
         getGoodsContent();
         String level = SharePerferenceUtils.getUserLevel(this);
-        if (level.equals("0")) {//普通会员价
-            atGoodsDetailTvGoodsNewPrice.setText("¥" + mGoodsData.getUser_price());
-        } else {//代言人价
-            atGoodsDetailTvGoodsNewPrice.setText("¥" + mGoodsData.getMember_price());
-        }
+        atGoodsDetailTvGoodsNewPrice.setText("¥" + mGoodsData.getUser_price());
         atGoodsDetailTvGoodsOldPrice.setText("￥" + mGoodsData.getMarket_price());//市场价
         atGoodsDetailTvGoodsOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         atGoodsDetailTvGoodsTitle.setText(mGoodsData.getGoods_name());
@@ -518,7 +515,7 @@ public class GoodsDetailActivity extends ActivityBase {
         SetSubscribe.addCollection(user_id, token, goodsId, "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Toast.makeText(GoodsDetailActivity.this, "收藏成功", Toast.LENGTH_LONG).show();
+                Toast.makeText(GoodsDetailActivity.this, "商品收藏成功", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -608,13 +605,20 @@ public class GoodsDetailActivity extends ActivityBase {
         backgroundAlpha(0.4f);
         //设置Popupwindow关闭监听，当Popupwindow关闭，背景恢复1f
         tvCartNum = contentView.findViewById(R.id.item_pop_goods_tv_num);
-        ImageView headImg = contentView.findViewById(R.id.pop_goods_size_iv_pic);
+        final ImageView headImg = contentView.findViewById(R.id.pop_goods_size_iv_pic);
         TextView marketPrice = contentView.findViewById(R.id.pop_goods_size_tv_old_price);
         TextView memberPrice = contentView.findViewById(R.id.pop_goods_size_tv_price);
         TextView inventory = contentView.findViewById(R.id.pop_goods_size_tv_total_num);
+        TextView toVip=contentView.findViewById(R.id.pw_goodsSize_tv_toVIP);
+        RelativeLayout rlToVip=contentView.findViewById(R.id.pw_goodsSize_rl_toVip);
         switch (type) {
             case "1":
-                Glide.with(this).load(Uri.parse(mSeckillData.getGoods_img())).into(headImg);
+                Glide.with(this).load(Uri.parse(mSeckillData.getGoods_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        headImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
+                    }
+                });
                 marketPrice.setText("￥" + mSeckillData.getMarket_price());
                 memberPrice.setText("会员价" + mSeckillData.getGoods_price());
                 break;
@@ -623,12 +627,24 @@ public class GoodsDetailActivity extends ActivityBase {
                 break;
             case "3":
                 Glide.with(this).load(Uri.parse(mGoodsData.getGoods_img().get(0))).into(headImg);
-                marketPrice.setText("￥" + mGoodsData.getMarket_price());
+                marketPrice.setText("￥" + mGoodsData.getUser_price());
                 memberPrice.setText("会员价 " + mGoodsData.getMember_price());
                 inventory.setText("库存：" + mGoodsData.getInventory());
+                double lisheng=Double.parseDouble(mGoodsData.getUser_price())-Double.parseDouble(mGoodsData.getMember_price());
+                toVip.setText("成为农品街代言人此单立省"+String.format("%.2f",lisheng)+"元");
                 break;
         }
+        rlToVip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (level.equals("0")){
+                    openActivity(MembershipPackageActivity.class);
+                }else{
+                    showToast("您已经是代言人了，提交订单时自动减免");
+                }
 
+            }
+        });
         sizePopWin.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {

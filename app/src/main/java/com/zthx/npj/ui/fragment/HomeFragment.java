@@ -154,13 +154,13 @@ public class HomeFragment extends BaseFragment {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                if(isChild){
-                    getChildHome();
-                }else{
-                    getGroupHome();
-                }
-                Toast.makeText(getContext(),"数据刷新完成",Toast.LENGTH_SHORT).show();
-                refreshlayout.finishRefresh();
+            if(isChild){
+                getChildHome();
+            }else{
+                getGroupHome();
+            }
+            refreshlayout.finishRefresh();
+            Toast.makeText(getContext(),"刷新完成",Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.zthx.npj.ui.PublishGoodsActivity"
     android:orientation="vertical">
 
@@ -77,9 +78,10 @@
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginRight="@dimen/dp_12"></View>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/at_publish_goods_ll_3"
@@ -102,14 +104,22 @@
                         android:textColorHint="@color/text9"
                         android:textSize="@dimen/sp_13"/>
                 </LinearLayout>
-                <ImageView
+                <me.zhouzhuo.zzimagebox.ZzImageBox
                     android:id="@+id/ac_storeGoodsInfo_iv_goodsImg"
-                    android:layout_width="@dimen/dp_75"
-                    android:layout_height="@dimen/dp_75"
-                    android:src="@mipmap/ic_launcher"
-                    android:layout_below="@id/at_publish_goods_ll_3"
-                    android:layout_marginLeft="@dimen/dp_12"/>
-            </RelativeLayout>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:layout_marginRight="@dimen/dp_12"
+                    app:zib_left_margin="@dimen/dp_12"
+                    app:zib_right_margin="@dimen/dp_12"
+                    app:zib_img_padding="@dimen/dp_10"
+                    app:zib_img_size_one_line="5"
+                    app:zib_max_line="1"
+                    app:zib_img_deletable="true"
+                    app:zib_img_add="@drawable/iv_add"
+                    app:zib_img_default="@drawable/iv_default"
+                    app:zib_img_delete="@drawable/iv_delete"/>
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1"
@@ -118,10 +128,10 @@
                 android:layout_marginRight="@dimen/dp_12"
                 android:layout_marginTop="@dimen/dp_13"></View>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
                 <LinearLayout
                     android:id="@+id/at_publish_goods_ll_4"
                     android:layout_width="match_parent"
@@ -143,14 +153,22 @@
                         android:textColorHint="@color/text9"
                         android:textSize="@dimen/sp_13"/>
                 </LinearLayout>
-                <ImageView
+                <me.zhouzhuo.zzimagebox.ZzImageBox
                     android:id="@+id/ac_storeGoodsInfo_iv_goodsContent"
-                    android:layout_width="@dimen/dp_75"
-                    android:layout_height="@dimen/dp_75"
-                    android:src="@mipmap/ic_launcher"
-                    android:layout_below="@id/at_publish_goods_ll_4"
-                    android:layout_marginLeft="@dimen/dp_12"/>
-            </RelativeLayout>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:layout_marginRight="@dimen/dp_12"
+                    app:zib_left_margin="@dimen/dp_12"
+                    app:zib_right_margin="@dimen/dp_12"
+                    app:zib_img_padding="@dimen/dp_10"
+                    app:zib_img_size_one_line="5"
+                    app:zib_max_line="4"
+                    app:zib_img_deletable="true"
+                    app:zib_img_add="@drawable/iv_add"
+                    app:zib_img_default="@drawable/iv_default"
+                    app:zib_img_delete="@drawable/iv_delete"/>
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1"
@@ -313,6 +331,7 @@
                 android:layout_marginRight="@dimen/dp_12"></View>
 
             <RelativeLayout
+                android:id="@+id/ac_pulishGoods_rl_cateName"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
                 android:orientation="horizontal"
@@ -396,6 +415,7 @@
                 android:layout_marginRight="@dimen/dp_12"></View>
 
             <RelativeLayout
+                android:id="@+id/ac_pulishGoods_rl_goodsType"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
                 android:orientation="horizontal"

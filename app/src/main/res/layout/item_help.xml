@@ -3,7 +3,7 @@
     android:layout_width="@dimen/dp_185"
     android:layout_height="@dimen/dp_50"
     android:orientation="horizontal">
-        <ImageView
+        <com.zthx.npj.view.MyCircleView
             android:id="@+id/item_help_iv_problemImg"
             android:layout_width="@dimen/dp_27"
             android:layout_height="@dimen/dp_27"
@@ -12,12 +12,15 @@
             android:layout_marginLeft="@dimen/dp_12"/>
         <TextView
             android:id="@+id/item_help_tv_problemTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_100"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
             android:text="庄园相关问题"
             android:textColor="@color/text3"
             android:textSize="@dimen/sp_14"
+            android:lines="2"
+            android:ellipsize="end"
             android:layout_marginLeft="@dimen/dp_10"/>
         <ImageView
             android:layout_width="@dimen/dp_8"

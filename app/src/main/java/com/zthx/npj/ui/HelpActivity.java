@@ -2,6 +2,7 @@ package com.zthx.npj.ui;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -118,7 +119,7 @@ public class HelpActivity extends ActivityBase {
                     @Override
                     public void onClick(Dialog dialog, boolean confirm) {
                         if (confirm){
-                            Log.e("测试", "onClick: "+"确定" );
+                            startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:100-800-1234")));
                         }else{
                             Log.e("测试", "onClick: "+"取消");
                         }

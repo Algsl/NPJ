@@ -9,6 +9,16 @@ public class StoreInfoResponseBean extends BaseReponseBean{
         private String goods_num;
         private String is_shoucang;
 
+        private boolean isCollect;
+
+        public boolean isCollect() {
+            return isCollect;
+        }
+
+        public void setCollect(boolean collect) {
+            isCollect = collect;
+        }
+
         public String getStore_name() {
             return store_name;
         }

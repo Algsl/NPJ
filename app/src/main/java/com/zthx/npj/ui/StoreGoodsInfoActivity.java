@@ -1,31 +1,57 @@
 package com.zthx.npj.ui;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.GoodsCateAdapter;
+import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.EditGoodsBean;
+import com.zthx.npj.net.been.GoodsCateResponseBean;
 import com.zthx.npj.net.been.GoodsInfoResponseBean;
+import com.zthx.npj.net.been.UploadPicsResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.zhouzhuo.zzimagebox.ZzImageBox;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
-public class StoreGoodsInfoActivity extends ActivityBase{
+public class StoreGoodsInfoActivity extends ActivityBase {
     @BindView(R.id.title_theme_back)
     ImageView titleThemeBack;
     @BindView(R.id.title_theme_title)
@@ -36,10 +62,6 @@ public class StoreGoodsInfoActivity extends ActivityBase{
     EditText acStoreGoodsInfoEtGoodsName;
     @BindView(R.id.ac_storeGoodsInfo_et_goodsDesc)
     EditText acStoreGoodsInfoEtGoodsDesc;
-    @BindView(R.id.ac_storeGoodsInfo_iv_goodsImg)
-    ImageView acStoreGoodsInfoIvGoodsImg;
-    @BindView(R.id.ac_storeGoodsInfo_iv_goodsContent)
-    ImageView acStoreGoodsInfoIvGoodsContent;
     @BindView(R.id.ac_storeGoodsInfo_et_platformPrice)
     EditText acStoreGoodsInfoEtPlatformPrice;
     @BindView(R.id.ac_storeGoodsInfo_et_memberPrice)
@@ -61,6 +83,31 @@ public class StoreGoodsInfoActivity extends ActivityBase{
 
     String user_id = SharePerferenceUtils.getUserId(this);
     String token = SharePerferenceUtils.getToken(this);
+    @BindView(R.id.ac_storeGoodsInfo_iv_goodsImg)
+    ZzImageBox acStoreGoodsInfoIvGoodsImg;
+    @BindView(R.id.ac_storeGoodsInfo_iv_goodsContent)
+    ZzImageBox acStoreGoodsInfoIvGoodsContent;
+
+    private static final int CHOOSE_PHOTO1 = 1;
+    private static final int CHOOSE_PHOTO2 = 2;
+    @BindView(R.id.publish_goods_3)
+    TextView publishGoods3;
+    @BindView(R.id.ac_pulishGoods_rl_cateName)
+    RelativeLayout acPulishGoodsRlCateName;
+    @BindView(R.id.ac_pulishGoods_rl_goodsType)
+    RelativeLayout acPulishGoodsRlGoodsType;
+
+    private List<String> paths1 = new ArrayList<>();
+    private List<String> paths2 = new ArrayList<>();
+    private List<String> paths3 = new ArrayList<>();
+    private List<String> paths4 = new ArrayList<>();
+    private List<String> paths5 = new ArrayList<>();
+    private List<String> paths6 = new ArrayList<>();
+    private String goodsImg;
+    private String goodsContent;
+    private String goods_type = "0";
+    private String cate_id = "";
+    private String itemResult = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,14 +115,69 @@ public class StoreGoodsInfoActivity extends ActivityBase{
         setContentView(R.layout.activity_store_goods_info);
         ButterKnife.bind(this);
         back(titleThemeBack);
-        changeTitle(titleThemeTitle,"发布商品");
+        changeTitle(titleThemeTitle, "发布商品");
+
         getStoreGoodsInfo();
+        getGoodsCate();
+
+        acStoreGoodsInfoIvGoodsImg.setOnlineImageLoader(new ZzImageBox.OnlineImageLoader() {
+            @Override
+            public void onLoadImage(ImageView iv, String url) {
+                Glide.with(StoreGoodsInfoActivity.this).load(url).into(iv);
+            }
+        });
+        acStoreGoodsInfoIvGoodsContent.setOnlineImageLoader(new ZzImageBox.OnlineImageLoader() {
+            @Override
+            public void onLoadImage(ImageView iv, String url) {
+                Glide.with(StoreGoodsInfoActivity.this).load(url).into(iv);
+            }
+        });
+
+        acStoreGoodsInfoIvGoodsImg.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
+            @Override
+            public void onImageClick(int position, String url, String realPath, int realType, ImageView iv) {
+
+            }
+
+            @Override
+            public void onDeleteClick(int position, String url, String realPath, int realType) {
+                paths1.remove(position);
+                acStoreGoodsInfoIvGoodsImg.removeImage(position);
+            }
+
+            @Override
+            public void onAddClick() {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, CHOOSE_PHOTO1);
+            }
+        });
+
+        acStoreGoodsInfoIvGoodsContent.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
+            @Override
+            public void onImageClick(int position, String url, String realPath, int realType, ImageView iv) {
+
+            }
+
+            @Override
+            public void onDeleteClick(int position, String url, String realPath, int realType) {
+                paths2.remove(position);
+                acStoreGoodsInfoIvGoodsContent.removeImage(position);
+            }
+
+            @Override
+            public void onAddClick() {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, CHOOSE_PHOTO2);
+            }
+        });
+
     }
 
     private void getStoreGoodsInfo() {
         SetSubscribe.goodsInfo(user_id, token, getIntent().getStringExtra("goods_id"), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
+                Log.e("测试", "onSuccess: "+result );
                 setStoreGoodsInfo(result);
             }
 
@@ -91,8 +193,7 @@ public class StoreGoodsInfoActivity extends ActivityBase{
         GoodsInfoResponseBean.DataBean data = bean.getData();
         acStoreGoodsInfoEtGoodsName.setText(data.getGoods_name());
         acStoreGoodsInfoEtGoodsDesc.setText(data.getGoods_desc());
-        Glide.with(this).load(Uri.parse(data.getGoods_img().get(0))).into(acStoreGoodsInfoIvGoodsImg);
-        Glide.with(this).load(Uri.parse(data.getGoods_content().get(0))).into(acStoreGoodsInfoIvGoodsContent);
+
         acStoreGoodsInfoEtPlatformPrice.setText(data.getPlatform_price());
         acStoreGoodsInfoEtMemberPrice.setText(data.getMember_price());
         acStoreGoodsInfoEtMarketPrice.setText(data.getMarket_price());
@@ -103,10 +204,26 @@ public class StoreGoodsInfoActivity extends ActivityBase{
         } else {
             acStoreGoodsInfoEtIsFreeShipping.setText("不包邮");
         }
-        acStoreGoodsInfoTvGoodsType.setText(data.getGoods_type() + "");
+        if (data.getGoods_type() == 0) {
+            acStoreGoodsInfoTvGoodsType.setText("平台所有用户可显示购买");
+        } else if (data.getGoods_type() == 1) {
+            acStoreGoodsInfoTvGoodsType.setText("仅对直接邀请用户可显示购买");
+        } else {
+            acStoreGoodsInfoTvGoodsType.setText("仅对直接和间接邀请用户可显示购买");
+        }
+
+        for (int i = 0; i < data.getGoods_img().size(); i++) {
+            acStoreGoodsInfoIvGoodsImg.addImageOnline(data.getGoods_img().get(i));
+            paths1.add(data.getGoods_img().get(i));
+        }
+        for (int i = 0; i < data.getGoods_content().size(); i++) {
+            acStoreGoodsInfoIvGoodsContent.addImageOnline(data.getGoods_content().get(i));
+            paths2.add(data.getGoods_content().get(i));
+        }
     }
 
-    @OnClick({R.id.title_theme_back, R.id.ac_storeGoodsInfo_iv_goodsImg, R.id.ac_storeGoodsInfo_iv_goodsContent, R.id.ac_storeGoodsInfo_btn_pulish})
+    @OnClick({R.id.title_theme_back, R.id.ac_storeGoodsInfo_iv_goodsImg, R.id.ac_storeGoodsInfo_iv_goodsContent,
+            R.id.ac_storeGoodsInfo_btn_pulish,R.id.ac_pulishGoods_rl_cateName, R.id.ac_pulishGoods_rl_goodsType})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.title_theme_back:
@@ -116,25 +233,84 @@ public class StoreGoodsInfoActivity extends ActivityBase{
             case R.id.ac_storeGoodsInfo_iv_goodsContent:
                 break;
             case R.id.ac_storeGoodsInfo_btn_pulish:
-                editStoreGoodsInfo();
+                publishImages();
+                break;
+            case R.id.ac_pulishGoods_rl_cateName:
+                showItemPopwindow();
+                break;
+            case R.id.ac_pulishGoods_rl_goodsType:
+                showBottomDialog();
                 break;
         }
     }
 
+    public void publishImages() {
+        for (String str : paths1) {
+            if (str.split("http://app.npj-vip.com").length == 1) {
+                paths3.add(str);
+            } else {
+                paths4.add(str.split("http://app.npj-vip.com")[1]);
+            }
+        }
+        for (String str : paths2) {
+            if (str.split("http://app.npj-vip.com").length == 1) {
+                paths5.add(str);
+            } else {
+                paths6.add(str.split("http://app.npj-vip.com")[1]);
+            }
+        }
+        HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths3, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                showToast("图片上传失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                UploadPicsResponseBean.DataBean data = bean.getData();
+                String imgStr = "";
+                for (String str : paths4) {
+                    imgStr += str + ",";
+                }
+                goodsImg = imgStr + data.getImg();
+                HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths5, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        showToast("图片上传失败");
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                        UploadPicsResponseBean.DataBean data = bean.getData();
+                        String contentStr = "";
+                        for (String str : paths6) {
+                            contentStr += str + ",";
+                        }
+                        goodsContent = contentStr + data.getImg();
+                        editStoreGoodsInfo();
+                    }
+                });
+            }
+        });
+    }
+
     private void editStoreGoodsInfo() {
-        EditGoodsBean bean=new EditGoodsBean();
+        EditGoodsBean bean = new EditGoodsBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
+        bean.setGoods_name(getEtString(acStoreGoodsInfoEtGoodsName));
         bean.setGoods_id(getIntent().getStringExtra("goods_id"));
         bean.setGoods_desc(getEtString(acStoreGoodsInfoEtGoodsDesc));
-        bean.setGoods_img("");
+        bean.setGoods_img(goodsImg);
         bean.setPlatform_price(getEtString(acStoreGoodsInfoEtPlatformPrice));
         bean.setMarket_price(getEtString(acStoreGoodsInfoEtMarketPrice));
         bean.setMember_price(getEtString(acStoreGoodsInfoEtMemberPrice));
         bean.setInventory(getEtString(acStoreGoodsInfoEtInventory));
-        bean.setCate_id("584");
+        bean.setCate_id(cate_id);
         bean.setIs_free_shipping("0");
-        SetSubscribe.editGoods(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.editGoods(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 finish();
@@ -146,7 +322,171 @@ public class StoreGoodsInfoActivity extends ActivityBase{
             }
         }));
     }
-    public String getEtString(EditText et){
+
+    public String getEtString(EditText et) {
         return et.getText().toString().trim();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CHOOSE_PHOTO1:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+                        cursor.moveToFirst();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String path = cursor.getString(columnIndex);  //获取照片路径
+                        cursor.close();
+                        paths1.add(path);
+                        acStoreGoodsInfoIvGoodsImg.addImage(path);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case CHOOSE_PHOTO2:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+                        cursor.moveToFirst();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String path = cursor.getString(columnIndex);  //获取照片路径
+                        cursor.close();
+                        paths2.add(path);
+                        acStoreGoodsInfoIvGoodsContent.addImage(path);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+        }
+    }
+
+    private void getGoodsCate() {
+        SetSubscribe.goodsCate(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                itemResult = result;
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                showToast(errorMsg);
+            }
+        }));
+    }
+
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha;
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getWindow().setAttributes(lp);
+    }
+
+    private void showBottomDialog() {
+        //1、使用Dialog、设置style
+        final Dialog dialog = new Dialog(this, R.style.DialogTheme);
+        //2、设置布局
+        View view = View.inflate(this, R.layout.dialog_show_type_layout, null);
+        dialog.setContentView(view);
+        Window window = dialog.getWindow();
+        //设置弹出位置
+        window.setGravity(Gravity.BOTTOM);
+        //设置弹出动画
+        window.setWindowAnimations(R.style.main_menu_animStyle);
+        //设置对话框大小
+        window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+
+        dialog.findViewById(R.id.dl_showType_tv_all).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goods_type = "0";
+                acStoreGoodsInfoTvGoodsType.setText("平台所有用户可显示购买");
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dl_showType_tv_invite).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goods_type = "1";
+                acStoreGoodsInfoTvGoodsType.setText("仅对直接邀请用户可显示购买");
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dl_showType_tv_inviteAndIndirecct).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goods_type = "2";
+                acStoreGoodsInfoTvGoodsType.setText("仅对直接和间接邀请用户可显示购买");
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dl_showType_tv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public void showItemPopwindow() {
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_store_cartid, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView);
+        window.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_300));
+        // 设置PopupWindow的背景
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(true);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getWindow().getDecorView(), Gravity.RIGHT, 0, 0);
+        final GoodsCateResponseBean bean = GsonUtils.fromJson(itemResult, GoodsCateResponseBean.class);
+        final ExpandableListView elv = contentView.findViewById(R.id.pw_storeCartId_elv);
+        final GoodsCateAdapter adapter = new GoodsCateAdapter(this, bean.getData());
+        elv.setAdapter(adapter);
+        elv.setDivider(null);
+        elv.setGroupIndicator(null);
+        int groupCount = elv.getCount();
+        for (int i = 0; i < groupCount; i++) {
+            elv.expandGroup(i);
+        }
+        ;
+        adapter.setOnItemClickListener(new GoodsCateAdapter.ItemClickListener() {
+            @Override
+            public void groupMsg(String cate_id, String cate_name) {
+
+            }
+
+            @Override
+            public void childMsg(String id, String cate_name) {
+                cate_id = id;
+                acStoreGoodsInfoTvCateName.setText(cate_name);
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+
     }
 }

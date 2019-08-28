@@ -221,6 +221,7 @@ public class ConfirmOrderActivity extends ActivityBase {
             acConfirmOrderRlTihuo.setVisibility(View.VISIBLE);
             attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
             goodsId = getIntent().getStringExtra(Const.GOODS_ID);
+            Log.e("测试", "onCreate: "+goodsCount );
             goodsCount = getIntent().getStringExtra("count");
             getGoodsData();
         }
@@ -233,7 +234,7 @@ public class ConfirmOrderActivity extends ActivityBase {
         bean.setToken(token);
         bean.setGoods_id(goodsId);
         bean.setItem_id(attId);
-        bean.setGoods_num("2");
+        bean.setGoods_num(goodsCount);
         SetSubscribe.goodsOrder(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -268,7 +269,7 @@ public class ConfirmOrderActivity extends ActivityBase {
         acConfirmOrderTvGoodsAllNum.setText("共" + ptdata.getGoods_num() + "件商品  总计：");
         int payMoney = ((int) Double.parseDouble(ptdata.getPrice())) * ((int) Double.parseDouble(ptdata.getGoods_num()));
         double lisheng=payMoney*0.15;
-        acConfirmOrderTvLisheng.setText("成为农品街代言人此单立省"+lisheng+"元");
+        acConfirmOrderTvLisheng.setText("成为农品街代言人此单立省"+String.format("%.2f",lisheng)+"元");
         atConfirmOrderTvPrice.setText("￥" + payMoney);
         acConfirmOrderTvRealPay.setText("￥" + payMoney);
     }

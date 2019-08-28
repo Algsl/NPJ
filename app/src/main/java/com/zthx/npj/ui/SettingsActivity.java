@@ -349,6 +349,7 @@ public class SettingsActivity extends ActivityBase {
                         intent.putExtra("type", type);
                         startActivity(intent);*/
                         openActivity(EditNicknameActivity.class, type);
+                        dialog.dismiss();
                     }
                 });
         dialog.findViewById(R.id.dl_photo_cancel)

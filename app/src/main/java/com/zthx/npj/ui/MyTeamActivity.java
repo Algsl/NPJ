@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.MyCircleView;
 
 import butterknife.BindView;
@@ -77,6 +79,11 @@ public class MyTeamActivity extends ActivityBase {
         changeTitle(titleThemeTitle, "我的业绩");
         changeRightImg(titleThemeImgRight, R.drawable.myachievement_more, AskForPartnerActivity.class, null);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getMyTeam();
         getUserInfo();
     }
@@ -146,9 +153,27 @@ public class MyTeamActivity extends ActivityBase {
                 MyTeamResponseBean bean = GsonUtils.fromJson(result, MyTeamResponseBean.class);
                 MyTeamResponseBean.DataBean data = bean.getData();
                 if ((int) data.getStatus() == 1) {
-                    Toast.makeText(MyTeamActivity.this, "请先升级成为VIP代言人！", Toast.LENGTH_LONG).show();
+                    new CommonDialog(MyTeamActivity.this, R.style.dialog, "请先升级成为VIP代言人", new CommonDialog.OnCloseListener() {
+                        @Override
+                        public void onClick(Dialog dialog, boolean confirm) {
+                            if(confirm){
+                                openActivity(MembershipPackageActivity.class);
+                            }else{
+                                finish();
+                            }
+                        }
+                    }).show();
                 } else if ((int) data.getStatus() == 2) {
-                    Toast.makeText(MyTeamActivity.this, "请先绑定邀请人！", Toast.LENGTH_LONG).show();
+                    new CommonDialog(MyTeamActivity.this, R.style.dialog, "请先绑定邀请人！", new CommonDialog.OnCloseListener() {
+                        @Override
+                        public void onClick(Dialog dialog, boolean confirm) {
+                            if(confirm){
+                                openActivity(MembershipPackageActivity.class);
+                            }else{
+                                finish();
+                            }
+                        }
+                    }).show();
                 } else {
                     setMyTeam(data);
                 }

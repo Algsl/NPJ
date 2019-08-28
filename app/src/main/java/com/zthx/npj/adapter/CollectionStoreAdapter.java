@@ -65,7 +65,6 @@ public class CollectionStoreAdapter extends RecyclerView.Adapter<CollectionStore
                 }
             });
         }
-        //Glide.with(mContext).load(Uri.parse(mList.get(i).getStore_img())).into(viewHolder.storeImg);
         Glide.with(mContext).load(Uri.parse(mList.get(i).getStore_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
