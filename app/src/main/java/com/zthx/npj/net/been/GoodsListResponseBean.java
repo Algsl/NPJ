@@ -10,6 +10,15 @@ public class GoodsListResponseBean extends BaseReponseBean{
         private String goods_img;
         private String member_price;
         private String market_price;
+        private String user_price;
+
+        public String getUser_price() {
+            return user_price;
+        }
+
+        public void setUser_price(String user_price) {
+            this.user_price = user_price;
+        }
 
         public long getSold() {
             return sold;

@@ -18,8 +18,9 @@ import com.zthx.npj.R;
 import static com.alibaba.mobileim.YWChannel.getResources;
 
 public class ImageCircleConner {
+    private static Bitmap output;
     public static Bitmap toRoundCorner(Bitmap bitmap, int pixels) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
         final int color = 0xff424242;
         final Paint paint = new Paint();

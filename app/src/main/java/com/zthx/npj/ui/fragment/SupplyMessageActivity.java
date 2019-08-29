@@ -142,6 +142,8 @@ public class SupplyMessageActivity extends ActivityBase {
     AddPurchaseBean purchaseBean=new AddPurchaseBean();
     AddSupplyBean supplyBean=new AddSupplyBean();
     private String address=URLConstant.REQUEST_URL1;
+    private boolean isZhiding;
+    private String isTop="0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -232,7 +234,7 @@ public class SupplyMessageActivity extends ActivityBase {
         }
     }
 
-    @OnClick({R.id.at_supply_message_address, R.id.at_supply_message_btn_publish,R.id.at_qg_message_address})
+    @OnClick({R.id.at_supply_message_address, R.id.at_supply_message_btn_publish,R.id.at_qg_message_address,R.id.at_supply_message_rb_zhiding})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //地址选择器
@@ -252,6 +254,18 @@ public class SupplyMessageActivity extends ActivityBase {
             case R.id.at_supply_message_btn_publish:
                 uploadImage();
                 break;
+            case R.id.at_supply_message_rb_zhiding:
+                toggle();
+                break;
+        }
+    }
+
+    private void toggle() {
+        isZhiding=!isZhiding;
+        if(isZhiding){
+            isTop="1";
+        }else{
+            isTop="0";
         }
     }
 
@@ -303,7 +317,7 @@ public class SupplyMessageActivity extends ActivityBase {
                         purchaseBean.setAmount(atQgMessageNum.getText().toString());
                         purchaseBean.setMin_price(atSupplyMessageEtMin.getText().toString());
                         purchaseBean.setMax_price(atSupplyMessageEtMax.getText().toString());
-                        purchaseBean.setIs_top(atSupplyMessageRbZhiding.isChecked() ? "1" : "0");
+                        purchaseBean.setIs_top(isTop);
                         purchaseBean.setCity(atQgMessageTvAddress.getText().toString());
                         break;
                     case 2:

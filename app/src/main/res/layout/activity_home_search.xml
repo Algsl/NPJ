@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tag="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.HomeSearchActivity"
     android:background="@color/white"
     android:orientation="vertical">
@@ -86,11 +86,29 @@
                 android:src="@drawable/home_search_delete"
                 android:layout_marginRight="@dimen/dp_9"/>
         </RelativeLayout>
-
-        <android.support.v7.widget.RecyclerView
+        <com.donkingliang.labels.LabelsView
+            android:id="@+id/ac_homeSearch_lv_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            android:paddingBottom="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_6"
+            tag:labelBackground="@drawable/gray_conner"
+            tag:labelTextColor="@drawable/label_text"
+            tag:labelTextSize="14sp"
+            tag:labelTextPaddingBottom="@dimen/dp_4"
+            tag:labelTextPaddingLeft="@dimen/dp_10"
+            tag:labelTextPaddingRight="@dimen/dp_10"
+            tag:labelTextPaddingTop="@dimen/dp_4"
+            tag:lineMargin="10dp"
+            tag:wordMargin="10dp"
+            tag:selectType="SINGLE"
+            tag:maxSelect="30" />
+        <!--<android.support.v7.widget.RecyclerView
             android:id="@+id/ac_homeSearch_rv_history"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"/>-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_22"
@@ -104,9 +122,24 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_12" />
         </RelativeLayout>
-        <android.support.v7.widget.RecyclerView
+        <com.donkingliang.labels.LabelsView
             android:id="@+id/ac_homeSearch_rv_hot"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            android:paddingBottom="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_6"
+            tag:labelBackground="@drawable/gray_conner"
+            tag:labelTextColor="@drawable/label_text"
+            tag:labelTextSize="14sp"
+            tag:labelTextPaddingBottom="@dimen/dp_4"
+            tag:labelTextPaddingLeft="@dimen/dp_10"
+            tag:labelTextPaddingRight="@dimen/dp_10"
+            tag:labelTextPaddingTop="@dimen/dp_4"
+            tag:lineMargin="10dp"
+            tag:wordMargin="10dp"
+            tag:selectType="SINGLE"
+            tag:maxSelect="30" />
     </LinearLayout>
 </LinearLayout>

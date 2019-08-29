@@ -146,7 +146,7 @@ public class StoreActivity extends ActivityBase {
         final ArrayList<StoreGoodsListResponseBean.DataBean> data = bean.getData();
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         acStoreRv.setLayoutManager(layoutManager);
-        StoreGoodsAdapter adapter = new StoreGoodsAdapter(this, data, level);
+        StoreGoodsAdapter adapter = new StoreGoodsAdapter(this, data);
         acStoreRv.setItemAnimator(new DefaultItemAnimator());
         acStoreRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new StoreGoodsAdapter.ItemClickListener() {
@@ -168,7 +168,7 @@ public class StoreActivity extends ActivityBase {
 
     //获取店铺信息
     private void getStoreInfo() {
-        MainSubscribe.storeInfo(store_id, "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.storeInfo(store_id, user_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setStoreInfo(result);
@@ -197,7 +197,7 @@ public class StoreActivity extends ActivityBase {
         acStoreTvFans.setText(data.getAtt_num() == null ? "0" : data.getAtt_num());
         acStoreTvGoodsNum.setText(data.getGoods_num());
         MyCustomUtils.showLevelImg((int) data.getLevel(), acStoreIvLevel);
-        if (data.isCollect()) {
+        if (data.getIs_shoucang()==1) {
             acStoreIvCollect.setImageResource(R.drawable.collect_star);
         } else {
             acStoreIvCollect.setImageResource(R.drawable.uncollect_star);
@@ -373,7 +373,6 @@ public class StoreActivity extends ActivityBase {
             @Override
             public void onSuccess(String result) {
                 showToast("店铺收藏成功");
-                data.setCollect(true);
                 acStoreIvCollect.setImageResource(R.drawable.collect_star);
             }
 

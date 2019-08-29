@@ -59,6 +59,7 @@
             android:layout_marginTop="@dimen/dp_3"
             android:textSize="@dimen/sp_12"
             android:text="限量首发"
+            android:visibility="gone"
             android:textColor="@color/text6"/>
         <TextView
             android:id="@+id/item_tv_classfiy_detail_goods_price"
@@ -66,7 +67,7 @@
             android:layout_height="wrap_content"
             android:text="￥26.00"
             android:textStyle="bold"
-            android:textSize="@dimen/sp_14"
+            android:textSize="@dimen/sp_15"
             android:layout_marginLeft="@dimen/dp_2"
             android:layout_toRightOf="@id/item_tv_classfiy_detail_text"
             android:textColor="@color/app_theme"/>

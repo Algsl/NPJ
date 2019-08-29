@@ -60,15 +60,19 @@ public class SupplySearchActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(acSupplySearchIvBack);
-
     }
 
-    @OnClick({R.id.ac_supplySearch_et_search, R.id.ac_supplySearch_tv_supply, R.id.ac_supply_tv_qiugou})
+    @OnClick({R.id.ac_supplySearch_tv_search, R.id.ac_supplySearch_tv_supply, R.id.ac_supply_tv_qiugou})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_supplySearch_tv_search:
                 searchKeyword = acSupplySearchEtSearch.getText().toString().trim();
-                getSearchResult(searchType);
+                if(searchKeyword.equals("")){
+                    showToast("请输入您想要的产品");
+                }else{
+                    acSupplySearchLlShow.setVisibility(View.VISIBLE);
+                    getSearchResult(searchType);
+                }
                 break;
             case R.id.ac_supplySearch_tv_supply:
                 acSupplySearchTvSupply.setBackgroundColor(getResources().getColor(R.color.app_theme));
@@ -111,6 +115,11 @@ public class SupplySearchActivity extends ActivityBase {
             @Override
             public void onSuccess(String result) {
                 SupplyListResponseBean supplyListResponseBean = GsonUtils.fromJson(result, SupplyListResponseBean.class);
+                if(supplyListResponseBean==null){
+                    acSupplySearchRvSupply.setVisibility(View.GONE);
+                }else{
+                    acSupplySearchRvSupply.setVisibility(View.VISIBLE);
+                }
                 final ArrayList<SupplyListResponseBean.DataBean> data = supplyListResponseBean.getData();
                 LinearLayoutManager manager = new LinearLayoutManager(SupplySearchActivity.this, LinearLayoutManager.VERTICAL, false);
                 acSupplySearchRvSupply.setLayoutManager(manager);
@@ -140,13 +149,14 @@ public class SupplySearchActivity extends ActivityBase {
         DiscoverSubscribe.qiugouSearch(searchKeyword, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                acSupplySearchLlShow.setVisibility(View.VISIBLE);
-                final ArrayList<NeedListResponseBean.DataBean> data = GsonUtils.fromJson(result, NeedListResponseBean.class).getData();
-                if (data.size() <= 0 || data.equals("") || data == null) {
+                Log.e("测试", "onSuccess: "+result );
+                NeedListResponseBean bean = GsonUtils.fromJson(result, NeedListResponseBean.class);
+                if(bean==null){
                     acSupplySearchRvQiugou.setVisibility(View.GONE);
-                } else {
+                }else{
                     acSupplySearchRvQiugou.setVisibility(View.VISIBLE);
                 }
+                final ArrayList<NeedListResponseBean.DataBean> data=bean.getData();
                 LinearLayoutManager manager = new LinearLayoutManager(SupplySearchActivity.this, LinearLayoutManager.VERTICAL, false);
                 acSupplySearchRvQiugou.setLayoutManager(manager);
                 DiscoverNeedAdapter mAdapter2 = new DiscoverNeedAdapter(SupplySearchActivity.this, data);
@@ -162,7 +172,6 @@ public class SupplySearchActivity extends ActivityBase {
                 });
                 acSupplySearchRvQiugou.setItemAnimator(new DefaultItemAnimator());
                 acSupplySearchRvQiugou.setAdapter(mAdapter2);
-                acSupplySearchLlShow.setVisibility(View.VISIBLE);
             }
 
             @Override

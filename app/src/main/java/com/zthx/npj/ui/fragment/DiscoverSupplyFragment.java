@@ -21,7 +21,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -109,6 +113,8 @@ public class DiscoverSupplyFragment extends Fragment {
     WebView fgDiscoverWvBusiness;
     @BindView(R.id.banner)
     Banner banner;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
 
     private String type1 = "1";
@@ -142,7 +148,17 @@ public class DiscoverSupplyFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_discover_supply, container, false);
         unbinder = ButterKnife.bind(this, view);
 
+        getQiYeList();
         getSupplyData(type1);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getSupplyData(type1);
+                getQiYeList();
+                refreshlayout.finishRefresh();
+                Toast.makeText(getContext(), "刷新完成", Toast.LENGTH_SHORT).show();
+            }
+        });
         initBanner();
         return view;
     }
@@ -242,7 +258,7 @@ public class DiscoverSupplyFragment extends Fragment {
             R.id.fg_discover_supply_ll_gongying, R.id.fg_discover_supply_tv_supply, R.id.fg_discover_supply_tv_need,
             R.id.fg_discover_supply_tv_company, R.id.fg_discover_supply_tv_new, R.id.fg_discover_supply_tv_location,
             R.id.fg_discover_supply_tv_sell_num, R.id.fg_discover_supply_tv_xinyong, R.id.fg_discover_supply_tv_price,
-            R.id.fg_discover_btn_cancel, R.id.fg_discover_btn_issue,R.id.fg_discover_supply_search
+            R.id.fg_discover_btn_cancel, R.id.fg_discover_btn_issue, R.id.fg_discover_supply_search
     })
     public void onViewClicked(View view) {
         Intent intent;
@@ -314,7 +330,7 @@ public class DiscoverSupplyFragment extends Fragment {
                 break;
 
             case R.id.fg_discover_supply_search:
-                startActivity(new Intent(getContext(),SupplySearchActivity.class));
+                startActivity(new Intent(getContext(), SupplySearchActivity.class));
                 break;
         }
     }
@@ -377,37 +393,37 @@ public class DiscoverSupplyFragment extends Fragment {
             fgDiscoverSupplyLlNeed.setVisibility(View.GONE);
             fgDiscoverWvBusiness.setVisibility(View.VISIBLE);
 
-            fgDiscoverWvBusiness.loadUrl("http://www.agronet.com.cn/Company/List_oc164.html");
+            /*fgDiscoverWvBusiness.loadUrl("http://www.agronet.com.cn/Company/List_oc164.html");
             fgDiscoverWvBusiness.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                     view.loadUrl(url);
                     return true;
                 }
-            });
-           /* fgDiscoverWvBusiness.loadUrl("http://www.agronet.com.cn/Company/List_oc164.html");
-            WebSettings settings = fgDiscoverWvBusiness.getSettings();
-            settings.setJavaScriptEnabled(true);
-            settings.setBuiltInZoomControls(true);
-            settings.setBlockNetworkImage(true);
-            fgDiscoverWvBusiness.setWebChromeClient(new WebChromeClient() {
-                @Override
-                public void onProgressChanged(WebView view, int newProgress) {
-                    if (newProgress == 100) {
-                        // 网页加载完成
-                        // loadDialog.dismiss();
-                        fgDiscoverWvBusiness.getSettings().setBlockNetworkImage(false);
-                    } else {
-                        // 网页加载中
-                        // loadDialog.show();
-                    }
-                }
             });*/
         }
     }
 
+    public void getQiYeList(){
+        fgDiscoverWvBusiness.loadUrl("http://www.agronet.com.cn/Company");
+        WebSettings settings = fgDiscoverWvBusiness.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setBlockNetworkImage(true);
+        fgDiscoverWvBusiness.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    // 网页加载完成
+                    //loadDialog.dismiss();
+                    fgDiscoverWvBusiness.getSettings().setBlockNetworkImage(false);
+                }
+            }
+        });
+    }
+
     private void initBanner() {
-        MainSubscribe.getMainBanner("3",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.getMainBanner("3", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 BannerResponseBean bean = GsonUtils.fromJson(result, BannerResponseBean.class);

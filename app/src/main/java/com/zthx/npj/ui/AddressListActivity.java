@@ -47,7 +47,11 @@ public class AddressListActivity extends ActivityBase {
         ButterKnife.bind(this);
         back(titleBack);
         changeTitle(acTitle,"选择收货地址");
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         getAddressList();
     }
 

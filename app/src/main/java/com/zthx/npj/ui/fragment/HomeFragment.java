@@ -113,7 +113,6 @@ public class HomeFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -378,6 +377,7 @@ public class HomeFragment extends BaseFragment {
             case REQUEST_CODE_SCAN:
                 if (resultCode == RESULT_OK) {
                     String context = data.getStringExtra(Constant.CODED_CONTENT);
+                    Log.e("测试", "onActivityResult: "+context );
                     Uri uri = Uri.parse(context);
                     String page = uri.getQueryParameter("page");
                     String type = uri.getQueryParameter("type");

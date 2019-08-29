@@ -33,7 +33,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/dp_10"
-                android:src="@drawable/shopping_message" />
+                android:src="@drawable/home_message" />
 
             <TextView
                 android:id="@+id/tv_titlebar_right"

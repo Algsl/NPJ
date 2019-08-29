@@ -101,7 +101,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/dp_12"
                     android:layout_marginTop="@dimen/dp_4"
-                    android:src="@drawable/shopping_message"/>
+                    android:src="@drawable/home_message"/>
 
                 <ImageView
                     android:id="@+id/fg_mine_iv_people_right"

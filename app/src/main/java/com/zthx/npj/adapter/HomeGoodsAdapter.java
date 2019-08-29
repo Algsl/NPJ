@@ -73,11 +73,7 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.View
         });
         Glide.with(mContext).load(list.get(i).getStore_img()).into(viewHolder.mIvMall);
         viewHolder.mTvMallName.setText(list.get(i).getStore_name());
-        if(level.equals("0")){
-            viewHolder.mTvNewPrice.setText("￥"+list.get(i).getUser_price());
-        }else{
-            viewHolder.mTvNewPrice.setText("￥"+list.get(i).getMember_price());
-        }
+        viewHolder.mTvNewPrice.setText("￥"+list.get(i).getUser_price());
         viewHolder.mTvOldPrice.setText("￥"+list.get(i).getMarket_price());
         viewHolder.mTvOldPrice.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG);
         viewHolder.mTvTitle.setText(list.get(i).getGoods_name());

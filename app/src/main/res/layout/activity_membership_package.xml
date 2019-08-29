@@ -31,6 +31,8 @@
                 android:text="闭眼看世界"
                 android:textSize="@dimen/sp_13"
                 android:gravity="center"
+                android:singleLine="true"
+                android:ellipsize="marquee"
                 android:textColor="@android:color/white"
                 android:layout_toRightOf="@id/at_membership_package_head_pic"
                 android:layout_marginTop="@dimen/dp_25"

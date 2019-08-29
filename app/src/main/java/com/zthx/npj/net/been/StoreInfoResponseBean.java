@@ -7,17 +7,7 @@ public class StoreInfoResponseBean extends BaseReponseBean{
         private long level;
         private String att_num;
         private String goods_num;
-        private String is_shoucang;
-
-        private boolean isCollect;
-
-        public boolean isCollect() {
-            return isCollect;
-        }
-
-        public void setCollect(boolean collect) {
-            isCollect = collect;
-        }
+        private long is_shoucang;
 
         public String getStore_name() {
             return store_name;
@@ -59,11 +49,11 @@ public class StoreInfoResponseBean extends BaseReponseBean{
             this.goods_num = goods_num;
         }
 
-        public String getIs_shoucang() {
+        public long getIs_shoucang() {
             return is_shoucang;
         }
 
-        public void setIs_shoucang(String is_shoucang) {
+        public void setIs_shoucang(long is_shoucang) {
             this.is_shoucang = is_shoucang;
         }
     }

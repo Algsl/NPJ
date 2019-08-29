@@ -14,7 +14,7 @@
 
     <TextView
         android:id="@+id/item_select_video_tv_title"
-        android:layout_width="@dimen/dp_240"
+        android:layout_width="@dimen/dp_220"
         android:layout_height="wrap_content"
         android:text="1.0-导论导论导论导论导论导论导论导论导论导论"
         android:textSize="@dimen/sp_15"
@@ -27,12 +27,13 @@
 
     <TextView
         android:id="@+id/item_select_video_tv_time"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp_50"
         android:layout_height="wrap_content"
         android:text="15分钟"
         android:layout_alignParentRight="true"
         android:textColor="@color/text6"
         android:textSize="@dimen/sp_12"
+        android:layout_marginTop="@dimen/dp_2"
         android:layout_marginRight="@dimen/dp_12"/>
     <ImageView
         android:id="@+id/item_select_video_iv_time"

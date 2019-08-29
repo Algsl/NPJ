@@ -28,7 +28,6 @@ public class StoreGoodsAdapter extends RecyclerView.Adapter<StoreGoodsAdapter.Vi
     private ArrayList<StoreGoodsListResponseBean.DataBean> mList;
     private Context mContext;
     private ItemClickListener mItemClickListener;
-    private long mLevel;
 
     public interface ItemClickListener{
         void onItemClick(int position);
@@ -40,10 +39,9 @@ public class StoreGoodsAdapter extends RecyclerView.Adapter<StoreGoodsAdapter.Vi
     }
 
 
-    public StoreGoodsAdapter(Context context,ArrayList<StoreGoodsListResponseBean.DataBean> list,long level){
+    public StoreGoodsAdapter(Context context,ArrayList<StoreGoodsListResponseBean.DataBean> list){
         mContext=context;
         mList=list;
-        mLevel=level;
     }
 
     @NonNull
@@ -83,8 +81,7 @@ public class StoreGoodsAdapter extends RecyclerView.Adapter<StoreGoodsAdapter.Vi
             }
         });
         viewHolder.goodsName.setText(mList.get(i).getGoods_name());
-        String price=(int)mLevel==0?mList.get(i).getUser_price():mList.get(i).getMember_price();
-        viewHolder.goodsPrice.setText("￥"+(int)Double.parseDouble(price));
+        viewHolder.goodsPrice.setText("￥"+(int)Double.parseDouble(mList.get(i).getUser_price()));
     }
 
     @Override

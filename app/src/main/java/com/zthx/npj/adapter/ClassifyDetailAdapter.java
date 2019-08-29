@@ -69,8 +69,8 @@ public class ClassifyDetailAdapter extends RecyclerView.Adapter<ClassifyDetailAd
                     viewHolder.mIvGoods.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
                 }
             });
-            viewHolder.mTvPrice.setText("￥"+(int)Double.parseDouble(mList.get(i).getMember_price()));
-            viewHolder.mTvSellNum.setText(mList.get(i).getSold()+"件已售");
+            viewHolder.mTvPrice.setText("￥"+(int)Double.parseDouble(mList.get(i).getUser_price()));
+            viewHolder.mTvSellNum.setText("已售"+mList.get(i).getSold()+"件");
             viewHolder.mTvTitle.setText(mList.get(i).getGoods_name());
             viewHolder.mTvOldPrice.setText("￥"+(int)Double.parseDouble(mList.get(i).getMarket_price()));
             viewHolder.mTvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);

@@ -73,7 +73,11 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
             }
         });
         viewHolder.mTvNeedNum.setText(list.get(i).getAmount());
-        viewHolder.mTvDistance.setText(list.get(i).getDistance()+"米");
+        if(list.get(i).getDistance()>1000){
+            viewHolder.mTvDistance.setText((list.get(i).getDistance()/1000)+"km");
+        }else{
+            viewHolder.mTvDistance.setText(list.get(i).getDistance()+"m");
+        }
         viewHolder.mTvTitle.setText(list.get(i).getTitle());
         if(list.get(i).getIs_top()==0){
             viewHolder.mTvIsTop.setVisibility(View.GONE);

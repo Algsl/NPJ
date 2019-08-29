@@ -75,6 +75,7 @@ public class ClassfiyDetailActivity extends ActivityBase {
     }
 
     private void setGoodsList(String result) {
+        Log.e("测试", "setGoodsList: "+result );
         GoodsListResponseBean bean = GsonUtils.fromJson(result, GoodsListResponseBean.class);
         final ArrayList<GoodsListResponseBean.DataBean> data = bean.getData();
         if(data.size()==0){

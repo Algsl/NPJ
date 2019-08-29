@@ -1,21 +1,22 @@
 package com.zthx.npj.ui;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -30,9 +31,13 @@ import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.StoreGoodsAdapter;
+import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AttentionResponseBean;
 import com.zthx.npj.net.been.LookUserResponseBean;
+import com.zthx.npj.net.been.StoreGoodsListResponseBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
+import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GetAddressUtil;
@@ -43,6 +48,7 @@ import com.zthx.npj.utils.SimpleUtil;
 import com.zthx.npj.view.MyCircleView;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,13 +87,32 @@ public class UserMsgActivity extends ActivityBase {
     TextView acUserMsgTvReputation;
     @BindView(R.id.ac_userMsg_tv_beDYR)
     TextView acUserMsgTvBeDYR;
+    @BindView(R.id.ac_userMsg_tv_qyCert)
+    TextView acUserMsgTvQyCert;
+    @BindView(R.id.ac_userMsg_tv_sjCert)
+    TextView acUserMsgTvSjCert;
+    @BindView(R.id.ac_userMsg_iv_mdCert)
+    TextView acUserMsgIvMdCert;
+    @BindView(R.id.ac_userMsg_tv_smCert)
+    TextView acUserMsgTvSmCert;
+    @BindView(R.id.ac_userMsg_tv_goCert)
+    TextView acUserMsgTvGoCert;
+    @BindView(R.id.ac_userMsg_tv_tuijian)
+    TextView acUserMsgTvTuijian;
+    @BindView(R.id.ac_userMsg_tv_allGoods)
+    TextView acUserMsgTvAllGoods;
+    @BindView(R.id.ac_userMsg_tv_sellSort)
+    TextView acUserMsgTvSellSort;
+    @BindView(R.id.ac_userMsg_tv_priceSort)
+    TextView acUserMsgTvPriceSort;
 
 
     private IWXAPI api;
     private Bitmap bmp;
-    private String user_id=SharePerferenceUtils.getUserId(this);
-    private String token=SharePerferenceUtils.getToken(this);
-    private String att_user_id="";
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
+    private String att_user_id = "";
+    private String type = "1";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,15 +120,59 @@ public class UserMsgActivity extends ActivityBase {
         setContentView(R.layout.activity_user_msg);
         ButterKnife.bind(this);
 
-       att_user_id = getIntent().getStringExtra("key0");
+        att_user_id = getIntent().getStringExtra("key0");
         getLookUser(att_user_id);
 
 
         api = WXAPIFactory.createWXAPI(this, "wx76500efa65d19915", false);
         api.registerApp("wx76500efa65d19915");
 
+        if (!att_user_id.equals(user_id)) {
+            acUserMsgTvGoCert.setVisibility(View.GONE);
+        }
 
         back(titleThemeBack);
+
+        getStoreGoodsList();
+    }
+
+    private void getStoreGoodsList() {
+        MainSubscribe.storeGoodsList(att_user_id, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setStoreGoodsList(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setStoreGoodsList(String result) {
+        StoreGoodsListResponseBean bean = GsonUtils.fromJson(result, StoreGoodsListResponseBean.class);
+        final ArrayList<StoreGoodsListResponseBean.DataBean> data = bean.getData();
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        fgMineRvLike.setLayoutManager(layoutManager);
+        StoreGoodsAdapter adapter = new StoreGoodsAdapter(this, data);
+        fgMineRvLike.setItemAnimator(new DefaultItemAnimator());
+        fgMineRvLike.setAdapter(adapter);
+        adapter.setOnItemClickListener(new StoreGoodsAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(UserMsgActivity.this, GoodsDetailActivity.class);
+                intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                startActivity(intent);
+            }
+
+            @Override
+            public void onShoppingCartClick(int position) {
+                Intent intent = new Intent(UserMsgActivity.this, GoodsDetailActivity.class);
+                intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                startActivity(intent);
+            }
+        });
     }
 
     private void getLookUser(String user_id) {
@@ -134,18 +203,48 @@ public class UserMsgActivity extends ActivityBase {
         acUserMsgTvAddress.setText(new GetAddressUtil(this).getAddress(Double.parseDouble(data.getLng()), Double.parseDouble(data.getLat())));
     }
 
-    @OnClick({R.id.title_theme_img_right,R.id.ac_userMsg_tv_beDYR})
+
+
+    @OnClick({R.id.title_theme_img_right, R.id.ac_userMsg_tv_beDYR,R.id.ac_userMsg_tv_tuijian,
+            R.id.ac_userMsg_tv_allGoods, R.id.ac_userMsg_tv_sellSort, R.id.ac_userMsg_tv_priceSort})
     public void onViewClicked(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ac_userMsg_tv_beDYR:
                 openActivity(MembershipPackageActivity.class);
                 break;
             case R.id.title_theme_img_right:
                 showItemPopwindow();
                 break;
+            case R.id.ac_userMsg_tv_tuijian:
+                acUserMsgTvTuijian.setTextColor(getResources().getColor(R.color.app_theme));
+                acUserMsgTvAllGoods.setTextColor(getResources().getColor(R.color.text6));
+                acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.text6));
+                acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.text6));
+                type="1";
+                break;
+            case R.id.ac_userMsg_tv_allGoods:
+                acUserMsgTvTuijian.setTextColor(getResources().getColor(R.color.text6));
+                acUserMsgTvAllGoods.setTextColor(getResources().getColor(R.color.app_theme));
+                acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.text6));
+                acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.text6));
+                type="2";
+                break;
+            case R.id.ac_userMsg_tv_sellSort:
+                acUserMsgTvTuijian.setTextColor(getResources().getColor(R.color.text6));
+                acUserMsgTvAllGoods.setTextColor(getResources().getColor(R.color.text6));
+                acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.app_theme));
+                acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.text6));
+                type="3";
+                break;
+            case R.id.ac_userMsg_tv_priceSort:
+                acUserMsgTvTuijian.setTextColor(getResources().getColor(R.color.text6));
+                acUserMsgTvAllGoods.setTextColor(getResources().getColor(R.color.text6));
+                acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.text6));
+                acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.app_theme));
+                type="4";
+                break;
         }
     }
-
 
     public void showItemPopwindow() {
         backgroundAlpha(0.5f);
@@ -158,8 +257,8 @@ public class UserMsgActivity extends ActivityBase {
         window.setTouchable(true);
         window.showAtLocation(getWindow().getDecorView(), Gravity.TOP | Gravity.RIGHT, 0, 0);
         TextView share = contentView.findViewById(R.id.pw_mineMenu_tv_share);
-        TextView attention=contentView.findViewById(R.id.pw_mineMenu_tv_attention);
-        TextView report=contentView.findViewById(R.id.pw_mineMenu_tv_report);
+        TextView attention = contentView.findViewById(R.id.pw_mineMenu_tv_attention);
+        TextView report = contentView.findViewById(R.id.pw_mineMenu_tv_report);
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -199,21 +298,21 @@ public class UserMsgActivity extends ActivityBase {
         attention.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DiscoverSubscribe.attention(user_id,token,att_user_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                DiscoverSubscribe.attention(user_id, token, att_user_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
                         window.dismiss();
                         backgroundAlpha(1f);
-                        AttentionResponseBean bean=GsonUtils.fromJson(result,AttentionResponseBean.class);
-                        switch (bean.getData().getStatus()){
+                        AttentionResponseBean bean = GsonUtils.fromJson(result, AttentionResponseBean.class);
+                        switch (bean.getData().getStatus()) {
                             case 1:
-                                Toast.makeText(UserMsgActivity.this,"关注成功",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UserMsgActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                                 break;
                             case 2:
-                                Toast.makeText(UserMsgActivity.this,"关注失败",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UserMsgActivity.this, "关注失败", Toast.LENGTH_SHORT).show();
                                 break;
                             case 3:
-                                Toast.makeText(UserMsgActivity.this,"已经关注过了",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UserMsgActivity.this, "已经关注过了", Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
@@ -339,32 +438,32 @@ public class UserMsgActivity extends ActivityBase {
         // 显示PopupWindow，其中：
         // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
         window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
-        RelativeLayout reason1=contentView.findViewById(R.id.pw_report_rl_reason1);
-        RelativeLayout reason2=contentView.findViewById(R.id.pw_report_rl_reason2);
-        RelativeLayout reason3=contentView.findViewById(R.id.pw_report_rl_reason3);
-        RelativeLayout reason4=contentView.findViewById(R.id.pw_report_rl_reason4);
+        RelativeLayout reason1 = contentView.findViewById(R.id.pw_report_rl_reason1);
+        RelativeLayout reason2 = contentView.findViewById(R.id.pw_report_rl_reason2);
+        RelativeLayout reason3 = contentView.findViewById(R.id.pw_report_rl_reason3);
+        RelativeLayout reason4 = contentView.findViewById(R.id.pw_report_rl_reason4);
         reason1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openActivity(ReportActivity.class,"该账号存在欺骗诈钱行为");
+                openActivity(ReportActivity.class, "该账号存在欺骗诈钱行为");
             }
         });
         reason2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openActivity(ReportActivity.class,"该账号存在其它违法行为");
+                openActivity(ReportActivity.class, "该账号存在其它违法行为");
             }
         });
         reason3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openActivity(ReportActivity.class,"该账号侵犯他人权益");
+                openActivity(ReportActivity.class, "该账号侵犯他人权益");
             }
         });
         reason4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openActivity(ReportActivity.class,"该账号存在虚假信息");
+                openActivity(ReportActivity.class, "该账号存在虚假信息");
             }
         });
         window.setOnDismissListener(new PopupWindow.OnDismissListener() {

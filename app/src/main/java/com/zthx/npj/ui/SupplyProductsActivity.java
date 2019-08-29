@@ -119,6 +119,8 @@ public class SupplyProductsActivity extends ActivityBase {
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
     private SupplyDetailResponseBean.DataBean supplyData;
+    private NeedDetailResponseBean.DataBean needData;
+    private GoodsImgDetailAdapter adapter;
     private String sn_user_id="";
 
     @Override
@@ -150,20 +152,21 @@ public class SupplyProductsActivity extends ActivityBase {
         DiscoverSubscribe.needDetail(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                NeedDetailResponseBean.DataBean data = GsonUtils.fromJson(result, NeedDetailResponseBean.class).getData();
-                showLevel(data.getLevel());
+                NeedDetailResponseBean  bean = GsonUtils.fromJson(result, NeedDetailResponseBean.class);
+                needData=bean.getData();
+                showLevel(needData.getLevel());
                 atNeedProductsTvCaigouNum.setVisibility(View.VISIBLE);
                 atSupplyProductsLlNeedBaojia.setVisibility(View.VISIBLE);
                 atSupplyProductsLlSupplyGuanggao.setVisibility(View.GONE);
                 atSupplyProductsRlNeedGuanggao.setVisibility(View.VISIBLE);
 
-                initBanner(data.getImg());
-                atSupplyProductsTvPrice.setText(data.getAmount());
-                atSupplyProductsTvUnit.setText(data.getUnit());
-                atSupplyProductsTvTitle.setText(data.getTitle());
+                initBanner(needData.getImg());
+                atSupplyProductsTvPrice.setText(needData.getAmount());
+                atSupplyProductsTvUnit.setText(needData.getUnit());
+                atSupplyProductsTvTitle.setText(needData.getTitle());
 
-                if(data.getCertification()!=null){
-                    String[] strs=data.getCertification().split(",");
+                if(needData.getCertification()!=null){
+                    String[] strs=needData.getCertification().split(",");
                     for(String str:strs){
                         if(str.equals("1")){
                             acSupplyTvRealName.setVisibility(View.VISIBLE);
@@ -173,29 +176,29 @@ public class SupplyProductsActivity extends ActivityBase {
                     }
                 }
 
-                if (data.getHits() != null) {
-                    atSupplyProductsTvLookNum.setText(data.getHits() + "人看过");
+                if (needData.getHits() != null) {
+                    atSupplyProductsTvLookNum.setText(needData.getHits() + "人看过");
                 } else {
                     atSupplyProductsTvLookNum.setText("0人看过");
                 }
-                if (data.getUser_count() >= 0) {
-                    atSupplyProductTvBaojia.setText(data.getUser_count() + "人已报价");
+                if (needData.getUser_count() >= 0) {
+                    atSupplyProductTvBaojia.setText(needData.getUser_count() + "人已报价");
                 } else {
                     atSupplyProductTvBaojia.setText("0人已报价");
                 }
-                if (data.getReputation() >= 0) {
-                    atSupplyProductsTvXinyufen.setText("信誉分： " + data.getReputation());
+                if (needData.getReputation() >= 0) {
+                    atSupplyProductsTvXinyufen.setText("信誉分： " + needData.getReputation());
                 } else {
                     atSupplyProductsTvXinyufen.setText("信誉分： 0");
                 }
 
-                sn_user_id=data.getUser_id();
+                sn_user_id=needData.getUser_id();
 
-                Glide.with(SupplyProductsActivity.this).load(data.getHead_img()).into(atSupplyProductsIvHeadPic);
-                atSupplyProductsTvName.setText(data.getNick_name());
-                atSupplyProductsTvXinyufen.setText("信誉分" + data.getReputation());
+                Glide.with(SupplyProductsActivity.this).load(needData.getHead_img()).into(atSupplyProductsIvHeadPic);
+                atSupplyProductsTvName.setText(needData.getNick_name());
+                atSupplyProductsTvXinyufen.setText("信誉分" + needData.getReputation());
                 //SupplyProductsAdapter adapter = new SupplyProductsAdapter(SupplyProductsActivity.this, data.getContent());
-                GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(SupplyProductsActivity.this, data.getContent());
+                GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(SupplyProductsActivity.this, needData.getContent());
                 atSupplyProductsRvPic.setItemAnimator(new DefaultItemAnimator());
                 atSupplyProductsRvPic.setAdapter(adapter);
             }
@@ -335,7 +338,12 @@ public class SupplyProductsActivity extends ActivityBase {
                 acSupplyTvDetail.setTextColor(getResources().getColor(R.color.white));
                 acSupplyTvCommon.setBackgroundColor(getResources().getColor(R.color.white));
                 acSupplyTvCommon.setTextColor(getResources().getColor(R.color.text3));
-                SupplyProductsAdapter adapter = new SupplyProductsAdapter(SupplyProductsActivity.this, supplyData.getContent());
+                if (type.equals(Const.SUPPLY_DETAIL)) {
+                     adapter= new GoodsImgDetailAdapter(SupplyProductsActivity.this, supplyData.getContent());
+
+                }else{
+                    adapter = new GoodsImgDetailAdapter(SupplyProductsActivity.this, needData.getContent());
+                }
                 atSupplyProductsRvPic.setItemAnimator(new DefaultItemAnimator());
                 atSupplyProductsRvPic.setAdapter(adapter);
                 break;

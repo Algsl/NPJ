@@ -53,8 +53,6 @@ public class HaiBaoActivity extends ActivityBase {
     TextView acHaibaoTvGenerateHB;
     @BindView(R.id.ac_haibao_ll)
     LinearLayout acHaibaoLl;
-    @BindView(R.id.show)
-    ImageView show;
     @BindView(R.id.ac_haibao_tv_changeQRCode)
     TextView acHaibaoTvChangeQRCode;
 
@@ -166,18 +164,7 @@ public class HaiBaoActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_haibao_tv_changeQRCode:
-                i=i%2+1;
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
-                switch (i){
-                    case 1:
-                        Bitmap bitmap1 = QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?page=tuijian", 100);
-                        acHaibaoIvQrImg.setImageBitmap(bitmap1);
-                        break;
-                    case 2:
-                        Bitmap bitmap2 = QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?page=tuijian", 100, ImageCircleConner.toRoundCorner(bitmap, 190), 0.3f);
-                        acHaibaoIvQrImg.setImageBitmap(bitmap2);
-                        break;
-                }
+
                 break;
             case R.id.ac_haibao_tv_generateHB:
                 showSingleBottomDialog(SimpleUtil.createViewBitmap(acHaibaoLl));

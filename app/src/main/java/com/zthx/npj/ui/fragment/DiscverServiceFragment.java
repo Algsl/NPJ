@@ -20,7 +20,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -78,10 +82,12 @@ public class DiscverServiceFragment extends Fragment {
     EditText fgDiscoverEtSearch;
     @BindView(R.id.fg_discover_ll)
     LinearLayout fgDiscoverLl;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
     private RecyclerView mRecyclerView;
 
     private Intent intent1 = null;
-    private boolean flag=false;
+    private boolean flag = false;
     private AgricultureKnowledgeAdatper mAdapter;
 
 
@@ -120,6 +126,15 @@ public class DiscverServiceFragment extends Fragment {
         list.add(R.drawable.discover_top);
         list.add(R.drawable.local_top);
 
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getDataList();
+                refreshlayout.finishRefresh();
+                Toast.makeText(getContext(),"刷新完成",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         //设置RecyclerView管理器
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 4, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -134,7 +149,7 @@ public class DiscverServiceFragment extends Fragment {
         DiscoverSubscribe.getSolutionList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-               getResult(result);
+                getResult(result);
             }
 
             @Override
@@ -145,7 +160,7 @@ public class DiscverServiceFragment extends Fragment {
     }
 
     private void getSearchSolution(String str) {
-        DiscoverSubscribe.searchSolution(str,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        DiscoverSubscribe.searchSolution(str, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 getResult(result);
@@ -158,12 +173,12 @@ public class DiscverServiceFragment extends Fragment {
         }));
     }
 
-    private void getResult(String result){
+    private void getResult(String result) {
         DiscoverSolutionListResponseBean discoverSolutionListResponseBean = GsonUtils.fromJson(result, DiscoverSolutionListResponseBean.class);
         final ArrayList<DiscoverSolutionListResponseBean.DataBean> data = discoverSolutionListResponseBean.getData();
-        if(data.size()<=0){
+        if (data.size() <= 0) {
             mRecyclerView.setVisibility(View.GONE);
-        }else{
+        } else {
             mRecyclerView.setVisibility(View.VISIBLE);
         }
         //初始化适配器
@@ -204,7 +219,7 @@ public class DiscverServiceFragment extends Fragment {
 
     @OnClick({R.id.fg_discover_ll_agriculture_knowledge, R.id.fg_discover_ll_information,
             R.id.fg_discover_ll_auction, R.id.fg_discover_ll_goods_for_goods,
-            R.id.fg_discover_ll_loan, R.id.fg_discoverService_iv_search,R.id.fg_discover_et_search})
+            R.id.fg_discover_ll_loan, R.id.fg_discoverService_iv_search, R.id.fg_discover_et_search})
     public void onViewClicked(final View view) {
         switch (view.getId()) {
             case R.id.fg_discover_ll_agriculture_knowledge:
@@ -231,11 +246,11 @@ public class DiscverServiceFragment extends Fragment {
                 fgDiscoverEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
                     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                        if(i==EditorInfo.IME_ACTION_SEARCH){
-                            String str=fgDiscoverEtSearch.getText().toString().trim();
+                        if (i == EditorInfo.IME_ACTION_SEARCH) {
+                            String str = fgDiscoverEtSearch.getText().toString().trim();
                             getSearchSolution(str);
                             fgDiscoverEtSearch.setText("");
-                            InputMethodManager imm1 = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            InputMethodManager imm1 = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm1.hideSoftInputFromWindow(view.getWindowToken(), 0);
                         }
                         return false;
@@ -246,10 +261,10 @@ public class DiscverServiceFragment extends Fragment {
     }
 
     private void toggle() {
-        flag=!flag;
-        if(flag){
+        flag = !flag;
+        if (flag) {
             fgDiscoverLl.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             fgDiscoverLl.setVisibility(View.GONE);
             getDataList();
         }

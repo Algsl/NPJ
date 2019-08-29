@@ -14,7 +14,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_20"
-            android:alpha="0.4"
+            android:alpha="0.5"
             android:background="@android:color/black"/>
         <ImageView
             android:id="@+id/pop_goods_size_iv_pic"

@@ -14,6 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants"
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -22,21 +23,6 @@
                     android:id="@+id/at_supply_products_banner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
-                <ImageView
-                    android:id="@+id/ac_supply_iv_back"
-                    android:layout_width="@dimen/dp_25"
-                    android:layout_height="@dimen/dp_25"
-                    android:layout_marginTop="@dimen/dp_44"
-                    android:layout_marginLeft="@dimen/dp_5"
-                    android:src="@drawable/goods_detial_back"/>
-                <ImageView
-                    android:id="@+id/ac_supply_iv_home"
-                    android:layout_width="@dimen/dp_25"
-                    android:layout_height="@dimen/dp_25"
-                    android:layout_marginTop="@dimen/dp_44"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/dp_12"
-                    android:src="@drawable/goods_detail_home"/>
             </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -614,5 +600,19 @@
             android:textSize="@dimen/sp_14"
             android:textColor="@android:color/white"/>
     </LinearLayout>
-
+    <ImageView
+        android:id="@+id/ac_supply_iv_back"
+        android:layout_width="@dimen/dp_28"
+        android:layout_height="@dimen/dp_28"
+        android:layout_marginTop="@dimen/dp_44"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:src="@drawable/goods_detial_back"/>
+    <ImageView
+        android:id="@+id/ac_supply_iv_home"
+        android:layout_width="@dimen/dp_28"
+        android:layout_height="@dimen/dp_28"
+        android:layout_marginTop="@dimen/dp_44"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_12"
+        android:src="@drawable/goods_detail_home"/>
 </RelativeLayout>

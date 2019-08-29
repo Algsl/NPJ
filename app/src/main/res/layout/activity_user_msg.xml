@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/white"
     android:orientation="vertical">
     <ScrollView
         android:id="@+id/ac_userMsg_sv"
@@ -52,11 +52,11 @@
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_150"
+            android:layout_height="@dimen/dp_160"
             android:layout_marginLeft="@dimen/dp_12"
             android:layout_marginTop="-100dp"
             android:layout_marginRight="@dimen/dp_12"
-            android:background="@drawable/white_conner"
+            android:background="@drawable/userinfo"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -141,7 +141,7 @@
                     android:layout_height="@dimen/dp_22"
                     android:layout_marginTop="@dimen/dp_11"
                     android:layout_marginLeft="@dimen/dp_27"
-                    android:src="@drawable/location_store_locate"/>
+                    android:src="@drawable/userinfo_location"/>
                 <TextView
                     android:id="@+id/ac_userMsg_tv_address"
                     android:layout_width="wrap_content"
@@ -149,7 +149,7 @@
                     android:layout_marginLeft="@dimen/dp_5"
                     android:textSize="@dimen/sp_13"
                     android:textColor="@color/text9"
-                    android:gravity="center"
+                    android:layout_marginTop="@dimen/dp_13"
                     android:text="河南省郑州市金水区省汇中心"/>
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -158,7 +158,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/dp_13"
                         android:textColor="@color/app_theme"
                         android:textSize="@dimen/sp_13"
                         android:layout_marginRight="@dimen/dp_13"
@@ -166,19 +166,13 @@
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_10"
-            android:background="@color/background"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/white">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_80"
                 android:background="@color/white"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_12"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="@dimen/dp_0"
@@ -265,117 +259,127 @@
                         android:text="信誉分"/>
                 </LinearLayout>
             </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_70"
-            android:background="@color/app_theme"
-            android:layout_marginLeft="@dimen/dp_12"
-            android:layout_marginRight="@dimen/dp_12"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="@dimen/dp_40"
-                android:layout_height="@dimen/dp_40"
-                android:layout_marginLeft="@dimen/dp_15"
-                android:layout_marginTop="@dimen/dp_16"
-                android:src="@drawable/auth"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:orientation="vertical">
+                android:layout_height="@dimen/dp_70"
+                android:background="@color/app_theme"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_12"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:src="@drawable/auth"/>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_0"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="@dimen/dp_55"
-                        android:layout_height="@dimen/dp_18"
-                        android:layout_marginLeft="@dimen/dp_11"
-                        android:layout_marginTop="@dimen/dp_12"
-                        android:gravity="center"
-                        android:textSize="@dimen/sp_12"
-                        android:textColor="@color/white"
-                        android:background="#F39B1F"
-                        android:text="企业保证"/>
-                    <TextView
-                        android:layout_width="@dimen/dp_55"
-                        android:layout_height="@dimen/dp_18"
-                        android:layout_marginLeft="@dimen/dp_11"
-                        android:layout_marginTop="@dimen/dp_12"
-                        android:gravity="center"
-                        android:textSize="@dimen/sp_12"
-                        android:textColor="@color/white"
-                        android:background="#C490BF"
-                        android:text="销量过万"/>
-                    <TextView
-                        android:layout_width="@dimen/dp_55"
-                        android:layout_height="@dimen/dp_18"
-                        android:layout_marginLeft="@dimen/dp_11"
-                        android:layout_marginTop="@dimen/dp_12"
-                        android:gravity="center"
-                        android:textSize="@dimen/sp_12"
-                        android:textColor="@color/white"
-                        android:background="#EB6877"
-                        android:text="商家认证"/>
-                    <TextView
-                        android:layout_width="@dimen/dp_55"
-                        android:layout_height="@dimen/dp_18"
-                        android:layout_marginLeft="@dimen/dp_11"
-                        android:layout_marginTop="@dimen/dp_12"
-                        android:gravity="center"
-                        android:textSize="@dimen/sp_12"
-                        android:textColor="@color/white"
-                        android:background="#F37C64"
-                        android:text="线下门店"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_0"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="@dimen/dp_55"
-                        android:layout_height="@dimen/dp_18"
-                        android:layout_marginLeft="@dimen/dp_11"
-                        android:layout_marginTop="@dimen/dp_5"
-                        android:gravity="center"
-                        android:textSize="@dimen/sp_12"
-                        android:textColor="@color/white"
-                        android:background="#4FA0F1"
-                        android:text="七天退换"/>
-                    <TextView
-                        android:layout_width="@dimen/dp_55"
-                        android:layout_height="@dimen/dp_18"
-                        android:layout_marginLeft="@dimen/dp_11"
-                        android:layout_marginTop="@dimen/dp_5"
-                        android:gravity="center"
-                        android:textSize="@dimen/sp_12"
-                        android:textColor="@color/white"
-                        android:background="#81AB64"
-                        android:text="信用最高"/>
-                    <TextView
-                        android:layout_width="@dimen/dp_55"
-                        android:layout_height="@dimen/dp_18"
-                        android:layout_marginLeft="@dimen/dp_11"
-                        android:layout_marginTop="@dimen/dp_5"
-                        android:gravity="center"
-                        android:textSize="@dimen/sp_12"
-                        android:textColor="@color/white"
-                        android:background="#2FA22F"
-                        android:text="实名认证"/>
-                    <TextView
-                        android:layout_width="@dimen/dp_55"
-                        android:layout_height="@dimen/dp_18"
-                        android:layout_marginLeft="@dimen/dp_11"
-                        android:layout_marginTop="@dimen/dp_5"
-                        android:gravity="center"
-                        android:textSize="@dimen/sp_12"
-                        android:textColor="@color/white"
-                        android:text="去认证 》"/>
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_0"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/ac_userMsg_tv_qyCert"
+                            android:layout_width="@dimen/dp_55"
+                            android:layout_height="@dimen/dp_18"
+                            android:layout_marginLeft="@dimen/dp_11"
+                            android:layout_marginTop="@dimen/dp_12"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:background="#F39B1F"
+                            android:text="企业保证"/>
+                        <TextView
+                            android:layout_width="@dimen/dp_55"
+                            android:layout_height="@dimen/dp_18"
+                            android:layout_marginLeft="@dimen/dp_11"
+                            android:layout_marginTop="@dimen/dp_12"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:background="#C490BF"
+                            android:text="销量过万"/>
+                        <TextView
+                            android:id="@+id/ac_userMsg_tv_sjCert"
+                            android:layout_width="@dimen/dp_55"
+                            android:layout_height="@dimen/dp_18"
+                            android:layout_marginLeft="@dimen/dp_11"
+                            android:layout_marginTop="@dimen/dp_12"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:background="#EB6877"
+                            android:text="商家认证"/>
+                        <TextView
+                            android:id="@+id/ac_userMsg_iv_mdCert"
+                            android:layout_width="@dimen/dp_55"
+                            android:layout_height="@dimen/dp_18"
+                            android:layout_marginLeft="@dimen/dp_11"
+                            android:layout_marginTop="@dimen/dp_12"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:background="#F37C64"
+                            android:text="线下门店"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_0"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="@dimen/dp_55"
+                            android:layout_height="@dimen/dp_18"
+                            android:layout_marginLeft="@dimen/dp_11"
+                            android:layout_marginTop="@dimen/dp_5"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:background="#4FA0F1"
+                            android:text="七天退换"/>
+                        <TextView
+                            android:layout_width="@dimen/dp_55"
+                            android:layout_height="@dimen/dp_18"
+                            android:layout_marginLeft="@dimen/dp_11"
+                            android:layout_marginTop="@dimen/dp_5"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:background="#81AB64"
+                            android:text="信用最高"/>
+                        <TextView
+                            android:id="@+id/ac_userMsg_tv_smCert"
+                            android:layout_width="@dimen/dp_55"
+                            android:layout_height="@dimen/dp_18"
+                            android:layout_marginLeft="@dimen/dp_11"
+                            android:layout_marginTop="@dimen/dp_5"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:background="#2FA22F"
+                            android:text="实名认证"/>
+                        <TextView
+                            android:id="@+id/ac_userMsg_tv_goCert"
+                            android:layout_width="@dimen/dp_55"
+                            android:layout_height="@dimen/dp_18"
+                            android:layout_marginLeft="@dimen/dp_11"
+                            android:layout_marginTop="@dimen/dp_5"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:text="去认证 》"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -394,14 +398,16 @@
                 android:layout_height="@dimen/dp_40"
                 android:orientation="horizontal">
                 <TextView
+                    android:id="@+id/ac_userMsg_tv_tuijian"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:textColor="@color/text6"
+                    android:textColor="@color/app_theme"
                     android:textSize="@dimen/sp_13"
                     android:text="店长推荐"
                     android:layout_weight="1"/>
                 <TextView
+                    android:id="@+id/ac_userMsg_tv_allGoods"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -410,6 +416,7 @@
                     android:text="全部商品"
                     android:layout_weight="1"/>
                 <TextView
+                    android:id="@+id/ac_userMsg_tv_sellSort"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -418,6 +425,7 @@
                     android:text="销量"
                     android:layout_weight="1"/>
                 <TextView
+                    android:id="@+id/ac_userMsg_tv_priceSort"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
                     android:gravity="center"

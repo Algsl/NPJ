@@ -1,12 +1,9 @@
 package com.zthx.npj.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -15,15 +12,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.donkingliang.labels.LabelsView;
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.HistorySearchAdapter;
 import com.zthx.npj.adapter.HotSearchAdapter;
-import com.zthx.npj.adapter.SearchResultAdapter;
-import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.HistoryResponseBean;
 import com.zthx.npj.net.been.HotSearchBean;
 import com.zthx.npj.net.been.HotSearchResponseBean;
-import com.zthx.npj.net.been.SearchResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -44,14 +38,14 @@ public class HomeSearchActivity extends ActivityBase {
     EditText atHomeSearchEtSearch;
     @BindView(R.id.at_home_search_tv_search)
     TextView atHomeSearchTvSearch;
-    @BindView(R.id.ac_homeSearch_rv_history)
-    RecyclerView acHomeSearchRvHistory;
-    @BindView(R.id.ac_homeSearch_rv_hot)
-    RecyclerView acHomeSearchRvHot;
     @BindView(R.id.ac_homeSearch_iv_delHistory)
     ImageView acHomeSearchIvDelHistory;
     @BindView(R.id.ac_homeSearch_ll1)
     LinearLayout acHomeSearchLl1;
+    @BindView(R.id.ac_homeSearch_lv_history)
+    LabelsView acHomeSearchLvHistory;
+    @BindView(R.id.ac_homeSearch_rv_hot)
+    LabelsView acHomeSearchRvHot;
 
     private String user_id = SharePerferenceUtils.getUserId(this);
 
@@ -87,16 +81,15 @@ public class HomeSearchActivity extends ActivityBase {
 
     private void setHotSearch(String result) {
         final HotSearchResponseBean bean = GsonUtils.fromJson(result, HotSearchResponseBean.class);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false);
-        acHomeSearchRvHot.setLayoutManager(layoutManager);
-        HotSearchAdapter adapter = new HotSearchAdapter(this, bean.getData());
-        acHomeSearchRvHot.setItemAnimator(new DefaultItemAnimator());
-        acHomeSearchRvHot.setAdapter(adapter);
-        adapter.setOnItemClickListener(new HotSearchAdapter.ItemClickListener() {
+        ArrayList<String> labels = new ArrayList<>();
+        for (int i = 0; i < bean.getData().size(); i++) {
+            labels.add(bean.getData().get(i).getTitle());
+        }
+        acHomeSearchRvHot.setLabels(labels);
+        acHomeSearchRvHot.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
             @Override
-            public void onItemClick(int position) {
-                String searchTitle=bean.getData().get(position).getTitle();
-                openActivity(SearchResultActivity.class,searchTitle);
+            public void onLabelClick(View label, String labelText, int position) {
+                openActivity(SearchResultActivity.class, labelText);
             }
         });
     }
@@ -117,21 +110,20 @@ public class HomeSearchActivity extends ActivityBase {
 
     private void setSearchHistory(String result) {
         final HistoryResponseBean bean = GsonUtils.fromJson(result, HistoryResponseBean.class);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false);
-        acHomeSearchRvHistory.setLayoutManager(layoutManager);
-        HistorySearchAdapter adapter = new HistorySearchAdapter(this, bean.getData());
-        acHomeSearchRvHistory.setItemAnimator(new DefaultItemAnimator());
-        acHomeSearchRvHistory.setAdapter(adapter);
-        adapter.setOnItemClickListener(new HistorySearchAdapter.ItemClickListener() {
+        ArrayList<String> labels = new ArrayList<>();
+        for (int i = 0; i < bean.getData().size(); i++) {
+            labels.add(bean.getData().get(i).getTitle());
+        }
+        acHomeSearchLvHistory.setLabels(labels);
+        acHomeSearchLvHistory.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
             @Override
-            public void onItemClick(int position) {
-                String searchTitle=bean.getData().get(position).getTitle();
-                openActivity(SearchResultActivity.class,searchTitle);
+            public void onLabelClick(View label, String labelText, int position) {
+                openActivity(SearchResultActivity.class, labelText);
             }
         });
     }
 
-    @OnClick({R.id.at_home_search_tv_search, R.id.ac_homeSearch_iv_delHistory,R.id.at_home_search_et_search})
+    @OnClick({R.id.at_home_search_tv_search, R.id.ac_homeSearch_iv_delHistory, R.id.at_home_search_et_search})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.ac_homeSearch_iv_delHistory:
@@ -146,9 +138,9 @@ public class HomeSearchActivity extends ActivityBase {
                 atHomeSearchEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
                     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                        if(i==EditorInfo.IME_ACTION_SEARCH){
+                        if (i == EditorInfo.IME_ACTION_SEARCH) {
                             String searchTitle = atHomeSearchEtSearch.getText().toString().trim();
-                            openActivity(SearchResultActivity.class,searchTitle);
+                            openActivity(SearchResultActivity.class, searchTitle);
                         }
                         return true;
                     }
@@ -172,9 +164,8 @@ public class HomeSearchActivity extends ActivityBase {
     }
 
     public void getSearchResult(String str) {
-        openActivity(SearchResultActivity.class,str);
+        openActivity(SearchResultActivity.class, str);
     }
-
 
 
 }

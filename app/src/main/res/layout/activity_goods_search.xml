@@ -55,68 +55,81 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_12"/>
     </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/ac_homeSearch_ll2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"
             android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:gravity="center">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="推荐" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="销量"/>
+                    android:text="销量" />
+
                 <ImageView
-                    android:layout_width="@dimen/dp_10"
-                    android:layout_height="@dimen/dp_6"
-                    android:src="@drawable/xiala_zhishi2"/>
+                    android:layout_width="@dimen/dp_15"
+                    android:layout_height="@dimen/dp_10"
+                    android:src="@drawable/xiala_zhishi2" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="销量"/>
+                    android:text="价格" />
+
                 <ImageView
-                    android:layout_width="@dimen/dp_10"
-                    android:layout_height="@dimen/dp_6"
-                    android:src="@drawable/xiala_zhishi2"/>
+                    android:layout_width="@dimen/dp_15"
+                    android:layout_height="@dimen/dp_10"
+                    android:src="@drawable/xiala_zhishi2" />
             </LinearLayout>
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
-            android:background="@color/background"/>
+            android:background="@color/background" />
+
         <android.support.v7.widget.RecyclerView
-            android:visibility="gone"
             android:id="@+id/at_home_search_rv_result"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/dp_150"
-            android:text="搜索结果不存在，换个关键词试试？"/>
+            android:text="搜索结果不存在，换个关键词试试？" />
     </LinearLayout>
 </LinearLayout>

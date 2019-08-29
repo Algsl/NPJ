@@ -93,11 +93,20 @@ public class PreSellActivity extends ActivityBase {
                         LinearLayoutManager ll = new LinearLayoutManager(PreSellActivity.this, LinearLayoutManager.VERTICAL, false);
                         if ("0".equals(type)) {
                             atPreSellRv2.setVisibility(View.GONE);
-                            atPreSellRv.setVisibility(View.VISIBLE);
+                            if(preSellResponseBean==null){
+                                atPreSellRv.setVisibility(View.GONE);
+                            }else{
+                                atPreSellRv.setVisibility(View.VISIBLE);
+                            }
                             setView(data, ll, atPreSellRv);
                         } else {
                             atPreSellRv2.setVisibility(View.VISIBLE);
                             atPreSellRv.setVisibility(View.GONE);
+                            if(preSellResponseBean==null){
+                                atPreSellRv2.setVisibility(View.GONE);
+                            }else{
+                                atPreSellRv2.setVisibility(View.VISIBLE);
+                            }
                             setView(data, ll, atPreSellRv2);
                         }
                     }

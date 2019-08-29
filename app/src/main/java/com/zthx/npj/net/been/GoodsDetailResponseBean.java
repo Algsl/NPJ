@@ -21,6 +21,7 @@ public class GoodsDetailResponseBean extends BaseReponseBean {
         private long is_free_shipping;
         private ArrayList<String> goods_content;
         private String spec;
+        private long collection;
         public class Attributes{
             private long item_id;
             private long goods_id;
@@ -87,6 +88,14 @@ public class GoodsDetailResponseBean extends BaseReponseBean {
             }
         }
         private ArrayList<Attributes> attributes;
+
+        public long getCollection() {
+            return collection;
+        }
+
+        public void setCollection(long collection) {
+            this.collection = collection;
+        }
 
         public long getId() {
             return id;

@@ -304,6 +304,7 @@
                         android:textColor="@color/text3"/>
                 </RelativeLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ac_qiugou_ll"
                 android:visibility="gone"
@@ -546,6 +547,7 @@
                     android:layout_marginLeft="@dimen/sp_12"
                     android:layout_marginRight="@dimen/dp_12"></View>
             </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -584,7 +586,7 @@
                 android:paddingTop="@dimen/dp_5"
                 android:gravity="top"/>
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/at_supply_message_ll_zhiding"
                 android:layout_marginTop="@dimen/dp_20"
                 android:layout_width="match_parent"
@@ -606,13 +608,13 @@
                         android:textColor="@color/text3"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/dp_12"/>
-
-                    <RadioButton
+                    <ImageView
                         android:id="@+id/at_supply_message_rb_zhiding"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/dp_50"
+                        android:layout_height="@dimen/dp_25"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
+                        android:src="@drawable/at_edit_address_not_selector"
                         android:layout_marginRight="@dimen/dp_12"/>
                 </RelativeLayout>
                 <View

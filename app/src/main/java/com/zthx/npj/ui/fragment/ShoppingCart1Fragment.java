@@ -283,7 +283,7 @@ public class ShoppingCart1Fragment extends Fragment {
 
     }
 
-    @OnClick({R.id.tv_titlebar_right})
+    @OnClick({R.id.tv_titlebar_right,R.id.fg_shopping_iv_message})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_titlebar_right://编辑

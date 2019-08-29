@@ -7,7 +7,7 @@
     tools:context=".ui.GoodsDetailActivity"
     android:focusableInTouchMode="true"
     android:focusable="true">
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/ac_goodsDetail_sv"
         android:fillViewport="true"
         android:layout_width="match_parent"
@@ -16,7 +16,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:descendantFocusability="blocksDescendants">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_283">
@@ -523,12 +524,6 @@
                     android:textColor="@color/text3"
                     android:textSize="@dimen/sp_13" />
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/background" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_38"
@@ -568,7 +563,7 @@
                 android:id="@+id/ac_goodsDetail_rv_content"
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_500"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/dp_50"/>
             <android.support.v7.widget.RecyclerView
                 android:visibility="gone"
@@ -618,7 +613,7 @@
                     android:text="3. 众筹商品：指商品详情页有众筹标识的众筹商品。"/>
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
     <LinearLayout
         android:id="@+id/ac_goodsDetail_ll_bar"
         android:layout_width="match_parent"

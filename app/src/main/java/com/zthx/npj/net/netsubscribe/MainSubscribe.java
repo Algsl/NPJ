@@ -77,13 +77,15 @@ public class MainSubscribe {
     }
 
     /**
-     * 获取商品详情
+     * 商品详情
      * @param id
+     * @param user_id
      * @param subscriber
      */
-    public static void getGoodsDetail(String id, DisposableObserver<ResponseBody> subscriber) {
+    public static void getGoodsDetail(String id,String user_id, DisposableObserver<ResponseBody> subscriber) {
         GoodsDetailBean bean = new GoodsDetailBean();
         bean.setId(id);
+        bean.setUser_id(user_id);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getGoodsDetailForBody(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }

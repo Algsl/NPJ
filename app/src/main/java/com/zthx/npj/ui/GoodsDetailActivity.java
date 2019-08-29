@@ -138,8 +138,6 @@ public class GoodsDetailActivity extends ActivityBase {
     RelativeLayout acGoodsDetailChooseSize;
     @BindView(R.id.ac_goodsDetail_iv_share)
     ImageView acGoodsDetailIvShare;
-    @BindView(R.id.ac_goodsDetail_sv)
-    ScrollView acGoodsDetailSv;
     @BindView(R.id.ac_goodsDetail_iv_collect)
     ImageView acGoodsDetailIvCollect;
     @BindView(R.id.at_goodsDetail_rl_willBegin)
@@ -291,7 +289,7 @@ public class GoodsDetailActivity extends ActivityBase {
         atGoodsDetailTvGoodsNewPrice.setText("¥" + mSeckillData.getGoods_price());
         atGoodsDetailTvGoodsOldPrice.setText("¥" + mSeckillData.getMarket_price());
         atGoodsDetailTvGoodsOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        atGoodsDetailSelledNum.setText("已售" + mSeckillData.getSold());
+        atGoodsDetailSelledNum.setText("已售" + mSeckillData.getSold()==null?"0":mSeckillData.getSold());
         atGoodsDetailHoldNum.setText("库存" + mSeckillData.getGoods_num());
         long time = mSeckillData.getEnd_time() - mSeckillData.getBegin_time();
         long hour = time / (60 * 60 * 1000);
@@ -344,7 +342,7 @@ public class GoodsDetailActivity extends ActivityBase {
 
     //普通商品详情
     private void getGoodsDetail(String id) {
-        MainSubscribe.getGoodsDetail(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.getGoodsDetail(id,user_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setGoodsData(result);
@@ -375,6 +373,11 @@ public class GoodsDetailActivity extends ActivityBase {
         } else {
             str = mGoodsData.getIs_free_shipping() + "元";
         }
+        if(mGoodsData.getCollection()==1){
+            acGoodsDetailIvCollect.setImageResource(R.drawable.collect_star);
+        }else{
+            acGoodsDetailIvCollect.setImageResource(R.drawable.uncollect_star);
+        }
         atGoodsDetailTvGoodsIsBaoyou.setText("快递 " + str);
     }
 
@@ -391,7 +394,6 @@ public class GoodsDetailActivity extends ActivityBase {
                 showPopupwindow(view);
                 break;
             case R.id.ac_goodsDetail_ll_collect://收藏
-                acGoodsDetailIvCollect.setImageResource(R.drawable.collect_star);
                 goodsCollect();
                 break;
             case R.id.at_goods_detail_btn_pre_sell_detail://商品详情
@@ -515,6 +517,7 @@ public class GoodsDetailActivity extends ActivityBase {
         SetSubscribe.addCollection(user_id, token, goodsId, "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
+                acGoodsDetailIvCollect.setImageResource(R.drawable.collect_star);
                 Toast.makeText(GoodsDetailActivity.this, "商品收藏成功", Toast.LENGTH_LONG).show();
             }
 
