@@ -53,7 +53,6 @@ import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
-import com.zthx.npj.utils.ImageCircleConner;
 import com.zthx.npj.utils.QRCodeUtil;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.utils.SimpleUtil;
@@ -177,6 +176,7 @@ public class GoodsDetailActivity extends ActivityBase {
     private String type = "1";
     private int count = 1;
     private String imgStrMsg = "";
+    private String collectType="1";
 
 
     private PreSellDetailResponseBean.DataBean mPreData = new PreSellDetailResponseBean().getData();
@@ -226,6 +226,7 @@ public class GoodsDetailActivity extends ActivityBase {
             getSecKillDetail();
         } else if (Const.PRESELL.equals(getIntent().getAction())) {
             type = "3";
+            collectType="3";
             atGoodsDetailRlSecKill.setVisibility(View.GONE);
             atGoodsDetailLlGoods.setVisibility(View.GONE);
             atGoodsDetailLlPresell.setVisibility(View.VISIBLE);
@@ -311,7 +312,7 @@ public class GoodsDetailActivity extends ActivityBase {
 
     //众筹商品详情
     private void getPreSellDetail(String id) {
-        PreSellSubscribe.getPreSellDetail(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        PreSellSubscribe.getPreSellDetail(id,user_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setPreSellData(result);
@@ -331,6 +332,10 @@ public class GoodsDetailActivity extends ActivityBase {
         mPreData = data;
         initBanner(mPreData.getGroup_img());
         getGoodsContent();
+
+        if(mPreData.getIs_shoucang()==1){
+            acGoodsDetailIvCollect.setImageResource(R.drawable.collect_star);
+        }
         atGoodsDetailTvPreSellTitle.setText(data.getGoods_name());
         atGoodsDetailTvPreSellPrice.setText("¥" + data.getGoods_price());
         atGoodsDetailTvPreSellYuding.setText(data.getUser_num());
@@ -375,8 +380,6 @@ public class GoodsDetailActivity extends ActivityBase {
         }
         if(mGoodsData.getCollection()==1){
             acGoodsDetailIvCollect.setImageResource(R.drawable.collect_star);
-        }else{
-            acGoodsDetailIvCollect.setImageResource(R.drawable.uncollect_star);
         }
         atGoodsDetailTvGoodsIsBaoyou.setText("快递 " + str);
     }
@@ -428,34 +431,19 @@ public class GoodsDetailActivity extends ActivityBase {
                 switch (type) {
                     case "4":
                         imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=miaosha&id=" + goodsId;
-                        Glide.with(GoodsDetailActivity.this).load(Uri.parse(mSeckillData.getGroup_img().get(0))).asBitmap().into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                acGoodsDetailIvInnerGoodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource, 16));
-                            }
-                        });
+                        Glide.with(GoodsDetailActivity.this).load(Uri.parse(mSeckillData.getGroup_img().get(0))).into(acGoodsDetailIvInnerGoodsImg);
                         acGoodsDetailTvInnerGoodsTitle.setText(mSeckillData.getGoods_name());
                         acGoodsDetailTvInnerGoodsPrice.setText("￥" + mSeckillData.getGoods_price());
                         break;
                     case "3":
                         imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=presell&id=" + goodsId;
-                        Glide.with(GoodsDetailActivity.this).load(Uri.parse(mPreData.getGroup_img().get(0))).asBitmap().into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                acGoodsDetailIvInnerGoodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource, 16));
-                            }
-                        });
+                        Glide.with(GoodsDetailActivity.this).load(Uri.parse(mPreData.getGroup_img().get(0))).into(acGoodsDetailIvInnerGoodsImg);
                         acGoodsDetailTvInnerGoodsTitle.setText(mPreData.getGoods_name());
                         acGoodsDetailTvInnerGoodsPrice.setText("￥" + mPreData.getGoods_price());
                         break;
                     case "1":
                         imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=goods&id=" + goodsId;
-                        Glide.with(GoodsDetailActivity.this).load(Uri.parse(mGoodsData.getGoods_img().get(0))).asBitmap().into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                acGoodsDetailIvInnerGoodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource, 16));
-                            }
-                        });
+                        Glide.with(GoodsDetailActivity.this).load(Uri.parse(mGoodsData.getGoods_img().get(0))).into(acGoodsDetailIvInnerGoodsImg);
                         acGoodsDetailTvInnerGoodsTitle.setText(mGoodsData.getGoods_name());
                         acGoodsDetailTvInnerGoodsPrice.setText("￥" + mGoodsData.getMember_price());
                         break;
@@ -514,7 +502,7 @@ public class GoodsDetailActivity extends ActivityBase {
     }
 
     private void goodsCollect() {
-        SetSubscribe.addCollection(user_id, token, goodsId, "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.addCollection(user_id, token, goodsId, collectType, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 acGoodsDetailIvCollect.setImageResource(R.drawable.collect_star);
@@ -578,6 +566,13 @@ public class GoodsDetailActivity extends ActivityBase {
                     } else {
                         intent.putExtra(Const.ATTRIBUTE_ID, "0");
                         intent.putExtra("count",count+"");
+                        if(level.equals("0")){
+                            intent.putExtra("price",mGoodsData.getUser_price());
+                        }else{
+                            intent.putExtra("price",mGoodsData.getMember_price());
+                        }
+                        double lisheng=(Double.parseDouble(mGoodsData.getUser_price())-Double.parseDouble(mGoodsData.getMember_price()))*count;
+                        intent.putExtra("lisheng",String.format("%.2f",lisheng));
                         intent.setAction(Const.GOODS);
                     }
                     intent.putExtra(Const.GOODS_ID, goodsId);
@@ -616,12 +611,7 @@ public class GoodsDetailActivity extends ActivityBase {
         RelativeLayout rlToVip=contentView.findViewById(R.id.pw_goodsSize_rl_toVip);
         switch (type) {
             case "1":
-                Glide.with(this).load(Uri.parse(mSeckillData.getGoods_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        headImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-                    }
-                });
+                Glide.with(this).load(Uri.parse(mSeckillData.getGoods_img())).into(headImg);
                 marketPrice.setText("￥" + mSeckillData.getMarket_price());
                 memberPrice.setText("会员价" + mSeckillData.getGoods_price());
                 break;
@@ -645,7 +635,6 @@ public class GoodsDetailActivity extends ActivityBase {
                 }else{
                     showToast("您已经是代言人了，提交订单时自动减免");
                 }
-
             }
         });
         sizePopWin.setOnDismissListener(new PopupWindow.OnDismissListener() {

@@ -35,7 +35,6 @@ import com.zthx.npj.net.netsubscribe.GiftSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
-import com.zthx.npj.utils.ImageCircleConner;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.Map;
@@ -149,12 +148,7 @@ public class VideoBuyConfirmActivity extends ActivityBase {
         BuyVideoResponseBean buyVideoResponseBean = GsonUtils.fromJson(info, BuyVideoResponseBean.class);
         list_id = buyVideoResponseBean.getData().getList_id();
         atVideoBuyConfirmTvName.setText(buyVideoResponseBean.getData().getNick_name());
-        Glide.with(this).load(buyVideoResponseBean.getData().getImg()).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                atVideoBuyConfirmImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-            }
-        });
+        Glide.with(this).load(buyVideoResponseBean.getData().getImg()).into(atVideoBuyConfirmImg);
         atVideoBuyConfirmTvTitle.setText(buyVideoResponseBean.getData().getTitle());
         if(buyVideoResponseBean.getData().getTeacher()==null){
             atVideoBuyConfirmTvTeacher.setVisibility(View.GONE);

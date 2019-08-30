@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_135"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_94">
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/item_storeGoodsList_iv_goodsImg"
             android:layout_width="@dimen/dp_75"
             android:layout_height="@dimen/dp_75"
             android:src="@mipmap/ic_launcher"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_12"/>
+            android:layout_marginLeft="@dimen/dp_12"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="@dimen/dp_5"/>
 
         <TextView
             android:id="@+id/item_storeGoodsList_tv_goodsName"

@@ -19,7 +19,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.SecKillTodayResponseBean;
-import com.zthx.npj.utils.ImageCircleConner;
 import com.zthx.npj.view.SaleProgressView;
 
 import java.text.SimpleDateFormat;
@@ -66,13 +65,7 @@ public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder
                 }
             });
         }
-            //Glide.with(mContext).load(mList.get(i).getGoods_img()).into(viewHolder.mIvGoods);
-        Glide.with(mContext).load(mList.get(i).getGoods_img()).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                viewHolder.mIvGoods.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-            }
-        });
+        Glide.with(mContext).load(mList.get(i).getGoods_img()).into(viewHolder.mIvGoods);
         viewHolder.mTvNewPrice.setText("￥"+mList.get(i).getGoods_price());
         viewHolder.mTvLeb.setText(mList.get(i).getGoods_name());
         viewHolder.mTvOldPrice.setText("￥"+mList.get(i).getMarket_price());

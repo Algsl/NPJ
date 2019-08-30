@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_110"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/item_searchResult_iv_goodsImg"
             android:background="@drawable/white_conner"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginLeft="@dimen/dp_12"
             android:layout_width="@dimen/dp_90"
             android:layout_height="@dimen/dp_90"
-            android:scaleType="fitXY"
-            android:src="@drawable/logo"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo"
+            app:riv_corner_radius="@dimen/dp_5"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

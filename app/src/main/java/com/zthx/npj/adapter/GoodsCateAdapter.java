@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.GoodsCateResponseBean;
-import com.zthx.npj.utils.ImageCircleConner;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;

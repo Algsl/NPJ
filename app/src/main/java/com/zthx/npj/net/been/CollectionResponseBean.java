@@ -9,6 +9,15 @@ public class CollectionResponseBean extends BaseReponseBean{
         private String goods_name;
         private String goods_img;
         private String user_price;
+        private String goods_price;
+
+        public String getGoods_price() {
+            return goods_price;
+        }
+
+        public void setGoods_price(String goods_price) {
+            this.goods_price = goods_price;
+        }
 
         public String getUser_price() {
             return user_price;

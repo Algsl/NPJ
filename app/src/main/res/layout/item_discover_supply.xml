@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_114">
+    android:layout_height="@dimen/dp_114"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <View
         android:layout_width="match_parent"
@@ -14,14 +14,15 @@
         android:layout_height="@dimen/dp_1"
         android:background="@color/background"
         android:layout_alignParentBottom="true"></View>
-    <ImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/item_discover_supply_pic"
         android:layout_width="@dimen/dp_90"
         android:layout_height="@dimen/dp_90"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/dp_12"
-        android:scaleType="fitXY"
-        android:src="@mipmap/ic_launcher"/>
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher"
+        app:riv_corner_radius="@dimen/dp_5"/>
     <LinearLayout
         android:gravity="center_vertical"
         android:layout_width="match_parent"

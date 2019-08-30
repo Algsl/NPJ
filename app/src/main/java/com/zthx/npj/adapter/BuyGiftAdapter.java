@@ -19,7 +19,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.GiftListResponseBean;
-import com.zthx.npj.utils.ImageCircleConner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,13 +72,7 @@ public class BuyGiftAdapter extends RecyclerView.Adapter<BuyGiftAdapter.ViewHold
                 }
             });
         }
-        //Glide.with(mContext).load(Uri.parse(list.get(i).getImg())).into(viewHolder.mIvGoods);
-        Glide.with(mContext).load(Uri.parse(list.get(i).getImg())).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                viewHolder.mIvGoods.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-            }
-        });
+        Glide.with(mContext).load(Uri.parse(list.get(i).getImg())).into(viewHolder.mIvGoods);
         viewHolder.mTvPrice.setText("￥"+list.get(i).getPrice());
         viewHolder.mTvDes.setText(list.get(i).getDescription());
         viewHolder.mTvTitle.setText(list.get(i).getTitle());

@@ -349,7 +349,7 @@
                     android:src="@mipmap/ic_launcher"
                     android:layout_marginTop="@dimen/dp_15"
                     android:layout_marginLeft="@dimen/dp_12"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:id="@+id/at_supply_products_iv_head_pic"/>
 
                 <TextView

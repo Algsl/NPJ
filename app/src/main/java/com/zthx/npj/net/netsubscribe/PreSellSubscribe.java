@@ -32,12 +32,14 @@ public class PreSellSubscribe {
 
     /**
      * 获取新品众筹详情
+     * @param user_id
      * @param id
      * @param subscriber
      */
-    public static void getPreSellDetail(String id, DisposableObserver<ResponseBody> subscriber) {
+    public static void getPreSellDetail(String id,String user_id, DisposableObserver<ResponseBody> subscriber) {
         GoodsDetailBean bean = new GoodsDetailBean();
         bean.setId(id);
+        bean.setUser_id(user_id);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getPreSellDetailForBody(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }

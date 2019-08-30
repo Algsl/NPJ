@@ -29,6 +29,16 @@ public class PreSellDetailResponseBean extends BaseReponseBean {
         private String user_num;
         private int sale_price;
         private double proportion;
+        private long is_shoucang;
+
+
+        public long getIs_shoucang() {
+            return is_shoucang;
+        }
+
+        public void setIs_shoucang(long is_shoucang) {
+            this.is_shoucang = is_shoucang;
+        }
 
         public double getProportion() {
             return proportion;

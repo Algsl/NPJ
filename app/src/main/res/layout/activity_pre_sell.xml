@@ -8,11 +8,6 @@
     android:background="@color/background">
 
     <include layout="@layout/title"/>
-    <!--<ImageView
-        android:id="@+id/at_pre_sell_iv"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_141"
-        android:src="@drawable/presell_top"/>-->
     <com.youth.banner.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"

@@ -17,7 +17,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.SearchStoreGoodsResponseBean;
 import com.zthx.npj.net.been.StoreGoodsListResponseBean;
-import com.zthx.npj.utils.ImageCircleConner;
 
 import java.util.ArrayList;
 
@@ -74,12 +73,7 @@ public class StoreGoodsSearchAdapter extends RecyclerView.Adapter<StoreGoodsSear
             });
         }
 
-        Glide.with(mContext).load(mList.get(i).getGoods_img()).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                viewHolder.goodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-            }
-        });
+        Glide.with(mContext).load(mList.get(i).getGoods_img()).into(viewHolder.goodsImg);
         viewHolder.goodsName.setText(mList.get(i).getGoods_name());
         String price=(int)mLevel==0?mList.get(i).getUser_price():mList.get(i).getMember_price();
         viewHolder.goodsPrice.setText("￥"+(int)Double.parseDouble(price));

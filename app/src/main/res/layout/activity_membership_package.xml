@@ -17,13 +17,16 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_91">
-            <com.zthx.npj.view.MyCircleView
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:layout_width="@dimen/dp_70"
                 android:layout_height="@dimen/dp_70"
                 android:src="@mipmap/ic_launcher"
                 android:layout_marginTop="@dimen/dp_15"
                 android:layout_marginLeft="@dimen/dp_12"
-                android:id="@+id/at_membership_package_head_pic"/>
+                android:id="@+id/at_membership_package_head_pic"
+                app:riv_oval="true"
+                app:riv_border_color="@color/white"
+                app:riv_border_width="@dimen/dp_2"/>
             <TextView
                 android:id="@+id/at_membership_package_tv_name"
                 android:layout_width="@dimen/dp_80"

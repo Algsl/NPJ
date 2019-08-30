@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
+import com.zthx.npj.utils.ImageCircleConner;
 import com.zthx.npj.utils.QRCodeUtil;
 
 import butterknife.BindView;
@@ -62,10 +63,10 @@ public class StoreManagerQRCodeActivity extends ActivityBase {
         Glide.with(this).load(Uri.parse(img)).asBitmap().into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                acStoreManagerIvQRCode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("https://123.sogou.com/?22641-4322",(int)getResources().getDimension(R.dimen.dp_220),resource,0.3f));
+                acStoreManagerIvQRCode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("https://123.sogou.com/?22641-4322",(int)getResources().getDimension(R.dimen.dp_220),
+                        ImageCircleConner.toRoundCorner(resource,220),0.3f));
             }
         });
-
     }
 
     @OnClick({R.id.ac_storeManager_iv_min, R.id.ac_storeManager_iv_add, R.id.ac_storeManager_save})

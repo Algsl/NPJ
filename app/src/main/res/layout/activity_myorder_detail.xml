@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.ConfirmOrderActivity"
     android:background="@android:color/white">
 
@@ -144,14 +144,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_100"
                         android:orientation="horizontal">
-                        <ImageView
+                        <com.makeramen.roundedimageview.RoundedImageView
                             android:id="@+id/at_myOrderDetail_iv_goodsImg"
                             android:layout_width="@dimen/dp_80"
                             android:layout_height="@dimen/dp_80"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/dp_12"
                             android:src="@mipmap/ic_launcher"
-                            android:scaleType="fitXY"/>
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:scaleType="centerCrop"
+                            app:riv_corner_radius="@dimen/dp_5"/>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -400,14 +401,15 @@
                         android:layout_marginRight="@dimen/dp_12"
                         android:background="@drawable/gray_conner_2"
                         android:orientation="horizontal">
-                        <ImageView
+                        <com.makeramen.roundedimageview.RoundedImageView
                             android:id="@+id/at_myOrderDetail_iv_goodsImg1"
                             android:layout_width="@dimen/dp_80"
                             android:layout_height="@dimen/dp_80"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/dp_12"
                             android:src="@mipmap/ic_launcher"
-                            android:scaleType="fitXY"/>
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:scaleType="centerCrop"
+                            app:riv_corner_radius="@dimen/dp_5"/>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

@@ -16,7 +16,6 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.SupplyOrderResponseBean;
-import com.zthx.npj.utils.ImageCircleConner;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,13 +78,7 @@ public class SupplyOrderAdapter extends RecyclerView.Adapter<SupplyOrderAdapter.
             });
         }
         if(mList.size()>0){
-            //Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
-            Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    viewHolder.goodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-                }
-            });
+            Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
             viewHolder.goodsName.setText(mList.get(i).getGoods_name());
             viewHolder.goodsPrice.setText("已付款"+mList.get(i).getOrder_price());
             viewHolder.goodsNum.setText(mList.get(i).getOrder_num()+"斤");

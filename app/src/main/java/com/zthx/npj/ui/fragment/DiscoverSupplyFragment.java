@@ -154,7 +154,6 @@ public class DiscoverSupplyFragment extends Fragment {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 getSupplyData(type1);
-                getQiYeList();
                 refreshlayout.finishRefresh();
                 Toast.makeText(getContext(), "刷新完成", Toast.LENGTH_SHORT).show();
             }
@@ -393,31 +392,16 @@ public class DiscoverSupplyFragment extends Fragment {
             fgDiscoverSupplyLlNeed.setVisibility(View.GONE);
             fgDiscoverWvBusiness.setVisibility(View.VISIBLE);
 
-            /*fgDiscoverWvBusiness.loadUrl("http://www.agronet.com.cn/Company/List_oc164.html");
-            fgDiscoverWvBusiness.setWebViewClient(new WebViewClient() {
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    view.loadUrl(url);
-                    return true;
-                }
-            });*/
         }
     }
 
     public void getQiYeList(){
-        fgDiscoverWvBusiness.loadUrl("http://www.agronet.com.cn/Company");
-        WebSettings settings = fgDiscoverWvBusiness.getSettings();
-        settings.setJavaScriptEnabled(true);
-        settings.setBuiltInZoomControls(true);
-        settings.setBlockNetworkImage(true);
-        fgDiscoverWvBusiness.setWebChromeClient(new WebChromeClient() {
+        fgDiscoverWvBusiness.loadUrl("http://www.agronet.com.cn/Company/List_oc164.html");
+        fgDiscoverWvBusiness.setWebViewClient(new WebViewClient() {
             @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                if (newProgress == 100) {
-                    // 网页加载完成
-                    //loadDialog.dismiss();
-                    fgDiscoverWvBusiness.getSettings().setBlockNetworkImage(false);
-                }
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
             }
         });
     }

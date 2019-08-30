@@ -58,7 +58,6 @@ import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
-import com.zthx.npj.utils.ImageCircleConner;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
@@ -255,21 +254,15 @@ public class ConfirmOrderActivity extends ActivityBase {
         atConfirmOrderTvAddress.setText(ptdata.getAddress());
         atConfirmOrderTvStoreName.setText(ptdata.getStore_name());
         address_id = ptdata.getAddress_id() + "";
-        Glide.with(ConfirmOrderActivity.this).load(ptdata.getGoods_img()).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                atConfirmOrderIvPic.setImageBitmap(ImageCircleConner.toRoundCorner(resource, 16));
-            }
-        });
+        Glide.with(ConfirmOrderActivity.this).load(ptdata.getGoods_img()).into(atConfirmOrderIvPic);
         atConfirmOrderTvTitle.setText(ptdata.getGoods_name());
         atConfirmOrderTvSize.setText("规格： ");
         atConfirmOrderTvGoodsPrice.setText("¥" + ptdata.getPrice());
         atConfirmOrderTvGoodsNum.setText("x" + ptdata.getGoods_num());
 
         acConfirmOrderTvGoodsAllNum.setText("共" + ptdata.getGoods_num() + "件商品  总计：");
-        int payMoney = ((int) Double.parseDouble(ptdata.getPrice())) * ((int) Double.parseDouble(ptdata.getGoods_num()));
-        double lisheng=payMoney*0.15;
-        acConfirmOrderTvLisheng.setText("成为农品街代言人此单立省"+String.format("%.2f",lisheng)+"元");
+        double payMoney = ( Double.parseDouble(getIntent().getStringExtra("price"))) * ((int) Double.parseDouble(ptdata.getGoods_num()));
+        acConfirmOrderTvLisheng.setText("成为农品街代言人此单立省"+getIntent().getStringExtra("lisheng")+"元");
         atConfirmOrderTvPrice.setText("￥" + payMoney);
         acConfirmOrderTvRealPay.setText("￥" + payMoney);
     }
@@ -302,12 +295,7 @@ public class ConfirmOrderActivity extends ActivityBase {
                 GiftConfirmResponseBean gIftConfirmResponseBean = GsonUtils.fromJson(result, GiftConfirmResponseBean.class);
                 GiftConfirmResponseBean.DataBean data = gIftConfirmResponseBean.getData();
                 atConfirmOrderTvTitle.setText(data.getTitle());
-                Glide.with(ConfirmOrderActivity.this).load(data.getImg()).asBitmap().into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        atConfirmOrderIvPic.setImageBitmap(ImageCircleConner.toRoundCorner(resource, 16));
-                    }
-                });
+                Glide.with(ConfirmOrderActivity.this).load(data.getImg()).into(atConfirmOrderIvPic);
                 atConfirmOrderTvGoodsPrice.setText(data.getPrice());
                 if ((int) data.getStatus() == 0) {
                     atConfirmOrderRlHongbao.setVisibility(View.GONE);
@@ -347,7 +335,7 @@ public class ConfirmOrderActivity extends ActivityBase {
                 Glide.with(ConfirmOrderActivity.this).load(data.getGoods_img()).asBitmap().into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        atConfirmOrderIvPic.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
+                        atConfirmOrderIvPic.setImageBitmap(resource);
                     }
                 });
                 atConfirmOrderTvTitle.setText(data.getGoods_name());

@@ -19,7 +19,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.zxing.common.StringUtils;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.GoodsListResponseBean;
-import com.zthx.npj.utils.ImageCircleConner;
 
 import java.util.ArrayList;
 
@@ -63,16 +62,11 @@ public class ClassifyDetailAdapter extends RecyclerView.Adapter<ClassifyDetailAd
             });
         }
         if (mList!= null && mList.size() > 0) {
-            Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    viewHolder.mIvGoods.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-                }
-            });
-            viewHolder.mTvPrice.setText("￥"+(int)Double.parseDouble(mList.get(i).getUser_price()));
+            Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.mIvGoods);
+            viewHolder.mTvPrice.setText("￥"+mList.get(i).getUser_price());
             viewHolder.mTvSellNum.setText("已售"+mList.get(i).getSold()+"件");
             viewHolder.mTvTitle.setText(mList.get(i).getGoods_name());
-            viewHolder.mTvOldPrice.setText("￥"+(int)Double.parseDouble(mList.get(i).getMarket_price()));
+            viewHolder.mTvOldPrice.setText("￥"+mList.get(i).getMarket_price());
             viewHolder.mTvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
     }

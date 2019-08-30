@@ -732,15 +732,15 @@
             android:layout_marginLeft="@dimen/dp_40"
             android:layout_marginRight="@dimen/dp_40"
             android:background="@drawable/white_conner"
-            android:orientation="vertical"
-            android:visibility="visible">
-            <ImageView
+            android:orientation="vertical">
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_300"
                 android:id="@+id/ac_goodsDetail_iv_innerGoodsImg"
                 android:layout_gravity="center"
-                android:scaleType="fitXY"
-                android:src="@drawable/test"/>
+                android:scaleType="centerCrop"
+                app:riv_corner_radius_top_left="@dimen/dp_10"
+                app:riv_corner_radius_top_right="@dimen/dp_10"/>
             <TextView
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
@@ -771,7 +771,7 @@
                 android:layout_height="@dimen/dp_80"
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginTop="@dimen/dp_10"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:src="@drawable/logo"
                 android:focusable="true"
                 android:focusableInTouchMode="true"

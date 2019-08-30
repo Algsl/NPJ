@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_marginTop="@dimen/dp_10"
     android:layout_marginBottom="@dimen/dp_10"
     android:layout_marginRight="@dimen/dp_12"
     android:layout_marginLeft="@dimen/dp_12">
     
-    <ImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/item_buy_gift_pic"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_175"
         android:src="@mipmap/ic_launcher"
         android:background="@drawable/white_conner"
-        android:scaleType="fitXY"/>
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="@dimen/dp_8"/>
 
     <TextView
         android:id="@+id/item_buy_gift_tv_title"

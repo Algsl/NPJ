@@ -63,11 +63,6 @@
             android:layout_marginLeft="@dimen/dp_11"/>
     </RelativeLayout>
 
-    <!--<ImageView
-        android:layout_width="@dimen/dp_351"
-        android:layout_height="@dimen/dp_150"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/local_top"/>-->
     <com.youth.banner.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"

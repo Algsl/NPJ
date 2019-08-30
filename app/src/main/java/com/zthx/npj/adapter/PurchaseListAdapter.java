@@ -18,7 +18,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.MySupplyListResponseBean;
 import com.zthx.npj.net.been.PurchaseListResponseBean;
-import com.zthx.npj.utils.ImageCircleConner;
 
 import java.util.ArrayList;
 
@@ -93,12 +92,7 @@ public class PurchaseListAdapter extends RecyclerView.Adapter<PurchaseListAdapte
                 }
             });
         }
-        Glide.with(mContext).load(Uri.parse(mList.get(i).getImg())).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                viewHolder.goodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-            }
-        });
+        Glide.with(mContext).load(Uri.parse(mList.get(i).getImg())).into(viewHolder.goodsImg);
         viewHolder.goodsName.setText(mList.get(i).getTitle());
         viewHolder.amount.setText(mList.get(i).getAmount()+mList.get(i).getUnit());
         if(type.equals("1")){

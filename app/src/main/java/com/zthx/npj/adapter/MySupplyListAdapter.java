@@ -16,7 +16,6 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.MySupplyListResponseBean;
-import com.zthx.npj.utils.ImageCircleConner;
 
 import org.w3c.dom.Text;
 
@@ -93,12 +92,7 @@ public class MySupplyListAdapter extends RecyclerView.Adapter<MySupplyListAdapte
                 }
             });
         }
-        Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                viewHolder.goodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-            }
-        });
+        Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
         viewHolder.goodsName.setText(mList.get(i).getGoods_name());
         viewHolder.marketPrice.setText("市场价："+mList.get(i).getMarket_price());
         viewHolder.memberPrice.setText("会员价："+mList.get(i).getMember_price());

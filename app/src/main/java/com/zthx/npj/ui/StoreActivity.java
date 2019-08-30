@@ -36,7 +36,6 @@ import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
-import com.zthx.npj.utils.ImageCircleConner;
 import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
@@ -187,12 +186,7 @@ public class StoreActivity extends ActivityBase {
         data= bean.getData();
 
         level = data.getLevel();
-        Glide.with(this).load(Uri.parse(data.getStore_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                acStoreIvImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource, 16));
-            }
-        });
+        Glide.with(this).load(Uri.parse(data.getStore_img())).into(acStoreIvImg);
         acStoreTvStoreName.setText(data.getStore_name());
         acStoreTvFans.setText(data.getAtt_num() == null ? "0" : data.getAtt_num());
         acStoreTvGoodsNum.setText(data.getGoods_num());

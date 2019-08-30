@@ -175,7 +175,7 @@ public class CellPhoneLoginActivity extends ActivityBase {
                 PhoneLoginResponseBean bean = GsonUtils.fromJson(result, PhoneLoginResponseBean.class);
                 SharePerferenceUtils.setUserId(CellPhoneLoginActivity.this, bean.getData().getUser_id());
                 SharePerferenceUtils.setToken(CellPhoneLoginActivity.this, bean.getData().getToken());
-                if(bean.getData().getInviter().equals("")){
+                if(bean.getData().getInviter()==null){
                     startActivity(new Intent(CellPhoneLoginActivity.this, InputInvitationCodeActivity.class));
                 }else{
                     startActivity(new Intent(CellPhoneLoginActivity.this, MainActivity.class));

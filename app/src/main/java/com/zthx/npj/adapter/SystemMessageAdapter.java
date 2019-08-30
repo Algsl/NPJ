@@ -18,7 +18,6 @@ import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.SystemMessageBean;
 import com.zthx.npj.net.been.SystemMessageResponseBean;
-import com.zthx.npj.utils.ImageCircleConner;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,12 +61,7 @@ public class SystemMessageAdapter extends RecyclerView.Adapter<SystemMessageAdap
                 }
             });
         }
-        Glide.with(mContext).load(Uri.parse(mList.get(i).getMsgImg())).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                viewHolder.msgIv.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-            }
-        });
+        Glide.with(mContext).load(Uri.parse(mList.get(i).getMsgImg())).into(viewHolder.msgIv);
         viewHolder.title.setText(mList.get(i).getMsgTitle());
         viewHolder.content.setText(mList.get(i).getMsgContent());
         viewHolder.msgFrom.setText(mList.get(i).getMsgFrom());

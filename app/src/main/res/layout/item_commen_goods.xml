@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dp_170"
     android:layout_height="@dimen/dp_225"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_marginTop="@dimen/dp_20"
     android:layout_marginLeft="@dimen/dp_10"
     android:background="@drawable/white_conner_8">
 
-    <ImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/item_iv_comment_goods"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_170"
-        android:scaleType="fitXY"
-        android:src="@mipmap/ic_launcher"/>
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher"
+        app:riv_border_color="#333333"
+        app:riv_border_width="@dimen/dp_0"
+        app:riv_corner_radius_top_left="@dimen/dp_5"
+        app:riv_corner_radius_top_right="@dimen/dp_5"/>
 
     <TextView
         android:id="@+id/item_tv_comment_goods_title"

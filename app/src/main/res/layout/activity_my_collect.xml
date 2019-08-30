@@ -49,6 +49,17 @@
                        android:background="@color/app_theme"
                        android:gravity="center"/>
                    <TextView
+                       android:id="@+id/ac_myCollect_tv_preGoods"
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1"
+                       android:layout_margin="@dimen/dp_3"
+                       android:textColor="@color/app_theme"
+                       android:text="众筹"
+                       android:textSize="@dimen/sp_16"
+                       android:background="@color/white"
+                       android:gravity="center"/>
+                   <TextView
                        android:id="@+id/ac_myStore_tv_stores"
                        android:layout_width="0dp"
                        android:layout_height="match_parent"
@@ -63,6 +74,12 @@
 
                <android.support.v7.widget.RecyclerView
                    android:id="@+id/at_my_collect_goods_rv"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+               </android.support.v7.widget.RecyclerView>
+               <android.support.v7.widget.RecyclerView
+                   android:id="@+id/at_my_collect_presell_rv"
+                   android:visibility="gone"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content">
                </android.support.v7.widget.RecyclerView>

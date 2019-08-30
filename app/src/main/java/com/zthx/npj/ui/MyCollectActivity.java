@@ -54,6 +54,10 @@ public class MyCollectActivity extends ActivityBase {
     ImageView titleBack;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.ac_myCollect_tv_preGoods)
+    TextView acMyCollectTvPreGoods;
+    @BindView(R.id.at_my_collect_presell_rv)
+    RecyclerView atMyCollectPresellRv;
 
     private boolean flag = true;
     private String type = "1";
@@ -131,11 +135,12 @@ public class MyCollectActivity extends ActivityBase {
         if (type.equals("1")) {
             atMyCollectGoodsRv.setVisibility(View.VISIBLE);
             atMyCollectStoreRv.setVisibility(View.GONE);
+            atMyCollectPresellRv.setVisibility(View.GONE);
             CollectionResponseBean bean = GsonUtils.fromJson(result, CollectionResponseBean.class);
             final ArrayList<CollectionResponseBean.DataBean> data = bean.getData();
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             atMyCollectGoodsRv.setLayoutManager(layoutManager);
-            CollectionAdapter adapter = new CollectionAdapter(this, data);
+            CollectionAdapter adapter = new CollectionAdapter(this, data,"1");
             atMyCollectGoodsRv.setItemAnimator(new DefaultItemAnimator());
             atMyCollectGoodsRv.setAdapter(adapter);
             adapter.setOnItemClickListener(new CollectionAdapter.ItemClickListener() {
@@ -164,11 +169,12 @@ public class MyCollectActivity extends ActivityBase {
                     }));
                 }
             });
-        } else {
+        } else if(type.equals("2")){
             CollectionStoreResponseBean bean = GsonUtils.fromJson(result, CollectionStoreResponseBean.class);
             final ArrayList<CollectionStoreResponseBean.DataBean> data = bean.getData();
             atMyCollectGoodsRv.setVisibility(View.GONE);
             atMyCollectStoreRv.setVisibility(View.VISIBLE);
+            atMyCollectPresellRv.setVisibility(View.GONE);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             atMyCollectStoreRv.setLayoutManager(layoutManager);
             CollectionStoreAdapter adapter = new CollectionStoreAdapter(this, data);
@@ -195,10 +201,47 @@ public class MyCollectActivity extends ActivityBase {
                     }));
                 }
             });
+        }else{
+            atMyCollectGoodsRv.setVisibility(View.GONE);
+            atMyCollectStoreRv.setVisibility(View.GONE);
+            atMyCollectPresellRv.setVisibility(View.VISIBLE);
+            CollectionResponseBean bean = GsonUtils.fromJson(result, CollectionResponseBean.class);
+            final ArrayList<CollectionResponseBean.DataBean> data = bean.getData();
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            atMyCollectPresellRv.setLayoutManager(layoutManager);
+            CollectionAdapter adapter = new CollectionAdapter(this, data,"3");
+            atMyCollectPresellRv.setItemAnimator(new DefaultItemAnimator());
+            atMyCollectPresellRv.setAdapter(adapter);
+            adapter.setOnItemClickListener(new CollectionAdapter.ItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+
+                }
+
+                @Override
+                public void onItemAddCart(int position) {
+
+                }
+
+                @Override
+                public void onItemDelete(int position) {
+                    SetSubscribe.delCollection(user_id, token, data.get(position).getId() + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            getCollection();
+                        }
+
+                        @Override
+                        public void onFault(String errorMsg) {
+                            showToast(errorMsg);
+                        }
+                    }));
+                }
+            });
         }
     }
 
-    @OnClick({R.id.ac_myCollect_tv_goods, R.id.ac_myStore_tv_stores})
+    @OnClick({R.id.ac_myCollect_tv_goods, R.id.ac_myStore_tv_stores,R.id.ac_myCollect_tv_preGoods})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_myCollect_tv_goods:
@@ -206,6 +249,8 @@ public class MyCollectActivity extends ActivityBase {
                 acMyCollectTvGoods.setBackgroundColor(getResources().getColor(R.color.app_theme));
                 acMyStoreTvStores.setTextColor(getResources().getColor(R.color.text3));
                 acMyStoreTvStores.setBackgroundColor(getResources().getColor(android.R.color.white));
+                acMyCollectTvPreGoods.setTextColor(getResources().getColor(R.color.text3));
+                acMyCollectTvPreGoods.setBackgroundColor(getResources().getColor(android.R.color.white));
                 type = "1";
                 getCollection();
                 break;
@@ -214,9 +259,22 @@ public class MyCollectActivity extends ActivityBase {
                 acMyStoreTvStores.setBackgroundColor(getResources().getColor(R.color.app_theme));
                 acMyCollectTvGoods.setTextColor(getResources().getColor(R.color.text3));
                 acMyCollectTvGoods.setBackgroundColor(getResources().getColor(android.R.color.white));
+                acMyCollectTvPreGoods.setTextColor(getResources().getColor(R.color.text3));
+                acMyCollectTvPreGoods.setBackgroundColor(getResources().getColor(android.R.color.white));
                 type = "2";
+                getCollection();
+                break;
+            case R.id.ac_myCollect_tv_preGoods:
+                acMyCollectTvPreGoods.setTextColor(getResources().getColor(R.color.white));
+                acMyCollectTvPreGoods.setBackgroundColor(getResources().getColor(R.color.app_theme));
+                acMyStoreTvStores.setTextColor(getResources().getColor(R.color.text3));
+                acMyStoreTvStores.setBackgroundColor(getResources().getColor(android.R.color.white));
+                acMyCollectTvGoods.setTextColor(getResources().getColor(R.color.text3));
+                acMyCollectTvGoods.setBackgroundColor(getResources().getColor(android.R.color.white));
+                type = "3";
                 getCollection();
                 break;
         }
     }
+
 }

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -43,6 +44,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GetAddressUtil;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.MyCustomUtils;
+import com.zthx.npj.utils.QRCodeUtil;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.utils.SimpleUtil;
 import com.zthx.npj.view.MyCircleView;
@@ -105,6 +107,44 @@ public class UserMsgActivity extends ActivityBase {
     TextView acUserMsgTvSellSort;
     @BindView(R.id.ac_userMsg_tv_priceSort)
     TextView acUserMsgTvPriceSort;
+    @BindView(R.id.ac_userMsg_mcv_headImg1)
+    MyCircleView acUserMsgMcvHeadImg1;
+    @BindView(R.id.ac_userMsg_tv_level1)
+    ImageView acUserMsgTvLevel1;
+    @BindView(R.id.ac_userMsg_tv_beDYR1)
+    TextView acUserMsgTvBeDYR1;
+    @BindView(R.id.ac_userMsg_tv_nickName1)
+    TextView acUserMsgTvNickName1;
+    @BindView(R.id.ac_userMsg_tv_signature1)
+    TextView acUserMsgTvSignature1;
+    @BindView(R.id.ac_userMsg_tv_address1)
+    TextView acUserMsgTvAddress1;
+    @BindView(R.id.ac_userMsg_tv_hits1)
+    TextView acUserMsgTvHits1;
+    @BindView(R.id.ac_userMsg_tv_attNum1)
+    TextView acUserMsgTvAttNum1;
+    @BindView(R.id.ac_userMsg_tv_historyMoney1)
+    TextView acUserMsgTvHistoryMoney1;
+    @BindView(R.id.ac_userMsg_tv_reputation1)
+    TextView acUserMsgTvReputation1;
+    @BindView(R.id.ac_userMsg_tv_qyCert1)
+    TextView acUserMsgTvQyCert1;
+    @BindView(R.id.ac_userMsg_tv_sjCert1)
+    TextView acUserMsgTvSjCert1;
+    @BindView(R.id.ac_userMsg_iv_mdCert1)
+    TextView acUserMsgIvMdCert1;
+    @BindView(R.id.ac_userMsg_tv_smCert1)
+    TextView acUserMsgTvSmCert1;
+    @BindView(R.id.ac_userMsg_tv_goCert1)
+    TextView acUserMsgTvGoCert1;
+    @BindView(R.id.ac_userMsg_ll_share)
+    LinearLayout acUserMsgLlShare;
+    @BindView(R.id.ac_userMsg_ll_show)
+    LinearLayout acUserMsgLlShow;
+    @BindView(R.id.ac_userMsg_tv_toShare)
+    TextView acUserMsgTvToShare;
+    @BindView(R.id.ac_userMsg_iv_qrCode)
+    ImageView acUserMsgIvQrCode;
 
 
     private IWXAPI api;
@@ -201,12 +241,23 @@ public class UserMsgActivity extends ActivityBase {
         acUserMsgTvHistoryMoney.setText(data.getHistory_money());
         acUserMsgTvReputation.setText(data.getReputation() == null ? "0" : data.getReputation());
         acUserMsgTvAddress.setText(new GetAddressUtil(this).getAddress(Double.parseDouble(data.getLng()), Double.parseDouble(data.getLat())));
+
+        Glide.with(this).load(Uri.parse(data.getHead_img())).into(acUserMsgMcvHeadImg1);
+        acUserMsgTvNickName1.setText(data.getNick_name());
+        acUserMsgTvSignature1.setText(data.getSignature() == null ? "这个人很懒，什么也没留下" : data.getSignature());
+        MyCustomUtils.showLevelImg((int) data.getLevel(), acUserMsgTvLevel1);
+        acUserMsgTvHits1.setText(data.getHits() == null ? "0" : data.getHits());
+        acUserMsgTvAttNum1.setText(data.getAtt_num() == null ? "0" : data.getAtt_num());
+        acUserMsgTvHistoryMoney1.setText(data.getHistory_money());
+        acUserMsgTvReputation1.setText(data.getReputation() == null ? "0" : data.getReputation());
+        acUserMsgTvAddress1.setText(new GetAddressUtil(this).getAddress(Double.parseDouble(data.getLng()), Double.parseDouble(data.getLat())));
+        acUserMsgIvQrCode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("hello world",80));
     }
 
 
-
-    @OnClick({R.id.title_theme_img_right, R.id.ac_userMsg_tv_beDYR,R.id.ac_userMsg_tv_tuijian,
-            R.id.ac_userMsg_tv_allGoods, R.id.ac_userMsg_tv_sellSort, R.id.ac_userMsg_tv_priceSort})
+    @OnClick({R.id.title_theme_img_right, R.id.ac_userMsg_tv_beDYR, R.id.ac_userMsg_tv_tuijian,
+            R.id.ac_userMsg_tv_allGoods, R.id.ac_userMsg_tv_sellSort, R.id.ac_userMsg_tv_priceSort,
+            R.id.ac_userMsg_tv_toShare})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.ac_userMsg_tv_beDYR:
@@ -220,28 +271,32 @@ public class UserMsgActivity extends ActivityBase {
                 acUserMsgTvAllGoods.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.text6));
-                type="1";
+                type = "1";
                 break;
             case R.id.ac_userMsg_tv_allGoods:
                 acUserMsgTvTuijian.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvAllGoods.setTextColor(getResources().getColor(R.color.app_theme));
                 acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.text6));
-                type="2";
+                type = "2";
                 break;
             case R.id.ac_userMsg_tv_sellSort:
                 acUserMsgTvTuijian.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvAllGoods.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.app_theme));
                 acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.text6));
-                type="3";
+                type = "3";
                 break;
             case R.id.ac_userMsg_tv_priceSort:
                 acUserMsgTvTuijian.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvAllGoods.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.app_theme));
-                type="4";
+                type = "4";
+                break;
+            case R.id.ac_userMsg_tv_toShare:
+                bmp=SimpleUtil.createViewBitmap(acUserMsgLlShare);
+                showSingleBottomDialog();
                 break;
         }
     }
@@ -271,8 +326,8 @@ public class UserMsgActivity extends ActivityBase {
             public void onClick(View view) {
                 window.dismiss();
                 backgroundAlpha(1f);
-                bmp = SimpleUtil.shotScrollView(acUserMsgSv);
-                showSingleBottomDialog();
+                acUserMsgLlShow.setVisibility(View.VISIBLE);
+                //showSingleBottomDialog();
                 /*//构建文本信息的分享对象（其它的有WXVideoObject,WXImageObject等），内容为hello
                 WXTextObject textObject = new WXTextObject();
                 textObject.text = "hello";
@@ -374,6 +429,7 @@ public class UserMsgActivity extends ActivityBase {
         dialog.findViewById(R.id.dialog_share_friends).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                acUserMsgLlShow.setVisibility(View.GONE);
                 WXImageObject imgObj = new WXImageObject(bmp);
                 WXMediaMessage msg = new WXMediaMessage();
                 msg.mediaObject = imgObj;
@@ -394,6 +450,7 @@ public class UserMsgActivity extends ActivityBase {
         dialog.findViewById(R.id.dialog_share_pyq).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                acUserMsgLlShow.setVisibility(View.GONE);
                 WXImageObject imgObj = new WXImageObject(bmp);
                 WXMediaMessage msg = new WXMediaMessage();
                 msg.mediaObject = imgObj;
@@ -414,6 +471,7 @@ public class UserMsgActivity extends ActivityBase {
         dialog.findViewById(R.id.dl_photo_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                acUserMsgLlShow.setVisibility(View.GONE);
                 dialog.dismiss();
             }
         });

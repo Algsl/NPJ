@@ -43,7 +43,7 @@ public class MembershipPackageActivity extends ActivityBase {
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.at_membership_package_head_pic)
-    MyCircleView atMembershipPackageHeadPic;
+    ImageView atMembershipPackageHeadPic;
     @BindView(R.id.at_membership_package_tv_name)
     TextView atMembershipPackageTvName;
     @BindView(R.id.at_membership_package_tv_tuijian)
@@ -77,6 +77,7 @@ public class MembershipPackageActivity extends ActivityBase {
         changeTitle(acTitle, "会员礼包");
 
         getUserInfo();
+        atMembershipPackageTvName.setSelected(true);
 
         List<String> list = new ArrayList<>();
         list.add("购买礼包");

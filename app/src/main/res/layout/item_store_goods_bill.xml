@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_166"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_99">
         
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/item_store_goods_bill_iv_pic"
             android:layout_width="@dimen/dp_80"
             android:layout_height="@dimen/dp_80"
             android:src="@mipmap/ic_launcher"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_12"/>
+            android:layout_marginLeft="@dimen/dp_12"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="@dimen/dp_5"/>
 
         <TextView
             android:id="@+id/item_store_goods_bill_tv_title"

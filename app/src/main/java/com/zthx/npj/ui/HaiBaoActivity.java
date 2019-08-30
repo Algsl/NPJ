@@ -26,7 +26,6 @@ import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
-import com.zthx.npj.utils.ImageCircleConner;
 import com.zthx.npj.utils.QRCodeUtil;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.utils.SimpleUtil;
@@ -85,7 +84,7 @@ public class HaiBaoActivity extends ActivityBase {
                 acHaibaoTvUserName.setText(bean.getData().getNick_name());
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
                 //Bitmap bitmap1 = QRCodeUtil.createQRCodeBitmap("hello", 80, ImageCircleConner.toRoundCorner(bitmap, 190), 0.2f);
-                Bitmap bitmap1 = QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?page=tuijian", 100, ImageCircleConner.toRoundCorner(bitmap, 190), 0.3f);
+                Bitmap bitmap1 = QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?page=tuijian", 100, bitmap, 0.3f);
                 acHaibaoIvQrImg.setImageBitmap(bitmap1);
             }
 

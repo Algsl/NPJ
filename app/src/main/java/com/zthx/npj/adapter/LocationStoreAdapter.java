@@ -16,7 +16,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.LocalStoreResponseBean;
-import com.zthx.npj.utils.ImageCircleConner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,13 +57,7 @@ public class LocationStoreAdapter extends RecyclerView.Adapter<LocationStoreAdap
                 }
             });
         }
-        //Glide.with(mContext).load(list.get(i).getStore_img()).into(viewHolder.mIvStore);
-        Glide.with(mContext).load(list.get(i).getStore_img()).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                viewHolder.mIvStore.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-            }
-        });
+        Glide.with(mContext).load(list.get(i).getStore_img()).into(viewHolder.mIvStore);
         viewHolder.mTvStoreName.setText(list.get(i).getStore_name());
         viewHolder.mTvAddress.setText(list.get(i).getAddress2());
         double distance=(double)list.get(i).getDistance();

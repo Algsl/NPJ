@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.ConfirmOrderActivity"
     android:background="@android:color/white">
     <include layout="@layout/title"
@@ -70,15 +70,15 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <ImageView
+                <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/at_confirm_order_iv_pic"
                     android:layout_width="@dimen/dp_80"
                     android:layout_height="@dimen/dp_80"
                     android:layout_marginTop="@dimen/dp_5"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:layout_marginLeft="@dimen/dp_12"
-                    android:src="@mipmap/ic_launcher"/>
-
+                    android:src="@mipmap/ic_launcher"
+                    app:riv_corner_radius="@dimen/dp_5"/>
                 <TextView
                     android:id="@+id/at_confirm_order_tv_title"
                     android:layout_width="wrap_content"

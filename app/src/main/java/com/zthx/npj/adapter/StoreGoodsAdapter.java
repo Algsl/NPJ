@@ -18,7 +18,6 @@ import com.zthx.npj.R;
 import com.zthx.npj.net.been.MyGoodsBean;
 import com.zthx.npj.net.been.MyGoodsResponseBean;
 import com.zthx.npj.net.been.StoreGoodsListResponseBean;
-import com.zthx.npj.utils.ImageCircleConner;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -74,12 +73,7 @@ public class StoreGoodsAdapter extends RecyclerView.Adapter<StoreGoodsAdapter.Vi
             });
         }
 
-        Glide.with(mContext).load(mList.get(i).getGoods_img()).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                viewHolder.goodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-            }
-        });
+        Glide.with(mContext).load(mList.get(i).getGoods_img()).into(viewHolder.goodsImg);
         viewHolder.goodsName.setText(mList.get(i).getGoods_name());
         viewHolder.goodsPrice.setText("￥"+(int)Double.parseDouble(mList.get(i).getUser_price()));
     }

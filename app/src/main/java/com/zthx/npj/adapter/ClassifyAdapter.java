@@ -18,7 +18,6 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CategoryResponseBean;
-import com.zthx.npj.utils.ImageCircleConner;
 
 import java.util.ArrayList;
 
@@ -62,12 +61,7 @@ public class ClassifyAdapter extends RecyclerView.Adapter<ClassifyAdapter.ViewHo
             });
         }
         if(mList.size()>0){
-            Glide.with(mContext).load(Uri.parse(mList.get(i).getImage())).asBitmap().into(new SimpleTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    viewHolder.iv_icon.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-                }
-            });
+            Glide.with(mContext).load(Uri.parse(mList.get(i).getImage())).into(viewHolder.iv_icon);
             viewHolder.tv_name.setText(mList.get(i).getName());
         }
     }

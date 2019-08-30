@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
@@ -25,7 +26,6 @@ import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
-import com.zthx.npj.utils.ImageCircleConner;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.text.SimpleDateFormat;
@@ -222,18 +222,8 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
         acMyOrderDetailTvAddress.setText(data.getAddress());
         atMyOrderDetailTvStoreName.setText(data.getStore_name());
 
-        Glide.with(this).load(Uri.parse(data.getGoods_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                atMyOrderDetailIvGoodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource, 16));
-            }
-        });
-        Glide.with(this).load(Uri.parse(data.getGoods_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                atMyOrderDetailIvGoodsImg1.setImageBitmap(ImageCircleConner.toRoundCorner(resource, 16));
-            }
-        });
+        Glide.with(this).load(Uri.parse(data.getGoods_img())).into(atMyOrderDetailIvGoodsImg);
+        Glide.with(this).load(Uri.parse(data.getGoods_img())).into(atMyOrderDetailIvGoodsImg1);
         atMyOrderDetailTvGoodsName.setText(data.getGoods_name());
         atMyOrderDetailTvGoodsName1.setText(data.getGoods_name());
         atMyOrderDetailTvGoodsPrice.setText("￥ " + data.getGoods_price());

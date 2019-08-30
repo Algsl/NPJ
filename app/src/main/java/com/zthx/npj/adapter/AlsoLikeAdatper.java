@@ -14,9 +14,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.AlsoLikeResponseBean;
-import com.zthx.npj.utils.ImageCircleConner;
+import com.zthx.npj.utils.GlideRoundTransform;
+import com.zthx.npj.view.MyCircleView;
 
 import java.util.ArrayList;
 
@@ -59,12 +61,7 @@ public class AlsoLikeAdatper extends RecyclerView.Adapter<AlsoLikeAdatper.ViewHo
             });
         }
         if (mList!= null && mList.size() > 0) {
-            Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    viewHolder.mIvGoods.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-                }
-            });
+            Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.mIvGoods);
             viewHolder.mTvPrice.setText("￥"+mList.get(i).getMember_price());
             viewHolder.mTvSellNum.setText("已售"+mList.get(i).getSold()+"件");
             viewHolder.mTvTitle.setText(mList.get(i).getGoods_name());
@@ -77,7 +74,7 @@ public class AlsoLikeAdatper extends RecyclerView.Adapter<AlsoLikeAdatper.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mIvGoods;
+        RoundedImageView mIvGoods;
         TextView mTvTitle;
         TextView mTvPrice;
         TextView mTvSellNum;

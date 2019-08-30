@@ -16,7 +16,6 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CollectionResponseBean;
-import com.zthx.npj.utils.ImageCircleConner;
 
 import java.util.ArrayList;
 
@@ -25,10 +24,12 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Vi
     private ArrayList<CollectionResponseBean.DataBean> mList;
     private Context mContext;
     private ItemClickListener mItemClickListener;
+    private String mType;
 
-    public CollectionAdapter(Context context,ArrayList<CollectionResponseBean.DataBean> list){
+    public CollectionAdapter(Context context,ArrayList<CollectionResponseBean.DataBean> list,String type){
         mContext=context;
         mList=list;
+        mType=type;
     }
 
     public void setOnItemClickListener(ItemClickListener itemClickListener){
@@ -74,15 +75,15 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Vi
             });
         }
         if(mList.size()>0){
-            //Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
-            Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).asBitmap().into(new SimpleTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    viewHolder.goodsImg.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-                }
-            });
+            if(mType.equals("3")){
+                Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
+                viewHolder.goodsPrice.setText("￥ "+mList.get(i).getGoods_price());
+            }else{
+                Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
+                viewHolder.goodsPrice.setText("￥ "+mList.get(i).getUser_price());
+            }
             viewHolder.goodsName.setText(mList.get(i).getGoods_name());
-            viewHolder.goodsPrice.setText("￥ "+mList.get(i).getUser_price());
+
         }
     }
 

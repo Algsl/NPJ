@@ -74,7 +74,7 @@ public class MineFragment
         extends BaseFragment {
 
     @BindView(R.id.fg_mine_iv_head_pic)
-    MyCircleView fgMineIvHeadPic;
+    ImageView fgMineIvHeadPic;
     @BindView(R.id.fg_mine_tv_name)
     TextView fgMineTvName;
     @BindView(R.id.fg_mine_tv_tel)
@@ -227,6 +227,7 @@ public class MineFragment
     }
 
     private void setUserInfo(String result) {
+        Log.e("测试", "setUserInfo: "+result );
         UserResponseBean userResponseBean = GsonUtils.fromJson(result, UserResponseBean.class);
         UserResponseBean.DataBean data = userResponseBean.getData();
         level = data.getLevel() + "";

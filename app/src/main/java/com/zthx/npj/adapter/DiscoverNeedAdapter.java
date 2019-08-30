@@ -17,7 +17,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.NeedListResponseBean;
 import com.zthx.npj.net.been.SupplyListResponseBean;
-import com.zthx.npj.utils.ImageCircleConner;
 
 import java.util.ArrayList;
 
@@ -65,13 +64,7 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
                 }
             });
         }
-        //Glide.with(mContext).load(list.get(i).getImg()).into(viewHolder.mIvPic);
-        Glide.with(mContext).load(list.get(i).getImg()).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                viewHolder.mIvPic.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-            }
-        });
+        Glide.with(mContext).load(list.get(i).getImg()).into(viewHolder.mIvPic);
         viewHolder.mTvNeedNum.setText(list.get(i).getAmount());
         if(list.get(i).getDistance()>1000){
             viewHolder.mTvDistance.setText((list.get(i).getDistance()/1000)+"km");

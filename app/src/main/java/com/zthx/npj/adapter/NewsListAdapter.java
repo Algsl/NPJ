@@ -18,7 +18,6 @@ import com.bumptech.glide.request.target.BaseTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.NewsListResponseBean;
-import com.zthx.npj.utils.ImageCircleConner;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,12 +61,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
             });
         }
         if(mList.size()>0){
-            Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getImg())).asBitmap().into(new SimpleTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    viewHolder.img.setImageBitmap(ImageCircleConner.toRoundCorner(resource,16));
-                }
-            });
+            Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getImg())).into(viewHolder.img);
             viewHolder.title.setText(mList.get(i).getTitle());
             long time=System.currentTimeMillis()/1000-Long.valueOf(mList.get(i).getCreate_time());
             if(time/60<60){

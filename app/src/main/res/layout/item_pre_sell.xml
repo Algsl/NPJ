@@ -11,7 +11,7 @@
         android:layout_height="@dimen/dp_150"
         android:layout_marginLeft="@dimen/dp_6"
         android:layout_marginTop="@dimen/dp_7"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:src="@drawable/logo"/>
     <RelativeLayout
         android:layout_width="@dimen/dp_351"

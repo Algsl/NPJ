@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.VideoBuyConfirmActivity"
     android:background="@android:color/white">
     <include layout="@layout/title"
@@ -54,14 +54,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_115">
 
-                    <ImageView
+                    <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/at_video_buy_confirm_img"
                         android:layout_width="@dimen/dp_95"
                         android:layout_height="@dimen/dp_95"
                         android:src="@mipmap/ic_launcher"
                         android:layout_centerVertical="true"
-                        android:scaleType="fitXY"
-                        android:layout_marginLeft="@dimen/dp_12"/>
+                        android:scaleType="centerCrop"
+                        android:layout_marginLeft="@dimen/dp_12"
+                        app:riv_corner_radius="@dimen/dp_5"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"

@@ -69,7 +69,7 @@
                 android:layout_height="@dimen/dp_80"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:layout_marginBottom="@dimen/dp_45"/>
             <TextView
                 android:layout_width="match_parent"

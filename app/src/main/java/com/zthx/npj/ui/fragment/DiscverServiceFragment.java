@@ -121,10 +121,6 @@ public class DiscverServiceFragment extends Fragment {
         intent1 = new Intent(getContext(), DefaultPageActivity.class);
 
         mRecyclerView = View.findViewById(R.id.fg_discover_service_rv);
-        List<Integer> list = new ArrayList<>();
-        list.add(R.drawable.supply_top);
-        list.add(R.drawable.discover_top);
-        list.add(R.drawable.local_top);
 
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override

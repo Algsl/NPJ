@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tag="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tag="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:clipChildren="false"
     android:id="@+id/pop_layout"
@@ -14,16 +15,17 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_20"
-            android:alpha="0.5"
+            android:alpha="0.6"
             android:background="@android:color/black"/>
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/pop_goods_size_iv_pic"
             android:layout_width="@dimen/dp_80"
             android:layout_height="@dimen/dp_80"
             android:layout_marginBottom="@dimen/dp_10"
             android:layout_marginLeft="@dimen/dp_12"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher"/>
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher"
+            app:riv_corner_radius="@dimen/dp_5"/>
         <TextView
             android:id="@+id/pop_goods_size_tv_old_price"
             android:layout_width="wrap_content"
