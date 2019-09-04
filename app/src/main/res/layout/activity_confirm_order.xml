@@ -195,7 +195,37 @@
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/dp_12"
-                    android:text="0.00"
+                    android:text="￥0.00"
+                    android:textSize="@dimen/sp_14"
+                    android:textColor="@color/app_theme"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:background="@color/background"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_12"/>
+            <RelativeLayout
+                android:id="@+id/at_confirm_order_rl_hasDYR"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="代言人优惠"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:textColor="@color/text3"
+                    android:textSize="@dimen/sp_14"/>
+                <TextView
+                    android:id="@+id/at_confirmOrder_tv_dyrYH"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_12"
+                    android:text="-￥0.00"
                     android:textSize="@dimen/sp_14"
                     android:textColor="@color/app_theme"/>
             </RelativeLayout>
@@ -237,7 +267,7 @@
                 android:layout_height="@dimen/dp_1"
                 android:background="@color/background"
                 android:layout_marginLeft="@dimen/dp_12"
-                android:layout_marginRight="@dimen/dp_12"></View>
+                android:layout_marginRight="@dimen/dp_12"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40">

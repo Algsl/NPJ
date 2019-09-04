@@ -2,20 +2,19 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.BaojiaListAdapter;
-import com.zthx.npj.adapter.MySupplyListAdapter;
 import com.zthx.npj.adapter.PurchaseListAdapter;
 import com.zthx.npj.net.been.BaojiaListResponseBean;
 import com.zthx.npj.net.been.PurchaseListResponseBean;
@@ -57,6 +56,10 @@ public class WantBuyManagerActivity extends ActivityBase {
     TextView acWantBuyTvIssue;
     @BindView(R.id.ac_wantBuy_tv_unIssue)
     TextView acWantBuyTvUnIssue;
+    @BindView(R.id.refreshLayout1)
+    SmartRefreshLayout refreshLayout1;
+    @BindView(R.id.refreshLayout2)
+    SmartRefreshLayout refreshLayout2;
 
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
@@ -68,8 +71,26 @@ public class WantBuyManagerActivity extends ActivityBase {
         setContentView(R.layout.activity_want_buy_manager);
         ButterKnife.bind(this);
 
+        refreshLayout1.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getWantBuy();
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
+
+        refreshLayout2.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getBaojia();
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
+
         back(titleThemeBack);
-        changeTitle(titleThemeTitle,"供应管理");
+        changeTitle(titleThemeTitle, "供应管理");
         getWantBuy();
     }
 
@@ -94,7 +115,7 @@ public class WantBuyManagerActivity extends ActivityBase {
         final ArrayList<PurchaseListResponseBean.DataBean> data = bean.getData();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         atWantBuyManagerRvSupplyList1.setLayoutManager(layoutManager);
-        PurchaseListAdapter adapter = new PurchaseListAdapter(this,data,type);
+        PurchaseListAdapter adapter = new PurchaseListAdapter(this, data, type);
         atWantBuyManagerRvSupplyList1.setItemAnimator(new DefaultItemAnimator());
         atWantBuyManagerRvSupplyList1.setAdapter(adapter);
         adapter.setOnItemClickListener(new PurchaseListAdapter.ItemClickListener() {
@@ -105,8 +126,8 @@ public class WantBuyManagerActivity extends ActivityBase {
 
             @Override
             public void onSaleClick(int position) {
-                if(type.equals("1")){
-                    SetSubscribe.purchaseDown(user_id,token,data.get(position).getId()+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                if (type.equals("1")) {
+                    SetSubscribe.purchaseDown(user_id, token, data.get(position).getId() + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
                             getWantBuy();
@@ -117,8 +138,8 @@ public class WantBuyManagerActivity extends ActivityBase {
                             showToast(errorMsg);
                         }
                     }));
-                }else{
-                    SetSubscribe.purchaseUp(user_id,token,data.get(position).getId()+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                } else {
+                    SetSubscribe.purchaseUp(user_id, token, data.get(position).getId() + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
                             getWantBuy();
@@ -139,7 +160,7 @@ public class WantBuyManagerActivity extends ActivityBase {
 
             @Override
             public void onSupplyDeleteClick(int position) {
-                SetSubscribe.purchaseDel(user_id,token,data.get(position).getId()+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                SetSubscribe.purchaseDel(user_id, token, data.get(position).getId() + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
                         getWantBuy();
@@ -170,7 +191,7 @@ public class WantBuyManagerActivity extends ActivityBase {
                 acWantBuyTvBaojia.setTextColor(getResources().getColor(R.color.text3));
                 getWantBuy();
                 break;
-                //报价列表
+            //报价列表
             case R.id.ac_wantBuy_tv_baojia:
                 acWantBuyTvBaojia.setBackgroundColor(getResources().getColor(R.color.app_theme));
                 acWantBuyTvBaojia.setTextColor(getResources().getColor(android.R.color.white));
@@ -196,7 +217,7 @@ public class WantBuyManagerActivity extends ActivityBase {
     private void getBaojia() {
         atWantBuyManagerLlSupplyList.setVisibility(View.GONE);
         atWantBuyManagerLlSupplyBill.setVisibility(View.VISIBLE);
-        SetSubscribe.baojiaList(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.baojiaList(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setBaojia(result);
@@ -210,18 +231,18 @@ public class WantBuyManagerActivity extends ActivityBase {
     }
 
     private void setBaojia(String result) {
-        BaojiaListResponseBean bean=GsonUtils.fromJson(result,BaojiaListResponseBean.class);
-        final ArrayList<BaojiaListResponseBean.DataBean> data=bean.getData();
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
+        BaojiaListResponseBean bean = GsonUtils.fromJson(result, BaojiaListResponseBean.class);
+        final ArrayList<BaojiaListResponseBean.DataBean> data = bean.getData();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         atWantBuyManagerRvSupplyBill.setLayoutManager(layoutManager);
-        BaojiaListAdapter adapter=new BaojiaListAdapter(this,data);
+        BaojiaListAdapter adapter = new BaojiaListAdapter(this, data);
         atWantBuyManagerRvSupplyBill.setItemAnimator(new DefaultItemAnimator());
         atWantBuyManagerRvSupplyBill.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaojiaListAdapter.ItemClickListener() {
             @Override
             public void onSeeClick(int position) {
-                Intent intent=new Intent(WantBuyManagerActivity.this,BaojiaUserListActivity.class);
-                intent.putExtra("baojia_id",data.get(position).getId()+"");
+                Intent intent = new Intent(WantBuyManagerActivity.this, BaojiaUserListActivity.class);
+                intent.putExtra("baojia_id", data.get(position).getId() + "");
                 startActivity(intent);
             }
         });

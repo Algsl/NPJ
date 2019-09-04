@@ -468,6 +468,22 @@ public class SetSubscribe {
     }
 
     /**
+     * 我的商铺商品订单退款原因
+     * @param user_id
+     * @param token
+     * @param order_id
+     * @param subscriber
+     */
+    public static void refund2(String user_id,String token,String order_id, DisposableObserver<ResponseBody> subscriber) {
+        RefundBean bean=new RefundBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setOrder_id(order_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().refund2(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
      * 设置店铺信息
      * @param user_id
      * @param token
@@ -1253,7 +1269,7 @@ public class SetSubscribe {
      * @param order_id
      * @param subscriber
      */
-    public static void mySupplyOrderFahuo(String user_id,String token,String order_id, DisposableObserver<ResponseBody> subscriber) {
+    public static void mySupplyOrderRefund2(String user_id,String token,String order_id, DisposableObserver<ResponseBody> subscriber) {
         MySupplyOrderRefund2Bean bean=new MySupplyOrderRefund2Bean();
         bean.setUser_id(user_id);
         bean.setToken(token);

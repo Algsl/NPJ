@@ -9,7 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.MySupplyOrderAdapter;
 import com.zthx.npj.base.Const;
@@ -17,15 +21,9 @@ import com.zthx.npj.net.been.MySupplyOrderResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
-import com.zthx.npj.ui.ApplyRefundActivity;
-import com.zthx.npj.ui.CommentActivity;
-import com.zthx.npj.ui.ConfirmMyOrderActivity;
 import com.zthx.npj.ui.ConfirmMySupplyOrderActivity;
-import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.KuaiDiDetailActivity;
-import com.zthx.npj.ui.MyStoreOrderDetailActivity;
 import com.zthx.npj.ui.MySupplyOrderCommentActivity;
-import com.zthx.npj.ui.MySupplyOrderDetailActivity;
 import com.zthx.npj.ui.MySupplyOrderRefundActivity;
 import com.zthx.npj.ui.SupplyProductsActivity;
 import com.zthx.npj.utils.GsonUtils;
@@ -48,9 +46,11 @@ public class MyBillListFragment extends Fragment {
     @BindView(R.id.fg_want_buy_manager_list)
     RecyclerView fgWantBuyManagerList;
     Unbinder unbinder;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
-    private String user_id=SharePerferenceUtils.getUserId(getContext());
-    private String token=SharePerferenceUtils.getToken(getContext());
+    private String user_id = SharePerferenceUtils.getUserId(getContext());
+    private String token = SharePerferenceUtils.getToken(getContext());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,14 +62,24 @@ public class MyBillListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_bill_list, container, false);
         unbinder = ButterKnife.bind(this, view);
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getMySupplyOrder();
+                refreshlayout.finishRefresh();
+                Toast.makeText(getContext(),"刷新完成",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         fgWantBuyManagerList.setLayoutManager(manager);
         getMySupplyOrder();
         return view;
     }
 
     private void getMySupplyOrder() {
-        SetSubscribe.mySupplyOrder(user_id,token,getArguments().getString("order_state"),new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.mySupplyOrder(user_id, token, getArguments().getString("order_state"), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setMySupplyOrder(result);
@@ -83,31 +93,31 @@ public class MyBillListFragment extends Fragment {
     }
 
     private void setMySupplyOrder(String result) {
-        MySupplyOrderResponseBean bean=GsonUtils.fromJson(result,MySupplyOrderResponseBean.class);
-        final ArrayList<MySupplyOrderResponseBean.DataBean> data=bean.getData();
-        if(data.size()<=0){
+        MySupplyOrderResponseBean bean = GsonUtils.fromJson(result, MySupplyOrderResponseBean.class);
+        final ArrayList<MySupplyOrderResponseBean.DataBean> data = bean.getData();
+        if (data.size() <= 0) {
             fgWantBuyManagerList.setVisibility(View.GONE);
-        }else{
+        } else {
             fgWantBuyManagerList.setVisibility(View.VISIBLE);
         }
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         fgWantBuyManagerList.setLayoutManager(layoutManager);
-        MySupplyOrderAdapter adapter=new MySupplyOrderAdapter(getContext(),data);
+        MySupplyOrderAdapter adapter = new MySupplyOrderAdapter(getContext(), data);
         fgWantBuyManagerList.setAdapter(adapter);
         adapter.setOnItemClickListener(new MySupplyOrderAdapter.ItemClickListener() {
             //查看详细信息
             @Override
             public void onItemClick(int position) {
-                Intent intent=new Intent(getContext(), MySupplyOrderDetailActivity.class);
+                /*Intent intent=new Intent(getContext(), MySupplyOrderDetailActivity.class);
                 intent.putExtra("order_id",data.get(position).getId()+"");
-                startActivity(intent);
+                startActivity(intent);*/
             }
 
             //取消订单
             @Override
             public void onCancelClick(int position) {
-                String order_id=data.get(position).getId()+"";
-                SetSubscribe.mySupplyOrderCancel(user_id,token,order_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                String order_id = data.get(position).getId() + "";
+                SetSubscribe.mySupplyOrderCancel(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
                         getMySupplyOrder();
@@ -123,8 +133,8 @@ public class MyBillListFragment extends Fragment {
             //删除订单
             @Override
             public void onDeleteClick(int position) {
-                String order_id=data.get(position).getId()+"";
-                SetSubscribe.mySupplyOrderDel(user_id,token,order_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                String order_id = data.get(position).getId() + "";
+                SetSubscribe.mySupplyOrderDel(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
                         getMySupplyOrder();
@@ -140,8 +150,8 @@ public class MyBillListFragment extends Fragment {
             //去支付
             @Override
             public void onPayClick(int position) {
-                Intent intent=new Intent(getActivity(), ConfirmMySupplyOrderActivity.class);
-                intent.putExtra("order_id",data.get(position).getId()+"");
+                Intent intent = new Intent(getActivity(), ConfirmMySupplyOrderActivity.class);
+                intent.putExtra("order_id", data.get(position).getId() + "");
                 startActivity(intent);
             }
 
@@ -154,16 +164,16 @@ public class MyBillListFragment extends Fragment {
             //查询物流
             @Override
             public void onQueryClick(int position) {
-                Intent intent=new Intent(getContext(), KuaiDiDetailActivity.class);
-                intent.putExtra("order_id",data.get(position).getId()+"");
+                Intent intent = new Intent(getContext(), KuaiDiDetailActivity.class);
+                intent.putExtra("order_id", data.get(position).getId() + "");
                 startActivity(intent);
             }
 
             //确认收货
             @Override
             public void onConfirmClick(int position) {
-                String order_id=data.get(position).getId()+"";
-                SetSubscribe.mySupplyGoodsConfirm(user_id,token,order_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                String order_id = data.get(position).getId() + "";
+                SetSubscribe.mySupplyGoodsConfirm(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
                         getMySupplyOrder();
@@ -179,7 +189,7 @@ public class MyBillListFragment extends Fragment {
             //再来一单
             @Override
             public void onAgainClick(int position) {
-                Intent intent=new Intent(getContext(), SupplyProductsActivity.class);
+                Intent intent = new Intent(getContext(), SupplyProductsActivity.class);
                 intent.setAction(Const.PRESELL);
                 intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
                 startActivity(intent);
@@ -188,16 +198,16 @@ public class MyBillListFragment extends Fragment {
             //评价
             @Override
             public void onCommentClick(int position) {
-                Intent intent=new Intent(getContext(),MySupplyOrderCommentActivity.class);
-                intent.putExtra("order_id",data.get(position).getId()+"");
+                Intent intent = new Intent(getContext(), MySupplyOrderCommentActivity.class);
+                intent.putExtra("order_id", data.get(position).getId() + "");
                 startActivity(intent);
             }
 
             //退款
             @Override
             public void onGoodsReturn(int position) {
-                Intent intent=new Intent(getContext(), MySupplyOrderRefundActivity.class);
-                intent.putExtra("order_id",data.get(position).getId()+"");
+                Intent intent = new Intent(getContext(), MySupplyOrderRefundActivity.class);
+                intent.putExtra("order_id", data.get(position).getId() + "");
                 startActivity(intent);
             }
         });
@@ -205,10 +215,10 @@ public class MyBillListFragment extends Fragment {
     }
 
 
-    public Fragment newInstence(String order_state){
-        MyBillListFragment fragment=new MyBillListFragment();
-        Bundle bundle=new Bundle();
-        bundle.putString("order_state",order_state);
+    public Fragment newInstence(String order_state) {
+        MyBillListFragment fragment = new MyBillListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("order_state", order_state);
         fragment.setArguments(bundle);
         return fragment;
     }

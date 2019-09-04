@@ -6,38 +6,47 @@
     android:layout_height="match_parent"
     tools:context="com.zthx.npj.ui.StoreGoodsBillActivity"
     android:orientation="vertical">
-
     <include
-        layout="@layout/title_theme"></include>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/at_store_goods_bill_rv"
+        layout="@layout/title_theme"/>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <LinearLayout
+        android:layout_height="match_parent">
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
         android:orientation="vertical">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_100"
-            android:src="@drawable/shangpindingdan"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_13"
-            android:textColor="@color/text3"
-            android:layout_marginTop="@dimen/dp_5"
-            android:text="还没有人下单，快去分享让更多人知道吧！"/>
-        <TextView
-            android:id="@+id/ac_storeGoodsBill_tv_toShare"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20"
-            android:textSize="@dimen/sp_16"
-            android:textColor="@color/app_theme"
-            android:text="去分享"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/at_store_goods_bill_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_100"
+                android:src="@drawable/shangpindingdan"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_13"
+                android:textColor="@color/text3"
+                android:layout_marginTop="@dimen/dp_5"
+                android:text="还没有人下单，快去分享让更多人知道吧！"/>
+            <TextView
+                android:id="@+id/ac_storeGoodsBill_tv_toShare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:textSize="@dimen/sp_16"
+                android:textColor="@color/app_theme"
+                android:text="去分享"/>
+        </LinearLayout>
     </LinearLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

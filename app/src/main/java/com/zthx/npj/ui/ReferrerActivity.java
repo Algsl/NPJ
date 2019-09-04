@@ -87,7 +87,7 @@ public class ReferrerActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                new CommonDialog(ReferrerActivity.this, R.style.dialog, "您还没有推荐人", new CommonDialog.OnCloseListener() {
+                CommonDialog dialog=new CommonDialog(ReferrerActivity.this, R.style.dialog, "您还没有推荐人", new CommonDialog.OnCloseListener() {
                     @Override
                     public void onClick(Dialog dialog, boolean confirm) {
                         if(confirm){
@@ -96,7 +96,9 @@ public class ReferrerActivity extends ActivityBase {
                             finish();
                         }
                     }
-                }).show();
+                });
+                dialog.setPositiveButton("绑定邀请人");
+                dialog.show();
             }
         }));
     }
@@ -187,6 +189,12 @@ public class ReferrerActivity extends ActivityBase {
             @Override
             public void onDismiss() {
                 backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+        contentView.findViewById(R.id.pw_iv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 window.dismiss();
             }
         });

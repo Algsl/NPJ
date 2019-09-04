@@ -143,6 +143,10 @@ public class ConfirmOrderActivity extends ActivityBase {
     TextView acConfirmOrderTvGoodsAllNum;
     @BindView(R.id.ac_confirmOrder_tv_lisheng)
     TextView acConfirmOrderTvLisheng;
+    @BindView(R.id.at_confirmOrder_tv_dyrYH)
+    TextView atConfirmOrderTvDyrYH;
+    @BindView(R.id.at_confirm_order_rl_hasDYR)
+    RelativeLayout atConfirmOrderRlHasDYR;
     private String attId;
     private String goodsId;
     private String address_id = "";
@@ -156,6 +160,7 @@ public class ConfirmOrderActivity extends ActivityBase {
     private String pay_code = "2";
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
+    private String level = SharePerferenceUtils.getUserLevel(this);
     private ArrayList<LocalStoreResponseBean.DataBean> localData = new ArrayList<>();
     private String RSA_PRIVATE = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
             "NEU5up1siPOXKJBU0ypde7oPfm9gyy2ajgcw6v3KF2ryjot5AKlBED6qdQPRa5Sk\n" +
@@ -220,7 +225,7 @@ public class ConfirmOrderActivity extends ActivityBase {
             acConfirmOrderRlTihuo.setVisibility(View.VISIBLE);
             attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
             goodsId = getIntent().getStringExtra(Const.GOODS_ID);
-            Log.e("测试", "onCreate: "+goodsCount );
+            Log.e("测试", "onCreate: " + goodsCount);
             goodsCount = getIntent().getStringExtra("count");
             getGoodsData();
         }
@@ -261,8 +266,15 @@ public class ConfirmOrderActivity extends ActivityBase {
         atConfirmOrderTvGoodsNum.setText("x" + ptdata.getGoods_num());
 
         acConfirmOrderTvGoodsAllNum.setText("共" + ptdata.getGoods_num() + "件商品  总计：");
-        double payMoney = ( Double.parseDouble(getIntent().getStringExtra("price"))) * ((int) Double.parseDouble(ptdata.getGoods_num()));
-        acConfirmOrderTvLisheng.setText("成为农品街代言人此单立省"+getIntent().getStringExtra("lisheng")+"元");
+        double payMoney = (Double.parseDouble(getIntent().getStringExtra("price"))) * ((int) Double.parseDouble(ptdata.getGoods_num()));
+        if(level.equals("0")){
+            acConfirmOrderTvLisheng.setText("成为农品街代言人此单立省" + getIntent().getStringExtra("lisheng") + "元");
+        }else{
+            acConfirmOrderRlToDYR.setVisibility(View.GONE);
+            atConfirmOrderRlHasDYR.setVisibility(View.VISIBLE);
+            atConfirmOrderTvDyrYH.setText("-￥"+getIntent().getStringExtra("lisheng"));
+        }
+
         atConfirmOrderTvPrice.setText("￥" + payMoney);
         acConfirmOrderTvRealPay.setText("￥" + payMoney);
     }
@@ -305,7 +317,7 @@ public class ConfirmOrderActivity extends ActivityBase {
                 address_id = data.getAddress_id() + "";
 
                 atConfirmOrderTvPrice.setText("￥" + data.getPrice());
-                acConfirmOrderTvRealPay.setText("￥"+data.getPrice());
+                acConfirmOrderTvRealPay.setText("￥" + data.getPrice());
             }
 
             @Override
@@ -339,14 +351,14 @@ public class ConfirmOrderActivity extends ActivityBase {
                     }
                 });
                 atConfirmOrderTvTitle.setText(data.getGoods_name());
-                atConfirmOrderTvSize.setText("规格： " + "x"+data.getAttributes().getPre_number()+" ￥"+data.getAttributes().getPre_price());
+                atConfirmOrderTvSize.setText("规格： " + "x" + data.getAttributes().getPre_number() + " ￥" + data.getAttributes().getPre_price());
                 atConfirmOrderTvGoodsPrice.setText("¥" + data.getGoods_price());
                 atConfirmOrderTvGoodsNum.setText("x" + data.getAttributes().getPre_number());
 
                 acConfirmOrderTvGoodsAllNum.setText("共" + data.getAttributes().getPre_number() + "件商品  总计：");
-                int payMoney=(int)Double.parseDouble(data.getAttributes().getPre_price());
-                double lisheng=0.15*payMoney;
-                acConfirmOrderTvLisheng.setText("成为农品街代言人此单立省"+lisheng+"元");
+                int payMoney = (int) Double.parseDouble(data.getAttributes().getPre_price());
+                double lisheng = 0.15 * payMoney;
+                acConfirmOrderTvLisheng.setText("成为农品街代言人此单立省" + lisheng + "元");
                 atConfirmOrderTvPrice.setText("¥" + payMoney);
                 acConfirmOrderTvRealPay.setText("￥" + payMoney);
             }
@@ -361,7 +373,7 @@ public class ConfirmOrderActivity extends ActivityBase {
     @OnClick({R.id.at_confirm_order_rl_ziti, R.id.ac_confirmOrder_btn_pay, R.id.ac_confirmOrder_iv_type3,
             R.id.ac_confirmOrder_iv_type2, R.id.ac_confirmOrder_iv_type1, R.id.ac_confirmOrder_btn_ziti,
             R.id.ac_confirmORder_btn_peisong, R.id.ac_confirmOrder_ll_chooseAddress,
-            R.id.at_confirm_order_rl_hongbao,R.id.ac_confirmOrder_rl_toDYR})
+            R.id.at_confirm_order_rl_hongbao, R.id.ac_confirmOrder_rl_toDYR})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.ac_confirmOrder_btn_pay:
@@ -535,7 +547,6 @@ public class ConfirmOrderActivity extends ActivityBase {
         if (requestCode == 0) {
             switch (requestCode) {
                 case 1:
-                    Log.e("测试", "onActivityResult: " + "执行");
                     address_id = data.getStringExtra("address_id");
                     atConfirmOrderTvAddress.setText(data.getStringExtra("address"));
                     break;
@@ -703,6 +714,13 @@ public class ConfirmOrderActivity extends ActivityBase {
                 window.dismiss();
             }
         });
+
+        contentView.findViewById(R.id.pw_iv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+            }
+        });
     }
 
     public void showHongBaoPopwindow() {
@@ -743,6 +761,13 @@ public class ConfirmOrderActivity extends ActivityBase {
             @Override
             public void onDismiss() {
                 backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+
+        contentView.findViewById(R.id.pw_iv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 window.dismiss();
             }
         });

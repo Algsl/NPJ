@@ -6,6 +6,15 @@ public class ZiZhi2Bean {
     private String company_name;
     private String company_type;
     private String business_license;
+    private String cert_id;
+
+    public String getCert_id() {
+        return cert_id;
+    }
+
+    public void setCert_id(String cert_id) {
+        this.cert_id = cert_id;
+    }
 
     public String getUser_id() {
         return user_id;

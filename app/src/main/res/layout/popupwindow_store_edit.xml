@@ -1,68 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dp_271"
     android:layout_height="@dimen/dp_306"
     android:background="@drawable/popwindow_supply_products_bg"
     android:orientation="vertical">
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_marginTop="@dimen/dp_13">
-
-        <TextView
-            android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="设置店铺"
-            android:layout_centerHorizontal="true"
-            />
-        
-        <ImageView
-            android:layout_width="@dimen/dp_49"
-            android:layout_height="@dimen/dp_2"
-            android:src="@drawable/pop_location_left"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_10"/>
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/dp_30">
 
-        <ImageView
-            android:layout_width="@dimen/dp_49"
-            android:layout_height="@dimen/dp_2"
-            android:src="@drawable/pop_location_right"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_10"
-            android:layout_centerVertical="true"/>
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设置店铺"
+                android:layout_centerHorizontal="true"
+                />
 
-    <com.zthx.npj.view.MyCircleView
-        android:id="@+id/pw_storEdit_mcv_storeImg"
-        android:layout_width="@dimen/dp_80"
-        android:layout_height="@dimen/dp_80"
-        android:layout_marginLeft="@dimen/dp_90"
-        android:layout_marginTop="@dimen/dp_18"
-        android:src="@mipmap/ic_launcher"/>
+            <ImageView
+                android:layout_width="@dimen/dp_49"
+                android:layout_height="@dimen/dp_2"
+                android:src="@drawable/pop_location_left"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_10"/>
 
-    <EditText
-        android:id="@+id/pw_storEdit_et_storeName"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_30"
-        android:background="@drawable/gray_conner_2"
-        android:layout_marginRight="@dimen/dp_24"
-        android:layout_marginLeft="@dimen/dp_24"
-        android:layout_marginTop="@dimen/dp_40"
-        android:hint="请填写店铺名称"
-        android:paddingLeft="@dimen/dp_5"
-        android:textSize="@dimen/sp_15"
-        android:textColorHint="@color/text6"/>
-    
-    <Button
-        android:id="@+id/pw_storEdit_btn_commit"
-        android:layout_width="@dimen/dp_100"
-        android:layout_height="@dimen/dp_30"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dp_30"
-        android:background="@color/app_theme"
-        android:text="提交"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/sp_15"/>
-</LinearLayout>
+            <ImageView
+                android:layout_width="@dimen/dp_49"
+                android:layout_height="@dimen/dp_2"
+                android:src="@drawable/pop_location_right"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+        <com.zthx.npj.view.MyCircleView
+            android:id="@+id/pw_storEdit_mcv_storeImg"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
+            android:layout_marginLeft="@dimen/dp_90"
+            android:layout_marginTop="@dimen/dp_18"
+            android:src="@mipmap/ic_launcher"/>
+        <EditText
+            android:id="@+id/pw_storEdit_et_storeName"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_30"
+            android:background="@drawable/gray_conner_2"
+            android:layout_marginRight="@dimen/dp_24"
+            android:layout_marginLeft="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_40"
+            android:hint="请填写店铺名称"
+            android:paddingLeft="@dimen/dp_5"
+            android:textSize="@dimen/sp_15"
+            android:textColorHint="@color/text6"/>
+        <Button
+            android:id="@+id/pw_storEdit_btn_commit"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_30"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_30"
+            android:background="@color/app_theme"
+            android:text="提交"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_15"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/pw_iv_cancel"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginRight="@dimen/dp_5"
+        android:src="@drawable/pop_goods_detail_size_delete"/>
+</RelativeLayout>

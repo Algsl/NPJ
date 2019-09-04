@@ -104,7 +104,6 @@ public class OrderListFragment extends Fragment {
     }
 
     private void setOrder(String result) {
-        Log.e("测试", "setOrder: " + result);
         OrderResponseBean bean = GsonUtils.fromJson(result, OrderResponseBean.class);
         final ArrayList<OrderResponseBean.DataBean> data = bean.getData();
         if (data.size() <= 0) {
@@ -190,7 +189,7 @@ public class OrderListFragment extends Fragment {
                 SetSubscribe.receiveConfirm(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-
+                        getOrder();
                     }
 
                     @Override

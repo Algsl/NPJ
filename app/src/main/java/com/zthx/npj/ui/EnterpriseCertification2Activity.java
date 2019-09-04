@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -30,10 +31,12 @@ import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.base.BaseConstant;
+import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.UpLoadPicResponseBean;
 import com.zthx.npj.net.been.UploadCompanyBean;
 import com.zthx.npj.net.netsubscribe.CertSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
@@ -50,6 +53,9 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class EnterpriseCertification2Activity extends ActivityBase {
 
@@ -60,7 +66,7 @@ public class EnterpriseCertification2Activity extends ActivityBase {
     @BindView(R.id.at_enterprise_certification2_et_des)
     EditText atEnterpriseCertification2EtDes;
     @BindView(R.id.at_enterprise_certification2_et_type)
-    EditText atEnterpriseCertification2EtType;
+    TextView atEnterpriseCertification2EtType;
     @BindView(R.id.at_enterprise_certification2_ll_company_pic)
     LinearLayout atEnterpriseCertification2LlCompanyPic;
     @BindView(R.id.at_enterprise_certification2_ll_shouquan)
@@ -78,15 +84,15 @@ public class EnterpriseCertification2Activity extends ActivityBase {
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
 
+    private String path1;
+    private String path2;
+    private String img1;
+    private String img2;
+    private Uri imageUri;
     private int index;
-    private int ALBUM_RESULT_CODE = 10;
-    private File avatarFile;
-    private Uri avatarUri;
-    private int CAMERA_RESULT_CODE = 11;
-    private int CROP_RESULT_CODE = 12;
-    private Uri uritempFile;
-    private String urlShouQuan;
-    private String urlPic;
+    private static final int TAKE_PHOTO = 1;
+    private static final int CHOOSE_PHOTO = 2;
+    private String cert_id="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +101,14 @@ public class EnterpriseCertification2Activity extends ActivityBase {
         ButterKnife.bind(this);
         back(titleBack);
         changeTitle(acTitle,"企业认证");
+
+        if(getIntent().getStringExtra("key0")!=null){
+            cert_id=getIntent().getStringExtra("key0");
+        }
     }
 
-    @OnClick({R.id.at_enterprise_certification2_ll_company_pic, R.id.at_enterprise_certification2_ll_shouquan, R.id.at_enterprise_certification2_btn_confirm})
+    @OnClick({R.id.at_enterprise_certification2_ll_company_pic, R.id.at_enterprise_certification2_ll_shouquan,
+            R.id.at_enterprise_certification2_btn_confirm,R.id.at_enterprise_certification2_et_type})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_enterprise_certification2_ll_company_pic:
@@ -107,32 +118,75 @@ public class EnterpriseCertification2Activity extends ActivityBase {
                 showBottomDialog(atEnterpriseCertification2LlShouquan);
                 break;
             case R.id.at_enterprise_certification2_btn_confirm:
-                uploadData();
+                HttpUtils.uploadImg(URLConstant.REQUEST_URL, path1, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        UpLoadPicResponseBean bean=GsonUtils.fromJson(response.body().string(),UpLoadPicResponseBean.class);
+                        UpLoadPicResponseBean.DataBean data=bean.getData();
+                        img1=data.getSrc();
+                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, path2, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                UpLoadPicResponseBean bean=GsonUtils.fromJson(response.body().string(),UpLoadPicResponseBean.class);
+                                UpLoadPicResponseBean.DataBean data=bean.getData();
+                                img2=data.getSrc();
+                                uploadData();
+                            }
+                        });
+                    }
+                });
+                break;
+            case R.id.at_enterprise_certification2_et_type:
+                showBottomDialog();
                 break;
         }
     }
 
     private void uploadData() {
-
         UploadCompanyBean bean = new UploadCompanyBean();
         bean.setUser_id(SharePerferenceUtils.getUserId(this));
-        bean.setToken(BaseConstant.TOKEN);
+        bean.setToken(SharePerferenceUtils.getToken(this));
         bean.setCompany_name(atEnterpriseCertification2EtName.getText().toString().trim());
-        bean.setCompany_type(atEnterpriseCertification2EtType.getText().toString().trim());
         bean.setCompany_desc(atEnterpriseCertification2EtDes.getText().toString().trim());
-        bean.setBussiness_license(urlPic);
-        bean.setAuthorization(urlShouQuan);
-        CertSubscribe.upLoadCompanyCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                startActivity(new Intent(EnterpriseCertification2Activity.this, ConfirmAttestationSuccessActivity.class));
-            }
+        bean.setCompany_type(atEnterpriseCertification2EtType.getText().toString());
+        bean.setBusiness_license(img1);
+        bean.setAuthorization(img2);
+        if(!cert_id.equals("")){
+            bean.setCert_id(cert_id);
+            CertSubscribe.upLoadCompanyCert4(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    startActivity(new Intent(EnterpriseCertification2Activity.this, ConfirmAttestationSuccessActivity.class));
+                }
 
-            @Override
-            public void onFault(String errorMsg) {
-                showToast(errorMsg);
-            }
-        }, this));
+                @Override
+                public void onFault(String errorMsg) {
+
+                }
+            }));
+        }else{
+            CertSubscribe.upLoadCompanyCert(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    startActivity(new Intent(EnterpriseCertification2Activity.this, ConfirmAttestationSuccessActivity.class));
+                }
+
+                @Override
+                public void onFault(String errorMsg) {
+
+                }
+            }));
+        }
     }
 
     private void showBottomDialog(final View v) {
@@ -152,24 +206,46 @@ public class EnterpriseCertification2Activity extends ActivityBase {
         dialog.findViewById(R.id.dl_photo_take_pic).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, CHOOSE_PHOTO);
                 if (v.getId() == R.id.at_enterprise_certification2_ll_company_pic) {
                     index = 0;
                 } else {
                     index = 1;
                 }
-                openSysAlbum();
+
                 dialog.dismiss();
             }
         });
         dialog.findViewById(R.id.dl_photo_take_photo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                File outputImage = new File(getExternalCacheDir(), "output_image.jpg");
+                try {
+                    if (outputImage.exists()) {
+                        outputImage.delete();
+                    }
+                    outputImage.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (Build.VERSION.SDK_INT >= 24) {
+                    imageUri = FileProvider.getUriForFile(EnterpriseCertification2Activity.this,
+                            "com.zthx.npj.file_provider",
+                            outputImage);
+                } else {
+                    imageUri = Uri.fromFile(outputImage);
+                }
+
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, TAKE_PHOTO);
                 if (v.getId() == R.id.at_enterprise_certification2_ll_company_pic) {
                     index = 0;
                 } else {
                     index = 1;
                 }
-                onCameraSelected();
+
                 dialog.dismiss();
             }
         });
@@ -181,190 +257,100 @@ public class EnterpriseCertification2Activity extends ActivityBase {
         });
     }
 
-    /**
-     * 打开系统相册
-     */
-    private void openSysAlbum() {
-//        Intent albumIntent = new Intent(Intent.ACTION_PICK);
-//        albumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-//        startActivityForResult(albumIntent, ALBUM_RESULT_CODE);
-        Intent intent = new Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setDataAndType(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                "image/*");
-        startActivityForResult(intent, ALBUM_RESULT_CODE);// //适用于4.4及以上android版本
-
-    }
-
-    public void onCameraSelected() {
-        if (PermissionChecker.checkSelfPermission(EnterpriseCertification2Activity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {//如果已经授予相机相关权限
-            openCamera();
-        } else {//如果相机权限并未被授予, 主动向用户请求该权限
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//Android 6.0+时, 动态申请权限
-                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_CONTACTS}, 1);
-            } else {
-//                IntentUtil.openAppPermissionPage(this);
+    private void showBottomDialog() {
+        //1、使用Dialog、设置style
+        final Dialog dialog = new Dialog(this, R.style.DialogTheme);
+        //2、设置布局
+        View view = View.inflate(this, R.layout.dialog_company_type, null);
+        dialog.setContentView(view);
+        Window window = dialog.getWindow();
+        //设置弹出位置
+        window.setGravity(Gravity.BOTTOM);
+        //设置弹出动画
+        window.setWindowAnimations(R.style.main_menu_animStyle);
+        //设置对话框大小
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+        dialog.findViewById(R.id.dl_companyType_chaoshicaigou).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                atEnterpriseCertification2EtType.setText("公司");
+                dialog.dismiss();
             }
-        }
-    }
-
-    private void openCamera() {
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        try {
-            avatarFile = createOriImageFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (avatarFile != null) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                avatarUri = Uri.fromFile(avatarFile);
-            } else {
-                avatarUri = FileProvider.getUriForFile(this, getPackageName() + ".file_provider", avatarFile);
+        });
+        dialog.findViewById(R.id.dl_companyType_jiagongcahngcaigou).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                atEnterpriseCertification2EtType.setText("合作社");
+                dialog.dismiss();
             }
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, avatarUri);
-            startActivityForResult(cameraIntent, CAMERA_RESULT_CODE);
-        }
-//        Intent openCameraIntent = new Intent(
-//                MediaStore.ACTION_IMAGE_CAPTURE);
-        avatarUri = Uri.fromFile(new File(Environment
-                .getExternalStorageDirectory(), "image.jpg"));
-        // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, avatarUri);
-        startActivityForResult(cameraIntent, CAMERA_RESULT_CODE);
+        });
+        dialog.findViewById(R.id.dl_companyType_chukoucaigou).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                atEnterpriseCertification2EtType.setText("家庭农场");
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dl_companyType_canyinqiye).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                atEnterpriseCertification2EtType.setText("个体工商户");
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dl_companyType_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
     }
 
-    private File createOriImageFile() throws IOException {
-        String imgNameOri = "HomePic_" + new SimpleDateFormat(
-                "yyyyMMdd_HHmmss").format(new Date());
-        File pictureDirOri = new File(getExternalFilesDir(
-                Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/OriPicture");
-        if (!pictureDirOri.exists()) {
-            pictureDirOri.mkdirs();
-        }
-        File image = File.createTempFile(
-                imgNameOri,         /* prefix */
-                ".jpg",             /* suffix */
-                pictureDirOri       /* directory */
-        );
-        avatarUri = Uri.parse(image.getAbsolutePath());
-        return image;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_RESULT_CODE) {
-//            cropPic(getImageContentUri(avatarFile));
-            startPhotoZoom(avatarUri); // 开始对图片进行裁剪处理
-        } else if (requestCode == CROP_RESULT_CODE) {
-            // 裁剪时,这样设置 cropIntent.putExtra("return-data", true); 处理方案如下
-            if (data != null) {
-                Bundle bundle = data.getExtras();
-                if (bundle != null) {
-//                    Bitmap bitmap = bundle.getParcelable("data");
+        switch (requestCode) {
+            case TAKE_PHOTO:
+                if (resultCode == RESULT_OK) {
                     try {
-                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uritempFile));
-                        if (index == 0) {
+                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                        if(index==0){
                             atEnterpriseCertification2LlCompanyPic.setBackground(new BitmapDrawable(bitmap));
-                            getPicUrl(atEnterpriseCertification2LlCompanyPic, bitmap);
-                        } else {
+                            path1 = getExternalCacheDir() + "/output_image.jpg";
+                        }else{
                             atEnterpriseCertification2LlShouquan.setBackground(new BitmapDrawable(bitmap));
+                            path2 = getExternalCacheDir() + "/output_image.jpg";
                         }
-                    } catch (FileNotFoundException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 }
-            }
-
-            // 裁剪时,这样设置 cropIntent.putExtra("return-data", false); 处理方案如下
-//                try {
-//                    ivHead.setImageBitmap(BitmapFactory.decodeStream(
-// getActivity().getContentResolver().openInputStream(imageUri)));
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                }
-        } else if (requestCode == ALBUM_RESULT_CODE) {
-            if (data != null && data.getData() != null) {
-                startPhotoZoom(data.getData()); // 开始对图片进行裁剪处理
-            }
-        }
-    }
-
-    /**
-     * 裁剪图片方法实现
-     *
-     * @param uri
-     */
-    protected void startPhotoZoom(Uri uri) {
-        if (uri == null) {
-            Log.i("tag", "The uri is not exist.");
-        }
-        avatarUri = uri;
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        // 设置裁剪
-        intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 150);
-        intent.putExtra("outputY", 150);
-//        intent.putExtra("return-data", true);
-//        startActivityForResult(intent, CROP_SMALL_PICTURE);
-        /**
-         * 此方法返回的图片只能是小图片（sumsang测试为高宽160px的图片）
-         * 故将图片保存在Uri中，调用时将Uri转换为Bitmap，此方法还可解决miui系统不能return data的问题
-         */
-        //intent.putExtra("return-data", true);
-
-        //uritempFile为Uri类变量，实例化uritempFile
-        uritempFile = Uri.parse("file://" + "/" + Environment.getExternalStorageDirectory().getPath() + "/" + "small.jpg");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uritempFile);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        startActivityForResult(intent, CROP_RESULT_CODE);
-    }
-
-    private void getPicUrl(final LinearLayout view, Bitmap bitmap) {
-        File file = bitmapToFile(bitmap);
-
-        SetSubscribe.upLoadFile(file, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-
-                UpLoadPicResponseBean bean = GsonUtils.fromJson(result, UpLoadPicResponseBean.class);
-                UpLoadPicResponseBean.DataBean data = bean.getData();
-                if (view == atEnterpriseCertification2LlCompanyPic) {
-                    urlPic = data.getSrc();
-                } else {
-                    urlShouQuan = data.getSrc();
+                break;
+            case CHOOSE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+                        cursor.moveToFirst();
+                        if(index==0){
+                            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                            path1 = cursor.getString(columnIndex);  //获取照片路径
+                            cursor.close();
+                            Bitmap bitmap = BitmapFactory.decodeFile(path1);
+                            atEnterpriseCertification2LlCompanyPic.setBackground(new BitmapDrawable(bitmap));
+                        }else{
+                            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                            path2 = cursor.getString(columnIndex);  //获取照片路径
+                            cursor.close();
+                            Bitmap bitmap = BitmapFactory.decodeFile(path2);
+                            atEnterpriseCertification2LlShouquan.setBackground(new BitmapDrawable(bitmap));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-                showToast(errorMsg);
-            }
-        }, this));
-    }
-
-    private File bitmapToFile(Bitmap bitmap) {
-        File file = new File(Environment.getDataDirectory() + "/1234");
-        try {
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-            bos.flush();
-            bos.close();
-            return file;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
-
     }
 }

@@ -299,6 +299,12 @@ public class MapAddressActivity extends ActivityBase {
                 window.dismiss();
             }
         });
+        contentView.findViewById(R.id.pw_iv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+            }
+        });
     }
 
     public void backgroundAlpha(float bgAlpha) {

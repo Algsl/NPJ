@@ -229,6 +229,5 @@
         android:background="@color/app_theme"
         android:text="提交"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/sp_15"
-        />
+        android:textSize="@dimen/sp_15" />
 </RelativeLayout>

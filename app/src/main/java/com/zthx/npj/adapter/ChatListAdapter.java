@@ -17,12 +17,14 @@ import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.utils.TimeFormat;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.callback.DownloadCompletionCallback;
 import cn.jpush.im.android.api.callback.GetAvatarBitmapCallback;
 import cn.jpush.im.android.api.content.ImageContent;
 import cn.jpush.im.android.api.content.MessageContent;
@@ -83,7 +85,7 @@ public class ChatListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, View view, ViewGroup viewGroup) {//绑定视图
         final Message msg = mList.get(i);
 
         final ViewHolder holder;
@@ -105,6 +107,7 @@ public class ChatListAdapter extends BaseAdapter {
             holder= (ViewHolder) view.getTag();
         }
 
+        //时间显示
         long nowDate = msg.getCreateTime();
         if (i == 18) {
             if (i == 0 || i % 18 == 0) {
@@ -140,7 +143,9 @@ public class ChatListAdapter extends BaseAdapter {
                 }
             }
         }
-        if(String.valueOf(mList.get(i).getDirect()).equals("send")){
+
+        //头像显示
+        if(String.valueOf(mList.get(i).getDirect()).equals("send")){//发送方设置头像
             UserInfo userInfo=JMessageClient.getMyInfo();
             userInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {
                 @Override
@@ -148,7 +153,7 @@ public class ChatListAdapter extends BaseAdapter {
                     holder.headIcon.setImageBitmap(bitmap);
                 }
             });
-        }else{
+        }else{//接收方设置头像
             UserInfo userInfo= (UserInfo) mList.get(i).getTargetInfo();
             userInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {
                 @Override
@@ -161,6 +166,8 @@ public class ChatListAdapter extends BaseAdapter {
                 }
             });
         }
+
+        //根据不同的类型显示不同的消息
         switch (msg.getContentType()){
             case text:
                content= (TextContent) msg.getContent();
@@ -176,8 +183,25 @@ public class ChatListAdapter extends BaseAdapter {
                 }
                 break;
             case image:
-                ImageContent content= (ImageContent) msg.getContent();
+                ImageContent imgContent = (ImageContent) msg.getContent();
 
+                final String jiguang = imgContent.getStringExtra("jiguang");
+                // 先拿本地缩略图
+                final String path = imgContent.getLocalThumbnailPath();
+                Log.e("测试", "getView: "+msg.getContent()+" "+jiguang+" "+path );
+                if (path == null) {
+                    //从服务器上拿缩略图
+                    imgContent.downloadThumbnailImage(msg, new DownloadCompletionCallback() {
+                        @Override
+                        public void onComplete(int status, String desc, File file) {
+                            if (status == 0) {
+                                Glide.with(mContext).load(file).into(holder.picture);
+                            }
+                        }
+                    });
+                } else {
+                    Glide.with(mContext).load(new File(path)).into(holder.picture);
+                }
                 break;
         }
 
@@ -194,13 +218,13 @@ public class ChatListAdapter extends BaseAdapter {
         return list;
     }
 
-    private View createViewByType(Message msg, int position) {
+    private View createViewByType(Message msg, int position) {//会话类型
         switch (msg.getContentType()) {
-            case text:
+            case text://文字
                 return getItemViewType(position) == TYPE_SEND_TXT ?
                         LayoutInflater.from(mContext).inflate(R.layout.jmui_chat_item_send_text, null) :
                         LayoutInflater.from(mContext).inflate(R.layout.jmui_chat_item_receive_text, null);
-            case image:
+            case image://图片
                 return getItemViewType(position) == TYPE_SEND_IMAGE ?
                         LayoutInflater.from(mContext).inflate(R.layout.jmui_chat_item_send_image, null) :
                         LayoutInflater.from(mContext).inflate(R.layout.jmui_chat_item_receive_image, null);

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@android:color/white">
     <View
@@ -43,13 +43,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_100">
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/item_myBillList_iv_goodsImg"
             android:layout_width="@dimen/dp_80"
             android:layout_height="@dimen/dp_80"
             android:src="@mipmap/ic_launcher"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_12"/>
+            android:layout_marginLeft="@dimen/dp_12"
+            app:riv_corner_radius="@dimen/dp_5"
+            android:scaleType="centerCrop"/>
         <TextView
             android:id="@+id/item_myBillList_tv_goodsName"
             android:layout_width="match_parent"

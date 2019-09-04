@@ -4,8 +4,10 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -28,16 +30,27 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.google.gson.Gson;
 import com.zthx.npj.R;
 import com.zthx.npj.base.BaseConstant;
+import com.zthx.npj.entity.JsonBean;
+import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.UpLoadPicResponseBean;
 import com.zthx.npj.net.been.UploadCaigouBean;
+import com.zthx.npj.net.been.UploadImgResponseBean;
 import com.zthx.npj.net.netsubscribe.CertSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GetJsonDataUtil;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+
+import org.json.JSONArray;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -45,11 +58,17 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.api.BasicCallback;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class PurchaserCertification2Activity extends ActivityBase {
 
@@ -62,13 +81,13 @@ public class PurchaserCertification2Activity extends ActivityBase {
     @BindView(R.id.at_purchaser_certification2_et_company_name)
     EditText atPurchaserCertification2EtCompanyName;
     @BindView(R.id.at_purchaser_certification2_et_address)
-    EditText atPurchaserCertification2EtAddress;
+    TextView atPurchaserCertification2EtAddress;
     @BindView(R.id.at_purchaser_certification2_ll_name)
     LinearLayout atPurchaserCertification2LlName;
     @BindView(R.id.at_purchaser_certification2_et_dangkou_name)
     EditText atPurchaserCertification2EtDangkouName;
     @BindView(R.id.at_purchaser_certification2_et_shichang_name)
-    EditText atPurchaserCertification2EtShichangName;
+    TextView atPurchaserCertification2EtShichangName;
     @BindView(R.id.at_purchaser_certification2_et_dangkou_address)
     EditText atPurchaserCertification2EtDangkouAddress;
     @BindView(R.id.at_purchaser_certification2_ll_dangkou)
@@ -97,32 +116,44 @@ public class PurchaserCertification2Activity extends ActivityBase {
     TextView acTitle;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
+    @BindView(R.id.ac_purchaser_certification_tv_hint)
+    TextView acPurchaserCertificationTvHint;
 
     private int type;
     private int picType;
-    private int ALBUM_RESULT_CODE = 10;
-    private File avatarFile;
-    private Uri avatarUri;
-    private int CAMERA_RESULT_CODE = 11;
-    private int CROP_RESULT_CODE = 12;
-    private Uri uritempFile;
-
-    private String url_bussiness_license;
-    private String url_dangkou_img;
-    private String url_id_card;
+    private String path;
+    private String img;
+    private Uri imageUri;
+    private static final int TAKE_PHOTO = 1;
+    private static final int CHOOSE_PHOTO = 2;
+    private String cert_id="";
+    private ArrayList<JsonBean> options1Items = new ArrayList<>(); //省
+    private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();//市
+    private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();//区
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchaser_certification2);
         ButterKnife.bind(this);
+        initJsonData();
+
+        if(getIntent().getStringExtra("key0")!=null){
+            cert_id=getIntent().getStringExtra("key0");
+        }
 
         back(titleBack);
-        changeTitle(acTitle,"采购商认证");
+        changeTitle(acTitle, "采购商认证");
+        acPurchaserCertificationTvHint.setText("1.营业执照需盖红章和企业名称清晰可见\n" +
+                "2.使用附近件需加盖公司红章\n" +
+                "3.建议图片上传完毕后检查能否看清字体通过更有把握");
 
     }
 
-    @OnClick({R.id.at_purchaser_certification2_et_id, R.id.at_purchaser_certification2_btn_confirm, R.id.at_purchaser_certification2_rl_pic, R.id.at_purchaser_certification2_tv_dangkou_pic, R.id.at_purchaser_certification2_tv_dangkou_id_card})
+    @OnClick({R.id.at_purchaser_certification2_et_id, R.id.at_purchaser_certification2_btn_confirm,
+            R.id.at_purchaser_certification2_rl_pic, R.id.at_purchaser_certification2_tv_dangkou_pic,
+            R.id.at_purchaser_certification2_tv_dangkou_id_card, R.id.at_purchaser_certification2_et_address,
+            R.id.at_purchaser_certification2_et_shichang_name})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_purchaser_certification2_rl_pic:
@@ -143,10 +174,29 @@ public class PurchaserCertification2Activity extends ActivityBase {
                                 "2.图片上传完毕，请确保内容清晰，无阅读障碍，以保顺利通过。\n");
                 break;
             case R.id.at_purchaser_certification2_btn_confirm:
-                uploadData();
+                HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        UploadImgResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadImgResponseBean.class);
+                        UploadImgResponseBean.DataBean data = bean.getData();
+                        img=data.getSrc();
+                        uploadData();
+                    }
+                });
                 break;
             case R.id.at_purchaser_certification2_et_id:
                 showBottomDialog();
+                break;
+            case R.id.at_purchaser_certification2_et_address:
+                showPickerView(atPurchaserCertification2EtAddress);
+                break;
+            case R.id.at_purchaser_certification2_et_shichang_name:
+                showPickerView(atPurchaserCertification2EtShichangName);
                 break;
         }
     }
@@ -154,36 +204,50 @@ public class PurchaserCertification2Activity extends ActivityBase {
     private void uploadData() {
         UploadCaigouBean bean = new UploadCaigouBean();
         bean.setUser_id(SharePerferenceUtils.getUserId(this));
-        bean.setToken(BaseConstant.TOKEN);
+        bean.setToken(SharePerferenceUtils.getToken(this));
         bean.setName(atPurchaserCertification2EtName.getText().toString().trim());
+        bean.setPurchase_identity(atPurchaserCertification2EtId.getText().toString());
         if (type == 1) {
             bean.setStall_name(atPurchaserCertification2EtDangkouName.getText().toString().trim());
             bean.setLocation(atPurchaserCertification2EtShichangName.getText().toString().trim());
             bean.setAddress(atPurchaserCertification2EtDangkouAddress.getText().toString().trim());
-
         } else {
             bean.setCompany_name(atPurchaserCertification2EtCompanyName.getText().toString().trim());
             bean.setLocation(atPurchaserCertification2EtAddress.getText().toString().trim());
         }
         if (picType == 0) {
-            bean.setBusiness_license(url_bussiness_license);
+            bean.setBusiness_license(img);
         } else if (picType == 1) {
-            bean.setStall_image(url_dangkou_img);
+            bean.setStall_image(img);
         } else {
-            bean.setBusiness_card(url_id_card);
+            bean.setBusiness_card(img);
         }
+        if(!cert_id.equals("")){
+            bean.setCert_id(cert_id);
+            CertSubscribe.upLoadCaigouCert3(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    startActivity(new Intent(PurchaserCertification2Activity.this, ConfirmAttestationSuccessActivity.class));
+                }
 
-        CertSubscribe.upLoadCaigouCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                startActivity(new Intent(PurchaserCertification2Activity.this, ConfirmAttestationSuccessActivity.class));
-            }
+                @Override
+                public void onFault(String errorMsg) {
+                    showToast(errorMsg);
+                }
+            }));
+        }else{
+            CertSubscribe.upLoadCaigouCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    startActivity(new Intent(PurchaserCertification2Activity.this, ConfirmAttestationSuccessActivity.class));
+                }
 
-            @Override
-            public void onFault(String errorMsg) {
-                showToast(errorMsg);
-            }
-        }));
+                @Override
+                public void onFault(String errorMsg) {
+                    showToast(errorMsg);
+                }
+            }));
+        }
     }
 
     private void showBottomDialog() {
@@ -291,16 +355,34 @@ public class PurchaserCertification2Activity extends ActivityBase {
         dialog.findViewById(R.id.dl_photo_take_pic).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                openSysAlbum();
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, CHOOSE_PHOTO);
                 dialog.dismiss();
             }
         });
         dialog.findViewById(R.id.dl_photo_take_photo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                File outputImage = new File(getExternalCacheDir(), "output_image.jpg");
+                try {
+                    if (outputImage.exists()) {
+                        outputImage.delete();
+                    }
+                    outputImage.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (Build.VERSION.SDK_INT >= 24) {
+                    imageUri = FileProvider.getUriForFile(PurchaserCertification2Activity.this,
+                            "com.zthx.npj.file_provider",
+                            outputImage);
+                } else {
+                    imageUri = Uri.fromFile(outputImage);
+                }
 
-                onCameraSelected();
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, TAKE_PHOTO);
                 dialog.dismiss();
             }
         });
@@ -312,197 +394,122 @@ public class PurchaserCertification2Activity extends ActivityBase {
         });
     }
 
-    /**
-     * ---------------------相机相册调用----------------------
-     */
 
-    /**
-     * 打开系统相册
-     */
-    private void openSysAlbum() {
-//        Intent albumIntent = new Intent(Intent.ACTION_PICK);
-//        albumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-//        startActivityForResult(albumIntent, ALBUM_RESULT_CODE);
-        Intent intent = new Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setDataAndType(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                "image/*");
-        startActivityForResult(intent, ALBUM_RESULT_CODE);// //适用于4.4及以上android版本
-
-    }
-
-    public void onCameraSelected() {
-        if (PermissionChecker.checkSelfPermission(PurchaserCertification2Activity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {//如果已经授予相机相关权限
-            openCamera();
-        } else {//如果相机权限并未被授予, 主动向用户请求该权限
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//Android 6.0+时, 动态申请权限
-                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_CONTACTS}, 1);
-            } else {
-//                IntentUtil.openAppPermissionPage(this);
-            }
-        }
-    }
-
-    private void openCamera() {
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        try {
-            avatarFile = createOriImageFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (avatarFile != null) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                avatarUri = Uri.fromFile(avatarFile);
-            } else {
-                avatarUri = FileProvider.getUriForFile(this, getPackageName() + ".file_provider", avatarFile);
-            }
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, avatarUri);
-            startActivityForResult(cameraIntent, CAMERA_RESULT_CODE);
-        }
-//        Intent openCameraIntent = new Intent(
-//                MediaStore.ACTION_IMAGE_CAPTURE);
-        avatarUri = Uri.fromFile(new File(Environment
-                .getExternalStorageDirectory(), "image.jpg"));
-        // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, avatarUri);
-        startActivityForResult(cameraIntent, CAMERA_RESULT_CODE);
-    }
-
-    private File createOriImageFile() throws IOException {
-        String imgNameOri = "HomePic_" + new SimpleDateFormat(
-                "yyyyMMdd_HHmmss").format(new Date());
-        File pictureDirOri = new File(getExternalFilesDir(
-                Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/OriPicture");
-        if (!pictureDirOri.exists()) {
-            pictureDirOri.mkdirs();
-        }
-        File image = File.createTempFile(
-                imgNameOri,         /* prefix */
-                ".jpg",             /* suffix */
-                pictureDirOri       /* directory */
-        );
-        avatarUri = Uri.parse(image.getAbsolutePath());
-        return image;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_RESULT_CODE) {
-//            cropPic(getImageContentUri(avatarFile));
-            startPhotoZoom(avatarUri); // 开始对图片进行裁剪处理
-        } else if (requestCode == CROP_RESULT_CODE) {
-            // 裁剪时,这样设置 cropIntent.putExtra("return-data", true); 处理方案如下
-            if (data != null) {
-                Bundle bundle = data.getExtras();
-                if (bundle != null) {
-//                    Bitmap bitmap = bundle.getParcelable("data");
+        switch (requestCode) {
+            case TAKE_PHOTO:
+                if (resultCode == RESULT_OK) {
                     try {
-                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uritempFile));
-                        if (type == 1) {
-                            atPurchaserCertification2RlPic.setBackground(new BitmapDrawable(bitmap));
-
-                        } else {
-                            atPurchaserCertification2RlFeiDangkouPic.setBackground(new BitmapDrawable(bitmap));
-                        }
-                        getPicUrl(bitmap);
-                    } catch (FileNotFoundException e) {
+                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                        atPurchaserCertification2RlPic.setBackground(new BitmapDrawable(bitmap));
+                        path = getExternalCacheDir() + "/output_image.jpg";
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 }
-            }
-
-            // 裁剪时,这样设置 cropIntent.putExtra("return-data", false); 处理方案如下
-//                try {
-//                    ivHead.setImageBitmap(BitmapFactory.decodeStream(
-// getActivity().getContentResolver().openInputStream(imageUri)));
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                }
-        } else if (requestCode == ALBUM_RESULT_CODE) {
-            if (data != null && data.getData() != null) {
-                startPhotoZoom(data.getData()); // 开始对图片进行裁剪处理
-            }
+                break;
+            case CHOOSE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+                        cursor.moveToFirst();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        path = cursor.getString(columnIndex);  //获取照片路径
+                        cursor.close();
+                        Bitmap bitmap = BitmapFactory.decodeFile(path);
+                        atPurchaserCertification2RlPic.setBackground(new BitmapDrawable(bitmap));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
         }
     }
 
-    /**
-     * 裁剪图片方法实现
-     *
-     * @param uri
-     */
-    protected void startPhotoZoom(Uri uri) {
-        if (uri == null) {
-            Log.i("tag", "The uri is not exist.");
-        }
-        avatarUri = uri;
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        // 设置裁剪
-        intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 150);
-        intent.putExtra("outputY", 150);
-//        intent.putExtra("return-data", true);
-//        startActivityForResult(intent, CROP_SMALL_PICTURE);
+    private void initJsonData() {//解析数据 （省市区三级联动）
         /**
-         * 此方法返回的图片只能是小图片（sumsang测试为高宽160px的图片）
-         * 故将图片保存在Uri中，调用时将Uri转换为Bitmap，此方法还可解决miui系统不能return data的问题
+         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
+         * 关键逻辑在于循环体
+         *
+         * */
+        String JsonData = new GetJsonDataUtil().getJson(this, "province.json");//获取assets目录下的json文件数据
+
+        ArrayList<JsonBean> jsonBean = parseData(JsonData);//用Gson 转成实体
+
+        /**
+         * 添加省份数据
+         *
+         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
+         * PickerView会通过getPickerViewText方法获取字符串显示出来。
          */
-        //intent.putExtra("return-data", true);
+        options1Items = jsonBean;
 
-        //uritempFile为Uri类变量，实例化uritempFile
-        uritempFile = Uri.parse("file://" + "/" + Environment.getExternalStorageDirectory().getPath() + "/" + "small.jpg");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uritempFile);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        startActivityForResult(intent, CROP_RESULT_CODE);
-    }
+        for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
+            ArrayList<String> CityList = new ArrayList<>();//该省的城市列表（第二级）
+            ArrayList<ArrayList<String>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三级）
 
-    private void getPicUrl(Bitmap bitmap) {
-        File file = bitmapToFile(bitmap);
+            for (int c = 0; c < jsonBean.get(i).getCityList().size(); c++) {//遍历该省份的所有城市
+                String CityName = jsonBean.get(i).getCityList().get(c).getName();
+                CityList.add(CityName);//添加城市
+                ArrayList<String> City_AreaList = new ArrayList<>();//该城市的所有地区列表
 
-        SetSubscribe.upLoadFile(file, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-
-                UpLoadPicResponseBean bean = GsonUtils.fromJson(result, UpLoadPicResponseBean.class);
-                UpLoadPicResponseBean.DataBean data = bean.getData();
-                if (picType == 0) {
-                    url_bussiness_license = data.getSrc();
-                } else if (picType == 1) {
-                    url_dangkou_img = data.getSrc();
+                //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
+                if (jsonBean.get(i).getCityList().get(c).getArea() == null
+                        || jsonBean.get(i).getCityList().get(c).getArea().size() == 0) {
+                    City_AreaList.add("");
                 } else {
-                    url_id_card = data.getSrc();
+                    City_AreaList.addAll(jsonBean.get(i).getCityList().get(c).getArea());
                 }
+                Province_AreaList.add(City_AreaList);//添加该省所有地区数据
             }
 
-            @Override
-            public void onFault(String errorMsg) {
-                showToast(errorMsg);
-            }
-        }, this));
+            /**
+             * 添加城市数据
+             */
+            options2Items.add(CityList);
+
+            /**
+             * 添加地区数据
+             */
+            options3Items.add(Province_AreaList);
+        }
     }
 
-    private File bitmapToFile(Bitmap bitmap) {
-        File file = new File(Environment.getDataDirectory() + "/1234");
-        try {
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-            bos.flush();
-            bos.close();
-            return file;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    private void showPickerView(final TextView textView) {
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                textView.setText(options1Items.get(options1).getPickerViewText() + "  "
+                        + options2Items.get(options1).get(options2) + "  "
+                        + options3Items.get(options1).get(options2).get(options3));
+            }
+        })
+                .setTitleText("城市选择")
+                .setDividerColor(Color.BLACK)
+                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
+                .setContentTextSize(20)
+                .build();
+        /*pvOptions.setPicker(options1Items);//一级选择器
+        pvOptions.setPicker(options1Items, options2Items);//二级选择器*/
+        pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
+        pvOptions.show();
+    }
 
+    public ArrayList<JsonBean> parseData(String result) {//Gson 解析
+        ArrayList<JsonBean> detail = new ArrayList<>();
+        try {
+            JSONArray data = new JSONArray(result);
+            Gson gson = new Gson();
+            for (int i = 0; i < data.length(); i++) {
+                JsonBean entity = gson.fromJson(data.optJSONObject(i).toString(), JsonBean.class);
+                detail.add(entity);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return detail;
     }
 }

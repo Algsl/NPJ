@@ -2,23 +2,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:orientation="vertical">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/fg_store_goods_list_rv"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <LinearLayout
+        android:layout_height="match_parent">
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/fg_storeGoodsList_tv_hint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_13"
-            android:textColor="@color/text3"
-            android:layout_marginTop="@dimen/dp_150"
-            android:text="暂无相关商品！"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fg_store_goods_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/fg_storeGoodsList_tv_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_13"
+                android:textColor="@color/text3"
+                android:layout_marginTop="@dimen/dp_150"
+                android:text="暂无相关商品！"/>
+        </LinearLayout>
     </LinearLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

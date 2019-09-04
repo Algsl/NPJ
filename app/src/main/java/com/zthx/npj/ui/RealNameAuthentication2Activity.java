@@ -94,6 +94,7 @@ public class RealNameAuthentication2Activity extends ActivityBase {
     private String UrlZheng;
     private String UrlFan;
     private String UrlQuan;
+    private String cert_id="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,10 @@ public class RealNameAuthentication2Activity extends ActivityBase {
         ButterKnife.bind(this);
         back(titleBack);
         changeTitle(acTitle,"实人认证");
+
+        if(getIntent().getStringExtra("key0")!=null){
+            cert_id=getIntent().getStringExtra("key0");
+        }
     }
 
     @OnClick({R.id.at_real_name_authentication2_ll_id_zheng, R.id.at_real_name_authentication2_ll_id_fan, R.id.at_real_name_authentication2_ll_id_quan,R.id.at_real_name_authentication2_btn_confirm})
@@ -132,18 +137,34 @@ public class RealNameAuthentication2Activity extends ActivityBase {
         bean.setCard_back(UrlFan);
         bean.setCard_hand(UrlQuan);
 
-        CertSubscribe.upLoadMyCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                startActivity(new Intent(RealNameAuthentication2Activity.this, ConfirmAttestationSuccessActivity.class));
-            }
+        if(!cert_id.equals("")){
+            bean.setCert_id(cert_id);
+            CertSubscribe.upLoadMyCert3(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    startActivity(new Intent(RealNameAuthentication2Activity.this, ConfirmAttestationSuccessActivity.class));
+                }
 
-            @Override
-            public void onFault(String errorMsg) {
-                showToast(errorMsg);
-                Log.e("测试", "onFault: "+errorMsg);
-            }
-        }));
+                @Override
+                public void onFault(String errorMsg) {
+                    showToast(errorMsg);
+                    Log.e("测试", "onFault: "+errorMsg);
+                }
+            }));
+        }else{
+            CertSubscribe.upLoadMyCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    startActivity(new Intent(RealNameAuthentication2Activity.this, ConfirmAttestationSuccessActivity.class));
+                }
+
+                @Override
+                public void onFault(String errorMsg) {
+                    showToast(errorMsg);
+                    Log.e("测试", "onFault: "+errorMsg);
+                }
+            }));
+        }
     }
 
     private void showBottomDialog(final View v) {
@@ -304,28 +325,5 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                     }
                 }
         }
-    }
-
-
-    private void getPicUrl(final LinearLayout view, Bitmap bitmap) {
-        /*SetSubscribe.upLoadFile(file, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                UpLoadPicResponseBean bean = GsonUtils.fromJson(result, UpLoadPicResponseBean.class);
-                UpLoadPicResponseBean.DataBean data = bean.getData();
-                if (view == atRealNameAuthentication2LlIdZheng) {
-                    UrlZheng = data.getSrc();
-                } else if (view == atRealNameAuthentication2LlIdFan) {
-                    UrlFan = data.getSrc();
-                } else {
-                    UrlQuan = data.getSrc();
-                }
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-                Log.e("测试", "onSuccess: " + errorMsg);
-            }
-        }, this));*/
     }
 }

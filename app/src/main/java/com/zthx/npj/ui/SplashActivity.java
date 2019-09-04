@@ -61,6 +61,7 @@ public class SplashActivity extends ActivityBase{
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 }else{
                     startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                    //startActivity(new Intent(SplashActivity.this,TestActivity.class));
                     //startActivity(new Intent(SplashActivity.this, ShoppingCartActivity.class));
                 }
                 //startActivity(new Intent(SplashActivity.this,MainActivity.class));

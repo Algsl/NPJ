@@ -11,7 +11,6 @@ import com.zthx.npj.net.been.UploadCaigouBean;
 import com.zthx.npj.net.been.UploadChengXinCertBean;
 import com.zthx.npj.net.been.UploadCompanyBean;
 import com.zthx.npj.net.been.ZiZhi2Bean;
-import com.zthx.npj.net.been.ZiZhi3Bean;
 import com.zthx.npj.net.been.ZiZhiBean;
 import com.zthx.npj.net.netutils.RetrofitFactory;
 
@@ -33,7 +32,7 @@ public class CertSubscribe {
      */
     public static void getMyCert(String id,String token, DisposableObserver<ResponseBody> subscriber) {
         CertBean bean=new CertBean();
-        bean.setId(id);
+        bean.setUser_id(id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getMyCertForBody(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
@@ -50,12 +49,22 @@ public class CertSubscribe {
     }
 
     /**
+     * 实名认证审核未通过
+     * @param bean
+     * @param subscriber
+     */
+    public static void upLoadMyCert3(UpLoadMyCertBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().upLoadMyCertForBody3(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
      * 是否以进行实名认证
      * @param subscriber
      */
     public static void isPersonCertDone(String id,String token, DisposableObserver<ResponseBody> subscriber) {
         CertBean bean=new CertBean();
-        bean.setId(id);
+        bean.setUser_id(id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().isPersonCertDoneForBody(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
@@ -72,12 +81,32 @@ public class CertSubscribe {
     }
 
     /**
+     * 企业认证重新上传
+     * @param bean
+     * @param subscriber
+     */
+    public static void upLoadCompanyCert4(UploadCompanyBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().uploadCompanyForBody4(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
      * 采购商上传
      * @param bean
      * @param subscriber
      */
     public static void upLoadCaigouCert(UploadCaigouBean bean, DisposableObserver<ResponseBody> subscriber) {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().uploadCaigouForBody(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 采购商重新上传
+     * @param bean
+     * @param subscriber
+     */
+    public static void upLoadCaigouCert3(UploadCaigouBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().uploadCaigouForBody3(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 
@@ -89,7 +118,7 @@ public class CertSubscribe {
      */
     public static void isChengXinAlreadyCert(String id,String token, DisposableObserver<ResponseBody> subscriber) {
         CertBean bean=new CertBean();
-        bean.setId(id);
+        bean.setUser_id(id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().isChengxinCerAlreadyForBody(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
@@ -103,7 +132,7 @@ public class CertSubscribe {
      */
     public static void isChengXinAlready2Cert(String id,String token, DisposableObserver<ResponseBody> subscriber) {
         CertBean bean=new CertBean();
-        bean.setId(id);
+        bean.setUser_id(id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().isChengxinCerAlready2ForBody(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
@@ -134,6 +163,20 @@ public class CertSubscribe {
     }
 
     /**
+     * 资质认证判断
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void zizhi4(String user_id,String token, DisposableObserver<ResponseBody> subscriber) {
+        ZiZhiBean bean=new ZiZhiBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().zizhi4(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
      * 资质认证确认提交
      * @param bean
      * @param subscriber
@@ -148,10 +191,13 @@ public class CertSubscribe {
      * @param bean
      * @param subscriber
      */
-    public static void zizhi3(ZiZhi3Bean bean, DisposableObserver<ResponseBody> subscriber) {
+    public static void zizhi3(ZiZhi2Bean bean, DisposableObserver<ResponseBody> subscriber) {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().zizhi3(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
+
+
+
 
     /**
      * 实人认证

@@ -37,6 +37,9 @@ public class EnterpriseCertificationActivity extends ActivityBase {
     @BindView(R.id.at_trust_bottom)
     LinearLayout atTrustBottom;
 
+    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +65,7 @@ public class EnterpriseCertificationActivity extends ActivityBase {
 
     private void isPersonCert() {
 
-        CertSubscribe.isPersonCertDone(SharePerferenceUtils.getUserId(this), BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        CertSubscribe.isPersonCertDone(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 IsPersonCertResponseBean isPersonCertResponseBean = GsonUtils.fromJson(result, IsPersonCertResponseBean.class);

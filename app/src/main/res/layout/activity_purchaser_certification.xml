@@ -7,7 +7,7 @@
     tools:context="com.zthx.npj.ui.PurchaserCertificationActivity">
 
     <include
-        layout="@layout/title"></include>
+        layout="@layout/title"/>
 
     <LinearLayout
         android:layout_width="match_parent"

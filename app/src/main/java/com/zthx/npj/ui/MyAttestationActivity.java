@@ -7,10 +7,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
-import com.zthx.npj.net.been.CompanyBean;
 import com.zthx.npj.net.been.CompanyResponseBean;
 import com.zthx.npj.net.been.IntegrityResponseBean;
 import com.zthx.npj.net.been.MyCertResponseBean;
@@ -45,9 +46,11 @@ public class MyAttestationActivity extends ActivityBase {
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.at_my_attestation_ll_zizhi)
     LinearLayout atMyAttestationLlZizhi;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
-    private String user_id=SharePerferenceUtils.getUserId(this);
-    private String token=SharePerferenceUtils.getToken(this);
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,28 +60,43 @@ public class MyAttestationActivity extends ActivityBase {
 
         back(titleBack);
         changeTitle(acTitle, "我的认证");
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getCertData();
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getCertData();
     }
 
     private void getCertData() {
-        CertSubscribe.getMyCert(user_id,token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        CertSubscribe.getMyCert(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 MyCertResponseBean myCertResponseBean = GsonUtils.fromJson(result, MyCertResponseBean.class);
-                if (myCertResponseBean.getName_cert() == 1) {
+                MyCertResponseBean.DataBean data = myCertResponseBean.getData();
+                if (data.getName_cert() == 1) {
                     atMyAttestationLlPeople.setBackgroundResource(R.drawable.shirenrenzheng_c_bg);
                 }
-                if (myCertResponseBean.getCompany_cert() == 1) {
+                if (data.getCompany_cert() == 1) {
                     atMyAttestationLlCompany.setBackgroundResource(R.drawable.qiyerenzheng_c_bg);
                 }
-                if (myCertResponseBean.getIntegrity_cert() == 0) {
+                if (data.getIntegrity_cert() == 1) {
                     atMyAttestationLlTrust.setBackgroundResource(R.drawable.chengxinrenzheng_c_bg);
                 }
-                if (myCertResponseBean.getStock_cert() == 2) {
+                if (data.getStock_cert() == 1) {
                     atMyAttestationLlBuy.setBackgroundResource(R.drawable.caigourenzheng_c_bg);
                 }
-                if(myCertResponseBean.getZizhi_cert()==0){
-                    atMyAttestationLlBuy.setBackgroundResource(R.drawable.caigourenzheng_c_bg);
+                if (data.getZizhi_cert() == 1) {
+                    atMyAttestationLlZizhi.setBackgroundResource(R.drawable.caigourenzheng_c_bg);
                 }
             }
 
@@ -89,26 +107,26 @@ public class MyAttestationActivity extends ActivityBase {
         }));
     }
 
-    @OnClick({R.id.at_my_attestation_ll_people, R.id.at_my_attestation_ll_company, R.id.at_my_attestation_ll_buy, R.id.at_my_attestation_ll_trust,R.id.at_my_attestation_ll_zizhi})
+    @OnClick({R.id.at_my_attestation_ll_people, R.id.at_my_attestation_ll_company, R.id.at_my_attestation_ll_buy, R.id.at_my_attestation_ll_trust, R.id.at_my_attestation_ll_zizhi})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_my_attestation_ll_people:
-                CertSubscribe.realName(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                CertSubscribe.realName(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        RealNameResponseBean bean=GsonUtils.fromJson(result,RealNameResponseBean.class);
-                        switch (bean.getData().getStatus()+""){
+                        RealNameResponseBean bean = GsonUtils.fromJson(result, RealNameResponseBean.class);
+                        switch (bean.getData().getStatus() + "") {
                             case "1":
                                 openActivity(RealNameAuthenticationActivity.class);
                                 break;
                             case "2":
-                                openActivity(AttestationSuccessActivity.class,"1","0");
+                                openActivity(AttestationSuccessActivity.class, "1", "0");
                                 break;
                             case "3":
-                                openActivity(AttestationSuccessActivity.class,"1","1");
+                                openActivity(AttestationSuccessActivity.class, "1", "1");
                                 break;
                             case "4":
-                                openActivity(AttestationSuccessActivity.class,"1","2",bean.getData().getCert_id());
+                                openActivity(AttestationSuccessActivity.class, "1", "2", bean.getData().getCert_id());
                                 break;
                         }
                     }
@@ -120,22 +138,22 @@ public class MyAttestationActivity extends ActivityBase {
                 }));
                 break;
             case R.id.at_my_attestation_ll_company:
-                CertSubscribe.company(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                CertSubscribe.company(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        CompanyResponseBean bean=GsonUtils.fromJson(result,CompanyResponseBean.class);
-                        switch (bean.getData().getStatus()+""){
+                        CompanyResponseBean bean = GsonUtils.fromJson(result, CompanyResponseBean.class);
+                        switch (bean.getData().getStatus() + "") {
                             case "1":
                                 openActivity(EnterpriseCertificationActivity.class);
                                 break;
                             case "2":
-                                openActivity(AttestationSuccessActivity.class,"2","0");
+                                openActivity(AttestationSuccessActivity.class, "2", "2", bean.getData().getCert_id());
                                 break;
                             case "3":
-                                openActivity(AttestationSuccessActivity.class,"2","1");
+                                openActivity(AttestationSuccessActivity.class, "2", "1");
                                 break;
                             case "4":
-                                openActivity(AttestationSuccessActivity.class,"2","2",bean.getData().getCert_id()+"");
+                                openActivity(AttestationSuccessActivity.class, "2", "0");
                                 break;
                         }
                     }
@@ -147,24 +165,24 @@ public class MyAttestationActivity extends ActivityBase {
                 }));
                 break;
             case R.id.at_my_attestation_ll_buy:
-                CertSubscribe.stock(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                CertSubscribe.stock(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        StockResponseBean bean=GsonUtils.fromJson(result,StockResponseBean.class);
-                        /*switch (bean.getData().getStatus()+""){
+                        StockResponseBean bean = GsonUtils.fromJson(result, StockResponseBean.class);
+                        switch (bean.getData().getStatus() + "") {
                             case "1":
                                 openActivity(EnterpriseCertificationActivity.class);
                                 break;
                             case "2":
-                                openActivity(AttestationWaitActivity.class,"2");
+                                openActivity(AttestationSuccessActivity.class, "3", "2", bean.getData().getCert_id());
                                 break;
                             case "3":
-                                openActivity(AttestationSuccessActivity.class,"2");
+                                openActivity(AttestationSuccessActivity.class, "3", "1");
                                 break;
                             case "4":
-                                openActivity(AttestationFailActivity.class,"2");
+                                openActivity(AttestationSuccessActivity.class, "3", "0");
                                 break;
-                        }*/
+                        }
                     }
 
                     @Override
@@ -175,22 +193,22 @@ public class MyAttestationActivity extends ActivityBase {
                 startActivity(new Intent(this, PurchaserCertificationActivity.class));
                 break;
             case R.id.at_my_attestation_ll_trust:
-                CertSubscribe.integrity(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                CertSubscribe.integrity(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        IntegrityResponseBean bean=GsonUtils.fromJson(result,IntegrityResponseBean.class);
-                        switch (bean.getData().getStatus()+""){
+                        IntegrityResponseBean bean = GsonUtils.fromJson(result, IntegrityResponseBean.class);
+                        switch (bean.getData().getStatus() + "") {
                             case "1":
-                                openActivity(AttestationSuccessActivity.class,"4","0");
+                                openActivity(AttestationSuccessActivity.class, "4", "0");
                                 break;
                             case "2":
                                 openActivity(TrustedStoreActivity.class);
                                 break;
                             case "3":
-                                openActivity(AttestationSuccessActivity.class,"4","1");
+                                openActivity(AttestationSuccessActivity.class, "4", "1");
                                 break;
                             case "4":
-                                openActivity(AttestationSuccessActivity.class,"4","2");
+                                openActivity(AttestationSuccessActivity.class, "4", "2");
                                 break;
                         }
                     }
@@ -202,22 +220,24 @@ public class MyAttestationActivity extends ActivityBase {
                 }));
                 break;
             case R.id.at_my_attestation_ll_zizhi:
-                CertSubscribe.zizhi(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                CertSubscribe.zizhi(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        ZiZhiResponseBean bean=GsonUtils.fromJson(result,ZiZhiResponseBean.class);
-                        switch (bean.getData().getStatus()+""){
+                        Log.e("测试", "onSuccess: " + result);
+                        ZiZhiResponseBean bean = GsonUtils.fromJson(result, ZiZhiResponseBean.class);
+                        Log.e("测试", "onSuccess: " + bean.getData().getStatus());
+                        switch (bean.getData().getStatus() + "") {
                             case "1":
                                 openActivity(ZiZhiActivity.class);
                                 break;
                             case "2":
-                                openActivity(AttestationSuccessActivity.class,"5","0");
+                                openActivity(AttestationSuccessActivity.class, "5", "2", bean.getData().getCert_id() + "");
                                 break;
                             case "3":
-                                openActivity(AttestationSuccessActivity.class,"5","1");
+                                openActivity(AttestationSuccessActivity.class, "5", "1");
                                 break;
                             case "4":
-                                openActivity(AttestationSuccessActivity.class,"5","2",bean.getData().getCert_id()+"");
+                                openActivity(AttestationSuccessActivity.class, "5", "0");
                                 break;
                         }
                     }

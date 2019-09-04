@@ -193,6 +193,12 @@ public class MyStoreActivity extends ActivityBase {
                 window.dismiss();
             }
         });
+        contentView.findViewById(R.id.pw_iv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+            }
+        });
     }
 
     @Override
@@ -289,6 +295,12 @@ public class MyStoreActivity extends ActivityBase {
                 backgroundAlpha(1f);
                 window.dismiss();
                 finish();
+            }
+        });
+        contentView.findViewById(R.id.pw_iv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
             }
         });
     }

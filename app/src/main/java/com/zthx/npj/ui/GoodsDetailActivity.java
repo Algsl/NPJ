@@ -587,10 +587,10 @@ public class GoodsDetailActivity extends ActivityBase {
         String type = "1";
         if ("miaosha".equals(getIntent().getAction())) {
             type = "1";
-            sizePopWin = new GoodSizePopupwindow(this, onClickListener, type, mPreData.getAttribute_value());
+            sizePopWin = new GoodSizePopupwindow(this, onClickListener, type, mPreData);
         } else if ("presell".equals(getIntent().getAction())) {
             type = "2";
-            sizePopWin = new GoodSizePopupwindow(this, onClickListener, type, mPreData.getAttribute_value());
+            sizePopWin = new GoodSizePopupwindow(this, onClickListener, type, mPreData);
         } else {
             type = "3";
             sizePopWin = new GoodSizePopupwindow(this, onClickListener, mGoodsData);
@@ -617,6 +617,7 @@ public class GoodsDetailActivity extends ActivityBase {
                 break;
             case "2":
                 Glide.with(this).load(Uri.parse(mPreData.getGroup_img().get(0))).into(headImg);
+                rlToVip.setVisibility(View.GONE);
                 break;
             case "3":
                 Glide.with(this).load(Uri.parse(mGoodsData.getGoods_img().get(0))).into(headImg);

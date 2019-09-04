@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <include layout="@layout/title"/>
     <View
@@ -17,8 +18,7 @@
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40"
             android:layout_marginTop="@dimen/dp_5"
-            android:layout_marginLeft="@dimen/dp_12"
-            android:src="@drawable/mine" />
+            android:layout_marginLeft="@dimen/dp_12"/>
         <TextView
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_width="wrap_content"
@@ -30,12 +30,13 @@
         <RatingBar
             android:id="@+id/ac_orderComment_rb_goodsStar"
             android:layout_marginLeft="@dimen/dp_25"
-            android:layout_marginTop="@dimen/dp_16"
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numStars="5"
             android:stepSize="1"
             android:rating="4"
+            android:visibility="visible"
             style="@style/roomRatingBar"/>
         <TextView
             android:id="@+id/ac_orderComment_tv_goods"
@@ -55,21 +56,29 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_80"
         android:layout_marginTop="@dimen/dp_14"
-        android:layout_marginLeft="@dimen/dp_12"
-        android:layout_marginRight="@dimen/dp_12"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
         android:textSize="@dimen/sp_12"
         android:textColor="@color/text6"
         android:scrollbars="vertical"
         android:singleLine="false"
         android:hint="宝贝满足您的期待吗？说说他的优点和美中不足的地方吧"
         android:background="@null" />
-    <ImageView
+    <me.zhouzhuo.zzimagebox.ZzImageBox
         android:id="@+id/ac_orderComment_iv_img"
-        android:layout_width="@dimen/dp_70"
-        android:layout_height="@dimen/dp_70"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_12"
-        android:layout_marginTop="@dimen/dp_10"
-        android:src="@drawable/add_pic"/>
+        android:layout_marginRight="@dimen/dp_12"
+        app:zib_left_margin="@dimen/dp_12"
+        app:zib_right_margin="@dimen/dp_12"
+        app:zib_img_padding="@dimen/dp_10"
+        app:zib_img_size_one_line="4"
+        app:zib_max_line="1"
+        app:zib_img_deletable="true"
+        app:zib_img_add="@drawable/iv_add"
+        app:zib_img_default="@drawable/iv_default"
+        app:zib_img_delete="@drawable/iv_delete"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
@@ -82,6 +91,7 @@
         android:layout_height="@dimen/dp_40"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/ac_orderComment_iv_isHint"
             android:layout_width="@dimen/dp_18"
             android:layout_height="@dimen/dp_18"
             android:layout_marginTop="@dimen/dp_11"
@@ -118,7 +128,7 @@
             android:layout_height="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_12"
             android:layout_marginLeft="@dimen/dp_12"
-            android:src="@drawable/mine" />
+            android:src="@drawable/store_goods_detail_store" />
         <TextView
             android:layout_marginLeft="@dimen/dp_15"
             android:layout_width="wrap_content"
@@ -150,7 +160,7 @@
         <RatingBar
             android:id="@+id/ac_orderComment_rb_logisticsStar"
             android:layout_marginLeft="@dimen/dp_25"
-            android:layout_marginTop="@dimen/dp_12"
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numStars="5"
@@ -182,7 +192,7 @@
         <RatingBar
             android:id="@+id/ac_orderComment_rb_serviceStar"
             android:layout_marginLeft="@dimen/dp_25"
-            android:layout_marginTop="@dimen/dp_12"
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numStars="5"

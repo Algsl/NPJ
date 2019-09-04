@@ -331,7 +331,6 @@ public class HomeFragment extends BaseFragment {
         MainSubscribe.childHome(SharePerferenceUtils.getUserId(getContext()), "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: " + result);
                 RecommendResponseBean bean = GsonUtils.fromJson(result, RecommendResponseBean.class);
                 final ArrayList<RecommendResponseBean.DataBean> data = bean.getData();
                 HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);

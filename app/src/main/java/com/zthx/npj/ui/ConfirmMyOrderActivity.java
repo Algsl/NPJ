@@ -253,7 +253,7 @@ public class ConfirmMyOrderActivity extends ActivityBase {
     }
 
     private void yuepay() {
-
+        finish();
     }
 
     private void wxpay() {

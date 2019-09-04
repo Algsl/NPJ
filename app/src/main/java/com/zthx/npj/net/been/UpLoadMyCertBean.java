@@ -12,6 +12,15 @@ public class UpLoadMyCertBean {
     private String identity_number;
     private String card_face;
     private String card_back;
+    private String cert_id;
+
+    public String getCert_id() {
+        return cert_id;
+    }
+
+    public void setCert_id(String cert_id) {
+        this.cert_id = cert_id;
+    }
 
     public String getUser_id() {
         return user_id;

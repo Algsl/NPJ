@@ -95,14 +95,23 @@ public interface HttpApi  {
     @POST("index.php/api/usercert/realname2.html")
     Observable<ResponseBody> upLoadMyCertForBody(@Body UpLoadMyCertBean bean);
 
+    @POST("index.php/api/usercert/realname3.html")
+    Observable<ResponseBody> upLoadMyCertForBody3(@Body UpLoadMyCertBean bean);
+
     @POST("index.php/api/usercert/company2.html")
     Observable<ResponseBody> isPersonCertDoneForBody(@Body CertBean bean);
 
     @POST("index.php/api/usercert/company3.html")
     Observable<ResponseBody> uploadCompanyForBody(@Body UploadCompanyBean bean);
 
+    @POST("index.php/api/usercert/company4.html")
+    Observable<ResponseBody> uploadCompanyForBody4(@Body UploadCompanyBean bean);
+
     @POST("index.php/api/usercert/stock2.html")
     Observable<ResponseBody> uploadCaigouForBody(@Body UploadCaigouBean bean);
+
+    @POST("index.php/api/usercert/stock3.html")
+    Observable<ResponseBody> uploadCaigouForBody3(@Body UploadCaigouBean bean);
 
     @POST("index.php/api/usercert/integrity.html")
     Observable<ResponseBody> isChengxinCerAlreadyForBody(@Body CertBean bean);
@@ -213,6 +222,9 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/refund.html")
     Observable<ResponseBody> refund(@Body RefundBean bean);
+
+    @POST("index.php/api/user/refund2.html")
+    Observable<ResponseBody> refund2(@Body RefundBean bean);
 
     @POST("index.php/api/user/setstore.html")
     Observable<ResponseBody> setStore(@Body SetStoreBean bean);
@@ -358,8 +370,6 @@ public interface HttpApi  {
     @POST("index.php/api/user/mysupplyorder.html")
     Observable<ResponseBody> mySupplyOrder(@Body MySupplyOrderBean bean);
 
-    @POST("index.php/api/user/supplyconfirmorder.html")
-    Observable<ResponseBody> supplyConfirmOrder(@Body SupplyConfirmOrderBean bean);
 
     @POST("index.php/api/user/supplybuy2.html")
     Observable<ResponseBody> supplyBuy2(@Body SupplyBuy2Bean bean);
@@ -369,6 +379,8 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/supplyrefund.html")
     Observable<ResponseBody> mySupplyOrderRefund(@Body MySupplyOrderRefundBean bean);
+
+
 
     @POST("index.php/api/user/supplyrefund2.html")
     Observable<ResponseBody> mySupplyOrderRefund2(@Body MySupplyOrderRefund2Bean bean);
@@ -485,7 +497,10 @@ public interface HttpApi  {
     Observable<ResponseBody> zizhi2(@Body ZiZhi2Bean bean);
 
     @POST("index.php/api/usercert/zizhi3.html")
-    Observable<ResponseBody> zizhi3(@Body ZiZhi3Bean bean);
+    Observable<ResponseBody> zizhi3(@Body ZiZhi2Bean bean);
+
+    @POST("index.php/api/usercert/zizhi4.html")
+    Observable<ResponseBody> zizhi4(@Body ZiZhiBean bean);
 
     @POST("index.php/api/usercert/realname.html")
     Observable<ResponseBody> realName(@Body RealNameBean bean);
@@ -543,5 +558,10 @@ public interface HttpApi  {
 
     @POST("index.php/api/index/searchpurchase.html")
     Observable<ResponseBody> knowledge(@Body KnowledgeBean bean);
+
+    @POST("index.php/api/payment/pay.html")
+    Observable<ResponseBody> supplyPay(@Body SupplyPayBean bean);
+
+
 }
 

@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.net.api.URLConstant;
+import com.zthx.npj.net.been.UpLoadPicResponseBean;
 import com.zthx.npj.net.been.UploadImgResponseBean;
 import com.zthx.npj.net.been.ZiZhi2Bean;
 import com.zthx.npj.net.netsubscribe.CertSubscribe;
@@ -40,25 +41,16 @@ import java.io.IOException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.api.BasicCallback;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
 public class ZiZhiInfoActivity extends ActivityBase {
+
     @BindView(R.id.title_back)
     ImageView titleBack;
     @BindView(R.id.ac_title)
     TextView acTitle;
-    @BindView(R.id.at_enterprise_certification2_et_name)
-    EditText atEnterpriseCertification2EtName;
-    @BindView(R.id.at_enterprise_certification2_et_type)
-    EditText atEnterpriseCertification2EtType;
-    @BindView(R.id.at_enterprise_certification2_ll_company_pic)
-    LinearLayout atEnterpriseCertification2LlCompanyPic;
-    @BindView(R.id.at_enterprise_certification2_btn_confirm)
-    Button atEnterpriseCertification2BtnConfirm;
     @BindView(R.id.at_zizhi_et_name)
     EditText atZizhiEtName;
     @BindView(R.id.at_zizhi_et_type)
@@ -67,13 +59,14 @@ public class ZiZhiInfoActivity extends ActivityBase {
     LinearLayout atZizhiLlZizhipic;
     @BindView(R.id.at_zizhi_btn_confirm)
     Button atZizhiBtnConfirm;
-
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
     private Uri imageUri;
-    private String business_license="";
+    private String business_license = "";
+    private String cert_id = "";
+    private String path="";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,7 +77,9 @@ public class ZiZhiInfoActivity extends ActivityBase {
         back(titleBack);
         changeTitle(acTitle, "资质认证");
 
-
+        if (getIntent().getStringExtra("key0") != null) {
+            cert_id = getIntent().getStringExtra("key0");
+        }
     }
 
     @OnClick({R.id.at_zizhi_ll_zizhipic, R.id.at_zizhi_btn_confirm})
@@ -94,24 +89,58 @@ public class ZiZhiInfoActivity extends ActivityBase {
                 showBottomDialog();
                 break;
             case R.id.at_zizhi_btn_confirm:
-                ZiZhi2Bean bean=new ZiZhi2Bean();
-                bean.setUser_id(user_id);
-                bean.setToken(token);
-                bean.setCompany_name(atZizhiEtName.getText().toString());
-                bean.setCompany_type(atZizhiEtType.getText().toString());
-                bean.setBusiness_license(business_license);
-                CertSubscribe.zizhi2(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                Log.e("测试", "onViewClicked: " );
+                HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
                     @Override
-                    public void onSuccess(String result) {
-                        openActivity(ConfirmAttestationSuccessActivity.class);
+                    public void onFailure(Call call, IOException e) {
+
                     }
 
                     @Override
-                    public void onFault(String errorMsg) {
-                        showToast(errorMsg);
+                    public void onResponse(Call call, Response response) throws IOException {
+                        UpLoadPicResponseBean bean = GsonUtils.fromJson(response.body().string(), UpLoadPicResponseBean.class);
+                        UpLoadPicResponseBean.DataBean data = bean.getData();
+                        business_license = data.getSrc();
+                        Log.e("测试", "onResponse: "+business_license);
+                        uploadData();
                     }
-                }));
+                });
                 break;
+        }
+    }
+
+    private void uploadData() {
+        ZiZhi2Bean bean = new ZiZhi2Bean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setCompany_name(atZizhiEtName.getText().toString());
+        bean.setCompany_type(atZizhiEtType.getText().toString());
+        bean.setBusiness_license(business_license);
+        if (!cert_id.equals("")) {
+            bean.setCert_id(cert_id);
+            CertSubscribe.zizhi3(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    openActivity(ConfirmAttestationSuccessActivity.class);
+                }
+
+                @Override
+                public void onFault(String errorMsg) {
+                    showToast(errorMsg);
+                }
+            }));
+        } else {
+            CertSubscribe.zizhi2(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    openActivity(ConfirmAttestationSuccessActivity.class);
+                }
+
+                @Override
+                public void onFault(String errorMsg) {
+                    showToast(errorMsg);
+                }
+            }));
         }
     }
 
@@ -185,20 +214,8 @@ public class ZiZhiInfoActivity extends ActivityBase {
                     try {
                         Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
                         atZizhiLlZizhipic.setBackground(new BitmapDrawable(bitmap));
-                        String filePath = getExternalCacheDir() + "/output_image.jpg";
-                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, filePath, new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
+                        path = getExternalCacheDir() + "/output_image.jpg";
 
-                            }
-
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                UploadImgResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadImgResponseBean.class);
-                                UploadImgResponseBean.DataBean data = bean.getData();
-                                business_license=data.getSrc();
-                            }
-                        });
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -212,23 +229,10 @@ public class ZiZhiInfoActivity extends ActivityBase {
                         Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
                         cursor.moveToFirst();
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        final String path = cursor.getString(columnIndex);  //获取照片路径
+                        path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
                         Bitmap bitmap = BitmapFactory.decodeFile(path);
                         atZizhiLlZizhipic.setBackground(new BitmapDrawable(bitmap));
-                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
-
-                            }
-
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                UploadImgResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadImgResponseBean.class);
-                                UploadImgResponseBean.DataBean data = bean.getData();
-                                business_license=data.getSrc();
-                            }
-                        });
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

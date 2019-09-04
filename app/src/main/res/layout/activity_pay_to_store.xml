@@ -8,29 +8,6 @@
     android:orientation="vertical"
     android:background="@color/background">
     <include layout="@layout/title"/>
-    <!--<RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:background="@android:color/white">
-
-        <ImageView
-            android:id="@+id/ac_payToStore_iv_back"
-            android:layout_width="@dimen/dp_22"
-            android:layout_height="@dimen/dp_22"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_6"
-            android:src="@drawable/back"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="付款"
-            android:layout_centerInParent="true"
-            android:textSize="@dimen/sp_18"
-            android:textColor="@color/text3"
-            />
-    </RelativeLayout>-->
-    
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_170"

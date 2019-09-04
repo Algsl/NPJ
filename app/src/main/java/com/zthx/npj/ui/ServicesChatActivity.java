@@ -100,14 +100,11 @@ public class ServicesChatActivity extends ActivityBase {
     }
 
     private void getChatMsg() {
+        mConversation = JMessageClient.getSingleConversation(chat_name,"8893ea927c390d073532296c");
         if (mConversation == null) {
-            mConversation = JMessageClient.getSingleConversation(chat_name);
-            List<Message> lists = mConversation.getMessagesFromNewest(0, 18);
-            ChatListAdapter adapter = new ChatListAdapter(this, lists);
-            acServiceChatLv.setAdapter(adapter);
-            acServiceChatLv.setSelection(lists.size() - 1);
-            adapter.notifyDataSetInvalidated();
+            Log.e("测试", "getChatMsg: "+chat_name+""+(mConversation==null) );
         }else{
+            acServiceChatLv.setDivider(null);
             List<Message> lists = mConversation.getMessagesFromNewest(0, 18);
             ChatListAdapter adapter = new ChatListAdapter(this, lists);
             acServiceChatLv.setAdapter(adapter);

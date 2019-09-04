@@ -391,12 +391,12 @@ public class DiscoverSupplyFragment extends Fragment {
             fgDiscoverSupplyLlSupply.setVisibility(View.GONE);
             fgDiscoverSupplyLlNeed.setVisibility(View.GONE);
             fgDiscoverWvBusiness.setVisibility(View.VISIBLE);
-
+            getQiYeList();
         }
     }
 
     public void getQiYeList(){
-        fgDiscoverWvBusiness.loadUrl("http://www.agronet.com.cn/Company/List_oc164.html");
+        fgDiscoverWvBusiness.loadUrl("http://www.ynshangji.com/hb-25/");
         fgDiscoverWvBusiness.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

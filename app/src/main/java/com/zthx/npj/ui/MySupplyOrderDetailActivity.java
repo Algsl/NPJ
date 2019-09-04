@@ -168,8 +168,6 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
         atMyOrderDetailTvOrderSn.setText(data.getOrder_sn());
         atMyOrderDetailTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
         atMyOrderDetailTvPayTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
-
-
     }
 
 

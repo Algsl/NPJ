@@ -50,6 +50,7 @@
         android:roundIcon="@drawable/logo"
         tools:replace="android:theme"
         android:largeHeap="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:supportsRtl="true"><!--configChanges设置切屏不重启生命周期，orientation执行一次-->
 

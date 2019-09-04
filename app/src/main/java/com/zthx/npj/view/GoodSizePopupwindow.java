@@ -36,8 +36,9 @@ public class GoodSizePopupwindow extends PopupWindow {
     private View view;
     private TextView spec;
     private TextView storeNum;
+    private TextView prePrice;
 
-    public GoodSizePopupwindow(Context mContext, View.OnClickListener itemsOnClick, String type,ArrayList<PreSellDetailResponseBean.DataBean.Value> values) {
+    public GoodSizePopupwindow(Context mContext, View.OnClickListener itemsOnClick, String type,PreSellDetailResponseBean.DataBean data) {
         this.view = LayoutInflater.from(mContext).inflate(R.layout.popupwindow_goods_size, null);
 
         addView = view.findViewById(R.id.item_pop_goods_num_add);
@@ -45,6 +46,8 @@ public class GoodSizePopupwindow extends PopupWindow {
         secKillOldPrice = view.findViewById(R.id.pop_goods_size_tv_sec_old_price);
         memberPrice = view.findViewById(R.id.pop_goods_size_tv_price);
         mAddShoppingCar = view.findViewById(R.id.item_pop_goods_add_shopping_car);
+        prePrice=view.findViewById(R.id.pop_goods_size_tv_old_price);
+
 
         mBuyNow = view.findViewById(R.id.item_pop_goods_buy);
         labelsView = (LabelsView) view.findViewById(R.id.labels);
@@ -52,6 +55,9 @@ public class GoodSizePopupwindow extends PopupWindow {
         goodsRlNum=view.findViewById(R.id.pw_goodsSize_rl_buy);
         final TextView choose=view.findViewById(R.id.pop_goods_size_tv_choice);
         storeNum=view.findViewById(R.id.pop_goods_size_tv_total_num);
+
+
+        prePrice.setText("￥"+data.getGoods_price());
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +73,7 @@ public class GoodSizePopupwindow extends PopupWindow {
                 break;
             case "2":
                 secKillOldPrice.setVisibility(View.GONE);
-                memberPrice.setVisibility(View.VISIBLE);
+                memberPrice.setVisibility(View.GONE);
                 mAddShoppingCar.setVisibility(View.GONE);
                 break;
             case "3":
@@ -80,9 +86,11 @@ public class GoodSizePopupwindow extends PopupWindow {
         mAddShoppingCar.setOnClickListener(itemsOnClick);
         mBuyNow.setOnClickListener(itemsOnClick);
 
+
+
         ArrayList<String> label = new ArrayList<>();
-        for(int i=0;i<values.size();i++){
-            label.add("x"+values.get(i).getPre_number()+" ￥"+values.get(i).getPre_price());
+        for(int i=0;i<data.getAttribute_value().size();i++){
+            label.add("x"+data.getAttribute_value().get(i).getPre_number()+" ￥"+data.getAttribute_value().get(i).getPre_price());
         }
         labelsView.setLabels(label); //直接设置一个字符串数组就可以了。
         labelsView.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {

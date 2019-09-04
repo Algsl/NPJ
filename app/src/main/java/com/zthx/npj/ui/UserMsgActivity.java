@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.R;
@@ -151,6 +152,7 @@ public class UserMsgActivity extends ActivityBase {
     private Bitmap bmp;
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
+    private String level=SharePerferenceUtils.getUserLevel(this);
     private String att_user_id = "";
     private String type = "1";
 
@@ -169,6 +171,9 @@ public class UserMsgActivity extends ActivityBase {
 
         if (!att_user_id.equals(user_id)) {
             acUserMsgTvGoCert.setVisibility(View.GONE);
+        }
+        if(!level.equals("0")){
+            acUserMsgTvBeDYR.setVisibility(View.INVISIBLE);
         }
 
         back(titleThemeBack);
@@ -305,13 +310,13 @@ public class UserMsgActivity extends ActivityBase {
         backgroundAlpha(0.5f);
         View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_mine_menu, null);
         final PopupWindow window = new PopupWindow(contentView);
-        window.setHeight((int) getResources().getDimension(R.dimen.dp_135));
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_90));
         window.setWidth((int) getResources().getDimension(R.dimen.dp_100));
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         window.setOutsideTouchable(true);
         window.setTouchable(true);
         window.showAtLocation(getWindow().getDecorView(), Gravity.TOP | Gravity.RIGHT, 0, 0);
-        TextView share = contentView.findViewById(R.id.pw_mineMenu_tv_share);
+        //TextView share = contentView.findViewById(R.id.pw_mineMenu_tv_share);
         TextView attention = contentView.findViewById(R.id.pw_mineMenu_tv_attention);
         TextView report = contentView.findViewById(R.id.pw_mineMenu_tv_report);
         report.setOnClickListener(new View.OnClickListener() {
@@ -321,14 +326,14 @@ public class UserMsgActivity extends ActivityBase {
                 showPublishPopwindow();
             }
         });
-        share.setOnClickListener(new View.OnClickListener() {
+        /*share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 window.dismiss();
                 backgroundAlpha(1f);
                 acUserMsgLlShow.setVisibility(View.VISIBLE);
                 //showSingleBottomDialog();
-                /*//构建文本信息的分享对象（其它的有WXVideoObject,WXImageObject等），内容为hello
+                //构建文本信息的分享对象（其它的有WXVideoObject,WXImageObject等），内容为hello
                 WXTextObject textObject = new WXTextObject();
                 textObject.text = "hello";
 
@@ -347,9 +352,9 @@ public class UserMsgActivity extends ActivityBase {
                 req.message = mediaMessage;
 
                 //通过IWXAPI发送请求
-                api.sendReq(req);*/
+                api.sendReq(req);
             }
-        });
+        });*/
         attention.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -528,6 +533,13 @@ public class UserMsgActivity extends ActivityBase {
             @Override
             public void onDismiss() {
                 backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+
+        contentView.findViewById(R.id.pw_iv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 window.dismiss();
             }
         });

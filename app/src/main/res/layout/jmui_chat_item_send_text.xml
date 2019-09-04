@@ -120,7 +120,6 @@
                 android:visibility="gone"
                 android:textColor="#989898"
                 android:textSize="10sp"/>
-
         </LinearLayout>
         <ImageView
             android:id="@+id/jmui_avatar_iv"

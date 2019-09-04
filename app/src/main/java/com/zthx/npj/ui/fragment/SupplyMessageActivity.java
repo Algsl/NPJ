@@ -124,7 +124,7 @@ public class SupplyMessageActivity extends ActivityBase {
     @BindView(R.id.at_supply_message_et_beizhu)
     EditText atSupplyMessageEtBeizhu;
     @BindView(R.id.at_supply_message_rb_zhiding)
-    RadioButton atSupplyMessageRbZhiding;
+    ImageView atSupplyMessageRbZhiding;
     @BindView(R.id.at_supply_message_ll_zhiding)
     LinearLayout atSupplyMessageLlZhiding;
     @BindView(R.id.at_supply_message_btn_publish)
@@ -160,13 +160,11 @@ public class SupplyMessageActivity extends ActivityBase {
                 changeTitle(acTitle, "采购信息");
                 acSupplyLl.setVisibility(View.GONE);
                 acQiugouLl.setVisibility(View.VISIBLE);
-                atSupplyMessageLlZhiding.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 changeTitle(acTitle, "供应信息");
                 acSupplyLl.setVisibility(View.VISIBLE);
                 acQiugouLl.setVisibility(View.GONE);
-                atSupplyMessageLlZhiding.setVisibility(View.GONE);
                 break;
         }
 
@@ -264,8 +262,10 @@ public class SupplyMessageActivity extends ActivityBase {
         isZhiding=!isZhiding;
         if(isZhiding){
             isTop="1";
+            atSupplyMessageRbZhiding.setImageResource(R.drawable.at_edit_address_selector);
         }else{
             isTop="0";
+            atSupplyMessageRbZhiding.setImageResource(R.drawable.at_edit_address_not_selector);
         }
     }
 
@@ -333,6 +333,7 @@ public class SupplyMessageActivity extends ActivityBase {
                         supplyBean.setGoods_name(atSupplyMessageName.getText().toString());
                         supplyBean.setCity(atSupplyMessageTvAddress.getText().toString());
                         supplyBean.setBuy_num(atSupplyMessageWhole.getText().toString().trim());
+                        //supplyBean.setIs_recommend2(isTop);
                         break;
                 }
                 uploadData();

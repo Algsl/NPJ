@@ -14,6 +14,15 @@ public class UploadCaigouBean {
     private String location;
     private String address;
     private String business_license;
+    private String cert_id;
+
+    public String getCert_id() {
+        return cert_id;
+    }
+
+    public void setCert_id(String cert_id) {
+        this.cert_id = cert_id;
+    }
 
     public String getStall_name() {
         return stall_name;

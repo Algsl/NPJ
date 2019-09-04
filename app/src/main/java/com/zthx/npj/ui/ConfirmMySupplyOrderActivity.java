@@ -23,6 +23,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.aliapi.OrderInfoUtil2_0;
 import com.zthx.npj.aliapi.PayResult;
 import com.zthx.npj.net.been.BuyBean;
+import com.zthx.npj.net.been.ConfirmOrderBean;
 import com.zthx.npj.net.been.ConfirmOrderResponseBean;
 import com.zthx.npj.net.been.MySupplyOrderBuyBean;
 import com.zthx.npj.net.been.MySupplyOrderConfirmResponseBean;
@@ -132,14 +133,15 @@ public class ConfirmMySupplyOrderActivity extends ActivityBase {
     }
 
     private void setMyConfirmOrder(String result) {
-        MySupplyOrderConfirmResponseBean bean = GsonUtils.fromJson(result, MySupplyOrderConfirmResponseBean.class);
-        MySupplyOrderConfirmResponseBean.DataBean data = bean.getData();
+        ConfirmOrderResponseBean bean=GsonUtils.fromJson(result,ConfirmOrderResponseBean.class);
+        ConfirmOrderResponseBean.DataBean data=bean.getData();
         atConfirmMyorderTvAddress.setText(data.getAddress());
         atConfirmMyorderTvStoreName.setText("京东旗舰店");
+        address_id=data.getAddress_id()+"";
         Glide.with(this).load(Uri.parse(data.getGoods_img())).into(atConfirmMyorderIvGoodsImg);
-        atConfirmMyorderTvGoodsName.setText(data.getTitle());
+        atConfirmMyorderTvGoodsName.setText(data.getGoods_name());
         atConfirmMyorderTvGoodsPrice.setText("￥ " + data.getGoods_price());
-        atConfirmOrderTvGoodsNum.setText("x " + data.getOrder_num());
+        atConfirmOrderTvGoodsNum.setText("x " + data.getGoods_num());
         atConfirmMyorderTvShip.setText("￥ " + data.getShipping_fee());
         atConfirmMyorderTvOrderPrice.setText(data.getOrder_price());
         atConfirmMyorderTvOrderPrice1.setText(data.getOrder_price());
@@ -182,7 +184,7 @@ public class ConfirmMySupplyOrderActivity extends ActivityBase {
                 bean.setUser_id(user_id);
                 bean.setToken(token);
                 bean.setOrder_id(getIntent().getStringExtra("order_id"));
-                bean.setAddress_id(data.getAddress_id() + "");
+                bean.setAddress_id(address_id);
                 bean.setPay_code(pay_code);
                 SetSubscribe.buy(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override

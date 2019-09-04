@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.ConfirmOrderActivity"
     android:background="@android:color/white">
     <include layout="@layout/title"
@@ -70,13 +70,15 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_80">
-                <ImageView
+                <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/at_confirm_myorder_iv_goodsImg"
                     android:layout_width="@dimen/dp_80"
                     android:layout_height="@dimen/dp_80"
                     android:layout_marginTop="@dimen/dp_5"
                     android:layout_marginLeft="@dimen/dp_12"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_launcher"
+                    app:riv_corner_radius="@dimen/dp_5"/>
 
                 <TextView
                     android:id="@+id/at_confirm_myorder_tv_goodsName"
@@ -118,8 +120,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1"
                 android:background="@color/background"
+                android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginLeft="@dimen/dp_12"
-                android:layout_marginRight="@dimen/dp_12"></View>
+                android:layout_marginRight="@dimen/dp_12"/>
             <RelativeLayout
                 android:visibility="gone"
                 android:layout_width="match_parent"
@@ -170,7 +173,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@id/at_confirm_order_iv_go"
                     android:layout_marginRight="@dimen/dp_6"
-                    android:text="￥10.00"
+                    android:text="￥0.00"
                     android:textSize="@dimen/sp_14"
                     android:textColor="@color/text6"/>
             </RelativeLayout>

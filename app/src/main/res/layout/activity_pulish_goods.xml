@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <include
-        layout="@layout/title_theme"></include>
+        layout="@layout/title_theme"/>
 
     <ScrollView
         android:layout_width="match_parent"

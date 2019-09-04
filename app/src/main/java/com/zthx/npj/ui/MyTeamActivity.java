@@ -153,7 +153,7 @@ public class MyTeamActivity extends ActivityBase {
                 MyTeamResponseBean bean = GsonUtils.fromJson(result, MyTeamResponseBean.class);
                 MyTeamResponseBean.DataBean data = bean.getData();
                 if ((int) data.getStatus() == 1) {
-                    new CommonDialog(MyTeamActivity.this, R.style.dialog, "请先升级成为VIP代言人", new CommonDialog.OnCloseListener() {
+                   CommonDialog dialog= new CommonDialog(MyTeamActivity.this, R.style.dialog, "请先升级成为VIP代言人", new CommonDialog.OnCloseListener() {
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
                             if(confirm){
@@ -162,9 +162,11 @@ public class MyTeamActivity extends ActivityBase {
                                 finish();
                             }
                         }
-                    }).show();
+                    });
+                   dialog.setPositiveButton("升级为代言人");
+                   dialog.show();
                 } else if ((int) data.getStatus() == 2) {
-                    new CommonDialog(MyTeamActivity.this, R.style.dialog, "请先绑定邀请人！", new CommonDialog.OnCloseListener() {
+                    CommonDialog dialog=new CommonDialog(MyTeamActivity.this, R.style.dialog, "请先绑定邀请人！", new CommonDialog.OnCloseListener() {
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
                             if(confirm){
@@ -173,7 +175,9 @@ public class MyTeamActivity extends ActivityBase {
                                 finish();
                             }
                         }
-                    }).show();
+                    });
+                    dialog.setPositiveButton("绑定邀请人");
+                    dialog.show();
                 } else {
                     setMyTeam(data);
                 }

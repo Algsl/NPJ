@@ -14,6 +14,16 @@ public class AddSupplyBean {
     private String lat;
     private String lng;
     private String buy_num;
+    private String is_recommend2;
+
+
+    public String getIs_recommend2() {
+        return is_recommend2;
+    }
+
+    public void setIs_recommend2(String is_recommend2) {
+        this.is_recommend2 = is_recommend2;
+    }
 
     public String getUser_id() {
         return user_id;

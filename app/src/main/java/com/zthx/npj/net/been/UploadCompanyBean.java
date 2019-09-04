@@ -5,12 +5,22 @@ package com.zthx.npj.net.been;
  */
 
 public class UploadCompanyBean {
-
     private String user_id;
     private String token;
     private String company_name;
     private String company_desc;
     private String company_type;
+    private String business_license;
+    private String authorization;
+    private String cert_id;
+
+    public String getCert_id() {
+        return cert_id;
+    }
+
+    public void setCert_id(String cert_id) {
+        this.cert_id = cert_id;
+    }
 
     public String getUser_id() {
         return user_id;
@@ -52,12 +62,12 @@ public class UploadCompanyBean {
         this.company_type = company_type;
     }
 
-    public String getBussiness_license() {
-        return bussiness_license;
+    public String getBusiness_license() {
+        return business_license;
     }
 
-    public void setBussiness_license(String bussiness_license) {
-        this.bussiness_license = bussiness_license;
+    public void setBusiness_license(String business_license) {
+        this.business_license = business_license;
     }
 
     public String getAuthorization() {
@@ -67,7 +77,4 @@ public class UploadCompanyBean {
     public void setAuthorization(String authorization) {
         this.authorization = authorization;
     }
-
-    private String bussiness_license;
-    private String authorization;
 }

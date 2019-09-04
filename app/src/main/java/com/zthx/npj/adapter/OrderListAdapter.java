@@ -175,7 +175,16 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.comment.setVisibility(View.VISIBLE);
                     viewHolder.goodsReturn.setVisibility(View.VISIBLE);
                     break;
-                case "5":break;//已完成
+                case "5":
+                    viewHolder.orderState.setText("已完成");
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.delete.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.again.setVisibility(View.VISIBLE);
+                    viewHolder.comment.setVisibility(View.GONE);
+                    viewHolder.goodsReturn.setVisibility(View.GONE);
+                    break;//已完成
                 case "6"://申请退款
                     viewHolder.orderState.setText("退款中");
                     viewHolder.cancel.setVisibility(View.GONE);
@@ -191,8 +200,6 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.pay.setVisibility(View.GONE);
                     break;
             }
-        } else {
-
         }
     }
 

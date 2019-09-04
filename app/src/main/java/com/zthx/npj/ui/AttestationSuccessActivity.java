@@ -39,8 +39,9 @@ public class AttestationSuccessActivity extends ActivityBase {
 
         back(titleBack);
 
-        String attestationId = getIntent().getStringExtra("key0");
-        String result = getIntent().getStringExtra("key1");
+        final String attestationId = getIntent().getStringExtra("key0");//认证类别
+        String result = getIntent().getStringExtra("key1");//认证结果
+        final String cert_id=getIntent().getStringExtra("key2");//
 
         if (result.equals("0")) {//待审核
             acAttestationTvStatus.setText("认证信息审核中");
@@ -65,6 +66,28 @@ public class AttestationSuccessActivity extends ActivityBase {
         } else if (result.equals("2")) {//未通过
             acAttestationTvStatus.setText("未通过");
             acAttestationBtnReUp.setText("重新上传");
+            acAttestationBtnReUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    switch (attestationId){
+                        case "1":
+                            openActivity(RealNameAuthentication2Activity.class,cert_id);
+                            break;
+                        case "2":
+                            openActivity(EnterpriseCertification2Activity.class,cert_id);
+                            break;
+                        case "3":
+                            openActivity(PurchaserCertification2Activity.class,cert_id);
+                            break;
+                        case "4":
+                            openActivity(RealNameAuthentication2Activity.class,cert_id);
+                            break;
+                        case "5":
+                            openActivity(ZiZhiInfoActivity.class,cert_id);
+                            break;
+                    }
+                }
+            });
             acAttestationTvHint.setVisibility(View.VISIBLE);
         }
 
@@ -73,11 +96,11 @@ public class AttestationSuccessActivity extends ActivityBase {
             case "1":
                 changeTitle(acTitle, "实人认证");
                 if(result.equals("0")){
-                    acAttestationIvFail.setImageResource(R.drawable.shirenrenzheng_bg);
+                    acAttestationIvFail.setImageResource(R.drawable.shirenrenzheng_bg);//待审核
                 }else if(result.equals("1")){
-                    acAttestationIvFail.setImageResource(R.drawable.shirenrenzheng_c_bg);
+                    acAttestationIvFail.setImageResource(R.drawable.shirenrenzheng_c_bg);//认证成功
                 }else{
-                    acAttestationIvFail.setImageResource(R.drawable.shirenrenzheng_iv);
+                    acAttestationIvFail.setImageResource(R.drawable.shirenrenzheng_iv);//认证失败
                 }
                 break;
             case "2":

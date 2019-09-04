@@ -77,21 +77,27 @@ public class ZiZhiActivity extends ActivityBase {
                 openActivity(ConsultActivity.class);
                 break;
             case R.id.at_zizhi_btn_attestation:
-                if(flag){
-                    openActivity(ZiZhiInfoActivity.class);
-                }else{
-                    CommonDialog dialog=new CommonDialog(this, R.style.dialog, "请先完成企业认证\n" +
-                            "再进行资质认证", new CommonDialog.OnCloseListener() {
-                        @Override
-                        public void onClick(Dialog dialog, boolean confirm) {
-                            if(confirm){
-                                openActivity(EnterpriseCertificationActivity.class);
+                CertSubscribe.zizhi4(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        openActivity(ZiZhiInfoActivity.class);
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+                        CommonDialog dialog=new CommonDialog(ZiZhiActivity.this, R.style.dialog, "请先完成企业认证\n" +
+                                "再进行资质认证", new CommonDialog.OnCloseListener() {
+                            @Override
+                            public void onClick(Dialog dialog, boolean confirm) {
+                                if(confirm){
+                                    openActivity(EnterpriseCertificationActivity.class);
+                                }
                             }
-                        }
-                    });
-                    dialog.setPositiveButton("去企业认证");
-                    dialog.show();
-                }
+                        });
+                        dialog.setPositiveButton("去企业认证");
+                        dialog.show();
+                    }
+                }));
                 break;
         }
     }

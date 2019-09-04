@@ -19,6 +19,7 @@ import com.zthx.npj.net.been.SearchSolutionBean;
 import com.zthx.npj.net.been.SolutionSearchBean;
 import com.zthx.npj.net.been.SupplyBuy2Bean;
 import com.zthx.npj.net.been.SupplyListBean;
+import com.zthx.npj.net.been.SupplyPayBean;
 import com.zthx.npj.net.been.SupplySearchBean;
 import com.zthx.npj.net.been.TwjcListBean;
 import com.zthx.npj.net.been.UploadCommentBean;
@@ -420,6 +421,24 @@ public class DiscoverSubscribe {
     public static void knowledge( DisposableObserver<ResponseBody> subscriber) {
         KnowledgeBean bean=new KnowledgeBean();
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().knowledge(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 供应商品支付
+     * @param pay_code
+     * @param order_sn
+     * @param pay_money
+     * @param type
+     * @param subscriber
+     */
+    public static void supplyPay(String pay_code,String order_sn,String pay_money,String type, DisposableObserver<ResponseBody> subscriber) {
+        SupplyPayBean bean=new SupplyPayBean();
+        bean.setPay_code(pay_code);
+        bean.setOrder_sn(order_sn);
+        bean.setPay_money(pay_money);
+        bean.setType(type);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().supplyPay(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

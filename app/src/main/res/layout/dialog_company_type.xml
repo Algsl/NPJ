@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_50"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:text="选择企业类型"
+            android:textColor="@color/text3"
+            android:textSize="@dimen/sp_16" />
+        <ImageView
+            android:id="@+id/dl_companyType_cancel"
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_12"
+            android:src="@drawable/pop_goods_detail_size_delete"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:background="@color/background" />
+
+    <TextView
+        android:id="@+id/dl_companyType_chaoshicaigou"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:text="公司"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:textColor="@color/text3"
+        android:textSize="@dimen/sp_15" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:background="@color/background" />
+    <TextView
+        android:id="@+id/dl_companyType_jiagongcahngcaigou"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:text="合作社"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:textColor="@color/text3"
+        android:textSize="@dimen/sp_15" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:background="@color/background" />
+    <TextView
+        android:id="@+id/dl_companyType_chukoucaigou"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:text="家庭农场"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:textColor="@color/text3"
+        android:textSize="@dimen/sp_15" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:background="@color/background" />
+    <TextView
+        android:id="@+id/dl_companyType_canyinqiye"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:text="个体工商户"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:textColor="@color/text3"
+        android:textSize="@dimen/sp_15" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:background="@color/background" />
+</LinearLayout>

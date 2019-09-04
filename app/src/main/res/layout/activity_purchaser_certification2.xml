@@ -17,7 +17,9 @@
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="match_parent"
-           android:orientation="vertical">
+           android:orientation="vertical"
+           android:focusableInTouchMode="true"
+           android:focusable="true">
 
            <RelativeLayout
                android:layout_width="match_parent"
@@ -235,10 +237,11 @@
                      android:layout_width="0dp"
                      android:layout_height="match_parent"
                      android:layout_weight="3.5">
-                     <EditText
+                     <TextView
                          android:id="@+id/at_purchaser_certification2_et_address"
                          android:layout_width="match_parent"
                          android:layout_height="match_parent"
+                         android:gravity="center_vertical"
                          android:background="@android:color/white"
                          android:hint="请选择企业所在地"
                          android:textColorHint="@color/text6"
@@ -319,9 +322,10 @@
                        android:layout_width="0dp"
                        android:layout_height="match_parent"
                        android:layout_weight="3.5">
-                       <EditText
+                       <TextView
                            android:layout_width="match_parent"
                            android:layout_height="match_parent"
+                           android:gravity="center_vertical"
                            android:background="@android:color/white"
                            android:hint="请选择市场所在地"
                            android:id="@+id/at_purchaser_certification2_et_shichang_name"
@@ -421,8 +425,7 @@
                    android:id="@+id/at_purchaser_certification2_rl_pic"
                    android:layout_width="@dimen/dp_140"
                    android:layout_height="@dimen/dp_160"
-                   android:layout_marginTop="@dimen/dp_12"
-                   android:background="@drawable/ic_launcher_foreground">
+                   android:layout_marginTop="@dimen/dp_12">
                    <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
@@ -447,12 +450,10 @@
                    </LinearLayout>
                </RelativeLayout>
                <TextView
+                   android:id="@+id/ac_purchaser_certification_tv_hint"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_marginRight="@dimen/dp_16"
-                   android:text="1.营业执照需盖红章和企业名称清晰可见
-2.使用附近件需加盖公司红章
-3.建议图片上传完毕后检查能否看清字体通过更有把握"
                    android:layout_marginLeft="@dimen/dp_16"
                    android:layout_marginTop="@dimen/dp_5"/>
            </LinearLayout>

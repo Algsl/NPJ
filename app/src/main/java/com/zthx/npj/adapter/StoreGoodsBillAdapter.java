@@ -115,8 +115,6 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
                     viewHolder.goodsSend.setVisibility(View.GONE);
                     break;
             }
-        } else {
-
         }
     }
 

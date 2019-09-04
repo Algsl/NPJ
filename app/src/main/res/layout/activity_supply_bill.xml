@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.SupplyBillActivity"
     android:background="@android:color/white">
 
@@ -90,12 +91,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1"
                 android:background="@color/background"></View>
-            <ImageView
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/at_supply_bill_iv_goods_pic"
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="@dimen/dp_80"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_12"
+                android:scaleType="centerCrop"
+                app:riv_corner_radius="@dimen/dp_5"
                 android:src="@mipmap/ic_launcher"/>
 
             <TextView
@@ -243,6 +246,7 @@
                     android:layout_marginLeft="@dimen/dp_13"/>
 
                 <ImageView
+                    android:id="@+id/ac_supplyBill_iv_choose3"
                     android:layout_width="@dimen/dp_18"
                     android:layout_height="@dimen/dp_18"
                     android:layout_centerVertical="true"
@@ -271,6 +275,7 @@
                     android:layout_marginLeft="@dimen/dp_13"/>
 
                 <ImageView
+                    android:id="@+id/ac_supplyBill_iv_choose2"
                     android:layout_width="@dimen/dp_18"
                     android:layout_height="@dimen/dp_18"
                     android:layout_centerVertical="true"
@@ -299,6 +304,7 @@
                     android:layout_marginLeft="@dimen/dp_13"/>
 
                 <ImageView
+                    android:id="@+id/ac_supplyBill_iv_choose1"
                     android:layout_width="@dimen/dp_18"
                     android:layout_height="@dimen/dp_18"
                     android:layout_centerVertical="true"

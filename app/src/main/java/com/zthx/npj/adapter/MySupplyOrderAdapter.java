@@ -157,7 +157,7 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
                     viewHolder.delete.setVisibility(View.GONE);
                     viewHolder.cuidan.setVisibility(View.GONE);
                     viewHolder.pay.setVisibility(View.GONE);
-                    viewHolder.query.setVisibility(View.VISIBLE);
+                    viewHolder.query.setVisibility(View.GONE);
                     viewHolder.confirm.setVisibility(View.VISIBLE);
                     break;
                 case "4"://已收货，待评价

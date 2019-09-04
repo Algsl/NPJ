@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +40,7 @@ public class KuaiDiDetailActivity extends ActivityBase {
     @BindView(R.id.ac_kuaidi_iv_back)
     ImageView acKuaidiIvBack;
 
+    private String express_code="";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,11 +70,21 @@ public class KuaiDiDetailActivity extends ActivityBase {
     }
 
     private void setOrderDetail(String result) {
+        Log.e("测试", "setOrderDetail: "+result );
         MyOrderDetailResponseBean bean = GsonUtils.fromJson(result, MyOrderDetailResponseBean.class);
         MyOrderDetailResponseBean.DataBean data = bean.getData();
         Glide.with(this).load(Uri.parse(data.getGoods_img())).into(acKuaidiIvGoodsImg);
-        //getKuaiDiDetail(data.getExpress_name(),data.getExpress_number());
-        getKuaiDiDetail("shentong", "6612854271764");
+        switch (data.getExpress_name()){
+            case "韵达快递":express_code="yunda";break;
+            case "申通快递":express_code="shentong";break;
+            case "圆通速递":express_code="yuantong";break;
+            case "邮政快递":express_code="youzhengguonei";break;
+            case "中通快递":express_code="zhongtong";break;
+            case "顺丰速运":express_code="shunfeng";break;
+            case "百世快递":express_code="huitongkuaidi";break;
+            case "天天快递":express_code="tiantian";break;
+        }
+        getKuaiDiDetail(express_code,data.getExpress_number());
     }
 
     private void getKuaiDiDetail(String express_name, String express_number) {

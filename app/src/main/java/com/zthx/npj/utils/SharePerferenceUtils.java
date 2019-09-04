@@ -142,6 +142,10 @@ public class SharePerferenceUtils {
         return "29";
         //return getString(context, "user_id", "");
     }
+    public static String getToken(Context context) {
+        return "4f4b951dabe4179e874d1b9b2361362f";
+        //return getString(context, "token", "");
+    }
 
     public static void setUserLevel(Context context, String level) {
         putString(context,"user_level",level);
@@ -163,12 +167,6 @@ public class SharePerferenceUtils {
         putString(context,"token",token);
     }
 
-
-
-    public static String getToken(Context context) {
-       return "4f4b951dabe4179e874d1b9b2361362f";
-       //return getString(context, "token", "");
-    }
 
     public static  void setMainBanner(Context context, String value) {
         putString(context, Const.SP_MAIN_BANNER_TYPE,value);

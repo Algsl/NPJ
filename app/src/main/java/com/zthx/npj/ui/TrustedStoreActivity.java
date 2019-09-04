@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.CommonDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,14 +86,22 @@ public class TrustedStoreActivity extends ActivityBase {
                 CertSubscribe.isChengXinAlready2Cert(SharePerferenceUtils.getUserId(this), BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-
                         startActivity(new Intent(TrustedStoreActivity.this, TrustedStore2Activity.class));
                     }
 
                     @Override
                     public void onFault(String errorMsg) {
-
-                        Toast.makeText(TrustedStoreActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
+                        CommonDialog dialog=new CommonDialog(TrustedStoreActivity.this, R.style.dialog, "请先完成企业认证\n" +
+                                "再进行诚信认证", new CommonDialog.OnCloseListener() {
+                            @Override
+                            public void onClick(Dialog dialog, boolean confirm) {
+                                if(confirm){
+                                    openActivity(EnterpriseCertificationActivity.class);
+                                }
+                            }
+                        });
+                        dialog.setPositiveButton("去企业认证");
+                        dialog.show();
                     }
                 }, this));
                 break;

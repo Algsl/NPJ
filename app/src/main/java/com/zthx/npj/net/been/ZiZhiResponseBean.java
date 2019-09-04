@@ -3,7 +3,7 @@ package com.zthx.npj.net.been;
 public class ZiZhiResponseBean extends BaseReponseBean{
     public class DataBean{
         private long status;
-        private long cert_id;
+        private String cert_id;
 
         public long getStatus() {
             return status;
@@ -13,14 +13,15 @@ public class ZiZhiResponseBean extends BaseReponseBean{
             this.status = status;
         }
 
-        public long getCert_id() {
+        public String getCert_id() {
             return cert_id;
         }
 
-        public void setCert_id(long cert_id) {
+        public void setCert_id(String cert_id) {
             this.cert_id = cert_id;
         }
     }
+
     private DataBean data;
 
     public DataBean getData() {

@@ -1,74 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dp_271"
     android:layout_height="@dimen/dp_306"
     android:background="@drawable/popwindow_supply_products_bg"
     android:orientation="vertical">
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_marginTop="@dimen/dp_33">
-
-        <TextView
-            android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="发货"
-            android:layout_centerHorizontal="true"
-            />
-        
-        <ImageView
-            android:layout_width="@dimen/dp_49"
-            android:layout_height="@dimen/dp_2"
-            android:src="@drawable/pop_location_left"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_10"/>
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/dp_33">
 
-        <ImageView
-            android:layout_width="@dimen/dp_49"
-            android:layout_height="@dimen/dp_2"
-            android:src="@drawable/pop_location_right"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_10"
-            android:layout_centerVertical="true"/>
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发货"
+                android:layout_centerHorizontal="true"
+                />
 
-    <Spinner
-        android:id="@+id/pw_storeGoods_s_expressName"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_34"
-        android:background="@drawable/gray_conner_2"
-        android:layout_marginRight="@dimen/dp_24"
-        android:layout_marginLeft="@dimen/dp_24"
-        android:layout_marginTop="@dimen/dp_40"
-        android:paddingLeft="@dimen/dp_5"
-        android:textSize="@dimen/sp_15"
-        android:textColorHint="@color/text6"/>
+            <ImageView
+                android:layout_width="@dimen/dp_49"
+                android:layout_height="@dimen/dp_2"
+                android:src="@drawable/pop_location_left"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_10"/>
 
-    <EditText
-        android:id="@+id/pw_storeGoods_et_expressNumber"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_30"
-        android:background="@drawable/gray_conner_2"
-        android:layout_marginRight="@dimen/dp_24"
-        android:layout_marginLeft="@dimen/dp_24"
-        android:layout_marginTop="@dimen/dp_40"
-        android:hint="请填写快递单号"
-        android:paddingLeft="@dimen/dp_5"
-        android:textSize="@dimen/sp_15"
-        android:textColorHint="@color/text6"/>
-    
-    <Button
-        android:id="@+id/pw_storeGoods_btn_commit"
-        android:layout_width="@dimen/dp_100"
-        android:layout_height="@dimen/dp_30"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dp_30"
-        android:background="@color/app_theme"
-        android:text="提交"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/sp_15"/>
-
-</LinearLayout>
+            <ImageView
+                android:layout_width="@dimen/dp_49"
+                android:layout_height="@dimen/dp_2"
+                android:src="@drawable/pop_location_right"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+        <Spinner
+            android:id="@+id/pw_storeGoods_s_expressName"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_34"
+            android:background="@drawable/gray_conner_2"
+            android:layout_marginRight="@dimen/dp_24"
+            android:layout_marginLeft="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_40"
+            android:paddingLeft="@dimen/dp_5"
+            android:textSize="@dimen/sp_15"
+            android:spinnerMode="dialog"
+            android:textColorHint="@color/text6"/>
+        <EditText
+            android:id="@+id/pw_storeGoods_et_expressNumber"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_30"
+            android:background="@drawable/gray_conner_2"
+            android:layout_marginRight="@dimen/dp_24"
+            android:layout_marginLeft="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_40"
+            android:hint="请填写快递单号"
+            android:paddingLeft="@dimen/dp_5"
+            android:textSize="@dimen/sp_15"
+            android:textColorHint="@color/text6"/>
+        <Button
+            android:id="@+id/pw_storeGoods_btn_commit"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_30"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_30"
+            android:background="@color/app_theme"
+            android:text="提交"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_15"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/pw_iv_cancel"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginRight="@dimen/dp_5"
+        android:src="@drawable/pop_goods_detail_size_delete"/>
+</RelativeLayout>
