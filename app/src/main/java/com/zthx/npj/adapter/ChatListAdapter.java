@@ -1,5 +1,6 @@
 package com.zthx.npj.adapter;
 
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,26 +13,26 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import com.zthx.npj.R;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.TimeFormat;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.DownloadCompletionCallback;
 import cn.jpush.im.android.api.callback.GetAvatarBitmapCallback;
 import cn.jpush.im.android.api.content.ImageContent;
-import cn.jpush.im.android.api.content.MessageContent;
 import cn.jpush.im.android.api.content.TextContent;
 import cn.jpush.im.android.api.enums.MessageDirect;
 import cn.jpush.im.android.api.model.Message;
 import cn.jpush.im.android.api.model.UserInfo;
+
+import static com.alibaba.mobileim.channel.constant.WXType.WXTribeMsgType.image;
 
 public class ChatListAdapter extends BaseAdapter {
 
@@ -46,7 +47,9 @@ public class ChatListAdapter extends BaseAdapter {
 
     private List<Message> mList;
     private Context mContext;
-    private  TextContent content;
+    private TextContent content;
+
+    private int mStart;
 
     public ChatListAdapter(Context context, List<Message> list){
         mContext=context;
@@ -82,6 +85,17 @@ public class ChatListAdapter extends BaseAdapter {
     @Override
     public long getItemId(int i) {
         return i;
+    }
+
+    public void addMsgToList(Message msg) {
+        mList.add(msg);
+        incrementStartPosition();
+        notifyDataSetChanged();
+    }
+
+    //当有新消息加到MsgList，自增mStart
+    private void incrementStartPosition() {
+        ++mStart;
     }
 
     @Override
@@ -184,7 +198,6 @@ public class ChatListAdapter extends BaseAdapter {
                 break;
             case image:
                 ImageContent imgContent = (ImageContent) msg.getContent();
-
                 final String jiguang = imgContent.getStringExtra("jiguang");
                 // 先拿本地缩略图
                 final String path = imgContent.getLocalThumbnailPath();
@@ -194,13 +207,15 @@ public class ChatListAdapter extends BaseAdapter {
                     imgContent.downloadThumbnailImage(msg, new DownloadCompletionCallback() {
                         @Override
                         public void onComplete(int status, String desc, File file) {
+                            Log.e("测试", "onComplete: "+status+" "+desc+" "+file );
                             if (status == 0) {
                                 Glide.with(mContext).load(file).into(holder.picture);
                             }
                         }
                     });
                 } else {
-                    Glide.with(mContext).load(new File(path)).into(holder.picture);
+                    Log.e("测试", "getView: "+path );
+                    Picasso.with(mContext).load(new File(path)).into(holder.picture);
                 }
                 break;
         }

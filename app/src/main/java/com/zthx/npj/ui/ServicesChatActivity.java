@@ -134,12 +134,9 @@ public class ServicesChatActivity extends ActivityBase {
                     if (i == 0) {
                         acServiceChatEtContent.setText("");
                         getChatMsg();
-                    } else {
-
                     }
                 }
             });
-
             //设置消息发送时的一些控制参数
             MessageSendingOptions options = new MessageSendingOptions();
             options.setNeedReadReceipt(true);//是否需要对方用户发送消息已读回执
@@ -186,11 +183,11 @@ public class ServicesChatActivity extends ActivityBase {
     public void toggle() {
         isOpen = !isOpen;
         if (isOpen) {
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 400);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 500);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
             acServiceChatLl.setLayoutParams(layoutParams);
         } else {
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 100);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 200);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
             acServiceChatLl.setLayoutParams(layoutParams);
         }

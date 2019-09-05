@@ -562,6 +562,13 @@ public interface HttpApi  {
     @POST("index.php/api/payment/pay.html")
     Observable<ResponseBody> supplyPay(@Body SupplyPayBean bean);
 
+    @POST("index.php/api/index/openstore.html")
+    Observable<ResponseBody> openStore(@Body OpenStoreBean bean);
 
+    @POST("index.php/api/user/offlinebuy.html")
+    Observable<ResponseBody> offlineBuy(@Body OfflineBuyBean bean);
+
+    @POST("index.php/api/payment/offlinebuy2.html")
+    Observable<ResponseBody> offlineBuy2(@Body OfflineBuy2Bean bean);
 }
 

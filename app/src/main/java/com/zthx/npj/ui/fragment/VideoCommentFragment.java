@@ -13,6 +13,11 @@ import android.view.ViewGroup;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.VideoCommentAdapter;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.CommentResponseBean;
+import com.zthx.npj.net.netsubscribe.MainSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +38,18 @@ public class VideoCommentFragment extends Fragment {
     RecyclerView fgVideoCommentRv;
     Unbinder unbinder;
 
+    private String id;
+
     public VideoCommentFragment() {
         // Required empty public constructor
+    }
+
+    public Fragment newInstance(String id){
+        VideoCommentFragment fragment=new VideoCommentFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString("id",id);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
 
@@ -51,17 +66,27 @@ public class VideoCommentFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false);
         fgVideoCommentRv.setLayoutManager(manager);
-        List<CommentGoodsBeen> list = new ArrayList<>();
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        list.add(new CommentGoodsBeen());
-        VideoCommentAdapter mAdapter = new VideoCommentAdapter(getActivity(), list);
-        fgVideoCommentRv.setItemAnimator(new DefaultItemAnimator());
-        fgVideoCommentRv.setAdapter(mAdapter);
+        id=getArguments().getString("id");
+        getVideoComment();
         return view;
+    }
+
+    private void getVideoComment() {
+        MainSubscribe.getStoreComment(id,"6",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                CommentResponseBean bean = GsonUtils.fromJson(result, CommentResponseBean.class);
+                ArrayList<CommentResponseBean.DataBean> data=bean.getData();
+                VideoCommentAdapter mAdapter = new VideoCommentAdapter(getContext(), data);
+                fgVideoCommentRv.setItemAnimator(new DefaultItemAnimator());
+                fgVideoCommentRv.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 
 

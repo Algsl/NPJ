@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.zthx.npj.entity.NotificationBean;
+import com.zthx.npj.jpush.TagAliasOperatorHelper;
 import com.zthx.npj.ui.MainActivity;
 import com.zthx.npj.ui.NotificationDetailActivity;
 import com.zthx.npj.utils.SharePerferenceUtils;
@@ -21,6 +22,8 @@ import java.util.Date;
 import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.JPushMessage;
+import cn.jpush.android.service.JPushMessageReceiver;
 
 public class MyReceiver extends BroadcastReceiver {
     private static final String TAG = "测试";

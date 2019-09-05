@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -14,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AKAdapter;
 import com.zthx.npj.adapter.NewsListAdapter;
@@ -24,6 +26,7 @@ import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
 
@@ -71,8 +74,12 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
     LinearLayout acAgricultureLl2;
     @BindView(R.id.ac_agriculture_knowledge_iv_message)
     ImageView acAgricultureKnowledgeIvMessage;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
     private AKAdapter mAdapter;
+
+    private String type="1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +88,19 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(atAkIvBack);
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                if(type.equals("1")){
+                    getData(type);
+                }else{
+                    getNewsList(type);
+                }
+                refreshLayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
 
         getData("1");
     }
@@ -118,18 +138,22 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_ak_ll_1:
+                type="1";
                 getData("1");
                 changeBackground("1");
                 break;
             case R.id.at_ak_ll_2:
+                type="3";
                 getNewsList("3");
                 changeBackground("2");
                 break;
             case R.id.at_ak_ll_3:
+                type="4";
                 getNewsList("4");
                 changeBackground("3");
                 break;
             case R.id.at_ak_ll_4:
+                type="5";
                 getNewsList("5");
                 changeBackground("4");
                 break;
@@ -187,12 +211,11 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
     }
 
     private void getData(String id) {
-        DiscoverSubscribe.getKnowledgeList(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        DiscoverSubscribe.getKnowledgeList(SharePerferenceUtils.getUserId(this), id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 AkListResponseBean akListResponseBean = GsonUtils.fromJson(result, AkListResponseBean.class);
                 final ArrayList<AkListResponseBean.DataBean> data = akListResponseBean.getData();
-
                 if (mAdapter != null) {
                     mAdapter.setNewData(data);
                 } else {

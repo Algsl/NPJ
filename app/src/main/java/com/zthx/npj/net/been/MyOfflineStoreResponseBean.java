@@ -20,6 +20,15 @@ public class MyOfflineStoreResponseBean extends BaseReponseBean{
         private long status;
         private String create_time;
         private String update_time;
+        private String is_open;
+
+        public String getIs_open() {
+            return is_open;
+        }
+
+        public void setIs_open(String is_open) {
+            this.is_open = is_open;
+        }
 
         public long getId() {
             return id;

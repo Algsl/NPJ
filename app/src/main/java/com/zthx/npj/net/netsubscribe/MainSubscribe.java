@@ -1,6 +1,5 @@
 package com.zthx.npj.net.netsubscribe;
 
-import com.zthx.npj.entity.StoreInfo;
 import com.zthx.npj.net.been.AlsoLikeBean;
 import com.zthx.npj.net.been.BannerBean;
 import com.zthx.npj.net.been.CategoryBean;
@@ -13,6 +12,9 @@ import com.zthx.npj.net.been.GoodsListBean;
 import com.zthx.npj.net.been.HistoryBean;
 import com.zthx.npj.net.been.HotSearchBean;
 import com.zthx.npj.net.been.LocalStoreBean;
+import com.zthx.npj.net.been.OfflineBuy2Bean;
+import com.zthx.npj.net.been.OfflineBuyBean;
+import com.zthx.npj.net.been.OpenStoreBean;
 import com.zthx.npj.net.been.OrderPushBean;
 import com.zthx.npj.net.been.RecommendBean;
 import com.zthx.npj.net.been.SearchBean;
@@ -21,9 +23,6 @@ import com.zthx.npj.net.been.SearchStoreGoodsBean;
 import com.zthx.npj.net.been.StoreDetailBean;
 import com.zthx.npj.net.been.StoreGoodsListBean;
 import com.zthx.npj.net.been.StoreInfoBean;
-import com.zthx.npj.net.been.UserBean;
-import com.zthx.npj.net.been.VideoInfoBean;
-import com.zthx.npj.net.been.VideoOrderBean;
 import com.zthx.npj.net.netutils.RetrofitFactory;
 
 import io.reactivex.Observable;
@@ -290,6 +289,46 @@ public class MainSubscribe {
     public static void alsoLike(String page, DisposableObserver<ResponseBody> subscriber) {
         AlsoLikeBean bean=new AlsoLikeBean();
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().alsoLike(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 开关店铺
+     * @param user_id
+     * @param is_open
+     * @param subscriber
+     */
+    public static void openStore(String user_id,String is_open, DisposableObserver<ResponseBody> subscriber) {
+        OpenStoreBean bean=new OpenStoreBean();
+        bean.setUser_id(user_id);
+        bean.setIs_open(is_open);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().openStore(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 线下门店支付生成订单
+     * @param bean
+     * @param subscriber
+     */
+    public static void offlineBuy(OfflineBuyBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().offlineBuy(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 线下门店支付
+     * @param pay_code
+     * @param order_sn
+     * @param pay_money
+     * @param subscriber
+     */
+    public static void offlineBuy2(String pay_code,String order_sn,String pay_money, DisposableObserver<ResponseBody> subscriber) {
+        OfflineBuy2Bean bean=new OfflineBuy2Bean();
+        bean.setPay_code(pay_code);
+        bean.setOrder_sn(order_sn);
+        bean.setPay_money(pay_money);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().offlineBuy2(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

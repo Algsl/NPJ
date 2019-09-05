@@ -68,7 +68,7 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/theme_conner_5"
             android:layout_marginRight="@dimen/dp_12"
-            android:text="购买课程"
+            android:text="评价"
             android:textColor="@android:color/white"
             android:textSize="@dimen/sp_13"/>
     </RelativeLayout>

@@ -561,7 +561,7 @@
             </LinearLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ac_goodsDetail_rv_content"
-                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginTop="@dimen/dp_10"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/dp_50"/>

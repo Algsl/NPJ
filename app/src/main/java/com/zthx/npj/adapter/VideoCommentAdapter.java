@@ -1,6 +1,7 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,15 +10,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.CommentResponseBean;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class VideoCommentAdapter extends RecyclerView.Adapter<VideoCommentAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<CommentGoodsBeen> mList;
+    private ArrayList<CommentResponseBean.DataBean> mList;
     private ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
         void onItemClick(int position) ;
@@ -26,7 +32,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<VideoCommentAdapte
         this.mItemClickListener = itemClickListener ;
 
     }
-    public VideoCommentAdapter(Context context,List<CommentGoodsBeen> list) {
+    public VideoCommentAdapter(Context context, ArrayList<CommentResponseBean.DataBean> list) {
         mContext = context;
         mList = list;
     }
@@ -51,12 +57,10 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<VideoCommentAdapte
             });
         }
         if (mList!= null && mList.size() > 0) {
-//            viewHolder.mIvGoods.setBackgroundResource(R.mipmap.ic_launcher);
-//            viewHolder.mTvPrice.setText(list.get(i).getGoodsPrice());
-//            viewHolder.mTvSellNum.setText(list.get(i).getGoodsSellNum());
-//            viewHolder.mTvTitle.setText(list.get(i).getGoodsTitle());
-        } else {
-
+            Glide.with(mContext).load(Uri.parse(mList.get(i).getHead_img())).into(viewHolder.mIvGoods);
+            viewHolder.userName.setText(mList.get(i).getNick_name());
+            viewHolder.content.setText(mList.get(i).getContent());
+            viewHolder.createTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(mList.get(i).getCreate_time())));
         }
     }
 
@@ -67,16 +71,14 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<VideoCommentAdapte
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mIvGoods;
-        TextView mTvTitle;
-        TextView mTvPrice;
-        TextView mTvSellNum;
+        TextView userName,createTime,content;
 
         ViewHolder(View itemView) {
             super(itemView);
-            mIvGoods = itemView.findViewById(R.id.item_iv_comment_goods);
-            mTvTitle = itemView.findViewById(R.id.item_tv_comment_goods_title);
-            mTvPrice = itemView.findViewById(R.id.item_tv_comment_goods_price);
-            mTvSellNum = itemView.findViewById(R.id.item_tv_comment_goods_sell_num);
+            mIvGoods = itemView.findViewById(R.id.item_comment_video_cv_pic);
+            userName=itemView.findViewById(R.id.item_commentVideo_tv_userName);
+            createTime=itemView.findViewById(R.id.item_comment_video_tv_time);
+            content=itemView.findViewById(R.id.item_comment_video_tv_comment);
         }
     }
 }

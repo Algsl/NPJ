@@ -96,7 +96,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
     private List<String> paths = new ArrayList<>();
     private List<String> paths2 = new ArrayList<>();
     private List<String> paths3 = new ArrayList<>();
-    private boolean isClose;
+    private String is_open="1";
     private static final int CHOOSE_PHOTO = 2;
 
     @BindView(R.id.title_back)
@@ -111,14 +111,12 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
 
         back(titleBack);
         changeTitle(acTitle,"商家管理");
-        //changeRightText(atLocationStoreTvRuzhu,"管理",StoreManagerCenterActivity.class,null);
         atLocationStoreTvRuzhu.setText("管理");
-        getMyOfflineStore();
+
 
         zzImageBox.setOnlineImageLoader(new ZzImageBox.OnlineImageLoader() {
             @Override
             public void onLoadImage(ImageView iv, String url) {
-                Log.d("ZzImageBox", "url=" + url);
                 Glide.with(EditMyOfflineStoreActivity.this).load(url).into(iv);
             }
         });
@@ -140,6 +138,12 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
                 startActivityForResult(intent, CHOOSE_PHOTO);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getMyOfflineStore();
     }
 
     private void getMyOfflineStore() {
@@ -167,6 +171,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         acStoreManagerEtAddress2.setText(data.getAddress2());
         acStoreManagerTvOffer.setText(data.getOffer()+"%");
         acStoreManagerEtRelife.setText(data.getRelief());
+        is_open=data.getIs_open();
         for(int i=0;i<data.getStore_img().size();i++){
             zzImageBox.addImageOnline(data.getStore_img().get(i));
             paths.add(data.getStore_img().get(i));
@@ -325,7 +330,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
                 window.dismiss();
             }
         });
-        if(isClose){
+        if(is_open.equals("0")){
             openStore.setText("开启店铺");
         }else{
             openStore.setText("关闭店铺");
@@ -333,7 +338,31 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         openStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isClose=!isClose;
+                if(is_open.equals("0")){
+                    MainSubscribe.openStore(user_id,"1",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+
+                        }
+
+                        @Override
+                        public void onFault(String errorMsg) {
+
+                        }
+                    }));
+                }else{
+                    MainSubscribe.openStore(user_id,"0",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+
+                        }
+
+                        @Override
+                        public void onFault(String errorMsg) {
+
+                        }
+                    }));
+                }
                 backgroundAlpha(1f);
                 window.dismiss();
             }

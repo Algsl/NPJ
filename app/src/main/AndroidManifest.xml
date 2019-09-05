@@ -23,8 +23,8 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-
     <uses-permission android:name="android.permission.FLASHLIGHT" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -36,23 +36,22 @@
     <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE" />
     <uses-permission android:name="com.anddoes.launcher.permission.UPDATE_COUNT" />
     <uses-permission android:name="com.majeur.launcher.permission.UPDATE_BADGE" />
-    <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS"/>
-    <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS"/>
-    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE"/>
+    <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
 
     <!-- ShortcutBadger -->
-
     <application
         android:name=".base.BaseApp"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logo"
-        tools:replace="android:theme"
         android:largeHeap="true"
-        android:usesCleartextTraffic="true"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        android:supportsRtl="true"><!--configChanges设置切屏不重启生命周期，orientation执行一次-->
+        android:usesCleartextTraffic="true"
+        tools:replace="android:theme"> <!-- configChanges设置切屏不重启生命周期，orientation执行一次 -->
 
         <meta-data
             android:name="com.google.android.gms.car.application"
@@ -66,19 +65,21 @@
             android:theme="@style/TranslucentTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="article"
-                    android:scheme="test"
-                    android:pathPrefix="/attr" />
+                    android:pathPrefix="/attr"
+                    android:scheme="test" />
             </intent-filter>
         </activity>
-           <!-- android:theme="@style/TranslucentTheme" -->
-        <activity android:name=".ui.BaseActivity"/>
+        <!-- android:theme="@style/TranslucentTheme" -->
+        <activity android:name=".ui.BaseActivity" />
         <activity android:name=".ui.HomeSearchActivity" />
         <activity android:name=".ui.fragment.ClassfiyDetailActivity" />
-        <activity android:name=".ui.GoodsDetailActivity"/>
+        <activity android:name=".ui.GoodsDetailActivity" />
         <activity android:name=".ui.SecKillActivity" />
         <activity android:name=".ui.ConfirmOrderActivity" />
         <activity android:name=".ui.PreSellActivity" />
@@ -91,7 +92,8 @@
         <activity android:name=".ui.StoreManagerQRCodeActivity" />
         <activity android:name=".ui.GiftActivity" />
         <activity android:name=".ui.AgricultureKnowledgeActivity" />
-        <activity android:name=".ui.SystemSolutionActivity"
+        <activity
+            android:name=".ui.SystemSolutionActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.AgricultureVideoMainActivity" />
@@ -106,7 +108,7 @@
         <activity android:name=".ui.AskForPartnerActivity" />
         <activity android:name=".ui.SpokesmanRightsNoPermissionActivity" />
         <activity android:name=".ui.ConfirmAchievementActivity" />
-        <activity android:name=".ui.MyCollectActivity"/>
+        <activity android:name=".ui.MyCollectActivity" />
         <activity android:name=".ui.MyOrderActivity" />
         <activity android:name=".ui.MyCouponActivity" />
         <activity android:name=".ui.SpokesmanRightsActivity" />
@@ -181,21 +183,20 @@
         <activity android:name=".ui.UserMsgActivity" />
         <activity android:name=".ui.ServicesChatActivity" />
         <activity android:name=".ui.ImgArticalActivity" />
-        <activity android:name=".ui.NotificationDetailActivity"/>
-        <activity android:name=".ui.NotificationListActivity"/>
-        <activity android:name=".ui.WebViewActivity"/>
-        <activity android:name=".ui.DefaultPageActivity"/>
-        <activity android:name=".ui.StoreActivity"/>
-        <activity android:name=".ui.ZiZhiActivity"/>
-        <activity android:name=".ui.ZiZhiInfoActivity"/>
-        <activity android:name=".ui.ConsultActivity"/>
-        <activity android:name=".ui.ShowLocationActivity"/>
-        <activity android:name=".ui.StoreGoodsClassifyActivity"/>
-        <activity android:name=".ui.HaiBaoActivity"/>
-        <activity android:name=".ui.LoadingActivity"/>
-        <activity android:name=".ui.SupplySearchActivity"/>
-        <activity android:name=".ui.ReportActivity"/>
-
+        <activity android:name=".ui.NotificationDetailActivity" />
+        <activity android:name=".ui.NotificationListActivity" />
+        <activity android:name=".ui.WebViewActivity" />
+        <activity android:name=".ui.DefaultPageActivity" />
+        <activity android:name=".ui.StoreActivity" />
+        <activity android:name=".ui.ZiZhiActivity" />
+        <activity android:name=".ui.ZiZhiInfoActivity" />
+        <activity android:name=".ui.ConsultActivity" />
+        <activity android:name=".ui.ShowLocationActivity" />
+        <activity android:name=".ui.StoreGoodsClassifyActivity" />
+        <activity android:name=".ui.HaiBaoActivity" />
+        <activity android:name=".ui.LoadingActivity" />
+        <activity android:name=".ui.SupplySearchActivity" />
+        <activity android:name=".ui.ReportActivity" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
@@ -203,7 +204,9 @@
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="wx76500efa65d19915" />
             </intent-filter>
         </activity>
@@ -267,14 +270,23 @@
 
         <receiver
             android:name=".services.MyReceiver"
-            android:exported="false"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!--Required  用户接收SDK通知栏信息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
-                <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <category android:name="com.zthx.npj" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".services.MyJPushMessageReceiver"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
                 <category android:name="com.zthx.npj" />
             </intent-filter>
         </receiver>

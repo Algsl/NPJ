@@ -1,7 +1,9 @@
 package com.zthx.npj.utils;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -34,6 +36,24 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class MyCustomUtils {
+
+    //路径转为Uri
+    public static Uri getMediaUriFromPath(Context context, String path) {
+        Uri mediaUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        Cursor cursor = context.getContentResolver().query(mediaUri,
+                null,
+                MediaStore.Images.Media.DISPLAY_NAME + "= ?",
+                new String[] {path.substring(path.lastIndexOf("/") + 1)},
+                null);
+
+        Uri uri = null;
+        if(cursor.moveToFirst()) {
+            uri = ContentUris.withAppendedId(mediaUri,
+                    cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media._ID)));
+        }
+        cursor.close();
+        return uri;
+    }
 
     //等级图片显示
     public static void showLevelImg(int level,ImageView img){

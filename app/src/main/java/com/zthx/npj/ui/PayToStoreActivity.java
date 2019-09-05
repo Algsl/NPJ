@@ -30,6 +30,8 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.R;
 import com.zthx.npj.aliapi.OrderInfoUtil2_0;
 import com.zthx.npj.aliapi.PayResult;
+import com.zthx.npj.net.been.OfflineBuyBean;
+import com.zthx.npj.net.been.OfflineBuyResponseBean;
 import com.zthx.npj.net.been.PayResponse1Bean;
 import com.zthx.npj.net.been.PayResponseBean;
 import com.zthx.npj.net.been.StoreDetailResponseBean;
@@ -78,7 +80,8 @@ public class PayToStoreActivity extends ActivityBase {
     private String user_id=SharePerferenceUtils.getUserId(this);
     private String token=SharePerferenceUtils.getToken(this);
     private String payType="";
-    private UploadChengxinCertResponseBean.DataBean data1;
+    private String store_id;
+    private OfflineBuyResponseBean.DataBean data1;
 
     private String RSA_PRIVATE = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
             "NEU5up1siPOXKJBU0ypde7oPfm9gyy2ajgcw6v3KF2ryjot5AKlBED6qdQPRa5Sk\n" +
@@ -128,7 +131,7 @@ public class PayToStoreActivity extends ActivityBase {
             acPayToStoreBtnToVIP.setVisibility(View.GONE);
         }
 
-        String store_id = getIntent().getStringExtra("key0");
+        store_id = getIntent().getStringExtra("key0");
         getStoreDetail(store_id);
     }
 
@@ -237,16 +240,17 @@ public class PayToStoreActivity extends ActivityBase {
     }
 
     public void generateOrder(){
-        UploadChengXinCertBean bean=new UploadChengXinCertBean();
+        OfflineBuyBean bean=new OfflineBuyBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
         bean.setPay_code(payType);
         bean.setPrice(payMoney);
-        CertSubscribe.uploadChengxinCert(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        bean.setStore_id(store_id);
+        MainSubscribe.offlineBuy(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 showToast("用户订单已生成,正在调起支付...");
-                UploadChengxinCertResponseBean bean=GsonUtils.fromJson(result,UploadChengxinCertResponseBean.class);
+                OfflineBuyResponseBean bean=GsonUtils.fromJson(result,OfflineBuyResponseBean.class);
                 data1=bean.getData();
                 if(payType.equals("1")){
                     alipay();
@@ -257,13 +261,13 @@ public class PayToStoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                Log.e("测试", "onFault: "+errorMsg );
+
             }
         }));
     }
 
     private void wxpay() {
-        GiftSubscribe.pay("weixin", data1.getOrder_sn(), data1.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.offlineBuy2("weixin", data1.getOrder_sn(), data1.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setWXResult(result);
@@ -293,7 +297,7 @@ public class PayToStoreActivity extends ActivityBase {
     }
 
     private void alipay() {
-        GiftSubscribe.pay("alipay", data1.getOrder_sn(), data1.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.offlineBuy2("alipay", data1.getOrder_sn(), data1.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setPayResult(result);

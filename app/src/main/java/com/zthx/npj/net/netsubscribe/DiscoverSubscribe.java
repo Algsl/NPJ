@@ -64,9 +64,10 @@ public class DiscoverSubscribe {
      * @param id
      * @param subscriber
      */
-    public static void getKnowledgeList(String id, DisposableObserver<ResponseBody> subscriber) {
+    public static void getKnowledgeList(String user_id,String id, DisposableObserver<ResponseBody> subscriber) {
         GoodsDetailBean bean = new GoodsDetailBean();
         bean.setId(id);
+        bean.setUser_id(user_id);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getKnowledgeListForBody(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }

@@ -2,6 +2,7 @@ package com.zthx.npj.ui;
 
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,12 +31,14 @@ import com.zthx.npj.net.been.VideoInfoResponseBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.fragment.JianjieFragment;
 import com.zthx.npj.ui.fragment.SelectVideoFragment;
 import com.zthx.npj.ui.fragment.VideoCommentFragment;
 import com.zthx.npj.ui.fragment.VideoListFragment;
 import com.zthx.npj.ui.fragment.WebFragment;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.CommonDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +62,7 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
 
     private String videoUrl = "";
     private String videoId;
+    private String id;
     private String user_id=SharePerferenceUtils.getUserId(this);
     private String token=SharePerferenceUtils.getToken(this);
 
@@ -67,15 +71,15 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agriculture_video_main);
         ButterKnife.bind(this);
-        final String id = getIntent().getStringExtra(Const.VIDEO_ID);//视频id
+        id = getIntent().getStringExtra(Const.VIDEO_ID);//视频id
         List<String> list = new ArrayList<>();
         list.add("选集");
         list.add("简介");
         list.add("评论");
         List<Fragment> list2 = new ArrayList<>();
         list2.add(SelectVideoFragment.newInstance(id));
-        list2.add(SelectVideoFragment.newInstance(id));
-        list2.add(new VideoCommentFragment());
+        list2.add(JianjieFragment.newInstance(id));
+        list2.add(new VideoCommentFragment().newInstance(id));
         DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(),this, list, list2);
         atAvmVp.setAdapter(mAdapter);
         atAvmTb.setTabMode(TabLayout.MODE_FIXED);
@@ -98,7 +102,6 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
                 BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-
                         UploadVideoCommentResponseBean uploadVideoCommentResponseBean = GsonUtils.fromJson(result, UploadVideoCommentResponseBean.class);
                         int status = uploadVideoCommentResponseBean.getData().getStatus();
                         if (status == 2) {
@@ -122,17 +125,16 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
                 new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.e("测试", "onSuccess: "+result );
                         VideoInfoResponseBean videoInfoResponseBean = GsonUtils.fromJson(result, VideoInfoResponseBean.class);
                         videoUrl = videoInfoResponseBean.getData().getVideo();
                        switch (type){
-                           case "1":
+                           case "2":
                                atAkVideoPlayer.setUrl(videoUrl); //设置视频地址
                                atAkVideoPlayer.setTitle(dataBean.getTitle());
                                StandardVideoController controller = new StandardVideoController(AgricultureVideoMainActivity.this);
                                atAkVideoPlayer.setVideoController(controller); //设置控制器，如需定制可继承 BaseVideoController
                                break;
-                           case "2":
+                           case "1":
                                atAkVideoPlayer.release();
                                atAkVideoPlayer.setUrl(videoUrl); //设置视频地址
                                atAkVideoPlayer.setTitle(dataBean.getTitle());
@@ -145,9 +147,20 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
 
                     @Override
                     public void onFault(String errorMsg) {
-                        showToast(errorMsg);
                         videoUrl = "";
                         videoId=dataBean.getList_id()+"";
+                        CommonDialog dialog=new CommonDialog(AgricultureVideoMainActivity.this, R.style.dialog, "请先购买该课程", new CommonDialog.OnCloseListener() {
+                            @Override
+                            public void onClick(Dialog dialog, boolean confirm) {
+                                if(confirm){
+                                    buyLisense(videoId);
+                                }else{
+                                    finish();
+                                }
+                            }
+                        });
+                        dialog.setPositiveButton("去购买");
+                        dialog.show();
                     }
                 }));
     }
@@ -158,7 +171,7 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
             case R.id.at_ak_video_player:
                 break;
             case R.id.at_ak_video_btn_buy:
-                buyLisense(videoId);
+                uploadComment(id);
                 break;
         }
     }
@@ -211,15 +224,15 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
         }
     }
 
+    //手动播放
     @Override
     public void onFragmentInteraction(AkVideoResponseBean.DataBean dataBean) {
         getVideoInfo(dataBean,"1");
-        Log.e("测试", "onFragmentInteraction: "+dataBean.getTitle() );
     }
 
+    //自动播放
     @Override
     public void onDataGet(AkVideoResponseBean.DataBean dataBean) {
-        Log.e("测试", "onDataGet: "+dataBean.getTitle());
         getVideoInfo(dataBean,"2");
     }
 

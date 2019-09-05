@@ -31,6 +31,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.entity.NotificationBean;
+import com.zthx.npj.jpush.TagAliasOperatorHelper;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -45,12 +46,16 @@ import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.JPushMessage;
+import cn.jpush.android.api.TagAliasCallback;
+import cn.jpush.android.service.TagAliasReceiver;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.api.BasicCallback;
 
@@ -91,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     private String user_id=SharePerferenceUtils.getUserId(this);
     private String token=SharePerferenceUtils.getToken(this);
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
         initJPush();
         initFragment();
         // Example of a call to a native method
@@ -113,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
         getUserMsg();
 
         getBrowserResult();
+
+        Log.e("测试", "onCreate: "+user_id+" "+token );
     }
 
     private void getBrowserResult() {
@@ -153,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         }));
     }
 
-    private void loginIM(String name,String pwd) {
+    private void loginIM(final String name, String pwd) {
         JMessageClient.login(name, pwd, new BasicCallback() {
             @Override
             public void gotResult(int i, String s) {
