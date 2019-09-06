@@ -106,13 +106,13 @@ public class UserMoneyResponseBean extends BaseReponseBean{
             this.withdraw = withdraw;
         }
     }
-    private ArrayList<DataBean> data;
+    private DataBean data;
 
-    public ArrayList<DataBean> getData() {
+    public DataBean getData() {
         return data;
     }
 
-    public void setData(ArrayList<DataBean> data) {
+    public void setData(DataBean data) {
         this.data = data;
     }
 }

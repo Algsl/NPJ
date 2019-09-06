@@ -54,8 +54,8 @@ public class UserMoneyActivity extends ActivityBase {
     String type = "";
     String user_id = SharePerferenceUtils.getUserId(this);
     String token = SharePerferenceUtils.getToken(this);
-    String begin_time = "2015-1-1";
-    String end_time = "2015-1-31";
+    String begin_time = "";
+    String end_time = "";
     @BindView(R.id.ac_vipJL_tv_allType)
     TextView acVipJLTvAllType;
     @BindView(R.id.title_back)
@@ -81,6 +81,7 @@ public class UserMoneyActivity extends ActivityBase {
         SetSubscribe.userMoney(user_id, token, type, begin_time, end_time, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
+                Log.e("测试", "onSuccess: "+result );
                 setUserMoney(result);
             }
 
@@ -105,7 +106,7 @@ public class UserMoneyActivity extends ActivityBase {
 
     private void setUserMoney(String result) {
         UserMoneyResponseBean bean = GsonUtils.fromJson(result, UserMoneyResponseBean.class);
-        UserMoneyResponseBean.DataBean data = bean.getData().get(0);
+        UserMoneyResponseBean.DataBean data = bean.getData();
         acMyWalletTvIoMoney.setText("充值" + data.getRecharge() + "元，提现" + data.getWithdraw() + "元");
         ArrayList<UserMoneyResponseBean.DataBean.MingXi> mingXis = data.getMingxi();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -188,6 +189,7 @@ public class UserMoneyActivity extends ActivityBase {
                 tvs[i].setTextColor(getResources().getColor(R.color.text3));
             }
         }
+        getUserMoney();
     }
     private void initList() {
         for(int i=0;i<12;i++){

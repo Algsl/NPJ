@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommentAdapter;
 import com.zthx.npj.net.api.URLConstant;
@@ -98,6 +99,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
     private List<String> paths3 = new ArrayList<>();
     private String is_open="1";
     private static final int CHOOSE_PHOTO = 2;
+    private String store_id="";
 
     @BindView(R.id.title_back)
     ImageView titleBack;
@@ -173,6 +175,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         acStoreManagerTvOffer.setText(data.getOffer()+"%");
         acStoreManagerEtRelife.setText(data.getRelief());
         is_open=data.getIs_open();
+        store_id=data.getId()+"";
         for(int i=0;i<data.getStore_img().size();i++){
             zzImageBox.addImageOnline(data.getStore_img().get(i));
             paths.add(data.getStore_img().get(i));
@@ -193,31 +196,45 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
                 startActivityForResult(intent1,3);
                 break;
             case R.id.ac_storeManager_btn_ruzhu:
-                for(String str:paths){
+                for(String str:paths){//解析全链接
                     if(str.split("http://app.npj-vip.com").length==1){
                         paths2.add(str);
                     }else{
                         paths3.add(str.split("http://app.npj-vip.com")[1]);
                     }
                 }
-                HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths2, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
+                Log.e("测试", "onViewClicked: "+paths2+" "+paths3 );
 
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
-                        UploadPicsResponseBean.DataBean data = bean.getData();
-                        Log.e("测试", "onResponse: "+data.getImages() +" "+data.getImg() );
-                        String paths3Str="";
-                        for(String str:paths3){
-                           paths3Str+=str+",";
+                if (paths2.size()==0){//没有上传新的图片
+                    String paths3Str="";
+                    for(int i=0;i<paths3.size();i++){
+                        if(i==paths3.size()-1){
+                            paths3Str+=paths3.get(i);
+                        }else{
+                            paths3Str+=paths3.get(i)+",";
                         }
-                        offlineStore(paths3Str+data.getImg());
                     }
-                });
+                    offlineStore(paths3Str);
+                }else{//上传了新的图片
+                    HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths2, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            UploadPicsResponseBean bean=GsonUtils.fromJson(response.body().string(),UploadPicsResponseBean.class);
+                            UploadPicsResponseBean.DataBean data=bean.getData();
+                            String paths3Str="";
+                            for(String str:paths3){
+                                paths3Str+=str+",";
+                            }
+                            offlineStore(paths3Str+data.getImg());
+                        }
+                    });
+                }
+
                 break;
             case R.id.at_location_store_tv_ruzhu:
                 showItemPopwindow();
@@ -244,10 +261,11 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         bean.setStore_img(img);
         bean.setLat(SharePerferenceUtils.getLat(this));
         bean.setLng(SharePerferenceUtils.getLng(this));
+        bean.setId(store_id);
         SetSubscribe.editOfflineStore(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                finish();
+                showToast("修改成功");
             }
 
             @Override
@@ -295,7 +313,6 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
                 }
                 break;
             case 3://收款码优惠比率返回值
-                Log.e("测试", "onActivityResult: "+resultCode+" "+data.getStringExtra("offer") );
                 if(resultCode==0){
 
                 }else if(resultCode==1){

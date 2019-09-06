@@ -85,7 +85,7 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
             viewHolder.goodsPrice.setText(list.get(i).getGoods_price());
             viewHolder.goodsNum.setText("x "+list.get(i).getGoods_num()+"");
             viewHolder.orderSn.setText("订单号："+list.get(i).getOrder_sn());
-            viewHolder.orderTime.setText("下单时间："+ new SimpleDateFormat("yyyy年MM月dd日").format(new Date(list.get(i).getOrder_time())));
+            viewHolder.orderTime.setText("下单时间："+ new SimpleDateFormat("yyyy年MM月dd日").format(new Date(list.get(i).getOrder_time()*1000)));
             switch (list.get(i).getOrder_state()){
                 case "0":
                     viewHolder.orderState.setText("已取消");

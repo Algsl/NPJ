@@ -14,6 +14,7 @@ public class LookUserResponseBean extends BaseReponseBean{
         private String certification;
         private String att_num;
 
+
         public String getNick_name() {
             return nick_name;
         }

@@ -38,6 +38,7 @@ import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AttentionResponseBean;
 import com.zthx.npj.net.been.LookUserResponseBean;
 import com.zthx.npj.net.been.StoreGoodsListResponseBean;
+import com.zthx.npj.net.netsubscribe.CertSubscribe;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -108,44 +109,6 @@ public class UserMsgActivity extends ActivityBase {
     TextView acUserMsgTvSellSort;
     @BindView(R.id.ac_userMsg_tv_priceSort)
     TextView acUserMsgTvPriceSort;
-    @BindView(R.id.ac_userMsg_mcv_headImg1)
-    MyCircleView acUserMsgMcvHeadImg1;
-    @BindView(R.id.ac_userMsg_tv_level1)
-    ImageView acUserMsgTvLevel1;
-    @BindView(R.id.ac_userMsg_tv_beDYR1)
-    TextView acUserMsgTvBeDYR1;
-    @BindView(R.id.ac_userMsg_tv_nickName1)
-    TextView acUserMsgTvNickName1;
-    @BindView(R.id.ac_userMsg_tv_signature1)
-    TextView acUserMsgTvSignature1;
-    @BindView(R.id.ac_userMsg_tv_address1)
-    TextView acUserMsgTvAddress1;
-    @BindView(R.id.ac_userMsg_tv_hits1)
-    TextView acUserMsgTvHits1;
-    @BindView(R.id.ac_userMsg_tv_attNum1)
-    TextView acUserMsgTvAttNum1;
-    @BindView(R.id.ac_userMsg_tv_historyMoney1)
-    TextView acUserMsgTvHistoryMoney1;
-    @BindView(R.id.ac_userMsg_tv_reputation1)
-    TextView acUserMsgTvReputation1;
-    @BindView(R.id.ac_userMsg_tv_qyCert1)
-    TextView acUserMsgTvQyCert1;
-    @BindView(R.id.ac_userMsg_tv_sjCert1)
-    TextView acUserMsgTvSjCert1;
-    @BindView(R.id.ac_userMsg_iv_mdCert1)
-    TextView acUserMsgIvMdCert1;
-    @BindView(R.id.ac_userMsg_tv_smCert1)
-    TextView acUserMsgTvSmCert1;
-    @BindView(R.id.ac_userMsg_tv_goCert1)
-    TextView acUserMsgTvGoCert1;
-    @BindView(R.id.ac_userMsg_ll_share)
-    LinearLayout acUserMsgLlShare;
-    @BindView(R.id.ac_userMsg_ll_show)
-    LinearLayout acUserMsgLlShow;
-    @BindView(R.id.ac_userMsg_tv_toShare)
-    TextView acUserMsgTvToShare;
-    @BindView(R.id.ac_userMsg_iv_qrCode)
-    ImageView acUserMsgIvQrCode;
 
 
     private IWXAPI api;
@@ -180,6 +143,7 @@ public class UserMsgActivity extends ActivityBase {
 
         getStoreGoodsList();
     }
+
 
     private void getStoreGoodsList() {
         MainSubscribe.storeGoodsList(att_user_id, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
@@ -247,7 +211,17 @@ public class UserMsgActivity extends ActivityBase {
         acUserMsgTvReputation.setText(data.getReputation() == null ? "0" : data.getReputation());
         acUserMsgTvAddress.setText(new GetAddressUtil(this).getAddress(Double.parseDouble(data.getLng()), Double.parseDouble(data.getLat())));
 
-        Glide.with(this).load(Uri.parse(data.getHead_img())).into(acUserMsgMcvHeadImg1);
+        String[] strs=data.getCertification().split(",");
+        for(String str:strs){
+            if(str.equals("1")){
+                acUserMsgTvSmCert.setVisibility(View.VISIBLE);
+                acUserMsgTvSjCert.setVisibility(View.VISIBLE);
+            }else if(str.equals("2")){
+                acUserMsgTvQyCert.setVisibility(View.VISIBLE);
+            }
+        }
+
+        /*Glide.with(this).load(Uri.parse(data.getHead_img())).into(acUserMsgMcvHeadImg1);
         acUserMsgTvNickName1.setText(data.getNick_name());
         acUserMsgTvSignature1.setText(data.getSignature() == null ? "这个人很懒，什么也没留下" : data.getSignature());
         MyCustomUtils.showLevelImg((int) data.getLevel(), acUserMsgTvLevel1);
@@ -256,13 +230,13 @@ public class UserMsgActivity extends ActivityBase {
         acUserMsgTvHistoryMoney1.setText(data.getHistory_money());
         acUserMsgTvReputation1.setText(data.getReputation() == null ? "0" : data.getReputation());
         acUserMsgTvAddress1.setText(new GetAddressUtil(this).getAddress(Double.parseDouble(data.getLng()), Double.parseDouble(data.getLat())));
-        acUserMsgIvQrCode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("hello world",80));
+        acUserMsgIvQrCode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("hello world",80));*/
     }
 
 
     @OnClick({R.id.title_theme_img_right, R.id.ac_userMsg_tv_beDYR, R.id.ac_userMsg_tv_tuijian,
             R.id.ac_userMsg_tv_allGoods, R.id.ac_userMsg_tv_sellSort, R.id.ac_userMsg_tv_priceSort,
-            R.id.ac_userMsg_tv_toShare})
+            R.id.ac_userMsg_tv_goCert})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.ac_userMsg_tv_beDYR:
@@ -299,9 +273,12 @@ public class UserMsgActivity extends ActivityBase {
                 acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.app_theme));
                 type = "4";
                 break;
-            case R.id.ac_userMsg_tv_toShare:
-                bmp=SimpleUtil.createViewBitmap(acUserMsgLlShare);
+            /*case R.id.ac_userMsg_tv_toShare:
+                //bmp=SimpleUtil.createViewBitmap(acUserMsgLlShare);
                 showSingleBottomDialog();
+                break;*/
+            case R.id.ac_userMsg_tv_goCert:
+                startActivity(new Intent(UserMsgActivity.this, MyAttestationActivity.class));
                 break;
         }
     }
@@ -434,7 +411,7 @@ public class UserMsgActivity extends ActivityBase {
         dialog.findViewById(R.id.dialog_share_friends).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                acUserMsgLlShow.setVisibility(View.GONE);
+                //acUserMsgLlShow.setVisibility(View.GONE);
                 WXImageObject imgObj = new WXImageObject(bmp);
                 WXMediaMessage msg = new WXMediaMessage();
                 msg.mediaObject = imgObj;
@@ -455,7 +432,7 @@ public class UserMsgActivity extends ActivityBase {
         dialog.findViewById(R.id.dialog_share_pyq).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                acUserMsgLlShow.setVisibility(View.GONE);
+                //acUserMsgLlShow.setVisibility(View.GONE);
                 WXImageObject imgObj = new WXImageObject(bmp);
                 WXMediaMessage msg = new WXMediaMessage();
                 msg.mediaObject = imgObj;
@@ -476,7 +453,7 @@ public class UserMsgActivity extends ActivityBase {
         dialog.findViewById(R.id.dl_photo_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                acUserMsgLlShow.setVisibility(View.GONE);
+                //acUserMsgLlShow.setVisibility(View.GONE);
                 dialog.dismiss();
             }
         });

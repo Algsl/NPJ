@@ -3,6 +3,7 @@ package com.zthx.npj.ui;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
@@ -13,10 +14,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.InComeLogAdapter;
+import com.zthx.npj.adapter.UserMoneyAdapter;
+import com.zthx.npj.net.been.InComeLogResponseBean;
+import com.zthx.npj.net.been.UserMoneyResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,10 +36,10 @@ public class InComeLogActivity extends ActivityBase {
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
 
-    @BindView(R.id.ac_incomeLog_tv_chooseTime)
+    /*@BindView(R.id.ac_incomeLog_tv_chooseTime)
     TextView acIncomeLogTvChooseTime;
     @BindView(R.id.ac_incomeLog_tv_ioMoney)
-    TextView acIncomeLogTvIoMoney;
+    TextView acIncomeLogTvIoMoney;*/
     @BindView(R.id.ac_incomeLog_rv_mingxi)
     RecyclerView acIncomeLogRvMingxi;
 
@@ -61,7 +69,12 @@ public class InComeLogActivity extends ActivityBase {
         SetSubscribe.inComeLog(user_id, token, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-
+                InComeLogResponseBean bean=GsonUtils.fromJson(result,InComeLogResponseBean.class);
+                ArrayList<InComeLogResponseBean.DataBean> data=bean.getData();
+                RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(InComeLogActivity.this);
+                acIncomeLogRvMingxi.setLayoutManager(layoutManager);
+                InComeLogAdapter adapter=new InComeLogAdapter(InComeLogActivity.this,data);
+                acIncomeLogRvMingxi.setAdapter(adapter);
             }
 
             @Override
@@ -163,13 +176,11 @@ public class InComeLogActivity extends ActivityBase {
         }
     }
 
-    @OnClick({R.id.ac_vipJL_tv_allType, R.id.ac_incomeLog_tv_chooseTime})
+    @OnClick({R.id.ac_vipJL_tv_allType})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_vipJL_tv_allType:
                 showSingleBottomDialog();
-                break;
-            case R.id.ac_incomeLog_tv_chooseTime:
                 break;
         }
     }

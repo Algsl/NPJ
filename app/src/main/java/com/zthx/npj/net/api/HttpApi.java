@@ -570,5 +570,8 @@ public interface HttpApi  {
 
     @POST("index.php/api/payment/offlinebuy2.html")
     Observable<ResponseBody> offlineBuy2(@Body OfflineBuy2Bean bean);
+
+    @POST("index.php/api/user/editinviter.html")
+    Observable<ResponseBody> editInviter(@Body EditInviterBean bean);
 }
 

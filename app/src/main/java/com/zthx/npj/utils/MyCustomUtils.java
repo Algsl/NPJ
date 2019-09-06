@@ -206,4 +206,19 @@ public class MyCustomUtils {
         //avatarUri = Uri.parse(image.getAbsolutePath());
         return image;
     }
+
+    public static File saveBitmapFile(Bitmap bitmap) {
+
+        File file = new File("storage/emulated/legacy/s.jpg");//将要保存图片的路径
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            bos.flush();
+            bos.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
 }

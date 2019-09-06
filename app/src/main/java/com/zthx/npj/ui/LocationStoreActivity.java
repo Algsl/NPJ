@@ -77,8 +77,7 @@ public class LocationStoreActivity extends ActivityBase {
     SmartRefreshLayout refreshLayout;
     private String type = "1";
 
-    private String lng = SharePerferenceUtils.getLng(this);
-    private String lat = SharePerferenceUtils.getLat(this);
+
     private String keyword = "";
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
@@ -210,6 +209,8 @@ public class LocationStoreActivity extends ActivityBase {
     }
 
     private void getSearchStore() {
+        String lng = SharePerferenceUtils.getLng(this);
+        String lat = SharePerferenceUtils.getLat(this);
         keyword = atLocationStoreEtSearch.getText().toString().trim();
         MainSubscribe.searchStore(lng, lat, keyword, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override

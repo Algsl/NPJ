@@ -126,7 +126,7 @@ public class StoreGoodsBillActivity extends ActivityBase {
         mAdapter.setOnItemClickListener(new StoreGoodsBillAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                startActivity(new Intent(StoreGoodsBillActivity.this, MyStoreOrderDetailActivity.class));
+                //startActivity(new Intent(StoreGoodsBillActivity.this, MyStoreOrderDetailActivity.class));
             }
 
             @Override

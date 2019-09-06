@@ -74,15 +74,6 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/dp_13"
                         android:src="@drawable/logo"/>
-                    <!--<TextView
-                        android:id="@+id/ac_userMsg_tv_level"
-                        android:layout_width="@dimen/dp_80"
-                        android:layout_height="@dimen/dp_23"
-                        android:gravity="center"
-                        android:text="金牌代言人"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/sp_12"
-                        android:background="@drawable/bg_daiyanren"/>-->
                     <ImageView
                         android:id="@+id/ac_userMsg_tv_level"
                         android:layout_width="@dimen/dp_80"
@@ -283,6 +274,7 @@
                         android:layout_weight="1"
                         android:orientation="horizontal">
                         <TextView
+                            android:visibility="gone"
                             android:id="@+id/ac_userMsg_tv_qyCert"
                             android:layout_width="@dimen/dp_55"
                             android:layout_height="@dimen/dp_18"
@@ -304,6 +296,7 @@
                             android:background="#C490BF"
                             android:text="销量过万"/>
                         <TextView
+                            android:visibility="gone"
                             android:id="@+id/ac_userMsg_tv_sjCert"
                             android:layout_width="@dimen/dp_55"
                             android:layout_height="@dimen/dp_18"
@@ -352,6 +345,7 @@
                             android:background="#81AB64"
                             android:text="信用最高"/>
                         <TextView
+                            android:visibility="gone"
                             android:id="@+id/ac_userMsg_tv_smCert"
                             android:layout_width="@dimen/dp_55"
                             android:layout_height="@dimen/dp_18"
@@ -447,7 +441,7 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/ac_userMsg_ll_show"
         android:visibility="gone"
         android:layout_width="match_parent"
@@ -813,5 +807,5 @@
             android:id="@+id/ac_userMsg_tv_toShare"
             android:layout_marginTop="@dimen/dp_10"
             android:background="@drawable/theme_conner_15"/>
-    </LinearLayout>
+    </LinearLayout>-->
 </RelativeLayout>

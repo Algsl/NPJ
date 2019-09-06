@@ -18,7 +18,6 @@ public class UserResponseBean extends BaseReponseBean{
         private String signature;
         private int level;
         private long gourd_coin;
-
         public long getId() {
             return id;
         }

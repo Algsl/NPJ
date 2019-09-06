@@ -233,8 +233,8 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
         atMyOrderDetailTvIsFreeShipping.setText("￥ " + data.getShipping_fee());
 
         atMyOrderDetailTvOrderSn.setText(data.getOrder_sn());
-        atMyOrderDetailTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time())));
-        atMyOrderDetailTvPayTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time())));
+        atMyOrderDetailTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time()*1000)));
+        atMyOrderDetailTvPayTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time()*1000)));
 
         switch (order_state) {
             case "1":

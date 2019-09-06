@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
+import com.zthx.npj.net.been.EditInviterBean;
+import com.zthx.npj.net.been.EditInviterResponseBean;
 import com.zthx.npj.net.been.ReferrerResponseBean;
 import com.zthx.npj.net.netsubscribe.GiftSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -179,9 +181,27 @@ public class ReferrerActivity extends ActivityBase {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String hongbaoMa = input.getText().toString().trim();
-                backgroundAlpha(1f);
-                window.dismiss();
+                String mobile = input.getText().toString().trim();
+                GiftSubscribe.editInviter(user_id,token,mobile,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        EditInviterResponseBean bean=GsonUtils.fromJson(result,EditInviterResponseBean.class);
+                        if(bean.getData().getStatus()==1){
+                            showToast("联系人修改成功");
+                        }else if(bean.getData().getStatus()==2){
+                            showToast("没有推荐人，无法修改");
+                        }else{
+                            showToast("推荐人只能修改一次");
+                        }
+                        backgroundAlpha(1f);
+                        window.dismiss();
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
             }
         });
 

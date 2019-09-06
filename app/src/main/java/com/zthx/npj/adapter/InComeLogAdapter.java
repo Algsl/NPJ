@@ -10,16 +10,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
+import com.zthx.npj.net.been.InComeLogResponseBean;
 import com.zthx.npj.net.been.InComeResponseBean;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class InComeLogAdapter extends RecyclerView.Adapter<InComeLogAdapter.ViewHolder> {
 
-    private ArrayList<InComeResponseBean.DataBean> mList;
+    private ArrayList<InComeLogResponseBean.DataBean> mList;
     private Context mContext;
 
-    public InComeLogAdapter(Context context,ArrayList<InComeResponseBean.DataBean> list){
+    public InComeLogAdapter(Context context,ArrayList<InComeLogResponseBean.DataBean> list){
         mList=list;
         mContext=context;
     }
@@ -33,9 +36,18 @@ public class InComeLogAdapter extends RecyclerView.Adapter<InComeLogAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.tvTime.setText("");
-        viewHolder.tvPrice.setText("+");
-        viewHolder.tvTime.setText("");
+        switch (mList.get(i).getType()+"") {
+            case "1"://充值
+                viewHolder.ivHead.setImageResource(R.drawable.my_wallet_logo1);
+                viewHolder.tvPrice.setText("+"+mList.get(i).getPrice());
+                break;
+            case "2":
+                viewHolder.ivHead.setImageResource(R.drawable.my_wallet_logo2);
+                viewHolder.tvPrice.setText("-"+mList.get(i).getPrice());
+                break;
+        }
+        viewHolder.tvTime.setText(new SimpleDateFormat("MM月dd日 hh:mm:ss").format(new Date(mList.get(i).getCreate_time()*1000)));
+        viewHolder.tvTitle.setText(mList.get(i).getTitle());
     }
 
     @Override

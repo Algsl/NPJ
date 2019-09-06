@@ -55,13 +55,7 @@
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_50"
                 android:layout_weight="1"
-                android:button="@null"
-                android:gravity="center"
-                android:textColor="@drawable/activity_main_select_text"
-                android:drawableTop="@drawable/activity_main_select_shoppingcart"
-                android:textSize="@dimen/sp_12"
-                android:paddingTop="@dimen/dp_5"
-                android:text="购物车" />
+                android:button="@null" />
             <RadioButton
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_50"
@@ -85,7 +79,7 @@
                 android:id="@+id/ll_main_check_05"
                 android:textSize="@dimen/sp_12"
                 android:paddingTop="@dimen/dp_5"
-                android:text="个人中心" />
+                android:text="个人中心"/>
         </RadioGroup>
         <LinearLayout
             android:id="@+id/ll_main_check_03"

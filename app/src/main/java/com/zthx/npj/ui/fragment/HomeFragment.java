@@ -95,7 +95,7 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.fg_home_ll_recommend)
     LinearLayout fgHomeLlRecommend;
     @BindView(R.id.fg_home_mcv_headImg)
-    MyCircleView fgHomeMcvHeadImg;
+    ImageView fgHomeMcvHeadImg;
     @BindView(R.id.fg_home_tv_title)
     TextView fgHomeTvTitle;
     @BindView(R.id.fg_home_ll_classify)
@@ -285,7 +285,6 @@ public class HomeFragment extends BaseFragment {
                 break;
             case R.id.fg_home_ll_recommend:
                 toggle();
-
                 break;
         }
     }

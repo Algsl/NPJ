@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -110,6 +111,27 @@ public class MainActivity extends AppCompatActivity {
             localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
         }
         setContentView(R.layout.activity_main);
+
+
+
+        RadioButton llMainCheck01=findViewById(R.id.ll_main_check_01);
+        RadioButton llMainCheck02=findViewById(R.id.ll_main_check_02);
+        RadioButton llMainCheck04=findViewById(R.id.ll_main_check_04);
+        RadioButton llMainCheck05=findViewById(R.id.ll_main_check_05);
+
+        Drawable dra1=getResources().getDrawable(R.drawable.activity_main_select_home);
+        Drawable dra2=getResources().getDrawable(R.drawable.activity_main_select_discover);
+        Drawable dra3=getResources().getDrawable(R.drawable.activity_main_select_shoppingcart);
+        Drawable dra4=getResources().getDrawable(R.drawable.activity_main_select_mine);
+        dra1.setBounds(0,0,60,60);
+        dra2.setBounds(0,0,60,60);
+        dra3.setBounds(0,0,60,60);
+        dra4.setBounds(0,0,60,60);
+        llMainCheck01.setCompoundDrawables(null,dra1,null,null);
+        llMainCheck02.setCompoundDrawables(null,dra2,null,null);
+        llMainCheck04.setCompoundDrawables(null,dra3,null,null);
+        llMainCheck05.setCompoundDrawables(null,dra4,null,null);
+
         ButterKnife.bind(this);
 
         initJPush();

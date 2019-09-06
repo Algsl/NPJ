@@ -83,7 +83,7 @@ public class SupplyOrderAdapter extends RecyclerView.Adapter<SupplyOrderAdapter.
             viewHolder.goodsPrice.setText("已付款"+mList.get(i).getOrder_price());
             viewHolder.goodsNum.setText(mList.get(i).getOrder_num()+"斤");
             viewHolder.goodsOrder.setText("订单号："+mList.get(i).getOrder_sn());
-            //viewHolder.goodsTime.setText("下单时间："+ new SimpleDateFormat("yyyy年MM月dd日").format(new Date(mList.get(i).getOrder_time())));
+            viewHolder.goodsTime.setText("下单时间："+ new SimpleDateFormat("yyyy年MM月dd日").format(new Date(mList.get(i).getOrder_time()*1000)));
             switch (mList.get(i).getOrder_state()+""){
 
                 case "1"://未付款
@@ -127,6 +127,7 @@ public class SupplyOrderAdapter extends RecyclerView.Adapter<SupplyOrderAdapter.
             goodsState=itemView.findViewById(R.id.item_store_goods_bill_tv_state);
             sendGoods=itemView.findViewById(R.id.item_store_goods_bill_tv_send);
             refund=itemView.findViewById(R.id.item_store_goods_bill_tv_drawaback);
+            goodsTime=itemView.findViewById(R.id.item_store_goods_bill_tv_orderTime);
         }
     }
 }

@@ -96,8 +96,8 @@ public class MySupplyListAdapter extends RecyclerView.Adapter<MySupplyListAdapte
         viewHolder.goodsName.setText(mList.get(i).getGoods_name());
         viewHolder.marketPrice.setText("市场价："+mList.get(i).getMarket_price());
         viewHolder.memberPrice.setText("会员价："+mList.get(i).getMember_price());
-        viewHolder.sold.setText(mList.get(i).getSold());
-        viewHolder.goodsNumber.setText(mList.get(i).getInventory());
+        //viewHolder.sold.setText("销量："+mList.get(i).getSold()==null?"0":mList.get(i).getSold());
+        //viewHolder.goodsNumber.setText("库存："+mList.get(i).getInventory()==null?"0":mList.get(i).getInventory());
         if(type.equals("1")){
             viewHolder.onSale.setText("下架");
         }else{

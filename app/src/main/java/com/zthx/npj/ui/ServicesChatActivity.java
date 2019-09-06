@@ -29,6 +29,7 @@ import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.UploadImgResponseBean;
 import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -246,8 +247,9 @@ public class ServicesChatActivity extends ActivityBase {
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         final String path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
-                        Bitmap bitmap = BitmapFactory.decodeFile(path);
-
+                        Message message=JMessageClient.createSingleImageMessage(chat_name,new File(path));
+                        JMessageClient.sendMessage(message);
+                        getChatMsg();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
