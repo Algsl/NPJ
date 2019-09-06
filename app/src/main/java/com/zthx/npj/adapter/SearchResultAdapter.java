@@ -59,7 +59,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
        }
         Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
         viewHolder.goodsName.setText(mList.get(i).getGoods_name());
-        viewHolder.memberPrice.setText("￥"+mList.get(i).getMember_price());
+        viewHolder.memberPrice.setText("￥"+mList.get(i).getUser_price());
         viewHolder.marketPrice.setText("￥"+mList.get(i).getMarket_price());
         viewHolder.marketPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         viewHolder.sold.setText("已售"+mList.get(i).getSold());

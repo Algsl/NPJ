@@ -17,11 +17,11 @@
 
         <ImageView
             android:id="@+id/at_home_search_iv_back"
-            android:layout_width="@dimen/dp_22"
-            android:layout_height="@dimen/dp_22"
+            android:layout_width="@dimen/dp_28"
+            android:layout_height="@dimen/dp_28"
             android:src="@drawable/back"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_5"/>
+            android:layout_marginLeft="@dimen/dp_8"/>
         <EditText
             android:id="@+id/at_home_search_et_search"
             android:layout_width="@dimen/dp_245"
@@ -29,7 +29,7 @@
             android:layout_centerVertical="true"
             android:background="@drawable/stroke_gray_10"
             android:layout_toRightOf="@id/at_home_search_iv_back"
-            android:layout_marginLeft="@dimen/dp_38"
+            android:layout_marginLeft="@dimen/dp_30"
             android:hint="搜索你想要的产品"
             android:textSize="@dimen/sp_15"
             android:lines="1"

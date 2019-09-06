@@ -267,7 +267,7 @@ public class PayToStoreActivity extends ActivityBase {
     }
 
     private void wxpay() {
-        MainSubscribe.offlineBuy2("weixin", data1.getOrder_sn(), data1.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        GiftSubscribe.pay("weixin", data1.getOrder_sn(), data1.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setWXResult(result);
@@ -297,7 +297,7 @@ public class PayToStoreActivity extends ActivityBase {
     }
 
     private void alipay() {
-        MainSubscribe.offlineBuy2("alipay", data1.getOrder_sn(), data1.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        GiftSubscribe.pay("alipay", data1.getOrder_sn(), data1.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setPayResult(result);

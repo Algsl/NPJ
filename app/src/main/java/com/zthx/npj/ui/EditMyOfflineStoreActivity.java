@@ -113,6 +113,8 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         changeTitle(acTitle,"商家管理");
         atLocationStoreTvRuzhu.setText("管理");
 
+        getMyOfflineStore();
+
 
         zzImageBox.setOnlineImageLoader(new ZzImageBox.OnlineImageLoader() {
             @Override
@@ -143,7 +145,6 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
     @Override
     protected void onResume() {
         super.onResume();
-        getMyOfflineStore();
     }
 
     private void getMyOfflineStore() {
@@ -183,10 +184,10 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         return et.getText().toString().trim();
     }
 
-    @OnClick({R.id.ac_storeManager_btn_ruzhu,R.id.at_store_manager_tv_code,R.id.at_location_store_tv_ruzhu})
+    @OnClick({R.id.ac_storeManager_btn_ruzhu,R.id.at_store_manager_tv_code,R.id.at_location_store_tv_ruzhu,R.id.ac_storeManager_tv_address})
     public void onViewClicked(View view) {
         switch (view.getId()){
-            case R.id.at_store_manager_tv_code:
+            case R.id.at_store_manager_tv_code://收款码
                 Intent intent1=new Intent(EditMyOfflineStoreActivity.this,StoreManagerQRCodeActivity.class);
                 intent1.putExtra("img",data.getStore_img().get(0));
                 startActivityForResult(intent1,3);
@@ -221,11 +222,15 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
             case R.id.at_location_store_tv_ruzhu:
                 showItemPopwindow();
                 break;
+            case R.id.ac_storeManager_tv_address:
+                Intent intent=new Intent(this,MapAddressActivity.class);
+                startActivityForResult(intent,1);
+                break;
         }
     }
 
     private void offlineStore(String img) {
-        OfflineStoreBean bean = new OfflineStoreBean();
+        EditOfflineStoreBean bean = new EditOfflineStoreBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
         bean.setStore_name(getEtToString(acStoreManagerEtStoreName));
@@ -239,7 +244,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         bean.setStore_img(img);
         bean.setLat(SharePerferenceUtils.getLat(this));
         bean.setLng(SharePerferenceUtils.getLng(this));
-        SetSubscribe.offlineStore(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.editOfflineStore(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 finish();
@@ -283,13 +288,14 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
                     zzImageBox.addImage(path);
                 }
                 break;
-            case 1:
+            case 1://地址返回值
                 if(resultCode==1){
                     acStoreManagerTvAddress.setText(data.getStringExtra("address"));
                     acStoreManagerEtAddress2.setText(data.getStringExtra("addressDetail"));
                 }
                 break;
-            case 3:
+            case 3://收款码优惠比率返回值
+                Log.e("测试", "onActivityResult: "+resultCode+" "+data.getStringExtra("offer") );
                 if(resultCode==0){
 
                 }else if(resultCode==1){

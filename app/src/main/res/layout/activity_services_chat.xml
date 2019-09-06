@@ -23,7 +23,7 @@
     <RelativeLayout
         android:id="@+id/ac_serviceChat_ll"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_200"
+        android:layout_height="@dimen/dp_50"
         android:background="@color/background"
         android:layout_alignParentBottom="true">
         <LinearLayout
@@ -76,7 +76,7 @@
         <View
             android:id="@+id/line"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_100"
+            android:layout_height="@dimen/dp_10"
             android:background="@color/background"
             android:layout_marginTop="@dimen/dp_12"
             android:layout_below="@id/ac_serviceChat_iv_expression"/>

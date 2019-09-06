@@ -1,7 +1,15 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -17,7 +25,13 @@ import android.widget.Toast;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.ChatListAdapter;
+import com.zthx.npj.net.api.URLConstant;
+import com.zthx.npj.net.been.UploadImgResponseBean;
+import com.zthx.npj.net.netutils.HttpUtils;
+import com.zthx.npj.utils.GsonUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -29,6 +43,9 @@ import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.Message;
 import cn.jpush.im.android.api.options.MessageSendingOptions;
 import cn.jpush.im.api.BasicCallback;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class ServicesChatActivity extends ActivityBase {
     @BindView(R.id.ac_serviceChat_et_content)
@@ -62,6 +79,10 @@ public class ServicesChatActivity extends ActivityBase {
     private String receiveTitle = "";
     private Conversation mConversation = null;
     private boolean isOpen = false;
+    private static final int TAKE_PHOTO = 1;
+    private static final int CHOOSE_PHOTO = 2;
+    private Uri imageUri;
+    private MessageSendingOptions options;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -138,7 +159,7 @@ public class ServicesChatActivity extends ActivityBase {
                 }
             });
             //设置消息发送时的一些控制参数
-            MessageSendingOptions options = new MessageSendingOptions();
+            options = new MessageSendingOptions();
             options.setNeedReadReceipt(true);//是否需要对方用户发送消息已读回执
             options.setRetainOffline(true);//是否当对方用户不在线时让后台服务区保存这条消息的离线消息
             options.setShowNotification(true);//是否让对方展示sdk默认的通知栏通知
@@ -172,14 +193,67 @@ public class ServicesChatActivity extends ActivityBase {
                 toggle();
                 break;
             case R.id.ac_serviceChat_ll_photoGraphic:
-
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, CHOOSE_PHOTO);
                 break;
             case R.id.ac_serviceChat_ll_takePhoto:
+                File outputImage = new File(getExternalCacheDir(), "output_image.jpg");
+                try {
+                    if (outputImage.exists()) {
+                        outputImage.delete();
+                    }
+                    outputImage.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (Build.VERSION.SDK_INT >= 24) {
+                    imageUri = FileProvider.getUriForFile(ServicesChatActivity.this, "com.zthx.npj.file_provider", outputImage);
+                } else {
+                    imageUri = Uri.fromFile(outputImage);
+                }
 
+                Intent intent2 = new Intent("android.media.action.IMAGE_CAPTURE");
+                intent2.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent2, TAKE_PHOTO);
                 break;
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case TAKE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                        String filePath = getExternalCacheDir() + "/output_image.jpg";
+                        Message message=JMessageClient.createSingleImageMessage(chat_name,new File(filePath));
+                        JMessageClient.sendMessage(message);
+                        getChatMsg();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case CHOOSE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+                        cursor.moveToFirst();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        final String path = cursor.getString(columnIndex);  //获取照片路径
+                        cursor.close();
+                        Bitmap bitmap = BitmapFactory.decodeFile(path);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+        }
+    }
     public void toggle() {
         isOpen = !isOpen;
         if (isOpen) {
