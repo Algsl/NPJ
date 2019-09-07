@@ -94,7 +94,6 @@ public class LocationStoreActivity extends ActivityBase {
 
         atLocationStoreTvRuzhu.setText("我的店铺");
         acLocaltionStoreTvAddress.setSelected(true);
-        getLocalStore(type);
 
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -106,6 +105,12 @@ public class LocationStoreActivity extends ActivityBase {
         });
 
         initBanner();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getLocalStore(type);
     }
 
     private void getLocalStore(String type) {
@@ -299,7 +304,8 @@ public class LocationStoreActivity extends ActivityBase {
             SetSubscribe.myOfflineStore(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
-                    Log.e("测试", "onSuccess: " + result);
+                    startActivity(new Intent(LocationStoreActivity.this, EditMyOfflineStoreActivity.class));
+                    /*Log.e("测试", "onSuccess: " + result);
                     try {
                         JSONObject object = new JSONObject(result);
                         String code = object.getString("code") + "";
@@ -310,7 +316,7 @@ public class LocationStoreActivity extends ActivityBase {
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                    }
+                    }*/
                 }
 
                 @Override

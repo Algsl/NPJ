@@ -33,6 +33,7 @@
                     android:layout_marginLeft="@dimen/dp_20"
                     android:layout_marginTop="@dimen/dp_18"
                     android:src="@mipmap/ic_launcher"
+                    android:scaleType="centerCrop"
                     app:riv_oval="true"
                     app:riv_border_color="@color/white"
                     app:riv_border_width="@dimen/dp_2"/>

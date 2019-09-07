@@ -171,7 +171,7 @@ public class MyAttestationActivity extends ActivityBase {
                         StockResponseBean bean = GsonUtils.fromJson(result, StockResponseBean.class);
                         switch (bean.getData().getStatus() + "") {
                             case "1":
-                                openActivity(EnterpriseCertificationActivity.class);
+                                openActivity(PurchaserCertificationActivity.class);
                                 break;
                             case "2":
                                 openActivity(AttestationSuccessActivity.class, "3", "2", bean.getData().getCert_id());
@@ -190,7 +190,6 @@ public class MyAttestationActivity extends ActivityBase {
                         showToast(errorMsg);
                     }
                 }));
-                startActivity(new Intent(this, PurchaserCertificationActivity.class));
                 break;
             case R.id.at_my_attestation_ll_trust:
                 CertSubscribe.integrity(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {

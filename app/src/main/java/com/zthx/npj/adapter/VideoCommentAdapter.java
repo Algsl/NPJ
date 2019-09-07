@@ -14,6 +14,13 @@ import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.CommentResponseBean;
+import com.zthx.npj.net.been.LookUserResponseBean;
+import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,11 +63,24 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<VideoCommentAdapte
                 }
             });
         }
+        DiscoverSubscribe.lookUser(mList.get(i).getUser_id()+"", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                LookUserResponseBean bean = GsonUtils.fromJson(result, LookUserResponseBean.class);
+                LookUserResponseBean.DataBean data = bean.getData();
+                MyCustomUtils.showLevelImg((int)data.getLevel(),viewHolder.level);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
         if (mList!= null && mList.size() > 0) {
             Glide.with(mContext).load(Uri.parse(mList.get(i).getHead_img())).into(viewHolder.mIvGoods);
             viewHolder.userName.setText(mList.get(i).getNick_name());
             viewHolder.content.setText(mList.get(i).getContent());
-            viewHolder.createTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(mList.get(i).getCreate_time())));
+            viewHolder.createTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(mList.get(i).getCreate_time()*1000)));
         }
     }
 
@@ -70,7 +90,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<VideoCommentAdapte
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mIvGoods;
+        ImageView mIvGoods,level;
         TextView userName,createTime,content;
 
         ViewHolder(View itemView) {
@@ -79,6 +99,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<VideoCommentAdapte
             userName=itemView.findViewById(R.id.item_commentVideo_tv_userName);
             createTime=itemView.findViewById(R.id.item_comment_video_tv_time);
             content=itemView.findViewById(R.id.item_comment_video_tv_comment);
+            level=itemView.findViewById(R.id.item_commenVideo_iv_level);
         }
     }
 }

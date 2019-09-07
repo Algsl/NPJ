@@ -123,10 +123,10 @@ public class MainActivity extends AppCompatActivity {
         Drawable dra2=getResources().getDrawable(R.drawable.activity_main_select_discover);
         Drawable dra3=getResources().getDrawable(R.drawable.activity_main_select_shoppingcart);
         Drawable dra4=getResources().getDrawable(R.drawable.activity_main_select_mine);
-        dra1.setBounds(0,0,60,60);
-        dra2.setBounds(0,0,60,60);
-        dra3.setBounds(0,0,60,60);
-        dra4.setBounds(0,0,60,60);
+        dra1.setBounds(0,0,50,50);
+        dra2.setBounds(0,0,50,50);
+        dra3.setBounds(0,0,50,50);
+        dra4.setBounds(0,0,50,50);
         llMainCheck01.setCompoundDrawables(null,dra1,null,null);
         llMainCheck02.setCompoundDrawables(null,dra2,null,null);
         llMainCheck04.setCompoundDrawables(null,dra3,null,null);

@@ -80,6 +80,8 @@ public class SettingsActivity extends ActivityBase {
     TextView acSettingTvCache;
     @BindView(R.id.ac_setting_btn_loginOut)
     Button acSettingBtnLoginOut;
+    @BindView(R.id.term)
+    RelativeLayout term;
 
 
     private Uri imageUri;
@@ -99,22 +101,21 @@ public class SettingsActivity extends ActivityBase {
         back(titleThemeBack);
         changeTitle(titleThemeTitle, "设置");
 
+        getUserInfo();
     }
 
     private void getUserInfo() {
-        SetSubscribe.getUserInfo(user_id,
-                token,
-                new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                    @Override
-                    public void onSuccess(String result) {
-                        setUserInfo(result);
-                    }
+        SetSubscribe.getUserInfo(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setUserInfo(result);
+            }
 
-                    @Override
-                    public void onFault(String errorMsg) {
-                        showToast(errorMsg);
-                    }
-                }));
+            @Override
+            public void onFault(String errorMsg) {
+                showToast(errorMsg);
+            }
+        }));
     }
 
     private void setUserInfo(String result) {
@@ -123,12 +124,6 @@ public class SettingsActivity extends ActivityBase {
         Glide.with(this).load(Uri.parse(data.getHead_img())).into(fgSettingIvHeadimg);
         acSettingsTvNickname.setText(data.getNick_name());
         acSettingsTvSignature.setText(data.getSignature());
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getUserInfo();
     }
 
     @Override
@@ -144,7 +139,8 @@ public class SettingsActivity extends ActivityBase {
             R.id.at_settings_rl_nickname,
             R.id.at_settings_rl_signature,
             R.id.at_settings_rl_address,
-            R.id.ac_setting_iv_msg})
+            R.id.ac_setting_iv_msg,
+            R.id.term})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_settings_rl_head_pic:
@@ -165,6 +161,9 @@ public class SettingsActivity extends ActivityBase {
             case R.id.ac_setting_iv_msg:
                 toggle();
                 break;
+            case R.id.term:
+                openActivity(TermsOfServiceActivity.class);
+                break;
         }
     }
 
@@ -174,7 +173,7 @@ public class SettingsActivity extends ActivityBase {
             acSettingIvMsg.setImageResource(R.drawable.at_edit_address_selector);
         } else {
             acSettingIvMsg.setImageResource(R.drawable.at_edit_address_not_selector);
-            @SuppressLint("WrongConstant") NotificationManager manager= (NotificationManager) SettingsActivity.this.getApplicationContext().getSystemService("notification");
+            @SuppressLint("WrongConstant") NotificationManager manager = (NotificationManager) SettingsActivity.this.getApplicationContext().getSystemService("notification");
             manager.cancelAll();
         }
     }
@@ -298,9 +297,9 @@ public class SettingsActivity extends ActivityBase {
                             @Override
                             public void gotResult(int i, String s) {
                                 if (i == 0) {
-                                    Log.e("测试", "gotResult: "+i+" "+s);
+                                    Log.e("测试", "gotResult: " + i + " " + s);
                                 } else {
-                                    Log.e("测试", "gotResult: "+i+" "+s);
+                                    Log.e("测试", "gotResult: " + i + " " + s);
                                 }
                             }
                         });
@@ -377,7 +376,7 @@ public class SettingsActivity extends ActivityBase {
 
     @OnClick(R.id.ac_setting_btn_loginOut)
     public void onViewClicked() {
-        SharePerferenceUtils.setUserId(this,"");
+        SharePerferenceUtils.setUserId(this, "");
         openActivity(SplashActivity.class);
     }
 }

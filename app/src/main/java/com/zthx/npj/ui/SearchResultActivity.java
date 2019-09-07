@@ -13,6 +13,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.SearchResultAdapter;
 import com.zthx.npj.base.Const;
@@ -38,8 +41,10 @@ public class SearchResultActivity extends ActivityBase {
     TextView atHomeSearchTvSearch;
     @BindView(R.id.at_home_search_rv_result)
     RecyclerView atHomeSearchRvResult;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
-    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String user_id = SharePerferenceUtils.getUserId(this);
     private String searchTitle;
 
     @Override
@@ -49,8 +54,18 @@ public class SearchResultActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(atHomeSearchIvBack);
-        searchTitle=getIntent().getStringExtra("key0");
+        searchTitle = getIntent().getStringExtra("key0");
         atHomeSearchEtSearch.setHint(searchTitle);
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                setSearchResult(searchTitle);
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
+
         setSearchResult(searchTitle);
     }
 
@@ -61,7 +76,7 @@ public class SearchResultActivity extends ActivityBase {
                 atHomeSearchEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
                     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                        if(i==EditorInfo.IME_ACTION_SEARCH){
+                        if (i == EditorInfo.IME_ACTION_SEARCH) {
                             setSearchResult(atHomeSearchEtSearch.getText().toString().trim());
                         }
                         return true;
@@ -75,28 +90,28 @@ public class SearchResultActivity extends ActivityBase {
     }
 
     private void setSearchResult(String str) {
-        MainSubscribe.getSearchResult(user_id,str, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.getSearchResult(user_id, str, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 LinearLayoutManager manager = new LinearLayoutManager(SearchResultActivity.this, LinearLayoutManager.VERTICAL, false);
                 atHomeSearchRvResult.setLayoutManager(manager);
                 SearchResponseBean searchResponseBean = GsonUtils.fromJson(result, SearchResponseBean.class);
                 final ArrayList<SearchResponseBean.DataBean> data = searchResponseBean.getData();
-                if(data.size()<=0){
+                if (data.size() <= 0) {
                     atHomeSearchRvResult.setVisibility(View.GONE);
-                }else{
+                } else {
                     atHomeSearchRvResult.setVisibility(View.VISIBLE);
                 }
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SearchResultActivity.this);
                 atHomeSearchRvResult.setLayoutManager(layoutManager);
-                SearchResultAdapter adapter=new SearchResultAdapter(SearchResultActivity.this,data);
+                SearchResultAdapter adapter = new SearchResultAdapter(SearchResultActivity.this, data);
                 atHomeSearchRvResult.setItemAnimator(new DefaultItemAnimator());
                 atHomeSearchRvResult.setAdapter(adapter);
                 adapter.setOnItemClickListener(new SearchResultAdapter.ItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        Intent intent=new Intent(SearchResultActivity.this,GoodsDetailActivity.class);
-                        intent.putExtra(Const.GOODS_ID,data.get(position).getId()+"");
+                        Intent intent = new Intent(SearchResultActivity.this, GoodsDetailActivity.class);
+                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
                         startActivity(intent);
                     }
                 });

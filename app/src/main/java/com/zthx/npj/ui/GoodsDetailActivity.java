@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,13 +22,10 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -166,17 +164,21 @@ public class GoodsDetailActivity extends ActivityBase {
     LinearLayout acGoodsDetailLlInner;
     @BindView(R.id.ac_goodsDetail_rv_comment)
     RecyclerView acGoodsDetailRvComment;
+    @BindView(R.id.ac_goodsDetail_ttv_beginTime)
+    TimeTextView acGoodsDetailTtvBeginTime;
+    @BindView(R.id.ac_goodsDetail_sv)
+    NestedScrollView acGoodsDetailSv;
 
 
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
-    private String level=SharePerferenceUtils.getUserLevel(this);
+    private String level = SharePerferenceUtils.getUserLevel(this);
     private String goodsId;
     TextView tvCartNum;
     private String type = "1";
     private int count = 1;
     private String imgStrMsg = "";
-    private String collectType="1";
+    private String collectType = "1";
 
 
     private PreSellDetailResponseBean.DataBean mPreData = new PreSellDetailResponseBean().getData();
@@ -219,6 +221,7 @@ public class GoodsDetailActivity extends ActivityBase {
                 atGoodsDetailRlWillBegin.setVisibility(View.VISIBLE);
                 atGoodsDetailRlSecKill.setVisibility(View.GONE);
                 atGoodsDetailRlSecKillDone.setVisibility(View.GONE);
+                acGoodsDetailLlBar.setVisibility(View.GONE);
             }
             type = "4";
             atGoodsDetailLlGoods.setVisibility(View.VISIBLE);
@@ -226,7 +229,7 @@ public class GoodsDetailActivity extends ActivityBase {
             getSecKillDetail();
         } else if (Const.PRESELL.equals(getIntent().getAction())) {
             type = "3";
-            collectType="3";
+            collectType = "3";
             atGoodsDetailRlSecKill.setVisibility(View.GONE);
             atGoodsDetailLlGoods.setVisibility(View.GONE);
             atGoodsDetailLlPresell.setVisibility(View.VISIBLE);
@@ -290,12 +293,9 @@ public class GoodsDetailActivity extends ActivityBase {
         atGoodsDetailTvGoodsNewPrice.setText("¥" + mSeckillData.getGoods_price());
         atGoodsDetailTvGoodsOldPrice.setText("¥" + mSeckillData.getMarket_price());
         atGoodsDetailTvGoodsOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        atGoodsDetailSelledNum.setText("已售" + mSeckillData.getSold()==null?"0":mSeckillData.getSold());
+        atGoodsDetailSelledNum.setText("已售" + mSeckillData.getSold() == null ? "0" : mSeckillData.getSold());
         atGoodsDetailHoldNum.setText("库存" + mSeckillData.getGoods_num());
-        long time = mSeckillData.getEnd_time() - mSeckillData.getBegin_time();
-        long hour = time / (60 * 60 * 1000);
-        long min = ((time / (60 * 1000)) - hour * 60);
-        long second = ((time / 1000) - hour * 60 - min * 60);
+
 
         if (mSeckillData.isCollect()) {
             acGoodsDetailIvCollect.setImageResource(R.drawable.collect_star);
@@ -303,16 +303,32 @@ public class GoodsDetailActivity extends ActivityBase {
             acGoodsDetailIvCollect.setImageResource(R.drawable.uncollect_star);
         }
 
-        atGoodsDetailTtv.setTimes(new long[]{hour, min, second});
-        if (!atGoodsDetailTtv.isRun()) {
-            atGoodsDetailTtv.run();
+        long time;
+        int status = getIntent().getIntExtra(Const.SECKILL_STATUS, 1);
+        if(status==2){
+            time=(mSeckillData.getEnd_time() * 1000 - System.currentTimeMillis()) / 1000;
+            setTime(atGoodsDetailTtv,time);
+        }else if(status==3){
+            time=(mSeckillData.getBegin_time() * 1000 - System.currentTimeMillis()) / 1000;
+            setTime(acGoodsDetailTtvBeginTime,time);
         }
         atGoodsDetailSpv.setTotalAndCurrentCount(Integer.parseInt(mSeckillData.getGoods_num()), Integer.parseInt(mSeckillData.getSale_num()));
     }
 
+    public void setTime(TimeTextView ttv,long time){
+        long second = time % 60;//计算秒
+        long min = time / 60 % 60;
+        long hour = time / 3600 % 24;
+        long day = time / 3600 / 24;
+        ttv.setTimes(new long[]{hour, min, second, day});
+        if (!ttv.isRun()) {
+            ttv.run();
+        }
+    }
+
     //众筹商品详情
     private void getPreSellDetail(String id) {
-        PreSellSubscribe.getPreSellDetail(id,user_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        PreSellSubscribe.getPreSellDetail(id, user_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setPreSellData(result);
@@ -333,7 +349,7 @@ public class GoodsDetailActivity extends ActivityBase {
         initBanner(mPreData.getGroup_img());
         getGoodsContent();
 
-        if(mPreData.getIs_shoucang()==1){
+        if (mPreData.getIs_shoucang() == 1) {
             acGoodsDetailIvCollect.setImageResource(R.drawable.collect_star);
         }
         atGoodsDetailTvPreSellTitle.setText(data.getGoods_name());
@@ -347,7 +363,7 @@ public class GoodsDetailActivity extends ActivityBase {
 
     //普通商品详情
     private void getGoodsDetail(String id) {
-        MainSubscribe.getGoodsDetail(id,user_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.getGoodsDetail(id, user_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setGoodsData(result);
@@ -378,7 +394,7 @@ public class GoodsDetailActivity extends ActivityBase {
         } else {
             str = mGoodsData.getIs_free_shipping() + "元";
         }
-        if(mGoodsData.getCollection()==1){
+        if (mGoodsData.getCollection() == 1) {
             acGoodsDetailIvCollect.setImageResource(R.drawable.collect_star);
         }
         atGoodsDetailTvGoodsIsBaoyou.setText("快递 " + str);
@@ -565,14 +581,14 @@ public class GoodsDetailActivity extends ActivityBase {
                         intent.setAction(Const.PRESELL);
                     } else {
                         intent.putExtra(Const.ATTRIBUTE_ID, "0");
-                        intent.putExtra("count",count+"");
-                        if(level.equals("0")){
-                            intent.putExtra("price",mGoodsData.getUser_price());
-                        }else{
-                            intent.putExtra("price",mGoodsData.getMember_price());
+                        intent.putExtra("count", count + "");
+                        if (level.equals("0")) {
+                            intent.putExtra("price", mGoodsData.getUser_price());
+                        } else {
+                            intent.putExtra("price", mGoodsData.getMember_price());
                         }
-                        double lisheng=(Double.parseDouble(mGoodsData.getUser_price())-Double.parseDouble(mGoodsData.getMember_price()))*count;
-                        intent.putExtra("lisheng",String.format("%.2f",lisheng));
+                        double lisheng = (Double.parseDouble(mGoodsData.getUser_price()) - Double.parseDouble(mGoodsData.getMember_price())) * count;
+                        intent.putExtra("lisheng", String.format("%.2f", lisheng));
                         intent.setAction(Const.GOODS);
                     }
                     intent.putExtra(Const.GOODS_ID, goodsId);
@@ -607,8 +623,8 @@ public class GoodsDetailActivity extends ActivityBase {
         TextView marketPrice = contentView.findViewById(R.id.pop_goods_size_tv_old_price);
         TextView memberPrice = contentView.findViewById(R.id.pop_goods_size_tv_price);
         TextView inventory = contentView.findViewById(R.id.pop_goods_size_tv_total_num);
-        TextView toVip=contentView.findViewById(R.id.pw_goodsSize_tv_toVIP);
-        RelativeLayout rlToVip=contentView.findViewById(R.id.pw_goodsSize_rl_toVip);
+        TextView toVip = contentView.findViewById(R.id.pw_goodsSize_tv_toVIP);
+        RelativeLayout rlToVip = contentView.findViewById(R.id.pw_goodsSize_rl_toVip);
         switch (type) {
             case "1":
                 Glide.with(this).load(Uri.parse(mSeckillData.getGoods_img())).into(headImg);
@@ -617,23 +633,23 @@ public class GoodsDetailActivity extends ActivityBase {
                 break;
             case "2":
                 Glide.with(this).load(Uri.parse(mPreData.getGroup_img().get(0))).into(headImg);
-                rlToVip.setVisibility(View.GONE);
+                rlToVip.setVisibility(View.INVISIBLE);
                 break;
             case "3":
                 Glide.with(this).load(Uri.parse(mGoodsData.getGoods_img().get(0))).into(headImg);
                 marketPrice.setText("￥" + mGoodsData.getUser_price());
                 memberPrice.setText("会员价 " + mGoodsData.getMember_price());
                 inventory.setText("库存：" + mGoodsData.getInventory());
-                double lisheng=Double.parseDouble(mGoodsData.getUser_price())-Double.parseDouble(mGoodsData.getMember_price());
-                toVip.setText("成为农品街代言人此单立省"+String.format("%.2f",lisheng)+"元");
+                double lisheng = Double.parseDouble(mGoodsData.getUser_price()) - Double.parseDouble(mGoodsData.getMember_price());
+                toVip.setText("成为农品街代言人此单立省" + String.format("%.2f", lisheng) + "元");
                 break;
         }
         rlToVip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (level.equals("0")){
+                if (level.equals("0")) {
                     openActivity(MembershipPackageActivity.class);
-                }else{
+                } else {
                     showToast("您已经是代言人了，提交订单时自动减免");
                 }
             }

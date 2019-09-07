@@ -20,6 +20,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.SecKillTodayResponseBean;
 import com.zthx.npj.view.SaleProgressView;
+import com.zthx.npj.view.TimeTextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -89,6 +90,16 @@ public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder
                 viewHolder.ll1.setVisibility(View.GONE);
                 viewHolder.ll2.setVisibility(View.VISIBLE);
                 viewHolder.buy.setVisibility(View.GONE);
+                viewHolder.timewill.setVisibility(View.VISIBLE);
+                long time = (mList.get(i).getBegin_time()*1000 - System.currentTimeMillis())/1000;
+                long second =time%60;//计算秒
+                long min=time/60%60;
+                long hour=time/3600%24;
+                long day=time/3600/24;
+                viewHolder.timewill.setTimes(new long[]{hour, min, second,day});
+                if (!viewHolder.timewill.isRun()) {
+                    viewHolder.timewill.run();
+                }
                 break;
         }
     }
@@ -100,7 +111,8 @@ public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mIvGoods;
-        TextView mTvTitle,mTvLeb,mTvNewPrice,mTvOldPrice,time,timewill,num;
+        TextView mTvTitle,mTvLeb,mTvNewPrice,mTvOldPrice,time,num;
+        TimeTextView timewill;
         SaleProgressView mSpv;
         LinearLayout ll1,ll2;
         Button buy;

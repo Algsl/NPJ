@@ -7,8 +7,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
@@ -39,7 +41,7 @@ import java.util.List;
 public class SplashActivity extends ActivityBase{
     LinearLayout atSplash;
     static final int GPS_REQUEST_CODE=10;
-    private Handler mHandler = new Handler() {
+    /*private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
@@ -69,20 +71,35 @@ public class SplashActivity extends ActivityBase{
             }
             super.handleMessage(msg);
         }
-    };
+    };*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //getSupportActionBar().hide();
         setContentView(R.layout.activity_splash);
-
-        handPermission();
-
         BaseConstant.TOKEN = SharePerferenceUtils.getToken(this);
+        startClock();
+    }
+
+    private void startClock() {
+        new CountDownTimer(3000,1000) {
+            @Override
+            public void onTick(long l) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                handPermission();
+            }
+        }.start();
+    }
 
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     private void handPermission() {
@@ -109,8 +126,7 @@ public class SplashActivity extends ActivityBase{
             if (NetUtil.isNetworkConnected(this)) {
                 openGPSSettings();
             } else {
-                Toast.makeText(this, "无网络连接", Toast.LENGTH_SHORT);
-                finish();
+                Toast.makeText(this, "请打开网络连接", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -124,11 +140,8 @@ public class SplashActivity extends ActivityBase{
                     if (NetUtil.isNetworkConnected(this)) {
                         openGPSSettings();
                     } else {
-                        Toast.makeText(this, "无网络连接", Toast.LENGTH_SHORT);
-                        finish();
+                        Toast.makeText(this, "请打开网络连接", Toast.LENGTH_SHORT).show();
                     }
-                }else{
-
                 }
                 break;
         }
@@ -138,6 +151,8 @@ public class SplashActivity extends ActivityBase{
         BaseApp.getApp().locationService.registerListener(mListener);
         BaseApp.getApp().locationService.setLocationOption(BaseApp.getApp().locationService.getDefaultLocationClientOption());
         BaseApp.getApp().locationService.start();
+        openActivity(Splash2Activity.class);
+        finish();
     }
 
     private void getMainBannerAndList() {
@@ -146,7 +161,7 @@ public class SplashActivity extends ActivityBase{
             @Override
             public void onSuccess(String result) {
                 SharePerferenceUtils.setMainBanner(SplashActivity.this, result);
-                mHandler.sendEmptyMessage(1);
+                //mHandler.sendEmptyMessage(1);
             }
 
             @Override
@@ -195,7 +210,7 @@ public class SplashActivity extends ActivityBase{
     private void openGPSSettings() {
         //getMainBannerAndList();
         if (checkGPSIsOpen()) {
-            getMainBannerAndList();
+            //getMainBannerAndList();
             initLocation(); //自己写的定位方法
         } else {
             //没有打开则弹出对话框
@@ -203,7 +218,7 @@ public class SplashActivity extends ActivityBase{
                     .setTitle("提示")
                     .setMessage("当前应用需要打开GPS")
                     // 拒绝, 退出应用
-                    .setNegativeButton("取消",
+                    .setNegativeButton("退出App",
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -230,7 +245,7 @@ public class SplashActivity extends ActivityBase{
         super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode){
             case GPS_REQUEST_CODE:
-                getMainBannerAndList();
+                //getMainBannerAndList();
                 initLocation();
                 break;
         }

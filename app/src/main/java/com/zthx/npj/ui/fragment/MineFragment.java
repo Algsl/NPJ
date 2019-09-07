@@ -386,18 +386,19 @@ public class MineFragment
                     SetSubscribe.myOfflineStore(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
-                            Log.e("测试", "onSuccess: " + result);
+                            startActivity(new Intent(getContext(), EditMyOfflineStoreActivity.class));
+                            /*Log.e("测试", "onSuccess: " + result);
                             try {
                                 JSONObject object = new JSONObject(result);
                                 String code = object.getString("code") + "";
                                 if (code.equals("1")) {
-                                    startActivity(new Intent(getContext(), EditMyOfflineStoreActivity.class));
+
                                 } else if (code.equals("2")) {
                                     Toast.makeText(getContext(), "线下门店审核中", Toast.LENGTH_LONG).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                            }
+                            }*/
                         }
 
                         @Override

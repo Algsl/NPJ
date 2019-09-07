@@ -100,6 +100,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
     private String is_open="1";
     private static final int CHOOSE_PHOTO = 2;
     private String store_id="";
+    private String offer="";
 
     @BindView(R.id.title_back)
     ImageView titleBack;
@@ -174,6 +175,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         acStoreManagerEtAddress2.setText(data.getAddress2());
         acStoreManagerTvOffer.setText(data.getOffer()+"%");
         acStoreManagerEtRelife.setText(data.getRelief());
+        offer=data.getOffer();
         is_open=data.getIs_open();
         store_id=data.getId()+"";
         for(int i=0;i<data.getStore_img().size();i++){
@@ -203,8 +205,6 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
                         paths3.add(str.split("http://app.npj-vip.com")[1]);
                     }
                 }
-                Log.e("测试", "onViewClicked: "+paths2+" "+paths3 );
-
                 if (paths2.size()==0){//没有上传新的图片
                     String paths3Str="";
                     for(int i=0;i<paths3.size();i++){
@@ -256,7 +256,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         bean.setContact(getEtToString(acStoreManagerEtContact));
         bean.setAddress(acStoreManagerTvAddress.getText().toString());
         bean.setAddress2(acStoreManagerEtAddress2.getText().toString());
-        bean.setOffer(acStoreManagerTvOffer.getText().toString());
+        bean.setOffer(offer);
         bean.setRelief(getEtToString(acStoreManagerEtRelife));
         bean.setStore_img(img);
         bean.setLat(SharePerferenceUtils.getLat(this));
@@ -317,6 +317,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
 
                 }else if(resultCode==1){
                     acStoreManagerTvOffer.setText(data.getStringExtra("offer"));
+                    offer=data.getStringExtra("offer");
                 }
         }
     }

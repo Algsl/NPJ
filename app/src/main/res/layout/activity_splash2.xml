@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zthx.npj.ui.SplashActivity"
+    android:orientation="vertical">
+    <Button
+        android:id="@+id/skip"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_42"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_alignParentRight="true"
+        android:text="跳过 5s"
+        android:textSize="@dimen/sp_12"
+        android:textColor="@color/white"
+        android:background="#80bebebe"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo"/>
+</RelativeLayout>

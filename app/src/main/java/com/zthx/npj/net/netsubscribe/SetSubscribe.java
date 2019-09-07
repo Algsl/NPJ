@@ -75,6 +75,7 @@ import com.zthx.npj.net.been.PurchaseUpBean;
 import com.zthx.npj.net.been.ReceiveConfirmBean;
 import com.zthx.npj.net.been.RechargeBean;
 import com.zthx.npj.net.been.RefundBean;
+import com.zthx.npj.net.been.ReportBean;
 import com.zthx.npj.net.been.SetStoreBean;
 import com.zthx.npj.net.been.ShipBean;
 import com.zthx.npj.net.been.ShopLogBean;
@@ -1577,6 +1578,16 @@ public class SetSubscribe {
      */
     public static void goodsBuyOne(GoodsBuyOneBean bean, DisposableObserver<ResponseBody> subscriber) {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().goodsBuyOne(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 举报
+     * @param bean
+     * @param subscriber
+     */
+    public static void report(ReportBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().report(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

@@ -485,25 +485,33 @@ public class UserMsgActivity extends ActivityBase {
         reason1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openActivity(ReportActivity.class, "该账号存在欺骗诈钱行为");
+                window.dismiss();
+                backgroundAlpha(1f);
+                openActivity(ReportActivity.class, "该账号存在欺骗诈钱行为",att_user_id);
             }
         });
         reason2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openActivity(ReportActivity.class, "该账号存在其它违法行为");
+                window.dismiss();
+                backgroundAlpha(1f);
+                openActivity(ReportActivity.class, "该账号存在其它违法行为",att_user_id);
             }
         });
         reason3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openActivity(ReportActivity.class, "该账号侵犯他人权益");
+                window.dismiss();
+                backgroundAlpha(1f);
+                openActivity(ReportActivity.class, "该账号侵犯他人权益",att_user_id);
             }
         });
         reason4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openActivity(ReportActivity.class, "该账号存在虚假信息");
+                window.dismiss();
+                backgroundAlpha(1f);
+                openActivity(ReportActivity.class, "该账号存在虚假信息",att_user_id);
             }
         });
         window.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -518,6 +526,7 @@ public class UserMsgActivity extends ActivityBase {
             @Override
             public void onClick(View view) {
                 window.dismiss();
+                backgroundAlpha(1f);
             }
         });
     }

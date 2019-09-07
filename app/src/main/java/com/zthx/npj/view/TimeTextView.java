@@ -17,7 +17,7 @@ public class TimeTextView extends TextView implements Runnable {
 
     private long[] times;
 
-    private long mhour, mmin, msecond;//天，小时，分钟，秒
+    private long mday, mhour, mmin, msecond;//天，小时，分钟，秒
 
     private boolean run = false; //是否启动了
 
@@ -50,7 +50,7 @@ public class TimeTextView extends TextView implements Runnable {
         mhour = times[0];
         mmin = times[1];
         msecond = times[2];
-
+        mday=times[3];
     }
 
     /**
@@ -66,7 +66,11 @@ public class TimeTextView extends TextView implements Runnable {
                 mhour--;
                 if (mhour < 0) {
                     // 倒计时结束
-                    mhour = 59;
+                    mhour = 24;
+                    mday--;
+                    if(mday<0){
+                        setRun(false);
+                    }
                 }
             }
 
@@ -87,7 +91,7 @@ public class TimeTextView extends TextView implements Runnable {
         //标示已经启动
         run = true;
         ComputeTime();
-        String strTime = mhour + ":" + mmin + ":" +msecond;
+        String strTime =mday+"天"+mhour + ":" + mmin + ":" +msecond;
         this.setText(Html.fromHtml(strTime));
         postDelayed(this, 1000);
     }

@@ -12,6 +12,11 @@ import android.widget.TextView;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.NotificationAdapter;
 import com.zthx.npj.entity.NotificationBean;
+import com.zthx.npj.net.been.SystemMessageResponseBean;
+import com.zthx.npj.net.netsubscribe.MainSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
@@ -34,6 +39,9 @@ public class NotificationListActivity extends ActivityBase {
     @BindView(R.id.ac_notification_recycle)
     RecyclerView acNotificationRecycle;
 
+    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +52,22 @@ public class NotificationListActivity extends ActivityBase {
         changeTitle(titleThemeTitle,"系统通知列表");
 
         setData();
+        getSystemMsg();
+    }
+
+    private void getSystemMsg() {
+        MainSubscribe.systemMsg(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                SystemMessageResponseBean bean=GsonUtils.fromJson(result,SystemMessageResponseBean.class);
+
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 
     private void setData() {

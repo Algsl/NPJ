@@ -23,6 +23,7 @@ import com.zthx.npj.net.been.SearchStoreGoodsBean;
 import com.zthx.npj.net.been.StoreDetailBean;
 import com.zthx.npj.net.been.StoreGoodsListBean;
 import com.zthx.npj.net.been.StoreInfoBean;
+import com.zthx.npj.net.been.SystemMsgBean;
 import com.zthx.npj.net.netutils.RetrofitFactory;
 
 import io.reactivex.Observable;
@@ -329,6 +330,20 @@ public class MainSubscribe {
         bean.setOrder_sn(order_sn);
         bean.setPay_money(pay_money);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().offlineBuy2(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 系统消息
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void systemMsg(String user_id,String token, DisposableObserver<ResponseBody> subscriber) {
+        SystemMsgBean bean=new SystemMsgBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().systemMsg(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

@@ -26,6 +26,15 @@ public class SecKillTodayResponseBean {
         private String market_price;
         private String goods_img;
         private String sale_num;
+        private long begin_time;
+
+        public long getBegin_time() {
+            return begin_time;
+        }
+
+        public void setBegin_time(long begin_time) {
+            this.begin_time = begin_time;
+        }
 
         public long getId() {
             return id;

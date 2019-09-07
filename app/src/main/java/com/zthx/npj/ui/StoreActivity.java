@@ -282,12 +282,25 @@ public class StoreActivity extends ActivityBase {
         MainSubscribe.storeGoodsList(store_id, "2", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                GoodsByCateResponseBean bean=GsonUtils.fromJson(result,GoodsByCateResponseBean.class);
+                final GoodsByCateResponseBean bean=GsonUtils.fromJson(result,GoodsByCateResponseBean.class);
                 GridLayoutManager layoutManager = new GridLayoutManager(StoreActivity.this, 2);
                 acStoreRv2.setLayoutManager(layoutManager);
                 GoodsByCateAdapter adapter = new GoodsByCateAdapter(StoreActivity.this, bean.getData(), level);
                 acStoreRv2.setItemAnimator(new DefaultItemAnimator());
                 acStoreRv2.setAdapter(adapter);
+                adapter.setOnItemClickListener(new GoodsByCateAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Intent intent = new Intent(StoreActivity.this, GoodsDetailActivity.class);
+                        intent.putExtra(Const.GOODS_ID, bean.getData().get(position).getId() + "");
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onShoppingCartClick(int position) {
+
+                    }
+                });
             }
 
             @Override
@@ -308,7 +321,7 @@ public class StoreActivity extends ActivityBase {
         MainSubscribe.goodsByCate(store_id,cate_id,type,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                GoodsByCateResponseBean bean=GsonUtils.fromJson(result,GoodsByCateResponseBean.class);
+                final GoodsByCateResponseBean bean=GsonUtils.fromJson(result,GoodsByCateResponseBean.class);
                 if(bean==null){
                     acStoreTvClassifyNoResult.setVisibility(View.VISIBLE);
                 }else{
@@ -317,6 +330,19 @@ public class StoreActivity extends ActivityBase {
                     GoodsByCateAdapter adapter = new GoodsByCateAdapter(StoreActivity.this, bean.getData(), level);
                     acStoreRv2.setItemAnimator(new DefaultItemAnimator());
                     acStoreRv2.setAdapter(adapter);
+                    adapter.setOnItemClickListener(new GoodsByCateAdapter.ItemClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            Intent intent = new Intent(StoreActivity.this, GoodsDetailActivity.class);
+                            intent.putExtra(Const.GOODS_ID, bean.getData().get(position).getId() + "");
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onShoppingCartClick(int position) {
+
+                        }
+                    });
                 }
             }
 
@@ -348,7 +374,7 @@ public class StoreActivity extends ActivityBase {
     private void setSearchStoreGoods(String result) {
         SearchStoreGoodsResponseBean bean = GsonUtils.fromJson(result, SearchStoreGoodsResponseBean.class);
         if (bean != null) {
-            ArrayList<SearchStoreGoodsResponseBean.DataBean> data = bean.getData();
+            final ArrayList<SearchStoreGoodsResponseBean.DataBean> data = bean.getData();
             acStoreRv1.setVisibility(View.VISIBLE);
             acStoreTvNoResult.setVisibility(View.GONE);
             GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
@@ -356,6 +382,19 @@ public class StoreActivity extends ActivityBase {
             StoreGoodsSearchAdapter adapter = new StoreGoodsSearchAdapter(this, data, level);
             acStoreRv1.setItemAnimator(new DefaultItemAnimator());
             acStoreRv1.setAdapter(adapter);
+            adapter.setOnItemClickListener(new StoreGoodsSearchAdapter.ItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    Intent intent = new Intent(StoreActivity.this, GoodsDetailActivity.class);
+                    intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onShoppingCartClick(int position) {
+
+                }
+            });
         } else {
             acStoreRv1.setVisibility(View.GONE);
             acStoreTvNoResult.setVisibility(View.VISIBLE);

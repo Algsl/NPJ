@@ -75,7 +75,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="农业拍卖"
+                android:text="农业代办服务"
                 android:textSize="@dimen/sp_11"
                 android:layout_marginTop="@dimen/dp_7"
                 android:textColor="@color/text6"/>
@@ -95,7 +95,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="以货易货"
+                android:text="农产品易货"
                 android:textSize="@dimen/sp_11"
                 android:layout_marginTop="@dimen/dp_7"
                 android:textColor="@color/text6"/>

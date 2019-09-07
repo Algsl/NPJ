@@ -150,7 +150,7 @@ public class GoodSizePopupwindow extends PopupWindow {
                 memberPrice.setText("会员价"+data.getAttributes().get(position).getSpec_member_price());
                 secKillOldPrice.setText("￥"+data.getAttributes().get(position).getSpec_user_price());
                 storeNum.setText("库存："+data.getAttributes().get(position).getStore_count());
-                spec.setText(data.getSpec());
+                spec.setText(data.getSpec()==null?"规格":data.getSpec());
             }
         });
 

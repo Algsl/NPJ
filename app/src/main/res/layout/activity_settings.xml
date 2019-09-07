@@ -260,6 +260,7 @@
             android:layout_alignParentBottom="true"></View>
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/term"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40">
         <TextView

@@ -21,6 +21,7 @@ import com.zthx.npj.net.been.NewsListResponseBean;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHolder> {
 
@@ -68,8 +69,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
                 viewHolder.create_time.setText(time/60+"分钟前发布");
             }else if(time/3600<24){
                 viewHolder.create_time.setText(time/3600+"小时前发布");
-            }else{
+            }else if(time/3600/24<3){
                 viewHolder.create_time.setText(time/3600/24+"天前发布");
+            }else{
+                viewHolder.create_time.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(mList.get(i).getCreate_time()*1000))+"发布");
             }
 
             viewHolder.lookNum.setText(mList.get(i).getHits());

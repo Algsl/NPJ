@@ -90,7 +90,7 @@ public class StoreManagerQRCodeActivity extends ActivityBase {
                 break;
             case R.id.ac_storeManager_save:
                 Intent intent = getIntent();
-                intent.putExtra("offer", acStoreManagerPb.getProgress() + "%");
+                intent.putExtra("offer", acStoreManagerPb.getProgress()+"");
                 setResult(1, intent);
                 finish();
                 break;

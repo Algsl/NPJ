@@ -29,8 +29,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="￥122"
-            android:textColor="@color/text3"
-            android:textSize="@dimen/sp_14"
+            android:textStyle="bold"
+            android:textColor="@color/app_theme"
+            android:textSize="@dimen/sp_15"
             android:layout_toRightOf="@id/pop_goods_size_iv_pic"
             android:layout_marginLeft="@dimen/dp_14"
             android:layout_marginTop="@dimen/dp_30"/>
@@ -174,7 +175,7 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:visibility="gone"
+        android:visibility="invisible"
         android:id="@+id/pw_goodsSize_rl_buy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

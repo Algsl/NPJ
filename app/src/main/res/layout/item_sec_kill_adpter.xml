@@ -119,15 +119,14 @@
             android:text="距离开场时间："
             android:textSize="@dimen/sp_12"
             android:textColor="@color/text9" />
-
-        <TextView
+        <com.zthx.npj.view.TimeTextView
             android:id="@+id/item_sec_kill_tv_timeWill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="24时15分30秒"
             android:textColor="@color/app_theme"
             android:textSize="@dimen/sp_12"
-            android:layout_marginLeft="@dimen/dp_5"/>
+            android:layout_marginLeft="@dimen/dp_5"
+            android:text="02:31:18"/>
     </LinearLayout>
 
     <Button

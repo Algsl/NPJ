@@ -573,5 +573,11 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/editinviter.html")
     Observable<ResponseBody> editInviter(@Body EditInviterBean bean);
+
+    @POST("index.php/api/index/report.html")
+    Observable<ResponseBody> report(@Body ReportBean bean);
+
+    @POST("index.php/api/user/sysmessage.html")
+    Observable<ResponseBody> systemMsg(@Body SystemMsgBean bean);
 }
 

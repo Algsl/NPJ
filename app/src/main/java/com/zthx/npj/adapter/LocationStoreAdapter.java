@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,10 +62,10 @@ public class LocationStoreAdapter extends RecyclerView.Adapter<LocationStoreAdap
         viewHolder.mTvStoreName.setText(list.get(i).getStore_name());
         viewHolder.mTvAddress.setText(list.get(i).getAddress2());
         double distance=(double)list.get(i).getDistance();
-        viewHolder.mTvDistance.setText(distance>1000?(distance/1000)+"km":distance+"m");
+        viewHolder.mTvDistance.setText(distance>1000?String.format("%.1f",distance/1000)+"km":distance+"m");
         viewHolder.mTvPopularity.setText("当前人气"+list.get(i).getPopularity());
         viewHolder.mTvOffer.setText("葫芦币折扣"+ list.get(i).getOffer() + "%现金");
-        viewHolder.mTvRelief.setText("新会员减免"+ list.get(i).getRelief() +"元现");
+        viewHolder.mTvRelief.setText("新会员减免"+ (int)Double.parseDouble(list.get(i).getRelief()) +"元现金");
         switch (list.get(i).getStar()) {
             case 1:
                 viewHolder.star1.setBackgroundResource(R.drawable.item_location_store_star);

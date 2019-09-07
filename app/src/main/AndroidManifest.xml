@@ -197,6 +197,8 @@
         <activity android:name=".ui.LoadingActivity" />
         <activity android:name=".ui.SupplySearchActivity" />
         <activity android:name=".ui.ReportActivity" />
+        <activity android:name=".ui.TermsOfServiceActivity"/>
+        <activity android:name=".ui.Splash2Activity"/>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
