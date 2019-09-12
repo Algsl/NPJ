@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,12 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.StoreGoodsListAdapter;
+import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.MyGoodsResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.StoreGoodsInfoActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
@@ -118,16 +121,26 @@ public class StoreGoodsListFragment extends Fragment {
         adapter.setOnItemClickListener(new StoreGoodsListAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+                intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                startActivity(intent);
             }
 
             @Override
             public void onSaleClick(int position) {
                 String goods_id = data.get(position).getId() + "";
-                String type = getArguments().getString("type");
+                final String type = getArguments().getString("type");
                 SetSubscribe.outGoods(user_id, token, goods_id, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
+                        Toast toast;
+                        if(type.equals("1")){
+                            toast=Toast.makeText(getContext(),"商品下架成功",Toast.LENGTH_SHORT);
+                        }else{
+                            toast=Toast.makeText(getContext(),"商品上架成功",Toast.LENGTH_SHORT);
+                        }
+                        toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+                        toast.show();
                         getStoreGoods();
                     }
 
@@ -157,6 +170,9 @@ public class StoreGoodsListFragment extends Fragment {
                     @Override
                     public void onSuccess(String result) {
                         getStoreGoods();
+                        Toast toast=Toast.makeText(getContext(),"订单删除成功",Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+                        toast.show();
                     }
 
                     @Override

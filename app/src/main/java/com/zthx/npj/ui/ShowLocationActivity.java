@@ -169,7 +169,7 @@ public class ShowLocationActivity extends ActivityBase {
         @Override
         public void onReceiveLocation(BDLocation location) {
             //获取定位结果
-            location.getTime();    //获取定位时间
+           /* location.getTime();    //获取定位时间
             location.getLocationID();    //获取定位唯一ID，v7.2版本新增，用于排查定位问题
             location.getLocType();    //获取定位类型
             location.getLatitude();    //获取纬度信息
@@ -187,13 +187,15 @@ public class ShowLocationActivity extends ActivityBase {
             location.getPoiList();    //获取当前位置周边POI信息
             location.getBuildingID();    //室内精准定位下，获取楼宇ID
             location.getBuildingName();    //室内精准定位下，获取楼宇名称
-            location.getFloor();    //室内精准定位下，获取当前位置所处的楼层信息
+            location.getFloor();    //室内精准定位下，获取当前位置所处的楼层信息*/
+           location.setLatitude(Double.parseDouble(Lat));
+           location.setLongitude(Double.parseDouble(Lng));
 
             //这个判断是为了防止每次定位都重新设置中心点和marker
             if (isFirstLocation) {
                 isFirstLocation = false;
                 //设置并显示中心点
-                setPosition2Center(baiduMap, location, true);
+                setPosition2Center(baiduMap,location , true);
             }
         }
     }

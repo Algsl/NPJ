@@ -70,6 +70,7 @@ public class SpokesmanRightsActivity extends ActivityBase {
 
         back(titleThemeBack);
         changeTitle(titleThemeTitle, "收益明细");
+
     }
 
     @Override

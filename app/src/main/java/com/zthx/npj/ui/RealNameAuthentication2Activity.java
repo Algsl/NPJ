@@ -122,7 +122,19 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                 showBottomDialog(atRealNameAuthentication2LlIdQuan);
                 break;
             case R.id.at_real_name_authentication2_btn_confirm:
-                upLoadInformation();
+                if(atRealNameAuthentication2EtName.getText().toString().trim().equals("")){
+                    showToast("请填写姓名");
+                }else if(atRealNameAuthentication2EtId.getText().toString().trim().length()!=18){
+                    showToast("请正确填写身份证号");
+                }else if(UrlZheng.equals("")){
+                    showToast("请上传身份证正面照");
+                }else if(UrlFan.equals("")){
+                    showToast("请上传身份证反面照");
+                }else if(UrlQuan.equals("")){
+                    showToast("请上传手持身份证照");
+                }else{
+                    upLoadInformation();
+                }
                 break;
         }
     }
@@ -148,7 +160,6 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                 @Override
                 public void onFault(String errorMsg) {
                     showToast(errorMsg);
-                    Log.e("测试", "onFault: "+errorMsg);
                 }
             }));
         }else{
@@ -161,7 +172,6 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                 @Override
                 public void onFault(String errorMsg) {
                     showToast(errorMsg);
-                    Log.e("测试", "onFault: "+errorMsg);
                 }
             }));
         }
@@ -259,6 +269,13 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                             atRealNameAuthentication2LlIdQuan.setBackground(new BitmapDrawable(bitmap));
                         }
                         String filePath = getExternalCacheDir() + "/output_image.jpg";
+                        if(index==0){
+                            showToast("图片上传中，请稍等...");
+                        }else if(index==1){
+                            showToast("图片上传中，请稍等...");
+                        }else{
+                            showToast("图片上传中，请稍等...");
+                        }
                         HttpUtils.uploadImg(URLConstant.REQUEST_URL, filePath, new Callback() {
                             @Override
                             public void onFailure(Call call, IOException e) {
@@ -278,6 +295,7 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                                 }
                             }
                         });
+                        showToast("图片上传完成");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -295,10 +313,14 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                         cursor.close();
                         Bitmap bitmap = BitmapFactory.decodeFile(path);
                         if(index==0){
+                            showToast("图片上传中，请稍等...");
                             atRealNameAuthentication2LlIdZheng.setBackground(new BitmapDrawable(bitmap));
+                            UrlZheng=path;
                         }else if(index==1){
+                            showToast("图片上传中，请稍等...");
                             atRealNameAuthentication2LlIdFan.setBackground(new BitmapDrawable(bitmap));
                         }else{
+                            showToast("图片上传中，请稍等...");
                             atRealNameAuthentication2LlIdQuan.setBackground(new BitmapDrawable(bitmap));
                         }
                         HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
@@ -320,6 +342,7 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                                 }
                             }
                         });
+                        showToast("图片上传完成");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

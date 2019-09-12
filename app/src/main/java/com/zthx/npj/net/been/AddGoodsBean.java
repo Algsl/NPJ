@@ -14,6 +14,15 @@ public class AddGoodsBean {
     private String is_free_shipping;
     private String goods_type;
     private String goods_content;
+    private String is_recommend2;
+
+    public String getIs_recommend2() {
+        return is_recommend2;
+    }
+
+    public void setIs_recommend2(String is_recommend2) {
+        this.is_recommend2 = is_recommend2;
+    }
 
     public String getUser_id() {
         return user_id;

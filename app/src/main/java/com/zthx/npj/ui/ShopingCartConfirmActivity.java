@@ -1,7 +1,6 @@
 package com.zthx.npj.ui;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,13 +10,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +24,6 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.CartStoreAdapter;
-import com.zthx.npj.adapter.LocalStoreAdapter;
 import com.zthx.npj.aliapi.OrderInfoUtil2_0;
 import com.zthx.npj.aliapi.PayResult;
 import com.zthx.npj.net.been.AddressInfoResponseBean;
@@ -44,7 +39,6 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,18 +81,20 @@ public class ShopingCartConfirmActivity extends ActivityBase {
     TextView acCartConfirmTvUserInfo;
     @BindView(R.id.ac_cartConfirm_tv_address)
     TextView acCartConfirmTvAddress;
+    @BindView(R.id.changeAddress)
+    LinearLayout changeAddress;
 
     private YsBuyOneResponseBean.DataBean data1;
 
     private CartOrderResponseBean.DataBean data = new CartOrderResponseBean().getData();
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
-    private String cart_id="";
+    private String cart_id = "";
     private String address_id = "";
-    private String pay_code="2";
-    private HashMap<String,String> type=new HashMap<>();
-    private HashMap<String,String> remark=new HashMap<>();
-    private HashMap<String,String> ziti_id=new HashMap<>();
+    private String pay_code = "2";
+    private HashMap<String, String> type = new HashMap<>();
+    private HashMap<String, String> remark = new HashMap<>();
+    private HashMap<String, String> ziti_id = new HashMap<>();
     private String RSA_PRIVATE = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
             "NEU5up1siPOXKJBU0ypde7oPfm9gyy2ajgcw6v3KF2ryjot5AKlBED6qdQPRa5Sk\n" +
             "jIf8ZE1W+x8CVOvEC2m1lCglpm5zbAw2EGXdE4NNH6D0tcxIHza94RFkVilx1rjc\n" +
@@ -140,10 +136,10 @@ public class ShopingCartConfirmActivity extends ActivityBase {
         api.registerApp("wx76500efa65d19915");
 
         back(titleThemeBack);
-        changeTitle(titleThemeTitle,"确认订单");
+        changeTitle(titleThemeTitle, "确认订单");
 
         String result = getIntent().getStringExtra("info");
-        cart_id=getIntent().getStringExtra("cart_id");
+        cart_id = getIntent().getStringExtra("cart_id");
         CartOrderResponseBean bean = GsonUtils.fromJson(result, CartOrderResponseBean.class);
         data = bean.getData();
         address_id = data.getAdd_id() + "";
@@ -151,12 +147,13 @@ public class ShopingCartConfirmActivity extends ActivityBase {
         getAddress();
         setCartOrder();
 
+
     }
 
     private void setCartOrder() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acConfirmCartOrderRv.setLayoutManager(layoutManager);
-        CartStoreAdapter adapter = new CartStoreAdapter(this, data.getList(),this);
+        CartStoreAdapter adapter = new CartStoreAdapter(this, data.getList(), this);
         acConfirmCartOrderRv.setItemAnimator(new DefaultItemAnimator());
         acConfirmCartOrderRv.setAdapter(adapter);
 
@@ -180,9 +177,9 @@ public class ShopingCartConfirmActivity extends ActivityBase {
             @Override
             public void onSuccess(String result) {
                 AddressInfoResponseBean bean = GsonUtils.fromJson(result, AddressInfoResponseBean.class);
-                AddressInfoResponseBean.DataBean data=bean.getData();
-                acCartConfirmTvUserInfo.setText(data.getConsignee()+" "+data.getMobile());
-                acCartConfirmTvAddress.setText(data.getAddress()+data.getHouse_number());
+                AddressInfoResponseBean.DataBean data = bean.getData();
+                acCartConfirmTvUserInfo.setText(data.getConsignee() + " " + data.getMobile());
+                acCartConfirmTvAddress.setText(data.getAddress() + data.getHouse_number());
             }
 
             @Override
@@ -193,46 +190,46 @@ public class ShopingCartConfirmActivity extends ActivityBase {
     }
 
 
-    @OnClick({R.id.ac_confirmCartOrder_payType1, R.id.ac_confirmCartOrder_payType2, R.id.ac_confirmCartOrder_payType3, R.id.ac_confirmOrder_btn_pay})
+    @OnClick({R.id.ac_confirmCartOrder_payType1, R.id.ac_confirmCartOrder_payType2, R.id.ac_confirmCartOrder_payType3, R.id.ac_confirmOrder_btn_pay,R.id.changeAddress})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_confirmCartOrder_payType1:
-                pay_code="3";
+                pay_code = "3";
                 acConfirmCartOrderPayType1.setImageResource(R.drawable.confirm_select);
                 acConfirmCartOrderPayType2.setImageResource(R.drawable.confirm_unselect);
                 acConfirmCartOrderPayType3.setImageResource(R.drawable.confirm_unselect);
                 break;
             case R.id.ac_confirmCartOrder_payType2:
-                pay_code="2";
+                pay_code = "2";
                 acConfirmCartOrderPayType1.setImageResource(R.drawable.confirm_unselect);
                 acConfirmCartOrderPayType2.setImageResource(R.drawable.confirm_select);
                 acConfirmCartOrderPayType3.setImageResource(R.drawable.confirm_unselect);
                 break;
             case R.id.ac_confirmCartOrder_payType3:
-                pay_code="1";
+                pay_code = "1";
                 acConfirmCartOrderPayType1.setImageResource(R.drawable.confirm_unselect);
                 acConfirmCartOrderPayType2.setImageResource(R.drawable.confirm_unselect);
                 acConfirmCartOrderPayType3.setImageResource(R.drawable.confirm_select);
                 break;
             case R.id.ac_confirmOrder_btn_pay:
-                for(int i=0;i<data.getList().size();i++){
-                    String store_id= data.getList().get(i).get(0).getStore_id()+"";
-                    String result=data.getList().get(i).get(0).getRemark()+"";
-                    String ztId=data.getList().get(i).get(0).getZiti_id();
-                    String goods_type="1";
-                    boolean flag=data.getList().get(i).get(0).isZiti();
-                    if(!flag){
-                        goods_type="1";
-                        ztId ="";
-                    }else{
-                        goods_type="2";
+                for (int i = 0; i < data.getList().size(); i++) {
+                    String store_id = data.getList().get(i).get(0).getStore_id() + "";
+                    String result = data.getList().get(i).get(0).getRemark() + "";
+                    String ztId = data.getList().get(i).get(0).getZiti_id();
+                    String goods_type = "1";
+                    boolean flag = data.getList().get(i).get(0).isZiti();
+                    if (!flag) {
+                        goods_type = "1";
+                        ztId = "";
+                    } else {
+                        goods_type = "2";
                     }
-                    type.put(store_id,goods_type);
-                    remark.put(store_id,result);
-                    ziti_id.put(store_id,ztId);
+                    type.put(store_id, goods_type);
+                    remark.put(store_id, result);
+                    ziti_id.put(store_id, ztId);
                 }
 
-                CartOrderOneBean bean=new CartOrderOneBean();
+                CartOrderOneBean bean = new CartOrderOneBean();
                 bean.setUser_id(user_id);
                 bean.setToken(token);
                 bean.setCart_id(cart_id);
@@ -241,10 +238,10 @@ public class ShopingCartConfirmActivity extends ActivityBase {
                 bean.setType(type);
                 bean.setRemark(remark);
                 bean.setZiti_id(ziti_id);
-                SetSubscribe.cartOrderOne(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                SetSubscribe.cartOrderOne(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.e("测试", "onSuccess: "+result );
+                        Log.e("测试", "onSuccess: " + result);
                         YsBuyOneResponseBean bean = GsonUtils.fromJson(result, YsBuyOneResponseBean.class);
                         data1 = bean.getData();
                         switch (pay_code) {
@@ -265,6 +262,10 @@ public class ShopingCartConfirmActivity extends ActivityBase {
                         showToast(errorMsg);
                     }
                 }));
+                break;
+            case R.id.changeAddress:
+                Intent intent=new Intent(this,AddressListActivity.class);
+                startActivityForResult(intent,1);
                 break;
         }
     }
@@ -375,4 +376,27 @@ public class ShopingCartConfirmActivity extends ActivityBase {
         }
     };
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1){
+            switch (resultCode){
+                case 1:
+                    address_id=data.getStringExtra("address_id");
+                    acCartConfirmTvUserInfo.setText(data.getStringExtra("name")+" "+data.getStringExtra("mobile"));
+                    acCartConfirmTvAddress.setText(data.getStringExtra("address"));
+                    break;
+                case 0:
+                    String result = getIntent().getStringExtra("info");
+                    cart_id = getIntent().getStringExtra("cart_id");
+                    CartOrderResponseBean bean = GsonUtils.fromJson(result, CartOrderResponseBean.class);
+                    CartOrderResponseBean.DataBean data1 = bean.getData();
+                    address_id = data1.getAdd_id() + "";
+                    atConfirmCartOrderTvOrderPrice1.setText(SharePerferenceUtils.getTotlePrice());
+                    getAddress();
+                    setCartOrder();
+                    break;
+            }
+        }
+    }
 }

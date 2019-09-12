@@ -60,7 +60,12 @@ public class LocalStoreAdapter extends RecyclerView.Adapter<LocalStoreAdapter.Vi
                 Glide.with(mContext).load(Uri.parse(mList.get(i).getStore_img())).into(viewHolder.headImg);
                 viewHolder.storeName.setText(mList.get(i).getStore_name());
                 viewHolder.storeAddress.setText(mList.get(i).getAddress2());
-                viewHolder.storeDistance.setText(mList.get(i).getDistance()+"m");
+                if(mList.get(i).getDistance()>1000){
+                    viewHolder.storeDistance.setText(String.format("%.1f",mList.get(i).getDistance()*0.001)+"km");
+                }else{
+                    viewHolder.storeDistance.setText(mList.get(i).getDistance()+"m");
+                }
+
         }
 
     }

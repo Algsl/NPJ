@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.base.Const;
-import com.zthx.npj.ui.fragment.SupplyMessageActivity;
+import com.zthx.npj.ui.SupplyMessageActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

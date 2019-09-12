@@ -449,6 +449,28 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp_12"/>
             </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_11">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="店长推荐"
+                    android:textSize="@dimen/sp_14"
+                    android:textColor="@color/text3"
+                    android:layout_centerVertical="true"/>
+                <ImageView
+                    android:id="@+id/at_publishGoods_iv_isTuiJian"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_27"
+                    android:src="@drawable/at_edit_address_not_selector"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_12"/>
+            </RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1"

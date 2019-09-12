@@ -143,7 +143,9 @@
                android:layout_marginTop="@dimen/dp_15"
                android:layout_marginLeft="@dimen/dp_12"
                android:layout_marginRight="@dimen/dp_12"
-               android:background="@drawable/gray_conner_2">
+               android:background="@drawable/gray_conner_2"
+               android:focusableInTouchMode="true"
+               android:focusable="true">
 
                <EditText
                    android:id="@+id/ac_feedBack_et_description"
@@ -204,12 +206,12 @@
            <me.zhouzhuo.zzimagebox.ZzImageBox
                android:id="@+id/ac_feedBack_zib_pingzheng"
                android:layout_width="match_parent"
-               android:layout_height="@dimen/dp_100"
+               android:layout_height="@dimen/dp_80"
                android:layout_marginLeft="@dimen/dp_12"
                app:zib_left_margin="20dp"
                app:zib_right_margin="20dp"
                app:zib_img_padding="5dp"
-               app:zib_img_size_one_line="3"
+               app:zib_img_size_one_line="5"
                app:zib_max_line="1"
                app:zib_img_deletable="true"
                app:zib_img_add="@drawable/iv_add"
@@ -232,7 +234,7 @@
                <TextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:text="联系人"
+                   android:text="联  系  人"
                    android:textColor="@color/text3"
                    android:textSize="@dimen/sp_16"/>
 
@@ -242,7 +244,7 @@
                    android:layout_height="@dimen/dp_30"
                    android:background="@drawable/gray_conner_2"
                    android:layout_marginRight="@dimen/dp_38"
-                   android:layout_marginLeft="@dimen/dp_38"
+                   android:layout_marginLeft="@dimen/dp_20"
                    android:textSize="@dimen/sp_13"
                    android:hint="请填写联系人姓名"
                    android:textColorHint="@color/text9"

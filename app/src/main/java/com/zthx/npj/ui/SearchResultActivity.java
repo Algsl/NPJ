@@ -43,9 +43,16 @@ public class SearchResultActivity extends ActivityBase {
     RecyclerView atHomeSearchRvResult;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.ac_goodsSearch_tv_tuijian)
+    TextView acGoodsSearchTvTuijian;
+    @BindView(R.id.ac_goodsSearch_tv_sale)
+    TextView acGoodsSearchTvSale;
+    @BindView(R.id.ac_goodsSearch_tv_price)
+    TextView acGoodsSearchTvPrice;
 
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String searchTitle;
+    private String searchType="1";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +76,9 @@ public class SearchResultActivity extends ActivityBase {
         setSearchResult(searchTitle);
     }
 
-    @OnClick({R.id.at_home_search_et_search, R.id.at_home_search_tv_search})
+    @OnClick({R.id.at_home_search_et_search, R.id.at_home_search_tv_search,
+            R.id.ac_goodsSearch_tv_tuijian, R.id.ac_goodsSearch_tv_sale,
+            R.id.ac_goodsSearch_tv_price})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_home_search_et_search:
@@ -86,11 +95,32 @@ public class SearchResultActivity extends ActivityBase {
             case R.id.at_home_search_tv_search:
                 setSearchResult(atHomeSearchEtSearch.getText().toString().trim());
                 break;
+            case R.id.ac_goodsSearch_tv_tuijian:
+                acGoodsSearchTvTuijian.setTextColor(getResources().getColor(R.color.app_theme));
+                acGoodsSearchTvSale.setTextColor(getResources().getColor(R.color.text3));
+                acGoodsSearchTvPrice.setTextColor(getResources().getColor(R.color.text3));
+                searchType="1";
+                setSearchResult(searchTitle);
+                break;
+            case R.id.ac_goodsSearch_tv_sale:
+                acGoodsSearchTvTuijian.setTextColor(getResources().getColor(R.color.text3));
+                acGoodsSearchTvSale.setTextColor(getResources().getColor(R.color.app_theme));
+                acGoodsSearchTvPrice.setTextColor(getResources().getColor(R.color.text3));
+                searchType="2";
+                setSearchResult(searchTitle);
+                break;
+            case R.id.ac_goodsSearch_tv_price:
+                acGoodsSearchTvTuijian.setTextColor(getResources().getColor(R.color.text3));
+                acGoodsSearchTvSale.setTextColor(getResources().getColor(R.color.text3));
+                acGoodsSearchTvPrice.setTextColor(getResources().getColor(R.color.app_theme));
+                searchType="3";
+                setSearchResult(searchTitle);
+                break;
         }
     }
 
     private void setSearchResult(String str) {
-        MainSubscribe.getSearchResult(user_id, str, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.getSearchResult(user_id, str,searchType, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 LinearLayoutManager manager = new LinearLayoutManager(SearchResultActivity.this, LinearLayoutManager.VERTICAL, false);

@@ -10,7 +10,7 @@
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/my_wallet_logo2"/>
+        android:src="@drawable/qbmx_cz"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

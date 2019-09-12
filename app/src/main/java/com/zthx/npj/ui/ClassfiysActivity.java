@@ -21,7 +21,7 @@ import com.zthx.npj.net.been.CategoryResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
-import com.zthx.npj.ui.fragment.ClassfiyDetailActivity;
+import com.zthx.npj.ui.ClassfiyDetailActivity;
 import com.zthx.npj.utils.GsonUtils;
 
 import java.util.ArrayList;

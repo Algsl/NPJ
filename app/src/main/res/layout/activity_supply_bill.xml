@@ -159,6 +159,7 @@
                 android:layout_height="wrap_content"
                 android:text="1000斤起批"
                 android:textSize="@dimen/sp_13"
+                android:layout_marginRight="@dimen/dp_12"
                 android:textColor="@color/text9"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"/>
@@ -181,23 +182,27 @@
                 android:layout_marginLeft="@dimen/dp_12"/>
 
             <EditText
+                android:id="@+id/yunfei"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
                 android:hint="需与卖家确认"
                 android:textColor="@color/text9"
                 android:textSize="@dimen/sp_13"
+                android:inputType="number"
                 android:layout_marginRight="@dimen/dp_12"
                 android:background="@null"/>
 
             <View
-                android:layout_width="@dimen/dp_265"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1"
                 android:background="@color/background"
                 android:layout_alignParentBottom="true"></View>
         </RelativeLayout>
 
         <EditText
+            android:layout_marginTop="@dimen/dp_5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/gray_conner_2"

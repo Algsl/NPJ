@@ -6,12 +6,16 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -44,12 +48,12 @@ public class GiftActivity extends ActivityBase {
     TextView atGiftDetailTvPrice;
     @BindView(R.id.at_gift_detail_tv_title)
     TextView atGiftDetailTvTitle;
-    @BindView(R.id.at_gift_detail_tv_des)
+    /*@BindView(R.id.at_gift_detail_tv_des)
     TextView atGiftDetailTvDes;
     @BindView(R.id.at_gift_detail_tv_detail)
     TextView atGiftDetailTvDetail;
     @BindView(R.id.at_gift_detail_tv_needknow)
-    TextView atGiftDetailTvNeedknow;
+    TextView atGiftDetailTvNeedknow;*/
     @BindView(R.id.at_gift_detail_btn_buy)
     Button atGiftDetailBtnBuy;
     @BindView(R.id.title_back)
@@ -58,10 +62,14 @@ public class GiftActivity extends ActivityBase {
     TextView acTitle;
     @BindView(R.id.ac_gift_rv_imgs)
     RecyclerView acGiftRvImgs;
-    @BindView(R.id.ac_gift_ll_know)
-    LinearLayout acGiftLlKnow;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+    /*@BindView(R.id.ac_gift_ll_know)
+    LinearLayout acGiftLlKnow;*/
 
     private String mId;
+
+    private String level = SharePerferenceUtils.getUserLevel(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +77,21 @@ public class GiftActivity extends ActivityBase {
         setContentView(R.layout.activity_gift);
         ButterKnife.bind(this);
         mId = getIntent().getStringExtra(Const.GOODS_ID);
+
+
         getData(mId);
 
         back(titleBack);
         changeTitle(acTitle, "商品详情");
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getData(mId);
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
     }
 
 
@@ -84,7 +103,7 @@ public class GiftActivity extends ActivityBase {
                 GiftDetailResponseBean.DataBean data = giftDetailResponseBean.getData();
                 atGiftDetailTvPrice.setText("¥" + data.getPrice());
                 atGiftDetailTvTitle.setText(data.getTitle());
-                atGiftDetailTvDes.setText(data.getDescription());
+                //atGiftDetailTvDes.setText(data.getDescription());
                 initBanner(data.getImggroup());
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(GiftActivity.this);
                 acGiftRvImgs.setLayoutManager(layoutManager);
@@ -100,10 +119,10 @@ public class GiftActivity extends ActivityBase {
         }));
     }
 
-    @OnClick({R.id.at_gift_detail_tv_detail, R.id.at_gift_detail_tv_needknow, R.id.at_gift_detail_btn_buy})
+    @OnClick({R.id.at_gift_detail_btn_buy})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.at_gift_detail_tv_detail:
+            /*case R.id.at_gift_detail_tv_detail:
                 atGiftDetailTvNeedknow.setBackgroundColor(getResources().getColor(R.color.white));
                 atGiftDetailTvNeedknow.setTextColor(getResources().getColor(R.color.text3));
                 atGiftDetailTvDetail.setBackgroundColor(getResources().getColor(R.color.app_theme));
@@ -118,12 +137,18 @@ public class GiftActivity extends ActivityBase {
                 atGiftDetailTvNeedknow.setTextColor(getResources().getColor(R.color.white));
                 acGiftRvImgs.setVisibility(View.GONE);
                 acGiftLlKnow.setVisibility(View.VISIBLE);
-                break;
+                break;*/
             case R.id.at_gift_detail_btn_buy:
-                Intent intent = new Intent(this, ConfirmOrderActivity.class);
-                intent.putExtra(Const.GOODS_ID, mId);
-                intent.setAction(Const.GIFT);
-                startActivity(intent);
+                if (level.equals("0")) {
+                    Intent intent = new Intent(this, ConfirmOrderActivity.class);
+                    intent.putExtra(Const.GOODS_ID, mId);
+                    intent.setAction(Const.GIFT);
+                    startActivity(intent);
+                } else {
+                    Toast toast = Toast.makeText(this, "您已经是代言人了，赶快去邀请好友加入农品街吧！", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.show();
+                }
                 break;
         }
     }

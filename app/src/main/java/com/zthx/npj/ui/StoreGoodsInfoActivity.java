@@ -37,6 +37,7 @@ import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.io.IOException;
@@ -96,6 +97,8 @@ public class StoreGoodsInfoActivity extends ActivityBase {
     RelativeLayout acPulishGoodsRlCateName;
     @BindView(R.id.ac_pulishGoods_rl_goodsType)
     RelativeLayout acPulishGoodsRlGoodsType;
+    @BindView(R.id.at_publishGoods_iv_isTuiJian)
+    ImageView atPublishGoodsIvIsTuiJian;
 
     private List<String> paths1 = new ArrayList<>();
     private List<String> paths2 = new ArrayList<>();
@@ -108,6 +111,8 @@ public class StoreGoodsInfoActivity extends ActivityBase {
     private String goods_type = "0";
     private String cate_id = "";
     private String itemResult = "";
+    private boolean isTuiJian;
+    private String is_recommend2="0";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -177,7 +182,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
         SetSubscribe.goodsInfo(user_id, token, getIntent().getStringExtra("goods_id"), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: "+result );
+                Log.e("测试", "onSuccess: " + result);
                 setStoreGoodsInfo(result);
             }
 
@@ -193,7 +198,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
         GoodsInfoResponseBean.DataBean data = bean.getData();
         acStoreGoodsInfoEtGoodsName.setText(data.getGoods_name());
         acStoreGoodsInfoEtGoodsDesc.setText(data.getGoods_desc());
-
+        cate_id = data.getCate_id() + "";
         acStoreGoodsInfoEtPlatformPrice.setText(data.getPlatform_price());
         acStoreGoodsInfoEtMemberPrice.setText(data.getMember_price());
         acStoreGoodsInfoEtMarketPrice.setText(data.getMarket_price());
@@ -223,7 +228,8 @@ public class StoreGoodsInfoActivity extends ActivityBase {
     }
 
     @OnClick({R.id.title_theme_back, R.id.ac_storeGoodsInfo_iv_goodsImg, R.id.ac_storeGoodsInfo_iv_goodsContent,
-            R.id.ac_storeGoodsInfo_btn_pulish,R.id.ac_pulishGoods_rl_cateName, R.id.ac_pulishGoods_rl_goodsType})
+            R.id.ac_storeGoodsInfo_btn_pulish, R.id.ac_pulishGoods_rl_cateName, R.id.ac_pulishGoods_rl_goodsType,
+            R.id.at_publishGoods_iv_isTuiJian})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.title_theme_back:
@@ -241,25 +247,64 @@ public class StoreGoodsInfoActivity extends ActivityBase {
             case R.id.ac_pulishGoods_rl_goodsType:
                 showBottomDialog();
                 break;
+            case R.id.at_publishGoods_iv_isTuiJian:
+                toggle();
+                break;
+        }
+    }
+
+    private void toggle() {
+        isTuiJian=!isTuiJian;
+        if(isTuiJian){
+            is_recommend2="1";
+            atPublishGoodsIvIsTuiJian.setImageResource(R.drawable.at_edit_address_selector);
+        }else{
+            is_recommend2="0";
+            atPublishGoodsIvIsTuiJian.setImageResource(R.drawable.at_edit_address_not_selector);
         }
     }
 
     public void publishImages() {
-        for (String str : paths1) {
-            if (str.split("http://app.npj-vip.com").length == 1) {
-                paths3.add(str);
-            } else {
-                paths4.add(str.split("http://app.npj-vip.com")[1]);
+        MyCustomUtils.splitUrl(paths1, paths3, paths4);
+        MyCustomUtils.splitUrl(paths2, paths5, paths6);
+
+        if (paths3.size() == 0) {//无商品图片上传
+            goodsImg = MyCustomUtils.listToString(paths4);
+            if (paths5.size() == 0) {//无详情图片上传
+                goodsContent = MyCustomUtils.listToString(paths6);
+                showToast("请等待信息上传");
+                editStoreGoodsInfo();
+            } else {//上传商品详情
+                uploadGoodsContent();
             }
+        } else {
+            HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths3, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    showToast("图片上传失败");
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                    UploadPicsResponseBean.DataBean data = bean.getData();
+                    goodsImg = MyCustomUtils.listToString(paths4);
+                    goodsImg = goodsImg + "," + data.getImg();
+                    if (paths5.size() == 0) {
+                        goodsContent = MyCustomUtils.listToString(paths6);
+                        showToast("请等待信息上传");
+                        editStoreGoodsInfo();
+                    } else {
+                        uploadGoodsContent();
+                    }
+                }
+            });
         }
-        for (String str : paths2) {
-            if (str.split("http://app.npj-vip.com").length == 1) {
-                paths5.add(str);
-            } else {
-                paths6.add(str.split("http://app.npj-vip.com")[1]);
-            }
-        }
-        HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths3, new Callback() {
+    }
+
+
+    public void uploadGoodsContent() {
+        HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths5, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 showToast("图片上传失败");
@@ -269,29 +314,10 @@ public class StoreGoodsInfoActivity extends ActivityBase {
             public void onResponse(Call call, Response response) throws IOException {
                 UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
                 UploadPicsResponseBean.DataBean data = bean.getData();
-                String imgStr = "";
-                for (String str : paths4) {
-                    imgStr += str + ",";
-                }
-                goodsImg = imgStr + data.getImg();
-                HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths5, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        showToast("图片上传失败");
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
-                        UploadPicsResponseBean.DataBean data = bean.getData();
-                        String contentStr = "";
-                        for (String str : paths6) {
-                            contentStr += str + ",";
-                        }
-                        goodsContent = contentStr + data.getImg();
-                        editStoreGoodsInfo();
-                    }
-                });
+                goodsContent = MyCustomUtils.listToString(paths6);
+                goodsContent = goodsContent + "," + data.getImg();
+                showToast("请等待信息上传");
+                editStoreGoodsInfo();
             }
         });
     }
@@ -304,15 +330,18 @@ public class StoreGoodsInfoActivity extends ActivityBase {
         bean.setGoods_id(getIntent().getStringExtra("goods_id"));
         bean.setGoods_desc(getEtString(acStoreGoodsInfoEtGoodsDesc));
         bean.setGoods_img(goodsImg);
+        bean.setGoods_content(goodsContent);
         bean.setPlatform_price(getEtString(acStoreGoodsInfoEtPlatformPrice));
         bean.setMarket_price(getEtString(acStoreGoodsInfoEtMarketPrice));
         bean.setMember_price(getEtString(acStoreGoodsInfoEtMemberPrice));
         bean.setInventory(getEtString(acStoreGoodsInfoEtInventory));
         bean.setCate_id(cate_id);
         bean.setIs_free_shipping("0");
+        bean.setIs_recommend2(is_recommend2);
         SetSubscribe.editGoods(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
+                showToast("信息修改成功");
                 finish();
             }
 

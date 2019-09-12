@@ -1,4 +1,4 @@
-package com.zthx.npj.ui.fragment;
+package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,14 +11,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.ClassifyDetailAdapter;
 import com.zthx.npj.net.been.GoodsListResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
-import com.zthx.npj.ui.ActivityBase;
-import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.utils.GsonUtils;
 
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public class ClassfiyDetailActivity extends ActivityBase {
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.ac_classify_tv_noGoodsHint)
     TextView acClassifyTvNoGoodsHint;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +60,14 @@ public class ClassfiyDetailActivity extends ActivityBase {
         //设置添加或删除item时的动画，这里使用默认动画
 
         //设置适配器
-
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getGoodsList();
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
     }
 
     private void getGoodsList() {
@@ -75,13 +85,13 @@ public class ClassfiyDetailActivity extends ActivityBase {
     }
 
     private void setGoodsList(String result) {
-        Log.e("测试", "setGoodsList: "+result );
+        Log.e("测试", "setGoodsList: " + result);
         GoodsListResponseBean bean = GsonUtils.fromJson(result, GoodsListResponseBean.class);
         final ArrayList<GoodsListResponseBean.DataBean> data = bean.getData();
-        if(data.size()==0){
+        if (data.size() == 0) {
             atClassfiyDetailRv.setVisibility(View.GONE);
             acClassifyTvNoGoodsHint.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             atClassfiyDetailRv.setVisibility(View.VISIBLE);
             acClassifyTvNoGoodsHint.setVisibility(View.GONE);
         }

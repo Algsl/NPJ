@@ -7,6 +7,15 @@ package com.zthx.npj.net.been;
 public class SearchBean {
     private String user_id;
     private String keyword;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getUser_id() {
         return user_id;

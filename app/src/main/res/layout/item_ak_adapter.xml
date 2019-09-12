@@ -16,6 +16,7 @@
             android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_100"
             android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
             android:src="@mipmap/ic_launcher"
             app:riv_corner_radius="@dimen/dp_5"/>
         <ImageView

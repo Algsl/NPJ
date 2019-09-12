@@ -195,13 +195,15 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
             case R.id.at_store_manager_tv_code://收款码
                 Intent intent1=new Intent(EditMyOfflineStoreActivity.this,StoreManagerQRCodeActivity.class);
                 intent1.putExtra("img",data.getStore_img().get(0));
+                intent1.putExtra("store_id",store_id);
+                intent1.putExtra("offer",data.getOffer());
                 startActivityForResult(intent1,3);
                 break;
             case R.id.ac_storeManager_btn_ruzhu:
-                for(String str:paths){//解析全链接
+                for(String str:paths){
                     if(str.split("http://app.npj-vip.com").length==1){
                         paths2.add(str);
-                    }else{
+                    }else{//解析全链接
                         paths3.add(str.split("http://app.npj-vip.com")[1]);
                     }
                 }

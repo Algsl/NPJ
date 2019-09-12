@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -84,6 +85,8 @@ public class ActivityBase extends AppCompatActivity {
     }
 
     public void showToast(String str){
-        Toast.makeText(this,str,Toast.LENGTH_SHORT).show();
+        Toast toast=Toast.makeText(this,str,Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+        toast.show();
     }
 }

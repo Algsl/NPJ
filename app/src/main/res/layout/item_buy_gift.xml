@@ -16,6 +16,7 @@
         android:src="@mipmap/ic_launcher"
         android:background="@drawable/white_conner"
         android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
         app:riv_corner_radius="@dimen/dp_8"/>
 
     <TextView

@@ -3,15 +3,33 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:gravity="bottom">
-    <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="请输入内容"/>
-    </LinearLayout>
+        android:layout_height="@dimen/dp_100"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn1"
+        android:text="弹窗1"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn2"
+        android:text="弹窗2"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn3"
+        android:text="弹窗3"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn4"
+        android:text="弹窗4"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn5"
+        android:text="弹窗5"/>
 </LinearLayout>

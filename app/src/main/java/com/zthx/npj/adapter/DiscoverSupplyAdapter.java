@@ -17,6 +17,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.SupplyListResponseBean;
+import com.zthx.npj.utils.MyCustomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,13 +66,19 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
                 }
             });
         }
-        Glide.with(mContext).load(list.get(i).getGoods_img()).into(viewHolder.mIvPic);
+
+        String url = list.get(i).getGoods_img();
+        if (url.substring(url.length() - 4).equals(".mp4")) {
+            viewHolder.mIvPic.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
+        } else {
+            Glide.with(mContext).load(list.get(i).getGoods_img()).into(viewHolder.mIvPic);
+        }
         viewHolder.mTvPrice.setText(list.get(i).getPrice());
-        /*if(Integer.valueOf(list.get(i).getDistance())>1000){
+        if(Integer.valueOf(list.get(i).getDistance())>1000){
             viewHolder.mTvDistance.setText((Integer.valueOf(list.get(i).getDistance())/1000)+"km");
         }else{
             viewHolder.mTvDistance.setText(list.get(i).getDistance()+"m");
-        }*/
+        }
         viewHolder.mTvTitle.setText(list.get(i).getTitle());
         viewHolder.mTvSupplyUnit.setText("元/"+list.get(i).getGoods_unit());
         if(list.get(i).getCert()==null){

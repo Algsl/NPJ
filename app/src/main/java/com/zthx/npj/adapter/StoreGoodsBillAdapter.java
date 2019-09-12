@@ -82,7 +82,7 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
         if (list!= null && list.size() > 0) {
             Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
             viewHolder.goodsName.setText(list.get(i).getGoods_name());
-            viewHolder.goodsPrice.setText(list.get(i).getGoods_price());
+            viewHolder.goodsPrice.setText("￥"+list.get(i).getGoods_price());
             viewHolder.goodsNum.setText("x "+list.get(i).getGoods_num()+"");
             viewHolder.orderSn.setText("订单号："+list.get(i).getOrder_sn());
             viewHolder.orderTime.setText("下单时间："+ new SimpleDateFormat("yyyy年MM月dd日").format(new Date(list.get(i).getOrder_time()*1000)));

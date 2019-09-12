@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -158,7 +159,9 @@ public class MyBillListFragment extends Fragment {
             //催单
             @Override
             public void onCuiDanClick(int position) {
-
+                Toast toast=Toast.makeText(getContext(),"已通知商家发货,请耐心等待",Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+                toast.show();
             }
 
             //查询物流
@@ -176,6 +179,9 @@ public class MyBillListFragment extends Fragment {
                 SetSubscribe.mySupplyGoodsConfirm(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
+                        Toast toast=Toast.makeText(getContext(),"确认收货成功",Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+                        toast.show();
                         getMySupplyOrder();
                     }
 

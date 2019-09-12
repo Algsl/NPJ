@@ -164,6 +164,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.pay.setVisibility(View.GONE);
                     viewHolder.query.setVisibility(View.VISIBLE);
                     viewHolder.confirm.setVisibility(View.VISIBLE);
+                    viewHolder.goodsReturn.setVisibility(View.VISIBLE);
                     break;
                 case "4"://已收货，待评价
                     viewHolder.orderState.setText("待评价");

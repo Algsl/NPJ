@@ -10,11 +10,9 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,9 +33,6 @@ import com.zthx.npj.net.been.OfflineBuyResponseBean;
 import com.zthx.npj.net.been.PayResponse1Bean;
 import com.zthx.npj.net.been.PayResponseBean;
 import com.zthx.npj.net.been.StoreDetailResponseBean;
-import com.zthx.npj.net.been.UploadChengXinCertBean;
-import com.zthx.npj.net.been.UploadChengxinCertResponseBean;
-import com.zthx.npj.net.netsubscribe.CertSubscribe;
 import com.zthx.npj.net.netsubscribe.GiftSubscribe;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -75,13 +70,16 @@ public class PayToStoreActivity extends ActivityBase {
     Button acPayToStoreBtnToVIP;
     @BindView(R.id.ac_payToStore_btn_toPay)
     Button acPayToStoreBtnToPay;
+    @BindView(R.id.ac_payToStore_tv_offer)
+    TextView acPayToStoreTvOffer;
 
     private String user_level = SharePerferenceUtils.getUserLevel(this);
-    private String user_id=SharePerferenceUtils.getUserId(this);
-    private String token=SharePerferenceUtils.getToken(this);
-    private String payType="";
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
+    private String payType = "";
     private String store_id;
     private OfflineBuyResponseBean.DataBean data1;
+    private String offer="";
 
     private String RSA_PRIVATE = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
             "NEU5up1siPOXKJBU0ypde7oPfm9gyy2ajgcw6v3KF2ryjot5AKlBED6qdQPRa5Sk\n" +
@@ -112,7 +110,7 @@ public class PayToStoreActivity extends ActivityBase {
     public static final String APPID = "2019062565701049";
     public static IWXAPI api;
     private static final int SDK_PAY_FLAG = 1001;
-    private String payMoney="";
+    private String payMoney = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,41 +152,43 @@ public class PayToStoreActivity extends ActivityBase {
         //Glide.with(this).load(Uri.parse(bean.getData().getStore_img().get(0))).into(atPayToStoreIvPic);
         Glide.with(this).load(Uri.parse(bean.getData().getStore_img().get(0))).into(atPayToStoreIvPic);
         acPayToStoreTvStoreName.setText(bean.getData().getStore_name());
+        offer=bean.getData().getOffer();
+        acPayToStoreTvOffer.setText("升级代言人后可优惠"+bean.getData().getOffer()+"%");
     }
 
-    @OnClick({R.id.ac_payToStore_et_inputMoney,R.id.ac_payToStore_btn_toVIP,R.id.ac_payToStore_btn_toPay})
+    @OnClick({R.id.ac_payToStore_et_inputMoney, R.id.ac_payToStore_btn_toVIP, R.id.ac_payToStore_btn_toPay})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.ac_payToStore_et_inputMoney:
-               acPayToStoreEtInputMoney.addTextChangedListener(new TextWatcher() {
-                   @Override
-                   public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                acPayToStoreEtInputMoney.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                   }
+                    }
 
-                   @Override
-                   public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                       String money = acPayToStoreEtInputMoney.getText().toString();
-                       if(user_level.equals("0")){
-                           payMoney=money;
-                           acPayToStoreTvPayMoney.setText("￥"+money);
-                       }else{
-                           if(money.equals("")){
-                               acPayToStoreTvPayMoney.setText("￥0.00");
-                           }else{
-                               Double realMoney = Double.parseDouble(money);
-                               payMoney=realMoney*0.9+"";
-                               acPayToStoreTvPayMoney.setText("￥"+realMoney*0.9+"");
-                           }
-                       }
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        String money = acPayToStoreEtInputMoney.getText().toString();
+                        if (user_level.equals("0")) {
+                            payMoney = money;
+                            acPayToStoreTvPayMoney.setText("￥" + money);
+                        } else {
+                            if (money.equals("")) {
+                                acPayToStoreTvPayMoney.setText("￥0.00");
+                            } else {
+                                Double realMoney = Double.parseDouble(money);
+                                payMoney = realMoney * (1-Double.parseDouble(offer)/100) + "";
+                                acPayToStoreTvPayMoney.setText("￥" + payMoney + "");
+                            }
+                        }
 
-                   }
+                    }
 
-                   @Override
-                   public void afterTextChanged(Editable editable) {
+                    @Override
+                    public void afterTextChanged(Editable editable) {
 
-                   }
-               });
+                    }
+                });
                 break;
             case R.id.ac_payToStore_btn_toVIP:
                 openActivity(MembershipPackageActivity.class);
@@ -213,10 +213,19 @@ public class PayToStoreActivity extends ActivityBase {
         //设置对话框大小
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
+        dialog.findViewById(R.id.dl_pay_yue).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                payType = "3";
+                showToast("订单生成中，请稍等...");
+                generateOrder();
+                dialog.dismiss();
+            }
+        });
         dialog.findViewById(R.id.dl_pay_ali).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                payType="1";
+                payType = "1";
                 showToast("订单生成中，请稍等...");
                 generateOrder();
                 dialog.dismiss();
@@ -225,7 +234,7 @@ public class PayToStoreActivity extends ActivityBase {
         dialog.findViewById(R.id.dl_pay_weixin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                payType="2";
+                payType = "2";
                 showToast("订单生成中，请稍等...");
                 generateOrder();
                 dialog.dismiss();
@@ -239,31 +248,37 @@ public class PayToStoreActivity extends ActivityBase {
         });
     }
 
-    public void generateOrder(){
-        OfflineBuyBean bean=new OfflineBuyBean();
+    public void generateOrder() {
+        OfflineBuyBean bean = new OfflineBuyBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
         bean.setPay_code(payType);
         bean.setPrice(payMoney);
         bean.setStore_id(store_id);
-        MainSubscribe.offlineBuy(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.offlineBuy(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 showToast("用户订单已生成,正在调起支付...");
-                OfflineBuyResponseBean bean=GsonUtils.fromJson(result,OfflineBuyResponseBean.class);
-                data1=bean.getData();
-                if(payType.equals("1")){
-                    alipay();
-                }else{
+                OfflineBuyResponseBean bean = GsonUtils.fromJson(result, OfflineBuyResponseBean.class);
+                data1 = bean.getData();
+                if (payType.equals("3")) {
+                    yue();
+                } else if (payType.equals("2")) {
                     wxpay();
+                } else {
+                    alipay();
                 }
             }
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
+    }
+
+    private void yue() {
+
     }
 
     private void wxpay() {

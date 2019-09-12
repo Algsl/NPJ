@@ -146,7 +146,9 @@ public class MyCollectActivity extends ActivityBase {
             adapter.setOnItemClickListener(new CollectionAdapter.ItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
-
+                    /*Intent intent = new Intent(MyCollectActivity.this, GoodsDetailActivity.class);
+                    intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                    startActivity(intent);*/
                 }
 
                 @Override
@@ -183,7 +185,7 @@ public class MyCollectActivity extends ActivityBase {
             adapter.setOnItemClickListener(new CollectionStoreAdapter.ItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
-
+                    //openActivity(StoreActivity.class, data.get(position).getId()+"");
                 }
 
                 @Override
@@ -215,7 +217,10 @@ public class MyCollectActivity extends ActivityBase {
             adapter.setOnItemClickListener(new CollectionAdapter.ItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
-
+                    /*Intent intent = new Intent(MyCollectActivity.this, GoodsDetailActivity.class);
+                    intent.setAction(Const.PRESELL);
+                    intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                    startActivity(intent);*/
                 }
 
                 @Override

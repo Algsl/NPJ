@@ -49,6 +49,7 @@ import com.zthx.npj.net.been.LocalStoreBean;
 import com.zthx.npj.net.been.LocalStoreResponseBean;
 import com.zthx.npj.net.been.PayResponse1Bean;
 import com.zthx.npj.net.been.PayResponseBean;
+import com.zthx.npj.net.been.SecKillGoodsDetailResponseBean;
 import com.zthx.npj.net.been.YsBuyOneBean;
 import com.zthx.npj.net.been.YsBuyOneResponseBean;
 import com.zthx.npj.net.netsubscribe.GiftSubscribe;
@@ -156,6 +157,7 @@ public class ConfirmOrderActivity extends ActivityBase {
     private ConfirmPreSellResponseBean.DataBean data;
     private YsBuyOneResponseBean.DataBean data1;
     private GoodsOrderResponseBean.DataBean ptdata;
+    private SecKillGoodsDetailResponseBean.DataBean seckillData;
 
     private String pay_code = "2";
     private String user_id = SharePerferenceUtils.getUserId(this);
@@ -220,6 +222,11 @@ public class ConfirmOrderActivity extends ActivityBase {
             attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
             goodsId = getIntent().getStringExtra(Const.GOODS_ID);
             getData();
+        }else if("miaosha".equals(getIntent().getAction())){
+            confirmType = "4";
+            attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
+            goodsId = getIntent().getStringExtra(Const.GOODS_ID);
+            getSeckillData();
         } else {//普通商品确认订单
             confirmType = "3";
             acConfirmOrderRlTihuo.setVisibility(View.VISIBLE);
@@ -230,6 +237,52 @@ public class ConfirmOrderActivity extends ActivityBase {
             getGoodsData();
         }
 
+    }
+
+    private void getSeckillData() {
+        GoodsOrderBean bean = new GoodsOrderBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setGoods_id(goodsId);
+        bean.setItem_id(attId);
+        bean.setGoods_num(goodsCount);
+        SetSubscribe.goodsOrder(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setSeckillData(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                showToast(errorMsg);
+            }
+        }));
+    }
+
+    private void setSeckillData(String result) {
+        Log.e("测试", "setGoodsData: " + result);
+        SecKillGoodsDetailResponseBean bean = GsonUtils.fromJson(result, SecKillGoodsDetailResponseBean.class);
+        seckillData = bean.getData();
+        //atConfirmOrderTvAddress.setText(seckillData.getAddress());
+        //atConfirmOrderTvStoreName.setText(seckillData.getStore_name());
+        address_id = "";
+        Glide.with(ConfirmOrderActivity.this).load(seckillData.getGoods_img()).into(atConfirmOrderIvPic);
+        atConfirmOrderTvTitle.setText(seckillData.getGoods_name());
+        atConfirmOrderTvSize.setText("规格： ");
+        atConfirmOrderTvGoodsPrice.setText("¥" + seckillData.getGoods_price());
+        atConfirmOrderTvGoodsNum.setText("x" + seckillData.getGoods_num());
+
+        acConfirmOrderTvGoodsAllNum.setText("共" + seckillData.getGoods_num() + "件商品  总计：");
+        double payMoney = (Double.parseDouble(getIntent().getStringExtra("price"))) * ((int) Double.parseDouble(seckillData.getGoods_num()));
+        if(level.equals("0")){
+            acConfirmOrderTvLisheng.setText("成为农品街代言人此单立省" + getIntent().getStringExtra("lisheng") + "元");
+        }else{
+            acConfirmOrderRlToDYR.setVisibility(View.GONE);
+            atConfirmOrderRlHasDYR.setVisibility(View.VISIBLE);
+            atConfirmOrderTvDyrYH.setText("-￥"+getIntent().getStringExtra("lisheng"));
+        }
+        atConfirmOrderTvPrice.setText("￥" + payMoney);
+        acConfirmOrderTvRealPay.setText("￥" + payMoney);
     }
 
     private void getGoodsData() {
@@ -545,10 +598,11 @@ public class ConfirmOrderActivity extends ActivityBase {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
-            switch (requestCode) {
+            switch (resultCode) {
                 case 1:
                     address_id = data.getStringExtra("address_id");
                     atConfirmOrderTvAddress.setText(data.getStringExtra("address"));
+                    Log.e("测试", "onActivityResult: "+address_id );
                     break;
                 case 0:
                     if (Const.GIFT.equals(getIntent().getAction())) {
@@ -561,6 +615,7 @@ public class ConfirmOrderActivity extends ActivityBase {
                         goodsId = getIntent().getStringExtra(Const.GOODS_ID);
                         getData();
                     }
+                    Log.e("测试", "onActivityResult: " );
                     break;
             }
 

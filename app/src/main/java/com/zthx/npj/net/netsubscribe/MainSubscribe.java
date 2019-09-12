@@ -66,12 +66,14 @@ public class MainSubscribe {
      * 搜索结果
      * @param user_id
      * @param keyword
+     * @param type
      * @param subscriber
      */
-    public static void getSearchResult(String user_id,String keyword, DisposableObserver<ResponseBody> subscriber) {
+    public static void getSearchResult(String user_id,String keyword,String type, DisposableObserver<ResponseBody> subscriber) {
         SearchBean bean = new SearchBean();
         bean.setUser_id(user_id);
         bean.setKeyword(keyword);
+        bean.setType(type);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getSearchResultForBody(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }

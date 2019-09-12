@@ -12,7 +12,9 @@ import android.widget.TextView;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.TiQuResponseBean;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TiQuAdapter extends RecyclerView.Adapter<TiQuAdapter.ViewHolder> {
 
@@ -33,9 +35,10 @@ public class TiQuAdapter extends RecyclerView.Adapter<TiQuAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.tvTime.setText("");
-        viewHolder.tvPrice.setText("+");
-        viewHolder.tvTime.setText("");
+        viewHolder.tvTitle.setText(mList.get(i).getTitle());
+        viewHolder.tvPrice.setText("-"+mList.get(i).getPrice());
+        viewHolder.ivHead.setImageResource(R.drawable.ytqje);
+        viewHolder.tvTime.setText(new SimpleDateFormat("MM月dd日 hh:mm:ss").format(new Date(mList.get(i).getCreate_time()*1000)));
     }
 
     @Override

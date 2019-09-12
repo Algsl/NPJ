@@ -34,16 +34,20 @@ public class MyWalletActivity extends ActivityBase {
     @BindView(R.id.title_theme_img_right)
     ImageView titleThemeImgRight;
 
+    private String balance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_wallet);
         ButterKnife.bind(this);
 
+        balance=getIntent().getStringExtra("balance");
+
         back(titleThemeBack);
         changeTitle(titleThemeTitle, "我的钱包");
         changeRightText(titleThemeTvRight, "充值", RechargeActivity.class, null);
-
+        atMyWalletTvMoney.setText(balance);
     }
 
     @OnClick({ R.id.at_myWallet_tv_mx, R.id.ac_myallet_rl_bankCard, R.id.at_my_wallet_btn_tiqu, R.id.ac_myWallet_rl_inManage})
@@ -56,7 +60,7 @@ public class MyWalletActivity extends ActivityBase {
                 openActivity(BankCardActivity.class);
                 break;
             case R.id.at_my_wallet_btn_tiqu:
-                openActivity(WithDrawActivity.class);
+                openActivity(WithDrawActivity.class,balance);
                 break;
             case R.id.ac_myWallet_rl_inManage:
                 openActivity(SpokesmanRightsActivity.class);

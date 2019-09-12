@@ -72,7 +72,7 @@
                     android:paddingTop="5dp"
                     android:scaleType="centerCrop"
                     android:visibility="gone"
-
+                    android:adjustViewBounds="true"
                     />
                 <!--右上角 图标按钮-->
                 <ImageView
@@ -89,6 +89,7 @@
                     android:paddingRight="10dp"
                     android:paddingTop="5dp"
                     android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"
                     android:visibility="gone"/>
 
 
@@ -106,7 +107,7 @@
                     android:paddingTop="8dp"
                     android:scaleType="centerInside"
                     android:src="@mipmap/ic_action011"
-
+                    android:adjustViewBounds="true"
                     />
                 <!--返回键-->
                 <TextView

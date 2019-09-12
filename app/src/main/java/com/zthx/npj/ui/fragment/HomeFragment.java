@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -34,14 +35,17 @@ import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.common.Constant;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
+
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BannerResponseBean;
 import com.zthx.npj.net.been.OrderPushBean;
 import com.zthx.npj.net.been.OrderPushResponseBean;
 import com.zthx.npj.net.been.RecommendResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
+import com.zthx.npj.net.netutils.NetUtil;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.BannerActivity;
 import com.zthx.npj.ui.ClassfiysActivity;
 import com.zthx.npj.ui.GameActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
@@ -49,8 +53,10 @@ import com.zthx.npj.ui.HomeSearchActivity;
 import com.zthx.npj.ui.LocationStoreActivity;
 import com.zthx.npj.ui.MembershipPackageActivity;
 import com.zthx.npj.ui.MessageCenterActivity;
+import com.zthx.npj.ui.PayToStoreActivity;
 import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.ui.SecKillActivity;
+import com.zthx.npj.ui.SplashActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.GlideImageLoader;
@@ -113,6 +119,8 @@ public class HomeFragment extends BaseFragment {
         // Required empty public constructor
     }
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,30 +133,16 @@ public class HomeFragment extends BaseFragment {
         unbinder = ButterKnife.bind(this, view);
 
 
-        initBanner();
+        //initBanner();
+        getMainRecommed();
+        getBanner();
+
+
 
         //设置RecyclerView管理器
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);
         fgHomeShoppingCast.setLayoutManager(layoutManager);
         //初始化适配器
-        String mainRecommend = SharePerferenceUtils.getMainRecommend(getActivity());
-        RecommendResponseBean bean = GsonUtils.fromJson(mainRecommend, RecommendResponseBean.class);
-        final ArrayList<RecommendResponseBean.DataBean> data = bean.getData();
-
-        final HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);
-        mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
-                intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
-                startActivity(intent);
-            }
-        });
-        //设置添加或删除item时的动画，这里使用默认动画
-        fgHomeShoppingCast.setItemAnimator(new DefaultItemAnimator());
-        //设置适配器
-        fgHomeShoppingCast.setItemAnimator(new DefaultItemAnimator());
-        fgHomeShoppingCast.setAdapter(mAdapter);
 
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -158,6 +152,7 @@ public class HomeFragment extends BaseFragment {
             }else{
                 getGroupHome();
             }
+                getBanner();
             refreshlayout.finishRefresh();
             Toast.makeText(getContext(),"刷新完成",Toast.LENGTH_SHORT).show();
             }
@@ -166,10 +161,68 @@ public class HomeFragment extends BaseFragment {
         return view;
     }
 
+    private void getBanner() {
+        MainSubscribe.getMainBanner(Const.MAIN_BANNER_TYPE, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                final BannerResponseBean bean = GsonUtils.fromJson(result, BannerResponseBean.class);
+                ArrayList<BannerResponseBean.DataBean> data = bean.getData();
+                ArrayList<Uri> list = new ArrayList<>();
+                ArrayList<String> list2 = new ArrayList<>();
+                for (int i = 0; i < data.size(); i++) {
+                    list.add(Uri.parse(data.get(i).getImg()));
+                    list2.add(data.get(i).getTitle());
+                }
+                initBanner(bean,list,list2);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void getMainRecommed() {
+        MainSubscribe.getRecommend(SharePerferenceUtils.getUserId(getContext()), "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                RecommendResponseBean bean = GsonUtils.fromJson(result, RecommendResponseBean.class);
+                final ArrayList<RecommendResponseBean.DataBean> data = bean.getData();
+                final HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);
+                mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                        startActivity(intent);
+                    }
+                });
+                //设置添加或删除item时的动画，这里使用默认动画
+                fgHomeShoppingCast.setItemAnimator(new DefaultItemAnimator());
+                //设置适配器
+                fgHomeShoppingCast.setItemAnimator(new DefaultItemAnimator());
+                fgHomeShoppingCast.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+
+
     @Override
     public void onResume() {
         super.onResume();
-        getOrderPush();
+
+        if (!NetUtil.isNetworkConnected(getContext())) {
+            Toast.makeText(getContext(), "请打开网络连接", Toast.LENGTH_SHORT).show();
+        }else{
+            getOrderPush();
+        }
     }
 
 
@@ -196,17 +249,26 @@ public class HomeFragment extends BaseFragment {
     /**
      * 初始化轮播图
      */
-    private void initBanner() {
-
+    /*private void initBanner1() {
         String mainBanner = SharePerferenceUtils.getMainBanner(getActivity());
         BannerResponseBean bean = GsonUtils.fromJson(mainBanner, BannerResponseBean.class);
         ArrayList<BannerResponseBean.DataBean> data = bean.getData();
-        ArrayList<Uri> list = new ArrayList<>();
-        ArrayList<String> list2 = new ArrayList<>();
+
+        ArrayList<ViewItemBean> list = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
-            list.add(Uri.parse(data.get(i).getImg()));
-            list2.add(data.get(i).getTitle());
+            list.add(new ViewItemBean(data.get(i).getImg()));
         }
+        banner.setViews(list)
+                .setBannerAnimation(DefaultTransformer.class)
+                .setImageLoader(new LocalImageLoader())
+                .setVideoLoader(new LocalVideoLoader())
+                .setBannerStyle(com.zthx.npj.banner.BannerConfig.NUM_INDICATOR)
+                .start();
+    }*/
+    private void initBanner(final BannerResponseBean bean, ArrayList<Uri> list, ArrayList<String> list2) {
+
+        //final String mainBanner = SharePerferenceUtils.getMainBanner(getActivity());
+
         //设置banner样式
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         banner.setIndicatorGravity(BannerConfig.CENTER);
@@ -237,7 +299,10 @@ public class HomeFragment extends BaseFragment {
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                Log.e("huang", "position = " + position);
+                Intent intent=new Intent(getContext(),BannerActivity.class);
+                intent.putExtra("title",bean.getData().get(position).getTitle());
+                intent.putExtra("img",bean.getData().get(position).getImg());
+                startActivity(intent);
             }
         });
         //banner设置方法全部调用完毕时最后调用
@@ -387,6 +452,10 @@ public class HomeFragment extends BaseFragment {
                         startActivity(intent);
                     } else if (page.equals("tuijian")) {
                         startActivity(new Intent(getContext(), MembershipPackageActivity.class));
+                    }else if(page.equals("payStore")){
+                        Intent intent=new Intent(getContext(),PayToStoreActivity.class);
+                        intent.putExtra("key0",id);
+                        startActivity(intent);
                     }
                 }
                 break;

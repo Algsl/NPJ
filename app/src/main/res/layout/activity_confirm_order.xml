@@ -76,6 +76,7 @@
                     android:layout_height="@dimen/dp_80"
                     android:layout_marginTop="@dimen/dp_5"
                     android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"
                     android:layout_marginLeft="@dimen/dp_12"
                     android:src="@mipmap/ic_launcher"
                     app:riv_corner_radius="@dimen/dp_5"/>
@@ -125,7 +126,7 @@
                     android:layout_marginTop="@dimen/dp_5"
                     android:text="X1"/>
                 <RelativeLayout
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/ac_confirmOrder_rl_tihuo"
@@ -295,6 +296,7 @@
                     android:text="共一件商品  总计："/>
             </RelativeLayout>
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/ac_confirmOrder_rl_toDYR"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_30"
@@ -336,7 +338,7 @@
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/at_confirm_order_rl_hongbao"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40">
                 <ImageView

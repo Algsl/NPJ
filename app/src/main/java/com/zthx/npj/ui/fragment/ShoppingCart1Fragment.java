@@ -22,6 +22,7 @@ import com.zthx.npj.adapter.ShoppingCar1Adapter;
 import com.zthx.npj.net.been.CartListResponseBean;
 import com.zthx.npj.net.been.UpdateCartBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.NetUtil;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.MessageCenterActivity;
@@ -90,7 +91,11 @@ public class ShoppingCart1Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getCartList();
+        if (!NetUtil.isNetworkConnected(getContext())) {
+            Toast.makeText(getContext(), "请打开网络连接", Toast.LENGTH_SHORT).show();
+        }else{
+            getCartList();
+        }
     }
 
     private void getCartList() {

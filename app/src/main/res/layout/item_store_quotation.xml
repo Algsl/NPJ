@@ -13,6 +13,7 @@
         android:layout_centerVertical="true"
         android:id="@+id/item_store_quotation_pic"
         android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
         app:riv_corner_radius="@dimen/dp_5"/>
 
     <TextView

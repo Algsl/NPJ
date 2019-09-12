@@ -209,7 +209,8 @@ public class StoreGoodsBillActivity extends ActivityBase {
                 SetSubscribe.ship(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        finish();
+                        getMyStoreOrderList();
+                        showToast("发货成功");
                         window.dismiss();
                         backgroundAlpha(1f);
                     }
@@ -290,6 +291,8 @@ public class StoreGoodsBillActivity extends ActivityBase {
                 SetSubscribe.refund(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
+                        getMyStoreOrderList();
+                        showToast("退款成功");
                         backgroundAlpha(1f);
                         window.dismiss();
                     }

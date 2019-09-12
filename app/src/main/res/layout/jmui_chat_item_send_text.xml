@@ -20,6 +20,7 @@
             android:background="@drawable/send_message_failed"
             android:clickable="true"
             android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             android:visibility="gone"/>
 
         <ImageView

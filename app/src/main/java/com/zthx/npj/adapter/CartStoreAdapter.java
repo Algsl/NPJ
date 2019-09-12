@@ -119,8 +119,12 @@ public class CartStoreAdapter extends RecyclerView.Adapter<CartStoreAdapter.View
             goodsNum+=mList.get(i).get(j).getGoods_num();
             orderPrice+=Double.parseDouble(mList.get(i).get(j).getPrice())*mList.get(i).get(j).getGoods_num();
         }
+        if(mList.get(i).size()<=1){
+            viewHolder.showHint.setVisibility(View.GONE);
+        }
         viewHolder.goodsNum.setText("共"+goodsNum+"件商品  小计：");
         viewHolder.orderPrice.setText("￥ "+orderPrice);
+
 
 
 
@@ -142,6 +146,7 @@ public class CartStoreAdapter extends RecyclerView.Adapter<CartStoreAdapter.View
         RecyclerView itemCartStoreRv;
         RelativeLayout rlZiti,rlPeisong;
         Button btnZiti,btnPeisong;
+        TextView showHint;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemCartStoreRv=itemView.findViewById(R.id.item_cartStore_rv);
@@ -154,6 +159,7 @@ public class CartStoreAdapter extends RecyclerView.Adapter<CartStoreAdapter.View
             btnPeisong=itemView.findViewById(R.id.item_cartStore_btn_peisong);
             zitiStore=itemView.findViewById(R.id.item_cartStore_tv_to_store);
             remark=itemView.findViewById(R.id.item_cartStore_tv_remark);
+            showHint=itemView.findViewById(R.id.item_cartStore_tv_zitiHint);
         }
     }
 

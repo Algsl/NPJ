@@ -6,15 +6,18 @@
     tools:context=".ui.StoreDetailActivity"
     android:orientation="vertical"
     android:background="@android:color/white">
-
-   <ScrollView
+    <include layout="@layout/title"/>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
        android:layout_width="match_parent"
        android:layout_height="match_parent">
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="match_parent"
            android:orientation="vertical">
-           <include layout="@layout/title"/>
            <View
                android:layout_width="match_parent"
                android:layout_height="@dimen/dp_1"
@@ -358,6 +361,6 @@
            </android.support.v7.widget.RecyclerView>
        </LinearLayout>
    </ScrollView>
-
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

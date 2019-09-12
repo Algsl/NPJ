@@ -18,40 +18,76 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_12"
-                android:layout_marginRight="@dimen/dp_12">
+                android:layout_marginRight="@dimen/dp_12"
+                android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="添加产品图片"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp_110"/>
-                <me.zhouzhuo.zzimagebox.ZzImageBox
-                    android:id="@+id/at_supply_message_three_pic"
+                    android:textColor="@color/text3"
+                    android:textSize="@dimen/sp_15"
+                    android:layout_centerVertical="true"/>
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:zib_left_margin="@dimen/dp_12"
-                    app:zib_right_margin="@dimen/dp_12"
-                    app:zib_img_padding="@dimen/dp_10"
-                    app:zib_img_size_one_line="5"
-                    app:zib_max_line="1"
-                    app:zib_img_deletable="true"
-                    app:zib_img_add="@drawable/iv_add"
-                    app:zib_img_default="@drawable/iv_default"
-                    app:zib_img_delete="@drawable/iv_delete"/>
-            </RelativeLayout>
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="图片："/>
+                    <me.zhouzhuo.zzimagebox.ZzImageBox
+                        android:id="@+id/at_supply_message_three_pic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:zib_left_margin="@dimen/dp_12"
+                        app:zib_right_margin="@dimen/dp_12"
+                        app:zib_img_padding="@dimen/dp_10"
+                        app:zib_img_size_one_line="5"
+                        app:zib_max_line="1"
+                        app:zib_img_deletable="true"
+                        app:zib_img_add="@drawable/iv_add"
+                        app:zib_img_default="@drawable/iv_default"
+                        app:zib_img_delete="@drawable/iv_delete"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="视频："/>
+                    <me.zhouzhuo.zzimagebox.ZzImageBox
+                        android:id="@+id/at_supply_message_three_video"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:zib_left_margin="@dimen/dp_12"
+                        app:zib_right_margin="@dimen/dp_12"
+                        app:zib_img_padding="@dimen/dp_10"
+                        app:zib_img_size_one_line="5"
+                        app:zib_max_line="1"
+                        app:zib_img_deletable="true"
+                        app:zib_img_add="@drawable/iv_add"
+                        app:zib_img_default="@drawable/iv_default"
+                        app:zib_img_delete="@drawable/iv_delete"/>
+                </LinearLayout>
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1"
                 android:background="@color/background"
                 android:layout_marginLeft="@dimen/sp_12"
                 android:layout_marginRight="@dimen/dp_12"></View>
+            <!--供应-->
             <LinearLayout
                 android:id="@+id/ac_supply_ll"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -154,12 +190,12 @@
                         android:layout_alignParentRight="true"/>
                     <TextView
                         android:id="@+id/at_supply_message_tv_unit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/dp_60"
+                        android:layout_height="match_parent"
                         android:text="斤"
-                        android:layout_centerVertical="true"
+                       android:gravity="center"
                         android:layout_toLeftOf="@id/iv_go"
-                        android:layout_marginRight="@dimen/dp_20"
+
                         android:textSize="@dimen/sp_15"
                         android:textColor="@color/text3"/>
                 </RelativeLayout>
@@ -242,12 +278,11 @@
                         android:layout_alignParentRight="true"/>
                     <TextView
                         android:id="@+id/at_supply_message_tv_unit1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/dp_60"
+                        android:layout_height="match_parent"
                         android:text="斤"
-                        android:layout_centerVertical="true"
+                        android:gravity="center"
                         android:layout_toLeftOf="@id/iv_go1"
-                        android:layout_marginRight="@dimen/dp_20"
                         android:textSize="@dimen/sp_15"
                         android:textColor="@color/text3"/>
                 </RelativeLayout>
@@ -294,20 +329,20 @@
 
                     <TextView
                         android:id="@+id/at_supply_message_tv_danwei"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/dp_60"
+                        android:layout_height="match_parent"
                         android:text="元/斤"
-                        android:layout_centerVertical="true"
+                        android:gravity="center"
                         android:layout_toLeftOf="@id/iv_go5"
-                        android:layout_marginRight="@dimen/dp_20"
                         android:textSize="@dimen/sp_15"
                         android:textColor="@color/text3"/>
                 </RelativeLayout>
             </LinearLayout>
 
+            <!--采购-->
             <LinearLayout
                 android:id="@+id/ac_qiugou_ll"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -343,7 +378,7 @@
                     android:background="@color/background"
                     android:layout_marginLeft="@dimen/sp_12"
                     android:layout_marginRight="@dimen/dp_12"></View>
-                <RelativeLayout
+                <!--<RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_51"
                     android:layout_marginLeft="@dimen/dp_12"
@@ -374,7 +409,7 @@
                     android:layout_height="@dimen/dp_1"
                     android:background="@color/background"
                     android:layout_marginLeft="@dimen/sp_12"
-                    android:layout_marginRight="@dimen/dp_12"></View>
+                    android:layout_marginRight="@dimen/dp_12"></View>-->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_51"
@@ -408,16 +443,16 @@
                         android:src="@drawable/mine_dingdan_go"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"/>
+
                     <TextView
                         android:id="@+id/at_qg_message_tv_unit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="斤"
-                        android:layout_centerVertical="true"
+                        android:layout_width="@dimen/dp_60"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
                         android:layout_toLeftOf="@id/iv_qggo"
-                        android:layout_marginRight="@dimen/dp_20"
-                        android:textSize="@dimen/sp_15"
-                        android:textColor="@color/text3"/>
+                        android:text="斤"
+                        android:textColor="@color/text3"
+                        android:textSize="@dimen/sp_15" />
                 </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
@@ -435,7 +470,7 @@
                         android:id="@+id/qgtext4"
                         android:layout_width="@dimen/dp_80"
                         android:layout_height="wrap_content"
-                        android:text="指定产地"
+                        android:text="采购地址"
                         android:textSize="@dimen/sp_15"
                         android:textColor="@color/text3"
                         android:layout_centerVertical="true"/>
@@ -516,18 +551,18 @@
                         android:id="@+id/iv_go6"
                         android:layout_width="@dimen/dp_6"
                         android:layout_height="@dimen/dp_10"
-                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_15"
                         android:src="@drawable/mine_dingdan_go"
                         android:layout_alignParentRight="true"/>
 
                     <TextView
                         android:id="@+id/at_supply_message_tv_need_danwei"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/dp_60"
+                        android:layout_height="match_parent"
                         android:text="元/斤"
                         android:layout_marginTop="@dimen/dp_10"
                         android:layout_toLeftOf="@id/iv_go6"
-                        android:layout_marginRight="@dimen/dp_20"
+                        android:gravity="center_horizontal"
                         android:textSize="@dimen/sp_15"
                         android:textColor="@color/text3"/>
 
@@ -548,21 +583,24 @@
                     android:layout_marginRight="@dimen/dp_12"></View>
             </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_12"
-                android:layout_marginRight="@dimen/dp_12">
+                android:layout_marginRight="@dimen/dp_12"
+                android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="添加产品详情长图"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp_110"/>
+                    android:textSize="@dimen/sp_15"
+                    android:textColor="@color/text3"
+                    android:layout_marginTop="@dimen/dp_10" />
                 <me.zhouzhuo.zzimagebox.ZzImageBox
                     android:id="@+id/at_supply_message_nine_pic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_5"
                     app:zib_left_margin="@dimen/dp_12"
                     app:zib_right_margin="@dimen/dp_12"
                     app:zib_img_padding="@dimen/dp_10"
@@ -572,7 +610,7 @@
                     app:zib_img_add="@drawable/iv_add"
                     app:zib_img_default="@drawable/iv_default"
                     app:zib_img_delete="@drawable/iv_delete"></me.zhouzhuo.zzimagebox.ZzImageBox>
-            </RelativeLayout>
+            </LinearLayout>
             <EditText
                 android:id="@+id/at_supply_message_et_beizhu"
                 android:layout_width="match_parent"

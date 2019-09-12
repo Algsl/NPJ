@@ -7,4 +7,5 @@ package com.zthx.npj.net.been;
 public class BaseReponseBean {
     protected int code;
     protected String msg;
+
 }

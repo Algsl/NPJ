@@ -83,7 +83,7 @@ public class SplashActivity extends ActivityBase{
     }
 
     private void startClock() {
-        new CountDownTimer(3000,1000) {
+        new CountDownTimer(2000,1000) {
             @Override
             public void onTick(long l) {
 
@@ -123,11 +123,14 @@ public class SplashActivity extends ActivityBase{
             //请求授权
             ActivityCompat.requestPermissions(this,mRequestPermission.toArray(new String[mRequestPermission.size()]),100);
         }else{
-            if (NetUtil.isNetworkConnected(this)) {
+            //getMainBannerAndList();
+            openGPSSettings();
+            /*if (NetUtil.isNetworkConnected(this)) {
+                getMainBannerAndList();
                 openGPSSettings();
             } else {
                 Toast.makeText(this, "请打开网络连接", Toast.LENGTH_SHORT).show();
-            }
+            }*/
         }
     }
 
@@ -137,11 +140,12 @@ public class SplashActivity extends ActivityBase{
         switch (requestCode){
             case 100:
                 if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                    if (NetUtil.isNetworkConnected(this)) {
-                        openGPSSettings();
+                    openGPSSettings();
+                    /*if (NetUtil.isNetworkConnected(this)) {
+
                     } else {
                         Toast.makeText(this, "请打开网络连接", Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
                 }
                 break;
         }
@@ -152,6 +156,7 @@ public class SplashActivity extends ActivityBase{
         BaseApp.getApp().locationService.setLocationOption(BaseApp.getApp().locationService.getDefaultLocationClientOption());
         BaseApp.getApp().locationService.start();
         openActivity(Splash2Activity.class);
+        //openActivity(TestActivity.class);
         finish();
     }
 

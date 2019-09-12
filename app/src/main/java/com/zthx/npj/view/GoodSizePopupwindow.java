@@ -16,6 +16,7 @@ import com.donkingliang.labels.LabelsView;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.GoodsDetailResponseBean;
 import com.zthx.npj.net.been.PreSellDetailResponseBean;
+import com.zthx.npj.net.been.SecKillGoodsDetailResponseBean;
 
 import org.w3c.dom.Text;
 
@@ -25,7 +26,6 @@ public class GoodSizePopupwindow extends PopupWindow {
 
     private final LabelsView labelsView;
     private final RelativeLayout minusView;
-    private final TextView secKillOldPrice;
     private final TextView memberPrice;
     private final RelativeLayout addView;
     private final Button mAddShoppingCar;
@@ -38,17 +38,17 @@ public class GoodSizePopupwindow extends PopupWindow {
     private TextView storeNum;
     private TextView prePrice;
 
-    public GoodSizePopupwindow(Context mContext, View.OnClickListener itemsOnClick, String type,PreSellDetailResponseBean.DataBean data) {
+    private String attribute_id="";
+
+    public GoodSizePopupwindow(Context mContext, View.OnClickListener itemsOnClick, final PreSellDetailResponseBean.DataBean data) {
         this.view = LayoutInflater.from(mContext).inflate(R.layout.popupwindow_goods_size, null);
 
         addView = view.findViewById(R.id.item_pop_goods_num_add);
         minusView = view.findViewById(R.id.item_pop_goods_num_jian);
-        secKillOldPrice = view.findViewById(R.id.pop_goods_size_tv_sec_old_price);
         memberPrice = view.findViewById(R.id.pop_goods_size_tv_price);
         mAddShoppingCar = view.findViewById(R.id.item_pop_goods_add_shopping_car);
         prePrice=view.findViewById(R.id.pop_goods_size_tv_old_price);
-
-
+        spec=view.findViewById(R.id.pw_goodsSize_tv_spec);
         mBuyNow = view.findViewById(R.id.item_pop_goods_buy);
         labelsView = (LabelsView) view.findViewById(R.id.labels);
         cancel=view.findViewById(R.id.pp_goodsSize_iv_cancel);
@@ -56,7 +56,8 @@ public class GoodSizePopupwindow extends PopupWindow {
         final TextView choose=view.findViewById(R.id.pop_goods_size_tv_choice);
         storeNum=view.findViewById(R.id.pop_goods_size_tv_total_num);
 
-
+        memberPrice.setVisibility(View.GONE);
+        mAddShoppingCar.setVisibility(View.GONE);
         prePrice.setText("￥"+data.getGoods_price());
 
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -65,21 +66,6 @@ public class GoodSizePopupwindow extends PopupWindow {
                 dismiss();
             }
         });
-
-        switch (type){
-            case "1":
-                secKillOldPrice.setVisibility(View.VISIBLE);
-                memberPrice.setVisibility(View.GONE);
-                break;
-            case "2":
-                secKillOldPrice.setVisibility(View.GONE);
-                memberPrice.setVisibility(View.GONE);
-                mAddShoppingCar.setVisibility(View.GONE);
-                break;
-            case "3":
-                goodsRlNum.setVisibility(View.VISIBLE);
-                break;
-        }
 //        // 设置按钮监听
         minusView.setOnClickListener(itemsOnClick);
         addView.setOnClickListener(itemsOnClick);
@@ -87,7 +73,7 @@ public class GoodSizePopupwindow extends PopupWindow {
         mBuyNow.setOnClickListener(itemsOnClick);
 
 
-
+        spec.setText("规格：");
         ArrayList<String> label = new ArrayList<>();
         for(int i=0;i<data.getAttribute_value().size();i++){
             label.add("x"+data.getAttribute_value().get(i).getPre_number()+" ￥"+data.getAttribute_value().get(i).getPre_price());
@@ -97,6 +83,7 @@ public class GoodSizePopupwindow extends PopupWindow {
             @Override
             public void onLabelClick(View label, String labelText, int position) {
                 choose.setText("已选："+labelText);
+                attribute_id=data.getAttribute_value().get(position).getId()+"";
             }
         });
         this.setOutsideTouchable(false);
@@ -112,7 +99,6 @@ public class GoodSizePopupwindow extends PopupWindow {
 
         addView = view.findViewById(R.id.item_pop_goods_num_add);
         minusView = view.findViewById(R.id.item_pop_goods_num_jian);
-        secKillOldPrice = view.findViewById(R.id.pop_goods_size_tv_sec_old_price);
         memberPrice = view.findViewById(R.id.pop_goods_size_tv_price);
         mAddShoppingCar = view.findViewById(R.id.item_pop_goods_add_shopping_car);
         mBuyNow = view.findViewById(R.id.item_pop_goods_buy);
@@ -122,6 +108,7 @@ public class GoodSizePopupwindow extends PopupWindow {
         spec=view.findViewById(R.id.pw_goodsSize_tv_spec);
         storeNum=view.findViewById(R.id.pop_goods_size_tv_total_num);
         final TextView choose=view.findViewById(R.id.pop_goods_size_tv_choice);
+        prePrice=view.findViewById(R.id.pop_goods_size_tv_old_price);
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +129,67 @@ public class GoodSizePopupwindow extends PopupWindow {
         for(int i=0;i<data.getAttributes().size();i++){
             label.add(data.getAttributes().get(i).getKey_name());
         }
+        spec.setText(data.getSpec()==null?"规格":data.getSpec());
+        labelsView.setLabels(label); //直接设置一个字符串数组就可以了。
+        labelsView.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
+            @Override
+            public void onLabelClick(View label, String labelText, int position) {
+                attribute_id=data.getAttributes().get(position).getItem_id()+"";
+                choose.setText("已选："+labelText);
+                memberPrice.setText("会员价"+data.getAttributes().get(position).getSpec_member_price());
+                prePrice.setText("￥"+data.getAttributes().get(position).getSpec_user_price());
+                storeNum.setText("库存："+data.getAttributes().get(position).getStore_count());
+            }
+        });
+
+        this.setOutsideTouchable(false);
+        this.setContentView(this.view);
+        this.setHeight(RelativeLayout.LayoutParams.WRAP_CONTENT);
+        this.setWidth(RelativeLayout.LayoutParams.MATCH_PARENT);
+        this.setFocusable(true);
+        this.setBackgroundDrawable(new BitmapDrawable());
+    }
+
+    public GoodSizePopupwindow(Context mContext, View.OnClickListener itemsOnClick, SecKillGoodsDetailResponseBean.DataBean data) {
+        this.view = LayoutInflater.from(mContext).inflate(R.layout.popupwindow_goods_size, null);
+
+        addView = view.findViewById(R.id.item_pop_goods_num_add);
+        minusView = view.findViewById(R.id.item_pop_goods_num_jian);
+        memberPrice = view.findViewById(R.id.pop_goods_size_tv_price);
+        mAddShoppingCar = view.findViewById(R.id.item_pop_goods_add_shopping_car);
+        mBuyNow = view.findViewById(R.id.item_pop_goods_buy);
+        labelsView = (LabelsView) view.findViewById(R.id.labels);
+        cancel=view.findViewById(R.id.pp_goodsSize_iv_cancel);
+        goodsRlNum=view.findViewById(R.id.pw_goodsSize_rl_buy);
+        spec=view.findViewById(R.id.pw_goodsSize_tv_spec);
+        storeNum=view.findViewById(R.id.pop_goods_size_tv_total_num);
+        final TextView choose=view.findViewById(R.id.pop_goods_size_tv_choice);
+        prePrice=view.findViewById(R.id.pop_goods_size_tv_old_price);
+
+        memberPrice.setVisibility(View.VISIBLE);
+        goodsRlNum.setVisibility(View.VISIBLE);
+
+        prePrice.setText("￥"+data.getGoods_price());
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+
+//        // 设置按钮监听
+        minusView.setOnClickListener(itemsOnClick);
+        addView.setOnClickListener(itemsOnClick);
+        mAddShoppingCar.setOnClickListener(itemsOnClick);
+        mBuyNow.setOnClickListener(itemsOnClick);
+
+
+        /*spec.setText(data.getSpec());
+        ArrayList<String> label = new ArrayList<>();
+        for(int i=0;i<data.getAttributes().size();i++){
+            label.add(data.getAttributes().get(i).getKey_name());
+        }
         labelsView.setLabels(label); //直接设置一个字符串数组就可以了。
         labelsView.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
             @Override
@@ -152,7 +200,7 @@ public class GoodSizePopupwindow extends PopupWindow {
                 storeNum.setText("库存："+data.getAttributes().get(position).getStore_count());
                 spec.setText(data.getSpec()==null?"规格":data.getSpec());
             }
-        });
+        });*/
 
         this.setOutsideTouchable(false);
         this.setContentView(this.view);
@@ -160,5 +208,9 @@ public class GoodSizePopupwindow extends PopupWindow {
         this.setWidth(RelativeLayout.LayoutParams.MATCH_PARENT);
         this.setFocusable(true);
         this.setBackgroundDrawable(new BitmapDrawable());
+    }
+
+    public String getAttId(){
+        return attribute_id;
     }
 }

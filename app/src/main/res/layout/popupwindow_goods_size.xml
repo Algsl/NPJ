@@ -23,6 +23,7 @@
             android:layout_marginBottom="@dimen/dp_10"
             android:layout_marginLeft="@dimen/dp_12"
             android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
             android:src="@mipmap/ic_launcher"/>
         <TextView
             android:id="@+id/pop_goods_size_tv_old_price"
@@ -76,19 +77,6 @@
                 android:textSize="@dimen/sp_12"
                 android:textColor="@android:color/white"/>
         </LinearLayout>
-        <TextView
-            android:id="@+id/pop_goods_size_tv_sec_old_price"
-            android:visibility="gone"
-            android:layout_width="@dimen/dp_75"
-            android:layout_height="@dimen/dp_20"
-            android:gravity="center"
-            android:layout_toRightOf="@id/pop_goods_size_tv_old_price"
-            android:text="市场价:255"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:textSize="@dimen/sp_12"
-            android:textColor="@color/text9"/>
-
         <ImageView
             android:id="@+id/pp_goodsSize_iv_cancel"
             android:layout_width="@dimen/dp_22"

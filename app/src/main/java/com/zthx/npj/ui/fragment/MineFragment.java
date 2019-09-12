@@ -31,11 +31,13 @@ import com.zthx.npj.net.been.AlsoLikeResponseBean;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.NetUtil;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.EditMyOfflineStoreActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.HelpActivity;
+import com.zthx.npj.ui.LoginActivity;
 import com.zthx.npj.ui.MembershipPackageActivity;
 import com.zthx.npj.ui.MessageCenterActivity;
 import com.zthx.npj.ui.MyAttestationActivity;
@@ -143,6 +145,7 @@ public class MineFragment
     private String user_id = SharePerferenceUtils.getUserId(getContext());
     private String token = SharePerferenceUtils.getToken(getContext());
     private String level = "";
+    private String balance="";
 
     public MineFragment() {
     }
@@ -151,6 +154,9 @@ public class MineFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(SharePerferenceUtils.getUserId(getContext()).equals("")){
+            startActivity(new Intent(getContext(), LoginActivity.class));
+        }
     }
 
 
@@ -174,8 +180,12 @@ public class MineFragment
     @Override
     public void onResume() {
         super.onResume();
-        getUserInfo();
-        getAlsoLike();
+        if (!NetUtil.isNetworkConnected(getContext())) {
+            Toast.makeText(getContext(), "请打开网络连接", Toast.LENGTH_SHORT).show();
+        }else{
+            getUserInfo();
+            getAlsoLike();
+        }
     }
 
 
@@ -237,6 +247,7 @@ public class MineFragment
         fgMineTvGourdCoin.setText(String.valueOf(data.getGourd_coin()));
         fgMineTvCouponNum.setText(String.valueOf(data.getCoupon_num()));
         fgMineTvCollectionNum.setText(String.valueOf(data.getCollection_num()));
+        balance=data.getBalance();
         Glide.with(getContext())
                 .load(Uri.parse(data.getHead_img()))
                 .into(fgMineIvHeadPic);
@@ -350,7 +361,9 @@ public class MineFragment
                 startActivity(new Intent(getActivity(), MyCouponActivity.class));
                 break;
             case R.id.fg_mine_ll_my_wallet:
-                startActivity(new Intent(getActivity(), MyWalletActivity.class));
+                Intent intent=new Intent(getContext(),MyWalletActivity.class);
+                intent.putExtra("balance",balance);
+                startActivity(intent);
                 break;
             case R.id.fg_mine_ll_my_store:
                 if (level.equals("0")) {
@@ -417,9 +430,9 @@ public class MineFragment
                 }
                 break;
             case R.id.fg_mine_iv_head_pic:
-                Intent intent = new Intent(getContext(), UserMsgActivity.class);
-                intent.putExtra("key0", user_id);
-                startActivity(intent);
+                Intent intent1 = new Intent(getContext(), UserMsgActivity.class);
+                intent1.putExtra("key0", user_id);
+                startActivity(intent1);
                 break;
             case R.id.fg_mine_iv_jihuo:
                 startActivity(new Intent(getContext(), MembershipPackageActivity.class));

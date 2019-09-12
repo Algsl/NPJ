@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -28,6 +29,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.MySupplyListAdapter;
 import com.zthx.npj.adapter.SupplyOrderAdapter;
+import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.KuaiDiResponseBean;
 import com.zthx.npj.net.been.MySupplyListResponseBean;
 import com.zthx.npj.net.been.MySupplyOrderFahuoBean;
@@ -36,6 +38,7 @@ import com.zthx.npj.net.been.SupplyOrderResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.SupplyMessageActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
@@ -138,7 +141,10 @@ public class SupplyManagerActivity extends ActivityBase {
         adapter.setOnItemClickListener(new MySupplyListAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                Intent intent = new Intent(SupplyManagerActivity.this, SupplyProductsActivity.class);
+                intent.setAction(Const.SUPPLY_DETAIL);
+                intent.putExtra("goods_id", data.get(position).getId() + "");
+                startActivity(intent);
             }
 
             @Override
@@ -147,6 +153,7 @@ public class SupplyManagerActivity extends ActivityBase {
                     SetSubscribe.mySupplyDown(user_id, token, data.get(position).getId() + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
+                            showToast("供应商品下架成功");
                             getSupply();
                         }
 
@@ -159,6 +166,7 @@ public class SupplyManagerActivity extends ActivityBase {
                     SetSubscribe.mySupplyUp(user_id, token, data.get(position).getId() + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
+                            showToast("供应商品上架成功");
                             getSupply();
                         }
 
@@ -173,7 +181,7 @@ public class SupplyManagerActivity extends ActivityBase {
 
             @Override
             public void onSupplyEditClick(int position) {
-
+                openActivity(SupplyMessageInfoActivity.class,data.get(position).getId(),"2");
             }
 
             @Override
@@ -181,6 +189,7 @@ public class SupplyManagerActivity extends ActivityBase {
                 SetSubscribe.mySupplyDel(user_id, token, data.get(position).getId() + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
+                        showToast("商品删除成功");
                         getSupply();
                     }
 
@@ -255,7 +264,10 @@ public class SupplyManagerActivity extends ActivityBase {
         adapter.setOnItemClickListener(new SupplyOrderAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                /*Intent intent = new Intent(SupplyManagerActivity.this, SupplyProductsActivity.class);
+                intent.setAction(Const.SUPPLY_DETAIL);
+                intent.putExtra("goods_id", data.get(position).getId() + "");
+                startActivity(intent);*/
             }
 
             @Override

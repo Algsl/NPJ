@@ -189,7 +189,7 @@ public class TrustedStore2Activity extends ActivityBase {
             public void onClick(View view) {
                 payType="1";
                 showToast("订单生成中，请稍等...");
-                uploadData(1);
+                uploadData();
                 dialog.dismiss();
             }
         });
@@ -198,7 +198,16 @@ public class TrustedStore2Activity extends ActivityBase {
             public void onClick(View view) {
                 payType="2";
                 showToast("订单生成中，请稍等...");
-                uploadData(2);
+                uploadData();
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dl_pay_yue).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                payType="3";
+                showToast("订单生成中，请稍等...");
+                uploadData();
                 dialog.dismiss();
             }
         });
@@ -210,12 +219,12 @@ public class TrustedStore2Activity extends ActivityBase {
         });
     }
 
-    private void uploadData(int i) {
+    private void uploadData() {
         UploadChengXinCertBean bean = new UploadChengXinCertBean();
         bean.setUser_id(SharePerferenceUtils.getUserId(TrustedStore2Activity.this));
         bean.setToken(SharePerferenceUtils.getToken(TrustedStore2Activity.this));
         bean.setPrice(check + "000");
-        bean.setPay_code(i + "");
+        bean.setPay_code(payType);
         CertSubscribe.uploadChengxinCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -224,16 +233,22 @@ public class TrustedStore2Activity extends ActivityBase {
                 data1=bean.getData();
                 if(payType.equals("1")){
                     alipay();
-                }else{
+                }else if(payType.equals("2")){
                     wxpay();
+                }else{
+                    yue();
                 }
             }
 
             @Override
             public void onFault(String errorMsg) {
-
+                showToast(errorMsg);
             }
         }));
+    }
+
+    private void yue() {
+
     }
 
     private void wxpay() {

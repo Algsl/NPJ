@@ -69,6 +69,7 @@ import com.zthx.npj.net.been.PDetailBean;
 import com.zthx.npj.net.been.ProblemBean;
 import com.zthx.npj.net.been.PurchaseDelBean;
 import com.zthx.npj.net.been.PurchaseDownBean;
+import com.zthx.npj.net.been.PurchaseEdit2Bean;
 import com.zthx.npj.net.been.PurchaseEditBean;
 import com.zthx.npj.net.been.PurchaseListBean;
 import com.zthx.npj.net.been.PurchaseUpBean;
@@ -81,6 +82,8 @@ import com.zthx.npj.net.been.ShipBean;
 import com.zthx.npj.net.been.ShopLogBean;
 import com.zthx.npj.net.been.SupplyDelBean;
 import com.zthx.npj.net.been.SupplyDownBean;
+import com.zthx.npj.net.been.SupplyEdit2Bean;
+import com.zthx.npj.net.been.SupplyEditBean;
 import com.zthx.npj.net.been.SupplyOrderBean;
 import com.zthx.npj.net.been.SupplyUpBean;
 import com.zthx.npj.net.been.TiQuBean;
@@ -1153,6 +1156,45 @@ public class SetSubscribe {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().purchaseEdit(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
+
+    /**
+     * 我的求购编辑提交
+     * @param bean
+     * @param subscriber
+     */
+    public static void purchaseEdit2(PurchaseEdit2Bean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().purchaseEdit2(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的供应编辑
+     * @param user_id
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public static void supplyEdit(String user_id,String token,String id,DisposableObserver<ResponseBody> subscriber) {
+        SupplyEditBean bean=new SupplyEditBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setId(id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().supplyEdit(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的供应编辑提交
+     * @param bean
+     * @param subscriber
+     */
+    public static void supplyEdit2(SupplyEdit2Bean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().supplyEdit2(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+
+
 
     /**
      * 供应管理供应订单

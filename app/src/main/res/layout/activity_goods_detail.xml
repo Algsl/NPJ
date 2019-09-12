@@ -7,7 +7,11 @@
     tools:context=".ui.GoodsDetailActivity"
     android:focusableInTouchMode="true"
     android:focusable="true">
-    <android.support.v4.widget.NestedScrollView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v4.widget.NestedScrollView
         android:id="@+id/ac_goodsDetail_sv"
         android:fillViewport="true"
         android:layout_width="match_parent"
@@ -20,7 +24,7 @@
             android:descendantFocusability="blocksDescendants">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_283">
+                android:layout_height="@dimen/dp_422">
                 <com.youth.banner.Banner
                     android:id="@+id/at_goods_detail_banner"
                     android:layout_width="match_parent"
@@ -188,10 +192,23 @@
                   android:text="异丙甲草胺绿色无污染大豆田玉米田小麦田均可放心使用;会员可享受包邮"
                   android:textColor="@color/text3"
                   android:textSize="@dimen/sp_15" />
+                <TextView
+                    android:id="@+id/at_goods_detail_tv_goods_title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:layout_marginTop="@dimen/dp_9"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="异丙甲草胺绿色无污染大豆田玉米田小麦田均可放心使用;会员可享受包邮"
+                    android:textColor="@color/text6"
+                    android:textSize="@dimen/sp_12" />
               <RelativeLayout
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:layout_marginTop="@dimen/dp_9"
+                  android:layout_marginTop="@dimen/dp_18"
+                  android:layout_marginBottom="@dimen/dp_15"
                   android:gravity="center_vertical"
                   android:orientation="horizontal">
 
@@ -208,19 +225,10 @@
                       android:id="@+id/at_goods_detail_hold_num"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_marginLeft="@dimen/dp_11"
-                      android:layout_toRightOf="@id/at_goods_detail_selled_num"
-                      android:text="库存200"
-                      android:textColor="@color/text9"
-                      android:textSize="@dimen/sp_12" />
-
-                  <TextView
-                      android:id="@+id/at_goods_detail_tv_goods_is_baoyou"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
                       android:layout_alignParentRight="true"
                       android:layout_marginRight="@dimen/dp_12"
-                      android:text="快递：免运费"
+                      android:text="库存200"
+                      android:textColor="@color/text9"
                       android:textSize="@dimen/sp_12" />
               </RelativeLayout>
             </LinearLayout>
@@ -414,10 +422,12 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
+                                android:id="@+id/ac_goodsDetail_iv_willEnd"
                                 android:layout_width="@dimen/dp_10"
                                 android:layout_height="@dimen/dp_10"
                                 android:src="@drawable/circle_theme"/>
                             <TextView
+                                android:id="@+id/ac_goodsDetail_tv_willEnd"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/dp_7"
@@ -434,12 +444,18 @@
                             android:orientation="vertical"
                             android:gravity="center">
                             <ImageView
+                                android:id="@+id/ac_goodsDetail_iv_sending"
                                 android:layout_width="@dimen/dp_10"
                                 android:layout_height="@dimen/dp_10"
                                 android:src="@drawable/circle_gray"/>
                             <TextView
+                                android:id="@+id/ac_goodsDetail_tv_sending"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:paddingLeft="@dimen/dp_8"
+                                android:paddingRight="@dimen/dp_8"
+                                android:paddingTop="@dimen/dp_3"
+                                android:paddingBottom="@dimen/dp_3"
                                 android:text="发货"
                                 android:textColor="@color/text3"
                                 android:textSize="@dimen/sp_13"
@@ -455,18 +471,39 @@
                     android:layout_height="@dimen/dp_10"
                     android:background="@color/background"></View>
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_10"
+                android:background="@color/background"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="快递: "
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:textColor="@color/text9"
+                    android:textSize="@dimen/sp_12" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_2"
+                    android:text="免运费"
+                    android:textColor="@color/text3"
+                    android:textSize="@dimen/sp_13" />
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1"
-                android:layout_marginTop="@dimen/dp_9"
-                android:background="@color/background" />
-
+                android:background="@color/background"/>
             <RelativeLayout
                 android:id="@+id/ac_goodsDetail_chooseSize"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40">
-
                 <TextView
                     android:id="@+id/at_goods_detail_kind"
                     android:layout_width="wrap_content"
@@ -476,7 +513,6 @@
                     android:layout_marginLeft="@dimen/dp_12"
                     android:textColor="@color/text9"
                     android:textSize="@dimen/sp_12" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -486,7 +522,6 @@
                     android:text="选择规格"
                     android:textColor="@color/text3"
                     android:textSize="@dimen/sp_13" />
-
                 <ImageView
                     android:layout_width="@dimen/dp_22"
                     android:layout_height="@dimen/dp_22"
@@ -494,7 +529,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp_5"
                     android:src="@drawable/goods_detail_select" />
-
             </RelativeLayout>
 
             <View
@@ -518,19 +552,23 @@
                 android:textColor="@color/text9"
                 android:textSize="@dimen/sp_12" />
                 <TextView
+                    android:id="@+id/ac_goodsDetail_tv_send"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" 预计3.20号开始发货 "
                     android:textColor="@color/text3"
                     android:textSize="@dimen/sp_13" />
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_10"
+                android:background="@color/background"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_38"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_15"
                 android:orientation="horizontal">
-
                 <Button
                     android:id="@+id/at_goods_detail_btn_pre_sell_detail"
                     android:layout_width="@dimen/dp_100"
@@ -614,6 +652,7 @@
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     <LinearLayout
         android:id="@+id/ac_goodsDetail_ll_bar"
         android:layout_width="match_parent"
@@ -709,12 +748,13 @@
     </LinearLayout>
     <ImageView
         android:id="@+id/ac_goodsDetail_iv_share"
-        android:layout_width="@dimen/dp_40"
-        android:layout_height="@dimen/dp_40"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_60"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/dp_80"
+        android:layout_marginBottom="@dimen/dp_120"
         android:layout_marginRight="@dimen/dp_42"
+        android:scaleType="fitXY"
         android:src="@drawable/goods_detail_share"/>
     <LinearLayout
         android:id="@+id/ac_goodsDetail_ll_inner"
@@ -771,9 +811,9 @@
                 android:layout_height="@dimen/dp_80"
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginTop="@dimen/dp_10"
-                android:scaleType="centerCrop"
                 android:src="@drawable/logo"
                 android:focusable="true"
+                android:scaleType="fitXY"
                 android:focusableInTouchMode="true"
                 android:layout_below="@id/ac_goodsDetail_tv_innerGoodsTitle" />
             <TextView

@@ -1,6 +1,7 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,7 +102,6 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
         //店铺名称
         String store_name = datasBean.get(0).getStore_name();
         groupViewHolder.tvStoreName.setText(store_name);
-
 
         //店铺内的商品都选中的时候，店铺的也要选中
         for (int i = 0; i < datasBean.size(); i++) {
@@ -384,7 +384,6 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
             ivEditSubtract=view.findViewById(R.id.iv_edit_subtract);
             tvEditBuyNumber=view.findViewById(R.id.tv_edit_buy_number);
             ivEditAdd=view.findViewById(R.id.iv_edit_add);
-            view=view.findViewById(R.id.view);
         }
     }
 

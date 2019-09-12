@@ -44,12 +44,12 @@
         android:textColor="@color/app_theme"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@id/item_local_store_tv_name"
-        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_15"
         android:layout_marginTop="@dimen/dp_1"/>
 
     <TextView
         android:id="@+id/item_local_store_tv_distance"
-        android:layout_width="@dimen/dp_45"
+        android:layout_width="@dimen/dp_65"
         android:layout_height="@dimen/dp_20"
         android:layout_alignParentRight="true"
         android:layout_marginTop="@dimen/dp_8"

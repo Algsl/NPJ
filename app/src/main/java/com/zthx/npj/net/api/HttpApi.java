@@ -355,6 +355,15 @@ public interface HttpApi  {
     @POST("index.php/api/user/purchaseedit.html")
     Observable<ResponseBody> purchaseEdit(@Body PurchaseEditBean bean);
 
+    @POST("index.php/api/user/purchaseedit2.html")
+    Observable<ResponseBody> purchaseEdit2(@Body PurchaseEdit2Bean bean);
+
+    @POST("index.php/api/user/supplyedit.html")
+    Observable<ResponseBody> supplyEdit(@Body SupplyEditBean bean);
+
+    @POST("index.php/api/user/supplyedit2.html")
+    Observable<ResponseBody> supplyEdit2(@Body SupplyEdit2Bean bean);
+
     @POST("index.php/api/user/supplyorder.html")
     Observable<ResponseBody> supplyOrder(@Body SupplyOrderBean bean);
 

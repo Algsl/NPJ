@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.DiscoverViewPagerAdapter;
+import com.zthx.npj.net.netutils.NetUtil;
 import com.zthx.npj.ui.MessageCenterActivity;
 
 import java.util.ArrayList;
@@ -53,6 +55,8 @@ public class DiscoverFragment extends BaseFragment {
         }
         view.setFitsSystemWindows(false);
         unbinder = ButterKnife.bind(this, view);
+
+
         List<String> list = new ArrayList<>();
         list.add("服务");
         list.add("供求");
@@ -67,6 +71,16 @@ public class DiscoverFragment extends BaseFragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (!NetUtil.isNetworkConnected(getContext())) {
+            Toast.makeText(getContext(), "请打开网络连接", Toast.LENGTH_SHORT).show();
+        }else{
+
+        }
+    }
 
     @Override
     public void onAttach(Context context) {

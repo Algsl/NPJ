@@ -16,6 +16,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.BaojiaListAdapter;
 import com.zthx.npj.adapter.PurchaseListAdapter;
+import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BaojiaListResponseBean;
 import com.zthx.npj.net.been.PurchaseListResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
@@ -90,7 +91,7 @@ public class WantBuyManagerActivity extends ActivityBase {
         });
 
         back(titleThemeBack);
-        changeTitle(titleThemeTitle, "供应管理");
+        changeTitle(titleThemeTitle, "求购管理");
         getWantBuy();
     }
 
@@ -121,7 +122,10 @@ public class WantBuyManagerActivity extends ActivityBase {
         adapter.setOnItemClickListener(new PurchaseListAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                Intent intent = new Intent(WantBuyManagerActivity.this, SupplyProductsActivity.class);
+                intent.setAction(Const.NEED_DETAIL);
+                intent.putExtra("goods_id", data.get(position).getId() + "");
+                startActivity(intent);
             }
 
             @Override
@@ -130,11 +134,13 @@ public class WantBuyManagerActivity extends ActivityBase {
                     SetSubscribe.purchaseDown(user_id, token, data.get(position).getId() + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
+                            showToast("求购商品下架成功");
                             getWantBuy();
                         }
 
                         @Override
                         public void onFault(String errorMsg) {
+                            showToast("求购商品上架成功");
                             showToast(errorMsg);
                         }
                     }));
@@ -155,7 +161,7 @@ public class WantBuyManagerActivity extends ActivityBase {
 
             @Override
             public void onSupplyEditClick(int position) {
-
+                openActivity(SupplyMessageInfoActivity.class,data.get(position).getId()+"","1");
             }
 
             @Override

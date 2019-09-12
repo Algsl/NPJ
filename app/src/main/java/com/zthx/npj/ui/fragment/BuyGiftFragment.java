@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ public class BuyGiftFragment extends Fragment {
 
     private String user_id = SharePerferenceUtils.getUserId(getContext());
     private String token = SharePerferenceUtils.getToken(getContext());
+    private String level=SharePerferenceUtils.getUserLevel(getContext());
 
     public BuyGiftFragment() {
         // Required empty public constructor
@@ -96,10 +98,17 @@ public class BuyGiftFragment extends Fragment {
 
                     @Override
                     public void onBuyClick(int position) {
-                        Intent intent = new Intent(getContext(), ConfirmOrderActivity.class);
-                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
-                        intent.setAction(Const.GIFT);
-                        startActivity(intent);
+                        if(level.equals("0")){
+                            Intent intent = new Intent(getContext(), ConfirmOrderActivity.class);
+                            intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                            intent.setAction(Const.GIFT);
+                            startActivity(intent);
+                        }else{
+                            Toast toast=Toast.makeText(getContext(),"您已经是代言人了，赶快去邀请好友加入农品街吧！",Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+                            toast.show();
+                        }
+
                     }
                 });
                 fgBuyGiftRv.setAdapter(mAdapter);

@@ -67,6 +67,8 @@
                                 android:layout_marginTop="@dimen/dp_10"
                                 android:src="@drawable/logo"
                                 app:riv_oval="true"
+                                android:scaleType="fitXY"
+                                android:adjustViewBounds="true"
                                 app:riv_border_width="@dimen/dp_1"
                                 app:riv_border_color="@color/white"/>
                         </com.youth.banner.Banner>

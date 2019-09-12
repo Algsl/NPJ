@@ -13,23 +13,25 @@
 
         <ImageView
             android:id="@+id/iv_select"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginRight="@dimen/dp_13"
             android:layout_gravity="center_vertical"
-            android:padding="10dp"
             android:src="@drawable/confirm_unselect"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/iv_photo"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:layout_centerVertical="true"
-                android:background="#ededed"
-                android:scaleType="centerCrop" />
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:riv_corner_radius="@dimen/dp_5"/>
 
             <TextView
                 android:id="@+id/tv_name"
@@ -58,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="¥"
-                    android:textColor="#ee1d23"
+                    android:textColor="@color/app_theme"
                     android:textSize="12dp" />
 
                 <TextView
@@ -69,29 +71,31 @@
                     android:layout_marginLeft="2dp"
                     android:layout_toRightOf="@id/tv_price_key"
                     android:text="499"
-                    android:textColor="#ee1d23"
-                    android:textSize="14dp" />
+                    android:textStyle="bold"
+                    android:textColor="@color/app_theme"
+                    android:textSize="@dimen/sp_14" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_12"
+                    android:background="@drawable/stroke_gray_10"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/iv_edit_subtract"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
+                        android:layout_height="@dimen/dp_20"
                         android:src="@drawable/shooping_jian"/>
 
                     <TextView
                         android:id="@+id/tv_edit_buy_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/dp_30"
+                        android:layout_height="@dimen/dp_20"
+                        android:background="@drawable/stroke_gray_2"
                         android:gravity="center"
                         android:minEms="1"
                         android:text="1"
@@ -101,18 +105,9 @@
                     <ImageView
                         android:id="@+id/iv_edit_add"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
+                        android:layout_height="@dimen/dp_20"
                         android:src="@drawable/shopping_jia"/>
                 </LinearLayout>
-
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="#cccccc" />
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>

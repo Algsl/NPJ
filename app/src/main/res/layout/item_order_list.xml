@@ -64,8 +64,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="￥1560"
-                android:textSize="@dimen/sp_14"
-                android:textColor="@color/text6"
+                android:textSize="@dimen/sp_15"
+                android:textColor="@color/app_theme"
+                android:textStyle="bold"
                 android:layout_alignLeft="@id/item_orderList_tv_goodsName"
                 android:layout_below="@id/item_orderList_tv_goodsName"
                 android:layout_marginTop="@dimen/dp_13"/>

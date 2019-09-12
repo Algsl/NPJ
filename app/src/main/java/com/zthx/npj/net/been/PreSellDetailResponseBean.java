@@ -24,7 +24,7 @@ public class PreSellDetailResponseBean extends BaseReponseBean {
         private String goods_name;
         private String goods_num;
         private ArrayList<String> group_img;
-        private String shipment;
+        private long shipment;
         private String content;
         private String user_num;
         private int sale_price;
@@ -96,11 +96,11 @@ public class PreSellDetailResponseBean extends BaseReponseBean {
             this.group_img = group_img;
         }
 
-        public String getShipment() {
+        public long getShipment() {
             return shipment;
         }
 
-        public void setShipment(String shipment) {
+        public void setShipment(long shipment) {
             this.shipment = shipment;
         }
 

@@ -31,6 +31,7 @@
                         android:layout_marginLeft="@dimen/dp_12"
                         android:id="@+id/at_membership_package_head_pic"
                         app:riv_oval="true"
+                        android:scaleType="fitXY"
                         app:riv_border_color="@color/white"
                         app:riv_border_width="@dimen/dp_2"/>
                     <TextView

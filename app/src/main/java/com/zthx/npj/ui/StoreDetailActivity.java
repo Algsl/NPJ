@@ -3,7 +3,6 @@ package com.zthx.npj.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -85,10 +87,12 @@ public class StoreDetailActivity extends ActivityBase {
     Banner bannerDiscoverService;
     @BindView(R.id.ac_storeDetail_showLocation)
     ImageView acStoreDetailShowLocation;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
-    private String lat="";
-    private String lng="";
-    private String mobile="";
+    private String lat = "";
+    private String lng = "";
+    private String mobile = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +102,16 @@ public class StoreDetailActivity extends ActivityBase {
 
         back(titleBack);
         changeTitle(acTitle, "店铺详情");
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getStoreDetail(getIntent().getStringExtra(Const.STORE_ID));
+                getStoreComment(getIntent().getStringExtra(Const.STORE_ID));
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
 
         getStoreDetail(getIntent().getStringExtra(Const.STORE_ID));
         getStoreComment(getIntent().getStringExtra(Const.STORE_ID));
@@ -148,9 +162,9 @@ public class StoreDetailActivity extends ActivityBase {
         StoreDetailResponseBean storeDetailResponseBean = GsonUtils.fromJson(result, StoreDetailResponseBean.class);
         StoreDetailResponseBean.DataBean data = storeDetailResponseBean.getData();
         initBanner(data.getStore_img());
-        lat=data.getLat();
-        lng=data.getLng();
-        mobile=data.getContact();
+        lat = data.getLat();
+        lng = data.getLng();
+        mobile = data.getContact();
         atStoreDetailName.setText(data.getStore_name());
         switch (data.getPopularity()) {
             case 1:
@@ -214,14 +228,14 @@ public class StoreDetailActivity extends ActivityBase {
         bannerDiscoverService.start();
     }
 
-    @OnClick({R.id.ac_storeDetail_showLocation, R.id.at_store_detail_iv_call,R.id.at_store_detail_btn_pay})
+    @OnClick({R.id.ac_storeDetail_showLocation, R.id.at_store_detail_iv_call, R.id.at_store_detail_btn_pay})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_storeDetail_showLocation:
-                openActivity(ShowLocationActivity.class,lat,lng);
+                openActivity(ShowLocationActivity.class, lat, lng);
                 break;
             case R.id.at_store_detail_iv_call:
-                Intent intent=new Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+mobile));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mobile));
                 startActivity(intent);
                 break;
             case R.id.at_store_detail_btn_pay:

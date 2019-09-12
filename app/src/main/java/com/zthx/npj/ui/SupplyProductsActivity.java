@@ -2,12 +2,10 @@ package com.zthx.npj.ui;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,14 +19,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
-import com.youth.banner.Transformer;
-import com.youth.banner.listener.OnBannerListener;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommentAdapter;
 import com.zthx.npj.adapter.GoodsImgDetailAdapter;
-import com.zthx.npj.adapter.SupplyProductsAdapter;
+import com.zthx.npj.banner.Banner;
+import com.zthx.npj.banner.BannerConfig;
+import com.zthx.npj.banner.loader.LocalImageLoader;
+import com.zthx.npj.banner.loader.LocalVideoLoader;
+import com.zthx.npj.banner.loader.ViewItemBean;
+import com.zthx.npj.banner.transformer.DefaultTransformer;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BaoJiaBean;
 import com.zthx.npj.net.been.CommentResponseBean;
@@ -40,7 +42,6 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
-import com.zthx.npj.view.GlideImageLoader;
 import com.zthx.npj.view.MyCircleView;
 
 import java.util.ArrayList;
@@ -53,8 +54,6 @@ public class SupplyProductsActivity extends ActivityBase {
 
     @BindView(R.id.at_supply_products_btn_buy_now)
     Button atSupplyProductsBtnBuyNow;
-    @BindView(R.id.at_supply_products_banner)
-    Banner atSupplyProductsBanner;
     @BindView(R.id.at_need_products_tv_caigou_num)
     TextView atNeedProductsTvCaigouNum;
     @BindView(R.id.at_supply_products_tv_price)
@@ -113,6 +112,11 @@ public class SupplyProductsActivity extends ActivityBase {
     TextView acSupplyTvCompany;
     @BindView(R.id.ac_supply_tv_realName)
     TextView acSupplyTvRealName;
+    @BindView(R.id.banner)
+    Banner banner;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+
 
     private String type;
     private String goodsId;
@@ -121,7 +125,7 @@ public class SupplyProductsActivity extends ActivityBase {
     private SupplyDetailResponseBean.DataBean supplyData;
     private NeedDetailResponseBean.DataBean needData;
     private GoodsImgDetailAdapter adapter;
-    private String sn_user_id="";
+    private String sn_user_id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +149,19 @@ public class SupplyProductsActivity extends ActivityBase {
             getNeedData(goodsId);
             atSupplyProductsBtnBuyNow.setText("我要报价");
         }
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                if(type.equals(Const.SUPPLY_DETAIL)){
+                    getSupplyData(goodsId);
+                }else{
+                    getNeedData(goodsId);
+                }
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
     }
 
     //求购详情
@@ -152,25 +169,25 @@ public class SupplyProductsActivity extends ActivityBase {
         DiscoverSubscribe.needDetail(id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                NeedDetailResponseBean  bean = GsonUtils.fromJson(result, NeedDetailResponseBean.class);
-                needData=bean.getData();
+                NeedDetailResponseBean bean = GsonUtils.fromJson(result, NeedDetailResponseBean.class);
+                needData = bean.getData();
                 showLevel(needData.getLevel());
                 atNeedProductsTvCaigouNum.setVisibility(View.VISIBLE);
                 atSupplyProductsLlNeedBaojia.setVisibility(View.VISIBLE);
                 atSupplyProductsLlSupplyGuanggao.setVisibility(View.GONE);
                 atSupplyProductsRlNeedGuanggao.setVisibility(View.VISIBLE);
 
-                initBanner(needData.getImg());
+                initBanner1(needData.getImg());
                 atSupplyProductsTvPrice.setText(needData.getAmount());
                 atSupplyProductsTvUnit.setText(needData.getUnit());
                 atSupplyProductsTvTitle.setText(needData.getTitle());
 
-                if(needData.getCertification()!=null){
-                    String[] strs=needData.getCertification().split(",");
-                    for(String str:strs){
-                        if(str.equals("1")){
+                if (needData.getCertification() != null) {
+                    String[] strs = needData.getCertification().split(",");
+                    for (String str : strs) {
+                        if (str.equals("1")) {
                             acSupplyTvRealName.setVisibility(View.VISIBLE);
-                        }else if(str.equals("2")){
+                        } else if (str.equals("2")) {
                             acSupplyTvCompany.setVisibility(View.VISIBLE);
                         }
                     }
@@ -192,7 +209,7 @@ public class SupplyProductsActivity extends ActivityBase {
                     atSupplyProductsTvXinyufen.setText("信誉分： 0");
                 }
 
-                sn_user_id=needData.getUser_id();
+                sn_user_id = needData.getUser_id();
 
                 Glide.with(SupplyProductsActivity.this).load(needData.getHead_img()).into(atSupplyProductsIvHeadPic);
                 atSupplyProductsTvName.setText(needData.getNick_name());
@@ -217,7 +234,7 @@ public class SupplyProductsActivity extends ActivityBase {
             public void onSuccess(String result) {
                 SupplyDetailResponseBean supplyDetailResponseBean = GsonUtils.fromJson(result, SupplyDetailResponseBean.class);
                 supplyData = supplyDetailResponseBean.getData();
-                initBanner(supplyData.getGoods_img());
+                initBanner1(supplyData.getGoods_img());
 
                 showLevel(supplyData.getLevel());
                 atSupplyProductsTvPrice.setText("￥" + supplyData.getPrice());
@@ -238,13 +255,13 @@ public class SupplyProductsActivity extends ActivityBase {
                 } else {
                     atSupplyProductsTvXinyufen.setText("信誉分： " + supplyData.getReputation());
                 }
-                sn_user_id=supplyData.getUser_id();
+                sn_user_id = supplyData.getUser_id();
                 if (supplyData.getCertification() != null) {
                     String[] strs = supplyData.getCertification().split(",");
                     for (String str : strs) {
                         if (str.equals("1")) {
                             acSupplyTvRealName.setVisibility(View.VISIBLE);
-                        }else if(str.equals("2")){
+                        } else if (str.equals("2")) {
                             acSupplyTvCompany.setVisibility(View.VISIBLE);
                         }
                     }
@@ -275,7 +292,7 @@ public class SupplyProductsActivity extends ActivityBase {
     /**
      * 初始化轮播图
      */
-    private void initBanner(ArrayList<String> bannerList) {
+    /*private void initBanner(ArrayList<String> bannerList) {
 
         ArrayList<Uri> list = new ArrayList<>();
         for (int i = 0; i < bannerList.size(); i++) {
@@ -284,31 +301,44 @@ public class SupplyProductsActivity extends ActivityBase {
 
 
         //设置banner样式
-        atSupplyProductsBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-        atSupplyProductsBanner.setIndicatorGravity(BannerConfig.CENTER);
+        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        banner.setIndicatorGravity(BannerConfig.CENTER);
         //设置图片加载器
-        atSupplyProductsBanner.setImageLoader(new GlideImageLoader());
+        banner.setImageLoader(new GlideImageLoader());
+
         //设置图片集合
-        atSupplyProductsBanner.setImages(list);
+        banner.setImages(list);
         //设置banner动画效果
-        atSupplyProductsBanner.setBannerAnimation(Transformer.DepthPage);
+        banner.setBannerAnimation(Transformer.DepthPage);
         //设置自动轮播，默认为true
-        atSupplyProductsBanner.isAutoPlay(true);
+        banner.isAutoPlay(true);
         //设置标题集合（当banner样式有显示title时）
 //        atSupplyProductsBanner.setBannerTitles(list2);
         //设置轮播时间
-        atSupplyProductsBanner.setDelayTime(3000);
+        banner.setDelayTime(3000);
         //设置指示器位置（当banner模式中有指示器时）
-        atSupplyProductsBanner.setIndicatorGravity(BannerConfig.RIGHT);
+        banner.setIndicatorGravity(BannerConfig.RIGHT);
         //设置banner点击事件
-        atSupplyProductsBanner.setOnBannerListener(new OnBannerListener() {
+        banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
                 Log.e("huang", "position = " + position);
             }
         });
         //banner设置方法全部调用完毕时最后调用
-        atSupplyProductsBanner.start();
+        banner.start();
+    }*/
+    private void initBanner1(ArrayList<String> bannerList) {
+        ArrayList<ViewItemBean> list = new ArrayList<>();
+        for (int i = 0; i < bannerList.size(); i++) {
+            list.add(new ViewItemBean(bannerList.get(i)));
+        }
+        banner.setViews(list)
+                .setBannerAnimation(DefaultTransformer.class)
+                .setImageLoader(new LocalImageLoader())
+                .setVideoLoader(new LocalVideoLoader())
+                .setBannerStyle(BannerConfig.NUM_INDICATOR)
+                .start();
     }
 
     @OnClick({R.id.at_supply_products_btn_buy_now, R.id.at_supply_products_ll_call, R.id.at_supply_products_ll_chat,
@@ -331,7 +361,7 @@ public class SupplyProductsActivity extends ActivityBase {
                 openActivity(MainActivity.class);
                 break;
             case R.id.ac_supplyProducts_seeInfo:
-                openActivity(UserMsgActivity.class,sn_user_id);
+                openActivity(UserMsgActivity.class, sn_user_id);
                 break;
             case R.id.ac_supply_tv_detail:
                 acSupplyTvDetail.setBackgroundColor(getResources().getColor(R.color.app_theme));
@@ -339,9 +369,9 @@ public class SupplyProductsActivity extends ActivityBase {
                 acSupplyTvCommon.setBackgroundColor(getResources().getColor(R.color.white));
                 acSupplyTvCommon.setTextColor(getResources().getColor(R.color.text3));
                 if (type.equals(Const.SUPPLY_DETAIL)) {
-                     adapter= new GoodsImgDetailAdapter(SupplyProductsActivity.this, supplyData.getContent());
+                    adapter = new GoodsImgDetailAdapter(SupplyProductsActivity.this, supplyData.getContent());
 
-                }else{
+                } else {
                     adapter = new GoodsImgDetailAdapter(SupplyProductsActivity.this, needData.getContent());
                 }
                 atSupplyProductsRvPic.setItemAnimator(new DefaultItemAnimator());

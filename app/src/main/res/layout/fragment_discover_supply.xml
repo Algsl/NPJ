@@ -8,6 +8,7 @@
     tools:context=".ui.fragment.DiscoverSupplyFragment"
     android:orientation="vertical">
 
+    <!--求购和供应-->
     <LinearLayout
         android:id="@+id/fg_discover_supply_ll"
         android:layout_width="match_parent"
@@ -89,9 +90,11 @@
             android:layout_height="match_parent"
             android:background="@null"
             android:text="取消发布"
-            android:textSize="@dimen/sp_13"
-            android:textColor="@color/text9"/>
+            android:textSize="@dimen/sp_15"
+            android:textColor="@color/app_theme"/>
     </LinearLayout>
+
+
     <RelativeLayout
         android:id="@+id/fg_discover_supply_rv_search"
         android:visibility="visible"

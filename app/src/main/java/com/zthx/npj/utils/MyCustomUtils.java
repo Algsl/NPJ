@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -34,6 +35,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 public class MyCustomUtils {
 
@@ -220,5 +223,58 @@ public class MyCustomUtils {
             e.printStackTrace();
         }
         return file;
+    }
+
+
+    public static Bitmap getVideoThumbnail(String url) {
+        Bitmap bitmap = null;
+//MediaMetadataRetriever 是android中定义好的一个类，提供了统一
+//的接口，用于从输入的媒体文件中取得帧和元数据；
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            //（）根据文件路径获取缩略图
+//retriever.setDataSource(filePath);
+            retriever.setDataSource(url, new HashMap());
+            //获得第一帧图片
+            bitmap = retriever.getFrameAtTime();
+        }
+        catch(IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                retriever.release();
+            }
+            catch (RuntimeException e) {
+                e.printStackTrace();
+            }
+        }
+        Log.v("bitmap", "bitmap="+bitmap);
+        return bitmap;
+    }
+
+    public static String listToString(List<String> lists){
+        String str="";
+        for(int i=0;i<lists.size();i++){
+            if(i==lists.size()-1){
+                str+=lists.get(i);
+            }else{
+                str+=lists.get(i)+",";
+            }
+        }
+        return str;
+    }
+
+    public static void splitUrl(List<String> str1,List<String> str2,List<String> str3){
+        for (String str : str1) {
+            if (str.split("http://app.npj-vip.com").length == 1) {//普通图片需上传
+                str2.add(str);
+            } else {//全链接形式的图片不用上传
+                str3.add(str.split("http://app.npj-vip.com")[1]);
+            }
+        }
     }
 }

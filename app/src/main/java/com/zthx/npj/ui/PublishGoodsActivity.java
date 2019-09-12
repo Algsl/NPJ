@@ -115,6 +115,7 @@ public class PublishGoodsActivity extends ActivityBase {
     private String cate_id = "";
     private String cateName = "";
     private boolean isTuiJian;
+    private String is_recommend2="0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -307,8 +308,10 @@ public class PublishGoodsActivity extends ActivityBase {
     private void toggle() {
         isTuiJian=!isTuiJian;
         if(isTuiJian){
+            is_recommend2="1";
             atPublishGoodsIvIsTuiJian.setImageResource(R.drawable.at_edit_address_selector);
         }else{
+            is_recommend2="0";
             atPublishGoodsIvIsTuiJian.setImageResource(R.drawable.at_edit_address_not_selector);
         }
     }
@@ -334,6 +337,8 @@ public class PublishGoodsActivity extends ActivityBase {
         bean.setCate_id(cate_id);
         bean.setIs_free_shipping("0");
         bean.setGoods_type(goods_type);
+        bean.setIs_recommend2(is_recommend2);
+
         SetSubscribe.addGoods(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {

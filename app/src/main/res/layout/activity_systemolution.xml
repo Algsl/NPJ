@@ -11,8 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <include
-            layout="@layout/title"></include>
-
+            layout="@layout/title"/>
         <com.dueeeke.videoplayer.player.IjkVideoView
             android:id="@+id/player"
             android:layout_width="match_parent"

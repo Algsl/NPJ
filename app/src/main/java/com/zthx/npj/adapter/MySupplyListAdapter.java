@@ -94,10 +94,12 @@ public class MySupplyListAdapter extends RecyclerView.Adapter<MySupplyListAdapte
         }
         Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
         viewHolder.goodsName.setText(mList.get(i).getGoods_name());
-        viewHolder.marketPrice.setText("市场价："+mList.get(i).getMarket_price());
-        viewHolder.memberPrice.setText("会员价："+mList.get(i).getMember_price());
-        //viewHolder.sold.setText("销量："+mList.get(i).getSold()==null?"0":mList.get(i).getSold());
-        //viewHolder.goodsNumber.setText("库存："+mList.get(i).getInventory()==null?"0":mList.get(i).getInventory());
+        //viewHolder.marketPrice.setText("市场价："+mList.get(i).getMarket_price());
+        //viewHolder.memberPrice.setText("会员价："+mList.get(i).getMember_price());
+        viewHolder.marketPrice.setText("￥"+mList.get(i).getPrice()+"/"+mList.get(i).getGoods_unit());
+        viewHolder.memberPrice.setVisibility(View.INVISIBLE);
+        viewHolder.sold.setText("销量："+(mList.get(i).getSold()==null?"0":mList.get(i).getSold()+""));
+        viewHolder.goodsNumber.setText("库存："+mList.get(i).getGoods_num()+mList.get(i).getGoods_unit());
         if(type.equals("1")){
             viewHolder.onSale.setText("下架");
         }else{

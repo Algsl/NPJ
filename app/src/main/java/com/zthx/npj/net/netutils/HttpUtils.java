@@ -46,6 +46,23 @@ public class HttpUtils {
         client.newCall(request).enqueue(callback);
     }
 
+    public static void uploadVideo(String address,List<String> paths,okhttp3.Callback callback){
+        OkHttpClient client=new OkHttpClient();
+        List<File> files=new ArrayList<>();
+        for(String path:paths){
+            File file=new File(path);
+            files.add(file);
+        }
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        for(File file:files){
+            builder.addFormDataPart("images[]",file.getName(),RequestBody.create(MediaType.parse("application/octet-stream"),file));
+        }
+        RequestBody requestBody = builder.build();
+        Request request = new Request.Builder().url(address).post(requestBody).build();
+        client.newCall(request).enqueue(callback);
+    }
+
     public static void uploadMoreImg(String address,List<String> paths,okhttp3.Callback callback){
         OkHttpClient client = new OkHttpClient();
         List<File> files=new ArrayList<>();

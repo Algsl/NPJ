@@ -1,6 +1,7 @@
 package com.zthx.npj.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -17,12 +18,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
+import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.FeedBackBean;
+import com.zthx.npj.net.been.UpLoadPicResponseBean;
+import com.zthx.npj.net.been.UploadPicsResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.CommonDialog;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +38,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.zhouzhuo.zzimagebox.ZzImageBox;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
+import okhttp3.Response;
 
 public class FeedbackActivity extends ActivityBase {
 
@@ -70,6 +81,7 @@ public class FeedbackActivity extends ActivityBase {
     private List<String> paths=new ArrayList<>();
     private static final int CHOOSE_PHOTO=1;
     private TextView[] tvs;
+    private String img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,10 +121,10 @@ public class FeedbackActivity extends ActivityBase {
             if ((tv.getText().toString()).equals(tvs[i].getText().toString())) {
                 title = tv.getText().toString();
                 tv.setTextColor(getResources().getColor(android.R.color.white));
-                tv.setBackgroundColor(getResources().getColor(R.color.app_theme));
+                tv.setBackgroundResource(R.drawable.theme_conner_5);
             }else{
                 tvs[i].setTextColor(getResources().getColor(R.color.text3));
-                tvs[i].setBackgroundColor(getResources().getColor(android.R.color.white));
+                tvs[i].setBackgroundResource(R.drawable.stroke_gray_10);
             }
         }
     }
@@ -159,26 +171,73 @@ public class FeedbackActivity extends ActivityBase {
                 itemSelect(acFeedBackTvTitle6);
                 break;
             case R.id.ac_feedBack_btn_commit:
-                FeedBackBean bean = new FeedBackBean();
-                bean.setUser_id(user_id);
-                bean.setTitle(token);
-                bean.setTitle(title);
-                bean.setDescription(acFeedBackEtDescription.getText().toString().trim());
-                bean.setImg("");
-                bean.setRealname(acFeedBackEtRealname.getText().toString().trim());
-                bean.setMobile(acFeedBackEtMobile.getText().toString().trim());
-                SetSubscribe.feedBack(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                    @Override
-                    public void onSuccess(String result) {
-                        finish();
-                    }
+                if(paths.size()>0){
+                    if(paths.size()==1){
+                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, paths.get(0), new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
 
-                    @Override
-                    public void onFault(String errorMsg) {
-                        showToast(errorMsg);
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                UpLoadPicResponseBean bean=GsonUtils.fromJson(response.body().string(),UpLoadPicResponseBean.class);
+                                img=bean.getData().getSrc();
+                                uploadData();
+                            }
+                        });
+                    }else{
+                        HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                UploadPicsResponseBean bean=GsonUtils.fromJson(response.body().string(),UploadPicsResponseBean.class);
+                                img=bean.getData().getImg();
+                                uploadData();
+                            }
+                        });
                     }
-                }));
+                }else{
+                    showToast("请上传凭证");
+                }
                 break;
         }
+    }
+
+    public void uploadData(){
+        FeedBackBean bean = new FeedBackBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setTitle(title);
+        bean.setDescription(acFeedBackEtDescription.getText().toString().trim());
+        bean.setImg(img);
+        bean.setRealname(acFeedBackEtRealname.getText().toString().trim());
+        bean.setMobile(acFeedBackEtMobile.getText().toString().trim());
+        SetSubscribe.feedBack(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                Log.e("测试", "onSuccess: "+result );
+                CommonDialog dialog=new CommonDialog(FeedbackActivity.this, R.style.dialog, "坚持真实的反馈，能够获得更多的葫芦币哦", new CommonDialog.OnCloseListener() {
+                    @Override
+                    public void onClick(Dialog dialog, boolean confirm) {
+                        if(confirm){
+                            finish();
+                        }
+                    }
+                });
+                dialog.setPositiveButton("关闭");
+                dialog.setTitle("反馈成功");
+                dialog.show();
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                showToast(errorMsg);
+            }
+        }));
     }
 }

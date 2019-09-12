@@ -39,13 +39,13 @@ public class UserMoneyAdapter extends RecyclerView.Adapter<UserMoneyAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         switch (mList.get(i).getType()+""){
             case "1"://充值
-                viewHolder.ivType.setImageResource(R.drawable.my_wallet_logo1);
-                viewHolder.tvType.setText("余额充值");
+                viewHolder.ivType.setImageResource(R.drawable.qbmx_cz);
+                viewHolder.title.setText(mList.get(i).getTitle());
                 viewHolder.tvMoney.setText("+ "+mList.get(i).getPrice());
                 break;
             case "2"://提现
-                viewHolder.ivType.setImageResource(R.drawable.my_wallet_logo2);
-                viewHolder.tvType.setText("余额提现");
+                viewHolder.ivType.setImageResource(R.drawable.qbmx_tx);
+                viewHolder.title.setText(mList.get(i).getTitle());
                 viewHolder.tvMoney.setText("- "+mList.get(i).getPrice());
                 break;
         }
@@ -60,11 +60,11 @@ public class UserMoneyAdapter extends RecyclerView.Adapter<UserMoneyAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ivType;
-        TextView tvType,tvTime,tvMoney;
+        TextView title,tvTime,tvMoney;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivType=itemView.findViewById(R.id.item_myWallet_iv_type);
-            tvType=itemView.findViewById(R.id.item_myWallet_tv_type);
+            title=itemView.findViewById(R.id.item_myWallet_tv_type);
             tvTime=itemView.findViewById(R.id.item_myWallet_tv_time);
             tvMoney=itemView.findViewById(R.id.item_myWallet_tv_money);
         }

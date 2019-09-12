@@ -15,10 +15,12 @@
         android:text="跳过 5s"
         android:textSize="@dimen/sp_12"
         android:textColor="@color/white"
-        android:background="#80bebebe"/>
+        android:background="@drawable/skip_conner"/>
     <ImageView
+        android:id="@+id/ac_splash2_iv_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/logo"/>
+        android:adjustViewBounds="true"
+        android:src="@drawable/splash"/>
 </RelativeLayout>

@@ -2,8 +2,11 @@ package com.zthx.npj.ui;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -16,17 +19,28 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
+import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.ApplyRefundBean;
 import com.zthx.npj.net.been.MyOrderDetailResponseBean;
+import com.zthx.npj.net.been.UploadPicsResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.zhouzhuo.zzimagebox.ZzImageBox;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class ApplyRefundActivity extends ActivityBase {
     @BindView(R.id.ac_title)
@@ -52,7 +66,7 @@ public class ApplyRefundActivity extends ActivityBase {
     @BindView(R.id.ac_order_applyRefund_et_reason)
     EditText acOrderApplyRefundEtReason;
     @BindView(R.id.ac_order_applyRefund_iv_img)
-    ImageView acOrderApplyRefundIvImg;
+    ZzImageBox acOrderApplyRefundIvImg;
     @BindView(R.id.ac_order_applyRefund_btn_confirm)
     Button acOrderApplyRefundBtnConfirm;
     @BindView(R.id.title_back)
@@ -68,6 +82,9 @@ public class ApplyRefundActivity extends ActivityBase {
     String token = SharePerferenceUtils.getToken(this);
     MyOrderDetailResponseBean.DataBean data;
     private String refund_state="0";
+    private List<String> paths = new ArrayList<>();
+    private static final int CHOOSE_PHOTO = 1;
+    private String img;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +95,25 @@ public class ApplyRefundActivity extends ActivityBase {
         back(titleBack);
         changeTitle(acTitle,"申请退款");
         getOrderDetail();
+
+        acOrderApplyRefundIvImg.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
+            @Override
+            public void onImageClick(int position, String url, String realPath, int realType, ImageView iv) {
+
+            }
+
+            @Override
+            public void onDeleteClick(int position, String url, String realPath, int realType) {
+                paths.remove(position);
+                acOrderApplyRefundIvImg.removeImage(position);
+            }
+
+            @Override
+            public void onAddClick() {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, CHOOSE_PHOTO);
+            }
+        });
     }
 
     private void getOrderDetail() {
@@ -106,7 +142,7 @@ public class ApplyRefundActivity extends ActivityBase {
         atOrderApplyRefundTvShip.setText("最多" + data.getOrder_price() + "元，含运费￥" + data.getShipping_fee());
     }
 
-    @OnClick({R.id.at_order_applyRefund_tv_state, R.id.at_order_applyRefund_tv_reason, R.id.ac_order_applyRefund_iv_img, R.id.ac_order_applyRefund_btn_confirm})
+    @OnClick({R.id.at_order_applyRefund_tv_state, R.id.at_order_applyRefund_tv_reason, R.id.ac_order_applyRefund_btn_confirm})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_order_applyRefund_tv_state:
@@ -136,29 +172,69 @@ public class ApplyRefundActivity extends ActivityBase {
                         )
                         .show();
                 break;
-            case R.id.ac_order_applyRefund_iv_img:
-                break;
             case R.id.ac_order_applyRefund_btn_confirm:
-                ApplyRefundBean bean = new ApplyRefundBean();
-                bean.setUser_id(user_id);
-                bean.setToken(token);
-                bean.setOrder_id(getIntent().getStringExtra("order_id"));
-                bean.setRefund_state(refund_state);
-                bean.setRefund_reason(atOrderApplyRefundTvReason.getText().toString());
-                bean.setRefund_price(data.getOrder_price());
-                bean.setRefund_desc(acOrderApplyRefundEtReason.getText().toString().trim());
-                bean.setRefund_img("/public/upload/20190420/defa05252410178d8f8a9b1bb6f1d274.jpg");
-                SetSubscribe.applyRefund(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {
                     @Override
-                    public void onSuccess(String result) {
-                        finish();
+                    public void onFailure(Call call, IOException e) {
+
                     }
 
                     @Override
-                    public void onFault(String errorMsg) {
-
+                    public void onResponse(Call call, Response response) throws IOException {
+                        UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                        UploadPicsResponseBean.DataBean data = bean.getData();
+                        img = data.getImg();
+                        uploadData();
                     }
-                }));
+                });
+                break;
+        }
+    }
+
+    private void uploadData() {
+        ApplyRefundBean bean = new ApplyRefundBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setOrder_id(getIntent().getStringExtra("order_id"));
+        bean.setRefund_state(refund_state);
+        bean.setRefund_reason(atOrderApplyRefundTvReason.getText().toString());
+        bean.setRefund_price(data.getOrder_price());
+        bean.setRefund_desc(acOrderApplyRefundEtReason.getText().toString().trim());
+        bean.setRefund_img(img);
+        SetSubscribe.applyRefund(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                showToast("退款申请提交成功");
+                finish();
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CHOOSE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+                        cursor.moveToFirst();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String path = cursor.getString(columnIndex);  //获取照片路径
+                        cursor.close();
+                        paths.add(path);
+                        acOrderApplyRefundIvImg.addImage(path);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
         }
     }

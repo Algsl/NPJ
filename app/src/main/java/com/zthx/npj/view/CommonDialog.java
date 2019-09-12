@@ -21,6 +21,7 @@ public class CommonDialog extends Dialog implements View.OnClickListener{
     private String positiveName;
     private String negativeName;
     private String title;
+    private boolean showCancel;
 
     public CommonDialog(Context context) {
         super(context);
@@ -35,6 +36,13 @@ public class CommonDialog extends Dialog implements View.OnClickListener{
 
     public CommonDialog(Context context, int themeResId, String content, OnCloseListener listener) {
         super(context, themeResId);
+        this.mContext = context;
+        this.content = content;
+        this.listener = listener;
+    }
+    public CommonDialog(Context context, int themeResId, String content,boolean showCancel, OnCloseListener listener) {
+        super(context, themeResId);
+        this.showCancel=showCancel;
         this.mContext = context;
         this.content = content;
         this.listener = listener;
@@ -60,6 +68,8 @@ public class CommonDialog extends Dialog implements View.OnClickListener{
         return this;
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,12 +79,20 @@ public class CommonDialog extends Dialog implements View.OnClickListener{
     }
 
     private void initView(){
+        titleTxt=findViewById(R.id.title);
         contentTxt = (TextView)findViewById(R.id.content);
         submitTxt = (TextView)findViewById(R.id.submit);
         submitTxt.setOnClickListener(this);
         cancelTxt = (TextView)findViewById(R.id.cancel);
         cancelTxt.setOnClickListener(this);
 
+        if(showCancel){
+            cancelTxt.setVisibility(View.VISIBLE);
+        }else{
+            cancelTxt.setVisibility(View.GONE);
+        }
+
+        titleTxt.setText(title);
         contentTxt.setText(content);
         if(!TextUtils.isEmpty(positiveName)){
             submitTxt.setText(positiveName);

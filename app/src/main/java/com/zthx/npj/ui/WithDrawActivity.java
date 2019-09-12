@@ -44,6 +44,9 @@ public class WithDrawActivity extends ActivityBase{
 
         back(titleThemeBack);
         changeTitle(titleThemeTitle,"余额提现");
+
+        String balance=getIntent().getStringExtra("key0");
+        acWithdrawTvMoney.setText(balance);
     }
 
     @OnClick({R.id.ac_withdraw_btn_allMoney, R.id.ac_withdraw_btn_draw})

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.ConfirmOrderActivity"
     android:background="@android:color/white">
     <LinearLayout
@@ -213,12 +213,21 @@
             android:layout_height="wrap_content"
             android:text="上传凭证"
             android:layout_margin="@dimen/dp_12"/>
-        <ImageView
+        <me.zhouzhuo.zzimagebox.ZzImageBox
             android:id="@+id/ac_order_applyRefund_iv_img"
-            android:layout_width="@dimen/dp_70"
-            android:layout_height="@dimen/dp_70"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_12"
-            android:background="@drawable/add_pic"/>
+            android:layout_marginRight="@dimen/dp_12"
+            app:zib_left_margin="@dimen/dp_12"
+            app:zib_right_margin="@dimen/dp_12"
+            app:zib_img_padding="@dimen/dp_10"
+            app:zib_img_size_one_line="4"
+            app:zib_max_line="1"
+            app:zib_img_deletable="true"
+            app:zib_img_add="@drawable/iv_add"
+            app:zib_img_default="@drawable/iv_default"
+            app:zib_img_delete="@drawable/iv_delete"/>
     </LinearLayout>
     </LinearLayout>
     <Button

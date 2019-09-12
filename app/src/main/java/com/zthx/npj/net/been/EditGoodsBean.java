@@ -13,6 +13,25 @@ public class EditGoodsBean {
     private String inventory;
     private String cate_id;
     private String is_free_shipping;
+    private String goods_content;
+    private String is_recommend2;
+
+
+    public String getIs_recommend2() {
+        return is_recommend2;
+    }
+
+    public void setIs_recommend2(String is_recommend2) {
+        this.is_recommend2 = is_recommend2;
+    }
+
+    public String getGoods_content() {
+        return goods_content;
+    }
+
+    public void setGoods_content(String goods_content) {
+        this.goods_content = goods_content;
+    }
 
     public String getUser_id() {
         return user_id;

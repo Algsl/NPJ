@@ -7,23 +7,27 @@
     android:orientation="vertical"
     android:background="@color/background">
     <include layout="@layout/title"/>
-    <RelativeLayout
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/at_classfiy_detail_rv"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </android.support.v7.widget.RecyclerView>
-        <TextView
-            android:id="@+id/ac_classify_tv_noGoodsHint"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textSize="@dimen/sp_16"
-            android:text="该分类暂无商品"/>
-    </RelativeLayout>
-
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/at_classfiy_detail_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:id="@+id/ac_classify_tv_noGoodsHint"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/sp_16"
+                android:text="该分类暂无商品"/>
+        </RelativeLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

@@ -8,5 +8,6 @@
         android:id="@+id/item_supplyProducts_iv_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:adjustViewBounds="true"
         android:scaleType="centerCrop"/>
 </LinearLayout>

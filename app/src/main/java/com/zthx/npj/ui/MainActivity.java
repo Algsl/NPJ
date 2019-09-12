@@ -20,10 +20,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.alibaba.mobileim.YWAPI;
 import com.alibaba.mobileim.YWIMKit;
@@ -35,6 +39,7 @@ import com.zthx.npj.entity.NotificationBean;
 import com.zthx.npj.jpush.TagAliasOperatorHelper;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.NetUtil;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.fragment.DiscoverFragment;
@@ -92,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
     private DiscoverFragment mDiscoverFragment;
     private ShoppingCart1Fragment mShoppingCartFragment;
     private MineFragment mMineFragment;
+    private Intent intent;
     //private GameFragment mGameFragment;
 
     private String user_id=SharePerferenceUtils.getUserId(this);
@@ -142,13 +148,12 @@ public class MainActivity extends AppCompatActivity {
         getUserMsg();
 
         getBrowserResult();
-
-        Log.e("测试", "onCreate: "+user_id+" "+token );
     }
 
     private void getBrowserResult() {
         Intent mgetvalue = getIntent();
         String maction = mgetvalue.getAction();
+        Log.e("测试", "getBrowserResult: "+maction);
         if (Intent.ACTION_VIEW.equals(maction )) {
             Uri uri = mgetvalue.getData();
             if (uri != null) {
@@ -156,14 +161,23 @@ public class MainActivity extends AppCompatActivity {
                 String type = uri.getQueryParameter("type");
                 String id = uri.getQueryParameter("id");
                 if(page.equals("goodsDetail")){
-                    Intent intent = new Intent(this, GoodsDetailActivity.class);
+                    intent = new Intent(this, GoodsDetailActivity.class);
                     intent.setAction(type);
                     intent.putExtra("goods_id", id + "");
-                    startActivity(intent);
                 }else if(page.equals("tuijian")){
                     startActivity(new Intent(this,MembershipPackageActivity.class));
+                }else if(page.equals("payStore")){
+                    intent=new Intent(this,PayToStoreActivity.class);
+                    intent.putExtra("key0",id);
+                }else{
+                    intent = new Intent(this, WebViewActivity.class);
+                    intent.putExtra("discover_url", uri);
                 }
+                startActivity(intent);
             }
+        }
+        if(maction!=null){
+            Toast.makeText(this,"非农品街二维码不予识别",Toast.LENGTH_LONG).show();
         }
     }
 

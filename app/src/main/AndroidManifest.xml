@@ -78,7 +78,7 @@
         <!-- android:theme="@style/TranslucentTheme" -->
         <activity android:name=".ui.BaseActivity" />
         <activity android:name=".ui.HomeSearchActivity" />
-        <activity android:name=".ui.fragment.ClassfiyDetailActivity" />
+        <activity android:name=".ui.ClassfiyDetailActivity" />
         <activity android:name=".ui.GoodsDetailActivity" />
         <activity android:name=".ui.SecKillActivity" />
         <activity android:name=".ui.ConfirmOrderActivity" />
@@ -98,7 +98,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ui.AgricultureVideoMainActivity" />
         <activity android:name=".ui.BuyVideoActivity" />
-        <activity android:name=".ui.fragment.SupplyMessageActivity" />
+        <activity android:name=".ui.SupplyMessageActivity" />
         <activity android:name=".ui.SupplyProductsActivity" />
         <activity android:name=".ui.SupplyBillActivity" />
         <activity android:name=".ui.AddAddressActivity" />
@@ -199,6 +199,8 @@
         <activity android:name=".ui.ReportActivity" />
         <activity android:name=".ui.TermsOfServiceActivity"/>
         <activity android:name=".ui.Splash2Activity"/>
+        <activity android:name=".ui.BannerActivity"/>
+        <activity android:name=".ui.SupplyMessageInfoActivity"/>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
