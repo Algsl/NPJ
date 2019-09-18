@@ -136,7 +136,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="@dimen/dp_231"
+        android:layout_width="@dimen/dp_300"
         android:layout_height="@dimen/dp_30"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/dp_10"

@@ -282,7 +282,7 @@
                             android:layout_centerVertical="true"
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="@dimen/dp_12"
-                            android:text="￥200.00"
+                            android:text="￥0.00"
                             android:textSize="@dimen/sp_13"
                             android:textColor="@color/text6"/>
                     </RelativeLayout>

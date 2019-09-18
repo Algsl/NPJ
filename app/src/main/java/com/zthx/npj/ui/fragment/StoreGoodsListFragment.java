@@ -153,7 +153,9 @@ public class StoreGoodsListFragment extends Fragment {
 
             @Override
             public void onShareClick(int position) {
-
+                Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+                intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                startActivity(intent);
             }
 
             @Override

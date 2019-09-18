@@ -222,9 +222,7 @@ public class MyAttestationActivity extends ActivityBase {
                 CertSubscribe.zizhi(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.e("测试", "onSuccess: " + result);
                         ZiZhiResponseBean bean = GsonUtils.fromJson(result, ZiZhiResponseBean.class);
-                        Log.e("测试", "onSuccess: " + bean.getData().getStatus());
                         switch (bean.getData().getStatus() + "") {
                             case "1":
                                 openActivity(ZiZhiActivity.class);

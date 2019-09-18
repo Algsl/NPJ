@@ -181,7 +181,10 @@ public class WantBuyManagerActivity extends ActivityBase {
 
             @Override
             public void onSupplyShareClick(int position) {
-
+                Intent intent = new Intent(WantBuyManagerActivity.this, SupplyProductsActivity.class);
+                intent.setAction(Const.NEED_DETAIL);
+                intent.putExtra("goods_id", data.get(position).getId() + "");
+                startActivity(intent);
             }
         });
     }

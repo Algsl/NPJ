@@ -3,8 +3,10 @@ package com.zthx.npj.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,24 +32,26 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.View
     private Context mContext;
     private String level;
 
+
     private ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
         void onItemClick(int position) ;
     }
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
-
     }
 
     public HomeGoodsAdapter(Context context, ArrayList<RecommendResponseBean.DataBean> list) {
         this.list = list;
         mContext = context;
     }
+
+
     @NonNull
     @Override
     public HomeGoodsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_home_goods, viewGroup, false);
-        return new HomeGoodsAdapter.ViewHolder(view);
+        return new HomeGoodsAdapter.ViewHolder(view,i);
     }
 
     @Override
@@ -71,6 +75,7 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.View
         viewHolder.mTvOldPrice.setText("￥"+list.get(i).getMarket_price());
         viewHolder.mTvOldPrice.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG);
         viewHolder.mTvTitle.setText(list.get(i).getGoods_name());
+
     }
 
     @Override
@@ -86,8 +91,9 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.View
         ImageView mIvMall;
         TextView mTvMallName;
 
-        ViewHolder(View itemView) {
+        ViewHolder(View itemView,int viewType) {
             super(itemView);
+
             mIvGoods = itemView.findViewById(R.id.item_iv_home_goods);
             mTvTitle = itemView.findViewById(R.id.item_tv_home_goods_title);
             mTvNewPrice = itemView.findViewById(R.id.item_tv_home_goods_new_price);

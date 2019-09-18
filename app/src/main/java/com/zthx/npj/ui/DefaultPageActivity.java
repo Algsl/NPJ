@@ -22,6 +22,6 @@ public class DefaultPageActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeRightImg(acTitleIv,R.drawable.home_message,MessageCenterActivity.class,null);
+        changeRightImg(acTitleIv,R.drawable.home_theme_message,MessageCenterActivity.class,null);
     }
 }

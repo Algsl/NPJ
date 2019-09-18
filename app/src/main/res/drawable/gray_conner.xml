@@ -1,6 +1,16 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--圆角半径-->
-    <corners android:radius="@dimen/dp_15"/>
-    <!--背景颜色，具体颜色自行在color文件设置-->
-    <solid android:color="@color/background"/>
-</shape>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<!--背景颜色，具体颜色自行在color文件设置-->
+<item android:state_selected="true">
+    <shape>
+        <corners android:radius="@dimen/dp_15"/>
+        <solid android:color="@color/app_theme"/>
+    </shape>
+</item>
+<!-- 标签的正常背景 -->
+<item>
+    <shape>
+        <corners android:radius="@dimen/dp_15"/>
+        <solid android:color="@color/background"/>
+    </shape>
+</item>
+</selector>

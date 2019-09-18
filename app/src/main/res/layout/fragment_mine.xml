@@ -247,107 +247,183 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_62"
                     android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/fg_mine_ll_wait_pay"
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:layout_width="@dimen/dp_21"
-                            android:layout_height="@dimen/dp_21"
-                            android:src="@drawable/mine_pay"/>
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:id="@+id/fg_mine_ll_wait_pay"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="@dimen/dp_21"
+                                android:layout_height="@dimen/dp_21"
+                                android:src="@drawable/mine_pay"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="待付款"
+                                android:textSize="@dimen/sp_13"
+                                android:textColor="@color/text6"
+                                android:layout_marginTop="@dimen/dp_9"/>
+                        </LinearLayout>
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="待付款"
-                            android:textSize="@dimen/sp_13"
-                            android:textColor="@color/text6"
-                            android:layout_marginTop="@dimen/dp_9"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/fg_mine_ll_wait_delivery"
+                            android:id="@+id/fg_mine_tv_payMsg"
+                            android:layout_width="@dimen/dp_20"
+                            android:layout_height="@dimen/dp_20"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/dp_12"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:text="20"
+                            android:background="@drawable/red_conner"/>
+                    </RelativeLayout>
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:id="@+id/fg_mine_ll_wait_delivery"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
 
-                        <ImageView
-                            android:layout_width="@dimen/dp_21"
-                            android:layout_height="@dimen/dp_21"
-                            android:src="@drawable/mine_fahuo"/>
+                            <ImageView
+                                android:layout_width="@dimen/dp_21"
+                                android:layout_height="@dimen/dp_21"
+                                android:src="@drawable/mine_fahuo"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="待发货"
+                                android:textSize="@dimen/sp_13"
+                                android:textColor="@color/text6"
+                                android:layout_marginTop="@dimen/dp_9"/>
+                        </LinearLayout>
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="待发货"
-                            android:textSize="@dimen/sp_13"
-                            android:textColor="@color/text6"
-                            android:layout_marginTop="@dimen/dp_9"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/fg_mine_ll_wait_take_delivery"
+                            android:id="@+id/fg_mine_tv_sendMsg"
+                            android:layout_width="@dimen/dp_20"
+                            android:layout_height="@dimen/dp_20"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/dp_12"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:text="20"
+                            android:background="@drawable/red_conner"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:id="@+id/fg_mine_ll_wait_take_delivery"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
 
-                        <ImageView
-                            android:layout_width="@dimen/dp_21"
-                            android:layout_height="@dimen/dp_21"
-                            android:src="@drawable/mine_delivery"/>
+                            <ImageView
+                                android:layout_width="@dimen/dp_21"
+                                android:layout_height="@dimen/dp_21"
+                                android:src="@drawable/mine_delivery"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="待收货"
+                                android:textSize="@dimen/sp_13"
+                                android:textColor="@color/text6"
+                                android:layout_marginTop="@dimen/dp_9"/>
+                        </LinearLayout>
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="待收货"
-                            android:textSize="@dimen/sp_13"
-                            android:textColor="@color/text6"
-                            android:layout_marginTop="@dimen/dp_9"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/fg_mine_ll_wait_evaluate"
+                            android:id="@+id/fg_mine_tv_receiveMsg"
+                            android:layout_width="@dimen/dp_20"
+                            android:layout_height="@dimen/dp_20"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/dp_12"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:text="20"
+                            android:background="@drawable/red_conner"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:id="@+id/fg_mine_ll_wait_evaluate"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
 
-                        <ImageView
-                            android:layout_width="@dimen/dp_21"
-                            android:layout_height="@dimen/dp_21"
-                            android:src="@drawable/mine_evalute"/>
+                            <ImageView
+                                android:layout_width="@dimen/dp_21"
+                                android:layout_height="@dimen/dp_21"
+                                android:src="@drawable/mine_evalute"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="待评价"
+                                android:textSize="@dimen/sp_13"
+                                android:textColor="@color/text6"
+                                android:layout_marginTop="@dimen/dp_9"/>
+                        </LinearLayout>
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="待评价"
-                            android:textSize="@dimen/sp_13"
-                            android:textColor="@color/text6"
-                            android:layout_marginTop="@dimen/dp_9"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/fg_mine_ll_custom_service"
+                            android:id="@+id/fg_mine_tv_commentMsg"
+                            android:layout_width="@dimen/dp_20"
+                            android:layout_height="@dimen/dp_20"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/dp_12"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:text="20"
+                            android:background="@drawable/red_conner"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:id="@+id/fg_mine_ll_custom_service"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
 
-                        <ImageView
-                            android:layout_width="@dimen/dp_21"
-                            android:layout_height="@dimen/dp_21"
-                            android:src="@drawable/mine_custom_service"/>
+                            <ImageView
+                                android:layout_width="@dimen/dp_21"
+                                android:layout_height="@dimen/dp_21"
+                                android:src="@drawable/mine_custom_service"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="退款/售后"
+                                android:textSize="@dimen/sp_13"
+                                android:textColor="@color/text6"
+                                android:layout_marginTop="@dimen/dp_9"/>
+                        </LinearLayout>
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="退款/售后"
-                            android:textSize="@dimen/sp_13"
-                            android:textColor="@color/text6"
-                            android:layout_marginTop="@dimen/dp_9"/>
-                    </LinearLayout>
+                            android:id="@+id/fg_mine_tv_rebackMsg"
+                            android:layout_width="@dimen/dp_20"
+                            android:layout_height="@dimen/dp_20"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/dp_12"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:text="20"
+                            android:background="@drawable/red_conner"/>
+                    </RelativeLayout>
                 </LinearLayout>
             <ImageView
                 android:id="@+id/fg_mine_iv_jihuo"

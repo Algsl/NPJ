@@ -225,12 +225,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="@dimen/dp_10" />
+                    <TextView
+                        android:id="@+id/loadMore"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_80"
+                        android:gravity="center"
+                        android:text="查看更多商品"/>
                 </LinearLayout>
             </android.support.v4.widget.NestedScrollView>
 
-            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            <!--<com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:id="@+id/footRefresh"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content" />-->
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     </LinearLayout>
 

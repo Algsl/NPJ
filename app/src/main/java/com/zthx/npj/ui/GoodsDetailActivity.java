@@ -57,6 +57,7 @@ import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.QRCodeUtil;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.utils.SimpleUtil;
+import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.GlideImageLoader;
 import com.zthx.npj.view.GoodSizePopupwindow;
 import com.zthx.npj.view.SaleDetailProgressView;
@@ -447,13 +448,55 @@ public class GoodsDetailActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_goods_detail_btn_add_shopping_cart://加入购物车
-                showPopupwindow(view);
+                if(user_id.equals("")){
+                    CommonDialog dialog=new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                        @Override
+                        public void onClick(Dialog dialog, boolean confirm) {
+                            if(confirm){
+                                startActivity(new Intent(GoodsDetailActivity.this, LoginActivity.class));
+                            }
+                        }
+                    });
+                    dialog.setTitle("提示");
+                    dialog.setPositiveButton("去登录");
+                    dialog.show();
+                }else{
+                    showPopupwindow(view);
+                }
                 break;
             case R.id.at_goods_detail_btn_buy_now://立即购买
-                showPopupwindow(view);
+                if(user_id.equals("")){
+                    CommonDialog dialog=new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                        @Override
+                        public void onClick(Dialog dialog, boolean confirm) {
+                            if(confirm){
+                                startActivity(new Intent(GoodsDetailActivity.this, LoginActivity.class));
+                            }
+                        }
+                    });
+                    dialog.setTitle("提示");
+                    dialog.setPositiveButton("去登录");
+                    dialog.show();
+                }else{
+                    showPopupwindow(view);
+                }
                 break;
             case R.id.ac_goodsDetail_ll_collect://收藏
-                goodsCollect();
+                if(user_id.equals("")){
+                    CommonDialog dialog=new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                        @Override
+                        public void onClick(Dialog dialog, boolean confirm) {
+                            if(confirm){
+                                startActivity(new Intent(GoodsDetailActivity.this, LoginActivity.class));
+                            }
+                        }
+                    });
+                    dialog.setTitle("提示");
+                    dialog.setPositiveButton("去登录");
+                    dialog.show();
+                }else{
+                    goodsCollect();
+                }
                 break;
             case R.id.at_goods_detail_btn_pre_sell_detail://商品详情
                 acGoodsDetailLlKnow.setVisibility(View.GONE);
@@ -480,7 +523,21 @@ public class GoodsDetailActivity extends ActivityBase {
                 getComments();
                 break;
             case R.id.ac_goodsDetail_chooseSize://选择规格
-                showPopupwindow(view);
+                if(user_id.equals("")){
+                    CommonDialog dialog=new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                        @Override
+                        public void onClick(Dialog dialog, boolean confirm) {
+                            if(confirm){
+                                startActivity(new Intent(GoodsDetailActivity.this, LoginActivity.class));
+                            }
+                        }
+                    });
+                    dialog.setTitle("提示");
+                    dialog.setPositiveButton("去登录");
+                    dialog.show();
+                }else{
+                    showPopupwindow(view);
+                }
                 break;
             case R.id.ac_goodsDetail_iv_share://分享
                 acGoodsDetailLlInner.setVisibility(View.VISIBLE);
@@ -507,7 +564,21 @@ public class GoodsDetailActivity extends ActivityBase {
                 acGoodsDetailIvQrcode.setImageBitmap(QRCodeUtil.createQRCodeBitmap(imgStrMsg, 120));
                 break;
             case R.id.ac_goodsDetail_ll_store://店铺
-                openActivity(StoreActivity.class, mGoodsData.getUser_id());
+                if(user_id.equals("")){
+                    CommonDialog dialog=new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                        @Override
+                        public void onClick(Dialog dialog, boolean confirm) {
+                            if(confirm){
+                                startActivity(new Intent(GoodsDetailActivity.this, LoginActivity.class));
+                            }
+                        }
+                    });
+                    dialog.setTitle("提示");
+                    dialog.setPositiveButton("去登录");
+                    dialog.show();
+                }else{
+                    openActivity(StoreActivity.class, mGoodsData.getUser_id());
+                }
                 break;
             case R.id.ac_goodsDetail_iv_home://首页
                 openActivity(MainActivity.class);
@@ -673,6 +744,7 @@ public class GoodsDetailActivity extends ActivityBase {
                 Glide.with(this).load(Uri.parse(mSeckillData.getGroup_img().get(0))).into(headImg);
                 marketPrice.setText("￥" + mSeckillData.getMarket_price());
                 memberPrice.setText("会员价" + mSeckillData.getGoods_price());
+                rlToVip.setVisibility(View.INVISIBLE);
                 break;
             case "2":
                 Glide.with(this).load(Uri.parse(mPreData.getGroup_img().get(0))).into(headImg);

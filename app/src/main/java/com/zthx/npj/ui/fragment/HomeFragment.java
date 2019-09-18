@@ -26,7 +26,6 @@ import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -35,7 +34,6 @@ import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.common.Constant;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
-
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BannerResponseBean;
 import com.zthx.npj.net.been.OrderPushBean;
@@ -47,7 +45,6 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.BannerActivity;
 import com.zthx.npj.ui.ClassfiysActivity;
-import com.zthx.npj.ui.GameActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.HomeSearchActivity;
 import com.zthx.npj.ui.LocationStoreActivity;
@@ -56,11 +53,9 @@ import com.zthx.npj.ui.MessageCenterActivity;
 import com.zthx.npj.ui.PayToStoreActivity;
 import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.ui.SecKillActivity;
-import com.zthx.npj.ui.SplashActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.GlideImageLoader;
-import com.zthx.npj.view.MyCircleView;
 
 import java.util.ArrayList;
 
@@ -110,15 +105,19 @@ public class HomeFragment extends BaseFragment {
     TextView fgHomeTvMyLower;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.loadMore)
+    TextView loadMore;
+
     private Unbinder unbinder;
 
     private static final int REQUEST_CODE_SCAN = 1;
     private boolean isChild;
+    private ArrayList<RecommendResponseBean.DataBean> data;
+    private int page=1;
 
     public HomeFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -134,9 +133,9 @@ public class HomeFragment extends BaseFragment {
 
 
         //initBanner();
-        getMainRecommed();
+        //getMainRecommed(page+"");
+        getGroupHome(page+"");
         getBanner();
-
 
 
         //设置RecyclerView管理器
@@ -147,16 +146,18 @@ public class HomeFragment extends BaseFragment {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-            if(isChild){
-                getChildHome();
-            }else{
-                getGroupHome();
-            }
+                page=1;
+                if (isChild) {
+                    getChildHome(page+"");
+                } else {
+                    getGroupHome(page+"");
+                }
                 getBanner();
-            refreshlayout.finishRefresh();
-            Toast.makeText(getContext(),"刷新完成",Toast.LENGTH_SHORT).show();
+                refreshlayout.finishRefresh();
+                Toast.makeText(getContext(), "刷新完成", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         return view;
     }
@@ -173,7 +174,7 @@ public class HomeFragment extends BaseFragment {
                     list.add(Uri.parse(data.get(i).getImg()));
                     list2.add(data.get(i).getTitle());
                 }
-                initBanner(bean,list,list2);
+                initBanner(bean, list, list2);
             }
 
             @Override
@@ -183,12 +184,17 @@ public class HomeFragment extends BaseFragment {
         }));
     }
 
-    private void getMainRecommed() {
-        MainSubscribe.getRecommend(SharePerferenceUtils.getUserId(getContext()), "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+    /*private void getMainRecommed(final String page) {
+        MainSubscribe.getRecommend(SharePerferenceUtils.getUserId(getContext()), page, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 RecommendResponseBean bean = GsonUtils.fromJson(result, RecommendResponseBean.class);
-                final ArrayList<RecommendResponseBean.DataBean> data = bean.getData();
+                if(page.equals("1")){
+                    data=bean.getData();
+                }else{
+                    data.addAll(bean.getData());
+                }
+                Log.e("测试", "onSuccess: "+data.size());
                 final HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);
                 mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
                     @Override
@@ -210,8 +216,7 @@ public class HomeFragment extends BaseFragment {
 
             }
         }));
-    }
-
+    }*/
 
 
     @Override
@@ -220,7 +225,7 @@ public class HomeFragment extends BaseFragment {
 
         if (!NetUtil.isNetworkConnected(getContext())) {
             Toast.makeText(getContext(), "请打开网络连接", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             getOrderPush();
         }
     }
@@ -299,9 +304,9 @@ public class HomeFragment extends BaseFragment {
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                Intent intent=new Intent(getContext(),BannerActivity.class);
-                intent.putExtra("title",bean.getData().get(position).getTitle());
-                intent.putExtra("img",bean.getData().get(position).getImg());
+                Intent intent = new Intent(getContext(), BannerActivity.class);
+                intent.putExtra("title", bean.getData().get(position).getTitle());
+                intent.putExtra("img", bean.getData().get(position).getImg());
                 startActivity(intent);
             }
         });
@@ -309,7 +314,10 @@ public class HomeFragment extends BaseFragment {
         banner.start();
     }
 
-    @OnClick({R.id.fg_home_iv_scan, R.id.fg_home_et_search, R.id.fg_home_ll_classify, R.id.fg_home_iv_message, R.id.fg_home_ll_secKill, R.id.fg_home_ll_presell, R.id.fg_home_ll_local, R.id.fg_home_ll_gift, R.id.fg_home_rl_go_game, R.id.fg_home_ll_recommend})
+    @OnClick({R.id.fg_home_iv_scan, R.id.fg_home_et_search, R.id.fg_home_ll_classify,
+            R.id.fg_home_iv_message, R.id.fg_home_ll_secKill, R.id.fg_home_ll_presell,
+            R.id.fg_home_ll_local, R.id.fg_home_ll_gift, R.id.fg_home_rl_go_game,
+            R.id.fg_home_ll_recommend,R.id.loadMore})
     public void onViewClicked(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -346,31 +354,48 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.fg_home_rl_go_game:
-                startActivity(new Intent(getContext(), GameActivity.class));
+                //startActivity(new Intent(getContext(), GameActivity.class));
                 break;
             case R.id.fg_home_ll_recommend:
                 toggle();
+                break;
+            case R.id.loadMore:
+                page+=1;
+                if(isChild){
+                    getChildHome(page+"");
+                }else{
+                    getGroupHome(page+"");
+                }
                 break;
         }
     }
 
     private void toggle() {
+        page=1;
         isChild = !isChild;
         if (isChild) {
             fgHomeTvMyLower.setText("下级用户首页");
-            getChildHome();
+            getChildHome(page+"");
         } else {
             fgHomeTvMyLower.setText("精品推荐 好货不断");
-            getGroupHome();
+            getGroupHome(page+"");
         }
     }
 
-    private void getGroupHome() {
-        MainSubscribe.getRecommend(SharePerferenceUtils.getUserId(getContext()), "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+    private void getGroupHome(final String page) {
+        MainSubscribe.getRecommend(SharePerferenceUtils.getUserId(getContext()), page, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 RecommendResponseBean bean = GsonUtils.fromJson(result, RecommendResponseBean.class);
-                final ArrayList<RecommendResponseBean.DataBean> data = bean.getData();
+                if(page.equals("1")){
+                    data=bean.getData();
+                }else{
+                    if(bean.getData()==null){
+                        loadMore.setText("没有更多了");
+                    }else{
+                        data.addAll(bean.getData());
+                    }
+                }
                 HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);
                 mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
                     @Override
@@ -391,12 +416,20 @@ public class HomeFragment extends BaseFragment {
         }));
     }
 
-    private void getChildHome() {
-        MainSubscribe.childHome(SharePerferenceUtils.getUserId(getContext()), "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+    private void getChildHome(final String page) {
+        MainSubscribe.childHome(SharePerferenceUtils.getUserId(getContext()), page, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 RecommendResponseBean bean = GsonUtils.fromJson(result, RecommendResponseBean.class);
-                final ArrayList<RecommendResponseBean.DataBean> data = bean.getData();
+                if(page.equals("1")){
+                    data=bean.getData();
+                }else{
+                    if(bean.getData()==null){
+                        loadMore.setText("没有更多了");
+                    }else{
+                        data.addAll(bean.getData());
+                    }
+                }
                 HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);
                 mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
                     @Override
@@ -440,7 +473,7 @@ public class HomeFragment extends BaseFragment {
             case REQUEST_CODE_SCAN:
                 if (resultCode == RESULT_OK) {
                     String context = data.getStringExtra(Constant.CODED_CONTENT);
-                    Log.e("测试", "onActivityResult: "+context );
+                    Log.e("测试", "onActivityResult: " + context);
                     Uri uri = Uri.parse(context);
                     String page = uri.getQueryParameter("page");
                     String type = uri.getQueryParameter("type");
@@ -452,9 +485,9 @@ public class HomeFragment extends BaseFragment {
                         startActivity(intent);
                     } else if (page.equals("tuijian")) {
                         startActivity(new Intent(getContext(), MembershipPackageActivity.class));
-                    }else if(page.equals("payStore")){
-                        Intent intent=new Intent(getContext(),PayToStoreActivity.class);
-                        intent.putExtra("key0",id);
+                    } else if (page.equals("payStore")) {
+                        Intent intent = new Intent(getContext(), PayToStoreActivity.class);
+                        intent.putExtra("key0", id);
                         startActivity(intent);
                     }
                 }

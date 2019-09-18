@@ -202,7 +202,10 @@ public class SupplyManagerActivity extends ActivityBase {
 
             @Override
             public void onSupplyShareClick(int position) {
-
+                Intent intent = new Intent(SupplyManagerActivity.this, SupplyProductsActivity.class);
+                intent.setAction(Const.SUPPLY_DETAIL);
+                intent.putExtra("goods_id", data.get(position).getId() + "");
+                startActivity(intent);
             }
         });
     }

@@ -139,7 +139,6 @@ public class UserMoneyActivity extends ActivityBase {
        switch (type){
            case "":
                changeColor(tvs,0);
-
                break;
            case "1":
                changeColor(tvs,1);
@@ -153,6 +152,7 @@ public class UserMoneyActivity extends ActivityBase {
            public void onClick(View view) {
                type="";
                acVipJLTvAllType.setText("全部");
+               dialog.dismiss();
            }
        });
        pay.setOnClickListener(new View.OnClickListener() {

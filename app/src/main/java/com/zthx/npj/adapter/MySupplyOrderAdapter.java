@@ -136,46 +136,78 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
             switch (list.get(i).getOrder_state()+""){
                 case "0"://已取消
                     viewHolder.orderState.setText("已取消");
+
                     viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.delete.setVisibility(View.VISIBLE);
                     viewHolder.cuidan.setVisibility(View.GONE);
                     viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.query.setVisibility(View.GONE);
+                    viewHolder.confirm.setVisibility(View.GONE);
+                    viewHolder.again.setVisibility(View.GONE);
+                    viewHolder.comment.setVisibility(View.GONE);
+                    viewHolder.goodsReturn.setVisibility(View.GONE);
                     break;
                 case "1"://未取消，未付款
                     viewHolder.orderState.setText("待支付");
-                    viewHolder.delete.setVisibility(View.GONE);
+
+                    viewHolder.cancel.setVisibility(View.VISIBLE);
+                    viewHolder.delete.setVisibility(View.VISIBLE);
                     viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.query.setVisibility(View.GONE);
+                    viewHolder.confirm.setVisibility(View.GONE);
+                    viewHolder.again.setVisibility(View.GONE);
+                    viewHolder.comment.setVisibility(View.GONE);
+                    viewHolder.goodsReturn.setVisibility(View.GONE);
                     break;
                 case "2"://已付款，待发货
                     viewHolder.orderState.setText("待发货");
+
                     viewHolder.cancel.setVisibility(View.GONE);
-                    viewHolder.pay.setVisibility(View.GONE);
                     viewHolder.delete.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.VISIBLE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.query.setVisibility(View.GONE);
+                    viewHolder.confirm.setVisibility(View.GONE);
+                    viewHolder.again.setVisibility(View.GONE);
+                    viewHolder.comment.setVisibility(View.GONE);
+                    viewHolder.goodsReturn.setVisibility(View.VISIBLE);
                     break;
                 case "3"://已发货，待收货
                     viewHolder.orderState.setText("待收货");
+
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.delete.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.query.setVisibility(View.VISIBLE);
+                    viewHolder.confirm.setVisibility(View.VISIBLE);
+                    viewHolder.again.setVisibility(View.GONE);
+                    viewHolder.comment.setVisibility(View.GONE);
+                    viewHolder.goodsReturn.setVisibility(View.VISIBLE);
+                    break;
+                case "4"://已收货，待评价
+                    viewHolder.orderState.setText("待评价");
+
                     viewHolder.cancel.setVisibility(View.GONE);
                     viewHolder.delete.setVisibility(View.GONE);
                     viewHolder.cuidan.setVisibility(View.GONE);
                     viewHolder.pay.setVisibility(View.GONE);
                     viewHolder.query.setVisibility(View.GONE);
-                    viewHolder.confirm.setVisibility(View.VISIBLE);
-                    break;
-                case "4"://已收货，待评价
-                    viewHolder.orderState.setText("待评价");
-                    viewHolder.cancel.setVisibility(View.GONE);
-                    viewHolder.delete.setVisibility(View.GONE);
-                    viewHolder.cuidan.setVisibility(View.GONE);
-                    viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.confirm.setVisibility(View.GONE);
                     viewHolder.again.setVisibility(View.VISIBLE);
                     viewHolder.comment.setVisibility(View.VISIBLE);
                     viewHolder.goodsReturn.setVisibility(View.VISIBLE);
                     break;
                 case "5":
                     viewHolder.orderState.setText("已完成");
+
                     viewHolder.cancel.setVisibility(View.GONE);
                     viewHolder.delete.setVisibility(View.GONE);
                     viewHolder.cuidan.setVisibility(View.GONE);
                     viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.query.setVisibility(View.GONE);
+                    viewHolder.confirm.setVisibility(View.GONE);
                     viewHolder.again.setVisibility(View.GONE);
                     viewHolder.comment.setVisibility(View.GONE);
                     viewHolder.goodsReturn.setVisibility(View.GONE);
@@ -186,13 +218,22 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
                     viewHolder.delete.setVisibility(View.GONE);
                     viewHolder.cuidan.setVisibility(View.GONE);
                     viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.query.setVisibility(View.GONE);
+                    viewHolder.confirm.setVisibility(View.GONE);
+                    viewHolder.again.setVisibility(View.GONE);
+                    viewHolder.comment.setVisibility(View.GONE);
+                    viewHolder.goodsReturn.setVisibility(View.GONE);
                     break;
                 case "7"://已退款
-                    viewHolder.orderState.setText("已退款");
                     viewHolder.cancel.setVisibility(View.GONE);
                     viewHolder.delete.setVisibility(View.GONE);
                     viewHolder.cuidan.setVisibility(View.GONE);
                     viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.query.setVisibility(View.GONE);
+                    viewHolder.confirm.setVisibility(View.GONE);
+                    viewHolder.again.setVisibility(View.GONE);
+                    viewHolder.comment.setVisibility(View.GONE);
+                    viewHolder.goodsReturn.setVisibility(View.GONE);
                     break;
             }
         } else {

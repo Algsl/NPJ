@@ -76,13 +76,15 @@
         android:layout_alignParentBottom="true"
         android:layout_centerVertical="true">
         <ImageView
+            android:id="@+id/ac_login_iv_choose"
             android:layout_width="@dimen/dp_22"
             android:layout_height="@dimen/dp_22"
-            android:src="@drawable/login_select"
+            android:src="@drawable/confirm_select"
             android:layout_marginLeft="@dimen/dp_75"
             android:layout_marginBottom="@dimen/dp_14"/>
 
         <TextView
+            android:id="@+id/ac_login_tv_tk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="阅读并同意服务及隐私条款"

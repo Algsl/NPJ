@@ -155,6 +155,7 @@ public class DiscoverSupplyFragment extends Fragment {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 getSupplyData(type1);
+                initBanner();
                 refreshlayout.finishRefresh();
                 Toast.makeText(getContext(), "刷新完成", Toast.LENGTH_SHORT).show();
             }
@@ -408,7 +409,7 @@ public class DiscoverSupplyFragment extends Fragment {
     }
 
     private void initBanner() {
-        MainSubscribe.getMainBanner("3", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.getMainBanner("5", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 BannerResponseBean bean = GsonUtils.fromJson(result, BannerResponseBean.class);

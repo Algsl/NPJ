@@ -2,6 +2,7 @@ package com.zthx.npj.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -52,10 +53,9 @@ public class StoreGoodsAdapter extends RecyclerView.Adapter<StoreGoodsAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
-        viewHolder.goodsOldPrice.setVisibility(View.GONE);
+        viewHolder.goodsOldPrice.setVisibility(View.VISIBLE);
         viewHolder.goodsSale.setVisibility(View.GONE);
-        viewHolder.shoppingCart.setVisibility(View.VISIBLE);
-
+        viewHolder.goodsOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         if(mItemClickListener!=null){
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

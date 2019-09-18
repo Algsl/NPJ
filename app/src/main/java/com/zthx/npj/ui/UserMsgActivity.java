@@ -146,7 +146,7 @@ public class UserMsgActivity extends ActivityBase {
 
 
     private void getStoreGoodsList() {
-        MainSubscribe.storeGoodsList(att_user_id, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.storeGoodsList(user_id,att_user_id, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setStoreGoodsList(result);

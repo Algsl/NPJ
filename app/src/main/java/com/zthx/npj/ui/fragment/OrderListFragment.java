@@ -2,6 +2,8 @@ package com.zthx.npj.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,6 +14,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +25,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.GradViewAdapter;
 import com.zthx.npj.adapter.OrderListAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.OrderResponseBean;
@@ -60,6 +67,10 @@ public class OrderListFragment extends Fragment {
     TextView fgOrderListToMakeOrder;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+
+    private int position;
+    private String order_id;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -188,21 +199,8 @@ public class OrderListFragment extends Fragment {
             //确认收货
             @Override
             public void onConfirmClick(int position) {
-                String order_id = data.get(position).getId() + "";
-                SetSubscribe.receiveConfirm(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                    @Override
-                    public void onSuccess(String result) {
-                        Toast toast=Toast.makeText(getContext(),"确认收货成功",Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
-                        toast.show();
-                        getOrder();
-                    }
-
-                    @Override
-                    public void onFault(String errorMsg) {
-
-                    }
-                }));
+                order_id=data.get(position).getId()+"";
+                showPublishPopwindow();
             }
 
             //再来一单
@@ -264,4 +262,114 @@ public class OrderListFragment extends Fragment {
     public void onViewClicked() {
         startActivity(new Intent(getContext(), ClassfiysActivity.class));
     }
+
+    public void showToast(String str){
+        Toast toast=Toast.makeText(getContext(),str,Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+        toast.show();
+        getOrder();
+    }
+
+
+    public void showPublishPopwindow() {
+        position=0;
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_mima, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView, RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT,
+                true);
+        // 设置PopupWindow的背景
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_350));
+        window.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(true);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getActivity().getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
+
+        GridView gv=contentView.findViewById(R.id.pw_mima_gv);
+        final String[] strs=new String[]{"1","2","3","4","5","6","7","8","9","确定","0","删除"};
+        GradViewAdapter adapter=new GradViewAdapter(getContext(),strs);
+        gv.setAdapter(adapter);
+
+        TextView tv1=contentView.findViewById(R.id.tv1);
+        TextView tv2=contentView.findViewById(R.id.tv2);
+        TextView tv3=contentView.findViewById(R.id.tv3);
+        TextView tv4=contentView.findViewById(R.id.tv4);
+        TextView tv5=contentView.findViewById(R.id.tv5);
+        TextView tv6=contentView.findViewById(R.id.tv6);
+        final TextView[] tvs=new TextView[]{tv1,tv2,tv3,tv4,tv5,tv6};
+
+        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i < 11 &&i!=9) {
+                    if(position<6){
+                        tvs[position].setText(strs[i]);
+                        position+=1;
+                    }
+                }else if(i == 11) {
+                    if(position>0){
+                        position--;
+                        tvs[position].setText("");
+                    }
+                }
+                //空按钮
+                if(i==9){
+                    String password="";
+                    for(int j=0;j<6;j++){
+                        password+=tvs[j].getText().toString().trim();
+                    }
+                    if(password.equals("123456")){
+                        SetSubscribe.receiveConfirm(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                            @Override
+                            public void onSuccess(String result) {
+                                showToast("确认收货成功");
+                            }
+
+                            @Override
+                            public void onFault(String errorMsg) {
+
+                            }
+                        }));
+                    }else{
+                        showToast("密码不正确");
+                        position=0;
+                        for(int j=0;j<6;j++){
+                            tvs[j].setText("");
+                        }
+                    }
+                }
+
+            }
+        });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+        contentView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+
+    }
+
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+        lp.alpha = bgAlpha;
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getActivity().getWindow().setAttributes(lp);
+    }
+
 }

@@ -66,7 +66,7 @@ public class AKAdapter extends RecyclerView.Adapter<AKAdapter.ViewHolder> {
         viewHolder.mTvUpdateTime.setText(mList.get(i).getUpdate_time());
         viewHolder.mTvSellNum.setText("购买次数 "+mList.get(i).getSale_num());
         viewHolder.mTvTitle.setText(mList.get(i).getTitle());
-        viewHolder.mTvLookNum.setText("以观看 "+mList.get(i).getLook_num());
+        viewHolder.mTvLookNum.setText("已观看 "+mList.get(i).getLook_num());
     }
 
     @Override

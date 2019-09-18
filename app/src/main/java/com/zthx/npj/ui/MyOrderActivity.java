@@ -41,6 +41,8 @@ public class MyOrderActivity extends ActivityBase {
         back(titleBack);
         changeTitle(acTitle,"我的订单");
 
+        int currentItem=getIntent().getIntExtra("currentItem",0);
+
         List<String> list = new ArrayList<>();
         list.add("全部");
         list.add("待付款");
@@ -58,6 +60,7 @@ public class MyOrderActivity extends ActivityBase {
 
         DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
         atMyOrderVp.setAdapter(mAdapter);
+        atMyOrderVp.setCurrentItem(currentItem);
         atMyOrderTab.setupWithViewPager(atMyOrderVp);
 
     }

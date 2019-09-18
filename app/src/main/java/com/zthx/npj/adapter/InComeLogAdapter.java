@@ -38,11 +38,11 @@ public class InComeLogAdapter extends RecyclerView.Adapter<InComeLogAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         switch (mList.get(i).getType()+"") {
             case "1"://充值
-                viewHolder.ivHead.setImageResource(R.drawable.my_wallet_logo1);
+                viewHolder.ivHead.setImageResource(R.drawable.qbmx_cz);
                 viewHolder.tvPrice.setText("+"+mList.get(i).getPrice());
                 break;
             case "2":
-                viewHolder.ivHead.setImageResource(R.drawable.my_wallet_logo2);
+                viewHolder.ivHead.setImageResource(R.drawable.qbmx_tx);
                 viewHolder.tvPrice.setText("-"+mList.get(i).getPrice());
                 break;
         }

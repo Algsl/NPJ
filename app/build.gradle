@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
+    /*signingConfigs {
         config {
             keyAlias 'key0'
             keyPassword 'liu66liu'
@@ -9,7 +9,7 @@ android {
             storePassword 'liu66liu'
             v2SigningEnabled false
         }
-    }
+    }*/
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.zthx.npj"

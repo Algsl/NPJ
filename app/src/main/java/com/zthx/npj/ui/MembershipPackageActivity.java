@@ -1,5 +1,7 @@
 package com.zthx.npj.ui;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -29,6 +31,7 @@ import com.zthx.npj.ui.fragment.BuyGiftFragment;
 import com.zthx.npj.ui.fragment.SpokesmanFragment;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.MyCircleView;
 
 import java.util.ArrayList;
@@ -76,7 +79,22 @@ public class MembershipPackageActivity extends ActivityBase {
         back(titleBack);
         changeTitle(acTitle, "会员礼包");
 
-        getUserInfo();
+        if(user_id.equals("")){
+            CommonDialog dialog=new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                @Override
+                public void onClick(Dialog dialog, boolean confirm) {
+                    if(confirm){
+                        startActivity(new Intent(MembershipPackageActivity.this, LoginActivity.class));
+                    }
+                }
+            });
+            dialog.setTitle("提示");
+            dialog.setPositiveButton("去登录");
+            dialog.show();
+        }else{
+            getUserInfo();
+        }
+
         atMembershipPackageTvName.setSelected(true);
 
         List<String> list = new ArrayList<>();

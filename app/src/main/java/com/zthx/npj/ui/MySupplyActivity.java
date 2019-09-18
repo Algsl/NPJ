@@ -99,7 +99,6 @@ public class MySupplyActivity extends ActivityBase {
             @Override
             public void onFault(String errorMsg) {
                 showPwUnCancel();
-                showToast(errorMsg);
             }
         }));
     }

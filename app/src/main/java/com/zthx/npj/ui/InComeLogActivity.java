@@ -1,23 +1,20 @@
 package com.zthx.npj.ui;
 
-import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.InComeLogAdapter;
-import com.zthx.npj.adapter.UserMoneyAdapter;
 import com.zthx.npj.net.been.InComeLogResponseBean;
-import com.zthx.npj.net.been.UserMoneyResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -25,6 +22,7 @@ import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,22 +34,25 @@ public class InComeLogActivity extends ActivityBase {
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
 
-    /*@BindView(R.id.ac_incomeLog_tv_chooseTime)
+    @BindView(R.id.ac_incomeLog_tv_chooseTime)
     TextView acIncomeLogTvChooseTime;
     @BindView(R.id.ac_incomeLog_tv_ioMoney)
-    TextView acIncomeLogTvIoMoney;*/
+    TextView acIncomeLogTvIoMoney;
     @BindView(R.id.ac_incomeLog_rv_mingxi)
     RecyclerView acIncomeLogRvMingxi;
 
     String user_id = SharePerferenceUtils.getUserId(this);
     String token = SharePerferenceUtils.getToken(this);
-    String type = "100";
-    @BindView(R.id.ac_vipJL_tv_allType)
-    TextView acVipJLTvAllType;
+
     @BindView(R.id.title_back)
     ImageView titleBack;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
+
+    String begin_time = "";
+    String end_time = "";
+    private List<String> options1Items1 = new ArrayList<>();
+    private List<String> options1Items2 = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,13 +61,13 @@ public class InComeLogActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,"收益明细");
-
+        changeTitle(acTitle, "收益明细");
+        initList();
         getIncomeLog();
     }
 
     private void getIncomeLog() {
-        SetSubscribe.inComeLog(user_id, token, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.inComeLog(user_id, token,begin_time,end_time, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 InComeLogResponseBean bean=GsonUtils.fromJson(result,InComeLogResponseBean.class);
@@ -84,7 +85,35 @@ public class InComeLogActivity extends ActivityBase {
         }));
     }
 
-    private void showSingleBottomDialog() {
+    private void initList() {
+        for(int i=0;i<12;i++){
+            options1Items1.add(2018+i+"");
+            options1Items2.add(i+1+"");
+        }
+    }
+    private void showCityPicker() {
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options, View v) {
+                //返回的分别是三个级别的选中位置
+                //acMyWalletTvChooseTime.setText();
+                acIncomeLogTvChooseTime.setText(options1Items1.get(options1) + "年" + options1Items2.get(options2) + "月");
+                begin_time = options1Items1.get(options1) + "-" + options1Items2.get(options2) + "-1";
+                end_time = options1Items1.get(options1) + "-" + options1Items2.get(options2) + "-30";
+                getIncomeLog();
+            }
+        }).setTitleText("日期选择").setDividerColor(Color.BLACK).setTextColorCenter(Color.BLACK) //设置选中项文字颜色.setContentTextSize(20)
+                .build();
+        pvOptions.setNPicker(options1Items1, options1Items2, null);
+        pvOptions.show();
+    }
+
+    @OnClick(R.id.ac_incomeLog_tv_chooseTime)
+    public void onViewClicked() {
+        showCityPicker();
+    }
+
+    /*private void showSingleBottomDialog() {
         //1、使用Dialog、设置style
         final Dialog dialog = new Dialog(this, R.style.DialogTheme);
         //2、设置布局
@@ -162,9 +191,9 @@ public class InComeLogActivity extends ActivityBase {
                 dialog.dismiss();
             }
         });
-    }
+    }*/
 
-    public void changeColor(TextView[] tvs, int v) {
+    /*public void changeColor(TextView[] tvs, int v) {
         for (int i = 0; i < tvs.length; i++) {
             if (i == v) {
                 tvs[i].setBackgroundColor(getResources().getColor(R.color.app_theme));
@@ -183,5 +212,5 @@ public class InComeLogActivity extends ActivityBase {
                 showSingleBottomDialog();
                 break;
         }
-    }
+    }*/
 }

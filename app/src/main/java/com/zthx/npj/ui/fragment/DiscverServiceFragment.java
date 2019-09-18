@@ -126,6 +126,7 @@ public class DiscverServiceFragment extends Fragment {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 getDataList();
+                initBanner();
                 refreshlayout.finishRefresh();
                 Toast.makeText(getContext(),"刷新完成",Toast.LENGTH_SHORT).show();
             }

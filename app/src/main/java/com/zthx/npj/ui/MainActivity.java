@@ -1,6 +1,5 @@
 package com.zthx.npj.ui;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,48 +19,33 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.mobileim.YWAPI;
-import com.alibaba.mobileim.YWIMKit;
-import com.alibaba.wxlib.util.SysUtil;
 import com.zthx.npj.R;
-import com.zthx.npj.base.BaseApp;
-import com.zthx.npj.base.Const;
-import com.zthx.npj.entity.NotificationBean;
-import com.zthx.npj.jpush.TagAliasOperatorHelper;
+import com.zthx.npj.net.been.CartListResponseBean;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
-import com.zthx.npj.net.netutils.NetUtil;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.fragment.DiscoverFragment;
-import com.zthx.npj.ui.fragment.GameFragment;
 import com.zthx.npj.ui.fragment.HomeFragment;
 import com.zthx.npj.ui.fragment.MineFragment;
 import com.zthx.npj.ui.fragment.ShoppingCart1Fragment;
-import com.zthx.npj.ui.fragment.ShoppingCartFragment;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.api.JPushMessage;
-import cn.jpush.android.api.TagAliasCallback;
-import cn.jpush.android.service.TagAliasReceiver;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.api.BasicCallback;
 
@@ -88,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
     RadioButton llMainCheck05;
     @BindView(R.id.ac_main_rg)
     RadioGroup acMainRg;
+    @BindView(R.id.ac_main_tv_shoppingCart)
+    TextView acMainTvShoppingCart;
 
 
     //fragment数组
@@ -100,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
     private Intent intent;
     //private GameFragment mGameFragment;
 
-    private String user_id=SharePerferenceUtils.getUserId(this);
-    private String token=SharePerferenceUtils.getToken(this);
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
 
 
     @Override
@@ -119,24 +105,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        RadioButton llMainCheck01 = findViewById(R.id.ll_main_check_01);
+        RadioButton llMainCheck02 = findViewById(R.id.ll_main_check_02);
+        RadioButton llMainCheck04 = findViewById(R.id.ll_main_check_04);
+        RadioButton llMainCheck05 = findViewById(R.id.ll_main_check_05);
 
-        RadioButton llMainCheck01=findViewById(R.id.ll_main_check_01);
-        RadioButton llMainCheck02=findViewById(R.id.ll_main_check_02);
-        RadioButton llMainCheck04=findViewById(R.id.ll_main_check_04);
-        RadioButton llMainCheck05=findViewById(R.id.ll_main_check_05);
-
-        Drawable dra1=getResources().getDrawable(R.drawable.activity_main_select_home);
-        Drawable dra2=getResources().getDrawable(R.drawable.activity_main_select_discover);
-        Drawable dra3=getResources().getDrawable(R.drawable.activity_main_select_shoppingcart);
-        Drawable dra4=getResources().getDrawable(R.drawable.activity_main_select_mine);
-        dra1.setBounds(0,0,50,50);
-        dra2.setBounds(0,0,50,50);
-        dra3.setBounds(0,0,50,50);
-        dra4.setBounds(0,0,50,50);
-        llMainCheck01.setCompoundDrawables(null,dra1,null,null);
-        llMainCheck02.setCompoundDrawables(null,dra2,null,null);
-        llMainCheck04.setCompoundDrawables(null,dra3,null,null);
-        llMainCheck05.setCompoundDrawables(null,dra4,null,null);
+        Drawable dra1 = getResources().getDrawable(R.drawable.activity_main_select_home);
+        Drawable dra2 = getResources().getDrawable(R.drawable.activity_main_select_discover);
+        Drawable dra3 = getResources().getDrawable(R.drawable.activity_main_select_shoppingcart);
+        Drawable dra4 = getResources().getDrawable(R.drawable.activity_main_select_mine);
+        dra1.setBounds(0, 0, (int) getResources().getDimension(R.dimen.dp_25), (int) getResources().getDimension(R.dimen.dp_25));
+        dra2.setBounds(0, 0, (int) getResources().getDimension(R.dimen.dp_25), (int) getResources().getDimension(R.dimen.dp_25));
+        dra3.setBounds(0, 0, (int) getResources().getDimension(R.dimen.dp_25), (int) getResources().getDimension(R.dimen.dp_25));
+        dra4.setBounds(0, 0, (int) getResources().getDimension(R.dimen.dp_25), (int) getResources().getDimension(R.dimen.dp_25));
+        llMainCheck01.setCompoundDrawables(null, dra1, null, null);
+        llMainCheck02.setCompoundDrawables(null, dra2, null, null);
+        llMainCheck04.setCompoundDrawables(null, dra3, null, null);
+        llMainCheck05.setCompoundDrawables(null, dra4, null, null);
 
         ButterKnife.bind(this);
 
@@ -150,45 +135,75 @@ public class MainActivity extends AppCompatActivity {
         getBrowserResult();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getShoppingCartSize();
+    }
+
+    private void getShoppingCartSize() {
+        SetSubscribe.cartList(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                CartListResponseBean bean = GsonUtils.fromJson(result, CartListResponseBean.class);
+                ArrayList<ArrayList<CartListResponseBean.DataBean>> data = bean.getData();
+                if (data == null || data.size() == 0) {
+                    acMainTvShoppingCart.setVisibility(View.GONE);
+                } else {
+                    int shoppingCartSize=0;
+                    for(int i=0;i<data.size();i++){
+                        shoppingCartSize+=data.get(i).size();
+                    }
+                    acMainTvShoppingCart.setText(shoppingCartSize+"");
+                }
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
     private void getBrowserResult() {
         Intent mgetvalue = getIntent();
         String maction = mgetvalue.getAction();
-        Log.e("测试", "getBrowserResult: "+maction);
-        if (Intent.ACTION_VIEW.equals(maction )) {
+        if (Intent.ACTION_VIEW.equals(maction)) {
             Uri uri = mgetvalue.getData();
             if (uri != null) {
-                String page  = uri.getQueryParameter("page");
+                String page = uri.getQueryParameter("page");
                 String type = uri.getQueryParameter("type");
                 String id = uri.getQueryParameter("id");
-                if(page.equals("goodsDetail")){
+                if (page.equals("goodsDetail")) {
                     intent = new Intent(this, GoodsDetailActivity.class);
                     intent.setAction(type);
                     intent.putExtra("goods_id", id + "");
-                }else if(page.equals("tuijian")){
-                    startActivity(new Intent(this,MembershipPackageActivity.class));
-                }else if(page.equals("payStore")){
-                    intent=new Intent(this,PayToStoreActivity.class);
-                    intent.putExtra("key0",id);
-                }else{
+                } else if (page.equals("tuijian")) {
+                    startActivity(new Intent(this, MembershipPackageActivity.class));
+                } else if (page.equals("payStore")) {
+                    intent = new Intent(this, PayToStoreActivity.class);
+                    intent.putExtra("key0", id);
+                } else {
                     intent = new Intent(this, WebViewActivity.class);
                     intent.putExtra("discover_url", uri);
                 }
                 startActivity(intent);
             }
         }
-        if(maction!=null){
-            Toast.makeText(this,"非农品街二维码不予识别",Toast.LENGTH_LONG).show();
+        if (maction != null) {
+            Toast.makeText(this, "非农品街二维码不予识别", Toast.LENGTH_LONG).show();
         }
     }
 
 
     private void getUserMsg() {
-        SetSubscribe.getUserInfo(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        Log.e("测试", "getUserMsg: " + user_id + " " + token);
+        SetSubscribe.getUserInfo(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                UserResponseBean bean=GsonUtils.fromJson(result,UserResponseBean.class);
-                SharePerferenceUtils.setUserLevel(MainActivity.this,bean.getData().getLevel()+"");
-                loginIM(bean.getData().getMobile(),bean.getData().getMobile());
+                UserResponseBean bean = GsonUtils.fromJson(result, UserResponseBean.class);
+                SharePerferenceUtils.setUserLevel(MainActivity.this, bean.getData().getLevel() + "");
+                loginIM(bean.getData().getMobile(), bean.getData().getMobile());
             }
 
             @Override
@@ -225,8 +240,8 @@ public class MainActivity extends AppCompatActivity {
         if (mIndex == index) {
             return;
         }
-        FragmentManager fragmentManager=getSupportFragmentManager();
-        FragmentTransaction ft =fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
         //隐藏
         ft.hide(mFragments[mIndex]);
         //判断是否添加
@@ -243,17 +258,9 @@ public class MainActivity extends AppCompatActivity {
                     mFragments[1] = mDiscoverFragment;
                     //startActivity(new Intent(MainActivity.this,LoadingActivity.class));
                     break;
-                /*case 2:
-                    mGameFragment = new GameFragment();
-                    mFragments[2] = mGameFragment;
-                    acMainRg.clearCheck();
-                    llMainCheck03.setOnApplyWindowInsetsListener(null);
-                    startActivity(new Intent(this,GameActivity.class));
-                    break;*/
                 case 2:
                     mShoppingCartFragment = new ShoppingCart1Fragment();
                     mFragments[2] = mShoppingCartFragment;
-                    //startActivity(new Intent(MainActivity.this,LoadingActivity.class));
                     break;
                 case 3:
                     mMineFragment = new MineFragment();
@@ -263,10 +270,8 @@ public class MainActivity extends AppCompatActivity {
                 default:
                     break;
             }
-
             fragmentManager.beginTransaction().add(R.id.lay_frg_main, mFragments[index]).commit();
         } else {
-
             ft.show(mFragments[index]);
         }
         try {
@@ -289,10 +294,9 @@ public class MainActivity extends AppCompatActivity {
         //添加到数组
         mFragments = new Fragment[]{mHomeFragment, mDiscoverFragment, mShoppingCartFragment, mMineFragment};
         //开启事务
-        FragmentTransaction ft =getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         //添加首页
         ft.add(R.id.lay_frg_main, mHomeFragment).commit();
-
         llMainCheck01.performClick();
     }
 
@@ -306,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
                 setIndexSelected(1);
                 break;
             case R.id.ll_main_check_03:
-                startActivity(new Intent(this,GameActivity.class));
+                //startActivity(new Intent(this,GameActivity.class));
                 break;
             case R.id.ll_main_check_04:
                 setIndexSelected(2);
@@ -343,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
                     StringBuilder showMsg = new StringBuilder();
                     showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
                 }
-            } catch (Exception e){
+            } catch (Exception e) {
             }
         }
     }

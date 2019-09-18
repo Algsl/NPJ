@@ -77,6 +77,7 @@ public class PreSellActivity extends ActivityBase {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 getPreSellList(type);
+                initBanner();
                 refreshlayout.finishRefresh();
                 showToast("刷新完成");
             }

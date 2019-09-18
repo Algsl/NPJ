@@ -28,6 +28,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.AlsoLikeAdatper;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AlsoLikeResponseBean;
+import com.zthx.npj.net.been.OrderResponseBean;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
@@ -55,7 +56,6 @@ import com.zthx.npj.ui.UserMsgActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.CommonDialog;
-import com.zthx.npj.view.MyCircleView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -140,21 +140,39 @@ public class MineFragment
     ImageView fgMineIvJihuo;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.fg_mine_tv_payMsg)
+    TextView fgMineTvPayMsg;
+    @BindView(R.id.fg_mine_tv_sendMsg)
+    TextView fgMineTvSendMsg;
+    @BindView(R.id.fg_mine_tv_receiveMsg)
+    TextView fgMineTvReceiveMsg;
+    @BindView(R.id.fg_mine_tv_commentMsg)
+    TextView fgMineTvCommentMsg;
+    @BindView(R.id.fg_mine_tv_rebackMsg)
+    TextView fgMineTvRebackMsg;
 
     //private String level=SharePerferenceUtils.getLevel(getContext());
     private String user_id = SharePerferenceUtils.getUserId(getContext());
     private String token = SharePerferenceUtils.getToken(getContext());
     private String level = "";
-    private String balance="";
+    private String balance = "";
+    private Intent intent;
+
+    private int paySize=0;
+    private int sendSize=0;
+    private int receiveSize=0;
+    private int commentSize=0;
+    private int rebackSize=0;
 
     public MineFragment() {
+
     }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(SharePerferenceUtils.getUserId(getContext()).equals("")){
+        if (SharePerferenceUtils.getUserId(getContext()).equals("")) {
             startActivity(new Intent(getContext(), LoginActivity.class));
         }
     }
@@ -170,8 +188,9 @@ public class MineFragment
             public void onRefresh(RefreshLayout refreshlayout) {
                 getUserInfo();
                 getAlsoLike();
-                     refreshlayout.finishRefresh();
-                     Toast.makeText(getContext(),"刷新完成",Toast.LENGTH_SHORT).show();
+                getOrderSize();
+                refreshlayout.finishRefresh();
+                Toast.makeText(getContext(), "刷新完成", Toast.LENGTH_SHORT).show();
             }
         });
         return view;
@@ -182,10 +201,99 @@ public class MineFragment
         super.onResume();
         if (!NetUtil.isNetworkConnected(getContext())) {
             Toast.makeText(getContext(), "请打开网络连接", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             getUserInfo();
             getAlsoLike();
+            getOrderSize();
         }
+    }
+
+    private void getOrderSize() {
+        SetSubscribe.myOrder(user_id, token, "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                OrderResponseBean bean = GsonUtils.fromJson(result, OrderResponseBean.class);
+                if(bean.getData()==null || bean.getData().size()==0){
+                    fgMineTvPayMsg.setVisibility(View.GONE);
+                }else{
+                    fgMineTvPayMsg.setVisibility(View.VISIBLE);
+                    fgMineTvPayMsg.setText(bean.getData().size()+"");
+                }
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+        SetSubscribe.myOrder(user_id, token, "2", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                OrderResponseBean bean = GsonUtils.fromJson(result, OrderResponseBean.class);
+                if(bean.getData()==null || bean.getData().size()==0){
+                    fgMineTvSendMsg.setVisibility(View.GONE);
+                }else{
+                    fgMineTvSendMsg.setVisibility(View.VISIBLE);
+                    fgMineTvSendMsg.setText(bean.getData().size()+"");
+                }
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+        SetSubscribe.myOrder(user_id, token, "3", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                OrderResponseBean bean = GsonUtils.fromJson(result, OrderResponseBean.class);
+                if(bean.getData()==null || bean.getData().size()==0){
+                    fgMineTvReceiveMsg.setVisibility(View.GONE);
+                }else{
+                    fgMineTvReceiveMsg.setVisibility(View.VISIBLE);
+                    fgMineTvReceiveMsg.setText(bean.getData().size()+"");
+                }
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+        SetSubscribe.myOrder(user_id, token, "4", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                OrderResponseBean bean = GsonUtils.fromJson(result, OrderResponseBean.class);
+                if(bean.getData()==null || bean.getData().size()==0){
+                    fgMineTvCommentMsg.setVisibility(View.GONE);
+                }else{
+                    fgMineTvCommentMsg.setVisibility(View.VISIBLE);
+                    fgMineTvCommentMsg.setText(bean.getData().size()+"");
+                }
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+        SetSubscribe.myOrder(user_id, token, "6", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                OrderResponseBean bean = GsonUtils.fromJson(result, OrderResponseBean.class);
+                if(bean.getData()==null || bean.getData().size()==0){
+                    fgMineTvRebackMsg.setVisibility(View.GONE);
+                }else{
+                    fgMineTvRebackMsg.setVisibility(View.VISIBLE);
+                    fgMineTvRebackMsg.setText(bean.getData().size()+"");
+                }
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 
 
@@ -237,7 +345,7 @@ public class MineFragment
     }
 
     private void setUserInfo(String result) {
-        Log.e("测试", "setUserInfo: "+result );
+        Log.e("测试", "setUserInfo: " + result);
         UserResponseBean userResponseBean = GsonUtils.fromJson(result, UserResponseBean.class);
         UserResponseBean.DataBean data = userResponseBean.getData();
         level = data.getLevel() + "";
@@ -247,7 +355,7 @@ public class MineFragment
         fgMineTvGourdCoin.setText(String.valueOf(data.getGourd_coin()));
         fgMineTvCouponNum.setText(String.valueOf(data.getCoupon_num()));
         fgMineTvCollectionNum.setText(String.valueOf(data.getCollection_num()));
-        balance=data.getBalance();
+        balance = data.getBalance();
         Glide.with(getContext())
                 .load(Uri.parse(data.getHead_img()))
                 .into(fgMineIvHeadPic);
@@ -331,19 +439,29 @@ public class MineFragment
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fg_mine_ll_wait_pay:
-                startActivity(new Intent(getActivity(), MyOrderActivity.class));
+                intent = new Intent(getContext(), MyOrderActivity.class);
+                intent.putExtra("currentItem", 1);
+                startActivity(intent);
                 break;
             case R.id.fg_mine_ll_wait_delivery:
-                startActivity(new Intent(getActivity(), MyOrderActivity.class));
+                intent = new Intent(getContext(), MyOrderActivity.class);
+                intent.putExtra("currentItem", 2);
+                startActivity(intent);
                 break;
             case R.id.fg_mine_ll_wait_take_delivery:
-                startActivity(new Intent(getActivity(), MyOrderActivity.class));
+                intent = new Intent(getContext(), MyOrderActivity.class);
+                intent.putExtra("currentItem", 3);
+                startActivity(intent);
                 break;
             case R.id.fg_mine_ll_wait_evaluate:
-                startActivity(new Intent(getActivity(), MyOrderActivity.class));
+                intent = new Intent(getContext(), MyOrderActivity.class);
+                intent.putExtra("currentItem", 4);
+                startActivity(intent);
                 break;
             case R.id.fg_mine_ll_custom_service:
-                startActivity(new Intent(getActivity(), MyOrderActivity.class));
+                intent = new Intent(getContext(), MyOrderActivity.class);
+                intent.putExtra("currentItem", 5);
+                startActivity(intent);
                 break;
             case R.id.fg_mine_iv_settings:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
@@ -355,14 +473,16 @@ public class MineFragment
                 startActivity(new Intent(getActivity(), MyCollectActivity.class));
                 break;
             case R.id.fg_mine_tv_all_order:
-                startActivity(new Intent(getActivity(), MyOrderActivity.class));
+                intent = new Intent(getContext(), MyOrderActivity.class);
+                intent.putExtra("currentItem", 0);
+                startActivity(intent);
                 break;
             case R.id.fg_mine_ll_coupon:
                 startActivity(new Intent(getActivity(), MyCouponActivity.class));
                 break;
             case R.id.fg_mine_ll_my_wallet:
-                Intent intent=new Intent(getContext(),MyWalletActivity.class);
-                intent.putExtra("balance",balance);
+                Intent intent = new Intent(getContext(), MyWalletActivity.class);
+                intent.putExtra("balance", balance);
                 startActivity(intent);
                 break;
             case R.id.fg_mine_ll_my_store:

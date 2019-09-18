@@ -2,14 +2,23 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -18,6 +27,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AlsoLikeAdatper;
+import com.zthx.npj.adapter.GradViewAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AlsoLikeResponseBean;
 import com.zthx.npj.net.been.MyOrderDetailResponseBean;
@@ -144,10 +154,14 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     @BindView(R.id.at_myOrderDetail_ll_over)
     LinearLayout atMyOrderDetailLlOver;
 
-    private String order_state = "";
+
     private String user_id=SharePerferenceUtils.getUserId(this);
     private String token=SharePerferenceUtils.getToken(this);
+
     private String order_id="";
+    private String order_state = "";
+
+    private int position=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,7 +173,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
         changeTitle(titleThemeTitle, "订单详情");
 
         order_state = getIntent().getStringExtra("order_state");
-
+        order_id = getIntent().getStringExtra("order_id");
 
         getMyStoreOrderDetail();
         getAlsoLike();
@@ -169,7 +183,6 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     private void getMyStoreOrderDetail() {
         String user_id = SharePerferenceUtils.getUserId(this);
         String token = SharePerferenceUtils.getToken(this);
-        order_id = getIntent().getStringExtra("order_id");
         SetSubscribe.myOrderDetail(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -268,7 +281,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                 atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
 
                 acMyOrderDetailTvWuliu.setVisibility(View.VISIBLE);//查看物流
-                acMyOrderDetailTvDelay.setVisibility(View.VISIBLE);//延长收货
+                acMyOrderDetailTvDelay.setVisibility(View.GONE);//延长收货
                 acMyOrderDetailTvConfirm.setVisibility(View.VISIBLE);//确认收货
                 acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                 acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
@@ -282,8 +295,8 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                 atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
                 atMyOrderDetailLlOver.setVisibility(View.VISIBLE);
 
-                acMyOrderDetailTvWuliu.setVisibility(View.VISIBLE);//查看物流
-                acMyOrderDetailTvDelete.setVisibility(View.VISIBLE);//删除订单
+                acMyOrderDetailTvWuliu.setVisibility(View.GONE);//查看物流
+                acMyOrderDetailTvDelete.setVisibility(View.GONE);//删除订单
                 acMyOrderDetailTvComment.setVisibility(View.VISIBLE);//评价
                 acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                 acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
@@ -341,17 +354,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
             case R.id.ac_myOrderDetail_tv_delay:
                 break;
             case R.id.ac_myOrderDetail_tv_confirm:
-                SetSubscribe.receiveConfirm(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                    @Override
-                    public void onSuccess(String result) {
-                        finish();
-                    }
-
-                    @Override
-                    public void onFault(String errorMsg) {
-                        showToast(errorMsg);
-                    }
-                }));
+                showPublishPopwindow();
                 break;
             case R.id.ac_myOrderDetail_tv_delete:
                 SetSubscribe.delOrder(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
@@ -377,5 +380,107 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
 
                 break;
         }
+    }
+
+    public void showPublishPopwindow() {
+        position=0;
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_mima, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView, RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT,
+                true);
+        // 设置PopupWindow的背景
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_350));
+        window.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(true);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
+
+        GridView gv=contentView.findViewById(R.id.pw_mima_gv);
+        final String[] strs=new String[]{"1","2","3","4","5","6","7","8","9","确定","0","删除"};
+        GradViewAdapter adapter=new GradViewAdapter(this,strs);
+        gv.setAdapter(adapter);
+
+        TextView tv1=contentView.findViewById(R.id.tv1);
+        TextView tv2=contentView.findViewById(R.id.tv2);
+        TextView tv3=contentView.findViewById(R.id.tv3);
+        TextView tv4=contentView.findViewById(R.id.tv4);
+        TextView tv5=contentView.findViewById(R.id.tv5);
+        TextView tv6=contentView.findViewById(R.id.tv6);
+        final TextView[] tvs=new TextView[]{tv1,tv2,tv3,tv4,tv5,tv6};
+
+        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i < 11 &&i!=9) {
+                    if(position<6){
+                        tvs[position].setText(strs[i]);
+                        position+=1;
+                    }
+                }else if(i == 11) {
+                    if(position>0){
+                        position--;
+                        tvs[position].setText("");
+                    }
+                }
+                //空按钮
+                if(i==9){
+                    String password="";
+                    for(int j=0;j<6;j++){
+                        password+=tvs[j].getText().toString().trim();
+                    }
+                    if(password.equals("123456")){
+                        SetSubscribe.receiveConfirm(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                            @Override
+                            public void onSuccess(String result) {
+                                showToast("确认收货成功");
+                                finish();
+                            }
+
+                            @Override
+                            public void onFault(String errorMsg) {
+                                showToast(errorMsg);
+                            }
+                        }));
+                    }else{
+                        showToast("密码不正确");
+                        position=0;
+                        for(int j=0;j<6;j++){
+                            tvs[j].setText("");
+                        }
+                    }
+                }
+
+            }
+        });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+        contentView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+
+    }
+
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha;
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getWindow().setAttributes(lp);
     }
 }

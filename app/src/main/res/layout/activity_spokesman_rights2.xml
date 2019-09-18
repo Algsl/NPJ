@@ -276,7 +276,7 @@
         android:layout_height="@dimen/dp_40"
         android:background="@color/app_theme"
         android:layout_alignParentBottom="true"
-        android:text="提现"
+        android:text="提取"
         android:textColor="@android:color/white"
         android:textSize="@dimen/sp_15"/>
 </RelativeLayout>

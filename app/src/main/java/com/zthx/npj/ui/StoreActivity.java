@@ -127,7 +127,7 @@ public class StoreActivity extends ActivityBase {
         acStoreLlTuijian.setVisibility(View.VISIBLE);
         acStoreLlSearch.setVisibility(View.GONE);
         acStoreLlClassifyResult.setVisibility(View.GONE);
-        MainSubscribe.storeGoodsList(store_id, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.storeGoodsList(user_id,store_id, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setStoreGoodsList(result);
@@ -279,7 +279,7 @@ public class StoreActivity extends ActivityBase {
         acStoreLlSearch.setVisibility(View.GONE);
         acStoreLlClassifyResult.setVisibility(View.VISIBLE);
         acStoreTvClassifyTitle.setText("全部分类");
-        MainSubscribe.storeGoodsList(store_id, "2", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.storeGoodsList(user_id,store_id, "2", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 final GoodsByCateResponseBean bean=GsonUtils.fromJson(result,GoodsByCateResponseBean.class);

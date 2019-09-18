@@ -6,13 +6,21 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -20,6 +28,7 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.gson.Gson;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.GradViewAdapter;
 import com.zthx.npj.entity.JsonBean;
 import com.zthx.npj.net.been.UpLoadPicResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
@@ -72,6 +81,26 @@ public class MyCustomUtils {
             case 8: img.setImageResource(R.drawable.level8);break;
             case 9: img.setImageResource(R.drawable.level9);break;
             case 10: img.setImageResource(R.drawable.level10);break;
+        }
+    }
+
+    public static void showCardImg(String cardId,ImageView img){
+        switch (cardId){
+            case "1":
+                img.setImageResource(R.drawable.nongye);
+                break;
+            case "2":
+                img.setImageResource(R.drawable.gongshang);
+                break;
+            case "3":
+                img.setImageResource(R.drawable.zhongguo);
+                break;
+            case "4":
+                img.setImageResource(R.drawable.jianshe);
+                break;
+            case "5":
+                img.setImageResource(R.drawable.jiaotong);
+                break;
         }
     }
 

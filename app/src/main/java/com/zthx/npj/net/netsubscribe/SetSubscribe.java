@@ -771,14 +771,16 @@ public class SetSubscribe {
      * 收益明细
      * @param user_id
      * @param token
-     * @param type
+     * @param begin_time
+     * @param end_time
      * @param subscriber
      */
-    public static void inComeLog(String user_id,String token,String type,DisposableObserver<ResponseBody> subscriber) {
+    public static void inComeLog(String user_id,String token,String begin_time,String end_time,DisposableObserver<ResponseBody> subscriber) {
         InComeLogBean bean=new InComeLogBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
-        bean.setType(type);
+        bean.setBegin_time(begin_time);
+        bean.setEnd_time(end_time);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().inComeLog(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }

@@ -31,7 +31,13 @@
            android:layout_height="match_parent">
        </android.support.v4.view.ViewPager>
    </LinearLayout>
-    
+    <ImageView
+        android:layout_width="@dimen/dp_28"
+        android:layout_height="@dimen/dp_28"
+        android:id="@+id/back"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_40"
+        android:src="@drawable/goods_detial_back"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"

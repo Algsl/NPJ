@@ -74,6 +74,7 @@
 
             <EditText
                 android:id="@+id/at_cellphone_login_et_phone"
+                android:inputType="phone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="请输入手机号"
@@ -117,7 +118,7 @@
                 android:id="@+id/at_cellphone_login_et_code"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="请输入手机号"
+                android:hint="请输入验证码"
                 android:inputType="number"
                 android:textSize="@dimen/sp_13"
                 android:textColorHint="#cccccc"
@@ -131,7 +132,7 @@
         <TextView
             android:id="@+id/at_cellphone_login_tv_get_code"
             android:layout_width="@dimen/dp_75"
-            android:layout_height="@dimen/dp_20"
+            android:layout_height="@dimen/dp_25"
             android:layout_marginLeft="@dimen/dp_9"
             android:text="获取验证码"
             android:textColor="@color/app_theme"

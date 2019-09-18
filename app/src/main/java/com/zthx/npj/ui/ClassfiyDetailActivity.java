@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.ClassifyDetailAdapter;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ClassfiyDetailActivity extends ActivityBase {
 
@@ -41,6 +43,9 @@ public class ClassfiyDetailActivity extends ActivityBase {
     TextView acClassifyTvNoGoodsHint;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+
+    private int page = 0;
+    private ArrayList<GoodsListResponseBean.DataBean> allData=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +68,25 @@ public class ClassfiyDetailActivity extends ActivityBase {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
+                page = 0;
                 getGoodsList();
-                refreshlayout.finishRefresh();
+                refreshlayout.finishRefresh(2000);
                 showToast("刷新完成");
+            }
+        });
+
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                page++;
+                getGoodsList();
+                refreshlayout.finishLoadmore(2000);
             }
         });
     }
 
     private void getGoodsList() {
-        MainSubscribe.goodsList(getIntent().getStringExtra("key0"), "0", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.goodsList(getIntent().getStringExtra("key0"), page + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setGoodsList(result);
@@ -88,16 +103,19 @@ public class ClassfiyDetailActivity extends ActivityBase {
         Log.e("测试", "setGoodsList: " + result);
         GoodsListResponseBean bean = GsonUtils.fromJson(result, GoodsListResponseBean.class);
         final ArrayList<GoodsListResponseBean.DataBean> data = bean.getData();
-        if (data.size() == 0) {
+        if (data.size() == 0 && page==0) {
             atClassfiyDetailRv.setVisibility(View.GONE);
             acClassifyTvNoGoodsHint.setVisibility(View.VISIBLE);
         } else {
             atClassfiyDetailRv.setVisibility(View.VISIBLE);
             acClassifyTvNoGoodsHint.setVisibility(View.GONE);
         }
+        for(int i=0;i<data.size();i++){
+            allData.add(data.get(i));
+        }
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
         atClassfiyDetailRv.setLayoutManager(layoutManager);
-        ClassifyDetailAdapter adapter = new ClassifyDetailAdapter(this, data);
+        ClassifyDetailAdapter adapter = new ClassifyDetailAdapter(this, allData);
         atClassfiyDetailRv.setItemAnimator(new DefaultItemAnimator());
         atClassfiyDetailRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new ClassifyDetailAdapter.ItemClickListener() {
@@ -109,4 +127,5 @@ public class ClassfiyDetailActivity extends ActivityBase {
             }
         });
     }
+
 }

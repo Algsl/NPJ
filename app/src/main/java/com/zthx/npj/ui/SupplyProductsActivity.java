@@ -1,5 +1,7 @@
 package com.zthx.npj.ui;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -42,6 +44,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.MyCircleView;
 
 import java.util.ArrayList;
@@ -351,10 +354,24 @@ public class SupplyProductsActivity extends ActivityBase {
                 break;
 
             case R.id.at_supply_products_btn_buy_now:
-                if (type.equals(Const.SUPPLY_DETAIL)) {
-                    openActivity(SupplyBillActivity.class, goodsId + "");
-                } else {
-                    showPublishPopwindow();
+                if(user_id.equals("")){
+                    CommonDialog dialog=new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                        @Override
+                        public void onClick(Dialog dialog, boolean confirm) {
+                            if(confirm){
+                                startActivity(new Intent(SupplyProductsActivity.this, LoginActivity.class));
+                            }
+                        }
+                    });
+                    dialog.setTitle("提示");
+                    dialog.setPositiveButton("去登录");
+                    dialog.show();
+                }else{
+                    if (type.equals(Const.SUPPLY_DETAIL)) {
+                        openActivity(SupplyBillActivity.class, goodsId + "");
+                    } else {
+                        showPublishPopwindow();
+                    }
                 }
                 break;
             case R.id.ac_supply_iv_home:

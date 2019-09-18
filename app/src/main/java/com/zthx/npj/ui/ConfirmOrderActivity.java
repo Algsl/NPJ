@@ -196,6 +196,8 @@ public class ConfirmOrderActivity extends ActivityBase {
     private String confirmType = "1";
     private String goodsCount = "1";
 
+    private double payMoney;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -273,7 +275,7 @@ public class ConfirmOrderActivity extends ActivityBase {
         atConfirmOrderTvGoodsNum.setText("x" + seckillData.getGoods_num());
 
         acConfirmOrderTvGoodsAllNum.setText("共" + seckillData.getGoods_num() + "件商品  总计：");
-        double payMoney = (Double.parseDouble(getIntent().getStringExtra("price"))) * ((int) Double.parseDouble(seckillData.getGoods_num()));
+         payMoney= (Double.parseDouble(getIntent().getStringExtra("price"))) * ((int) Double.parseDouble(seckillData.getGoods_num()));
         if(level.equals("0")){
             acConfirmOrderTvLisheng.setText("成为农品街代言人此单立省" + getIntent().getStringExtra("lisheng") + "元");
         }else{

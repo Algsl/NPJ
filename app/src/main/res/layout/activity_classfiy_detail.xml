@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.ClassfiyDetailActivity"
     android:orientation="vertical"
     android:background="@color/background">
     <include layout="@layout/title"/>
@@ -29,5 +28,4 @@
                 android:text="该分类暂无商品"/>
         </RelativeLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
 </LinearLayout>

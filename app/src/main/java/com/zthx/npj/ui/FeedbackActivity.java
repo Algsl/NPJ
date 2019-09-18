@@ -220,7 +220,6 @@ public class FeedbackActivity extends ActivityBase {
         SetSubscribe.feedBack(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: "+result );
                 CommonDialog dialog=new CommonDialog(FeedbackActivity.this, R.style.dialog, "坚持真实的反馈，能够获得更多的葫芦币哦", new CommonDialog.OnCloseListener() {
                     @Override
                     public void onClick(Dialog dialog, boolean confirm) {

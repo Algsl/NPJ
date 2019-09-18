@@ -228,12 +228,14 @@ public class MainSubscribe {
 
     /**
      * 店铺商品
+     * @param user_id
      * @param store_id
      * @param type
      * @param subscriber
      */
-    public static void storeGoodsList(String store_id,String type, DisposableObserver<ResponseBody> subscriber) {
+    public static void storeGoodsList(String user_id,String store_id,String type, DisposableObserver<ResponseBody> subscriber) {
         StoreGoodsListBean bean=new StoreGoodsListBean();
+        bean.setUser_id(user_id);
         bean.setStore_id(store_id);
         bean.setType(type);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().storeGoodsList(bean);

@@ -67,13 +67,13 @@ public class SearchResultActivity extends ActivityBase {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                setSearchResult(searchTitle);
+                getSearchResult(searchTitle);
                 refreshlayout.finishRefresh();
                 showToast("刷新完成");
             }
         });
 
-        setSearchResult(searchTitle);
+        getSearchResult(searchTitle);
     }
 
     @OnClick({R.id.at_home_search_et_search, R.id.at_home_search_tv_search,
@@ -86,71 +86,74 @@ public class SearchResultActivity extends ActivityBase {
                     @Override
                     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                         if (i == EditorInfo.IME_ACTION_SEARCH) {
-                            setSearchResult(atHomeSearchEtSearch.getText().toString().trim());
+                            getSearchResult(atHomeSearchEtSearch.getText().toString().trim());
                         }
                         return true;
                     }
                 });
                 break;
             case R.id.at_home_search_tv_search:
-                setSearchResult(atHomeSearchEtSearch.getText().toString().trim());
+                getSearchResult(atHomeSearchEtSearch.getText().toString().trim());
                 break;
             case R.id.ac_goodsSearch_tv_tuijian:
                 acGoodsSearchTvTuijian.setTextColor(getResources().getColor(R.color.app_theme));
                 acGoodsSearchTvSale.setTextColor(getResources().getColor(R.color.text3));
                 acGoodsSearchTvPrice.setTextColor(getResources().getColor(R.color.text3));
                 searchType="1";
-                setSearchResult(searchTitle);
+                getSearchResult(searchTitle);
                 break;
             case R.id.ac_goodsSearch_tv_sale:
                 acGoodsSearchTvTuijian.setTextColor(getResources().getColor(R.color.text3));
                 acGoodsSearchTvSale.setTextColor(getResources().getColor(R.color.app_theme));
                 acGoodsSearchTvPrice.setTextColor(getResources().getColor(R.color.text3));
                 searchType="2";
-                setSearchResult(searchTitle);
+                getSearchResult(searchTitle);
                 break;
             case R.id.ac_goodsSearch_tv_price:
                 acGoodsSearchTvTuijian.setTextColor(getResources().getColor(R.color.text3));
                 acGoodsSearchTvSale.setTextColor(getResources().getColor(R.color.text3));
                 acGoodsSearchTvPrice.setTextColor(getResources().getColor(R.color.app_theme));
                 searchType="3";
-                setSearchResult(searchTitle);
+                getSearchResult(searchTitle);
                 break;
         }
     }
 
-    private void setSearchResult(String str) {
+    private void getSearchResult(String str) {
         MainSubscribe.getSearchResult(user_id, str,searchType, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                LinearLayoutManager manager = new LinearLayoutManager(SearchResultActivity.this, LinearLayoutManager.VERTICAL, false);
-                atHomeSearchRvResult.setLayoutManager(manager);
-                SearchResponseBean searchResponseBean = GsonUtils.fromJson(result, SearchResponseBean.class);
-                final ArrayList<SearchResponseBean.DataBean> data = searchResponseBean.getData();
-                if (data.size() <= 0) {
-                    atHomeSearchRvResult.setVisibility(View.GONE);
-                } else {
-                    atHomeSearchRvResult.setVisibility(View.VISIBLE);
-                }
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SearchResultActivity.this);
-                atHomeSearchRvResult.setLayoutManager(layoutManager);
-                SearchResultAdapter adapter = new SearchResultAdapter(SearchResultActivity.this, data);
-                atHomeSearchRvResult.setItemAnimator(new DefaultItemAnimator());
-                atHomeSearchRvResult.setAdapter(adapter);
-                adapter.setOnItemClickListener(new SearchResultAdapter.ItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        Intent intent = new Intent(SearchResultActivity.this, GoodsDetailActivity.class);
-                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
-                        startActivity(intent);
-                    }
-                });
+                setSearchResult(result);
             }
-
             @Override
             public void onFault(String errorMsg) {
                 showToast(errorMsg);
             }
         }));
+    }
+
+    private void setSearchResult(String result) {
+        LinearLayoutManager manager = new LinearLayoutManager(SearchResultActivity.this, LinearLayoutManager.VERTICAL, false);
+        atHomeSearchRvResult.setLayoutManager(manager);
+        SearchResponseBean searchResponseBean = GsonUtils.fromJson(result, SearchResponseBean.class);
+        final ArrayList<SearchResponseBean.DataBean> data = searchResponseBean.getData();
+        if (data.size() <= 0) {
+            atHomeSearchRvResult.setVisibility(View.GONE);
+        } else {
+            atHomeSearchRvResult.setVisibility(View.VISIBLE);
+        }
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SearchResultActivity.this);
+        atHomeSearchRvResult.setLayoutManager(layoutManager);
+        SearchResultAdapter adapter = new SearchResultAdapter(SearchResultActivity.this, data);
+        atHomeSearchRvResult.setItemAnimator(new DefaultItemAnimator());
+        atHomeSearchRvResult.setAdapter(adapter);
+        adapter.setOnItemClickListener(new SearchResultAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(SearchResultActivity.this, GoodsDetailActivity.class);
+                intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                startActivity(intent);
+            }
+        });
     }
 }

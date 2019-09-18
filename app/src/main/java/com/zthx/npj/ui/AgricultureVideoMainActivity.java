@@ -56,6 +56,8 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
     IjkVideoView atAkVideoPlayer;
     @BindView(R.id.at_ak_video_et_comment)
     EditText atAkVideoEtComment;
+    @BindView(R.id.back)
+    ImageView back;
 
     private String videoUrl = "";
     private String videoId;
@@ -68,6 +70,8 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agriculture_video_main);
         ButterKnife.bind(this);
+
+        back(back);
 
         id = getIntent().getStringExtra(Const.VIDEO_ID);//视频id
         List<String> list = new ArrayList<>();
@@ -96,24 +100,38 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
     }
 
     private void uploadComment(String id) {
-        DiscoverSubscribe.uploadComment(id, atAkVideoEtComment.getText().toString().trim(), SharePerferenceUtils.getUserId(this),
-                BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                    @Override
-                    public void onSuccess(String result) {
-                        UploadVideoCommentResponseBean uploadVideoCommentResponseBean = GsonUtils.fromJson(result, UploadVideoCommentResponseBean.class);
-                        int status = uploadVideoCommentResponseBean.getData().getStatus();
-                        if (status == 2) {
-                            Toast.makeText(AgricultureVideoMainActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(AgricultureVideoMainActivity.this, "请先购买课程", Toast.LENGTH_SHORT).show();
-                        }
+        if (user_id.equals("")) {
+            CommonDialog dialog = new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                @Override
+                public void onClick(Dialog dialog, boolean confirm) {
+                    if (confirm) {
+                        startActivity(new Intent(AgricultureVideoMainActivity.this, LoginActivity.class));
                     }
-
-                    @Override
-                    public void onFault(String errorMsg) {
-
+                }
+            });
+            dialog.setTitle("提示");
+            dialog.setPositiveButton("去登录");
+            dialog.show();
+        } else {
+            DiscoverSubscribe.uploadComment(id, atAkVideoEtComment.getText().toString().trim(), SharePerferenceUtils.getUserId(this), BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    UploadVideoCommentResponseBean uploadVideoCommentResponseBean = GsonUtils.fromJson(result, UploadVideoCommentResponseBean.class);
+                    int status = uploadVideoCommentResponseBean.getData().getStatus();
+                    if (status == 2) {
+                        Toast.makeText(AgricultureVideoMainActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(AgricultureVideoMainActivity.this, "请先购买课程", Toast.LENGTH_SHORT).show();
                     }
-                }));
+                }
+
+                @Override
+                public void onFault(String errorMsg) {
+
+                }
+            }));
+        }
+
     }
 
 
@@ -224,13 +242,42 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
     //手动播放
     @Override
     public void onFragmentInteraction(AkVideoResponseBean.DataBean dataBean) {
-        getVideoInfo(dataBean, "1");
+        if (user_id.equals("")) {
+            CommonDialog dialog = new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                @Override
+                public void onClick(Dialog dialog, boolean confirm) {
+                    if (confirm) {
+                        startActivity(new Intent(AgricultureVideoMainActivity.this, LoginActivity.class));
+                    }
+                }
+            });
+            dialog.setTitle("提示");
+            dialog.setPositiveButton("去登录");
+            dialog.show();
+        } else {
+            getVideoInfo(dataBean, "1");
+        }
+
     }
 
     //自动播放
     @Override
     public void onDataGet(AkVideoResponseBean.DataBean dataBean) {
-        getVideoInfo(dataBean, "2");
+        if (user_id.equals("")) {
+            CommonDialog dialog = new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                @Override
+                public void onClick(Dialog dialog, boolean confirm) {
+                    if (confirm) {
+                        startActivity(new Intent(AgricultureVideoMainActivity.this, LoginActivity.class));
+                    }
+                }
+            });
+            dialog.setTitle("提示");
+            dialog.setPositiveButton("去登录");
+            dialog.show();
+        } else {
+            getVideoInfo(dataBean, "2");
+        }
     }
 
 

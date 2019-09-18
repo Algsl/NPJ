@@ -2,19 +2,15 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.R;
-import com.zthx.npj.net.netutils.HttpUtils;
-import com.zthx.npj.utils.SharePerferenceUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +30,12 @@ public class LoginActivity extends ActivityBase {
     TextView atLoginTvMoreLogin;
 
     public static IWXAPI mWxApi;
+    @BindView(R.id.ac_login_iv_choose)
+    ImageView acLoginIvChoose;
+    @BindView(R.id.ac_login_tv_tk)
+    TextView acLoginTvTk;
+
+    private boolean isAggree=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,20 +45,44 @@ public class LoginActivity extends ActivityBase {
 
     }
 
-    @OnClick({R.id.at_login_ll_weixin, R.id.at_login_tv_new, R.id.at_login_tv_more_login})
+    @OnClick({R.id.at_login_ll_weixin, R.id.at_login_tv_new, R.id.at_login_tv_more_login,
+            R.id.ac_login_iv_choose, R.id.ac_login_tv_tk})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_login_ll_weixin:
-                registerWx();
+                if(isAggree){
+                    registerWx();
+                }else{
+                    showToast("请先阅读并同意服务及隐私条款");
+                }
                 break;
             case R.id.at_login_tv_new:
                 break;
             case R.id.at_login_tv_more_login:
                 //SharePerferenceUtils.setIsBindWx(this,"unbind");
-                Intent intent=new Intent(this,CellPhoneLoginActivity.class);
-                intent.putExtra("flag",false);
-                startActivity(intent);
+                if(isAggree){
+                    Intent intent = new Intent(this, CellPhoneLoginActivity.class);
+                    intent.putExtra("flag", false);
+                    startActivity(intent);
+                }else{
+                    showToast("请先阅读并同意服务及隐私条款");
+                }
                 break;
+            case R.id.ac_login_iv_choose:
+                toggle();
+                break;
+            case R.id.ac_login_tv_tk:
+                openActivity(TermsOfServiceActivity.class);
+                break;
+        }
+    }
+
+    private void toggle() {
+        isAggree=!isAggree;
+        if(isAggree){
+            acLoginIvChoose.setImageResource(R.drawable.confirm_select);
+        }else{
+            acLoginIvChoose.setImageResource(R.drawable.confirm_unselect);
         }
     }
 

@@ -20,13 +20,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_100">
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/ac_order_applyRefund_iv_goodsImg"
             android:layout_width="@dimen/dp_80"
             android:layout_height="@dimen/dp_80"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginLeft="@dimen/dp_12"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            app:riv_corner_radius="@dimen/dp_5"/>
 
         <TextView
             android:id="@+id/at_order_applyRefund_tv_goodsName"

@@ -101,6 +101,8 @@ public class CellPhoneLoginActivity extends ActivityBase {
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
 
+    private int time=60;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +139,29 @@ public class CellPhoneLoginActivity extends ActivityBase {
                 if (TextUtils.isEmpty(atCellphoneLoginEtPhone.getText().toString().trim())) {
                     Toast.makeText(this, "手机号不能为空", Toast.LENGTH_SHORT).show();
                 } else {
+                    new Thread(){
+                        public void run(){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(time<=0){
+                                        time=60;
+                                        atCellphoneLoginTvGetCode.setText("重新获取");
+                                        atCellphoneLoginTvGetCode.setBackgroundResource(R.drawable.stroke_theme_5);
+                                        atCellphoneLoginTvGetCode.setTextColor(getResources().getColor(R.color.app_theme));
+                                        atCellphoneLoginTvGetCode.setClickable(true);
+                                    }else{
+                                        atCellphoneLoginTvGetCode.setClickable(false);
+                                        time--;
+                                        atCellphoneLoginTvGetCode.setBackgroundResource(R.drawable.stroke_gray_2);
+                                        atCellphoneLoginTvGetCode.setTextColor(getResources().getColor(R.color.text6));
+                                        atCellphoneLoginTvGetCode.setText(time+"s后获取");
+                                        handler.postDelayed(this,1000);
+                                    }
+                                }
+                            });
+                        }
+                    }.start();
                     sendPhoneCode();
                 }
                 break;

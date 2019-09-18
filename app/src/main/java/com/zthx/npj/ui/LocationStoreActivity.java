@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.GlideImageLoader;
 
 import org.json.JSONException;
@@ -99,6 +101,7 @@ public class LocationStoreActivity extends ActivityBase {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 getLocalStore(type);
+                initBanner();
                 refreshlayout.finishRefresh();
                 showToast("刷新完成");
             }
@@ -200,7 +203,21 @@ public class LocationStoreActivity extends ActivityBase {
                 startActivityForResult(intent, 1);
                 break;
             case R.id.at_location_store_tv_ruzhu:
-                getMyStoreType();
+                if(user_id.equals("")){
+                    CommonDialog dialog=new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                        @Override
+                        public void onClick(Dialog dialog, boolean confirm) {
+                            if(confirm){
+                                startActivity(new Intent(LocationStoreActivity.this, LoginActivity.class));
+                            }
+                        }
+                    });
+                    dialog.setTitle("提示");
+                    dialog.setPositiveButton("去登录");
+                    dialog.show();
+                }else{
+                    getMyStoreType();
+                }
                 break;
         }
     }

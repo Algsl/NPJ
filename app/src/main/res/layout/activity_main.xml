@@ -81,6 +81,19 @@
                 android:paddingTop="@dimen/dp_5"
                 android:text="个人中心"/>
         </RadioGroup>
+        <TextView
+            android:id="@+id/ac_main_tv_shoppingCart"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_85"
+            android:gravity="center"
+            android:textSize="@dimen/sp_12"
+            android:textColor="@color/white"
+            android:text="20"
+            android:layout_marginTop="@dimen/dp_30"
+            android:background="@drawable/red_conner"/>
+
         <LinearLayout
             android:id="@+id/ll_main_check_03"
             android:layout_width="@dimen/dp_80"
