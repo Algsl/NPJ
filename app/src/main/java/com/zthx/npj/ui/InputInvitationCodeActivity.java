@@ -81,10 +81,14 @@ public class InputInvitationCodeActivity extends ActivityBase {
     }
 
     private void invitation() {
-        LoginSubscribe.invitation(atInputInvitationCodeEtPhone.getText().toString().trim(), SharePerferenceUtils.getUserId(this),
+        if(atInputInvitationCodeEtPhone.getText().toString().trim().equals(SharePerferenceUtils.getUserMobile(this))){
+            showToast("代言人不能为自己");
+        }else{
+            LoginSubscribe.invitation(atInputInvitationCodeEtPhone.getText().toString().trim(), SharePerferenceUtils.getUserId(this),
                 new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
+                        showToast("代言人绑定成功");
                         //SharePerferenceUtils.setIsBindSpokes(InputInvitationCodeActivity.this,"bind");
                         startActivity(new Intent(InputInvitationCodeActivity.this, MainActivity.class));
                     }
@@ -95,5 +99,6 @@ public class InputInvitationCodeActivity extends ActivityBase {
                         //Toast.makeText(InputInvitationCodeActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
                     }
                 }, this));
+        }
     }
 }

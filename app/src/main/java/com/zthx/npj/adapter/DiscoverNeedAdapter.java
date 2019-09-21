@@ -3,6 +3,7 @@ package com.zthx.npj.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -74,7 +75,7 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
         if (url.substring(url.length() - 4).equals(".mp4")) {
             viewHolder.mIvPic.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
         } else {
-            Glide.with(mContext).load(list.get(i).getImg()).into(viewHolder.mIvPic);
+            Glide.with(mContext).load(Uri.parse(url)).into(viewHolder.mIvPic);
         }
         viewHolder.mTvNeedNum.setText(list.get(i).getAmount());
         if (list.get(i).getDistance() > 1000) {
@@ -96,6 +97,7 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
             for (String str : strs) {
                 if (str.equals("1")) {
                     viewHolder.realName.setVisibility(View.VISIBLE);
+                    viewHolder.storeQuality.setVisibility(View.VISIBLE);
                 } else if (str.equals("2")) {
                     viewHolder.company.setVisibility(View.VISIBLE);
                 }
@@ -114,7 +116,7 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
         TextView mTvNeedNum;
         TextView mTvDistance;
         TextView mTvIsTop;
-        TextView company, realName;
+        TextView company, realName,storeQuality;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -125,6 +127,7 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
             mTvIsTop = itemView.findViewById(R.id.item_discover_need_tv_isTop);
             company = itemView.findViewById(R.id.item_discoverNeed_tv_company);
             realName = itemView.findViewById(R.id.item_discoverNeed_tv_realName);
+            storeQuality = itemView.findViewById(R.id.item_discoverNeed_tv_storeQuality);
         }
     }
 }

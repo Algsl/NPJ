@@ -174,20 +174,64 @@ public class PurchaserCertification2Activity extends ActivityBase {
                                 "2.图片上传完毕，请确保内容清晰，无阅读障碍，以保顺利通过。\n");
                 break;
             case R.id.at_purchaser_certification2_btn_confirm:
-                HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
+                if(atPurchaserCertification2EtName.getText().toString().trim().equals("")){
+                    showToast("请填写真实姓名");
+                }else if(atPurchaserCertification2EtMobile.getText().toString().trim().equals("")){
+                    showToast("请填写手机号");
+                }else if(atPurchaserCertification2EtId.getText().toString().trim().equals("请选择采购商身份")){
+                    showToast("请选择身份");
+                }else{
+                    if(type==1){
+                        if(atPurchaserCertification2EtDangkouName.getText().toString().equals("")){
+                            showToast("请填写档口名称");
+                        }else if(atPurchaserCertification2EtShichangName.getText().toString().equals("")){
+                            showToast("请选择市场所在地");
+                        }else if(atPurchaserCertification2EtDangkouAddress.getText().toString().equals("")){
+                            showToast("请填写详细地址");
+                        }else if(path==null){
+                            showToast("请上传图片");
+                        }else{
+                            HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
 
-                    }
+                                }
 
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        UploadImgResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadImgResponseBean.class);
-                        UploadImgResponseBean.DataBean data = bean.getData();
-                        img=data.getSrc();
-                        uploadData();
+                                @Override
+                                public void onResponse(Call call, Response response) throws IOException {
+                                    UploadImgResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadImgResponseBean.class);
+                                    UploadImgResponseBean.DataBean data = bean.getData();
+                                    img=data.getSrc();
+                                    uploadData();
+                                }
+                            });
+                        }
+                    }else{
+                        if(atPurchaserCertification2EtCompanyName.getText().toString().trim().equals("")){
+                            showToast("请填写企业名称");
+                        }else if(atPurchaserCertification2EtAddress.getText().toString().trim().equals("")){
+                            showToast("请选择市场所在地");
+                        }else if(path==null){
+                            showToast("请上传图片");
+                        }else{
+                            HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+
+                                }
+
+                                @Override
+                                public void onResponse(Call call, Response response) throws IOException {
+                                    UploadImgResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadImgResponseBean.class);
+                                    UploadImgResponseBean.DataBean data = bean.getData();
+                                    img=data.getSrc();
+                                    uploadData();
+                                }
+                            });
+                        }
                     }
-                });
+                }
+
                 break;
             case R.id.at_purchaser_certification2_et_id:
                 showBottomDialog();

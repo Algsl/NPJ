@@ -6,36 +6,37 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.DiscoverViewPagerAdapter;
+import com.zthx.npj.adapter.BuyGiftAdapter;
+import com.zthx.npj.adapter.SpokesmanQuanLiAdapter;
+import com.zthx.npj.base.Const;
+import com.zthx.npj.net.been.GiftListResponseBean;
+import com.zthx.npj.net.been.SpokesmanQuanLiResponsebean;
 import com.zthx.npj.net.been.UserResponseBean;
+import com.zthx.npj.net.netsubscribe.GiftSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
-import com.zthx.npj.ui.fragment.BuyGiftFragment;
-import com.zthx.npj.ui.fragment.SpokesmanFragment;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.CommonDialog;
-import com.zthx.npj.view.MyCircleView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,12 +54,6 @@ public class MembershipPackageActivity extends ActivityBase {
     TextView atMembershipPackageTvTuijian;
     @BindView(R.id.at_membership_package_tv_share)
     TextView atMembershipPackageTvShare;
-    /*@BindView(R.id.at_membership_package_tv_logo)
-    TextView atMembershipPackageTvLogo;*/
-    @BindView(R.id.at_membership_package_tb)
-    TabLayout atMembershipPackageTb;
-    @BindView(R.id.at_membership_package_viewpager)
-    ViewPager atMembershipPackageVp;
     @BindView(R.id.title_back)
     ImageView titleBack;
     @BindView(R.id.ac_title)
@@ -66,10 +61,18 @@ public class MembershipPackageActivity extends ActivityBase {
     @BindView(R.id.ac_membership_iv_level)
     ImageView acMembershipIvLevel;
 
+    @BindView(R.id.ac_membership_tv_buy)
+    TextView acMembershipTvBuy;
+    @BindView(R.id.ac_membership_tv_quanyi)
+    TextView acMembershipTvQuanyi;
+    @BindView(R.id.ac_membership_rv)
+    RecyclerView acMembershipRv;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
-    private String level=SharePerferenceUtils.getUserLevel(this);
-
+    private String level;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,11 +82,11 @@ public class MembershipPackageActivity extends ActivityBase {
         back(titleBack);
         changeTitle(acTitle, "会员礼包");
 
-        if(user_id.equals("")){
-            CommonDialog dialog=new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+        if (user_id.equals("")) {
+            CommonDialog dialog = new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
                 @Override
                 public void onClick(Dialog dialog, boolean confirm) {
-                    if(confirm){
+                    if (confirm) {
                         startActivity(new Intent(MembershipPackageActivity.this, LoginActivity.class));
                     }
                 }
@@ -91,24 +94,18 @@ public class MembershipPackageActivity extends ActivityBase {
             dialog.setTitle("提示");
             dialog.setPositiveButton("去登录");
             dialog.show();
-        }else{
+        } else {
             getUserInfo();
+            getGiftList();
         }
 
         atMembershipPackageTvName.setSelected(true);
+    }
 
-        List<String> list = new ArrayList<>();
-        list.add("购买礼包");
-        list.add("代言人权益");
-        List<Fragment> list2 = new ArrayList<>();
-        list2.add(new BuyGiftFragment());
-        list2.add(new SpokesmanFragment());
-        DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
-
-        atMembershipPackageVp.setAdapter(mAdapter);
-        atMembershipPackageTb.setTabMode(TabLayout.MODE_FIXED);
-        atMembershipPackageTb.setTabGravity(TabLayout.GRAVITY_CENTER);
-        atMembershipPackageTb.setupWithViewPager(atMembershipPackageVp);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserInfo();
     }
 
     private void getUserInfo() {
@@ -129,22 +126,12 @@ public class MembershipPackageActivity extends ActivityBase {
         UserResponseBean bean = GsonUtils.fromJson(result, UserResponseBean.class);
         Glide.with(this).load(Uri.parse(bean.getData().getHead_img())).into(atMembershipPackageHeadPic);
         atMembershipPackageTvName.setText(bean.getData().getNick_name());
-        switch (bean.getData().getLevel()){
-            case 0:acMembershipIvLevel.setImageResource(R.drawable.level0);break;
-            case 1:acMembershipIvLevel.setImageResource(R.drawable.level1);break;
-            case 2:acMembershipIvLevel.setImageResource(R.drawable.level2);break;
-            case 3:acMembershipIvLevel.setImageResource(R.drawable.level3);break;
-            case 4:acMembershipIvLevel.setImageResource(R.drawable.level4);break;
-            case 5:acMembershipIvLevel.setImageResource(R.drawable.level5);break;
-            case 6:acMembershipIvLevel.setImageResource(R.drawable.level6);break;
-            case 7:acMembershipIvLevel.setImageResource(R.drawable.level7);break;
-            case 8:acMembershipIvLevel.setImageResource(R.drawable.level8);break;
-            case 9:acMembershipIvLevel.setImageResource(R.drawable.level9);break;
-            case 10:acMembershipIvLevel.setImageResource(R.drawable.level10);break;
-        }
+        level=bean.getData().getLevel()+"";
+        MyCustomUtils.showLevelImg(bean.getData().getLevel(), acMembershipIvLevel);
     }
 
-    @OnClick({R.id.at_membership_package_tv_tuijian, R.id.at_membership_package_tv_share})
+    @OnClick({R.id.at_membership_package_tv_tuijian, R.id.at_membership_package_tv_share,
+            R.id.ac_membership_tv_buy, R.id.ac_membership_tv_quanyi})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_membership_package_tv_tuijian:
@@ -152,6 +139,16 @@ public class MembershipPackageActivity extends ActivityBase {
                 break;
             case R.id.at_membership_package_tv_share:
                 showPublishPopwindow();
+                break;
+            case R.id.ac_membership_tv_buy:
+                acMembershipTvBuy.setTextColor(getResources().getColor(R.color.app_theme));
+                acMembershipTvQuanyi.setTextColor(getResources().getColor(R.color.text3));
+                getGiftList();
+                break;
+            case R.id.ac_membership_tv_quanyi:
+                acMembershipTvBuy.setTextColor(getResources().getColor(R.color.text3));
+                acMembershipTvQuanyi.setTextColor(getResources().getColor(R.color.app_theme));
+                getData();
                 break;
         }
     }
@@ -175,13 +172,13 @@ public class MembershipPackageActivity extends ActivityBase {
         // 显示PopupWindow，其中：
         // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
         window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
-        TextView tv=contentView.findViewById(R.id.pw_vipHint_tv_generateHB);
+        TextView tv = contentView.findViewById(R.id.pw_vipHint_tv_generateHB);
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(level.equals("0")){
-                    Toast.makeText(MembershipPackageActivity.this,"您不是农品街代言人，无法生成分享海报",Toast.LENGTH_LONG).show();
-                }else{
+                if (level.equals("0")) {
+                    Toast.makeText(MembershipPackageActivity.this, "您不是农品街代言人，无法生成分享海报", Toast.LENGTH_LONG).show();
+                } else {
                     openActivity(HaiBaoActivity.class);
                     backgroundAlpha(1f);
                     window.dismiss();
@@ -202,5 +199,66 @@ public class MembershipPackageActivity extends ActivityBase {
         lp.alpha = bgAlpha;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         getWindow().setAttributes(lp);
+    }
+
+    private void getGiftList() {
+        GiftSubscribe.getGiftList(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                GiftListResponseBean giftListResponseBean = GsonUtils.fromJson(result, GiftListResponseBean.class);
+                final ArrayList<GiftListResponseBean.DataBean> data = giftListResponseBean.getData();
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MembershipPackageActivity.this);
+                acMembershipRv.setLayoutManager(layoutManager);
+                BuyGiftAdapter mAdapter = new BuyGiftAdapter(MembershipPackageActivity.this, data);
+                mAdapter.setOnItemClickListener(new BuyGiftAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Intent intent = new Intent(MembershipPackageActivity.this, GiftActivity.class);
+                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onBuyClick(int position) {
+                        if(level.equals("0")){
+                            Intent intent = new Intent(MembershipPackageActivity.this, ConfirmOrderActivity.class);
+                            intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                            intent.setAction(Const.GIFT);
+                            startActivity(intent);
+                        }else{
+                            Toast toast=Toast.makeText(MembershipPackageActivity.this,"您已经是代言人了，赶快去邀请好友加入农品街吧！",Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+                            toast.show();
+                        }
+
+                    }
+                });
+                acMembershipRv.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+            }
+        }));
+    }
+
+    private void getData() {
+        GiftSubscribe.getSpokesmanQuan(user_id,token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                SpokesmanQuanLiResponsebean spokesmanQuanLiResponsebean = GsonUtils.fromJson(result, SpokesmanQuanLiResponsebean.class);
+                ArrayList<SpokesmanQuanLiResponsebean.DataBean> data = spokesmanQuanLiResponsebean.getData();
+                LinearLayoutManager manager = new LinearLayoutManager(MembershipPackageActivity.this,LinearLayoutManager.VERTICAL,false);
+                acMembershipRv.setLayoutManager(manager);
+                SpokesmanQuanLiAdapter mAdapter = new SpokesmanQuanLiAdapter(MembershipPackageActivity.this,data);
+                acMembershipRv.setItemAnimator(new DefaultItemAnimator());
+                acMembershipRv.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 }

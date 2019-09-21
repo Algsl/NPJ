@@ -8,7 +8,12 @@
     android:background="@android:color/white">
     <include layout="@layout/title"
         android:id="@+id/at_confirm_order_rl_title"/>
-    <ScrollView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_marginTop="@dimen/dp_80"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
         android:layout_below="@id/at_confirm_order_rl_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -186,6 +191,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="运费"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:textColor="@color/text3"
+                    android:textSize="@dimen/sp_14"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_12"
+                    android:text="￥0.00"
+                    android:textSize="@dimen/sp_14"
+                    android:textColor="@color/app_theme"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:background="@color/background"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_12"/>
+            <RelativeLayout
+                android:id="@+id/at_confirm_order_rl_chooseYHQ"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="使用优惠券"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/dp_12"
                     android:textColor="@color/text3"
@@ -400,6 +434,7 @@
                     android:layout_marginLeft="@dimen/dp_11"
                     android:src="@drawable/confirm_collect"/>
                 <TextView
+                    android:id="@+id/ac_confirmOrder_tv_balance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="钱包(当前余额0.00元)"
@@ -501,7 +536,7 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_49"

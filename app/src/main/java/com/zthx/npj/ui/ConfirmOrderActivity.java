@@ -30,6 +30,9 @@ import com.alipay.sdk.app.PayTask;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -60,6 +63,9 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -148,9 +154,13 @@ public class ConfirmOrderActivity extends ActivityBase {
     TextView atConfirmOrderTvDyrYH;
     @BindView(R.id.at_confirm_order_rl_hasDYR)
     RelativeLayout atConfirmOrderRlHasDYR;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+    @BindView(R.id.ac_confirmOrder_tv_balance)
+    TextView acConfirmOrderTvBalance;
     private String attId;
     private String goodsId;
-    private String address_id = "";
+    private String address_id = "0";
     private String allAddress = "";
     private String tihuoType = "1";
 
@@ -198,6 +208,8 @@ public class ConfirmOrderActivity extends ActivityBase {
 
     private double payMoney;
 
+    private String goodsImg, goodsName, goodsPrice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -212,6 +224,42 @@ public class ConfirmOrderActivity extends ActivityBase {
         changeTitle(acTitle, "确认订单");
         changeRightImg(acTitleIv, R.drawable.goods_detail_home, null, null);
 
+        acConfirmOrderTvBalance.setText("钱包(当前余额"+SharePerferenceUtils.getBalance(this)+"元)");
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getLocalStore("2");
+                if (Const.GIFT.equals(getIntent().getAction())) {//礼包店确认订单
+                    confirmType = "1";
+                    goodsId = getIntent().getStringExtra(Const.GOODS_ID);
+                    atConfirmOrderRlHongbao.setVisibility(View.VISIBLE);
+                    acConfirmOrderRlToDYR.setVisibility(View.GONE);
+                    getGiftConfirmData(goodsId);
+                } else if (Const.PRESELL.equals(getIntent().getAction())) {//新品众筹确认订单
+                    confirmType = "2";
+                    attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
+                    goodsId = getIntent().getStringExtra(Const.GOODS_ID);
+                    getData();
+                } else if ("miaosha".equals(getIntent().getAction())) {
+                    confirmType = "4";
+                    attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
+                    goodsId = getIntent().getStringExtra(Const.GOODS_ID);
+                    getSeckillData();
+                } else {//普通商品确认订单
+                    confirmType = "3";
+                    acConfirmOrderRlTihuo.setVisibility(View.VISIBLE);
+                    attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
+                    goodsId = getIntent().getStringExtra(Const.GOODS_ID);
+                    Log.e("测试", "onCreate: " + goodsCount);
+                    goodsCount = getIntent().getStringExtra("count");
+                    getGoodsData();
+                }
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
+
         getLocalStore("2");
         if (Const.GIFT.equals(getIntent().getAction())) {//礼包店确认订单
             confirmType = "1";
@@ -224,7 +272,7 @@ public class ConfirmOrderActivity extends ActivityBase {
             attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
             goodsId = getIntent().getStringExtra(Const.GOODS_ID);
             getData();
-        }else if("miaosha".equals(getIntent().getAction())){
+        } else if ("miaosha".equals(getIntent().getAction())) {
             confirmType = "4";
             attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
             goodsId = getIntent().getStringExtra(Const.GOODS_ID);
@@ -267,7 +315,6 @@ public class ConfirmOrderActivity extends ActivityBase {
         seckillData = bean.getData();
         //atConfirmOrderTvAddress.setText(seckillData.getAddress());
         //atConfirmOrderTvStoreName.setText(seckillData.getStore_name());
-        address_id = "";
         Glide.with(ConfirmOrderActivity.this).load(seckillData.getGoods_img()).into(atConfirmOrderIvPic);
         atConfirmOrderTvTitle.setText(seckillData.getGoods_name());
         atConfirmOrderTvSize.setText("规格： ");
@@ -275,16 +322,20 @@ public class ConfirmOrderActivity extends ActivityBase {
         atConfirmOrderTvGoodsNum.setText("x" + seckillData.getGoods_num());
 
         acConfirmOrderTvGoodsAllNum.setText("共" + seckillData.getGoods_num() + "件商品  总计：");
-         payMoney= (Double.parseDouble(getIntent().getStringExtra("price"))) * ((int) Double.parseDouble(seckillData.getGoods_num()));
-        if(level.equals("0")){
+        payMoney = (Double.parseDouble(getIntent().getStringExtra("price"))) * ((int) Double.parseDouble(seckillData.getGoods_num()));
+        if (level.equals("0")) {
             acConfirmOrderTvLisheng.setText("成为农品街代言人此单立省" + getIntent().getStringExtra("lisheng") + "元");
-        }else{
+        } else {
             acConfirmOrderRlToDYR.setVisibility(View.GONE);
             atConfirmOrderRlHasDYR.setVisibility(View.VISIBLE);
-            atConfirmOrderTvDyrYH.setText("-￥"+getIntent().getStringExtra("lisheng"));
+            atConfirmOrderTvDyrYH.setText("-￥" + getIntent().getStringExtra("lisheng"));
         }
         atConfirmOrderTvPrice.setText("￥" + payMoney);
         acConfirmOrderTvRealPay.setText("￥" + payMoney);
+
+        goodsImg = seckillData.getGoods_img();
+        goodsName = seckillData.getGoods_name();
+        goodsPrice = payMoney + "元";
     }
 
     private void getGoodsData() {
@@ -322,16 +373,20 @@ public class ConfirmOrderActivity extends ActivityBase {
 
         acConfirmOrderTvGoodsAllNum.setText("共" + ptdata.getGoods_num() + "件商品  总计：");
         double payMoney = (Double.parseDouble(getIntent().getStringExtra("price"))) * ((int) Double.parseDouble(ptdata.getGoods_num()));
-        if(level.equals("0")){
+        if (level.equals("0")) {
             acConfirmOrderTvLisheng.setText("成为农品街代言人此单立省" + getIntent().getStringExtra("lisheng") + "元");
-        }else{
+        } else {
             acConfirmOrderRlToDYR.setVisibility(View.GONE);
             atConfirmOrderRlHasDYR.setVisibility(View.VISIBLE);
-            atConfirmOrderTvDyrYH.setText("-￥"+getIntent().getStringExtra("lisheng"));
+            atConfirmOrderTvDyrYH.setText("-￥" + getIntent().getStringExtra("lisheng"));
         }
 
         atConfirmOrderTvPrice.setText("￥" + payMoney);
         acConfirmOrderTvRealPay.setText("￥" + payMoney);
+
+        goodsImg = ptdata.getGoods_img();
+        goodsName = ptdata.getGoods_name();
+        goodsPrice = payMoney + "元";
     }
 
     private void getLocalStore(String type) {
@@ -373,6 +428,10 @@ public class ConfirmOrderActivity extends ActivityBase {
 
                 atConfirmOrderTvPrice.setText("￥" + data.getPrice());
                 acConfirmOrderTvRealPay.setText("￥" + data.getPrice());
+
+                goodsImg = data.getImg();
+                goodsName = data.getTitle();
+                goodsPrice = data.getPrice() + "元";
             }
 
             @Override
@@ -396,6 +455,7 @@ public class ConfirmOrderActivity extends ActivityBase {
                 ConfirmPreSellResponseBean confirmPreSellResponseBean = GsonUtils.fromJson(result, ConfirmPreSellResponseBean.class);
                 data = confirmPreSellResponseBean.getData();
                 address_id = data.getAddress_id() + "";
+                Log.e("测试", "onSuccess: " + address_id);
                 atConfirmOrderTvAddress.setText(data.getAddress());
                 atConfirmOrderTvStoreName.setText(data.getStore_name());
                 //Glide.with(ConfirmOrderActivity.this).load(data.getGoods_img()).into(atConfirmOrderIvPic);
@@ -416,6 +476,10 @@ public class ConfirmOrderActivity extends ActivityBase {
                 acConfirmOrderTvLisheng.setText("成为农品街代言人此单立省" + lisheng + "元");
                 atConfirmOrderTvPrice.setText("¥" + payMoney);
                 acConfirmOrderTvRealPay.setText("￥" + payMoney);
+
+                goodsImg = data.getGoods_img();
+                goodsName = data.getGoods_name();
+                goodsPrice = payMoney + "元";
             }
 
             @Override
@@ -432,14 +496,19 @@ public class ConfirmOrderActivity extends ActivityBase {
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.ac_confirmOrder_btn_pay:
-                //确认订单
-                showToast("订单生成中，请稍等");
-                if (confirmType.equals("1")) {
-                    giftConfirm();
-                } else if (confirmType.equals("2")) {
-                    preSellConfirm();
-                } else if (confirmType.equals("3")) {
-                    goodsConfirm();
+                Log.e("测试", "onSuccess: " + address_id);
+                if (address_id.equals("0")) {
+                    showToast("请选择收货地址");
+                } else {
+                    //确认订单
+                    showToast("订单生成中，请稍等");
+                    if (confirmType.equals("1")) {
+                        giftConfirm();
+                    } else if (confirmType.equals("2")) {
+                        preSellConfirm();
+                    } else if (confirmType.equals("3")) {
+                        goodsConfirm();
+                    }
                 }
                 break;
             case R.id.ac_confirmOrder_ll_chooseAddress:
@@ -523,7 +592,25 @@ public class ConfirmOrderActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                JSONObject obj = null;
+                try {
+                    obj = new JSONObject(errorMsg);
+                    Log.e("测试", "onFault: " + obj);
+                    if (obj == null) {
+
+                    } else {
+                        int code = obj.getInt("code");
+                        if (code == 2) {
+                            openActivity(OrderFinishActivity.class, goodsImg, goodsName, goodsPrice);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e("测试", "onFault: " + (obj == null));
+                if (obj == null) {
+                    showToast("余额不足");
+                }
             }
         }));
     }
@@ -556,7 +643,26 @@ public class ConfirmOrderActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                JSONObject obj = null;
+                try {
+                    obj = new JSONObject(errorMsg);
+                    Log.e("测试", "onFault: " + obj);
+                    if (obj == null) {
+
+                    } else {
+                        int code = obj.getInt("code");
+                        if (code == 2) {
+                            openActivity(OrderFinishActivity.class, goodsImg, goodsName, goodsPrice);
+                            SharePerferenceUtils.setUserLevel(ConfirmOrderActivity.this,"1");
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e("测试", "onFault: " + (obj == null));
+                if (obj == null) {
+                    showToast("余额不足");
+                }
             }
         }));
     }
@@ -591,9 +697,30 @@ public class ConfirmOrderActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                JSONObject obj = null;
+                try {
+                    obj = new JSONObject(errorMsg);
+                    Log.e("测试", "onFault: " + obj);
+                    if (obj == null) {
+
+                    } else {
+                        int code = obj.getInt("code");
+                        if (code == 2) {
+                            openActivity(OrderFinishActivity.class, goodsImg, goodsName, goodsPrice);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e("测试", "onFault: " + (obj == null));
+                if (obj == null) {
+                    showToast("余额不足");
+                }
             }
         }));
+    }
+
+    private void yuepay() {
     }
 
     @Override
@@ -604,7 +731,7 @@ public class ConfirmOrderActivity extends ActivityBase {
                 case 1:
                     address_id = data.getStringExtra("address_id");
                     atConfirmOrderTvAddress.setText(data.getStringExtra("address"));
-                    Log.e("测试", "onActivityResult: "+address_id );
+                    Log.e("测试", "onActivityResult: " + address_id);
                     break;
                 case 0:
                     if (Const.GIFT.equals(getIntent().getAction())) {
@@ -617,15 +744,11 @@ public class ConfirmOrderActivity extends ActivityBase {
                         goodsId = getIntent().getStringExtra(Const.GOODS_ID);
                         getData();
                     }
-                    Log.e("测试", "onActivityResult: " );
+                    Log.e("测试", "onActivityResult: ");
                     break;
             }
 
         }
-    }
-
-    private void yuepay() {
-        finish();
     }
 
     private void wxpay() {
@@ -722,6 +845,7 @@ public class ConfirmOrderActivity extends ActivityBase {
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
                         Toast.makeText(ConfirmOrderActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        SharePerferenceUtils.setUserLevel(ConfirmOrderActivity.this,"1");
                     } else {
                         Toast.makeText(ConfirmOrderActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
                     }

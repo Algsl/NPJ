@@ -54,6 +54,7 @@ import com.zthx.npj.ui.SpokesmanRightsNoPermissionActivity;
 import com.zthx.npj.ui.StoreManagerActivity;
 import com.zthx.npj.ui.UserMsgActivity;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.CommonDialog;
 
@@ -177,6 +178,21 @@ public class MineFragment
         }
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            if (SharePerferenceUtils.getUserId(getContext()).equals("")) {
+                startActivity(new Intent(getContext(), LoginActivity.class));
+            }else if (!NetUtil.isNetworkConnected(getContext())) {
+                Toast.makeText(getContext(), "请打开网络连接", Toast.LENGTH_SHORT).show();
+            } else {
+                getUserInfo();
+                getAlsoLike();
+                getOrderSize();
+            }
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -193,19 +209,16 @@ public class MineFragment
                 Toast.makeText(getContext(), "刷新完成", Toast.LENGTH_SHORT).show();
             }
         });
+        getUserInfo();
+        getAlsoLike();
+        getOrderSize();
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (!NetUtil.isNetworkConnected(getContext())) {
-            Toast.makeText(getContext(), "请打开网络连接", Toast.LENGTH_SHORT).show();
-        } else {
-            getUserInfo();
-            getAlsoLike();
-            getOrderSize();
-        }
+
     }
 
     private void getOrderSize() {
@@ -349,53 +362,24 @@ public class MineFragment
         UserResponseBean userResponseBean = GsonUtils.fromJson(result, UserResponseBean.class);
         UserResponseBean.DataBean data = userResponseBean.getData();
         level = data.getLevel() + "";
+        SharePerferenceUtils.setUserLevel(getContext(),level);
         fgMineTvName.setText(data.getNick_name());
         fgMineTvTel.setText(data.getMobile());
+        SharePerferenceUtils.setUserMobile(getContext(),data.getMobile());
         fgMineTvWord.setText(data.getSignature() == null ? "这个人很懒，什么也没有留下" : data.getSignature());
         fgMineTvGourdCoin.setText(String.valueOf(data.getGourd_coin()));
         fgMineTvCouponNum.setText(String.valueOf(data.getCoupon_num()));
         fgMineTvCollectionNum.setText(String.valueOf(data.getCollection_num()));
         balance = data.getBalance();
+        SharePerferenceUtils.setBalance(getContext(),balance);
         Glide.with(getContext())
                 .load(Uri.parse(data.getHead_img()))
                 .into(fgMineIvHeadPic);
+        SharePerferenceUtils.setHeadPic(getContext(),data.getHead_img());
+        SharePerferenceUtils.setNickName(getContext(),data.getNick_name());
+        SharePerferenceUtils.setReputation(getContext(),data.getReputation());
         SharePerferenceUtils.putString(getContext(), "level", String.valueOf(data.getLevel()));
-
-        switch (data.getLevel()) {
-            case 0:
-                fgMineIvLevelimg.setImageResource(R.drawable.level0);
-                break;
-            case 1:
-                fgMineIvLevelimg.setImageResource(R.drawable.level1);
-                break;
-            case 2:
-                fgMineIvLevelimg.setImageResource(R.drawable.level2);
-                break;
-            case 3:
-                fgMineIvLevelimg.setImageResource(R.drawable.level3);
-                break;
-            case 4:
-                fgMineIvLevelimg.setImageResource(R.drawable.level4);
-                break;
-            case 5:
-                fgMineIvLevelimg.setImageResource(R.drawable.level5);
-                break;
-            case 6:
-                fgMineIvLevelimg.setImageResource(R.drawable.level6);
-                break;
-            case 7:
-                fgMineIvLevelimg.setImageResource(R.drawable.level7);
-                break;
-            case 8:
-                fgMineIvLevelimg.setImageResource(R.drawable.level8);
-                break;
-            case 9:
-                fgMineIvLevelimg.setImageResource(R.drawable.level9);
-                break;
-            case 10:
-                fgMineIvLevelimg.setImageResource(R.drawable.level10);
-                break;
-        }
+        MyCustomUtils.showLevelImg(data.getLevel(),fgMineIvLevelimg);
     }
 
 
@@ -482,7 +466,7 @@ public class MineFragment
                 break;
             case R.id.fg_mine_ll_my_wallet:
                 Intent intent = new Intent(getContext(), MyWalletActivity.class);
-                intent.putExtra("balance", balance);
+                //intent.putExtra("balance", balance);
                 startActivity(intent);
                 break;
             case R.id.fg_mine_ll_my_store:
@@ -508,7 +492,13 @@ public class MineFragment
                 startActivity(new Intent(getActivity(), HelpActivity.class));
                 break;
             case R.id.fg_mine_ll_my_supply:
-                startActivity(new Intent(getContext(), MySupplyActivity.class));
+                if(level.equals("0")){
+                    Toast toast = Toast.makeText(getContext(), "成为农品街代言人，才可使用供求操作", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }else{
+                    startActivity(new Intent(getContext(), MySupplyActivity.class));
+                }
                 break;
             case R.id.fg_mine_ll_my_offlinestore:
                 if (level.equals("0")) {

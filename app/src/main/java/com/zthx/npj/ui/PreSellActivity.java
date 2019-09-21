@@ -23,12 +23,14 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.PreSellAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BannerResponseBean;
+import com.zthx.npj.net.been.PreSellDetailResponseBean;
 import com.zthx.npj.net.been.PreSellResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.PreSellSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
@@ -61,6 +63,8 @@ public class PreSellActivity extends ActivityBase {
 
     private boolean isIng = true;
     private String type="0";
+
+    private String user_id=SharePerferenceUtils.getUserId(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,15 +125,36 @@ public class PreSellActivity extends ActivityBase {
 
     private void setView(final ArrayList<PreSellResponseBean.DataBean> data, LinearLayoutManager ll, RecyclerView rv) {
         rv.setLayoutManager(ll);
-        PreSellAdapter adapter = new PreSellAdapter(PreSellActivity.this, data);
+        PreSellAdapter adapter = new PreSellAdapter(PreSellActivity.this, data,type);
         adapter.setOnItemClickListener(new PreSellAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent(PreSellActivity.this, GoodsDetailActivity.class);
                 intent.setAction(Const.PRESELL);
+                intent.putExtra("pre_type",type);
                 intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
                 startActivity(intent);
+            }
 
+            @Override
+            public void onPreClick(int position) {
+                PreSellSubscribe.getPreSellDetail(data.get(position).getId()+"",user_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        PreSellDetailResponseBean preSellDetailResponseBean = GsonUtils.fromJson(result, PreSellDetailResponseBean.class);
+                        PreSellDetailResponseBean.DataBean data = preSellDetailResponseBean.getData();
+                        Intent intent = new Intent(PreSellActivity.this, ConfirmOrderActivity.class);
+                        intent.putExtra(Const.ATTRIBUTE_ID, data.getAttribute_value().get(0).getId()+"");
+                        intent.setAction(Const.PRESELL);
+                        intent.putExtra(Const.GOODS_ID, data.getId()+"");
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
             }
         });
         rv.setItemAnimator(new DefaultItemAnimator());

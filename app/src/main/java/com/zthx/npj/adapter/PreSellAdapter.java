@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,18 +22,20 @@ import java.util.List;
 public class PreSellAdapter extends RecyclerView.Adapter<PreSellAdapter.ViewHolder> {
     private Context mContext;
     private ArrayList<PreSellResponseBean.DataBean> mList;
+    private String mType;
     private ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
         void onItemClick(int position) ;
+        void onPreClick(int position);
     }
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
-
     }
 
-    public PreSellAdapter(Context context,ArrayList<PreSellResponseBean.DataBean> list) {
+    public PreSellAdapter(Context context,ArrayList<PreSellResponseBean.DataBean> list,String type) {
         mContext = context;
         mList = list;
+        mType=type;
     }
     @NonNull
     @Override
@@ -53,6 +56,20 @@ public class PreSellAdapter extends RecyclerView.Adapter<PreSellAdapter.ViewHold
                     mItemClickListener.onItemClick(position);
                 }
             });
+            viewHolder.itemPre.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onPreClick(position);
+                }
+            });
+        }
+        if(!mType.equals("0")){
+            viewHolder.itemPre.setVisibility(View.GONE);
+            viewHolder.itemOver.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.itemPre.setVisibility(View.VISIBLE);
+            viewHolder.itemOver.setVisibility(View.GONE);
         }
         Glide.with(mContext).load(mList.get(i).getGoods_img()).into(viewHolder.mIvGoods);
         viewHolder.mTvTitle.setText(mList.get(i).getGoods_name());
@@ -76,6 +93,7 @@ public class PreSellAdapter extends RecyclerView.Adapter<PreSellAdapter.ViewHold
         TextView mTvYuShou;
         TextView mTvDaCheng;
         ProgressBar mPb;
+        Button itemPre,itemOver;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -86,6 +104,8 @@ public class PreSellAdapter extends RecyclerView.Adapter<PreSellAdapter.ViewHold
             mTvYuShou = itemView.findViewById(R.id.item_pre_sell_tv_yushou);
             mTvDaCheng = itemView.findViewById(R.id.item_pre_sell_tv_dacheng);
             mPb = itemView.findViewById(R.id.at_pre_sell_pb);
+            itemPre=itemView.findViewById(R.id.item_presell_btn_pre);
+            itemOver=itemView.findViewById(R.id.item_presell_btn_over);
         }
     }
 }

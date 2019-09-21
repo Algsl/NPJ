@@ -53,14 +53,7 @@ public class SYWithDrawActivity extends ActivityBase {
 
     String user_id = SharePerferenceUtils.getUserId(this);
     String token = SharePerferenceUtils.getToken(this);
-    @BindView(R.id.ac_withdraw_iv_cardImg)
-    ImageView acWithdrawIvCardImg;
-    @BindView(R.id.ac_withdraw_tv_cardType)
-    TextView acWithdrawTvCardType;
-    @BindView(R.id.ac_withdraw_tv_cardNum)
-    TextView acWithdrawTvCardNum;
-    @BindView(R.id.ac_withdraw_rl_card)
-    RelativeLayout acWithdrawRlCard;
+
     private int position = 0;
 
     @Override

@@ -74,11 +74,24 @@ public class BankCardActivity extends ActivityBase {
 
     private void setMyBankCard(String result) {
         BankCardResponseBean bean = GsonUtils.fromJson(result, BankCardResponseBean.class);
-        ArrayList<BankCardResponseBean.DataBean> data = bean.getData();
+        final ArrayList<BankCardResponseBean.DataBean> data = bean.getData();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acBankCardRlvAllCard.setLayoutManager(layoutManager);
         BankCardAdapter adapter = new BankCardAdapter(this, data);
         acBankCardRlvAllCard.setItemAnimator(new DefaultItemAnimator());
         acBankCardRlvAllCard.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new BankCardAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent=new Intent();
+                intent.putExtra("card_id",data.get(position).getId());
+                intent.putExtra("bank_logo",data.get(position).getBank_logo());
+                intent.putExtra("bank_name",data.get(position).getBank_name());
+                intent.putExtra("card_number",data.get(position).getCard_number());
+                setResult(1,intent);
+                finish();
+            }
+        });
     }
 }

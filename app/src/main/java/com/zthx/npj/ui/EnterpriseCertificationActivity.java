@@ -64,7 +64,6 @@ public class EnterpriseCertificationActivity extends ActivityBase {
     }
 
     private void isPersonCert() {
-
         CertSubscribe.isPersonCertDone(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {

@@ -72,6 +72,7 @@ public class ShoppingCart1Fragment extends Fragment {
     private ShoppingCar1Adapter shoppingCarAdapter;
     private String user_id = SharePerferenceUtils.getUserId(getContext());
     private String token = SharePerferenceUtils.getToken(getContext());
+    private TextView acMainTvShoppingCart;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +84,7 @@ public class ShoppingCart1Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shoppingcart, container, false);
         unbinder = ButterKnife.bind(this, view);
+        acMainTvShoppingCart=getActivity().findViewById(R.id.ac_main_tv_shoppingCart);
         initExpandableListView();
         initData();
         return view;
@@ -96,6 +98,7 @@ public class ShoppingCart1Fragment extends Fragment {
         }else{
             getCartList();
         }
+        getShoppingCartSize();
     }
 
     private void getCartList() {
@@ -275,6 +278,7 @@ public class ShoppingCart1Fragment extends Fragment {
                 public void onSuccess(String result) {
                     getCartList();
                     initExpandableListView();
+                    getShoppingCartSize();
                 }
 
                 @Override
@@ -317,5 +321,30 @@ public class ShoppingCart1Fragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+
+    private void getShoppingCartSize() {
+        SetSubscribe.cartList(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                CartListResponseBean bean = GsonUtils.fromJson(result, CartListResponseBean.class);
+                ArrayList<ArrayList<CartListResponseBean.DataBean>> data = bean.getData();
+                if (data == null || data.size() == 0) {
+                    acMainTvShoppingCart.setVisibility(View.GONE);
+                } else {
+                    int shoppingCartSize=0;
+                    for(int i=0;i<data.size();i++){
+                        shoppingCartSize+=data.get(i).size();
+                    }
+                    acMainTvShoppingCart.setText(shoppingCartSize+"");
+                }
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 }

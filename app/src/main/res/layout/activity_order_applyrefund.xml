@@ -82,7 +82,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="申请类型"
+            android:text="货物状态"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_12"
             android:textColor="@color/text3"
@@ -186,7 +186,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_75"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

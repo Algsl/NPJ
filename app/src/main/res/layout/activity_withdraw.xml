@@ -34,7 +34,7 @@
         android:background="@color/background"/>
     <RelativeLayout
         android:id="@+id/ac_withdraw_rl_card"
-       android:layout_width="match_parent"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/dp_60"
         android:orientation="horizontal">
         <ImageView
@@ -42,7 +42,6 @@
             android:layout_width="@dimen/dp_30"
             android:layout_height="@dimen/dp_30"
             android:layout_marginLeft="@dimen/dp_12"
-            android:src="@drawable/jianshe"
             android:layout_centerVertical="true"/>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -64,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/sp_12"
                 android:textColor="@color/text6"
-                android:text="尾号8888 储蓄卡"/>
+                android:text="尾号8888    储蓄卡"/>
         </LinearLayout>
         <ImageView
             android:layout_width="@dimen/dp_28"
@@ -105,8 +104,10 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:background="@null"
+            android:inputType="number"
             android:hint="提现金额最少10元，单笔限额5万元"
-            android:textSize="@dimen/sp_12"
+            android:textSize="@dimen/sp_25"
+            android:textStyle="bold"
             android:textColor="@color/text9"/>
     </LinearLayout>
     <View

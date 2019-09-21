@@ -152,7 +152,8 @@ public class SplashActivity extends ActivityBase{
     }
 
     private void initLocation() {
-        BaseApp.getApp().locationService.registerListener(mListener);
+        Log.e("测试", "initLocation: 执行" );
+        BaseApp.getApp().locationService.registerListener(BaseApp.getListener());
         BaseApp.getApp().locationService.setLocationOption(BaseApp.getApp().locationService.getDefaultLocationClientOption());
         BaseApp.getApp().locationService.start();
         openActivity(Splash2Activity.class);
@@ -182,27 +183,22 @@ public class SplashActivity extends ActivityBase{
      * 定位结果回调，重写onReceiveLocation方法
      *
      */
-    private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
+    /*private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
             // TODO Auto-generated method stub
+            Log.e("测试", "onReceiveLocation: ");
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                 //获取信息后的操作
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
                 SharePerferenceUtils.setLat(SplashActivity.this, latitude+"");
                 SharePerferenceUtils.setLng(SplashActivity.this,longitude+"");
+                Log.e("测试", "onReceiveLocation: "+latitude+" "+longitude );
             }
         }
-    };
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        BaseApp.getApp().locationService.unregisterListener(mListener);
-        BaseApp.getApp().locationService.stop();
-    }
+    };*/
 
     private boolean checkGPSIsOpen() {
         boolean isOpen;
@@ -244,6 +240,7 @@ public class SplashActivity extends ActivityBase{
                     .show();
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

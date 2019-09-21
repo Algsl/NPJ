@@ -1,9 +1,7 @@
 package com.zthx.npj.ui;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,12 +9,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
-import android.support.v4.content.PermissionChecker;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -26,29 +21,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
-import com.zthx.npj.base.BaseConstant;
 import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.UpLoadPicResponseBean;
 import com.zthx.npj.net.been.UploadCompanyBean;
 import com.zthx.npj.net.netsubscribe.CertSubscribe;
-import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,6 +70,8 @@ public class EnterpriseCertification2Activity extends ActivityBase {
     TextView acTitle;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
+    @BindView(R.id.at_enterprise_certification2_tv_personMobile)
+    TextView atEnterpriseCertification2TvPersonMobile;
 
     private String path1;
     private String path2;
@@ -92,7 +81,7 @@ public class EnterpriseCertification2Activity extends ActivityBase {
     private int index;
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
-    private String cert_id="";
+    private String cert_id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,15 +89,18 @@ public class EnterpriseCertification2Activity extends ActivityBase {
         setContentView(R.layout.activity_enterprise_certification2);
         ButterKnife.bind(this);
         back(titleBack);
-        changeTitle(acTitle,"企业认证");
+        changeTitle(acTitle, "企业认证");
 
-        if(getIntent().getStringExtra("key0")!=null){
-            cert_id=getIntent().getStringExtra("key0");
+        if (getIntent().getStringExtra("key0") != null) {
+            cert_id = getIntent().getStringExtra("key0");
         }
+        Log.e("测试", "onCreate: "+SharePerferenceUtils.getUserName(this) );
+        atEnterpriseCertification2TvPersonname.setText(SharePerferenceUtils.getUserName(this));
+        atEnterpriseCertification2TvPersonMobile.setText(SharePerferenceUtils.getUserMobile(this));
     }
 
     @OnClick({R.id.at_enterprise_certification2_ll_company_pic, R.id.at_enterprise_certification2_ll_shouquan,
-            R.id.at_enterprise_certification2_btn_confirm,R.id.at_enterprise_certification2_et_type})
+            R.id.at_enterprise_certification2_btn_confirm, R.id.at_enterprise_certification2_et_type})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_enterprise_certification2_ll_company_pic:
@@ -118,33 +110,45 @@ public class EnterpriseCertification2Activity extends ActivityBase {
                 showBottomDialog(atEnterpriseCertification2LlShouquan);
                 break;
             case R.id.at_enterprise_certification2_btn_confirm:
-                HttpUtils.uploadImg(URLConstant.REQUEST_URL, path1, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
+                if(atEnterpriseCertification2EtName.getText().toString().trim().equals("")){
+                    showToast("请填写企业全称");
+                }else if(atEnterpriseCertification2EtDes.getText().toString().trim().equals("")){
+                    showToast("请填写企业简介");
+                }else if(atEnterpriseCertification2EtType.getText().toString().trim().equals("请选择企业类型")){
+                    showToast("请选择企业类型");
+                }else if(path1==null){
+                    showToast("请上传营业执照");
+                }else if(path2==null ){
+                    showToast("请上传授权书");
+                }else{
+                    HttpUtils.uploadImg(URLConstant.REQUEST_URL, path1, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        UpLoadPicResponseBean bean=GsonUtils.fromJson(response.body().string(),UpLoadPicResponseBean.class);
-                        UpLoadPicResponseBean.DataBean data=bean.getData();
-                        img1=data.getSrc();
-                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, path2, new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            UpLoadPicResponseBean bean = GsonUtils.fromJson(response.body().string(), UpLoadPicResponseBean.class);
+                            UpLoadPicResponseBean.DataBean data = bean.getData();
+                            img1 = data.getSrc();
+                            HttpUtils.uploadImg(URLConstant.REQUEST_URL, path2, new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
 
-                            }
+                                }
 
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                UpLoadPicResponseBean bean=GsonUtils.fromJson(response.body().string(),UpLoadPicResponseBean.class);
-                                UpLoadPicResponseBean.DataBean data=bean.getData();
-                                img2=data.getSrc();
-                                uploadData();
-                            }
-                        });
-                    }
-                });
+                                @Override
+                                public void onResponse(Call call, Response response) throws IOException {
+                                    UpLoadPicResponseBean bean = GsonUtils.fromJson(response.body().string(), UpLoadPicResponseBean.class);
+                                    UpLoadPicResponseBean.DataBean data = bean.getData();
+                                    img2 = data.getSrc();
+                                    uploadData();
+                                }
+                            });
+                        }
+                    });
+                }
                 break;
             case R.id.at_enterprise_certification2_et_type:
                 showBottomDialog();
@@ -161,9 +165,9 @@ public class EnterpriseCertification2Activity extends ActivityBase {
         bean.setCompany_type(atEnterpriseCertification2EtType.getText().toString());
         bean.setBusiness_license(img1);
         bean.setAuthorization(img2);
-        if(!cert_id.equals("")){
+        if (!cert_id.equals("")) {
             bean.setCert_id(cert_id);
-            CertSubscribe.upLoadCompanyCert4(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            CertSubscribe.upLoadCompanyCert4(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
                     startActivity(new Intent(EnterpriseCertification2Activity.this, ConfirmAttestationSuccessActivity.class));
@@ -174,8 +178,8 @@ public class EnterpriseCertification2Activity extends ActivityBase {
 
                 }
             }));
-        }else{
-            CertSubscribe.upLoadCompanyCert(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        } else {
+            CertSubscribe.upLoadCompanyCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
                     startActivity(new Intent(EnterpriseCertification2Activity.this, ConfirmAttestationSuccessActivity.class));
@@ -315,10 +319,10 @@ public class EnterpriseCertification2Activity extends ActivityBase {
                 if (resultCode == RESULT_OK) {
                     try {
                         Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-                        if(index==0){
+                        if (index == 0) {
                             atEnterpriseCertification2LlCompanyPic.setBackground(new BitmapDrawable(bitmap));
                             path1 = getExternalCacheDir() + "/output_image.jpg";
-                        }else{
+                        } else {
                             atEnterpriseCertification2LlShouquan.setBackground(new BitmapDrawable(bitmap));
                             path2 = getExternalCacheDir() + "/output_image.jpg";
                         }
@@ -334,13 +338,13 @@ public class EnterpriseCertification2Activity extends ActivityBase {
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
                         Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
                         cursor.moveToFirst();
-                        if(index==0){
+                        if (index == 0) {
                             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                             path1 = cursor.getString(columnIndex);  //获取照片路径
                             cursor.close();
                             Bitmap bitmap = BitmapFactory.decodeFile(path1);
                             atEnterpriseCertification2LlCompanyPic.setBackground(new BitmapDrawable(bitmap));
-                        }else{
+                        } else {
                             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                             path2 = cursor.getString(columnIndex);  //获取照片路径
                             cursor.close();

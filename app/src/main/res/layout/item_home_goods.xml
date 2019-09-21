@@ -88,7 +88,7 @@
             android:adjustViewBounds="true"
             android:src="@mipmap/ic_launcher"
             app:riv_oval="true"
-            app:riv_border_color="@color/app_theme"
+            app:riv_border_color="@color/white"
             app:riv_border_width="@dimen/dp_1"/>
     </RelativeLayout>
 </LinearLayout>

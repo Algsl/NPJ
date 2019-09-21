@@ -65,9 +65,12 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GetJsonDataUtil;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -171,7 +174,6 @@ public class SupplyMessageActivity extends ActivityBase {
     AddSupplyBean supplyBean = new AddSupplyBean();
     private String address = URLConstant.REQUEST_URL1;
     private boolean isZhiding;
-    private boolean isUnit;
     private String isTop = "0";
 
     private String RSA_PRIVATE = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
@@ -416,30 +418,11 @@ public class SupplyMessageActivity extends ActivityBase {
                 showPublishPopwindow();
                 break;
             case R.id.at_supply_message_tv_unit:
-                unitToggle();
+                MyCustomUtils.showUnitPickerView(this,atSupplyMessageTvUnit,atSupplyMessageTvUnit1,atSupplyMessageTvDanwei);
                 break;
             case R.id.at_qg_message_tv_unit:
-                unitToggle();
+                MyCustomUtils.showUnitPickerView(this,atQgMessageTvUnit,null,atSupplyMessageTvNeedDanwei);
                 break;
-        }
-    }
-
-    private void unitToggle() {
-        isUnit=!isUnit;
-        if(isUnit){
-            atSupplyMessageTvUnit.setText("斤");
-            atSupplyMessageTvUnit1.setText("斤");
-            atSupplyMessageTvDanwei.setText("元/斤");
-
-            atQgMessageTvUnit.setText("斤");
-            atSupplyMessageTvNeedDanwei.setText("元/斤");
-        }else{
-            atSupplyMessageTvUnit.setText("吨");
-            atSupplyMessageTvUnit1.setText("吨");
-            atSupplyMessageTvDanwei.setText("元/吨");
-
-            atQgMessageTvUnit.setText("吨");
-            atSupplyMessageTvNeedDanwei.setText("元/吨");
         }
     }
 
@@ -838,7 +821,21 @@ public class SupplyMessageActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                JSONObject obj = null;
+                try {
+                    obj = new JSONObject(errorMsg);
+                    Log.e("测试", "onFault: " + obj);
+                    int code = obj.getInt("code");
+                    if (code == 2) {
+                        showToast("余额支付成功");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e("测试", "onFault: " + (obj == null));
+                if (obj == null) {
+                    showToast("余额不足");
+                }
             }
         }));
     }

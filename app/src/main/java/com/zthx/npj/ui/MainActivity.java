@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zthx.npj.R;
+import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.net.been.CartListResponseBean;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
@@ -139,6 +140,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getShoppingCartSize();
+
+        if(!SharePerferenceUtils.getLat(this).equals("")){
+            BaseApp.getApp().locationService.unregisterListener(BaseApp.getListener());
+            BaseApp.getApp().locationService.stop();
+        }
     }
 
     private void getShoppingCartSize() {

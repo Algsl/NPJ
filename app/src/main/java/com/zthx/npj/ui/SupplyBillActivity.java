@@ -40,6 +40,9 @@ import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.MyCircleView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Map;
 
 import butterknife.BindView;
@@ -134,6 +137,10 @@ public class SupplyBillActivity extends ActivityBase {
     public static IWXAPI api;
     private static final int SDK_PAY_FLAG = 1001;
 
+    private String goodsImg;
+    private String goodsName;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -192,7 +199,11 @@ public class SupplyBillActivity extends ActivityBase {
                 startActivityForResult(intent, 0);
                 break;
             case R.id.at_supply_bill_btn_buy:
-                buySupply();
+                if(shipping_fee.equals("")){
+                    showToast("请填写运费");
+                }else{
+                    buySupply();
+                }
                 break;
             case R.id.ac_supplyBill_iv_choose3:
                 pay_code = "3";
@@ -270,7 +281,23 @@ public class SupplyBillActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                JSONObject obj = null;
+                try {
+                    obj = new JSONObject(errorMsg);
+                    Log.e("测试", "onFault: " + obj);
+
+                    int code = obj.getInt("code");
+                    if (code == 2) {
+                        openActivity(OrderFinishActivity.class, goodsImg, goodsName, Double.parseDouble(allPrice+"")+Double.parseDouble(shipping_fee)+"");
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e("测试", "onFault: " + (obj == null));
+                if (obj == null) {
+                    showToast("余额不足");
+                }
             }
         }));
     }

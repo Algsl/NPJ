@@ -454,6 +454,17 @@
                         android:layout_marginLeft="@dimen/dp_10"/>
                     <TextView
                         android:id="@+id/ac_supply_tv_realName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#2FA22F"
+                        android:text="实名认证"
+                        android:textSize="@dimen/sp_11"
+                        android:textColor="@android:color/white"
+                        android:paddingLeft="@dimen/dp_6"
+                        android:paddingRight="@dimen/dp_6"
+                        android:layout_marginLeft="@dimen/dp_10"/>
+                    <TextView
+                        android:id="@+id/ac_supply_tv_storeQuality"
                         android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -465,6 +476,8 @@
                         android:paddingRight="@dimen/dp_6"
                         android:layout_marginLeft="@dimen/dp_10"/>
                     <TextView
+                        android:visibility="gone"
+                        android:id="@+id/ac_supply_tv_soldOver"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#38BDB5"

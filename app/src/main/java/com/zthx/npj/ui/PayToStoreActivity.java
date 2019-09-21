@@ -40,6 +40,9 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Map;
 
 import butterknife.BindView;
@@ -112,6 +115,9 @@ public class PayToStoreActivity extends ActivityBase {
     private static final int SDK_PAY_FLAG = 1001;
     private String payMoney = "";
 
+    private String goodsImg;
+    private String goodsName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,8 +154,12 @@ public class PayToStoreActivity extends ActivityBase {
     }
 
     private void setStoreDetail(String result) {
+
         StoreDetailResponseBean bean = GsonUtils.fromJson(result, StoreDetailResponseBean.class);
         //Glide.with(this).load(Uri.parse(bean.getData().getStore_img().get(0))).into(atPayToStoreIvPic);
+        goodsImg=bean.getData().getStore_img().get(0);
+        goodsName=bean.getData().getStore_name();
+
         Glide.with(this).load(Uri.parse(bean.getData().getStore_img().get(0))).into(atPayToStoreIvPic);
         acPayToStoreTvStoreName.setText(bean.getData().getStore_name());
         offer=bean.getData().getOffer();
@@ -272,7 +282,25 @@ public class PayToStoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                JSONObject obj = null;
+                try {
+                    obj = new JSONObject(errorMsg);
+                    Log.e("测试", "onFault: " + obj);
+                    if (obj == null) {
+
+                    } else {
+                        int code = obj.getInt("code");
+                        if (code == 2) {
+                            openActivity(OrderFinishActivity.class, goodsImg, goodsName, payMoney);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e("测试", "onFault: " + (obj == null));
+                if (obj == null) {
+                    showToast("余额不足");
+                }
             }
         }));
     }

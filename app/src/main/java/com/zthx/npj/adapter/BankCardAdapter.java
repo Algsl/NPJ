@@ -1,6 +1,7 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.BankCardResponseBean;
 
@@ -54,28 +56,8 @@ public class BankCardAdapter extends RecyclerView.Adapter<BankCardAdapter.ViewHo
             });
         }
         if(mList.size()>0){
-            switch (mList.get(i).getId()+""){
-                case "1":
-                    viewHolder.cardBg.setBackgroundResource(R.drawable.nongyebg);
-                    viewHolder.cardIcon.setImageResource(R.drawable.nongye);
-                    break;
-                case "2":
-                    viewHolder.cardBg.setBackgroundResource(R.drawable.gongshangbg);
-                    viewHolder.cardIcon.setImageResource(R.drawable.gongshang);
-                    break;
-                case "3":
-                    viewHolder.cardBg.setBackgroundResource(R.drawable.zhongguobg);
-                    viewHolder.cardIcon.setImageResource(R.drawable.zhongguo);
-                    break;
-                case "4":
-                    viewHolder.cardBg.setBackgroundResource(R.drawable.jianshebg);
-                    viewHolder.cardIcon.setImageResource(R.drawable.jianshe);
-                    break;
-                case "5":
-                    viewHolder.cardBg.setBackgroundResource(R.drawable.jiaotongbg);
-                    viewHolder.cardIcon.setImageResource(R.drawable.jiaotong);
-                    break;
-            }
+            Glide.with(mContext).load(Uri.parse(mList.get(i).getBank_bg())).into(viewHolder.cardBg);
+            Glide.with(mContext).load(Uri.parse(mList.get(i).getBank_logo())).into(viewHolder.cardIcon);
             viewHolder.bankName.setText(mList.get(i).getBank_name());
             viewHolder.cardNum.setText(mList.get(i).getCard_number());
         }
@@ -88,7 +70,7 @@ public class BankCardAdapter extends RecyclerView.Adapter<BankCardAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView cardIcon;
-        private LinearLayout cardBg;
+        private ImageView cardBg;
         private TextView bankName,cardNum;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

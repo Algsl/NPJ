@@ -19,6 +19,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.utils.ImageCircleConner;
 import com.zthx.npj.utils.QRCodeUtil;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,18 +60,28 @@ public class StoreManagerQRCodeActivity extends ActivityBase {
         changeTitle(titleThemeTitle, "我的收款码");
         changeRightText(titleThemeTvRight, "账单", StoreManagerBillActivity.class, null);
 
-        String img=getIntent().getStringExtra("img");
-        final String store_id=getIntent().getStringExtra("store_id");
-        String offer=getIntent().getStringExtra("offer");
-        Glide.with(this).load(Uri.parse(img)).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                acStoreManagerIvQRCode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?page=payStore&id="+store_id,(int)getResources().getDimension(R.dimen.dp_220),
-                        ImageCircleConner.toRoundCorner(resource,220),0.3f));
-            }
-        });
-        acStoreManagerPb.setProgress((int)Double.parseDouble(offer));
-        acStoreManagerTvHint.setText("优惠比率" + offer + "%，用户支付时葫芦币抵扣" + offer + "%消费金额");
+        //String img=getIntent().getStringExtra("img");
+        if(getIntent()!=null){
+            final String store_id=getIntent().getStringExtra("store_id");
+            String offer=getIntent().getStringExtra("offer");
+            acStoreManagerPb.setProgress((int)Double.parseDouble(offer));
+            acStoreManagerTvHint.setText("优惠比率" + offer + "%，用户支付时葫芦币抵扣" + offer + "%消费金额");
+            Glide.with(this).load(Uri.parse(SharePerferenceUtils.getHeadPic(this))).asBitmap().into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    acStoreManagerIvQRCode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?page=payStore&id="+store_id,(int)getResources().getDimension(R.dimen.dp_220),
+                            ImageCircleConner.toRoundCorner(resource,220),0.3f));
+                }
+            });
+        }else{
+            Glide.with(this).load(Uri.parse(SharePerferenceUtils.getHeadPic(this))).asBitmap().into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    acStoreManagerIvQRCode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?page=payStore&id="+null,(int)getResources().getDimension(R.dimen.dp_220),
+                            ImageCircleConner.toRoundCorner(resource,220),0.3f));
+                }
+            });
+        }
     }
 
     @OnClick({R.id.ac_storeManager_iv_min, R.id.ac_storeManager_iv_add, R.id.ac_storeManager_save})

@@ -2,6 +2,7 @@ package com.zthx.npj.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -71,7 +72,7 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
         if (url.substring(url.length() - 4).equals(".mp4")) {
             viewHolder.mIvPic.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
         } else {
-            Glide.with(mContext).load(list.get(i).getGoods_img()).into(viewHolder.mIvPic);
+            Glide.with(mContext).load(Uri.parse(url)).into(viewHolder.mIvPic);
         }
         viewHolder.mTvPrice.setText(list.get(i).getPrice());
         if(Integer.valueOf(list.get(i).getDistance())>1000){
@@ -90,6 +91,7 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
             for(String str:strs){
                 if(str.equals("1")){
                     viewHolder.realName.setVisibility(View.VISIBLE);
+                    viewHolder.storeQuality.setVisibility(View.VISIBLE);
                 }else if(str.equals("2")){
                     viewHolder.company.setVisibility(View.VISIBLE);
                 }
@@ -111,7 +113,7 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
         TextView mTvSupplyUnit;
         TextView mTvSellNum;
         TextView mTvDistance;
-        TextView company,realName;
+        TextView company,realName,storeQuality;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -124,6 +126,7 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
             mRlNeed = itemView.findViewById(R.id.item_discover_need_rl);
             company=itemView.findViewById(R.id.item_discoverSupply_tv_company);
             realName=itemView.findViewById(R.id.item_discoverSupply_tv_realName);
+            storeQuality=itemView.findViewById(R.id.item_discoverSupply_tv_storeQuality);
         }
     }
 }

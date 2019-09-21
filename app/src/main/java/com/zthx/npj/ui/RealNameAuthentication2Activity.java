@@ -96,6 +96,7 @@ public class RealNameAuthentication2Activity extends ActivityBase {
     private String UrlQuan;
     private String cert_id="";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,11 +127,11 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                     showToast("请填写姓名");
                 }else if(atRealNameAuthentication2EtId.getText().toString().trim().length()!=18){
                     showToast("请正确填写身份证号");
-                }else if(UrlZheng.equals("")){
+                }else if(UrlZheng==null || UrlZheng.equals("") ){
                     showToast("请上传身份证正面照");
-                }else if(UrlFan.equals("")){
+                }else if(UrlFan==null || UrlFan.equals("")){
                     showToast("请上传身份证反面照");
-                }else if(UrlQuan.equals("")){
+                }else if(UrlQuan==null || UrlQuan.equals("")){
                     showToast("请上传手持身份证照");
                 }else{
                     upLoadInformation();
@@ -154,9 +155,9 @@ public class RealNameAuthentication2Activity extends ActivityBase {
             CertSubscribe.upLoadMyCert3(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
+                    SharePerferenceUtils.setUserName(RealNameAuthentication2Activity.this,atRealNameAuthentication2EtName.getText().toString().trim());
                     startActivity(new Intent(RealNameAuthentication2Activity.this, ConfirmAttestationSuccessActivity.class));
                 }
-
                 @Override
                 public void onFault(String errorMsg) {
                     showToast(errorMsg);
@@ -166,6 +167,7 @@ public class RealNameAuthentication2Activity extends ActivityBase {
             CertSubscribe.upLoadMyCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
+                    SharePerferenceUtils.setUserName(RealNameAuthentication2Activity.this,atRealNameAuthentication2EtName.getText().toString().trim());
                     startActivity(new Intent(RealNameAuthentication2Activity.this, ConfirmAttestationSuccessActivity.class));
                 }
 

@@ -102,6 +102,7 @@
                        android:layout_height="match_parent"
                        android:background="@android:color/white"
                        android:hint="12345675214"
+                       android:inputType="phone"
                        android:textColorHint="@color/text6"
                        android:textSize="@dimen/sp_12"
                        android:textColor="@color/text6"
@@ -425,6 +426,7 @@
                    android:id="@+id/at_purchaser_certification2_rl_pic"
                    android:layout_width="@dimen/dp_140"
                    android:layout_height="@dimen/dp_160"
+                   android:background="@color/white"
                    android:layout_marginTop="@dimen/dp_12">
                    <TextView
                        android:layout_width="wrap_content"
@@ -435,7 +437,7 @@
                        android:layout_centerInParent="true"/>
                    <LinearLayout
                        android:layout_width="match_parent"
-                       android:layout_height="@dimen/dp_25"
+                       android:layout_height="wrap_content"
                        android:layout_alignParentBottom="true"
                        android:background="@android:color/black"
                        android:alpha="0.4"

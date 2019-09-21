@@ -35,6 +35,9 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Map;
 
 import butterknife.BindView;
@@ -75,7 +78,7 @@ public class TrustedStore2Activity extends ActivityBase {
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
 
-    private int check;
+    private int check=0;
     private String RSA_PRIVATE = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
             "NEU5up1siPOXKJBU0ypde7oPfm9gyy2ajgcw6v3KF2ryjot5AKlBED6qdQPRa5Sk\n" +
             "jIf8ZE1W+x8CVOvEC2m1lCglpm5zbAw2EGXdE4NNH6D0tcxIHza94RFkVilx1rjc\n" +
@@ -140,7 +143,13 @@ public class TrustedStore2Activity extends ActivityBase {
                 atTrustStore2RbRead.setChecked(true);
                 break;
             case R.id.at_trust_store2_btn_join:
-                showBottomDialog();
+                if(!atTrustStore2RbRead.isChecked()){
+                    showToast("请阅读并同意卖家保障服务协议");
+                }else if(check==0){
+                    showToast("请选择保证金类别");
+                }else{
+                    showBottomDialog();
+                }
                 break;
         }
     }
@@ -242,7 +251,22 @@ public class TrustedStore2Activity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                JSONObject obj = null;
+                try {
+                    obj = new JSONObject(errorMsg);
+                    Log.e("测试", "onFault: " + obj);
+                    int code = obj.getInt("code");
+                    if (code == 2) {
+                        showToast("诚信认证成功");
+                        finish();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e("测试", "onFault: " + (obj == null));
+                if (obj == null) {
+                    showToast("余额不足");
+                }
             }
         }));
     }

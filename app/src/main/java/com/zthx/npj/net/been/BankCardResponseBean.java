@@ -7,6 +7,24 @@ public class BankCardResponseBean extends BaseReponseBean{
         private long id;
         private String card_number;
         private String bank_name;
+        private String bank_logo;
+        private String bank_bg;
+
+        public String getBank_logo() {
+            return bank_logo;
+        }
+
+        public void setBank_logo(String bank_logo) {
+            this.bank_logo = bank_logo;
+        }
+
+        public String getBank_bg() {
+            return bank_bg;
+        }
+
+        public void setBank_bg(String bank_bg) {
+            this.bank_bg = bank_bg;
+        }
 
         public long getId() {
             return id;

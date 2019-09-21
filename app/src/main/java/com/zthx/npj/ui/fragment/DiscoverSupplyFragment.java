@@ -278,14 +278,20 @@ public class DiscoverSupplyFragment extends Fragment {
                 getNeedData(type2);
                 break;
             case R.id.fg_discover_supply_tv_supply:
+                fgDiscoverSupplyRvSearch.setVisibility(View.VISIBLE);
+                fgDiscoverSupplyLl.setVisibility(View.GONE);
                 changeButtonColor(1);
                 getSupplyData(type1);
                 break;
             case R.id.fg_discover_supply_tv_need:
+                fgDiscoverSupplyRvSearch.setVisibility(View.VISIBLE);
+                fgDiscoverSupplyLl.setVisibility(View.GONE);
                 changeButtonColor(2);
                 getNeedData(type2);
                 break;
             case R.id.fg_discover_supply_tv_company:
+                fgDiscoverSupplyRvSearch.setVisibility(View.VISIBLE);
+                fgDiscoverSupplyLl.setVisibility(View.GONE);
                 changeButtonColor(3);
                 break;
 

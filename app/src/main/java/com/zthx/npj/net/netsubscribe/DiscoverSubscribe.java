@@ -13,6 +13,7 @@ import com.zthx.npj.net.been.LookUserBean;
 import com.zthx.npj.net.been.NewsBean;
 import com.zthx.npj.net.been.NewsListBean;
 import com.zthx.npj.net.been.NullBean;
+import com.zthx.npj.net.been.OtherSearchBean;
 import com.zthx.npj.net.been.PayVideoBean;
 import com.zthx.npj.net.been.QiuGouBean;
 import com.zthx.npj.net.been.SearchSolutionBean;
@@ -253,6 +254,18 @@ public class DiscoverSubscribe {
         NewsListBean bean=new NewsListBean();
         bean.setType(type);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().newsList(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 其他类型搜索
+     * @param type
+     * @param subscriber
+     */
+    public static void otherSearch(String type, DisposableObserver<ResponseBody> subscriber) {
+        OtherSearchBean bean=new OtherSearchBean();
+        bean.setTitle(type);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().otherSearch(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 

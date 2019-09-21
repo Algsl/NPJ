@@ -286,6 +286,7 @@
                             android:background="#F39B1F"
                             android:text="企业保证"/>
                         <TextView
+                            android:id="@+id/ac_userMsg_tv_sellOver"
                             android:layout_width="@dimen/dp_55"
                             android:layout_height="@dimen/dp_18"
                             android:layout_marginLeft="@dimen/dp_11"
@@ -335,6 +336,7 @@
                             android:background="#4FA0F1"
                             android:text="七天退换"/>
                         <TextView
+                            android:id="@+id/ac_userMsg_tv_hReputation"
                             android:layout_width="@dimen/dp_55"
                             android:layout_height="@dimen/dp_18"
                             android:layout_marginLeft="@dimen/dp_11"

@@ -119,6 +119,10 @@ public class SupplyProductsActivity extends ActivityBase {
     Banner banner;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.ac_supply_tv_storeQuality)
+    TextView acSupplyTvStoreQuality;
+    @BindView(R.id.ac_supply_tv_soldOver)
+    TextView acSupplyTvSoldOver;
 
 
     private String type;
@@ -156,9 +160,9 @@ public class SupplyProductsActivity extends ActivityBase {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                if(type.equals(Const.SUPPLY_DETAIL)){
+                if (type.equals(Const.SUPPLY_DETAIL)) {
                     getSupplyData(goodsId);
-                }else{
+                } else {
                     getNeedData(goodsId);
                 }
                 refreshlayout.finishRefresh();
@@ -190,17 +194,13 @@ public class SupplyProductsActivity extends ActivityBase {
                     for (String str : strs) {
                         if (str.equals("1")) {
                             acSupplyTvRealName.setVisibility(View.VISIBLE);
+                            acSupplyTvStoreQuality.setVisibility(View.VISIBLE);
                         } else if (str.equals("2")) {
                             acSupplyTvCompany.setVisibility(View.VISIBLE);
                         }
                     }
                 }
-
-                if (needData.getHits() != null) {
-                    atSupplyProductsTvLookNum.setText(needData.getHits() + "人看过");
-                } else {
-                    atSupplyProductsTvLookNum.setText("0人看过");
-                }
+                atSupplyProductsTvLookNum.setText((needData.getHits() == null ? "0" : needData.getHits()) + "人看过");
                 if (needData.getUser_count() >= 0) {
                     atSupplyProductTvBaojia.setText(needData.getUser_count() + "人已报价");
                 } else {
@@ -211,6 +211,7 @@ public class SupplyProductsActivity extends ActivityBase {
                 } else {
                     atSupplyProductsTvXinyufen.setText("信誉分： 0");
                 }
+
 
                 sn_user_id = needData.getUser_id();
 
@@ -264,6 +265,7 @@ public class SupplyProductsActivity extends ActivityBase {
                     for (String str : strs) {
                         if (str.equals("1")) {
                             acSupplyTvRealName.setVisibility(View.VISIBLE);
+                            acSupplyTvStoreQuality.setVisibility(View.VISIBLE);
                         } else if (str.equals("2")) {
                             acSupplyTvCompany.setVisibility(View.VISIBLE);
                         }
@@ -354,11 +356,11 @@ public class SupplyProductsActivity extends ActivityBase {
                 break;
 
             case R.id.at_supply_products_btn_buy_now:
-                if(user_id.equals("")){
-                    CommonDialog dialog=new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                if (user_id.equals("")) {
+                    CommonDialog dialog = new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
-                            if(confirm){
+                            if (confirm) {
                                 startActivity(new Intent(SupplyProductsActivity.this, LoginActivity.class));
                             }
                         }
@@ -366,7 +368,7 @@ public class SupplyProductsActivity extends ActivityBase {
                     dialog.setTitle("提示");
                     dialog.setPositiveButton("去登录");
                     dialog.show();
-                }else{
+                } else {
                     if (type.equals(Const.SUPPLY_DETAIL)) {
                         openActivity(SupplyBillActivity.class, goodsId + "");
                     } else {
@@ -387,7 +389,6 @@ public class SupplyProductsActivity extends ActivityBase {
                 acSupplyTvCommon.setTextColor(getResources().getColor(R.color.text3));
                 if (type.equals(Const.SUPPLY_DETAIL)) {
                     adapter = new GoodsImgDetailAdapter(SupplyProductsActivity.this, supplyData.getContent());
-
                 } else {
                     adapter = new GoodsImgDetailAdapter(SupplyProductsActivity.this, needData.getContent());
                 }

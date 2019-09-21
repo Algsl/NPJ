@@ -18,6 +18,7 @@
         android:layout_marginLeft="@dimen/dp_12"
         android:layout_marginRight="@dimen/dp_12"/>
     <LinearLayout
+        android:id="@+id/dg_payLayout_ll"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
         android:orientation="horizontal">

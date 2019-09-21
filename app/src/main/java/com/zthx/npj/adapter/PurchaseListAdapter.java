@@ -18,6 +18,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.MySupplyListResponseBean;
 import com.zthx.npj.net.been.PurchaseListResponseBean;
+import com.zthx.npj.utils.MyCustomUtils;
 
 import java.util.ArrayList;
 
@@ -92,7 +93,12 @@ public class PurchaseListAdapter extends RecyclerView.Adapter<PurchaseListAdapte
                 }
             });
         }
-        Glide.with(mContext).load(Uri.parse(mList.get(i).getImg())).into(viewHolder.goodsImg);
+        String url = mList.get(i).getImg();
+        if (url.substring(url.length() - 4).equals(".mp4")) {
+            viewHolder.goodsImg.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
+        } else {
+            Glide.with(mContext).load(Uri.parse(url)).into(viewHolder.goodsImg);
+        }
         viewHolder.goodsName.setText(mList.get(i).getTitle());
         viewHolder.amount.setText(mList.get(i).getAmount()+mList.get(i).getUnit());
         if(type.equals("1")){

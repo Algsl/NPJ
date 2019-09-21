@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,23 +18,21 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommentAdapter;
 import com.zthx.npj.net.api.URLConstant;
-import com.zthx.npj.net.been.AttentionResponseBean;
 import com.zthx.npj.net.been.CommentResponseBean;
 import com.zthx.npj.net.been.EditOfflineStoreBean;
 import com.zthx.npj.net.been.MyOfflineStoreResponseBean;
-import com.zthx.npj.net.been.OfflineStoreBean;
 import com.zthx.npj.net.been.UploadPicsResponseBean;
-import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
@@ -43,7 +40,6 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
-import com.zthx.npj.utils.SimpleUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,8 +62,6 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
     EditText acStoreManagerEtStoreName;
     @BindView(R.id.ac_storeManager_et_consumption)
     EditText acStoreManagerEtConsumption;
-    @BindView(R.id.ac_storeManager_tv_businessHours)
-    TextView acStoreManagerTvBusinessHours;
     @BindView(R.id.ac_storeManager_et_contact)
     EditText acStoreManagerEtContact;
     @BindView(R.id.ac_storeManager_tv_address)
@@ -94,18 +88,39 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
     String user_id = SharePerferenceUtils.getUserId(this);
     String token = SharePerferenceUtils.getToken(this);
     MyOfflineStoreResponseBean.DataBean data;
+    @BindView(R.id.ac_storeManager_aBegin)
+    TextView acStoreManagerABegin;
+    @BindView(R.id.ac_storeManager_aEnd)
+    TextView acStoreManagerAEnd;
+    @BindView(R.id.ac_storeManager_pBegin)
+    TextView acStoreManagerPBegin;
+    @BindView(R.id.ac_storeManager_pEnd)
+    TextView acStoreManagerPEnd;
+    @BindView(R.id.ac_storeManager_llEdit)
+    LinearLayout acStoreManagerLlEdit;
+    @BindView(R.id.ac_storeManager_tv_businessHours)
+    TextView acStoreManagerTvBusinessHours;
+    @BindView(R.id.ac_storeManager_llShow)
+    LinearLayout acStoreManagerLlShow;
+    @BindView(R.id.at_location_store_tv_ruzhu1)
+    TextView atLocationStoreTvRuzhu1;
     private List<String> paths = new ArrayList<>();
     private List<String> paths2 = new ArrayList<>();
     private List<String> paths3 = new ArrayList<>();
-    private String is_open="1";
+    private String is_open = "1";
     private static final int CHOOSE_PHOTO = 2;
-    private String store_id="";
-    private String offer="";
+    private String store_id = "";
+    private String offer = "";
+    private List<String> options1Items1 = new ArrayList<>();
+    private List<String> options1Items2 = new ArrayList<>();
 
     @BindView(R.id.title_back)
     ImageView titleBack;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
+
+    private String yingyeTime;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,10 +128,13 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,"商家管理");
+        changeTitle(acTitle, "商家管理");
         atLocationStoreTvRuzhu.setText("管理");
 
         getMyOfflineStore();
+        initList();
+
+        atLocationStoreTvRuzhu1.setVisibility(View.VISIBLE);
 
 
         zzImageBox.setOnlineImageLoader(new ZzImageBox.OnlineImageLoader() {
@@ -173,12 +191,17 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         acStoreManagerEtContact.setText(data.getContact());
         acStoreManagerTvAddress.setText(data.getAddress());
         acStoreManagerEtAddress2.setText(data.getAddress2());
-        acStoreManagerTvOffer.setText(data.getOffer()+"%");
+        acStoreManagerTvOffer.setText(data.getOffer());
         acStoreManagerEtRelife.setText(data.getRelief());
-        offer=data.getOffer();
-        is_open=data.getIs_open();
-        store_id=data.getId()+"";
-        for(int i=0;i<data.getStore_img().size();i++){
+        offer = data.getOffer();
+        is_open = data.getIs_open();
+        if (is_open.equals("0")) {
+            atLocationStoreTvRuzhu1.setText("开启");
+        } else {
+            atLocationStoreTvRuzhu1.setText("关闭");
+        }
+        store_id = data.getId() + "";
+        for (int i = 0; i < data.getStore_img().size(); i++) {
             zzImageBox.addImageOnline(data.getStore_img().get(i));
             paths.add(data.getStore_img().get(i));
         }
@@ -189,35 +212,37 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         return et.getText().toString().trim();
     }
 
-    @OnClick({R.id.ac_storeManager_btn_ruzhu,R.id.at_store_manager_tv_code,R.id.at_location_store_tv_ruzhu,R.id.ac_storeManager_tv_address})
+    @OnClick({R.id.ac_storeManager_btn_ruzhu, R.id.at_store_manager_tv_code, R.id.at_location_store_tv_ruzhu, R.id.ac_storeManager_tv_address,
+            R.id.ac_storeManager_aBegin, R.id.ac_storeManager_aEnd, R.id.ac_storeManager_pBegin, R.id.ac_storeManager_pEnd, R.id.ac_storeManager_tv_businessHours,
+            R.id.at_location_store_tv_ruzhu1})
     public void onViewClicked(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.at_store_manager_tv_code://收款码
-                Intent intent1=new Intent(EditMyOfflineStoreActivity.this,StoreManagerQRCodeActivity.class);
-                intent1.putExtra("img",data.getStore_img().get(0));
-                intent1.putExtra("store_id",store_id);
-                intent1.putExtra("offer",data.getOffer());
-                startActivityForResult(intent1,3);
+                Intent intent1 = new Intent(EditMyOfflineStoreActivity.this, StoreManagerQRCodeActivity.class);
+                intent1.putExtra("img", data.getStore_img().get(0));
+                intent1.putExtra("store_id", store_id);
+                intent1.putExtra("offer", data.getOffer());
+                startActivityForResult(intent1, 3);
                 break;
             case R.id.ac_storeManager_btn_ruzhu:
-                for(String str:paths){
-                    if(str.split("http://app.npj-vip.com").length==1){
+                for (String str : paths) {
+                    if (str.split("http://app.npj-vip.com").length == 1) {
                         paths2.add(str);
-                    }else{//解析全链接
+                    } else {//解析全链接
                         paths3.add(str.split("http://app.npj-vip.com")[1]);
                     }
                 }
-                if (paths2.size()==0){//没有上传新的图片
-                    String paths3Str="";
-                    for(int i=0;i<paths3.size();i++){
-                        if(i==paths3.size()-1){
-                            paths3Str+=paths3.get(i);
-                        }else{
-                            paths3Str+=paths3.get(i)+",";
+                if (paths2.size() == 0) {//没有上传新的图片
+                    String paths3Str = "";
+                    for (int i = 0; i < paths3.size(); i++) {
+                        if (i == paths3.size() - 1) {
+                            paths3Str += paths3.get(i);
+                        } else {
+                            paths3Str += paths3.get(i) + ",";
                         }
                     }
                     offlineStore(paths3Str);
-                }else{//上传了新的图片
+                } else {//上传了新的图片
                     HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths2, new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
@@ -226,35 +251,82 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
 
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
-                            UploadPicsResponseBean bean=GsonUtils.fromJson(response.body().string(),UploadPicsResponseBean.class);
-                            UploadPicsResponseBean.DataBean data=bean.getData();
-                            String paths3Str="";
-                            for(String str:paths3){
-                                paths3Str+=str+",";
+                            UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                            UploadPicsResponseBean.DataBean data = bean.getData();
+                            String paths3Str = "";
+                            for (String str : paths3) {
+                                paths3Str += str + ",";
                             }
-                            offlineStore(paths3Str+data.getImg());
+                            offlineStore(paths3Str + data.getImg());
                         }
                     });
                 }
 
                 break;
             case R.id.at_location_store_tv_ruzhu:
-                showItemPopwindow();
+                openActivity(StoreManagerCenterActivity.class);
+                break;
+            case R.id.at_location_store_tv_ruzhu1:
+                if (is_open.equals("0")) {
+                    MainSubscribe.openStore(user_id, "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            showToast("店铺开启成功");
+                            atLocationStoreTvRuzhu1.setText("关闭");
+                        }
+
+                        @Override
+                        public void onFault(String errorMsg) {
+
+                        }
+                    }));
+                } else {
+                    MainSubscribe.openStore(user_id, "0", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            showToast("店铺关闭成功");
+                            atLocationStoreTvRuzhu1.setText("开启");
+                        }
+
+                        @Override
+                        public void onFault(String errorMsg) {
+
+                        }
+                    }));
+                }
                 break;
             case R.id.ac_storeManager_tv_address:
-                Intent intent=new Intent(this,MapAddressActivity.class);
-                startActivityForResult(intent,1);
+                Intent intent = new Intent(this, MapAddressActivity.class);
+                startActivityForResult(intent, 1);
+                break;
+
+            case R.id.ac_storeManager_aBegin:
+                showCityPicker(acStoreManagerABegin);
+                break;
+            case R.id.ac_storeManager_aEnd:
+                showCityPicker(acStoreManagerAEnd);
+                break;
+            case R.id.ac_storeManager_pBegin:
+                showCityPicker(acStoreManagerPBegin);
+                break;
+            case R.id.ac_storeManager_pEnd:
+                showCityPicker(acStoreManagerPEnd);
+                break;
+            case R.id.ac_storeManager_tv_businessHours:
+                acStoreManagerLlEdit.setVisibility(View.VISIBLE);
+                acStoreManagerLlShow.setVisibility(View.GONE);
                 break;
         }
     }
 
     private void offlineStore(String img) {
+        yingyeTime = acStoreManagerABegin + "-" + acStoreManagerAEnd + " " + acStoreManagerPBegin + "-" + acStoreManagerPEnd;
         EditOfflineStoreBean bean = new EditOfflineStoreBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
         bean.setStore_name(getEtToString(acStoreManagerEtStoreName));
         bean.setConsumption(getEtToString(acStoreManagerEtConsumption));
-        bean.setBusiness_hours("9-12 2-6");
+        bean.setBusiness_hours(yingyeTime);
         bean.setContact(getEtToString(acStoreManagerEtContact));
         bean.setAddress(acStoreManagerTvAddress.getText().toString());
         bean.setAddress2(acStoreManagerEtAddress2.getText().toString());
@@ -279,7 +351,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
 
 
     private void getComment() {
-        MainSubscribe.getStoreComment(data.getId()+"","5",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.getStoreComment(data.getId() + "", "5", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setComment(result);
@@ -309,104 +381,69 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
                 }
                 break;
             case 1://地址返回值
-                if(resultCode==1){
+                if (resultCode == 1) {
                     acStoreManagerTvAddress.setText(data.getStringExtra("address"));
                     acStoreManagerEtAddress2.setText(data.getStringExtra("addressDetail"));
                 }
                 break;
             case 3://收款码优惠比率返回值
-                if(resultCode==0){
+                if (resultCode == 0) {
 
-                }else if(resultCode==1){
+                } else if (resultCode == 1) {
                     acStoreManagerTvOffer.setText(data.getStringExtra("offer"));
-                    offer=data.getStringExtra("offer");
+                    offer = data.getStringExtra("offer");
                 }
         }
     }
 
     private void setComment(String result) {
-        CommentResponseBean bean=GsonUtils.fromJson(result,CommentResponseBean.class);
-        ArrayList<CommentResponseBean.DataBean> data=bean.getData();
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
+        CommentResponseBean bean = GsonUtils.fromJson(result, CommentResponseBean.class);
+        ArrayList<CommentResponseBean.DataBean> data = bean.getData();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acStoreManagerRv.setLayoutManager(layoutManager);
-        CommentAdapter adapter=new CommentAdapter(this,data);
+        CommentAdapter adapter = new CommentAdapter(this, data);
         acStoreManagerRv.setItemAnimator(new DefaultItemAnimator());
         acStoreManagerRv.setAdapter(adapter);
     }
 
-    public void showItemPopwindow() {
-        backgroundAlpha(0.5f);
-        View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_store_manage, null);
-        final PopupWindow window = new PopupWindow(contentView);
-        window.setHeight((int) getResources().getDimension(R.dimen.dp_90));
-        window.setWidth((int) getResources().getDimension(R.dimen.dp_100));
-        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        window.setOutsideTouchable(true);
-        window.setTouchable(true);
-        window.showAtLocation(getWindow().getDecorView(), Gravity.TOP | Gravity.RIGHT, 0, 0);
-
-        TextView manageCenter=contentView.findViewById(R.id.pw_storeManager_tv_managerCenter);
-        final TextView openStore=contentView.findViewById(R.id.pw_storeManager_tv_openStore);
-
-        manageCenter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openActivity(StoreManagerCenterActivity.class);
-                backgroundAlpha(1f);
-                window.dismiss();
+    private void initList() {
+        for (int i = 0; i < 24; i++) {
+            if (i < 10) {
+                options1Items1.add("0" + i);
+            } else {
+                options1Items1.add(i + "");
             }
-        });
-        if(is_open.equals("0")){
-            openStore.setText("开启店铺");
-        }else{
-            openStore.setText("关闭店铺");
+
         }
-        openStore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(is_open.equals("0")){
-                    MainSubscribe.openStore(user_id,"1",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                        @Override
-                        public void onSuccess(String result) {
-
-                        }
-
-                        @Override
-                        public void onFault(String errorMsg) {
-
-                        }
-                    }));
-                }else{
-                    MainSubscribe.openStore(user_id,"0",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                        @Override
-                        public void onSuccess(String result) {
-
-                        }
-
-                        @Override
-                        public void onFault(String errorMsg) {
-
-                        }
-                    }));
-                }
-                backgroundAlpha(1f);
-                window.dismiss();
+        for (int i = 0; i < 60; i++) {
+            if (i < 10) {
+                options1Items2.add("0" + i);
+            } else {
+                options1Items2.add(i + "");
             }
-        });
 
-        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                backgroundAlpha(1f);
-                window.dismiss();
-            }
-        });
+        }
     }
 
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = bgAlpha;
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        getWindow().setAttributes(lp);
+    private void showCityPicker(final TextView tv) {
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options, View v) {
+                //返回的分别是三个级别的选中位置
+                //acMyWalletTvChooseTime.setText();
+                tv.setText(options1Items1.get(options1) + ":" + options1Items2.get(options2));
+            }
+        }).setTitleText("时间选择").setDividerColor(Color.BLACK).setTextColorCenter(Color.BLACK).setCyclic(true, true, true) //设置选中项文字颜色.setContentTextSize(20)
+                .build();
+        pvOptions.setNPicker(options1Items1, options1Items2, null);
+        pvOptions.show();
+
+        /*TimePickerView tpv=new TimePickerBuilder(this, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+
+            }
+        }).setTitleText("时间选择").setDividerColor(Color.BLACK).setTextColorCenter(Color.BLACK).build();*/
+
     }
 }

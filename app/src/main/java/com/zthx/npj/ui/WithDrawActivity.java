@@ -4,9 +4,16 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.SpannedString;
+import android.text.TextWatcher;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,6 +28,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.GradViewAdapter;
 import com.zthx.npj.net.been.BankCardResponseBean;
@@ -65,6 +73,8 @@ public class WithDrawActivity extends ActivityBase {
     private int position = 0;
     private String card_id = "";
 
+    private String balance;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,14 +83,17 @@ public class WithDrawActivity extends ActivityBase {
 
         back(titleThemeBack);
         changeTitle(titleThemeTitle, "余额提现");
+        balance= SharePerferenceUtils.getBalance(this);
+        acWithdrawTvMoney.setText(balance);
+        SpannableString ss = new SpannableString("提现金额最少10元，单笔限额5万元");//定义hint的值
+        AbsoluteSizeSpan ass = new AbsoluteSizeSpan(12,true);//设置字体大小 true表示单位是sp
+        ss.setSpan(ass, 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        acWithdrawEtDrawMoney.setHint(new SpannedString(ss));
 
         getMyBankCard();
-
-        String balance = getIntent().getStringExtra("key0");
-        acWithdrawTvMoney.setText(balance);
     }
 
-    @OnClick({R.id.ac_withdraw_btn_allMoney, R.id.ac_withdraw_btn_draw})
+    @OnClick({R.id.ac_withdraw_btn_allMoney, R.id.ac_withdraw_btn_draw,R.id.ac_withdraw_rl_card})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_withdraw_btn_allMoney:
@@ -106,6 +119,10 @@ public class WithDrawActivity extends ActivityBase {
                     showPublishPopwindow();
                 }
                 break;
+            case R.id.ac_withdraw_rl_card:
+                Intent intent=new Intent(this,BankCardActivity.class);
+                startActivityForResult(intent,1);
+                break;
         }
     }
 
@@ -130,10 +147,10 @@ public class WithDrawActivity extends ActivityBase {
             acWithdrawRlCard.setVisibility(View.GONE);
         }else{
             card_id = data.get(0).getId() + "";
-            MyCustomUtils.showCardImg(card_id,acWithdrawIvCardImg);
+            Glide.with(this).load(Uri.parse(data.get(0).getBank_logo())).into(acWithdrawIvCardImg);
             acWithdrawTvCardType.setText(data.get(0).getBank_name());
             String cardNum=data.get(0).getCard_number();
-            acWithdrawTvCardNum.setText("尾号"+cardNum.substring(cardNum.length()-4) +"储蓄卡");
+            acWithdrawTvCardNum.setText("尾号"+cardNum.substring(cardNum.length()-4) +"    储蓄卡");
         }
     }
 
@@ -143,8 +160,12 @@ public class WithDrawActivity extends ActivityBase {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 1:
-                if (resultCode == 0) {
-
+                if (resultCode == 1) {
+                    card_id=data.getStringExtra("card_id");
+                    Glide.with(this).load(Uri.parse(data.getStringExtra("bank_logo"))).into(acWithdrawIvCardImg);
+                    acWithdrawTvCardType.setText(data.getStringExtra("bank_name"));
+                    String cardNum=data.getStringExtra("card_number");
+                    acWithdrawTvCardNum.setText("尾号"+cardNum.substring(cardNum.length()-4) +"    储蓄卡");
                 }
                 break;
         }
@@ -210,6 +231,8 @@ public class WithDrawActivity extends ActivityBase {
                             @Override
                             public void onSuccess(String result) {
                                 showToast("提现成功");
+                                String residue=(Double.parseDouble(balance)-Double.parseDouble(acWithdrawEtDrawMoney.getText().toString()))+"";
+                                SharePerferenceUtils.setBalance(WithDrawActivity.this,residue);
                                 finish();
                             }
 

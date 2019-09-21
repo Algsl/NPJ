@@ -119,7 +119,7 @@
         <activity android:name=".ui.StoreGoodsListActivity" />
         <activity android:name=".ui.StoreGoodsBillActivity" />
         <activity android:name=".ui.GoodsBillDetailActivity" />
-        <activity android:name=".ui.MyAttestationActivity" />
+        <activity android:name=".ui.MyAttestationActivity" android:launchMode="singleTask"/>
         <activity android:name=".ui.TrustedStoreActivity" />
         <activity android:name=".ui.TrustedStore2Activity" />
         <activity android:name=".ui.PurchaserCertificationActivity" />
@@ -202,6 +202,7 @@
         <activity android:name=".ui.BannerActivity"/>
         <activity android:name=".ui.SupplyMessageInfoActivity"/>
         <activity android:name=".ui.SYWithDrawActivity"/>
+        <activity android:name=".ui.OrderFinishActivity"/>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"

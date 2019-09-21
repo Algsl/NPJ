@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.MyStoreResponseBean;
 import com.zthx.npj.net.been.UploadImgResponseBean;
+import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -85,30 +87,9 @@ public class MySupplyActivity extends ActivityBase {
 
         back(titleThemeBack);
         changeTitle(titleThemeTitle,"我的供求");
-
-        getMyStore();
-    }
-
-    private void getMyStore() {
-        SetSubscribe.myStore(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                setMyStore(result);
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-                showPwUnCancel();
-            }
-        }));
-    }
-
-    private void setMyStore(String result) {
-        MyStoreResponseBean bean = GsonUtils.fromJson(result, MyStoreResponseBean.class);
-        MyStoreResponseBean.DataBean data = bean.getData();
-        Glide.with(this).load(Uri.parse(data.getStore_img())).into(acMySupplyMcvHeadImg);
-        acMySupplyTvNickName.setText(data.getStore_name());
-        acMySupplyTvReputation.setText("信誉分：" + data.getReputation());
+        Glide.with(MySupplyActivity.this).load(Uri.parse(SharePerferenceUtils.getHeadPic(MySupplyActivity.this))).into(acMySupplyMcvHeadImg);
+        acMySupplyTvNickName.setText(SharePerferenceUtils.getNickName(MySupplyActivity.this));
+        acMySupplyTvReputation.setText("信誉分："+SharePerferenceUtils.getReputation(MySupplyActivity.this));
     }
 
     @OnClick({R.id.at_my_supply_ll_my_bill, R.id.at_my_supply_ll_supply_manager, R.id.at_my_supply_ll_want_buy_manager, R.id.at_my_supply_ll_publish_supply})
@@ -129,7 +110,7 @@ public class MySupplyActivity extends ActivityBase {
         }
     }
 
-    //添加店铺弹窗
+    /*//添加店铺弹窗
     public void showPwUnCancel() {
         backgroundAlpha(0.5f);
         View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_store_edit, null);
@@ -194,7 +175,7 @@ public class MySupplyActivity extends ActivityBase {
                 window.dismiss();
             }
         });
-    }
+    }*/
 
     public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();

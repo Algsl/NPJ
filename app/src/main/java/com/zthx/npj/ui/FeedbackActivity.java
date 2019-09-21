@@ -1,6 +1,5 @@
 package com.zthx.npj.ui;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -8,19 +7,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
 import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.FeedBackBean;
-import com.zthx.npj.net.been.UpLoadPicResponseBean;
 import com.zthx.npj.net.been.UploadPicsResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
@@ -40,7 +37,6 @@ import butterknife.OnClick;
 import me.zhouzhuo.zzimagebox.ZzImageBox;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.Response;
 
 public class FeedbackActivity extends ActivityBase {
@@ -77,9 +73,11 @@ public class FeedbackActivity extends ActivityBase {
     String title = "";
     @BindView(R.id.ac_feedBack_zib_pingzheng)
     ZzImageBox acFeedBackZibPingzheng;
+    @BindView(R.id.ac_feedBack_tv_number)
+    TextView acFeedBackTvNumber;
 
-    private List<String> paths=new ArrayList<>();
-    private static final int CHOOSE_PHOTO=1;
+    private List<String> paths = new ArrayList<>();
+    private static final int CHOOSE_PHOTO = 1;
     private TextView[] tvs;
     private String img;
 
@@ -92,7 +90,7 @@ public class FeedbackActivity extends ActivityBase {
         titleThemeTitle.setText("评价反馈");
         back(titleThemeBack);
 
-         tvs=new TextView[] {acFeedBackTvTitle1, acFeedBackTvTitle2, acFeedBackTvTitle3, acFeedBackTvTitle4, acFeedBackTvTitle5, acFeedBackTvTitle6};
+        tvs = new TextView[]{acFeedBackTvTitle1, acFeedBackTvTitle2, acFeedBackTvTitle3, acFeedBackTvTitle4, acFeedBackTvTitle5, acFeedBackTvTitle6};
 
         acFeedBackZibPingzheng.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
             @Override
@@ -108,12 +106,11 @@ public class FeedbackActivity extends ActivityBase {
 
             @Override
             public void onAddClick() {
-                Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent,CHOOSE_PHOTO);
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, CHOOSE_PHOTO);
             }
         });
     }
-
 
 
     private void itemSelect(TextView tv) {
@@ -122,7 +119,7 @@ public class FeedbackActivity extends ActivityBase {
                 title = tv.getText().toString();
                 tv.setTextColor(getResources().getColor(android.R.color.white));
                 tv.setBackgroundResource(R.drawable.theme_conner_5);
-            }else{
+            } else {
                 tvs[i].setTextColor(getResources().getColor(R.color.text3));
                 tvs[i].setBackgroundResource(R.drawable.stroke_gray_10);
             }
@@ -132,15 +129,15 @@ public class FeedbackActivity extends ActivityBase {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case CHOOSE_PHOTO:
-                if(resultCode==RESULT_OK){
-                    Uri selectImg=data.getData();
-                    String[] filepathColum={MediaStore.Images.Media.DATA};
-                    Cursor cursor= getContentResolver().query(selectImg,filepathColum,null,null,null);
+                if (resultCode == RESULT_OK) {
+                    Uri selectImg = data.getData();
+                    String[] filepathColum = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(selectImg, filepathColum, null, null, null);
                     cursor.moveToFirst();
-                    int cursorIndex=cursor.getColumnIndex(filepathColum[0]);
-                    String path=cursor.getString(cursorIndex);
+                    int cursorIndex = cursor.getColumnIndex(filepathColum[0]);
+                    String path = cursor.getString(cursorIndex);
                     cursor.close();
                     paths.add(path);
                     acFeedBackZibPingzheng.addImage(path);
@@ -149,7 +146,9 @@ public class FeedbackActivity extends ActivityBase {
         }
     }
 
-    @OnClick({R.id.ac_feedBack_tv_title1, R.id.ac_feedBack_tv_title2, R.id.ac_feedBack_tv_title3, R.id.ac_feedBack_tv_title4, R.id.ac_feedBack_tv_title5, R.id.ac_feedBack_tv_title6, R.id.ac_feedBack_btn_commit})
+    @OnClick({R.id.ac_feedBack_tv_title1, R.id.ac_feedBack_tv_title2, R.id.ac_feedBack_tv_title3,
+            R.id.ac_feedBack_tv_title4, R.id.ac_feedBack_tv_title5, R.id.ac_feedBack_tv_title6,
+            R.id.ac_feedBack_btn_commit, R.id.ac_feedBack_et_description})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_feedBack_tv_title1:
@@ -171,44 +170,59 @@ public class FeedbackActivity extends ActivityBase {
                 itemSelect(acFeedBackTvTitle6);
                 break;
             case R.id.ac_feedBack_btn_commit:
-                if(paths.size()>0){
-                    if(paths.size()==1){
-                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, paths.get(0), new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
-
-                            }
-
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                UpLoadPicResponseBean bean=GsonUtils.fromJson(response.body().string(),UpLoadPicResponseBean.class);
-                                img=bean.getData().getSrc();
-                                uploadData();
-                            }
-                        });
-                    }else{
-                        HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
-
-                            }
-
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                UploadPicsResponseBean bean=GsonUtils.fromJson(response.body().string(),UploadPicsResponseBean.class);
-                                img=bean.getData().getImg();
-                                uploadData();
-                            }
-                        });
-                    }
-                }else{
+                if (title.equals("")) {
+                    showToast("请选择遇到的问题");
+                } else if (acFeedBackEtDescription.getText().toString().trim().equals("")) {
+                    showToast("请填写问题详情");
+                } else if (acFeedBackEtRealname.getText().toString().trim().equals("")) {
+                    showToast("请选择联系人姓名");
+                } else if (acFeedBackEtMobile.getText().toString().trim().equals("")) {
+                    showToast("请填写联系方式");
+                } else if (paths.size() <= 0) {
                     showToast("请上传凭证");
+                } else {
+                    HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                            img = bean.getData().getImg();
+                            uploadData();
+                        }
+                    });
                 }
+                break;
+            case R.id.ac_feedBack_et_description:
+                acFeedBackEtDescription.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        if(!acFeedBackEtDescription.getText().toString().trim().equals("")){
+                            acFeedBackTvNumber.setText(acFeedBackEtDescription.getText().toString().trim().length()+"/200");
+                        }else{
+                            acFeedBackTvNumber.setText("0/200");
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
                 break;
         }
     }
 
-    public void uploadData(){
+    public void uploadData() {
         FeedBackBean bean = new FeedBackBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
@@ -220,10 +234,10 @@ public class FeedbackActivity extends ActivityBase {
         SetSubscribe.feedBack(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                CommonDialog dialog=new CommonDialog(FeedbackActivity.this, R.style.dialog, "坚持真实的反馈，能够获得更多的葫芦币哦", new CommonDialog.OnCloseListener() {
+                CommonDialog dialog = new CommonDialog(FeedbackActivity.this, R.style.dialog, "坚持真实的反馈，能够获得更多的葫芦币哦", new CommonDialog.OnCloseListener() {
                     @Override
                     public void onClick(Dialog dialog, boolean confirm) {
-                        if(confirm){
+                        if (confirm) {
                             finish();
                         }
                     }

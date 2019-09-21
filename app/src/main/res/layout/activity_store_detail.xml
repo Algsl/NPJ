@@ -25,7 +25,7 @@
            <com.youth.banner.Banner
                android:id="@+id/banner_discover_service"
                android:layout_width="match_parent"
-               android:layout_height="@dimen/dp_170" />
+               android:layout_height="@dimen/dp_260" />
            <RelativeLayout
                android:layout_width="match_parent"
                android:layout_height="@dimen/dp_78">

@@ -105,7 +105,11 @@ public class RechargeActivity extends ActivityBase {
 
     @OnClick(R.id.ac_recharge_btn_recharge)
     public void onViewClicked() {
-        showBottomDialog();
+        if(acRechargeEtMoney.getText().toString().equals("")){
+            showToast("请输入充值金额");
+        }else{
+            showBottomDialog();
+        }
     }
 
     private void showBottomDialog() {
@@ -140,15 +144,7 @@ public class RechargeActivity extends ActivityBase {
                 dialog.dismiss();
             }
         });
-        dialog.findViewById(R.id.dl_pay_yue).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                payType = "3";
-                showToast("订单生成中，请稍等...");
-                uploadData();
-                dialog.dismiss();
-            }
-        });
+        dialog.findViewById(R.id.dg_payLayout_ll).setVisibility(View.GONE);
         dialog.findViewById(R.id.dl_photo_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -173,8 +169,6 @@ public class RechargeActivity extends ActivityBase {
                     alipay();
                 } else if (payType.equals("2")) {
                     wxpay();
-                } else {
-                    yue();
                 }
             }
 
@@ -184,11 +178,6 @@ public class RechargeActivity extends ActivityBase {
             }
         }));
     }
-
-    private void yue() {
-
-    }
-
     private void wxpay() {
         GiftSubscribe.pay("weixin", data1.getOrder_sn(), data1.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override

@@ -19,9 +19,11 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AKAdapter;
 import com.zthx.npj.adapter.NewsListAdapter;
+import com.zthx.npj.adapter.OtherSearchAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AkListResponseBean;
 import com.zthx.npj.net.been.NewsListResponseBean;
+import com.zthx.npj.net.been.OtherSearchResponseBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -177,10 +179,10 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
     }
 
     private void getSearchResult(String trim) {
-        DiscoverSubscribe.solutionSearch(trim, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        DiscoverSubscribe.otherSearch(trim, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                AkListResponseBean bean = GsonUtils.fromJson(result, AkListResponseBean.class);
+                /*AkListResponseBean bean = GsonUtils.fromJson(result, AkListResponseBean.class);
                 final ArrayList<AkListResponseBean.DataBean> data = bean.getData();
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(AgricultureKnowledgeActivity.this);
                 atAkRv.setLayoutManager(layoutManager);
@@ -188,9 +190,9 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                 atAkRv.setItemAnimator(new DefaultItemAnimator());
                 atAkRv.setAdapter(adapter);
                 if (data.size() > 0) {
-                    acAgricultureTvSearchResult.setText("共搜索到" + data.size() + "个视频");
+                    acAgricultureTvSearchResult.setText("共搜索到" + data.size() + "个相关记录");
                 } else {
-                    acAgricultureTvSearchResult.setText("共搜索到0个视频");
+                    acAgricultureTvSearchResult.setText("共搜索到0个相关记录");
                 }
 
                 adapter.setOnItemClickListener(new AKAdapter.ItemClickListener() {
@@ -199,6 +201,25 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                         Intent intent = new Intent(AgricultureKnowledgeActivity.this, AgricultureVideoMainActivity.class);
                         intent.putExtra(Const.VIDEO_ID, data.get(position).getId() + "");
                         startActivity(intent);
+                    }
+                });*/
+                OtherSearchResponseBean bean = GsonUtils.fromJson(result, OtherSearchResponseBean.class);
+                final ArrayList<OtherSearchResponseBean.DataBean> data = bean.getData();
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(AgricultureKnowledgeActivity.this);
+                atAkRv.setLayoutManager(layoutManager);
+                OtherSearchAdapter adapter = new OtherSearchAdapter(AgricultureKnowledgeActivity.this, data);
+                atAkRv.setItemAnimator(new DefaultItemAnimator());
+                atAkRv.setAdapter(adapter);
+                if (data.size() > 0) {
+                    acAgricultureTvSearchResult.setText("共搜索到" + data.size() + "个相关记录");
+                } else {
+                    acAgricultureTvSearchResult.setText("共搜索到0个相关记录");
+                }
+
+                adapter.setOnItemClickListener(new OtherSearchAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        openActivity(NewsDetailActivity.class, data.get(position).getId() + "");
                     }
                 });
             }

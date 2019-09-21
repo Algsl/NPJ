@@ -146,12 +146,15 @@ public class ApplyRefundActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_order_applyRefund_tv_state:
-                final String[] str=new String[] {"退货退款","仅退款"};
+                final String[] str=new String[] {"未发货","已发货","已拒签","已签收"};
                 new AlertDialog.Builder(this)
-                        .setSingleChoiceItems(str, 0,
-                                new DialogInterface.OnClickListener() {
+                        .setSingleChoiceItems(str, 0, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        refund_state=which+"";
+                                        if(which==0){
+                                            refund_state=which+"";
+                                        }else{
+                                            refund_state=(which+1)+"";
+                                        }
                                         atOrderApplyRefundTvState.setText(str[which]);
                                         dialog.dismiss();
                                     }
@@ -173,20 +176,26 @@ public class ApplyRefundActivity extends ActivityBase {
                         .show();
                 break;
             case R.id.ac_order_applyRefund_btn_confirm:
-                HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
+                if(atOrderApplyRefundTvReason.getText().toString().trim().equals("请选择")){
+                    showToast("请选择退款原因");
+                }else if(paths==null || paths.size()==0){
+                    showToast("请上传凭证");
+                }else{
+                    HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
-                        UploadPicsResponseBean.DataBean data = bean.getData();
-                        img = data.getImg();
-                        uploadData();
-                    }
-                });
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                            UploadPicsResponseBean.DataBean data = bean.getData();
+                            img = data.getImg();
+                            uploadData();
+                        }
+                    });
+                }
                 break;
         }
     }

@@ -203,7 +203,7 @@
                 android:layout_height="@dimen/dp_20"
                 android:layout_marginRight="@dimen/dp_12"
                 android:background="@drawable/stroke_zise_5"
-                android:text="退货"
+                android:text="退换"
                 android:textColor="@color/text6"
                 android:textSize="@dimen/sp_14"
                 android:visibility="gone"/>

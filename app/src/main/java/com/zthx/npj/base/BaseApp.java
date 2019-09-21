@@ -4,9 +4,14 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
 import com.zthx.npj.baidumap.LocationService;
 import com.zthx.npj.services.GlobalEventListener;
+import com.zthx.npj.ui.SplashActivity;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
 
@@ -38,6 +43,26 @@ public class BaseApp extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    public static BDAbstractLocationListener getListener(){
+        BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
+
+            @Override
+            public void onReceiveLocation(BDLocation location) {
+                // TODO Auto-generated method stub
+                Log.e("测试", "onReceiveLocation: ");
+                if (null != location && location.getLocType() != BDLocation.TypeServerError) {
+                    //获取信息后的操作
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+                    SharePerferenceUtils.setLat(getConText(), latitude + "");
+                    SharePerferenceUtils.setLng(getConText(), longitude + "");
+                    Log.e("测试", "onReceiveLocation: " + latitude + " " + longitude);
+                }
+            }
+        };
+        return mListener;
     }
 
     public static Context getConText(){

@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.GradViewAdapter;
@@ -84,25 +85,6 @@ public class MyCustomUtils {
         }
     }
 
-    public static void showCardImg(String cardId,ImageView img){
-        switch (cardId){
-            case "1":
-                img.setImageResource(R.drawable.nongye);
-                break;
-            case "2":
-                img.setImageResource(R.drawable.gongshang);
-                break;
-            case "3":
-                img.setImageResource(R.drawable.zhongguo);
-                break;
-            case "4":
-                img.setImageResource(R.drawable.jianshe);
-                break;
-            case "5":
-                img.setImageResource(R.drawable.jiaotong);
-                break;
-        }
-    }
 
     //地址选择器
     public static void chooseAddress(Context context,TextView textView){
@@ -136,6 +118,10 @@ public class MyCustomUtils {
             options3Items.add(Province_AreaList);
         }
     }
+
+
+
+
     private static void showPickerView(Context context,final TextView textView) {
         OptionsPickerView pvOptions = new OptionsPickerBuilder(context, new OnOptionsSelectListener() {
             @Override
@@ -305,5 +291,28 @@ public class MyCustomUtils {
                 str3.add(str.split("http://app.npj-vip.com")[1]);
             }
         }
+    }
+
+
+    private static ArrayList<String> unit = new ArrayList<>(); //省
+    public static void showUnitPickerView(Context context, final TextView textView, final TextView textView2,final TextView textView3) {
+        String[] strs={"斤","吨","件","袋","箱","克","个","颗"};
+        for(int i=0;i<strs.length;i++){
+            unit.add(strs[i]);
+        }
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(context, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                textView.setText(unit.get(options1));
+                if(textView2!=null){
+                    textView2.setText(unit.get(options1));
+                }
+                textView3.setText("元/"+unit.get(options1));
+            }
+        }).setTitleText("单位选择").setDividerColor(Color.BLACK).setTextColorCenter(Color.BLACK).setContentTextSize(20).build();
+        /*pvOptions.setPicker(options1Items);//一级选择器
+        pvOptions.setPicker(options1Items, options2Items);//二级选择器*/
+        pvOptions.setPicker(unit);//三级选择器
+        pvOptions.show();
     }
 }

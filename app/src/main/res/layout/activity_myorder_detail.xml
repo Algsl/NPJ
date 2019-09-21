@@ -12,7 +12,8 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_below="@id/at_myOrderDetail_rl_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dp_40">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -202,6 +203,7 @@
                                     android:text="X1"/>
                             </RelativeLayout>
                             <LinearLayout
+                                android:id="@+id/ac_myOrderDetail_ll"
                                 android:layout_width="@dimen/dp_80"
                                 android:layout_height="@dimen/dp_20"
                                 android:layout_marginLeft="@dimen/dp_12"
@@ -716,13 +718,10 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/ac_myOrderDetail_rv_cai"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/dp_40"/>
+                    android:layout_height="match_parent"/>
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-
-
 
     <LinearLayout
         android:layout_width="match_parent"

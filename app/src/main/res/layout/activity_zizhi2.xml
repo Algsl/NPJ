@@ -75,7 +75,7 @@
                            android:layout_width="match_parent"
                            android:layout_height="match_parent"
                            android:background="@android:color/white"
-                           android:hint="请选择许可资质类型"
+                           android:hint="请填写许可资质类型"
                            android:textColorHint="@color/text6"
                            android:textSize="@dimen/sp_12"
                            android:textColor="@color/text6"

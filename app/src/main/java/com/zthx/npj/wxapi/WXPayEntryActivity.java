@@ -17,6 +17,8 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.R;
+import com.zthx.npj.ui.ConfirmOrderActivity;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
@@ -50,6 +52,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 			Toast.makeText(WXPayEntryActivity.this,"您取消了支付",Toast.LENGTH_SHORT).show();
 		}else if(resp.errCode==0){
 			Toast.makeText(WXPayEntryActivity.this,"支付成功",Toast.LENGTH_SHORT).show();
+			SharePerferenceUtils.setUserLevel(WXPayEntryActivity.this,"1");
 		}
 		finish();
 		/*if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {

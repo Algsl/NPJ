@@ -89,22 +89,29 @@ public class ZiZhiInfoActivity extends ActivityBase {
                 showBottomDialog();
                 break;
             case R.id.at_zizhi_btn_confirm:
-                Log.e("测试", "onViewClicked: " );
-                HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
+                if(atZizhiEtName.getText().toString().trim().equals("")){
+                    showToast("请填写企业全称");
+                }else if(atZizhiEtType.getText().toString().trim().equals("")){
+                    showToast("请填写许可资质类型");
+                }else if(path==null || path.equals("")){
+                    showToast("请上传资质证书");
+                }else{
+                    HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        UpLoadPicResponseBean bean = GsonUtils.fromJson(response.body().string(), UpLoadPicResponseBean.class);
-                        UpLoadPicResponseBean.DataBean data = bean.getData();
-                        business_license = data.getSrc();
-                        Log.e("测试", "onResponse: "+business_license);
-                        uploadData();
-                    }
-                });
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            UpLoadPicResponseBean bean = GsonUtils.fromJson(response.body().string(), UpLoadPicResponseBean.class);
+                            UpLoadPicResponseBean.DataBean data = bean.getData();
+                            business_license = data.getSrc();
+                            Log.e("测试", "onResponse: "+business_license);
+                            uploadData();
+                        }
+                    });
+                }
                 break;
         }
     }

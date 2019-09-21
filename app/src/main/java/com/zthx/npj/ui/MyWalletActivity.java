@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,11 +43,18 @@ public class MyWalletActivity extends ActivityBase {
         setContentView(R.layout.activity_my_wallet);
         ButterKnife.bind(this);
 
-        balance=getIntent().getStringExtra("balance");
-
+        //balance=getIntent().getStringExtra("balance");
         back(titleThemeBack);
         changeTitle(titleThemeTitle, "我的钱包");
         changeRightText(titleThemeTvRight, "充值", RechargeActivity.class, null);
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        balance=SharePerferenceUtils.getBalance(this);
         atMyWalletTvMoney.setText(balance);
     }
 
@@ -60,7 +68,7 @@ public class MyWalletActivity extends ActivityBase {
                 openActivity(BankCardActivity.class);
                 break;
             case R.id.at_my_wallet_btn_tiqu:
-                openActivity(WithDrawActivity.class,balance);
+                openActivity(WithDrawActivity.class);
                 break;
             case R.id.ac_myWallet_rl_inManage:
                 openActivity(SpokesmanRightsActivity.class);

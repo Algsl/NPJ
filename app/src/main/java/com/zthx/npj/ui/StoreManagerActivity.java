@@ -2,46 +2,46 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.CommentAdapter;
 import com.zthx.npj.net.api.URLConstant;
-import com.zthx.npj.net.been.CommentResponseBean;
 import com.zthx.npj.net.been.OfflineStoreBean;
 import com.zthx.npj.net.been.UploadPicsResponseBean;
-import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
-import com.zthx.npj.ui.SupplyMessageActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
-import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.api.BasicCallback;
 import me.zhouzhuo.zzimagebox.ZzImageBox;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -86,9 +86,25 @@ public class StoreManagerActivity extends ActivityBase {
     ImageView titleBack;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
+    @BindView(R.id.ac_storeManager_aBegin)
+    TextView acStoreManagerABegin;
+    @BindView(R.id.ac_storeManager_aEnd)
+    TextView acStoreManagerAEnd;
+    @BindView(R.id.ac_storeManager_pBegin)
+    TextView acStoreManagerPBegin;
+    @BindView(R.id.ac_storeManager_pEnd)
+    TextView acStoreManagerPEnd;
+    @BindView(R.id.ac_storeManager_llEdit)
+    LinearLayout acStoreManagerLlEdit;
+    @BindView(R.id.ac_storeManager_llShow)
+    LinearLayout acStoreManagerLlShow;
     private List<String> paths = new ArrayList<>();
     private static final int CHOOSE_PHOTO = 2;
     private String store_id = "";
+
+    private List<String> options1Items1 = new ArrayList<>();
+    private List<String> options1Items2 = new ArrayList<>();
+    private String yingyeTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +113,9 @@ public class StoreManagerActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,"线下门店入驻");
+        changeTitle(acTitle, "线下门店入驻");
+
+        initList();
 
         zzImageBox.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
             @Override
@@ -135,26 +153,27 @@ public class StoreManagerActivity extends ActivityBase {
                 }
                 break;
             case 1:
-                if(resultCode==1){
+                if (resultCode == 1) {
                     acStoreManagerTvAddress.setText(data.getStringExtra("address"));
                     acStoreManagerEtAddress2.setText(data.getStringExtra("addressDetail"));
                 }
                 break;
             case 3:
-                if(resultCode==0){
+                if (resultCode == 0) {
 
-                }else if(resultCode==1){
+                } else if (resultCode == 1) {
                     acStoreManagerTvOffer.setText(data.getStringExtra("offer"));
                 }
         }
     }
 
-    @OnClick({R.id.at_store_manager_tv_code, R.id.ac_storeManager_btn_ruzhu, R.id.ac_storeManager_tv_address})
+    @OnClick({R.id.at_store_manager_tv_code, R.id.ac_storeManager_btn_ruzhu, R.id.ac_storeManager_tv_address,
+            R.id.ac_storeManager_aBegin, R.id.ac_storeManager_aEnd, R.id.ac_storeManager_pBegin, R.id.ac_storeManager_pEnd})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.at_store_manager_tv_code:
-                Intent intent1=new Intent(StoreManagerActivity.this,StoreManagerQRCodeActivity.class);
-                startActivityForResult(intent1,3);
+                /*Intent intent1 = new Intent(StoreManagerActivity.this, StoreManagerQRCodeActivity.class);
+                startActivityForResult(intent1, 3);*/
                 break;
             case R.id.ac_storeManager_btn_ruzhu:
                 HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {
@@ -167,14 +186,26 @@ public class StoreManagerActivity extends ActivityBase {
                     public void onResponse(Call call, Response response) throws IOException {
                         UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
                         UploadPicsResponseBean.DataBean data = bean.getData();
-                        Log.e("测试", "onResponse: "+data.getImages() +" "+data.getImg() );
+                        Log.e("测试", "onResponse: " + data.getImages() + " " + data.getImg());
                         offlineStore(data.getImg());
                     }
                 });
                 break;
             case R.id.ac_storeManager_tv_address:
-                Intent intent=new Intent(this,MapAddressActivity.class);
-                startActivityForResult(intent,1);
+                Intent intent = new Intent(this, MapAddressActivity.class);
+                startActivityForResult(intent, 1);
+                break;
+            case R.id.ac_storeManager_aBegin:
+                showCityPicker(acStoreManagerABegin);
+                break;
+            case R.id.ac_storeManager_aEnd:
+                showCityPicker(acStoreManagerAEnd);
+                break;
+            case R.id.ac_storeManager_pBegin:
+                showCityPicker(acStoreManagerPBegin);
+                break;
+            case R.id.ac_storeManager_pEnd:
+                showCityPicker(acStoreManagerPEnd);
                 break;
         }
     }
@@ -185,12 +216,13 @@ public class StoreManagerActivity extends ActivityBase {
     }
 
     private void offlineStore(String img) {
+        yingyeTime=getTvString(acStoreManagerABegin)+"-"+getTvString(acStoreManagerAEnd)+" "+getTvString(acStoreManagerPBegin)+"-"+getTvString(acStoreManagerPEnd);
         OfflineStoreBean bean = new OfflineStoreBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
         bean.setStore_name(getEtToString(acStoreManagerEtStoreName));
         bean.setConsumption(getEtToString(acStoreManagerEtConsumption));
-        bean.setBusiness_hours("9-12 2-6");
+        bean.setBusiness_hours(yingyeTime);
         bean.setContact(getEtToString(acStoreManagerEtContact));
         bean.setAddress(acStoreManagerTvAddress.getText().toString());
         bean.setAddress2(acStoreManagerEtAddress2.getText().toString());
@@ -202,6 +234,7 @@ public class StoreManagerActivity extends ActivityBase {
         SetSubscribe.offlineStore(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
+                showToast("线下门店信息上传成功");
                 finish();
             }
 
@@ -212,5 +245,40 @@ public class StoreManagerActivity extends ActivityBase {
         }));
     }
 
+    private void initList() {
+        for (int i = 0; i < 24; i++) {
+            if (i <10) {
+                options1Items1.add("0" + i );
+            } else {
+                options1Items1.add(i + "");
+            }
 
+        }
+        for (int i = 0; i < 60; i++) {
+            if (i < 10) {
+                options1Items2.add("0" + i);
+            } else {
+                options1Items2.add(i+ "");
+            }
+
+        }
+    }
+
+    private void showCityPicker(final TextView tv) {
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options, View v) {
+                //返回的分别是三个级别的选中位置
+                //acMyWalletTvChooseTime.setText();
+                tv.setText(options1Items1.get(options1) + ":" + options1Items2.get(options2));
+            }
+        }).setTitleText("日期选择").setDividerColor(Color.BLACK).setTextColorCenter(Color.BLACK).setCyclic(true,true,true) //设置选中项文字颜色.setContentTextSize(20)
+                .build();
+        pvOptions.setNPicker(options1Items1, options1Items2, null);
+        pvOptions.show();
+    }
+
+    private String getTvString(TextView tv){
+        return tv.getText().toString().trim();
+    }
 }

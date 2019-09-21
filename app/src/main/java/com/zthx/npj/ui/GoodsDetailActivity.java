@@ -233,17 +233,20 @@ public class GoodsDetailActivity extends ActivityBase {
                 atGoodsDetailRlSecKill.setVisibility(View.GONE);
                 atGoodsDetailRlSecKillDone.setVisibility(View.VISIBLE);
                 acGoodsDetailLlBar.setVisibility(View.GONE);
+                acGoodsDetailChooseSize.setClickable(false);
             } else if (status == 2) {//抢购进行中
                 atGoodsDetailRlWillBegin.setVisibility(View.GONE);
                 atGoodsDetailRlSecKill.setVisibility(View.VISIBLE);
                 atGoodsDetailRlSecKillDone.setVisibility(View.GONE);
             } else {//抢购即将开始
+                acGoodsDetailChooseSize.setClickable(false);
                 atGoodsDetailRlWillBegin.setVisibility(View.VISIBLE);
                 atGoodsDetailRlSecKill.setVisibility(View.GONE);
                 atGoodsDetailRlSecKillDone.setVisibility(View.GONE);
                 acGoodsDetailLlBar.setVisibility(View.GONE);
             }
             type = "4";
+            acGoodsDetailLlCollect.setVisibility(View.GONE);
             atGoodsDetailLlGoods.setVisibility(View.VISIBLE);
             atGoodsDetailLlPresell.setVisibility(View.GONE);
             getSecKillDetail();
@@ -258,6 +261,10 @@ public class GoodsDetailActivity extends ActivityBase {
             acGoodsDetailLlWuliu.setVisibility(View.VISIBLE);
             atGoodsDetailBtnPreSellKnow.setVisibility(View.VISIBLE);
             getPreSellDetail(goodsId);
+            if(!getIntent().getStringExtra("pre_type").equals("0")){
+                acGoodsDetailLlBar.setVisibility(View.GONE);
+                acGoodsDetailChooseSize.setClickable(false);
+            }
             atGoodsDetailBtnPreSellKnow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

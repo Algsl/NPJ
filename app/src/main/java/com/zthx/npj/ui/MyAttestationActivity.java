@@ -90,13 +90,14 @@ public class MyAttestationActivity extends ActivityBase {
                     atMyAttestationLlCompany.setBackgroundResource(R.drawable.qiyerenzheng_c_bg);
                 }
                 if (data.getIntegrity_cert() == 1) {
+
                     atMyAttestationLlTrust.setBackgroundResource(R.drawable.chengxinrenzheng_c_bg);
                 }
                 if (data.getStock_cert() == 1) {
                     atMyAttestationLlBuy.setBackgroundResource(R.drawable.caigourenzheng_c_bg);
                 }
                 if (data.getZizhi_cert() == 1) {
-                    atMyAttestationLlZizhi.setBackgroundResource(R.drawable.caigourenzheng_c_bg);
+                    atMyAttestationLlZizhi.setBackgroundResource(R.drawable.zizhirenzheng_c_bg);
                 }
             }
 
@@ -198,7 +199,7 @@ public class MyAttestationActivity extends ActivityBase {
                         IntegrityResponseBean bean = GsonUtils.fromJson(result, IntegrityResponseBean.class);
                         switch (bean.getData().getStatus() + "") {
                             case "1":
-                                openActivity(AttestationSuccessActivity.class, "4", "0");
+                                openActivity(AttestationSuccessActivity.class, "4", "1");
                                 break;
                             case "2":
                                 openActivity(TrustedStoreActivity.class);

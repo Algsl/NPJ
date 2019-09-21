@@ -104,10 +104,14 @@ public class KuaiDiDetailActivity extends ActivityBase {
     private void setKuaiDiDetail(String result) {
         LookKDResponseBean bean = GsonUtils.fromJson(result, LookKDResponseBean.class);
         ArrayList<LookKDResponseBean.DataBean.DataBean1> data = bean.getData().getData();
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        acKuaidiRvItem.setLayoutManager(layoutManager);
-        KuaiDiDetailAdapter adapter = new KuaiDiDetailAdapter(this, data);
-        acKuaidiRvItem.setItemAnimator(new DefaultItemAnimator());
-        acKuaidiRvItem.setAdapter(adapter);
+        if(data==null){
+               showToast("订单号错误");
+        }else{
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            acKuaidiRvItem.setLayoutManager(layoutManager);
+            KuaiDiDetailAdapter adapter = new KuaiDiDetailAdapter(this, data);
+            acKuaidiRvItem.setItemAnimator(new DefaultItemAnimator());
+            acKuaidiRvItem.setAdapter(adapter);
+        }
     }
 }

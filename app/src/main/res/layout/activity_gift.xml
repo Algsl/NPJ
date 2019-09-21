@@ -5,305 +5,307 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".ui.GiftActivity">
-
-    <include
-        layout="@layout/title"/>
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v4.widget.NestedScrollView
-            android:layout_marginTop="@dimen/dp_80"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include layout="@layout/title" />
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_below="@id/title">
-            <com.youth.banner.Banner
-                android:id="@+id/at_gift_detail_banner"
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_370"/>
-
-            <TextView
-                android:id="@+id/at_gift_detail_tv_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="￥255"
-                android:textStyle="bold"
-                android:textColor="@color/app_theme"
-                android:textSize="@dimen/sp_15"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:layout_marginTop="@dimen/dp_20"/>
-
-            <TextView
-                android:id="@+id/at_gift_detail_tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PR梵睿品牌护肤诠释者"
-                android:textColor="@color/text3"
-                android:textSize="@dimen/sp_13"
-                android:layout_marginLeft="@dimen/dp_13"
-                android:layout_marginTop="@dimen/dp_12"/>
-            <!--<TextView
-                android:id="@+id/at_gift_detail_tv_des"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="购买任意产品升级代言人，获得超值礼包，享受代言人的众多权益"
-                android:textColor="#F05252"
-                android:textSize="@dimen/sp_12"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:layout_marginTop="@dimen/dp_10"/>-->
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_10"
-                android:background="@color/background"
-                android:layout_marginTop="@dimen/dp_10"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/app_theme"
-                android:textSize="@dimen/sp_16"
-                android:layout_marginLeft="@dimen/dp_13"
-                android:layout_marginTop="@dimen/dp_20"
-                android:layout_marginRight="@dimen/dp_13"
-                android:lineHeight="@dimen/dp_25"
-                android:text="购买任意产品升级代言人，获得超值礼包，享受代言人的众多权益。"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_marginTop="@dimen/dp_18"
-                android:background="@color/background"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/sp_16"
-                android:textColor="@color/text3"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:layout_marginTop="@dimen/dp_23"
-                android:text="农品街代言人VIP权益"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_22"
-                android:orientation="horizontal">
+                android:layout_height="match_parent">
                 <LinearLayout
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="@dimen/dp_50"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="@dimen/dp_50"
-                        android:layout_height="@dimen/dp_50"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:descendantFocusability="blocksDescendants">
+                    <com.youth.banner.Banner
+                        android:id="@+id/at_gift_detail_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_370"/>
+
+                    <TextView
+                        android:id="@+id/at_gift_detail_tv_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="￥255"
+                        android:textStyle="bold"
+                        android:textColor="@color/app_theme"
+                        android:textSize="@dimen/sp_15"
                         android:layout_marginLeft="@dimen/dp_12"
-                        android:src="@drawable/vip_qy1"/>
+                        android:layout_marginTop="@dimen/dp_20"/>
+
+                    <TextView
+                        android:id="@+id/at_gift_detail_tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PR梵睿品牌护肤诠释者"
+                        android:textColor="@color/text3"
+                        android:textSize="@dimen/sp_13"
+                        android:layout_marginLeft="@dimen/dp_13"
+                        android:layout_marginTop="@dimen/dp_12"/>
+                    <!--<TextView
+                        android:id="@+id/at_gift_detail_tv_des"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="购买任意产品升级代言人，获得超值礼包，享受代言人的众多权益"
+                        android:textColor="#F05252"
+                        android:textSize="@dimen/sp_12"
+                        android:layout_marginLeft="@dimen/dp_12"
+                        android:layout_marginTop="@dimen/dp_10"/>-->
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_10"
+                        android:background="@color/background"
+                        android:layout_marginTop="@dimen/dp_10"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/app_theme"
+                        android:textSize="@dimen/sp_16"
+                        android:layout_marginLeft="@dimen/dp_13"
+                        android:layout_marginTop="@dimen/dp_20"
+                        android:layout_marginRight="@dimen/dp_13"
+                        android:lineHeight="@dimen/dp_25"
+                        android:text="购买任意产品升级代言人，获得超值礼包，享受代言人的众多权益。"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_1"
+                        android:layout_marginTop="@dimen/dp_18"
+                        android:background="@color/background"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_16"
+                        android:textColor="@color/text3"
+                        android:layout_marginLeft="@dimen/dp_12"
+                        android:layout_marginTop="@dimen/dp_23"
+                        android:text="农品街代言人VIP权益"/>
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/dp_7"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_22"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="@dimen/dp_0"
+                            android:layout_height="@dimen/dp_50"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="@dimen/dp_50"
+                                android:layout_height="@dimen/dp_50"
+                                android:layout_marginLeft="@dimen/dp_12"
+                                android:src="@drawable/vip_qy1"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/dp_7"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/text3"
+                                    android:textSize="@dimen/sp_15"
+                                    android:text="免费农药"/>
+                                <TextView
+                                    android:layout_marginTop="@dimen/dp_5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="@dimen/sp_13"
+                                    android:textColor="@color/text6"
+                                    android:text="终身免费领取农药"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="@dimen/dp_0"
+                            android:layout_height="@dimen/dp_50"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="@dimen/dp_50"
+                                android:layout_height="@dimen/dp_50"
+                                android:layout_marginLeft="@dimen/dp_12"
+                                android:src="@drawable/vip_qy2"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/dp_7"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/text3"
+                                    android:textSize="@dimen/sp_15"
+                                    android:text="自用省钱"/>
+                                <TextView
+                                    android:layout_marginTop="@dimen/dp_5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="@dimen/sp_13"
+                                    android:textColor="@color/text6"
+                                    android:text="所有商品享受会员价"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_15"
+                        android:layout_marginBottom="@dimen/dp_23"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="@dimen/dp_0"
+                            android:layout_height="@dimen/dp_50"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="@dimen/dp_50"
+                                android:layout_height="@dimen/dp_50"
+                                android:layout_marginLeft="@dimen/dp_12"
+                                android:src="@drawable/vip_qy3"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/dp_7"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/text3"
+                                    android:textSize="@dimen/sp_15"
+                                    android:text="分享赚钱"/>
+                                <TextView
+                                    android:layout_marginTop="@dimen/dp_5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="@dimen/sp_13"
+                                    android:textColor="@color/text6"
+                                    android:text="好友购物有奖励返现"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="@dimen/dp_0"
+                            android:layout_height="@dimen/dp_50"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="@dimen/dp_50"
+                                android:layout_height="@dimen/dp_50"
+                                android:layout_marginLeft="@dimen/dp_12"
+                                android:src="@drawable/vip_qy4"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/dp_7"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/text3"
+                                    android:textSize="@dimen/sp_15"
+                                    android:text="邀请奖励"/>
+                                <TextView
+                                    android:layout_marginTop="@dimen/dp_5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="@dimen/sp_13"
+                                    android:textColor="@color/text6"
+                                    android:text="邀请代言人得奖励"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_10"
+                        android:background="@color/background"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_58"
+                        android:orientation="horizontal"
+                        android:gravity="center">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/text3"
-                            android:textSize="@dimen/sp_15"
-                            android:text="免费农药"/>
+                            android:textSize="@dimen/sp_16"
+                            android:text="商品详情"/>
+                        <!--<TextView
+                            android:id="@+id/at_gift_detail_tv_detail"
+                            android:layout_width="@dimen/dp_100"
+                            android:layout_height="@dimen/dp_38"
+                            android:background="@color/app_theme"
+                            android:text="详情"
+                            android:textSize="@dimen/sp_16"
+                            android:textColor="@android:color/white"
+                            android:gravity="center"/>
                         <TextView
-                            android:layout_marginTop="@dimen/dp_5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/sp_13"
-                            android:textColor="@color/text6"
-                            android:text="终身免费领取农药"/>
+                            android:id="@+id/at_gift_detail_tv_needknow"
+                            android:layout_width="@dimen/dp_100"
+                            android:layout_height="@dimen/dp_38"
+                            android:background="@android:color/white"
+                            android:text="须知"
+                            android:textSize="@dimen/sp_16"
+                            android:textColor="@color/text3"
+                            android:gravity="center"/>-->
                     </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="@dimen/dp_50"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="@dimen/dp_50"
-                        android:layout_height="@dimen/dp_50"
-                        android:layout_marginLeft="@dimen/dp_12"
-                        android:src="@drawable/vip_qy2"/>
-                    <LinearLayout
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/ac_gift_rv_imgs"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/dp_7"
+                        android:layout_height="match_parent"/>
+                    <!--<LinearLayout
+                        android:id="@+id/ac_gift_ll_know"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_400"
                         android:orientation="vertical">
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/text3"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_20"
+                            android:gravity="center"
                             android:textSize="@dimen/sp_15"
-                            android:text="自用省钱"/>
-                        <TextView
-                            android:layout_marginTop="@dimen/dp_5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/sp_13"
-                            android:textColor="@color/text6"
-                            android:text="所有商品享受会员价"/>
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:layout_marginBottom="@dimen/dp_23"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="@dimen/dp_50"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="@dimen/dp_50"
-                        android:layout_height="@dimen/dp_50"
-                        android:layout_marginLeft="@dimen/dp_12"
-                        android:src="@drawable/vip_qy3"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/dp_7"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:textColor="@color/text3"
-                            android:textSize="@dimen/sp_15"
-                            android:text="分享赚钱"/>
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginBottom="@dimen/dp_10"
+                            android:text="众筹须知"/>
                         <TextView
-                            android:layout_marginTop="@dimen/dp_5"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:layout_marginRight="@dimen/dp_12"
                             android:textSize="@dimen/sp_13"
-                            android:textColor="@color/text6"
-                            android:text="好友购物有奖励返现"/>
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="@dimen/dp_50"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="@dimen/dp_50"
-                        android:layout_height="@dimen/dp_50"
-                        android:layout_marginLeft="@dimen/dp_12"
-                        android:src="@drawable/vip_qy4"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/dp_7"
-                        android:orientation="vertical">
+                            android:lineHeight="@dimen/dp_20"
+                            android:text="1. 众筹定金：指买家在购买双十一众筹商品时，预先支付的一定数额的预付款，不具备担保性质，主要用作购买双十一众筹商品时确定购买名额，当合同不能履行时，除不可抗力外，应根据双方当事人的过错承担违约责任。买家未如期支付尾款，或买家申请退款且根据《天猫规则》，《淘宝争议处理规范》等相关规则判定为非卖家责任的，定金均不退还。天猫国际众筹商品需遵守天猫国际众筹相关规则。 "/>
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/text3"
-                            android:textSize="@dimen/sp_15"
-                            android:text="邀请奖励"/>
-                        <TextView
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:layout_marginRight="@dimen/dp_12"
                             android:layout_marginTop="@dimen/dp_5"
-                            android:layout_width="wrap_content"
+                            android:lineHeight="@dimen/dp_20"
+                            android:text="2. 众筹尾款：指双十一众筹商品价格减去定金后买家还需支付的对应数额的金钱。"/>
+                        <TextView
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/sp_13"
-                            android:textColor="@color/text6"
-                            android:text="邀请代言人得奖励"/>
-                    </LinearLayout>
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:layout_marginRight="@dimen/dp_12"
+                            android:layout_marginTop="@dimen/dp_5"
+                            android:lineHeight="@dimen/dp_20"
+                            android:text="3. 众筹商品：指商品详情页有众筹标识的众筹商品。"/>
+                    </LinearLayout>-->
                 </LinearLayout>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_10"
-                android:background="@color/background"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_58"
-                android:orientation="horizontal"
-                android:gravity="center">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text3"
-                    android:textSize="@dimen/sp_16"
-                    android:text="商品详情"/>
-                <!--<TextView
-                    android:id="@+id/at_gift_detail_tv_detail"
-                    android:layout_width="@dimen/dp_100"
-                    android:layout_height="@dimen/dp_38"
-                    android:background="@color/app_theme"
-                    android:text="详情"
-                    android:textSize="@dimen/sp_16"
-                    android:textColor="@android:color/white"
-                    android:gravity="center"/>
-                <TextView
-                    android:id="@+id/at_gift_detail_tv_needknow"
-                    android:layout_width="@dimen/dp_100"
-                    android:layout_height="@dimen/dp_38"
-                    android:background="@android:color/white"
-                    android:text="须知"
-                    android:textSize="@dimen/sp_16"
-                    android:textColor="@color/text3"
-                    android:gravity="center"/>-->
-            </LinearLayout>
-           <android.support.v7.widget.RecyclerView
-               android:id="@+id/ac_gift_rv_imgs"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"/>
-            <!--<LinearLayout
-                android:id="@+id/ac_gift_ll_know"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_400"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_20"
-                    android:gravity="center"
-                    android:textSize="@dimen/sp_15"
-                    android:textColor="@color/text3"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:layout_marginBottom="@dimen/dp_10"
-                    android:text="众筹须知"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginRight="@dimen/dp_12"
-                    android:textSize="@dimen/sp_13"
-                    android:lineHeight="@dimen/dp_20"
-                    android:text="1. 众筹定金：指买家在购买双十一众筹商品时，预先支付的一定数额的预付款，不具备担保性质，主要用作购买双十一众筹商品时确定购买名额，当合同不能履行时，除不可抗力外，应根据双方当事人的过错承担违约责任。买家未如期支付尾款，或买家申请退款且根据《天猫规则》，《淘宝争议处理规范》等相关规则判定为非卖家责任的，定金均不退还。天猫国际众筹商品需遵守天猫国际众筹相关规则。 "/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginRight="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_5"
-                    android:lineHeight="@dimen/dp_20"
-                    android:text="2. 众筹尾款：指双十一众筹商品价格减去定金后买家还需支付的对应数额的金钱。"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginRight="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_5"
-                    android:lineHeight="@dimen/dp_20"
-                    android:text="3. 众筹商品：指商品详情页有众筹标识的众筹商品。"/>
-            </LinearLayout>-->
-        </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+            </android.support.v4.widget.NestedScrollView>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </LinearLayout>
     <Button
         android:id="@+id/at_gift_detail_btn_buy"
         android:layout_width="@dimen/dp_245"
@@ -316,8 +318,9 @@
         android:textSize="@dimen/sp_15"
         android:textColor="@android:color/white"/>
     <ImageView
-        android:layout_width="@dimen/dp_50"
-        android:layout_height="@dimen/dp_50"
+        android:visibility="gone"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:src="@drawable/goods_detail_share"

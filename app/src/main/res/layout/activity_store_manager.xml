@@ -72,15 +72,92 @@
                             android:layout_height="wrap_content"
                             android:background="@null"
                             android:hint="请选择人均消费"
+                            android:inputType="number"
                             android:textColor="@color/text9"
                             android:textSize="@dimen/sp_13"
                             android:layout_marginLeft="@dimen/dp_10"/>
                     </LinearLayout>
+
                     <LinearLayout
+                        android:id="@+id/ac_storeManager_llEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_80"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_10">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="营业时间:"
+                            android:textSize="@dimen/sp_15"
+                            android:textColor="@color/text3"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/dp_12"
+                                android:layout_weight="1">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="上午："/>
+                                <TextView
+                                    android:id="@+id/ac_storeManager_aBegin"
+                                    android:layout_width="@dimen/dp_50"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="9:00"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=" -- "/>
+                                <TextView
+                                    android:id="@+id/ac_storeManager_aEnd"
+                                    android:layout_width="@dimen/dp_50"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="12:00"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/dp_12"
+                                android:layout_weight="1">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="下午："/>
+                                <TextView
+                                    android:id="@+id/ac_storeManager_pBegin"
+                                    android:layout_width="@dimen/dp_50"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="14:00"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=" -- "/>
+                                <TextView
+                                    android:id="@+id/ac_storeManager_pEnd"
+                                    android:layout_width="@dimen/dp_50"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="20:00"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ac_storeManager_llShow"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_40"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
+                        android:visibility="gone"
                         android:layout_marginLeft="@dimen/dp_10">
                         <TextView
                             android:layout_width="wrap_content"
@@ -93,10 +170,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="9:00-12:00  14:00-20:00"
                             android:textColor="@color/text9"
                             android:textSize="@dimen/sp_13"
-                            android:layout_marginLeft="@dimen/dp_10"/>
+                            android:inputType="time"
+                            android:layout_marginLeft="@dimen/dp_10" />
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"
@@ -117,6 +194,7 @@
                             android:textSize="@dimen/sp_15"
                             android:textColor="@color/text3"/>
                         <EditText
+                            android:inputType="phone"
                             android:id="@+id/ac_storeManager_et_contact"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -256,6 +334,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:hint="请填写"
+                                android:inputType="number"
                                 android:textSize="@dimen/sp_12"
                                 android:layout_marginLeft="@dimen/dp_10"
                                 android:layout_marginRight="@dimen/dp_10"

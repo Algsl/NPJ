@@ -37,6 +37,9 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Map;
 
 import butterknife.BindView;
@@ -122,6 +125,9 @@ public class VideoBuyConfirmActivity extends ActivityBase {
     private static final int SDK_PAY_FLAG = 1001;
     private VideoOrderResponseBean.DataBean data;
 
+    private String goodsImg;
+    private String goodsName;
+    private String goodsPrice;
 
 
     @Override
@@ -146,6 +152,10 @@ public class VideoBuyConfirmActivity extends ActivityBase {
 
     private void setData(String info) {
         BuyVideoResponseBean buyVideoResponseBean = GsonUtils.fromJson(info, BuyVideoResponseBean.class);
+
+        goodsImg=buyVideoResponseBean.getData().getImg();
+        goodsName=buyVideoResponseBean.getData().getTitle();
+        goodsPrice=buyVideoResponseBean.getData().getPrice();
         list_id = buyVideoResponseBean.getData().getList_id();
         atVideoBuyConfirmTvName.setText(buyVideoResponseBean.getData().getNick_name());
         Glide.with(this).load(buyVideoResponseBean.getData().getImg()).into(atVideoBuyConfirmImg);
@@ -210,7 +220,25 @@ public class VideoBuyConfirmActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-                        showToast(errorMsg);
+                        JSONObject obj = null;
+                        try {
+                            obj = new JSONObject(errorMsg);
+                            Log.e("测试", "onFault: " + obj);
+                            if (obj == null) {
+
+                            } else {
+                                int code = obj.getInt("code");
+                                if (code == 2) {
+                                    openActivity(OrderFinishActivity.class, goodsImg, goodsName, goodsPrice);
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.e("测试", "onFault: " + (obj == null));
+                        if (obj == null) {
+                            showToast("余额不足");
+                        }
                     }
                 }));
                 break;
@@ -218,7 +246,7 @@ public class VideoBuyConfirmActivity extends ActivityBase {
     }
 
     private void yuepay() {
-        finish();
+
     }
 
     private void wxpay() {

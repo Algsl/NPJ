@@ -96,6 +96,7 @@
                        android:id="@+id/at_real_name_authentication2_et_id"
                        android:layout_width="match_parent"
                        android:layout_height="match_parent"
+                       android:inputType="number"
                        android:background="@android:color/white"
                        android:hint="请正确填写18位身份证号码"
                        android:textColorHint="@color/text6"

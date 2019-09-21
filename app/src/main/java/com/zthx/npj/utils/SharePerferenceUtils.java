@@ -132,6 +132,30 @@ public class SharePerferenceUtils {
         return sp.getInt(key, defValue);
     }
 
+    public static void setBalance(Context context, String balance) {
+        putString(context,"balance",balance);
+    }
+
+    public static String getBalance(Context context) {
+        return getString(context, "balance", "");
+    }
+
+
+    public static void setUserName(Context context, String user_name) {
+        putString(context,"userName",user_name);
+    }
+
+    public static String getUserName(Context context) {
+        return getString(context, "userName", "");
+    }
+
+    public static void setUserMobile(Context context, String userMobile) {
+        putString(context,"userMobile",userMobile);
+    }
+
+    public static String getUserMobile(Context context) {
+        return getString(context, "userMobile", "");
+    }
 
 
     public static void setUserId(Context context, String id) {
@@ -154,6 +178,29 @@ public class SharePerferenceUtils {
     public static String getUserLevel(Context context) {
         return getString(context, "user_level", "");
     }
+
+    public static void setHeadPic(Context context, String headPic) {
+        putString(context,"headPic",headPic);
+    }
+    public static String getHeadPic(Context context) {
+        return getString(context, "headPic", "");
+    }
+
+    public static void setNickName(Context context, String nick_name) {
+        putString(context,"nick_name",nick_name);
+    }
+    public static String getNickName(Context context) {
+        return getString(context, "nick_name", "");
+    }
+
+    public static String getReputation(Context context) {
+        return getString(context, "reputation", "");
+    }
+    public static void setReputation(Context context, String reputation) {
+        putString(context,"reputation",reputation);
+    }
+
+
 
     public static ArrayList<NotificationBean> getList() {
         return list;

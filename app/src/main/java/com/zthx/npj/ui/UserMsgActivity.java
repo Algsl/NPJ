@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -29,7 +28,6 @@ import com.bumptech.glide.Glide;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.R;
@@ -38,7 +36,6 @@ import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AttentionResponseBean;
 import com.zthx.npj.net.been.LookUserResponseBean;
 import com.zthx.npj.net.been.StoreGoodsListResponseBean;
-import com.zthx.npj.net.netsubscribe.CertSubscribe;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -46,9 +43,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GetAddressUtil;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.MyCustomUtils;
-import com.zthx.npj.utils.QRCodeUtil;
 import com.zthx.npj.utils.SharePerferenceUtils;
-import com.zthx.npj.utils.SimpleUtil;
 import com.zthx.npj.view.MyCircleView;
 
 import java.io.ByteArrayOutputStream;
@@ -109,13 +104,17 @@ public class UserMsgActivity extends ActivityBase {
     TextView acUserMsgTvSellSort;
     @BindView(R.id.ac_userMsg_tv_priceSort)
     TextView acUserMsgTvPriceSort;
+    @BindView(R.id.ac_userMsg_tv_sellOver)
+    TextView acUserMsgTvSellOver;
+    @BindView(R.id.ac_userMsg_tv_hReputation)
+    TextView acUserMsgTvHReputation;
 
 
     private IWXAPI api;
     private Bitmap bmp;
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
-    private String level=SharePerferenceUtils.getUserLevel(this);
+    private String level = SharePerferenceUtils.getUserLevel(this);
     private String att_user_id = "";
     private String type = "1";
 
@@ -135,7 +134,7 @@ public class UserMsgActivity extends ActivityBase {
         if (!att_user_id.equals(user_id)) {
             acUserMsgTvGoCert.setVisibility(View.GONE);
         }
-        if(!level.equals("0")){
+        if (!level.equals("0")) {
             acUserMsgTvBeDYR.setVisibility(View.INVISIBLE);
         }
 
@@ -146,7 +145,7 @@ public class UserMsgActivity extends ActivityBase {
 
 
     private void getStoreGoodsList() {
-        MainSubscribe.storeGoodsList(user_id,att_user_id, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.storeGoodsList(user_id, att_user_id, type, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setStoreGoodsList(result);
@@ -211,12 +210,24 @@ public class UserMsgActivity extends ActivityBase {
         acUserMsgTvReputation.setText(data.getReputation() == null ? "0" : data.getReputation());
         acUserMsgTvAddress.setText(new GetAddressUtil(this).getAddress(Double.parseDouble(data.getLng()), Double.parseDouble(data.getLat())));
 
-        String[] strs=data.getCertification().split(",");
-        for(String str:strs){
-            if(str.equals("1")){
+        if (Double.parseDouble(data.getHistory_money()) >= 10000.00) {
+            acUserMsgTvSellOver.setVisibility(View.VISIBLE);
+        } else {
+            acUserMsgTvSellOver.setVisibility(View.GONE);
+        }
+
+        if (Double.parseDouble(data.getReputation()) >= 80) {
+            acUserMsgTvHReputation.setVisibility(View.VISIBLE);
+        } else {
+            acUserMsgTvHReputation.setVisibility(View.GONE);
+        }
+
+        String[] strs = data.getCertification().split(",");
+        for (String str : strs) {
+            if (str.equals("1")) {
                 acUserMsgTvSmCert.setVisibility(View.VISIBLE);
                 acUserMsgTvSjCert.setVisibility(View.VISIBLE);
-            }else if(str.equals("2")){
+            } else if (str.equals("2")) {
                 acUserMsgTvQyCert.setVisibility(View.VISIBLE);
             }
         }
@@ -487,7 +498,7 @@ public class UserMsgActivity extends ActivityBase {
             public void onClick(View view) {
                 window.dismiss();
                 backgroundAlpha(1f);
-                openActivity(ReportActivity.class, "该账号存在欺骗诈钱行为",att_user_id);
+                openActivity(ReportActivity.class, "该账号存在欺骗诈钱行为", att_user_id);
             }
         });
         reason2.setOnClickListener(new View.OnClickListener() {
@@ -495,7 +506,7 @@ public class UserMsgActivity extends ActivityBase {
             public void onClick(View view) {
                 window.dismiss();
                 backgroundAlpha(1f);
-                openActivity(ReportActivity.class, "该账号存在其它违法行为",att_user_id);
+                openActivity(ReportActivity.class, "该账号存在其它违法行为", att_user_id);
             }
         });
         reason3.setOnClickListener(new View.OnClickListener() {
@@ -503,7 +514,7 @@ public class UserMsgActivity extends ActivityBase {
             public void onClick(View view) {
                 window.dismiss();
                 backgroundAlpha(1f);
-                openActivity(ReportActivity.class, "该账号侵犯他人权益",att_user_id);
+                openActivity(ReportActivity.class, "该账号侵犯他人权益", att_user_id);
             }
         });
         reason4.setOnClickListener(new View.OnClickListener() {
@@ -511,7 +522,7 @@ public class UserMsgActivity extends ActivityBase {
             public void onClick(View view) {
                 window.dismiss();
                 backgroundAlpha(1f);
-                openActivity(ReportActivity.class, "该账号存在虚假信息",att_user_id);
+                openActivity(ReportActivity.class, "该账号存在虚假信息", att_user_id);
             }
         });
         window.setOnDismissListener(new PopupWindow.OnDismissListener() {

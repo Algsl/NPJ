@@ -125,11 +125,7 @@ public class AttestationSuccessActivity extends ActivityBase {
                 break;
             case "4":
                 changeTitle(acTitle, "诚信认证");
-                if(result.equals("0")){
-                    acAttestationIvFail.setImageResource(R.drawable.chengxinrenzhen_bg);
-                }else if(result.equals("1")){
-                    acAttestationIvFail.setImageResource(R.drawable.chengxinrenzheng_c_bg);
-                }else{
+                if(result.equals("1")){
                     acAttestationIvFail.setImageResource(R.drawable.chengxinrenzheng_c_bg);
                 }
                 break;
