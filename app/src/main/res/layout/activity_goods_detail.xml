@@ -320,7 +320,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="80.00"
+                            android:text="0.00"
                             android:textColor="@color/text3"
                             android:textSize="@dimen/sp_15"/>
                         <TextView
@@ -346,7 +346,7 @@
                             android:id="@+id/at_goods_detail_tv_pre_sell_dacheng"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="80%"
+                            android:text="0%"
                             android:textColor="@color/text3"
                             android:textSize="@dimen/sp_15"/>
                         <TextView
@@ -659,6 +659,7 @@
         android:layout_height="@dimen/dp_49"
         android:layout_alignParentBottom="true">
         <LinearLayout
+            android:id="@+id/ac_goodsDetail_ll_3bar"
             android:paddingTop="@dimen/dp_5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -703,6 +704,7 @@
                     android:textColor="@color/text6"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/ac_goodsdetail_ll_kefu"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

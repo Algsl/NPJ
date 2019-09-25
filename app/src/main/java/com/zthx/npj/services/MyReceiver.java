@@ -33,14 +33,14 @@ public class MyReceiver extends BroadcastReceiver {
         try {
             Bundle bundle = intent.getExtras();
             Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
-            String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
+            /*String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
             String content = bundle.getString(JPushInterface.EXTRA_ALERT);
             if(title!=null && content!=null){
                 NotificationBean bean=new NotificationBean(title,content,new Date());
                 ArrayList<NotificationBean> lists=SharePerferenceUtils.getList();
                 lists.add(bean);
                 SharePerferenceUtils.setList(lists);
-            }
+            }*/
             if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
                 String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
                 Log.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);

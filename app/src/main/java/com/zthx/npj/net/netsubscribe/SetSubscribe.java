@@ -56,6 +56,7 @@ import com.zthx.npj.net.been.MySupplyOrderCommentBean;
 import com.zthx.npj.net.been.MySupplyGoodsConfirmBean;
 import com.zthx.npj.net.been.MySupplyOrderConfirmBean;
 import com.zthx.npj.net.been.MySupplyOrderDelBean;
+import com.zthx.npj.net.been.MySupplyOrderDetailBean;
 import com.zthx.npj.net.been.MySupplyOrderFahuoBean;
 import com.zthx.npj.net.been.MySupplyOrderRefund2Bean;
 import com.zthx.npj.net.been.MySupplyOrderRefund3Bean;
@@ -77,9 +78,11 @@ import com.zthx.npj.net.been.ReceiveConfirmBean;
 import com.zthx.npj.net.been.RechargeBean;
 import com.zthx.npj.net.been.RefundBean;
 import com.zthx.npj.net.been.ReportBean;
+import com.zthx.npj.net.been.SeckillOrderBean;
 import com.zthx.npj.net.been.SetStoreBean;
 import com.zthx.npj.net.been.ShipBean;
 import com.zthx.npj.net.been.ShopLogBean;
+import com.zthx.npj.net.been.SpikeOrderBuyOneBean;
 import com.zthx.npj.net.been.SupplyDelBean;
 import com.zthx.npj.net.been.SupplyDownBean;
 import com.zthx.npj.net.been.SupplyEdit2Bean;
@@ -1616,6 +1619,28 @@ public class SetSubscribe {
     }
 
     /**
+     *抢购商品确认订单
+     * @param bean
+     * @param subscriber
+     */
+    public static void seckillOrder(SeckillOrderBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().seckillOrder(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 抢购商品生成订单
+     * @param bean
+     * @param subscriber
+     */
+    public static void spikeOrderBuyOne(SpikeOrderBuyOneBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().spikeOrderBuyOne(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+
+
+    /**
      * 购买商品提交订单
      * @param bean
      * @param subscriber
@@ -1632,6 +1657,22 @@ public class SetSubscribe {
      */
     public static void report(ReportBean bean, DisposableObserver<ResponseBody> subscriber) {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().report(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的供应订单详情
+     * @param user_id
+     * @param token
+     * @param order_id
+     * @param subscriber
+     */
+    public static void mySupplyOrderDetail(String user_id,String token,String order_id, DisposableObserver<ResponseBody> subscriber) {
+        MySupplyOrderDetailBean bean=new MySupplyOrderDetailBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setOrder_id(order_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyOrderDetail(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

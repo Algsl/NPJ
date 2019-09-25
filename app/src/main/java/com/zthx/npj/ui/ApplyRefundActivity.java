@@ -60,7 +60,7 @@ public class ApplyRefundActivity extends ActivityBase {
     @BindView(R.id.at_order_applyRefund_tv_reason)
     TextView atOrderApplyRefundTvReason;
     @BindView(R.id.at_order_applyRefund_tv_orderPrice)
-    TextView atOrderApplyRefundTvOrderPrice;
+    EditText atOrderApplyRefundTvOrderPrice;
     @BindView(R.id.at_order_applyRefund_tv_ship)
     TextView atOrderApplyRefundTvShip;
     @BindView(R.id.ac_order_applyRefund_et_reason)
@@ -138,7 +138,6 @@ public class ApplyRefundActivity extends ActivityBase {
         atOrderApplyRefundTvGoodsName.setText(data.getGoods_name());
         atOrderApplyRefundTvGoodsPrice.setText("￥ " + data.getGoods_price());
         atOrderApplyRefundTvGoodsNum.setText("x " + data.getGoods_num());
-        atOrderApplyRefundTvOrderPrice.setText("￥ " + data.getOrder_price());
         atOrderApplyRefundTvShip.setText("最多" + data.getOrder_price() + "元，含运费￥" + data.getShipping_fee());
     }
 
@@ -178,6 +177,10 @@ public class ApplyRefundActivity extends ActivityBase {
             case R.id.ac_order_applyRefund_btn_confirm:
                 if(atOrderApplyRefundTvReason.getText().toString().trim().equals("请选择")){
                     showToast("请选择退款原因");
+                }else if(atOrderApplyRefundTvOrderPrice.getText().toString().trim().equals("")){
+                    showToast("请填写退款金额");
+                }else if(Double.parseDouble(atOrderApplyRefundTvOrderPrice.getText().toString().trim())>Double.parseDouble(data.getOrder_price())){
+                    showToast("退款金额不能超过订单金额");
                 }else if(paths==null || paths.size()==0){
                     showToast("请上传凭证");
                 }else{

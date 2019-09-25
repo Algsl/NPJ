@@ -18,37 +18,6 @@
             android:layout_height="@dimen/dp_203"
             android:background="@drawable/mine_title_gb"
             android:orientation="vertical">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:layout_marginTop="@dimen/dp_30">
-                <ImageView
-                    android:id="@+id/title_theme_back"
-                    android:layout_width="@dimen/dp_32"
-                    android:layout_height="@dimen/dp_32"
-                    android:onClick="click"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp_6"
-                    android:src="@drawable/white_back"/>
-                <TextView
-                    android:id="@+id/title_theme_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textSize="@dimen/sp_18"
-                    android:textColor="@android:color/white"
-                    android:text="个人资料" />
-                <ImageView
-                    android:id="@+id/title_theme_img_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_12"
-                    android:textSize="@dimen/sp_13"
-                    android:src="@drawable/item_goods_more1"
-                    android:textColor="@android:color/white"/>
-            </RelativeLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -113,13 +82,15 @@
                         android:text="雪落下的声音"/>
                     <TextView
                         android:id="@+id/ac_userMsg_tv_signature"
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/dp_220"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/dp_12"
                         android:layout_marginTop="@dimen/dp_15"
                         android:layout_marginLeft="@dimen/dp_5"
                         android:textSize="@dimen/sp_13"
                         android:textColor="@color/text6"
+                        android:maxLines="2"
+                        android:ellipsize="end"
                         android:text="诚信第一、互惠互利、共赢"/>
                 </LinearLayout>
             </LinearLayout>
@@ -146,6 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -439,6 +411,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/dp_13"/>
+            <TextView
+                android:id="@+id/ac_userMsg_tv_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/dp_50"
+                android:text="该分类暂无商品"/>
         </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -810,4 +790,40 @@
             android:layout_marginTop="@dimen/dp_10"
             android:background="@drawable/theme_conner_15"/>
     </LinearLayout>-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_80"
+        android:background="@drawable/top_bg1">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginTop="@dimen/dp_30">
+            <ImageView
+                android:id="@+id/title_theme_back"
+                android:layout_width="@dimen/dp_32"
+                android:layout_height="@dimen/dp_32"
+                android:onClick="click"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_6"
+                android:src="@drawable/white_back"/>
+            <TextView
+                android:id="@+id/title_theme_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/sp_18"
+                android:textColor="@android:color/white"
+                android:text="个人资料" />
+            <ImageView
+                android:id="@+id/title_theme_img_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_12"
+                android:textSize="@dimen/sp_13"
+                android:src="@drawable/item_goods_more1"
+                android:textColor="@android:color/white"/>
+        </RelativeLayout>
+    </RelativeLayout>
 </RelativeLayout>

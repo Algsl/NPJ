@@ -19,11 +19,14 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.SecKillAdpter;
 import com.zthx.npj.base.Const;
+import com.zthx.npj.net.been.SecKillGoodsDetailResponseBean;
 import com.zthx.npj.net.been.SecKillTodayResponseBean;
 import com.zthx.npj.net.netsubscribe.SecKillSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.ConfirmOrderActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
+import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.utils.GsonUtils;
 
 import java.util.ArrayList;
@@ -122,6 +125,11 @@ public class SeckillListFragment extends Fragment {
                 intent.putExtra(Const.SECKILL_STATUS, 3);
                 startActivity(intent);
             }
+
+            @Override
+            public void onBuyClick(int position) {
+
+            }
         });
     }
 
@@ -157,6 +165,27 @@ public class SeckillListFragment extends Fragment {
                 intent.putExtra(Const.SECKILL_STATUS, 2);
                 startActivity(intent);
             }
+
+            @Override
+            public void onBuyClick(int position) {
+                SecKillSubscribe.getSecKillGoodsDetail(data.get(position).getId()+"", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        SecKillGoodsDetailResponseBean secKillGoodsDetailResponseBean = GsonUtils.fromJson(result, SecKillGoodsDetailResponseBean.class);
+                        SecKillGoodsDetailResponseBean.DataBean data = secKillGoodsDetailResponseBean.getData();
+                        Intent intent = new Intent(getContext(), ConfirmOrderActivity.class);
+                        intent.setAction("miaosha");
+                        intent.putExtra("count", "1");
+                        intent.putExtra(Const.GOODS_ID, data.getId()+"");
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
+            }
         });
     }
 
@@ -191,6 +220,11 @@ public class SeckillListFragment extends Fragment {
                 intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
                 intent.putExtra(Const.SECKILL_STATUS, 1);
                 startActivity(intent);
+            }
+
+            @Override
+            public void onBuyClick(int position) {
+
             }
         });
     }

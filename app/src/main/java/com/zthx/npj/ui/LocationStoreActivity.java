@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +61,7 @@ public class LocationStoreActivity extends ActivityBase {
     @BindView(R.id.ac_title)
     TextView acTitle;
     @BindView(R.id.at_location_store_locate)
-    ImageView atLocationStoreLocate;
+    RelativeLayout atLocationStoreLocate;
     @BindView(R.id.at_location_store_et_search)
     EditText atLocationStoreEtSearch;
     @BindView(R.id.ac_locationStore_tv_type1)
@@ -269,7 +270,7 @@ public class LocationStoreActivity extends ActivityBase {
         MainSubscribe.getMainBanner("3", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                BannerResponseBean bean = GsonUtils.fromJson(result, BannerResponseBean.class);
+                final BannerResponseBean bean = GsonUtils.fromJson(result, BannerResponseBean.class);
                 ArrayList<BannerResponseBean.DataBean> data = bean.getData();
                 ArrayList<Uri> list = new ArrayList<>();
                 ArrayList<String> list2 = new ArrayList<>();
@@ -298,7 +299,11 @@ public class LocationStoreActivity extends ActivityBase {
                 banner.setOnBannerListener(new OnBannerListener() {
                     @Override
                     public void OnBannerClick(int position) {
-                        Log.e("huang", "position = " + position);
+                        Intent intent = new Intent(LocationStoreActivity.this, BannerActivity.class);
+                        intent.putExtra("title", bean.getData().get(position).getTitle());
+                        intent.putExtra("type", bean.getData().get(position).getType());
+                        intent.putExtra("id", bean.getData().get(position).getId()+"");
+                        startActivity(intent);
                     }
                 });
                 //banner设置方法全部调用完毕时最后调用

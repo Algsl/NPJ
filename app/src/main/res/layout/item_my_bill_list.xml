@@ -4,11 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:layout_marginTop="@dimen/dp_10"
     android:background="@android:color/white">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_10"
-        android:background="@color/background"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40">
@@ -67,8 +64,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="￥1560"
-                android:textSize="@dimen/sp_14"
-                android:textColor="@color/text6"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold"
+                android:textColor="@color/app_theme"
                 android:layout_alignLeft="@id/item_myBillList_tv_goodsName"
                 android:layout_below="@id/item_myBillList_tv_goodsName"
                 android:layout_marginTop="@dimen/dp_13"/>

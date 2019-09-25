@@ -176,7 +176,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.confirm.setVisibility(View.GONE);
                     viewHolder.again.setVisibility(View.GONE);
                     viewHolder.comment.setVisibility(View.GONE);
-                    viewHolder.goodsReturn.setVisibility(View.VISIBLE);
+                    if(list.get(i).getOrder_type().equals("1")){
+                        viewHolder.goodsReturn.setVisibility(View.GONE);
+                    }else{
+                        viewHolder.goodsReturn.setVisibility(View.VISIBLE);
+                    }
                     break;
                 case "3"://已发货，待收货
                     viewHolder.orderState.setText("待收货");
@@ -189,7 +193,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.confirm.setVisibility(View.VISIBLE);
                     viewHolder.again.setVisibility(View.GONE);
                     viewHolder.comment.setVisibility(View.GONE);
-                    viewHolder.goodsReturn.setVisibility(View.VISIBLE);
+                    if(list.get(i).getOrder_type().equals("1")){
+                        viewHolder.goodsReturn.setVisibility(View.GONE);
+                    }else{
+                        viewHolder.goodsReturn.setVisibility(View.VISIBLE);
+                    }
                     break;
                 case "4"://已收货，待评价
                     viewHolder.orderState.setText("待评价");
@@ -202,7 +210,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.confirm.setVisibility(View.GONE);
                     viewHolder.again.setVisibility(View.VISIBLE);
                     viewHolder.comment.setVisibility(View.VISIBLE);
-                    viewHolder.goodsReturn.setVisibility(View.VISIBLE);
+                    if(list.get(i).getOrder_type().equals("1")){
+                        viewHolder.goodsReturn.setVisibility(View.GONE);
+                    }else{
+                        viewHolder.goodsReturn.setVisibility(View.VISIBLE);
+                    }
                     break;
                 case "5":
                     viewHolder.orderState.setText("已完成");

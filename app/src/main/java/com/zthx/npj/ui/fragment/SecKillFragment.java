@@ -75,6 +75,11 @@ public class SecKillFragment extends Fragment {
                         intent.putExtra(Const.SECKILL_STATUS, Const.SECKILL_DOING);
                         startActivity(intent);
                     }
+
+                    @Override
+                    public void onBuyClick(int position) {
+
+                    }
                 });
                 fgSecKillRv.setItemAnimator(new DefaultItemAnimator());
                 fgSecKillRv.setAdapter(adapter);

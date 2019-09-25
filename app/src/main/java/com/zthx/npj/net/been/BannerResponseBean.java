@@ -23,6 +23,15 @@ public class BannerResponseBean extends BaseReponseBean {
         private String title;
         private String img;
         private String remark;
+        private String type;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
 
         public int getId() {
             return id;

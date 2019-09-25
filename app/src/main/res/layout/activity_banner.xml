@@ -6,9 +6,8 @@
     tools:context=".ui.AddAddressActivity"
     android:orientation="vertical">
     <include layout="@layout/title"/>
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/img"
-        android:scaleType="centerCrop"/>
+    <WebView
+        android:id="@+id/ac_banner_wv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

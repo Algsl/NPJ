@@ -9,6 +9,15 @@ public class StoreGoodsListResponseBean extends BaseReponseBean{
         private String goods_img;
         private String member_price;
         private String user_price;
+        private String market_price;
+
+        public String getMarket_price() {
+            return market_price;
+        }
+
+        public void setMarket_price(String market_price) {
+            this.market_price = market_price;
+        }
 
         public long getId() {
             return id;

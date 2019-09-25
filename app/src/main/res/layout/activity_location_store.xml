@@ -14,11 +14,11 @@
         android:layout_height="@dimen/dp_1"
         android:background="@color/background"/>
     <RelativeLayout
+        android:id="@+id/at_location_store_locate"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45"
         android:background="@android:color/white">
         <ImageView
-            android:id="@+id/at_location_store_locate"
             android:layout_width="@dimen/dp_22"
             android:layout_height="@dimen/dp_22"
             android:layout_centerVertical="true"
@@ -33,8 +33,7 @@
             android:layout_centerVertical="true"
             android:textColor="@color/text9"
             android:textSize="@dimen/sp_12"
-            android:layout_toRightOf="@id/at_location_store_locate"
-            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_40"
             android:singleLine="true"
             android:ellipsize="marquee"
             android:focusableInTouchMode="true"

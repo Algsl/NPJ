@@ -1,5 +1,7 @@
 package com.zthx.npj.net.been;
 
+import java.util.ArrayList;
+
 /**
  * Created by huangxin on 2019/6/10.
  */
@@ -18,6 +20,24 @@ public class GoodsOrderResponseBean extends BaseReponseBean{
         private String consignee;
         private String mobile;
         private String address;
+        private String key_name;
+        private String price1;
+
+        public String getKey_name() {
+            return key_name;
+        }
+
+        public void setKey_name(String key_name) {
+            this.key_name = key_name;
+        }
+
+        public String getPrice1() {
+            return price1;
+        }
+
+        public void setPrice1(String price1) {
+            this.price1 = price1;
+        }
 
         public long getId() {
             return id;

@@ -73,7 +73,7 @@
                 android:layout_marginLeft="@dimen/dp_5"
                 android:layout_marginRight="@dimen/dp_5"
                 android:layout_gravity="center"
-                android:text="会员价255"
+                android:text="代言人价255"
                 android:textSize="@dimen/sp_12"
                 android:textColor="@android:color/white"/>
         </LinearLayout>

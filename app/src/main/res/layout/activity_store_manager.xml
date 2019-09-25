@@ -288,12 +288,19 @@
                                 android:id="@+id/ac_storeManager_tv_offer"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="10%"
+                                android:text="10"
                                 android:layout_centerVertical="true"
                                 android:layout_toRightOf="@id/tv_malv"
                                 android:textColor="@color/text9"
                                 android:textSize="@dimen/sp_12"/>
-
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="%"
+                                android:layout_centerVertical="true"
+                                android:layout_toRightOf="@id/ac_storeManager_tv_offer"
+                                android:textColor="@color/text9"
+                                android:textSize="@dimen/sp_12"/>
                             <TextView
                                 android:id="@+id/at_store_manager_tv_code"
                                 android:layout_width="wrap_content"

@@ -53,6 +53,7 @@ import com.zthx.npj.ui.MessageCenterActivity;
 import com.zthx.npj.ui.PayToStoreActivity;
 import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.ui.SecKillActivity;
+import com.zthx.npj.ui.WebViewActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.GlideImageLoader;
@@ -306,7 +307,8 @@ public class HomeFragment extends BaseFragment {
             public void OnBannerClick(int position) {
                 Intent intent = new Intent(getContext(), BannerActivity.class);
                 intent.putExtra("title", bean.getData().get(position).getTitle());
-                intent.putExtra("img", bean.getData().get(position).getImg());
+                intent.putExtra("type", bean.getData().get(position).getType());
+                intent.putExtra("id", bean.getData().get(position).getId()+"");
                 startActivity(intent);
             }
         });
@@ -473,22 +475,27 @@ public class HomeFragment extends BaseFragment {
             case REQUEST_CODE_SCAN:
                 if (resultCode == RESULT_OK) {
                     String context = data.getStringExtra(Constant.CODED_CONTENT);
-                    Log.e("测试", "onActivityResult: " + context);
                     Uri uri = Uri.parse(context);
                     String page = uri.getQueryParameter("page");
                     String type = uri.getQueryParameter("type");
                     String id = uri.getQueryParameter("id");
-                    if (page.equals("goodsDetail")) {
-                        Intent intent = new Intent(getContext(), GoodsDetailActivity.class);
-                        intent.setAction(type);
-                        intent.putExtra("goods_id", id + "");
+                    if(page==null){
+                        Intent intent = new Intent(Intent.ACTION_VIEW); //Intent.ACTION_VIEW固定写法
+                        intent.setData(Uri.parse(context)); //url是你要跳转的网页地址
                         startActivity(intent);
-                    } else if (page.equals("tuijian")) {
-                        startActivity(new Intent(getContext(), MembershipPackageActivity.class));
-                    } else if (page.equals("payStore")) {
-                        Intent intent = new Intent(getContext(), PayToStoreActivity.class);
-                        intent.putExtra("key0", id);
-                        startActivity(intent);
+                    }else{
+                        if (page.equals("goodsDetail")) {
+                            Intent intent = new Intent(getContext(), GoodsDetailActivity.class);
+                            intent.setAction(type);
+                            intent.putExtra("goods_id", id + "");
+                            startActivity(intent);
+                        } else if (page.equals("tuijian")) {
+                            startActivity(new Intent(getContext(), MembershipPackageActivity.class));
+                        } else if (page.equals("payStore")) {
+                            Intent intent = new Intent(getContext(), PayToStoreActivity.class);
+                            intent.putExtra("key0", id);
+                            startActivity(intent);
+                        }
                     }
                 }
                 break;

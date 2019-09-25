@@ -113,6 +113,7 @@
                     android:layout_width="@dimen/dp_120"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/dp_5"
+                    android:textSize="@dimen/sp_15"
                     android:gravity="center"
                     android:textColor="@color/app_theme"
                     android:text="购买礼包"/>
@@ -121,7 +122,9 @@
                     android:layout_width="@dimen/dp_120"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/dp_5"
+                    android:textSize="@dimen/sp_15"
                     android:gravity="center"
+                    android:textColor="@color/text3"
                     android:text="代言人权益"/>
             </LinearLayout>
             <android.support.v7.widget.RecyclerView

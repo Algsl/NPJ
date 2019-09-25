@@ -101,4 +101,10 @@ public class LoginActivity extends ActivityBase {
         //像微信发送请求
         LoginActivity.mWxApi.sendReq(req);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        openActivity(MainActivity.class);
+    }
 }

@@ -108,6 +108,8 @@ public class UserMsgActivity extends ActivityBase {
     TextView acUserMsgTvSellOver;
     @BindView(R.id.ac_userMsg_tv_hReputation)
     TextView acUserMsgTvHReputation;
+    @BindView(R.id.ac_userMsg_tv_hint)
+    TextView acUserMsgTvHint;
 
 
     private IWXAPI api;
@@ -127,6 +129,9 @@ public class UserMsgActivity extends ActivityBase {
         att_user_id = getIntent().getStringExtra("key0");
         getLookUser(att_user_id);
 
+        back(titleThemeBack);
+        titleThemeImgRight.setImageResource(R.drawable.item_goods_more1);
+
 
         api = WXAPIFactory.createWXAPI(this, "wx76500efa65d19915", false);
         api.registerApp("wx76500efa65d19915");
@@ -138,7 +143,6 @@ public class UserMsgActivity extends ActivityBase {
             acUserMsgTvBeDYR.setVisibility(View.INVISIBLE);
         }
 
-        back(titleThemeBack);
 
         getStoreGoodsList();
     }
@@ -161,6 +165,13 @@ public class UserMsgActivity extends ActivityBase {
     private void setStoreGoodsList(String result) {
         StoreGoodsListResponseBean bean = GsonUtils.fromJson(result, StoreGoodsListResponseBean.class);
         final ArrayList<StoreGoodsListResponseBean.DataBean> data = bean.getData();
+        if (data.size() == 0 || data == null) {
+            fgMineRvLike.setVisibility(View.GONE);
+            acUserMsgTvHint.setVisibility(View.VISIBLE);
+        } else {
+            fgMineRvLike.setVisibility(View.VISIBLE);
+            acUserMsgTvHint.setVisibility(View.GONE);
+        }
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         fgMineRvLike.setLayoutManager(layoutManager);
         StoreGoodsAdapter adapter = new StoreGoodsAdapter(this, data);

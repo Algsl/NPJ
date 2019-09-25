@@ -4,8 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +30,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.AlsoLikeAdatper;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AlsoLikeResponseBean;
+import com.zthx.npj.net.been.MyTeamResponseBean;
 import com.zthx.npj.net.been.OrderResponseBean;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
@@ -38,6 +41,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.EditMyOfflineStoreActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.HelpActivity;
+import com.zthx.npj.ui.InputInvitationCodeActivity;
 import com.zthx.npj.ui.LoginActivity;
 import com.zthx.npj.ui.MembershipPackageActivity;
 import com.zthx.npj.ui.MessageCenterActivity;
@@ -151,6 +155,16 @@ public class MineFragment
     TextView fgMineTvCommentMsg;
     @BindView(R.id.fg_mine_tv_rebackMsg)
     TextView fgMineTvRebackMsg;
+    @BindView(R.id.title_theme_back)
+    ImageView titleThemeBack;
+    @BindView(R.id.title_theme_title)
+    TextView titleThemeTitle;
+    @BindView(R.id.fg_mine_nsv)
+    NestedScrollView fgMineNsv;
+    @BindView(R.id.title_theme)
+    LinearLayout titleTheme;
+    @BindView(R.id.title_theme_tv_right)
+    TextView titleThemeTvRight;
 
     //private String level=SharePerferenceUtils.getLevel(getContext());
     private String user_id = SharePerferenceUtils.getUserId(getContext());
@@ -159,11 +173,11 @@ public class MineFragment
     private String balance = "";
     private Intent intent;
 
-    private int paySize=0;
-    private int sendSize=0;
-    private int receiveSize=0;
-    private int commentSize=0;
-    private int rebackSize=0;
+    private int paySize = 0;
+    private int sendSize = 0;
+    private int receiveSize = 0;
+    private int commentSize = 0;
+    private int rebackSize = 0;
 
     public MineFragment() {
 
@@ -173,6 +187,7 @@ public class MineFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("测试", "onCreate: "+SharePerferenceUtils.getUserId(getContext()).equals(""));
         if (SharePerferenceUtils.getUserId(getContext()).equals("")) {
             startActivity(new Intent(getContext(), LoginActivity.class));
         }
@@ -181,10 +196,11 @@ public class MineFragment
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(!hidden){
+        if (!hidden) {
+            Log.e("测试", "onCreate: "+SharePerferenceUtils.getUserId(getContext()).equals(""));
             if (SharePerferenceUtils.getUserId(getContext()).equals("")) {
                 startActivity(new Intent(getContext(), LoginActivity.class));
-            }else if (!NetUtil.isNetworkConnected(getContext())) {
+            } else if (!NetUtil.isNetworkConnected(getContext())) {
                 Toast.makeText(getContext(), "请打开网络连接", Toast.LENGTH_SHORT).show();
             } else {
                 getUserInfo();
@@ -199,6 +215,18 @@ public class MineFragment
         View view = inflater.inflate(R.layout.fragment_mine, container, false);
         unbinder = ButterKnife.bind(this, view);
 
+        titleThemeBack.setVisibility(View.GONE);
+        titleThemeTitle.setText("个人中心");
+        //titleTheme.setBackground(getResources().getDrawable(R.drawable.mine_title_gb));
+        titleTheme.setAlpha(0f);
+        titleThemeTvRight.setText("设置");
+        titleThemeTvRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(),SettingsActivity.class));
+            }
+        });
+
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -209,6 +237,26 @@ public class MineFragment
                 Toast.makeText(getContext(), "刷新完成", Toast.LENGTH_SHORT).show();
             }
         });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            final int height = titleTheme.getLayoutParams().height;
+            fgMineNsv.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+                    float alpha = 0;
+                    titleTheme.setAlpha(alpha);
+                    if (i1 <= height) {
+                        alpha = (float) ((i1 * 10) / height / 10.0);
+                        // 随着滑动距离改变透明度
+                        // Log.e("al=","="+alpha);
+                        titleTheme.setAlpha(alpha);
+                    } else {
+                        titleTheme.setAlpha(1f);
+                    }
+                }
+            });
+        }
+
         getUserInfo();
         getAlsoLike();
         getOrderSize();
@@ -226,11 +274,11 @@ public class MineFragment
             @Override
             public void onSuccess(String result) {
                 OrderResponseBean bean = GsonUtils.fromJson(result, OrderResponseBean.class);
-                if(bean.getData()==null || bean.getData().size()==0){
+                if (bean.getData() == null || bean.getData().size() == 0) {
                     fgMineTvPayMsg.setVisibility(View.GONE);
-                }else{
+                } else {
                     fgMineTvPayMsg.setVisibility(View.VISIBLE);
-                    fgMineTvPayMsg.setText(bean.getData().size()+"");
+                    fgMineTvPayMsg.setText(bean.getData().size() + "");
                 }
             }
 
@@ -243,11 +291,11 @@ public class MineFragment
             @Override
             public void onSuccess(String result) {
                 OrderResponseBean bean = GsonUtils.fromJson(result, OrderResponseBean.class);
-                if(bean.getData()==null || bean.getData().size()==0){
+                if (bean.getData() == null || bean.getData().size() == 0) {
                     fgMineTvSendMsg.setVisibility(View.GONE);
-                }else{
+                } else {
                     fgMineTvSendMsg.setVisibility(View.VISIBLE);
-                    fgMineTvSendMsg.setText(bean.getData().size()+"");
+                    fgMineTvSendMsg.setText(bean.getData().size() + "");
                 }
             }
 
@@ -260,11 +308,11 @@ public class MineFragment
             @Override
             public void onSuccess(String result) {
                 OrderResponseBean bean = GsonUtils.fromJson(result, OrderResponseBean.class);
-                if(bean.getData()==null || bean.getData().size()==0){
+                if (bean.getData() == null || bean.getData().size() == 0) {
                     fgMineTvReceiveMsg.setVisibility(View.GONE);
-                }else{
+                } else {
                     fgMineTvReceiveMsg.setVisibility(View.VISIBLE);
-                    fgMineTvReceiveMsg.setText(bean.getData().size()+"");
+                    fgMineTvReceiveMsg.setText(bean.getData().size() + "");
                 }
             }
 
@@ -277,11 +325,11 @@ public class MineFragment
             @Override
             public void onSuccess(String result) {
                 OrderResponseBean bean = GsonUtils.fromJson(result, OrderResponseBean.class);
-                if(bean.getData()==null || bean.getData().size()==0){
+                if (bean.getData() == null || bean.getData().size() == 0) {
                     fgMineTvCommentMsg.setVisibility(View.GONE);
-                }else{
+                } else {
                     fgMineTvCommentMsg.setVisibility(View.VISIBLE);
-                    fgMineTvCommentMsg.setText(bean.getData().size()+"");
+                    fgMineTvCommentMsg.setText(bean.getData().size() + "");
                 }
             }
 
@@ -294,11 +342,11 @@ public class MineFragment
             @Override
             public void onSuccess(String result) {
                 OrderResponseBean bean = GsonUtils.fromJson(result, OrderResponseBean.class);
-                if(bean.getData()==null || bean.getData().size()==0){
+                if (bean.getData() == null || bean.getData().size() == 0) {
                     fgMineTvRebackMsg.setVisibility(View.GONE);
-                }else{
+                } else {
                     fgMineTvRebackMsg.setVisibility(View.VISIBLE);
-                    fgMineTvRebackMsg.setText(bean.getData().size()+"");
+                    fgMineTvRebackMsg.setText(bean.getData().size() + "");
                 }
             }
 
@@ -362,24 +410,24 @@ public class MineFragment
         UserResponseBean userResponseBean = GsonUtils.fromJson(result, UserResponseBean.class);
         UserResponseBean.DataBean data = userResponseBean.getData();
         level = data.getLevel() + "";
-        SharePerferenceUtils.setUserLevel(getContext(),level);
+        SharePerferenceUtils.setUserLevel(getContext(), level);
         fgMineTvName.setText(data.getNick_name());
         fgMineTvTel.setText(data.getMobile());
-        SharePerferenceUtils.setUserMobile(getContext(),data.getMobile());
+        SharePerferenceUtils.setUserMobile(getContext(), data.getMobile());
         fgMineTvWord.setText(data.getSignature() == null ? "这个人很懒，什么也没有留下" : data.getSignature());
         fgMineTvGourdCoin.setText(String.valueOf(data.getGourd_coin()));
         fgMineTvCouponNum.setText(String.valueOf(data.getCoupon_num()));
         fgMineTvCollectionNum.setText(String.valueOf(data.getCollection_num()));
         balance = data.getBalance();
-        SharePerferenceUtils.setBalance(getContext(),balance);
+        SharePerferenceUtils.setBalance(getContext(), balance);
         Glide.with(getContext())
                 .load(Uri.parse(data.getHead_img()))
                 .into(fgMineIvHeadPic);
-        SharePerferenceUtils.setHeadPic(getContext(),data.getHead_img());
-        SharePerferenceUtils.setNickName(getContext(),data.getNick_name());
-        SharePerferenceUtils.setReputation(getContext(),data.getReputation());
+        SharePerferenceUtils.setHeadPic(getContext(), data.getHead_img());
+        SharePerferenceUtils.setNickName(getContext(), data.getNick_name());
+        SharePerferenceUtils.setReputation(getContext(), data.getReputation());
         SharePerferenceUtils.putString(getContext(), "level", String.valueOf(data.getLevel()));
-        MyCustomUtils.showLevelImg(data.getLevel(),fgMineIvLevelimg);
+        MyCustomUtils.showLevelImg(data.getLevel(), fgMineIvLevelimg);
     }
 
 
@@ -492,11 +540,11 @@ public class MineFragment
                 startActivity(new Intent(getActivity(), HelpActivity.class));
                 break;
             case R.id.fg_mine_ll_my_supply:
-                if(level.equals("0")){
+                if (level.equals("0")) {
                     Toast toast = Toast.makeText(getContext(), "成为农品街代言人，才可使用供求操作", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
-                }else{
+                } else {
                     startActivity(new Intent(getContext(), MySupplyActivity.class));
                 }
                 break;
@@ -551,7 +599,44 @@ public class MineFragment
                 startActivity(new Intent(getContext(), MessageCenterActivity.class));
                 break;
             case R.id.fg_mine_iv_levelimg:
-                startActivity(new Intent(getContext(), MyTeamActivity.class));
+                SetSubscribe.myTeam(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        MyTeamResponseBean bean = GsonUtils.fromJson(result, MyTeamResponseBean.class);
+                        MyTeamResponseBean.DataBean data = bean.getData();
+                        if ((int) data.getStatus() == 1) {
+                            CommonDialog dialog= new CommonDialog(getContext(), R.style.dialog, "请先升级成为VIP代言人", new CommonDialog.OnCloseListener() {
+                                @Override
+                                public void onClick(Dialog dialog, boolean confirm) {
+                                    if(confirm){
+                                        startActivity(new Intent(getContext(),MembershipPackageActivity.class));
+                                    }
+                                }
+                            });
+                            dialog.setPositiveButton("升级为代言人");
+                            dialog.show();
+                        } else if ((int) data.getStatus() == 2) {
+                            CommonDialog dialog=new CommonDialog(getContext(), R.style.dialog, "请先绑定邀请人！", new CommonDialog.OnCloseListener() {
+                                @Override
+                                public void onClick(Dialog dialog, boolean confirm) {
+                                    if(confirm){
+                                        startActivity(new Intent(getContext(),InputInvitationCodeActivity.class));
+                                    }
+                                }
+                            });
+                            dialog.setPositiveButton("绑定邀请人");
+                            dialog.show();
+                        } else {
+                            startActivity(new Intent(getContext(), MyTeamActivity.class));
+                        }
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+                        Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                }));
+
                 break;
         }
     }

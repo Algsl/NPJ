@@ -73,7 +73,7 @@ public class PreSellActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle, "新品众筹");
+        changeTitle(acTitle, "产品众筹");
         getPreSellList("0");
         initBanner();
 
@@ -193,7 +193,7 @@ public class PreSellActivity extends ActivityBase {
         MainSubscribe.getMainBanner("2", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                BannerResponseBean bean = GsonUtils.fromJson(result, BannerResponseBean.class);
+                final BannerResponseBean bean = GsonUtils.fromJson(result, BannerResponseBean.class);
                 ArrayList<BannerResponseBean.DataBean> data = bean.getData();
                 ArrayList<Uri> list = new ArrayList<>();
                 ArrayList<String> list2 = new ArrayList<>();
@@ -222,7 +222,11 @@ public class PreSellActivity extends ActivityBase {
                 banner.setOnBannerListener(new OnBannerListener() {
                     @Override
                     public void OnBannerClick(int position) {
-                        Log.e("huang", "position = " + position);
+                        Intent intent = new Intent(PreSellActivity.this, BannerActivity.class);
+                        intent.putExtra("title", bean.getData().get(position).getTitle());
+                        intent.putExtra("type", bean.getData().get(position).getType());
+                        intent.putExtra("id", bean.getData().get(position).getId()+"");
+                        startActivity(intent);
                     }
                 });
                 //banner设置方法全部调用完毕时最后调用

@@ -42,6 +42,7 @@ import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.BannerActivity;
 import com.zthx.npj.ui.SupplyMessageActivity;
 import com.zthx.npj.ui.SupplyProductsActivity;
 import com.zthx.npj.ui.SupplySearchActivity;
@@ -418,7 +419,7 @@ public class DiscoverSupplyFragment extends Fragment {
         MainSubscribe.getMainBanner("5", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                BannerResponseBean bean = GsonUtils.fromJson(result, BannerResponseBean.class);
+                final BannerResponseBean bean = GsonUtils.fromJson(result, BannerResponseBean.class);
                 ArrayList<BannerResponseBean.DataBean> data = bean.getData();
                 ArrayList<Uri> list = new ArrayList<>();
                 ArrayList<String> list2 = new ArrayList<>();
@@ -447,7 +448,11 @@ public class DiscoverSupplyFragment extends Fragment {
                 banner.setOnBannerListener(new OnBannerListener() {
                     @Override
                     public void OnBannerClick(int position) {
-                        Log.e("huang", "position = " + position);
+                        Intent intent = new Intent(getContext(), BannerActivity.class);
+                        intent.putExtra("title", bean.getData().get(position).getTitle());
+                        intent.putExtra("type", bean.getData().get(position).getType());
+                        intent.putExtra("id", bean.getData().get(position).getId()+"");
+                        startActivity(intent);
                     }
                 });
                 //banner设置方法全部调用完毕时最后调用

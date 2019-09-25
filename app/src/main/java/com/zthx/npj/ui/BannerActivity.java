@@ -1,12 +1,15 @@
 package com.zthx.npj.ui;
 
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 
 import butterknife.BindView;
@@ -17,8 +20,8 @@ public class BannerActivity extends ActivityBase {
     ImageView titleBack;
     @BindView(R.id.ac_title)
     TextView acTitle;
-    @BindView(R.id.img)
-    ImageView img1;
+    @BindView(R.id.ac_banner_wv)
+    WebView acBannerWv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,11 +30,40 @@ public class BannerActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        String title=getIntent().getStringExtra("title");
-        String img=getIntent().getStringExtra("img");
 
-         changeTitle(acTitle,title);
+        String title = getIntent().getStringExtra("title");
+        String type = getIntent().getStringExtra("type");
+        String id = getIntent().getStringExtra("id");
+        changeTitle(acTitle, title);
 
-        Glide.with(this).load(Uri.parse(img)).into(img1);
+        String url = "http://game.npj-vip.com/h5/banner.html?type="+type+"&id="+id;
+        /*acBannerWv.loadUrl(url);
+        acBannerWv.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });*/
+
+        acBannerWv.loadUrl(url);
+        WebSettings settings = acBannerWv.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setBlockNetworkImage(true);
+        acBannerWv.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    // 网页加载完成
+                    // loadDialog.dismiss();
+                    acBannerWv.getSettings().setBlockNetworkImage(false);
+                } else {
+                    // 网页加载中
+                    // loadDialog.show();
+                }
+            }
+        });
+
     }
 }

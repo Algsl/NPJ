@@ -544,6 +544,12 @@ public interface HttpApi  {
     @POST("index.php/api/user/goodsorder.html")
     Observable<ResponseBody> goodsOrder(@Body GoodsOrderBean bean);
 
+    @POST("index.php/api/user/spikeorder.html")
+    Observable<ResponseBody> seckillOrder(@Body SeckillOrderBean bean);
+
+    @POST("index.php/api/user/spikeorderbuyone.html")
+    Observable<ResponseBody> spikeOrderBuyOne(@Body SpikeOrderBuyOneBean bean);
+
     @POST("index.php/api/index/childhome.html")
     Observable<ResponseBody> childHome(@Body ChildHomeBean bean);
 
@@ -591,5 +597,8 @@ public interface HttpApi  {
 
     @POST("index.php/api/index/othersearch.html")
     Observable<ResponseBody> otherSearch(@Body OtherSearchBean bean);
+
+    @POST("index.php/api/user/mysupplyorderdetail.html")
+    Observable<ResponseBody> mySupplyOrderDetail(@Body MySupplyOrderDetailBean bean);
 }
 

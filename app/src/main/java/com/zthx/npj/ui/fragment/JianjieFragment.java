@@ -4,10 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.AkVideoResponseBean;
@@ -25,9 +29,12 @@ import butterknife.Unbinder;
 
 public class JianjieFragment extends Fragment {
 
-    @BindView(R.id.fg_content)
-    TextView fgContent;
+
     Unbinder unbinder;
+    @BindView(R.id.fg_content_wv)
+    WebView fgContentWv;
+
+    private String user_id=SharePerferenceUtils.getUserId(getContext());
 
     public static Fragment newInstance(String id) {
         JianjieFragment fragment = new JianjieFragment();
@@ -40,24 +47,15 @@ public class JianjieFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getVideoList();
-    }
 
-    private void getVideoList() {
-        DiscoverSubscribe.getKnowledgeVideoList(getArguments().getString("id"), SharePerferenceUtils.getUserId(getActivity()), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        /*fgContentWv.loadUrl(url);
+        fgContentWv.setWebViewClient(new WebViewClient() {
             @Override
-            public void onSuccess(String result) {
-
-                AkVideoResponseBean akVideoResponseBean = GsonUtils.fromJson(result, AkVideoResponseBean.class);
-                final ArrayList<AkVideoResponseBean.DataBean> data = akVideoResponseBean.getData();
-                fgContent.setText(data.get(0).getContent());
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
             }
-
-            @Override
-            public void onFault(String errorMsg) {
-
-            }
-        }));
+        });*/
     }
 
     @Nullable
@@ -65,6 +63,27 @@ public class JianjieFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_content, container, false);
         unbinder = ButterKnife.bind(this, view);
+
+        String url = "http://game.npj-vip.com/h5/knowledgevideo.html?id="+getArguments().getString("id")+"&user_id="+user_id;
+        Log.e("测试", "onCreate: "+url );
+        fgContentWv.loadUrl(url);
+        WebSettings settings = fgContentWv.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setBlockNetworkImage(true);
+        fgContentWv.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    // 网页加载完成
+                    // loadDialog.dismiss();
+                    fgContentWv.getSettings().setBlockNetworkImage(false);
+                } else {
+                    // 网页加载中
+                    // loadDialog.show();
+                }
+            }
+        });
         return view;
     }
 

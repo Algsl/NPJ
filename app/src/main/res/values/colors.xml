@@ -22,4 +22,6 @@
     <color name="dialog_bg">#F1F0F0</color>
     <color name="white">#FFFFFF</color>
     <color name="toast">#67717B</color>
+
+    <color name="gray1">#CCCCCC</color>
 </resources>

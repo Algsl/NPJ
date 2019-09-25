@@ -204,7 +204,11 @@ public class PayToStoreActivity extends ActivityBase {
                 openActivity(MembershipPackageActivity.class);
                 break;
             case R.id.ac_payToStore_btn_toPay:
-                showBottomDialog();
+                if(acPayToStoreEtInputMoney.getText().toString().trim().equals("")){
+                    showToast("请输入付款金额");
+                }else{
+                    showBottomDialog();
+                }
                 break;
         }
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/fg_mine_nsv"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
@@ -80,10 +81,12 @@
 
                     <TextView
                         android:id="@+id/fg_mine_tv_word"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/dp_180"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_13"
                         android:text="农业社交电商开创者"
+                        android:maxLines="2"
+                        android:ellipsize="end"
                         android:textColor="@android:color/white"
                         android:layout_toRightOf="@id/fg_mine_ll"
                         android:layout_below="@id/fg_mine_tv_tel"
@@ -267,6 +270,7 @@
                                     android:layout_marginTop="@dimen/dp_9"/>
                             </LinearLayout>
                             <TextView
+                                android:visibility="gone"
                                 android:id="@+id/fg_mine_tv_payMsg"
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
@@ -275,7 +279,6 @@
                                 android:gravity="center"
                                 android:textSize="@dimen/sp_12"
                                 android:textColor="@color/white"
-                                android:text="20"
                                 android:background="@drawable/red_conner"/>
                         </RelativeLayout>
                         <RelativeLayout
@@ -302,6 +305,7 @@
                                     android:layout_marginTop="@dimen/dp_9"/>
                             </LinearLayout>
                             <TextView
+                                android:visibility="gone"
                                 android:id="@+id/fg_mine_tv_sendMsg"
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
@@ -338,6 +342,7 @@
                                     android:layout_marginTop="@dimen/dp_9"/>
                             </LinearLayout>
                             <TextView
+                                android:visibility="gone"
                                 android:id="@+id/fg_mine_tv_receiveMsg"
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
@@ -374,6 +379,7 @@
                                     android:layout_marginTop="@dimen/dp_9"/>
                             </LinearLayout>
                             <TextView
+                                android:visibility="gone"
                                 android:id="@+id/fg_mine_tv_commentMsg"
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
@@ -410,6 +416,7 @@
                                     android:layout_marginTop="@dimen/dp_9"/>
                             </LinearLayout>
                             <TextView
+                                android:visibility="gone"
                                 android:id="@+id/fg_mine_tv_rebackMsg"
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
@@ -426,6 +433,7 @@
                     android:id="@+id/fg_mine_iv_jihuo"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_70"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_12"
                     android:layout_marginLeft="@dimen/dp_12"
                     android:src="@drawable/mine_middle_title"/>
@@ -574,4 +582,6 @@
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-</LinearLayout>
+    <include
+        layout="@layout/title_theme"/>
+</RelativeLayout>

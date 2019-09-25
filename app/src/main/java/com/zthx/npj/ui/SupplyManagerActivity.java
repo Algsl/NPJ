@@ -383,6 +383,7 @@ public class SupplyManagerActivity extends ActivityBase {
                 SetSubscribe.mySupplyOrderFahuo(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
+                        showToast("发货成功");
                         backgroundAlpha(1f);
                         window.dismiss();
                     }
@@ -447,6 +448,7 @@ public class SupplyManagerActivity extends ActivityBase {
                 SetSubscribe.mySupplyOrderRefund2(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
+                        showToast("退款成功");
                         backgroundAlpha(1f);
                         window.dismiss();
                     }

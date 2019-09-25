@@ -101,9 +101,11 @@
 
         <TextView
             android:id="@+id/ac_settings_tv_signature"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_200"
             android:layout_height="wrap_content"
             android:text="诚信第一、互惠互利、共赢 "
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textSize="@dimen/sp_15"
             android:textColor="@color/text6"
             android:layout_toLeftOf="@id/at_settings_go3"

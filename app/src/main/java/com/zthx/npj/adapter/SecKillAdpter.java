@@ -36,6 +36,7 @@ public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder
 
     public interface ItemClickListener{
         void onItemClick(int position) ;
+        void onBuyClick(int position);
     }
     public void setOnItemClickListener(SecKillAdpter.ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
@@ -63,6 +64,13 @@ public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder
                     int position = viewHolder.getLayoutPosition();
                     // 这里利用回调来给RecyclerView设置点击事件
                     mItemClickListener.onItemClick(position);
+                }
+            });
+            viewHolder.buy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onBuyClick(position);
                 }
             });
         }

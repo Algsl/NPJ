@@ -172,6 +172,7 @@
                                 android:layout_marginTop="@dimen/dp_8"
                                 android:ellipsize="end"/>
                             <TextView
+                                android:id="@+id/ac_orderDetail_tv_size"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/text6"

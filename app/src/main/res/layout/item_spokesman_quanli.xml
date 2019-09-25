@@ -22,7 +22,7 @@
             android:layout_toRightOf="@id/item_spokesman_quanli_pic"
             android:layout_alignTop="@id/item_spokesman_quanli_pic"
             android:text="发布自己的礼包"
-            android:textSize="@dimen/sp_16"
+            android:textSize="@dimen/sp_14"
             android:textColor="@color/text3"
             android:layout_marginLeft="@dimen/dp_9"/>
     </LinearLayout>
@@ -34,7 +34,7 @@
         android:layout_alignLeft="@id/item_spokesman_quanli_pic"
         android:text="您可将你销售的商品的发布为礼包，推荐的用户进入礼包店后第一个看到的商品为您发布的商品"
         android:textColor="@color/text6"
-        android:textSize="@dimen/sp_15"
+        android:textSize="@dimen/sp_12"
         android:lines="2"
         android:ellipsize="end"
         android:layout_marginTop="@dimen/dp_7"

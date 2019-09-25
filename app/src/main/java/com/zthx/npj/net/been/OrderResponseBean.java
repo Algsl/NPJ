@@ -12,6 +12,15 @@ public class OrderResponseBean extends BaseReponseBean{
         private String goods_price;
         private long goods_num;
         private String order_price;
+        private String order_type;
+
+        public String getOrder_type() {
+            return order_type;
+        }
+
+        public void setOrder_type(String order_type) {
+            this.order_type = order_type;
+        }
 
         public String getId() {
             return id;

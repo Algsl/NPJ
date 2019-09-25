@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.MySupplyOrderResponseBean;
+import com.zthx.npj.utils.MyCustomUtils;
 
 import java.util.ArrayList;
 
@@ -127,10 +129,16 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
             });
         }
         if (list!= null && list.size() > 0) {
-            Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
+            String url = list.get(i).getGoods_img();
+            if (url.substring(url.length() - 4).equals(".mp4")) {
+                viewHolder.goodsImg.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
+            } else {
+                Glide.with(mContext).load(Uri.parse(url)).into(viewHolder.goodsImg);
+            }
+            //Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
             viewHolder.storeName.setText("朝花夕拾");
             viewHolder.goodsName.setText(list.get(i).getTitle());
-            viewHolder.goodsPrice.setText("￥ "+list.get(i).getOrder_price());
+            viewHolder.goodsPrice.setText("￥"+list.get(i).getOrder_price());
             viewHolder.goodsNum.setText("x "+list.get(i).getOrder_num());
             viewHolder.orderPrice.setText("￥ "+list.get(i).getOrder_price());
             switch (list.get(i).getOrder_state()+""){
@@ -151,9 +159,9 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
                     viewHolder.orderState.setText("待支付");
 
                     viewHolder.cancel.setVisibility(View.VISIBLE);
-                    viewHolder.delete.setVisibility(View.VISIBLE);
+                    viewHolder.delete.setVisibility(View.GONE);
                     viewHolder.cuidan.setVisibility(View.GONE);
-                    viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.VISIBLE);
                     viewHolder.query.setVisibility(View.GONE);
                     viewHolder.confirm.setVisibility(View.GONE);
                     viewHolder.again.setVisibility(View.GONE);
@@ -225,6 +233,8 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
                     viewHolder.goodsReturn.setVisibility(View.GONE);
                     break;
                 case "7"://已退款
+                    viewHolder.orderState.setText("已退款");
+
                     viewHolder.cancel.setVisibility(View.GONE);
                     viewHolder.delete.setVisibility(View.GONE);
                     viewHolder.cuidan.setVisibility(View.GONE);

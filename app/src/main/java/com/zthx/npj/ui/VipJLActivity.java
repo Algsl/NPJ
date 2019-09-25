@@ -12,12 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.VipJLAdapter;
 import com.zthx.npj.net.been.VipJLResponseBean;
@@ -27,7 +30,9 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,21 +55,37 @@ public class VipJLActivity extends ActivityBase {
     String user_id = SharePerferenceUtils.getUserId(this);
     String token = SharePerferenceUtils.getToken(this);
     String type = "";
-    String begin_time = "2015-1-1";
-    String end_time = "2015-1-31";
+    String begin_time = new SimpleDateFormat("yyyy-MM").format(new Date()) + "-1";
+    String end_time = new SimpleDateFormat("yyyy-MM").format(new Date()) + "-30";
     @BindView(R.id.ac_vipJL_tv_allType)
     TextView acVipJLTvAllType;
     @BindView(R.id.title_back)
     ImageView titleBack;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+    @BindView(R.id.ac_vipJL_ll)
+    LinearLayout acVipJLLl;
 
-    private List<String> options1Items1=new ArrayList<>();
-    private List<String> options1Items2=new ArrayList<>();
+    private List<String> options1Items1 = new ArrayList<>();
+    private List<String> options1Items2 = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vip_jl);
         ButterKnife.bind(this);
+
+        acVipJLTvChooseTime.setText(new SimpleDateFormat("yyyy年MM月").format(new Date()));
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getVipJLInfo();
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
+
         initList();
         getVipJLInfo();
         back(titleBack);
@@ -87,6 +108,11 @@ public class VipJLActivity extends ActivityBase {
 
     private void setVipJL(String result) {
         VipJLResponseBean bean = GsonUtils.fromJson(result, VipJLResponseBean.class);
+        if (bean.getData().size() == 0 || bean.getData() == null) {
+            acVipJLRvMingxi.setVisibility(View.GONE);
+        } else {
+            acVipJLRvMingxi.setVisibility(View.VISIBLE);
+        }
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acVipJLRvMingxi.setLayoutManager(layoutManager);
         VipJLAdapter adapter = new VipJLAdapter(this, bean.getData());
@@ -226,38 +252,39 @@ public class VipJLActivity extends ActivityBase {
         }
     }
 
-    @OnClick({R.id.ac_vipJL_tv_allType, R.id.ac_vipJL_tv_chooseTime})
+    @OnClick({R.id.ac_vipJL_tv_allType, R.id.ac_vipJL_ll})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_vipJL_tv_allType:
                 showSingleBottomDialog();
                 break;
-            case R.id.ac_vipJL_tv_chooseTime:
+            case R.id.ac_vipJL_ll:
                 showDataPicker();
                 break;
         }
     }
 
     private void initList() {
-        for(int i=0;i<12;i++){
-            options1Items1.add(2018+i+"");
-            options1Items2.add(i+1+"");
+        for (int i = 0; i < 12; i++) {
+            options1Items1.add(2018 + i + "");
+            options1Items2.add(i + 1 + "");
         }
     }
+
     private void showDataPicker() {
         OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options, View v) {
                 //返回的分别是三个级别的选中位置
                 //acMyWalletTvChooseTime.setText();
-                acVipJLTvChooseTime.setText(options1Items1.get(options1)+"年"+options1Items2.get(options2)+"月");
-                begin_time=options1Items1.get(options1)+"-"+options1Items2.get(options2)+"-1";
-                end_time=options1Items1.get(options1)+"-"+options1Items2.get(options2)+"-30";
+                acVipJLTvChooseTime.setText(options1Items1.get(options1) + "年" + options1Items2.get(options2) + "月");
+                begin_time = options1Items1.get(options1) + "-" + options1Items2.get(options2) + "-1";
+                end_time = options1Items1.get(options1) + "-" + options1Items2.get(options2) + "-30";
                 getVipJLInfo();
             }
         }).setTitleText("日期选择").setDividerColor(Color.BLACK).setTextColorCenter(Color.BLACK) //设置选中项文字颜色.setContentTextSize(20)
                 .build();
-        pvOptions.setNPicker(options1Items1,options1Items2,null);
+        pvOptions.setNPicker(options1Items1, options1Items2, null);
         pvOptions.show();
     }
 }

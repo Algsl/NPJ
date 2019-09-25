@@ -1,6 +1,11 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,7 +17,6 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -29,6 +33,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +45,8 @@ public class ShowLocationActivity extends ActivityBase {
     ImageView titleBack;
     @BindView(R.id.ac_title)
     TextView acTitle;
+    @BindView(R.id.at_location_store_tv_ruzhu)
+    TextView atLocationStoreTvRuzhu;
 
     //地图控件
     //百度地图
@@ -52,8 +59,8 @@ public class ShowLocationActivity extends ActivityBase {
     private BDLocationListener myListener = new MyLocationListener();
     //经纬度
     private GeoCoder mSearch;
-    private String Lat="";
-    private String Lng="";
+    private String Lat = "";
+    private String Lng = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +72,22 @@ public class ShowLocationActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,"商家位置");
+        changeTitle(acTitle, "商家位置");
 
-        Lat=getIntent().getStringExtra("key0");
-        Lng=getIntent().getStringExtra("key1");
+        Lat = getIntent().getStringExtra("key0");
+        Lng = getIntent().getStringExtra("key1");
+        atLocationStoreTvRuzhu.setText("高德地图");
+        atLocationStoreTvRuzhu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToGaodeMap();
+            }
+        });
 
 
         initView();
         initMap();
-        baiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
+        /*baiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
                 baiduMap.clear();
@@ -88,7 +102,7 @@ public class ShowLocationActivity extends ActivityBase {
             public boolean onMapPoiClick(MapPoi mapPoi) {
                 return false;
             }
-        });
+        });*/
     }
 
     /**
@@ -129,6 +143,12 @@ public class ShowLocationActivity extends ActivityBase {
         initLocation();
         //开始定位
         mLocationClient.start();
+
+        //显示商家位置
+        LatLng latLng1 = new LatLng(Double.parseDouble(Lat), Double.parseDouble(Lng));
+        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.location_store_locate);
+        OverlayOptions options = new MarkerOptions().position(latLng1).icon(bitmap);
+        baiduMap.addOverlay(options);
     }
 
     private void initLocation() {
@@ -188,14 +208,14 @@ public class ShowLocationActivity extends ActivityBase {
             location.getBuildingID();    //室内精准定位下，获取楼宇ID
             location.getBuildingName();    //室内精准定位下，获取楼宇名称
             location.getFloor();    //室内精准定位下，获取当前位置所处的楼层信息*/
-           location.setLatitude(Double.parseDouble(Lat));
-           location.setLongitude(Double.parseDouble(Lng));
+            location.setLatitude(Double.parseDouble(SharePerferenceUtils.getLat(ShowLocationActivity.this)));
+            location.setLongitude(Double.parseDouble(SharePerferenceUtils.getLng(ShowLocationActivity.this)));
 
             //这个判断是为了防止每次定位都重新设置中心点和marker
             if (isFirstLocation) {
                 isFirstLocation = false;
                 //设置并显示中心点
-                setPosition2Center(baiduMap,location , true);
+                setPosition2Center(baiduMap, location, true);
             }
         }
     }
@@ -243,4 +263,32 @@ public class ShowLocationActivity extends ActivityBase {
             }
         }
     };
+
+    private boolean isInstalled(String packageName) {
+        PackageManager manager = this.getPackageManager();
+        //获取所有已安装程序的包信息
+        List<PackageInfo> installedPackages = manager.getInstalledPackages(0);
+        if (installedPackages != null) {
+            for (PackageInfo info : installedPackages) {
+                if (info.packageName.equals(packageName))
+                    return true;
+            }
+        }
+        return false;
+    }
+    private void goToGaodeMap() {
+        if (!isInstalled("com.autonavi.minimap")) {
+            showToast("请安装高德地图客户端");
+            return;
+        }
+        LatLng endPoint = new LatLng(Double.parseDouble(Lat), Double.parseDouble(Lng));//坐标转换
+        StringBuffer stringBuffer = new StringBuffer("androidamap://navi?sourceApplication=").append("amap");
+        stringBuffer.append("&lat=").append(endPoint.latitude)
+                .append("&lon=").append(endPoint.longitude)
+                .append("&dev=").append(0)
+                .append("&style=").append(2);
+        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(stringBuffer.toString()));
+        intent.setPackage("com.autonavi.minimap");
+        startActivity(intent);
+    }
 }

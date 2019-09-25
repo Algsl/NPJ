@@ -446,6 +446,8 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                             @Override
                             public void onSuccess(String result) {
                                 showToast("确认收货成功");
+                                backgroundAlpha(1f);
+                                window.dismiss();
                                 finish();
                             }
 

@@ -186,6 +186,10 @@ public class GoodsDetailActivity extends ActivityBase {
     TextView acGoodsDetailTvSend;
     @BindView(R.id.at_goods_detail_tv_goods_title1)
     TextView atGoodsDetailTvGoodsTitle1;
+    @BindView(R.id.ac_goodsdetail_ll_kefu)
+    LinearLayout acGoodsdetailLlKefu;
+    @BindView(R.id.ac_goodsDetail_ll_3bar)
+    LinearLayout acGoodsDetailLl3bar;
 
 
     private String user_id = SharePerferenceUtils.getUserId(this);
@@ -246,9 +250,11 @@ public class GoodsDetailActivity extends ActivityBase {
                 acGoodsDetailLlBar.setVisibility(View.GONE);
             }
             type = "4";
-            acGoodsDetailLlCollect.setVisibility(View.GONE);
+            acGoodsDetailChooseSize.setVisibility(View.GONE);
+            acGoodsDetailLl3bar.setVisibility(View.GONE);
             atGoodsDetailLlGoods.setVisibility(View.VISIBLE);
             atGoodsDetailLlPresell.setVisibility(View.GONE);
+            atGoodsDetailBtnAddShoppingCart.setVisibility(View.GONE);
             getSecKillDetail();
         } else if (Const.PRESELL.equals(getIntent().getAction())) {
             type = "3";
@@ -261,7 +267,7 @@ public class GoodsDetailActivity extends ActivityBase {
             acGoodsDetailLlWuliu.setVisibility(View.VISIBLE);
             atGoodsDetailBtnPreSellKnow.setVisibility(View.VISIBLE);
             getPreSellDetail(goodsId);
-            if(!getIntent().getStringExtra("pre_type").equals("0")){
+            if (!getIntent().getStringExtra("pre_type").equals("0")) {
                 acGoodsDetailLlBar.setVisibility(View.GONE);
                 acGoodsDetailChooseSize.setClickable(false);
             }
@@ -455,11 +461,11 @@ public class GoodsDetailActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_goods_detail_btn_add_shopping_cart://加入购物车
-                if(user_id.equals("")){
-                    CommonDialog dialog=new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                if (user_id.equals("")) {
+                    CommonDialog dialog = new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
-                            if(confirm){
+                            if (confirm) {
                                 startActivity(new Intent(GoodsDetailActivity.this, LoginActivity.class));
                             }
                         }
@@ -467,16 +473,16 @@ public class GoodsDetailActivity extends ActivityBase {
                     dialog.setTitle("提示");
                     dialog.setPositiveButton("去登录");
                     dialog.show();
-                }else{
+                } else {
                     showPopupwindow(view);
                 }
                 break;
             case R.id.at_goods_detail_btn_buy_now://立即购买
-                if(user_id.equals("")){
-                    CommonDialog dialog=new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                if (user_id.equals("")) {
+                    CommonDialog dialog = new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
-                            if(confirm){
+                            if (confirm) {
                                 startActivity(new Intent(GoodsDetailActivity.this, LoginActivity.class));
                             }
                         }
@@ -484,16 +490,16 @@ public class GoodsDetailActivity extends ActivityBase {
                     dialog.setTitle("提示");
                     dialog.setPositiveButton("去登录");
                     dialog.show();
-                }else{
+                } else {
                     showPopupwindow(view);
                 }
                 break;
             case R.id.ac_goodsDetail_ll_collect://收藏
-                if(user_id.equals("")){
-                    CommonDialog dialog=new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                if (user_id.equals("")) {
+                    CommonDialog dialog = new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
-                            if(confirm){
+                            if (confirm) {
                                 startActivity(new Intent(GoodsDetailActivity.this, LoginActivity.class));
                             }
                         }
@@ -501,7 +507,7 @@ public class GoodsDetailActivity extends ActivityBase {
                     dialog.setTitle("提示");
                     dialog.setPositiveButton("去登录");
                     dialog.show();
-                }else{
+                } else {
                     goodsCollect();
                 }
                 break;
@@ -530,11 +536,11 @@ public class GoodsDetailActivity extends ActivityBase {
                 getComments();
                 break;
             case R.id.ac_goodsDetail_chooseSize://选择规格
-                if(user_id.equals("")){
-                    CommonDialog dialog=new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                if (user_id.equals("")) {
+                    CommonDialog dialog = new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
-                            if(confirm){
+                            if (confirm) {
                                 startActivity(new Intent(GoodsDetailActivity.this, LoginActivity.class));
                             }
                         }
@@ -542,7 +548,7 @@ public class GoodsDetailActivity extends ActivityBase {
                     dialog.setTitle("提示");
                     dialog.setPositiveButton("去登录");
                     dialog.show();
-                }else{
+                } else {
                     showPopupwindow(view);
                 }
                 break;
@@ -571,11 +577,11 @@ public class GoodsDetailActivity extends ActivityBase {
                 acGoodsDetailIvQrcode.setImageBitmap(QRCodeUtil.createQRCodeBitmap(imgStrMsg, 120));
                 break;
             case R.id.ac_goodsDetail_ll_store://店铺
-                if(user_id.equals("")){
-                    CommonDialog dialog=new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                if (user_id.equals("")) {
+                    CommonDialog dialog = new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
-                            if(confirm){
+                            if (confirm) {
                                 startActivity(new Intent(GoodsDetailActivity.this, LoginActivity.class));
                             }
                         }
@@ -583,7 +589,7 @@ public class GoodsDetailActivity extends ActivityBase {
                     dialog.setTitle("提示");
                     dialog.setPositiveButton("去登录");
                     dialog.show();
-                }else{
+                } else {
                     openActivity(StoreActivity.class, mGoodsData.getUser_id());
                 }
                 break;
@@ -692,29 +698,59 @@ public class GoodsDetailActivity extends ActivityBase {
                     break;
                 case R.id.item_pop_goods_buy:
                     attribute_id = sizePopWin.getAttId();
-                    Intent intent = new Intent(GoodsDetailActivity.this, ConfirmOrderActivity.class);
-                    if ("miaosha".equals(getIntent().getAction())) {
-                        intent.putExtra(Const.ATTRIBUTE_ID, attribute_id);
-                        intent.putExtra("count", count + "");
-                        intent.setAction("miaosha");
-                    } else if (Const.PRESELL.equals(getIntent().getAction())) {
-                        intent.putExtra(Const.ATTRIBUTE_ID, attribute_id);
-                        intent.setAction(Const.PRESELL);
-                    } else {
-                        intent.putExtra(Const.ATTRIBUTE_ID, "0");
-                        intent.putExtra("count", count + "");
-                        if (level.equals("0")) {
-                            intent.putExtra("price", mGoodsData.getUser_price());
+                    if (sizePopWin.getHasAttribute()) {//有商品规格
+                        if (attribute_id.equals("")) {
+                            showToast("请选择商品规格");
                         } else {
-                            intent.putExtra("price", mGoodsData.getMember_price());
+                            Intent intent = new Intent(GoodsDetailActivity.this, ConfirmOrderActivity.class);
+                            if ("miaosha".equals(getIntent().getAction())) {
+                                intent.putExtra(Const.ATTRIBUTE_ID, attribute_id);
+                                intent.putExtra("count", count + "");
+                                intent.setAction("miaosha");
+                            } else if (Const.PRESELL.equals(getIntent().getAction())) {
+                                intent.putExtra(Const.ATTRIBUTE_ID, attribute_id);
+                                intent.setAction(Const.PRESELL);
+                            } else {
+                                intent.putExtra(Const.ATTRIBUTE_ID, attribute_id);
+                                intent.putExtra("count", count + "");
+                                if (level.equals("0")) {
+                                    intent.putExtra("price", mGoodsData.getUser_price());
+                                } else {
+                                    intent.putExtra("price", mGoodsData.getMember_price());
+                                }
+                                double lisheng = sizePopWin.getLiSheng() * count;
+                                intent.putExtra("lisheng", String.format("%.2f", lisheng));
+                                intent.setAction(Const.GOODS);
+                            }
+                            intent.putExtra(Const.GOODS_ID, goodsId);
+                            startActivity(intent);
+                            sizePopWin.dismiss();
                         }
-                        double lisheng = (Double.parseDouble(mGoodsData.getUser_price()) - Double.parseDouble(mGoodsData.getMember_price())) * count;
-                        intent.putExtra("lisheng", String.format("%.2f", lisheng));
-                        intent.setAction(Const.GOODS);
+                    } else {//没有商品规格
+                        Intent intent = new Intent(GoodsDetailActivity.this, ConfirmOrderActivity.class);
+                        if ("miaosha".equals(getIntent().getAction())) {
+                            intent.putExtra(Const.ATTRIBUTE_ID, attribute_id);
+                            intent.putExtra("count", count + "");
+                            intent.setAction("miaosha");
+                        } else if (Const.PRESELL.equals(getIntent().getAction())) {
+                            intent.putExtra(Const.ATTRIBUTE_ID, attribute_id);
+                            intent.setAction(Const.PRESELL);
+                        } else {
+                            intent.putExtra(Const.ATTRIBUTE_ID, attribute_id);
+                            intent.putExtra("count", count + "");
+                            if (level.equals("0")) {
+                                intent.putExtra("price", mGoodsData.getUser_price());
+                            } else {
+                                intent.putExtra("price", mGoodsData.getMember_price());
+                            }
+                            double lisheng = sizePopWin.getLiSheng() * count;
+                            intent.putExtra("lisheng", String.format("%.2f", lisheng));
+                            intent.setAction(Const.GOODS);
+                        }
+                        intent.putExtra(Const.GOODS_ID, goodsId);
+                        startActivity(intent);
+                        sizePopWin.dismiss();
                     }
-                    intent.putExtra(Const.GOODS_ID, goodsId);
-                    startActivity(intent);
-                    sizePopWin.dismiss();
                     break;
             }
         }
@@ -744,7 +780,7 @@ public class GoodsDetailActivity extends ActivityBase {
         TextView marketPrice = contentView.findViewById(R.id.pop_goods_size_tv_old_price);
         TextView memberPrice = contentView.findViewById(R.id.pop_goods_size_tv_price);
         TextView inventory = contentView.findViewById(R.id.pop_goods_size_tv_total_num);
-        TextView toVip = contentView.findViewById(R.id.pw_goodsSize_tv_toVIP);
+        // TextView toVip = contentView.findViewById(R.id.pw_goodsSize_tv_toVIP);
         RelativeLayout rlToVip = contentView.findViewById(R.id.pw_goodsSize_rl_toVip);
         switch (type) {
             case "1":
@@ -762,8 +798,8 @@ public class GoodsDetailActivity extends ActivityBase {
                 marketPrice.setText("￥" + mGoodsData.getUser_price());
                 memberPrice.setText("会员价 " + mGoodsData.getMember_price());
                 inventory.setText("库存：" + mGoodsData.getInventory());
-                double lisheng = Double.parseDouble(mGoodsData.getUser_price()) - Double.parseDouble(mGoodsData.getMember_price());
-                toVip.setText("成为农品街代言人此单立省" + String.format("%.2f", lisheng) + "元");
+                //double lisheng = Double.parseDouble(mGoodsData.getUser_price()) - Double.parseDouble(mGoodsData.getMember_price());
+                //toVip.setText("成为农品街代言人此单立省" + String.format("%.2f", lisheng) + "元");
                 break;
         }
         rlToVip.setOnClickListener(new View.OnClickListener() {

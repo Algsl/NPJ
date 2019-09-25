@@ -113,6 +113,8 @@ public class TestActivity extends ActivityBase {
                     }
                     if(password.equals("123456")){
                         showToast("确认收货成功");
+                        backgroundAlpha(1f);
+                        window.dismiss();
                     }else{
                         showToast("密码不正确");
                         position=0;

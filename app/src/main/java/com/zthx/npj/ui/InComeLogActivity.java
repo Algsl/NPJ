@@ -7,11 +7,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.InComeLogAdapter;
 import com.zthx.npj.net.been.InComeLogResponseBean;
@@ -21,7 +25,9 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,8 +55,12 @@ public class InComeLogActivity extends ActivityBase {
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
 
-    String begin_time = "";
-    String end_time = "";
+    String begin_time = new SimpleDateFormat("yyyy-MM").format(new Date()) + "-1";
+    String end_time = new SimpleDateFormat("yyyy-MM").format(new Date()) + "-30";
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+    @BindView(R.id.ac_incomeLoge_ll)
+    LinearLayout acIncomeLogeLl;
     private List<String> options1Items1 = new ArrayList<>();
     private List<String> options1Items2 = new ArrayList<>();
 
@@ -60,6 +70,16 @@ public class InComeLogActivity extends ActivityBase {
         setContentView(R.layout.activity_income_log);
         ButterKnife.bind(this);
 
+        acIncomeLogTvChooseTime.setText(new SimpleDateFormat("yyyy月MM日").format(new Date()));
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getIncomeLog();
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
+
         back(titleBack);
         changeTitle(acTitle, "收益明细");
         initList();
@@ -67,14 +87,19 @@ public class InComeLogActivity extends ActivityBase {
     }
 
     private void getIncomeLog() {
-        SetSubscribe.inComeLog(user_id, token,begin_time,end_time, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.inComeLog(user_id, token, begin_time, end_time, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                InComeLogResponseBean bean=GsonUtils.fromJson(result,InComeLogResponseBean.class);
-                ArrayList<InComeLogResponseBean.DataBean> data=bean.getData();
-                RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(InComeLogActivity.this);
+                InComeLogResponseBean bean = GsonUtils.fromJson(result, InComeLogResponseBean.class);
+                ArrayList<InComeLogResponseBean.DataBean> data = bean.getData();
+                if (data.size() == 0 || data == null) {
+                    acIncomeLogRvMingxi.setVisibility(View.GONE);
+                } else {
+                    acIncomeLogRvMingxi.setVisibility(View.VISIBLE);
+                }
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(InComeLogActivity.this);
                 acIncomeLogRvMingxi.setLayoutManager(layoutManager);
-                InComeLogAdapter adapter=new InComeLogAdapter(InComeLogActivity.this,data);
+                InComeLogAdapter adapter = new InComeLogAdapter(InComeLogActivity.this, data);
                 acIncomeLogRvMingxi.setAdapter(adapter);
             }
 
@@ -86,11 +111,12 @@ public class InComeLogActivity extends ActivityBase {
     }
 
     private void initList() {
-        for(int i=0;i<12;i++){
-            options1Items1.add(2018+i+"");
-            options1Items2.add(i+1+"");
+        for (int i = 0; i < 12; i++) {
+            options1Items1.add(2018 + i + "");
+            options1Items2.add(i + 1 + "");
         }
     }
+
     private void showCityPicker() {
         OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
@@ -108,7 +134,7 @@ public class InComeLogActivity extends ActivityBase {
         pvOptions.show();
     }
 
-    @OnClick(R.id.ac_incomeLog_tv_chooseTime)
+    @OnClick(R.id.ac_incomeLoge_ll)
     public void onViewClicked() {
         showCityPicker();
     }

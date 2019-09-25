@@ -69,7 +69,7 @@ public class ReferrerActivity extends ActivityBase {
         setContentView(R.layout.activity_referrer);
         ButterKnife.bind(this);
         back(titleThemeBack);
-        changeTitle(titleThemeTitle, "我的上级");
+        changeTitle(titleThemeTitle, "我的推荐人");
 
     }
 
@@ -190,8 +190,14 @@ public class ReferrerActivity extends ActivityBase {
                             showToast("联系人修改成功");
                         }else if(bean.getData().getStatus()==2){
                             showToast("没有推荐人，无法修改");
-                        }else{
-                            showToast("推荐人只能修改一次");
+                        }else if(bean.getData().getStatus()==3){
+                            showToast("对不起，推荐人只能修改一次 ");
+                        }else if(bean.getData().getStatus()==4){
+                            showToast("推荐人不存在");
+                        }else if(bean.getData().getStatus()==5){
+                            showToast("请不要添加直属成员为推荐人");
+                        }else if(bean.getData().getStatus()==6){
+                            showToast("请不要添加自己为推荐人");
                         }
                         backgroundAlpha(1f);
                         window.dismiss();

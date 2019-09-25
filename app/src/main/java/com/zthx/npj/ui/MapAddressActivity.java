@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -37,26 +38,31 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.LocalStoreAdapter;
 import com.zthx.npj.adapter.MapAddressAdapter;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MapAddressActivity extends ActivityBase {
-    @BindView(R.id.ac_map_tv_address)
-    TextView acMapTvAddress;
+    //@BindView(R.id.ac_map_tv_address)
+    //TextView acMapTvAddress;
     @BindView(R.id.ac_map_et_addressDetail)
     EditText acMapEtAddressDetail;
     @BindView(R.id.mapView)
     MapView mapView;
     @BindView(R.id.ac_map_tv_commit)
     TextView acMapTvCommit;
+    @BindView(R.id.back)
+    ImageView back;
     //地图控件
     //百度地图
     private BaiduMap baiduMap;
@@ -67,8 +73,10 @@ public class MapAddressActivity extends ActivityBase {
     //BDAbstractLocationListener为7.2版本新增的Abstract类型的监听接口，原有BDLocationListener接口
     private BDLocationListener myListener = new MyLocationListener();
     //经纬度
-    private double lat,lon,lat1,lon1;
+    private double lat, lon, lat1, lon1;
     private GeoCoder mSearch;
+
+    private String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +85,21 @@ public class MapAddressActivity extends ActivityBase {
         //注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_map);
+
+
         ButterKnife.bind(this);
         initView();
         initMap();
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MapAddressActivity.this, LocationStoreActivity.class);
+                setResult(0,intent);
+                finish();
+            }
+        });
+
         baiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -88,8 +108,8 @@ public class MapAddressActivity extends ActivityBase {
                 OverlayOptions options = new MarkerOptions().position(latLng).icon(bitmap);
                 baiduMap.addOverlay(options);
                 initGeoCoder(latLng);
-                lat1=latLng.latitude;
-                lon1=latLng.longitude;
+                lat1 = latLng.latitude;
+                lon1 = latLng.longitude;
             }
 
             @Override
@@ -169,12 +189,12 @@ public class MapAddressActivity extends ActivityBase {
 
     @OnClick(R.id.ac_map_tv_commit)
     public void onViewClicked() {
-        SharePerferenceUtils.setLat(this,lat1+"");
-        SharePerferenceUtils.setLng(this,lon1+"");
-        Intent intent=new Intent(this,LocationStoreActivity.class);
-        intent.putExtra("address",acMapTvAddress.getText().toString().trim());
-        intent.putExtra("addressDetail",acMapEtAddressDetail.getText().toString().trim());
-        setResult(1,intent);
+        SharePerferenceUtils.setLat(this, lat1 + "");
+        SharePerferenceUtils.setLng(this, lon1 + "");
+        Intent intent = new Intent(this, LocationStoreActivity.class);
+        intent.putExtra("address", address);
+        intent.putExtra("addressDetail", acMapEtAddressDetail.getText().toString().trim());
+        setResult(1, intent);
         finish();
     }
 
@@ -257,14 +277,33 @@ public class MapAddressActivity extends ActivityBase {
         @Override
         public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
             ArrayList<String> list = new ArrayList<>();
-            Log.e("测试", "onGetReverseGeoCodeResult: "+reverseGeoCodeResult.getPoiList() );
+            Log.e("测试", "onGetReverseGeoCodeResult: " + reverseGeoCodeResult.getPoiList());
             for (int i = 0; i < reverseGeoCodeResult.getPoiList().size(); i++) {
                 list.add(reverseGeoCodeResult.getPoiList().get(i).getName());
+                options1Items1.add(reverseGeoCodeResult.getPoiList().get(i).getName());
             }
-            acMapTvAddress.setText(reverseGeoCodeResult.getAddress());
-            showPublishPopwindow(list);
+            address = reverseGeoCodeResult.getAddress();
+            //acMapTvAddress.setText(reverseGeoCodeResult.getAddress());
+            //showPublishPopwindow(list);
+            showDataPicker();
         }
     };
+
+    private List<String> options1Items1 = new ArrayList<>();
+
+    private void showDataPicker() {
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options, View v) {
+                //返回的分别是三个级别的选中位置
+                //acMyWalletTvChooseTime.setText();
+                acMapEtAddressDetail.setText(options1Items1.get(options1));
+            }
+        }).setTitleText("地址选择").setDividerColor(Color.BLACK).setTextColorCenter(Color.BLACK) //设置选中项文字颜色.setContentTextSize(20)
+                .build();
+        pvOptions.setNPicker(options1Items1, null, null);
+        pvOptions.show();
+    }
 
     public void showPublishPopwindow(final ArrayList<String> list) {
         backgroundAlpha(0.5f);

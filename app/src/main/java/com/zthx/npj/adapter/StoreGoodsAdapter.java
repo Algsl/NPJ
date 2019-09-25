@@ -76,6 +76,8 @@ public class StoreGoodsAdapter extends RecyclerView.Adapter<StoreGoodsAdapter.Vi
         Glide.with(mContext).load(mList.get(i).getGoods_img()).into(viewHolder.goodsImg);
         viewHolder.goodsName.setText(mList.get(i).getGoods_name());
         viewHolder.goodsPrice.setText("￥"+(int)Double.parseDouble(mList.get(i).getUser_price()));
+        viewHolder.goodsOldPrice.setText("￥"+mList.get(i).getMarket_price());
+        viewHolder.goodsOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
     }
 
     @Override

@@ -85,24 +85,37 @@ public class SupplyOrderAdapter extends RecyclerView.Adapter<SupplyOrderAdapter.
             viewHolder.goodsOrder.setText("订单号："+mList.get(i).getOrder_sn());
             viewHolder.goodsTime.setText("下单时间："+ new SimpleDateFormat("yyyy年MM月dd日").format(new Date(mList.get(i).getOrder_time()*1000)));
             switch (mList.get(i).getOrder_state()+""){
-
                 case "1"://未付款
                     break;
                 case "2"://待发货
+                    viewHolder.goodsState.setText("待发货");
                     viewHolder.sendGoods.setVisibility(View.VISIBLE);
                     viewHolder.refund.setVisibility(View.GONE);
                     break;
                 case "3"://待收货
+                    viewHolder.goodsState.setText("已发货");
+                    viewHolder.sendGoods.setVisibility(View.GONE);
+                    viewHolder.refund.setVisibility(View.GONE);
                     break;
                 case "4"://待评价
+                    viewHolder.goodsState.setText("已发货");
+                    viewHolder.sendGoods.setVisibility(View.GONE);
+                    viewHolder.refund.setVisibility(View.GONE);
                     break;
                 case "5"://已完成
+                    viewHolder.goodsState.setText("已发货");
+                    viewHolder.sendGoods.setVisibility(View.GONE);
+                    viewHolder.refund.setVisibility(View.GONE);
                     break;
                 case "6"://申请退款
+                    viewHolder.goodsState.setText("申请退款");
                     viewHolder.sendGoods.setVisibility(View.GONE);
                     viewHolder.refund.setVisibility(View.VISIBLE);
                     break;
                 case "7"://已退款
+                    viewHolder.goodsState.setText("已退款");
+                    viewHolder.sendGoods.setVisibility(View.GONE);
+                    viewHolder.refund.setVisibility(View.GONE);
                     break;
             }
         }

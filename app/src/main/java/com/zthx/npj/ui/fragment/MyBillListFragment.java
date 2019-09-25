@@ -33,6 +33,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.ConfirmMySupplyOrderActivity;
 import com.zthx.npj.ui.KuaiDiDetailActivity;
 import com.zthx.npj.ui.MySupplyOrderCommentActivity;
+import com.zthx.npj.ui.MySupplyOrderDetailActivity;
 import com.zthx.npj.ui.MySupplyOrderRefundActivity;
 import com.zthx.npj.ui.SupplyProductsActivity;
 import com.zthx.npj.utils.GsonUtils;
@@ -119,9 +120,10 @@ public class MyBillListFragment extends Fragment {
             //查看详细信息
             @Override
             public void onItemClick(int position) {
-                /*Intent intent=new Intent(getContext(), MySupplyOrderDetailActivity.class);
+                Intent intent=new Intent(getContext(), MySupplyOrderDetailActivity.class);
                 intent.putExtra("order_id",data.get(position).getId()+"");
-                startActivity(intent);*/
+                intent.putExtra("order_state",data.get(position).getOrder_state()+"");
+                startActivity(intent);
             }
 
             //取消订单
@@ -303,6 +305,8 @@ public class MyBillListFragment extends Fragment {
                             @Override
                             public void onSuccess(String result) {
                                 showToast("确认收货成功");
+                                backgroundAlpha(1f);
+                                window.dismiss();
                             }
 
                             @Override

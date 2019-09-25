@@ -96,10 +96,14 @@
             android:name=".ui.SystemSolutionActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.AgricultureVideoMainActivity" />
+        <activity android:name=".ui.AgricultureVideoMainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.BuyVideoActivity" />
         <activity android:name=".ui.SupplyMessageActivity" />
-        <activity android:name=".ui.SupplyProductsActivity" />
+        <activity android:name=".ui.SupplyProductsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.SupplyBillActivity" />
         <activity android:name=".ui.AddAddressActivity" />
         <activity android:name=".ui.MessageCenterActivity" />

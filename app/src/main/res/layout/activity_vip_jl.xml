@@ -28,6 +28,7 @@
         android:background="@color/background"
         android:orientation="vertical">
         <LinearLayout
+            android:id="@+id/ac_vipJL_ll"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_36"
             android:orientation="horizontal">
@@ -56,8 +57,24 @@
             android:textColor="@color/text9"
             android:text="收益￥12520"/>
     </LinearLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/ac_vipJL_rv_mingxi"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ac_vipJL_rv_mingxi"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_80"
+                android:text="暂无记录"/>
+        </LinearLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

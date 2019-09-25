@@ -20,6 +20,7 @@ import com.zthx.npj.net.been.SecKillGoodsDetailResponseBean;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class GoodSizePopupwindow extends PopupWindow {
@@ -37,9 +38,13 @@ public class GoodSizePopupwindow extends PopupWindow {
     private TextView spec;
     private TextView storeNum;
     private TextView prePrice;
+    private TextView toVIP;
 
+    private boolean hasAttribute;
     private String attribute_id="";
+    private double lisheng;
 
+    //预售
     public GoodSizePopupwindow(Context mContext, View.OnClickListener itemsOnClick, final PreSellDetailResponseBean.DataBean data) {
         this.view = LayoutInflater.from(mContext).inflate(R.layout.popupwindow_goods_size, null);
 
@@ -72,18 +77,33 @@ public class GoodSizePopupwindow extends PopupWindow {
         mAddShoppingCar.setOnClickListener(itemsOnClick);
         mBuyNow.setOnClickListener(itemsOnClick);
 
-
+        storeNum.setText("库存："+data.getGoods_num());
         spec.setText("规格：");
         ArrayList<String> label = new ArrayList<>();
         for(int i=0;i<data.getAttribute_value().size();i++){
-            label.add("x"+data.getAttribute_value().get(i).getPre_number()+" ￥"+data.getAttribute_value().get(i).getPre_price());
+            label.add(data.getAttribute_value().get(i).getPre_number()+"件");
         }
+
+        if(data.getAttribute_value().size()==0 || data.getAttribute_value()==null){
+            hasAttribute=false;
+        }else{
+            hasAttribute=true;
+        }
+
         labelsView.setLabels(label); //直接设置一个字符串数组就可以了。
         labelsView.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
             @Override
             public void onLabelClick(View label, String labelText, int position) {
-                choose.setText("已选："+labelText);
-                attribute_id=data.getAttribute_value().get(position).getId()+"";
+                if(label.isSelected()){
+                    attribute_id=data.getAttribute_value().get(position).getId()+"";
+                    choose.setText("已选："+labelText);
+                    prePrice.setText("￥"+data.getAttribute_value().get(position).getPre_price());
+                }else{
+                    attribute_id="";
+                    choose.setText("已选：");
+                    memberPrice.setText("代言人价"+data.getId());
+                    prePrice.setText("￥"+data.getAttribute_value().get(position).getPre_price());
+                }
             }
         });
         this.setOutsideTouchable(false);
@@ -94,6 +114,7 @@ public class GoodSizePopupwindow extends PopupWindow {
         this.setBackgroundDrawable(new BitmapDrawable());
     }
 
+    //普通商品
     public GoodSizePopupwindow(Context mContext, View.OnClickListener itemsOnClick, final GoodsDetailResponseBean.DataBean data) {
         this.view = LayoutInflater.from(mContext).inflate(R.layout.popupwindow_goods_size, null);
 
@@ -109,6 +130,7 @@ public class GoodSizePopupwindow extends PopupWindow {
         storeNum=view.findViewById(R.id.pop_goods_size_tv_total_num);
         final TextView choose=view.findViewById(R.id.pop_goods_size_tv_choice);
         prePrice=view.findViewById(R.id.pop_goods_size_tv_old_price);
+        toVIP=view.findViewById(R.id.pw_goodsSize_tv_toVIP);
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,6 +138,7 @@ public class GoodSizePopupwindow extends PopupWindow {
                 dismiss();
             }
         });
+
         goodsRlNum.setVisibility(View.VISIBLE);
 //        // 设置按钮监听
         minusView.setOnClickListener(itemsOnClick);
@@ -123,22 +146,43 @@ public class GoodSizePopupwindow extends PopupWindow {
         mAddShoppingCar.setOnClickListener(itemsOnClick);
         mBuyNow.setOnClickListener(itemsOnClick);
 
+        if(data.getAttributes().size()==0 || data.getAttributes()==null){
+            hasAttribute=false;
+        }else{
+            hasAttribute=true;
+        }
+        lisheng=Double.parseDouble(data.getUser_price())-Double.parseDouble(data.getMember_price());
+        toVIP.setText("成为农品街代言人此单立省"+new DecimalFormat("#0.00").format(lisheng)+"元");
 
         spec.setText(data.getSpec());
         ArrayList<String> label = new ArrayList<>();
         for(int i=0;i<data.getAttributes().size();i++){
             label.add(data.getAttributes().get(i).getKey_name());
         }
+
         spec.setText(data.getSpec()==null?"规格":data.getSpec());
         labelsView.setLabels(label); //直接设置一个字符串数组就可以了。
         labelsView.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
             @Override
             public void onLabelClick(View label, String labelText, int position) {
-                attribute_id=data.getAttributes().get(position).getItem_id()+"";
-                choose.setText("已选："+labelText);
-                memberPrice.setText("会员价"+data.getAttributes().get(position).getSpec_member_price());
-                prePrice.setText("￥"+data.getAttributes().get(position).getSpec_user_price());
-                storeNum.setText("库存："+data.getAttributes().get(position).getStore_count());
+                if(label.isSelected()){
+                    attribute_id=data.getAttributes().get(position).getItem_id()+"";
+                    choose.setText("已选："+labelText);
+                    memberPrice.setText("代言人价"+data.getAttributes().get(position).getSpec_member_price());
+                    prePrice.setText("￥"+data.getAttributes().get(position).getSpec_user_price());
+                    storeNum.setText("库存："+data.getAttributes().get(position).getStore_count());
+                    lisheng=Double.parseDouble(data.getAttributes().get(position).getSpec_user_price())-Double.parseDouble(data.getAttributes().get(position).getSpec_member_price());
+                    toVIP.setText("成为农品街代言人此单立省"+new DecimalFormat("#0.00").format(lisheng)+"元");
+                }else{
+                    attribute_id="";
+                    choose.setText("已选：");
+                    memberPrice.setText("代言人价"+data.getMember_price());
+                    prePrice.setText("￥"+data.getUser_price());
+                    storeNum.setText("库存："+data.getInventory());
+                    lisheng=Double.parseDouble(data.getUser_price())-Double.parseDouble(data.getMember_price());
+                    toVIP.setText("成为农品街代言人此单立省"+new DecimalFormat("#0.00").format(lisheng)+"元");
+                }
+
             }
         });
 
@@ -150,6 +194,7 @@ public class GoodSizePopupwindow extends PopupWindow {
         this.setBackgroundDrawable(new BitmapDrawable());
     }
 
+    //秒杀商品
     public GoodSizePopupwindow(Context mContext, View.OnClickListener itemsOnClick, SecKillGoodsDetailResponseBean.DataBean data) {
         this.view = LayoutInflater.from(mContext).inflate(R.layout.popupwindow_goods_size, null);
 
@@ -168,6 +213,7 @@ public class GoodSizePopupwindow extends PopupWindow {
 
         memberPrice.setVisibility(View.VISIBLE);
         goodsRlNum.setVisibility(View.VISIBLE);
+        mAddShoppingCar.setVisibility(View.GONE);
 
         prePrice.setText("￥"+data.getGoods_price());
 
@@ -195,7 +241,7 @@ public class GoodSizePopupwindow extends PopupWindow {
             @Override
             public void onLabelClick(View label, String labelText, int position) {
                 choose.setText("已选："+labelText);
-                memberPrice.setText("会员价"+data.getAttributes().get(position).getSpec_member_price());
+                memberPrice.setText("代言人价"+data.getAttributes().get(position).getSpec_member_price());
                 secKillOldPrice.setText("￥"+data.getAttributes().get(position).getSpec_user_price());
                 storeNum.setText("库存："+data.getAttributes().get(position).getStore_count());
                 spec.setText(data.getSpec()==null?"规格":data.getSpec());
@@ -212,5 +258,11 @@ public class GoodSizePopupwindow extends PopupWindow {
 
     public String getAttId(){
         return attribute_id;
+    }
+    public boolean getHasAttribute(){
+        return hasAttribute;
+    }
+    public double getLiSheng(){
+        return lisheng;
     }
 }

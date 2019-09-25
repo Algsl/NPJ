@@ -2,14 +2,16 @@ package com.zthx.npj.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.TiQuAdapter;
 import com.zthx.npj.net.been.TiQuResponseBean;
@@ -22,7 +24,7 @@ import com.zthx.npj.utils.SharePerferenceUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TiQuActivity extends ActivityBase{
+public class TiQuActivity extends ActivityBase {
     @BindView(R.id.ac_title)
     TextView acTitle;
     @BindView(R.id.at_location_store_tv_ruzhu)
@@ -34,6 +36,8 @@ public class TiQuActivity extends ActivityBase{
     String token = SharePerferenceUtils.getToken(this);
     @BindView(R.id.title_back)
     ImageView titleBack;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +46,16 @@ public class TiQuActivity extends ActivityBase{
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,"已提取金额");
+        changeTitle(acTitle, "已提取金额");
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getTiQuInfo();
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
 
         getTiQuInfo();
     }
@@ -63,6 +76,11 @@ public class TiQuActivity extends ActivityBase{
 
     private void setTiQuInfo(String result) {
         TiQuResponseBean bean = GsonUtils.fromJson(result, TiQuResponseBean.class);
+        if(bean.getData().size()==0 || bean.getData()==null){
+            acTiquRvMingxi.setVisibility(View.GONE);
+        }else{
+            acTiquRvMingxi.setVisibility(View.VISIBLE);
+        }
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acTiquRvMingxi.setLayoutManager(layoutManager);
         TiQuAdapter adapter = new TiQuAdapter(this, bean.getData());

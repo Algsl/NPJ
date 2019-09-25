@@ -208,7 +208,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         getComment();
     }
 
-    private String getEtToString(EditText et) {
+    private String getEtToString(TextView et) {
         return et.getText().toString().trim();
     }
 
@@ -320,7 +320,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
     }
 
     private void offlineStore(String img) {
-        yingyeTime = acStoreManagerABegin + "-" + acStoreManagerAEnd + " " + acStoreManagerPBegin + "-" + acStoreManagerPEnd;
+        yingyeTime = getEtToString(acStoreManagerABegin) + "-" + getEtToString(acStoreManagerAEnd) + " " + getEtToString(acStoreManagerPBegin) + "-" + getEtToString(acStoreManagerPEnd);
         EditOfflineStoreBean bean = new EditOfflineStoreBean();
         bean.setUser_id(user_id);
         bean.setToken(token);

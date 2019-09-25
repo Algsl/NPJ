@@ -116,6 +116,7 @@ public class WantBuyManagerActivity extends ActivityBase {
         final ArrayList<PurchaseListResponseBean.DataBean> data = bean.getData();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         atWantBuyManagerRvSupplyList1.setLayoutManager(layoutManager);
+        atWantBuyManagerRvSupplyList1.setLayoutManager(layoutManager);
         PurchaseListAdapter adapter = new PurchaseListAdapter(this, data, type);
         atWantBuyManagerRvSupplyList1.setItemAnimator(new DefaultItemAnimator());
         atWantBuyManagerRvSupplyList1.setAdapter(adapter);

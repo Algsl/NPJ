@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.v7.widget.RecyclerView
-            android:background="@color/white"
+            android:background="@color/background"
             android:id="@+id/fg_seckill_list_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

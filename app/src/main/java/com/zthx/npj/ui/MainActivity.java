@@ -156,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 if (data == null || data.size() == 0) {
                     acMainTvShoppingCart.setVisibility(View.GONE);
                 } else {
+                    acMainTvShoppingCart.setVisibility(View.VISIBLE);
                     int shoppingCartSize=0;
                     for(int i=0;i<data.size();i++){
                         shoppingCartSize+=data.get(i).size();
@@ -189,16 +190,17 @@ public class MainActivity extends AppCompatActivity {
                 } else if (page.equals("payStore")) {
                     intent = new Intent(this, PayToStoreActivity.class);
                     intent.putExtra("key0", id);
-                } else {
-                    intent = new Intent(this, WebViewActivity.class);
-                    intent.putExtra("discover_url", uri);
+                } else{
+                    /*intent = new Intent(this, WebViewActivity.class);
+                    intent.putExtra("discover_url", uri);*/
+                    Toast.makeText(this,maction,Toast.LENGTH_SHORT).show();
                 }
                 startActivity(intent);
             }
         }
-        if (maction != null) {
+        /*if (maction != null) {
             Toast.makeText(this, "非农品街二维码不予识别", Toast.LENGTH_LONG).show();
-        }
+        }*/
     }
 
 

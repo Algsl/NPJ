@@ -330,6 +330,8 @@ public class OrderListFragment extends Fragment {
                             @Override
                             public void onSuccess(String result) {
                                 showToast("确认收货成功");
+                                backgroundAlpha(1f);
+                                window.dismiss();
                             }
 
                             @Override

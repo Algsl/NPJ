@@ -143,6 +143,11 @@ public class StoreActivity extends ActivityBase {
     private void setStoreGoodsList(String result) {
         StoreGoodsListResponseBean bean = GsonUtils.fromJson(result, StoreGoodsListResponseBean.class);
         final ArrayList<StoreGoodsListResponseBean.DataBean> data = bean.getData();
+        if(data.size()==0 || data==null){
+            acStoreRv.setVisibility(View.GONE);
+        }else{
+            acStoreRv.setVisibility(View.VISIBLE);
+        }
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         acStoreRv.setLayoutManager(layoutManager);
         StoreGoodsAdapter adapter = new StoreGoodsAdapter(this, data);
