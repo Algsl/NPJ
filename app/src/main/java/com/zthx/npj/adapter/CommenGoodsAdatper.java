@@ -48,7 +48,7 @@ public class CommenGoodsAdatper extends RecyclerView.Adapter<CommenGoodsAdatper.
                 public void onClick(View v) {
                     int position = viewHolder.getLayoutPosition();
                     // 这里利用回调来给RecyclerView设置点击事件
-                    mItemClickListener.onItemClick(position);
+                   // mItemClickListener.onItemClick(position);
                 }
             });
         }

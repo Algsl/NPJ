@@ -48,6 +48,11 @@ public class MyWalletActivity extends ActivityBase {
         changeTitle(titleThemeTitle, "我的钱包");
         changeRightText(titleThemeTvRight, "充值", RechargeActivity.class, null);
 
+        if(Double.parseDouble(SharePerferenceUtils.getUserLevel(this))>0){
+            acMyWalletRlInManage.setVisibility(View.VISIBLE);
+        }else{
+            acMyWalletRlInManage.setVisibility(View.GONE);
+        }
 
     }
 

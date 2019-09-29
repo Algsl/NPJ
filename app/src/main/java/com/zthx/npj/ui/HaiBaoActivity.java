@@ -90,7 +90,7 @@ public class HaiBaoActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                SharePerferenceUtils.setUserId(HaiBaoActivity.this,"");
             }
         }));
     }

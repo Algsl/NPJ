@@ -96,7 +96,7 @@ public class GiftActivity extends ActivityBase {
 
 
     private void getData(String id) {
-        GiftSubscribe.getGiftDetail(SharePerferenceUtils.getUserId(this), BaseConstant.TOKEN, id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        GiftSubscribe.getGiftDetail(SharePerferenceUtils.getUserId(this), SharePerferenceUtils.getToken(this), id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 GiftDetailResponseBean giftDetailResponseBean = GsonUtils.fromJson(result, GiftDetailResponseBean.class);

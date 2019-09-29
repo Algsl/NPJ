@@ -14,6 +14,7 @@ import com.zthx.npj.net.been.HotSearchBean;
 import com.zthx.npj.net.been.LocalStoreBean;
 import com.zthx.npj.net.been.OfflineBuy2Bean;
 import com.zthx.npj.net.been.OfflineBuyBean;
+import com.zthx.npj.net.been.OfflineStoreCommentBean;
 import com.zthx.npj.net.been.OpenStoreBean;
 import com.zthx.npj.net.been.OrderPushBean;
 import com.zthx.npj.net.been.RecommendBean;
@@ -293,6 +294,7 @@ public class MainSubscribe {
      */
     public static void alsoLike(String page, DisposableObserver<ResponseBody> subscriber) {
         AlsoLikeBean bean=new AlsoLikeBean();
+        bean.setPage(page);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().alsoLike(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
@@ -348,6 +350,16 @@ public class MainSubscribe {
         bean.setUser_id(user_id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().systemMsg(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 线下门店评价
+     * @param bean
+     * @param subscriber
+     */
+    public static void offlineStoreComment(OfflineStoreCommentBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().offlineStoreComment(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

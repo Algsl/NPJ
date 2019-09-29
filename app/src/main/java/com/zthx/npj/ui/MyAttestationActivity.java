@@ -111,7 +111,7 @@ public class MyAttestationActivity extends ActivityBase {
     @OnClick({R.id.at_my_attestation_ll_people, R.id.at_my_attestation_ll_company, R.id.at_my_attestation_ll_buy, R.id.at_my_attestation_ll_trust, R.id.at_my_attestation_ll_zizhi})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.at_my_attestation_ll_people:
+            case R.id.at_my_attestation_ll_people://实人认证
                 CertSubscribe.realName(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
@@ -121,13 +121,13 @@ public class MyAttestationActivity extends ActivityBase {
                                 openActivity(RealNameAuthenticationActivity.class);
                                 break;
                             case "2":
-                                openActivity(AttestationSuccessActivity.class, "1", "0");
+                                openActivity(AttestationSuccessActivity.class, bean.getMsg(),"1", "0");
                                 break;
                             case "3":
-                                openActivity(AttestationSuccessActivity.class, "1", "1");
+                                openActivity(AttestationSuccessActivity.class, bean.getMsg(),"1", "1");
                                 break;
                             case "4":
-                                openActivity(AttestationSuccessActivity.class, "1", "2", bean.getData().getCert_id());
+                                openActivity(AttestationSuccessActivity.class, bean.getMsg(),"1", "2", bean.getData().getCert_id());
                                 break;
                         }
                     }
@@ -148,13 +148,13 @@ public class MyAttestationActivity extends ActivityBase {
                                 openActivity(EnterpriseCertificationActivity.class);
                                 break;
                             case "2":
-                                openActivity(AttestationSuccessActivity.class, "2", "2", bean.getData().getCert_id());
+                                openActivity(AttestationSuccessActivity.class, bean.getMsg(),"2", "2", bean.getData().getCert_id());
                                 break;
                             case "3":
-                                openActivity(AttestationSuccessActivity.class, "2", "1");
+                                openActivity(AttestationSuccessActivity.class, bean.getMsg(),"2", "1");
                                 break;
                             case "4":
-                                openActivity(AttestationSuccessActivity.class, "2", "0");
+                                openActivity(AttestationSuccessActivity.class, bean.getMsg(),"2", "0");
                                 break;
                         }
                     }
@@ -165,7 +165,7 @@ public class MyAttestationActivity extends ActivityBase {
                     }
                 }));
                 break;
-            case R.id.at_my_attestation_ll_buy:
+            case R.id.at_my_attestation_ll_buy://采购认证
                 CertSubscribe.stock(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
@@ -175,13 +175,13 @@ public class MyAttestationActivity extends ActivityBase {
                                 openActivity(PurchaserCertificationActivity.class);
                                 break;
                             case "2":
-                                openActivity(AttestationSuccessActivity.class, "3", "2", bean.getData().getCert_id());
+                                openActivity(AttestationSuccessActivity.class, bean.getMsg(),"3", "2", bean.getData().getCert_id());
                                 break;
                             case "3":
-                                openActivity(AttestationSuccessActivity.class, "3", "1");
+                                openActivity(AttestationSuccessActivity.class, bean.getMsg(),"3", "1");
                                 break;
                             case "4":
-                                openActivity(AttestationSuccessActivity.class, "3", "0");
+                                openActivity(AttestationSuccessActivity.class, bean.getMsg(),"3", "0");
                                 break;
                         }
                     }
@@ -192,8 +192,9 @@ public class MyAttestationActivity extends ActivityBase {
                     }
                 }));
                 break;
-            case R.id.at_my_attestation_ll_trust:
-                CertSubscribe.integrity(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            case R.id.at_my_attestation_ll_trust://诚信认证
+                openActivity(TrustedStoreActivity.class);
+                /*CertSubscribe.integrity(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
                         IntegrityResponseBean bean = GsonUtils.fromJson(result, IntegrityResponseBean.class);
@@ -217,9 +218,9 @@ public class MyAttestationActivity extends ActivityBase {
                     public void onFault(String errorMsg) {
                         showToast(errorMsg);
                     }
-                }));
+                }));*/
                 break;
-            case R.id.at_my_attestation_ll_zizhi:
+            case R.id.at_my_attestation_ll_zizhi://资质认证
                 CertSubscribe.zizhi(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
@@ -229,13 +230,13 @@ public class MyAttestationActivity extends ActivityBase {
                                 openActivity(ZiZhiActivity.class);
                                 break;
                             case "2":
-                                openActivity(AttestationSuccessActivity.class, "5", "2", bean.getData().getCert_id() + "");
+                                openActivity(AttestationSuccessActivity.class, bean.getMsg(),"5", "2", bean.getData().getCert_id() + "");
                                 break;
                             case "3":
-                                openActivity(AttestationSuccessActivity.class, "5", "1");
+                                openActivity(AttestationSuccessActivity.class, bean.getMsg(),"5", "1");
                                 break;
                             case "4":
-                                openActivity(AttestationSuccessActivity.class, "5", "0");
+                                openActivity(AttestationSuccessActivity.class, bean.getMsg(),"5", "0");
                                 break;
                         }
                     }

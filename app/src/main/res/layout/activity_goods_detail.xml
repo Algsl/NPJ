@@ -659,7 +659,6 @@
         android:layout_height="@dimen/dp_49"
         android:layout_alignParentBottom="true">
         <LinearLayout
-            android:id="@+id/ac_goodsDetail_ll_3bar"
             android:paddingTop="@dimen/dp_5"
             android:layout_width="0dp"
             android:layout_height="match_parent"

@@ -21,12 +21,14 @@ import android.widget.Toast;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.ClassifyDetailAdapter;
 import com.zthx.npj.adapter.LocationStoreAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BannerResponseBean;
@@ -78,6 +80,8 @@ public class LocationStoreActivity extends ActivityBase {
     Banner banner;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.seeMore)
+    TextView seeMore;
     private String type = "1";
 
 
@@ -85,6 +89,9 @@ public class LocationStoreActivity extends ActivityBase {
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
     private String level = SharePerferenceUtils.getUserLevel(this);
+
+    private int page = 0;
+    private LocationStoreAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +108,23 @@ public class LocationStoreActivity extends ActivityBase {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
+                page = 0;
+                if (mAdapter != null) {
+                    mAdapter.clearData();
+                }
+                seeMore.setText("查看更多");
+                refreshLayout.setLoadmoreFinished(false);
                 getLocalStore(type);
                 initBanner();
                 refreshlayout.finishRefresh();
-                showToast("刷新完成");
+            }
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                page++;
+                getLocalStore(type);
+                refreshlayout.finishLoadmore();
             }
         });
 
@@ -121,7 +141,7 @@ public class LocationStoreActivity extends ActivityBase {
         LocalStoreBean bean = new LocalStoreBean();
         bean.setLat(SharePerferenceUtils.getLat(this));
         bean.setLng(SharePerferenceUtils.getLng(this));
-        bean.setPage("1");
+        bean.setPage(page+"");
         bean.setType(type);
         MainSubscribe.getLocalStore(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
@@ -131,12 +151,23 @@ public class LocationStoreActivity extends ActivityBase {
 
                 LinearLayoutManager manager = new LinearLayoutManager(LocationStoreActivity.this, LinearLayoutManager.VERTICAL, false);
                 atLocationStoreRv.setLayoutManager(manager);
-                LocationStoreAdapter mAdapter = new LocationStoreAdapter(LocationStoreActivity.this, data);
+                if (mAdapter == null) {
+                    mAdapter = new LocationStoreAdapter(LocationStoreActivity.this, data);
+                } else {
+                    Log.e("测试", "setGoodsList: "+data.size());
+                    if (data != null && data.size()!=0) {
+                        if(data.size()<10){
+                            seeMore.setText("没有更多了");
+                            refreshLayout.setLoadmoreFinished(true);
+                        }
+                        mAdapter.addData(data);
+                    }
+                }
                 mAdapter.setOnItemClickListener(new LocationStoreAdapter.ItemClickListener() {
                     @Override
-                    public void onItemClick(int position) {
+                    public void onItemClick(int position, ArrayList<LocalStoreResponseBean.DataBean> list) {
                         Intent intent = new Intent(LocationStoreActivity.this, StoreDetailActivity.class);
-                        intent.putExtra(Const.STORE_ID, data.get(position).getId() + "");
+                        intent.putExtra(Const.STORE_ID, list.get(position).getId() + "");
                         startActivity(intent);
                     }
                 });
@@ -204,11 +235,11 @@ public class LocationStoreActivity extends ActivityBase {
                 startActivityForResult(intent, 1);
                 break;
             case R.id.at_location_store_tv_ruzhu:
-                if(user_id.equals("")){
-                    CommonDialog dialog=new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+                if (user_id.equals("")) {
+                    CommonDialog dialog = new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
-                            if(confirm){
+                            if (confirm) {
                                 startActivity(new Intent(LocationStoreActivity.this, LoginActivity.class));
                             }
                         }
@@ -216,7 +247,7 @@ public class LocationStoreActivity extends ActivityBase {
                     dialog.setTitle("提示");
                     dialog.setPositiveButton("去登录");
                     dialog.show();
-                }else{
+                } else {
                     getMyStoreType();
                 }
                 break;
@@ -256,7 +287,7 @@ public class LocationStoreActivity extends ActivityBase {
         LocationStoreAdapter mAdapter = new LocationStoreAdapter(LocationStoreActivity.this, data);
         mAdapter.setOnItemClickListener(new LocationStoreAdapter.ItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(int position, ArrayList<LocalStoreResponseBean.DataBean> list) {
                 Intent intent = new Intent(LocationStoreActivity.this, StoreDetailActivity.class);
                 intent.putExtra(Const.STORE_ID, data.get(position).getId() + "");
                 startActivity(intent);
@@ -302,7 +333,7 @@ public class LocationStoreActivity extends ActivityBase {
                         Intent intent = new Intent(LocationStoreActivity.this, BannerActivity.class);
                         intent.putExtra("title", bean.getData().get(position).getTitle());
                         intent.putExtra("type", bean.getData().get(position).getType());
-                        intent.putExtra("id", bean.getData().get(position).getId()+"");
+                        intent.putExtra("id", bean.getData().get(position).getId() + "");
                         startActivity(intent);
                     }
                 });

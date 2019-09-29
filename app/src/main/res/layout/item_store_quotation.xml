@@ -16,7 +16,14 @@
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
         app:riv_corner_radius="@dimen/dp_5"/>
-
+    <ImageView
+        android:id="@+id/item_storeQuotation_iv_video"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:layout_marginLeft="@dimen/dp_35"
+        android:src="@drawable/item_play"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

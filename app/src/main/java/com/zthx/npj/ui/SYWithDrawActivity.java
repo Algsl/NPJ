@@ -78,8 +78,23 @@ public class SYWithDrawActivity extends ActivityBase {
             case R.id.ac_withdraw_btn_draw:
                 if (acWithdrawEtDrawMoney.getText().toString().equals("")) {
                     showToast("请输入提取金额");
-                } else {
-                    showPublishPopwindow();
+                } else if(Double.parseDouble(acWithdrawEtDrawMoney.getText().toString().trim())<10){
+                   showToast("提取收益金额需大于1元");
+                }else{
+                    //showPublishPopwindow();
+                    String money = acWithdrawEtDrawMoney.getText().toString();
+                    SetSubscribe.tqIncome(user_id, token,  money, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            showToast("收益提取成功");
+                            finish();
+                        }
+
+                        @Override
+                        public void onFault(String errorMsg) {
+                            showToast(errorMsg);
+                        }
+                    }));
                 }
                 break;
         }

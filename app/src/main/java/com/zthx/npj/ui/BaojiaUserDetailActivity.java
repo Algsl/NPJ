@@ -81,41 +81,6 @@ public class BaojiaUserDetailActivity extends ActivityBase {
         Glide.with(this).load(Uri.parse(bean.getData().get(position).getHead_img())).into(acBaojiaDetailMvHeadImg);
         acBaojiaDetailTvNickName.setText(bean.getData().get(position).getNick_name());
         MyCustomUtils.showLevelImg((int)bean.getData().get(position).getLevel(),acBaojiaDetailTvLevel);
-        /*switch ((int) bean.getData().get(position).getLevel()) {
-            case 0:
-                acBaojiaDetailTvLevel.setImageResource(R.drawable.level0);
-                break;
-            case 1:
-                acBaojiaDetailTvLevel.setImageResource(R.drawable.level1);
-                break;
-            case 2:
-                acBaojiaDetailTvLevel.setImageResource(R.drawable.level2);
-                break;
-            case 3:
-                acBaojiaDetailTvLevel.setImageResource(R.drawable.level3);
-                break;
-            case 4:
-                acBaojiaDetailTvLevel.setImageResource(R.drawable.level4);
-                break;
-            case 5:
-                acBaojiaDetailTvLevel.setImageResource(R.drawable.level5);
-                break;
-            case 6:
-                acBaojiaDetailTvLevel.setImageResource(R.drawable.level6);
-                break;
-            case 7:
-                acBaojiaDetailTvLevel.setImageResource(R.drawable.level7);
-                break;
-            case 8:
-                acBaojiaDetailTvLevel.setImageResource(R.drawable.level8);
-                break;
-            case 9:
-                acBaojiaDetailTvLevel.setImageResource(R.drawable.level9);
-                break;
-            case 10:
-                acBaojiaDetailTvLevel.setImageResource(R.drawable.level10);
-                break;
-        }*/
         getBaojiaDetail();
     }
 
@@ -126,6 +91,7 @@ public class BaojiaUserDetailActivity extends ActivityBase {
                 BaojiaUserDetailResponseBean bean = GsonUtils.fromJson(result, BaojiaUserDetailResponseBean.class);
                 ArrayList<BaojiaUserDetailResponseBean.DataBean> data = bean.getData();
                 bjuser_id=data.get(0).getUser_id();
+
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(BaojiaUserDetailActivity.this);
                 acBaojiaDetailRv.setLayoutManager(layoutManager);
                 BaojiaUserDetailAdapter adapter = new BaojiaUserDetailAdapter(BaojiaUserDetailActivity.this, data);

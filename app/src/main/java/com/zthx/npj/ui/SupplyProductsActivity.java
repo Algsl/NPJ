@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,7 @@ import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.MyCircleView;
@@ -111,18 +113,22 @@ public class SupplyProductsActivity extends ActivityBase {
     TextView acSupplyTvDetail;
     @BindView(R.id.ac_supply_tv_common)
     TextView acSupplyTvCommon;
-    @BindView(R.id.ac_supply_tv_company)
-    TextView acSupplyTvCompany;
     @BindView(R.id.ac_supply_tv_realName)
     TextView acSupplyTvRealName;
     @BindView(R.id.banner)
     Banner banner;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @BindView(R.id.ac_supply_tv_storeQuality)
-    TextView acSupplyTvStoreQuality;
-    @BindView(R.id.ac_supply_tv_soldOver)
-    TextView acSupplyTvSoldOver;
+    @BindView(R.id.ac_supply_tv_enterPrice)
+    TextView acSupplyTvEnterPrice;
+    @BindView(R.id.ac_supply_tv_purchase)
+    TextView acSupplyTvPurchase;
+    @BindView(R.id.ac_supply_tv_trust)
+    TextView acSupplyTvTrust;
+    @BindView(R.id.ac_supply_tv_zizhi)
+    TextView acSupplyTvZizhi;
+    @BindView(R.id.ac_supply_ll)
+    LinearLayout acSupplyLl;
 
 
     private String type;
@@ -178,7 +184,7 @@ public class SupplyProductsActivity extends ActivityBase {
             public void onSuccess(String result) {
                 NeedDetailResponseBean bean = GsonUtils.fromJson(result, NeedDetailResponseBean.class);
                 needData = bean.getData();
-                showLevel(needData.getLevel());
+                MyCustomUtils.showLevelImg(needData.getLevel(),atSupplyProductsTvLevel);
                 atNeedProductsTvCaigouNum.setVisibility(View.VISIBLE);
                 atSupplyProductsLlNeedBaojia.setVisibility(View.VISIBLE);
                 atSupplyProductsLlSupplyGuanggao.setVisibility(View.GONE);
@@ -189,14 +195,22 @@ public class SupplyProductsActivity extends ActivityBase {
                 atSupplyProductsTvUnit.setText(needData.getUnit());
                 atSupplyProductsTvTitle.setText(needData.getTitle());
 
-                if (needData.getCertification() != null) {
+                if (needData.getCertification() == null) {
+                    acSupplyLl.setVisibility(View.GONE);
+                } else {
+                    acSupplyLl.setVisibility(View.VISIBLE);
                     String[] strs = needData.getCertification().split(",");
                     for (String str : strs) {
                         if (str.equals("1")) {
                             acSupplyTvRealName.setVisibility(View.VISIBLE);
-                            acSupplyTvStoreQuality.setVisibility(View.VISIBLE);
                         } else if (str.equals("2")) {
-                            acSupplyTvCompany.setVisibility(View.VISIBLE);
+                            acSupplyTvEnterPrice.setVisibility(View.VISIBLE);
+                        } else if (str.equals("3")) {
+                            acSupplyTvPurchase.setVisibility(View.VISIBLE);
+                        }else if (str.equals("4")) {
+                            acSupplyTvTrust.setVisibility(View.VISIBLE);
+                        }else if (str.equals("5")) {
+                            acSupplyTvZizhi.setVisibility(View.VISIBLE);
                         }
                     }
                 }
@@ -240,7 +254,7 @@ public class SupplyProductsActivity extends ActivityBase {
                 supplyData = supplyDetailResponseBean.getData();
                 initBanner1(supplyData.getGoods_img());
 
-                showLevel(supplyData.getLevel());
+                MyCustomUtils.showLevelImg(supplyData.getLevel(),atSupplyProductsTvLevel);
                 atSupplyProductsTvPrice.setText("￥" + supplyData.getPrice());
                 atSupplyProductsTvUnit.setText("元/" + supplyData.getGoods_unit());
                 atSupplyProductsTvTitle.setText(supplyData.getTitle());
@@ -260,23 +274,27 @@ public class SupplyProductsActivity extends ActivityBase {
                     atSupplyProductsTvXinyufen.setText("信誉分： " + supplyData.getReputation());
                 }
                 sn_user_id = supplyData.getUser_id();
-                if (supplyData.getCertification() != null) {
+                Glide.with(SupplyProductsActivity.this).load(supplyData.getHead_img()).into(atSupplyProductsIvHeadPic);
+                atSupplyProductsTvName.setText(supplyData.getNick_name());
+                if (supplyData.getCertification() == null ) {
+                    acSupplyLl.setVisibility(View.GONE);
+                } else {
+                    acSupplyLl.setVisibility(View.VISIBLE);
                     String[] strs = supplyData.getCertification().split(",");
                     for (String str : strs) {
                         if (str.equals("1")) {
                             acSupplyTvRealName.setVisibility(View.VISIBLE);
-                            acSupplyTvStoreQuality.setVisibility(View.VISIBLE);
                         } else if (str.equals("2")) {
-                            acSupplyTvCompany.setVisibility(View.VISIBLE);
+                            acSupplyTvEnterPrice.setVisibility(View.VISIBLE);
+                        } else if (str.equals("3")) {
+                            acSupplyTvPurchase.setVisibility(View.VISIBLE);
+                        }else if (str.equals("4")) {
+                            acSupplyTvTrust.setVisibility(View.VISIBLE);
+                        }else if (str.equals("5")) {
+                            acSupplyTvZizhi.setVisibility(View.VISIBLE);
                         }
                     }
                 }
-                /*atSupplyProductsTvLookNum.setText(data.getHits() + "人看过");
-                atSupplyProductsTvSellNum.setText("已售 " + data.getSold());
-                atSupplyProductsTvXinyufen.setText("信誉分： " + data.getReputation());*/
-
-                Glide.with(SupplyProductsActivity.this).load(supplyData.getHead_img()).into(atSupplyProductsIvHeadPic);
-                atSupplyProductsTvName.setText(supplyData.getNick_name());
                 //目前level没有给出具体分级名称
                 //还剩一个recycleView的图片单元要补
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SupplyProductsActivity.this);
@@ -294,45 +312,6 @@ public class SupplyProductsActivity extends ActivityBase {
         }, this));
     }
 
-    /**
-     * 初始化轮播图
-     */
-    /*private void initBanner(ArrayList<String> bannerList) {
-
-        ArrayList<Uri> list = new ArrayList<>();
-        for (int i = 0; i < bannerList.size(); i++) {
-            list.add(Uri.parse(bannerList.get(i)));
-        }
-
-
-        //设置banner样式
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-        banner.setIndicatorGravity(BannerConfig.CENTER);
-        //设置图片加载器
-        banner.setImageLoader(new GlideImageLoader());
-
-        //设置图片集合
-        banner.setImages(list);
-        //设置banner动画效果
-        banner.setBannerAnimation(Transformer.DepthPage);
-        //设置自动轮播，默认为true
-        banner.isAutoPlay(true);
-        //设置标题集合（当banner样式有显示title时）
-//        atSupplyProductsBanner.setBannerTitles(list2);
-        //设置轮播时间
-        banner.setDelayTime(3000);
-        //设置指示器位置（当banner模式中有指示器时）
-        banner.setIndicatorGravity(BannerConfig.RIGHT);
-        //设置banner点击事件
-        banner.setOnBannerListener(new OnBannerListener() {
-            @Override
-            public void OnBannerClick(int position) {
-                Log.e("huang", "position = " + position);
-            }
-        });
-        //banner设置方法全部调用完毕时最后调用
-        banner.start();
-    }*/
     private void initBanner1(ArrayList<String> bannerList) {
         ArrayList<ViewItemBean> list = new ArrayList<>();
         for (int i = 0; i < bannerList.size(); i++) {
@@ -489,44 +468,6 @@ public class SupplyProductsActivity extends ActivityBase {
         lp.alpha = bgAlpha;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         getWindow().setAttributes(lp);
-    }
-
-    public void showLevel(int level) {
-        switch (level) {
-            case 0:
-                atSupplyProductsTvLevel.setImageResource(R.drawable.level0);
-                break;
-            case 1:
-                atSupplyProductsTvLevel.setImageResource(R.drawable.level1);
-                break;
-            case 2:
-                atSupplyProductsTvLevel.setImageResource(R.drawable.level2);
-                break;
-            case 3:
-                atSupplyProductsTvLevel.setImageResource(R.drawable.level3);
-                break;
-            case 4:
-                atSupplyProductsTvLevel.setImageResource(R.drawable.level4);
-                break;
-            case 5:
-                atSupplyProductsTvLevel.setImageResource(R.drawable.level5);
-                break;
-            case 6:
-                atSupplyProductsTvLevel.setImageResource(R.drawable.level6);
-                break;
-            case 7:
-                atSupplyProductsTvLevel.setImageResource(R.drawable.level7);
-                break;
-            case 8:
-                atSupplyProductsTvLevel.setImageResource(R.drawable.level8);
-                break;
-            case 9:
-                atSupplyProductsTvLevel.setImageResource(R.drawable.level9);
-                break;
-            case 10:
-                atSupplyProductsTvLevel.setImageResource(R.drawable.level10);
-                break;
-        }
     }
 
 }

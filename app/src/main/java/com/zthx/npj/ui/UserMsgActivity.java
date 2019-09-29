@@ -86,14 +86,14 @@ public class UserMsgActivity extends ActivityBase {
     TextView acUserMsgTvReputation;
     @BindView(R.id.ac_userMsg_tv_beDYR)
     TextView acUserMsgTvBeDYR;
-    @BindView(R.id.ac_userMsg_tv_qyCert)
+    /*@BindView(R.id.ac_userMsg_tv_qyCert)
     TextView acUserMsgTvQyCert;
     @BindView(R.id.ac_userMsg_tv_sjCert)
     TextView acUserMsgTvSjCert;
     @BindView(R.id.ac_userMsg_iv_mdCert)
     TextView acUserMsgIvMdCert;
     @BindView(R.id.ac_userMsg_tv_smCert)
-    TextView acUserMsgTvSmCert;
+    TextView acUserMsgTvSmCert;*/
     @BindView(R.id.ac_userMsg_tv_goCert)
     TextView acUserMsgTvGoCert;
     @BindView(R.id.ac_userMsg_tv_tuijian)
@@ -110,6 +110,16 @@ public class UserMsgActivity extends ActivityBase {
     TextView acUserMsgTvHReputation;
     @BindView(R.id.ac_userMsg_tv_hint)
     TextView acUserMsgTvHint;
+    @BindView(R.id.ac_userMsg_tv_realName)
+    TextView acUserMsgTvRealName;
+    @BindView(R.id.ac_userMsg_tv_purchase)
+    TextView acUserMsgTvPurchase;
+    @BindView(R.id.ac_userMsg_tv_zizhi)
+    TextView acUserMsgTvZizhi;
+    @BindView(R.id.ac_userMsg_tv_enterprice)
+    TextView acUserMsgTvEnterprice;
+    @BindView(R.id.ac_userMsg_tv_trust)
+    TextView acUserMsgTvTrust;
 
 
     private IWXAPI api;
@@ -236,10 +246,15 @@ public class UserMsgActivity extends ActivityBase {
         String[] strs = data.getCertification().split(",");
         for (String str : strs) {
             if (str.equals("1")) {
-                acUserMsgTvSmCert.setVisibility(View.VISIBLE);
-                acUserMsgTvSjCert.setVisibility(View.VISIBLE);
+                acUserMsgTvRealName.setVisibility(View.VISIBLE);
             } else if (str.equals("2")) {
-                acUserMsgTvQyCert.setVisibility(View.VISIBLE);
+                acUserMsgTvEnterprice.setVisibility(View.VISIBLE);
+            }else if(str.equals("3")){
+                acUserMsgTvPurchase.setVisibility(View.VISIBLE);
+            }else if(str.equals("4")){
+                acUserMsgTvTrust.setVisibility(View.VISIBLE);
+            }else if(str.equals("5")){
+                acUserMsgTvZizhi.setVisibility(View.VISIBLE);
             }
         }
 

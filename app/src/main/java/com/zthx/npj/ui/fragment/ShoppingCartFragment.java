@@ -31,6 +31,7 @@ import com.zthx.npj.entity.GoodsInfo;
 import com.zthx.npj.entity.StoreInfo;
 import com.zthx.npj.net.been.CartListResponseBean;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.RecommendResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -186,12 +187,12 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartAdapte
             list3.add(HomeGoodsBeen);
         }
         CommenGoodsAdatper mAdapter = new CommenGoodsAdatper(getActivity(), list3);
-        mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
+        /*mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(int position, ArrayList<RecommendResponseBean.DataBean> list) {
                 Toast.makeText(getActivity(), "position==" + position, Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
         //设置添加或删除item时的动画，这里使用默认动画
         fgShoppingRvLike.setItemAnimator(new DefaultItemAnimator());
         //设置适配器

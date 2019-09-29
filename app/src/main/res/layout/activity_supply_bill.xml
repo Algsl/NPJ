@@ -153,11 +153,12 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_12"/>
 
-            <TextView
+            <EditText
                 android:id="@+id/at_supply_bill_tv_buy_num"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1000斤起批"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="1000斤起批"
                 android:textSize="@dimen/sp_13"
                 android:layout_marginRight="@dimen/dp_12"
                 android:textColor="@color/text9"
@@ -188,6 +189,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:hint="需与卖家确认"
+                android:layout_centerHorizontal="true"
                 android:textColor="@color/text9"
                 android:textSize="@dimen/sp_13"
                 android:inputType="number"

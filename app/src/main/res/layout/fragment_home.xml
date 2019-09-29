@@ -221,14 +221,15 @@
                     </LinearLayout>
 
                     <android.support.v7.widget.RecyclerView
+                        android:layout_marginLeft="@dimen/dp_6"
+                        android:layout_marginRight="@dimen/dp_10"
                         android:id="@+id/fg_home_shopping_cast"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/dp_10" />
+                        android:layout_height="match_parent"/>
                     <TextView
-                        android:id="@+id/loadMore"
+                        android:id="@+id/seeMore"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_80"
+                        android:layout_height="@dimen/dp_40"
                         android:gravity="center"
                         android:text="查看更多商品"/>
                 </LinearLayout>

@@ -116,7 +116,22 @@ public class WithDrawActivity extends ActivityBase {
                 } else if (acWithdrawEtDrawMoney.getText().toString().equals("")) {
                     showToast("请输入提现金额");
                 } else {
-                    showPublishPopwindow();
+                    //showPublishPopwindow();
+                    String money = acWithdrawEtDrawMoney.getText().toString();
+                    SetSubscribe.withdraw(user_id, token, card_id, money, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            showToast("提现成功");
+                            String residue=(Double.parseDouble(balance)-Double.parseDouble(acWithdrawEtDrawMoney.getText().toString()))+"";
+                            SharePerferenceUtils.setBalance(WithDrawActivity.this,residue);
+                            finish();
+                        }
+
+                        @Override
+                        public void onFault(String errorMsg) {
+                            showToast(errorMsg);
+                        }
+                    }));
                 }
                 break;
             case R.id.ac_withdraw_rl_card:

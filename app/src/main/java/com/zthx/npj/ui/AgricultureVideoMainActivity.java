@@ -34,6 +34,7 @@ import com.zthx.npj.ui.fragment.SelectVideoFragment;
 import com.zthx.npj.ui.fragment.VideoCommentFragment;
 import com.zthx.npj.ui.fragment.WebFragment;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.CommonDialog;
 
@@ -147,6 +148,8 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
                                 atAkVideoPlayer.setUrl(videoUrl); //设置视频地址
                                 atAkVideoPlayer.setTitle(dataBean.getTitle());
                                 StandardVideoController controller = new StandardVideoController(AgricultureVideoMainActivity.this);
+                                controller.getThumb().setImageBitmap(MyCustomUtils.getVideoThumbnail(videoUrl));
+                                atAkVideoPlayer.setScreenScale(IjkVideoView.SCREEN_SCALE_MATCH_PARENT);
                                 atAkVideoPlayer.setVideoController(controller); //设置控制器，如需定制可继承 BaseVideoController
                                 break;
                             case "1":
@@ -154,6 +157,8 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
                                 atAkVideoPlayer.setUrl(videoUrl); //设置视频地址
                                 atAkVideoPlayer.setTitle(dataBean.getTitle());
                                 StandardVideoController controller1 = new StandardVideoController(AgricultureVideoMainActivity.this);
+                                //controller1.getThumb().setImageBitmap(MyCustomUtils.getVideoThumbnail(videoUrl));
+                                atAkVideoPlayer.setScreenScale(IjkVideoView.SCREEN_SCALE_MATCH_PARENT);
                                 atAkVideoPlayer.setVideoController(controller1); //设置控制器，如需定制可继承 BaseVideoController
                                 atAkVideoPlayer.start();
                                 break;

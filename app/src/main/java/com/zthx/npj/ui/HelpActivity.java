@@ -85,7 +85,8 @@ public class HelpActivity extends ActivityBase {
     private void setProblem(String result,String type) {
         ProblemResponseBean bean= GsonUtils.fromJson(result,ProblemResponseBean.class);
         final ArrayList<ProblemResponseBean.DataBean> data=bean.getData();
-        GridLayoutManager layoutManager=new GridLayoutManager(this,2, LinearLayoutManager.VERTICAL,false);
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
+        //GridLayoutManager layoutManager=new GridLayoutManager(this,2, LinearLayoutManager.VERTICAL,false);
         ProblemAdapter adapter=new ProblemAdapter(this,data);
         switch (type){
             case "1":

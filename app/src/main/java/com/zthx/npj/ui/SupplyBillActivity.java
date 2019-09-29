@@ -70,7 +70,7 @@ public class SupplyBillActivity extends ActivityBase {
     @BindView(R.id.at_supply_bill_tv_unit)
     TextView atSupplyBillTvUnit;
     @BindView(R.id.at_supply_bill_tv_buy_num)
-    TextView atSupplyBillTvBuyNum;
+    EditText atSupplyBillTvBuyNum;
     @BindView(R.id.at_supply_bill_tv_zongjia)
     TextView atSupplyBillTvZongjia;
     @BindView(R.id.at_supply_bill_btn_buy)
@@ -99,12 +99,12 @@ public class SupplyBillActivity extends ActivityBase {
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
     private String goodsId;
-    private String goods_num = "1";
     private String pay_code = "2";
     private String address_id = "10";
     private String shipping_fee = "";
     private String remark = "sdf";
     private SupplyBuy2ResponseBean.DataBean data1;
+    private ConfirmSupplyResponseBean.DataBean data;
     private Double allPrice;
 
     private String RSA_PRIVATE = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
@@ -166,7 +166,7 @@ public class SupplyBillActivity extends ActivityBase {
                 new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        ConfirmSupplyResponseBean.DataBean data = GsonUtils.fromJson(result, ConfirmSupplyResponseBean.class).getData();
+                        data = GsonUtils.fromJson(result, ConfirmSupplyResponseBean.class).getData();
                         Glide.with(SupplyBillActivity.this).load(data.getHead_img()).into(atSupplyBillHeadPic);
                         atSupplyBillTvAddress.setText(data.getAddress());
                         atSupplyBillTvName.setText(data.getNick_name());
@@ -174,11 +174,10 @@ public class SupplyBillActivity extends ActivityBase {
                         atSupplyBillTvTitle.setText(data.getTitle());
                         atSupplyBillTvDanjia.setText("¥" + data.getPrice());
                         atSupplyBillTvUnit.setText(data.getGoods_unit());
-                        atSupplyBillTvBuyNum.setText(data.getBuy_num());
-                        goods_num = data.getBuy_num();
+                        atSupplyBillTvBuyNum.setHint(data.getBuy_num()+""+data.getGoods_unit()+"起批");
                         address_id = data.getAddress_id() + "";
-                        atSupplyBillTvGongjiGoods.setText("共计" + data.getBuy_num() + "斤商品   小计：");
-                        allPrice=Integer.parseInt(data.getBuy_num()) * Double.parseDouble(data.getPrice());
+                        atSupplyBillTvGongjiGoods.setText("共计" + atSupplyBillTvBuyNum.getText().toString().trim() + "斤商品   小计：");
+                        allPrice=Double.parseDouble(atSupplyBillTvBuyNum.getText().toString()) * Double.parseDouble(data.getPrice());
                         atSupplyBillTvPrice.setText("¥" + allPrice);
                         atSupplyBillTvZongjia.setText("¥" + allPrice);
                     }
@@ -191,7 +190,7 @@ public class SupplyBillActivity extends ActivityBase {
     }
 
     @OnClick({R.id.at_supply_bill_ll_choice_address, R.id.at_supply_bill_btn_buy, R.id.ac_supplyBill_iv_choose1,
-            R.id.ac_supplyBill_iv_choose2, R.id.ac_supplyBill_iv_choose3,R.id.yunfei})
+            R.id.ac_supplyBill_iv_choose2, R.id.ac_supplyBill_iv_choose3,R.id.yunfei,R.id.at_supply_bill_tv_buy_num})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.at_supply_bill_ll_choice_address:
@@ -199,7 +198,11 @@ public class SupplyBillActivity extends ActivityBase {
                 startActivityForResult(intent, 0);
                 break;
             case R.id.at_supply_bill_btn_buy:
-                if(shipping_fee.equals("")){
+                if(atSupplyBillTvBuyNum.getText().toString().trim().equals("")){
+                    showToast("请填写采购数量");
+                }else if(Double.parseDouble(atSupplyBillTvBuyNum.getText().toString().trim())<Double.parseDouble(data.getBuy_num())){
+                    showToast("未达到最低起批量");
+                }else if(shipping_fee.equals("")){
                     showToast("请填写运费");
                 }else{
                     buySupply();
@@ -248,6 +251,29 @@ public class SupplyBillActivity extends ActivityBase {
                     }
                 });
                 break;
+            case R.id.at_supply_bill_tv_buy_num:
+                atSupplyBillTvBuyNum.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if(!atSupplyBillTvBuyNum.getText().toString().trim().equals("")){
+                            atSupplyBillTvGongjiGoods.setText("共计" + atSupplyBillTvBuyNum.getText().toString().trim() + "斤商品   小计：");
+                            allPrice=Double.parseDouble(atSupplyBillTvBuyNum.getText().toString()) * Double.parseDouble(data.getPrice());
+                            atSupplyBillTvPrice.setText("¥" + allPrice);
+                            atSupplyBillTvZongjia.setText("¥" + allPrice);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+                break;
         }
     }
 
@@ -256,7 +282,7 @@ public class SupplyBillActivity extends ActivityBase {
         bean.setUser_id(user_id);
         bean.setToken(token);
         bean.setGoods_id(goodsId);
-        bean.setGoods_num(goods_num);
+        bean.setGoods_num(atSupplyBillTvBuyNum.getText().toString().trim());
         bean.setPay_code(pay_code);
         bean.setAddress_id(address_id);
         bean.setShipping_fee(shipping_fee);

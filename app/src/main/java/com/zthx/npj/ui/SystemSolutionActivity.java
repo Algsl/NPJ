@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.dueeeke.videocontroller.StandardVideoController;
 import com.dueeeke.videoplayer.player.IjkVideoView;
 import com.dueeeke.videoplayer.player.PlayerConfig;
@@ -18,6 +19,7 @@ import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.SolutionVideoResponseBean;
 import com.zthx.npj.ui.fragment.VideoListFragment;
 import com.zthx.npj.ui.fragment.WebFragment;
+import com.zthx.npj.utils.MyCustomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +77,7 @@ public class SystemSolutionActivity extends ActivityBase implements WebFragment.
         ijkVideoView.setUrl(dataBean.getVideo()); //设置视频地址
         ijkVideoView.setTitle(dataBean.getTitle());
         StandardVideoController controller = new StandardVideoController(this);
+        ijkVideoView.setScreenScale(IjkVideoView.SCREEN_SCALE_MATCH_PARENT);
         ijkVideoView.setVideoController(controller); //设置控制器，如需定制可继承 BaseVideoController
         ijkVideoView.start();
     }
@@ -85,6 +88,8 @@ public class SystemSolutionActivity extends ActivityBase implements WebFragment.
         ijkVideoView.setUrl(dataBean.getVideo()); //设置视频地址
         ijkVideoView.setTitle(dataBean.getTitle());
         StandardVideoController controller = new StandardVideoController(this);
+        controller.getThumb().setImageBitmap(MyCustomUtils.getVideoThumbnail(dataBean.getVideo()));
+        ijkVideoView.setScreenScale(IjkVideoView.SCREEN_SCALE_MATCH_PARENT);
         ijkVideoView.setVideoController(controller); //设置控制器，如需定制可继承 BaseVideoController
     }
     @Override

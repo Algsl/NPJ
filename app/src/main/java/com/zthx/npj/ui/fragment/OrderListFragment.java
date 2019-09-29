@@ -36,6 +36,7 @@ import com.zthx.npj.ui.ApplyRefundActivity;
 import com.zthx.npj.ui.ClassfiysActivity;
 import com.zthx.npj.ui.CommentActivity;
 import com.zthx.npj.ui.ConfirmMyOrderActivity;
+import com.zthx.npj.ui.ConfirmOrderActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.KuaiDiDetailActivity;
 import com.zthx.npj.ui.MyStoreOrderDetailActivity;
@@ -130,16 +131,24 @@ public class OrderListFragment extends Fragment {
         mAdapter.setOnItemClickListener(new OrderListAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent intent = new Intent(getContext(), MyStoreOrderDetailActivity.class);
-                intent.putExtra("order_id", data.get(position).getId() + "");
-                intent.putExtra("order_state", data.get(position).getOrder_state() + "");
-                startActivity(intent);
+                if(data.get(position).getId()==8){
+                    Intent intent = new Intent(getContext(), MyStoreOrderDetailActivity.class);
+                    intent.putExtra("order_id", data.get(position).getId() + "");
+                    intent.putExtra("order_state", data.get(position).getOrder_state() + "");
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(getContext(), MyStoreOrderDetailActivity.class);
+                    intent.putExtra("order_id", data.get(position).getId() + "");
+                    intent.putExtra("order_state", data.get(position).getOrder_state() + "");
+                    startActivity(intent);
+                }
+                
             }
 
             //取消订单
             @Override
             public void onCancelClick(int position) {
-                String order_id = data.get(position).getId();
+                String order_id = data.get(position).getId()+"";
                 SetSubscribe.cancelOrder(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
@@ -157,7 +166,7 @@ public class OrderListFragment extends Fragment {
             //删除订单
             @Override
             public void onDeleteClick(final int position) {
-                String order_id = data.get(position).getId();
+                String order_id = data.get(position).getId()+"";
                 SetSubscribe.delOrder(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
@@ -183,9 +192,20 @@ public class OrderListFragment extends Fragment {
             //催单
             @Override
             public void onCuiDanClick(int position) {
-                Toast toast=Toast.makeText(getContext(),"已通知商家发货，请耐心等待",Toast.LENGTH_SHORT);
+                /*Toast toast=Toast.makeText(getContext(),"已通知商家发货，请耐心等待",Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
-                toast.show();
+                toast.show();*/
+                SetSubscribe.reminders(user_id,token,data.get(position).getId()+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        showToast("已通知商家发货，请耐心等待");
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
             }
 
             //查询物流
@@ -200,15 +220,27 @@ public class OrderListFragment extends Fragment {
             @Override
             public void onConfirmClick(int position) {
                 order_id=data.get(position).getId()+"";
-                showPublishPopwindow();
+                //showPublishPopwindow();
+                SetSubscribe.receiveConfirm(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        showToast("确认收货成功");
+                        getOrder();
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
             }
 
             //再来一单
             @Override
             public void onAgainClick(int position) {
                 Intent intent = new Intent(getContext(), GoodsDetailActivity.class);
-                intent.setAction(Const.PRESELL);
-                intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                intent.setAction("Goods");
+                intent.putExtra(Const.GOODS_ID, data.get(position).getGoods_id()+ "");
                 startActivity(intent);
             }
 

@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
+import com.zthx.npj.net.been.GoodsListResponseBean;
 import com.zthx.npj.net.been.HomeGoodsBeen;
 import com.zthx.npj.net.been.RecommendResponseBean;
 import com.zthx.npj.utils.SharePerferenceUtils;
@@ -35,7 +36,7 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.View
 
     private ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
-        void onItemClick(int position) ;
+        void onItemClick(int position,ArrayList<RecommendResponseBean.DataBean> list) ;
     }
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
@@ -44,6 +45,15 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.View
     public HomeGoodsAdapter(Context context, ArrayList<RecommendResponseBean.DataBean> list) {
         this.list = list;
         mContext = context;
+    }
+
+    public void addData(ArrayList<RecommendResponseBean.DataBean> goodsData){
+        int size=goodsData.size();
+        list.addAll(goodsData);
+        notifyItemChanged(size,list.size());
+    }
+    public void clearData(){
+        list.clear();
     }
 
 
@@ -63,7 +73,7 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.View
                 public void onClick(View v) {
                     int position = viewHolder.getLayoutPosition();
                     // 这里利用回调来给RecyclerView设置点击事件
-                    mItemClickListener.onItemClick(position);
+                    mItemClickListener.onItemClick(position,list);
                 }
             });
         }

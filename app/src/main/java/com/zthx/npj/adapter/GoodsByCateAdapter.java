@@ -75,9 +75,8 @@ public class GoodsByCateAdapter extends RecyclerView.Adapter<GoodsByCateAdapter.
 
         Glide.with(mContext).load(mList.get(i).getGoods_img()).into(viewHolder.goodsImg);
         viewHolder.goodsName.setText(mList.get(i).getGoods_name());
-        String price=(int)mLevel==0?mList.get(i).getUser_price():mList.get(i).getMember_price();
-        viewHolder.goodsPrice.setText("￥"+(int)Double.parseDouble(price));
-        viewHolder.goodsOldPrice.setText("￥"+(int)Double.parseDouble(mList.get(i).getMarket_price()));
+        viewHolder.goodsPrice.setText("￥"+mList.get(i).getUser_price());
+        viewHolder.goodsOldPrice.setText("￥"+mList.get(i).getMarket_price());
         viewHolder.goodsOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
     }
 

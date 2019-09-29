@@ -20,6 +20,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AlsoLikeAdatper;
 import com.zthx.npj.adapter.GradViewAdapter;
@@ -154,6 +158,10 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
     RecyclerView acMyOrderDetailRvCai;
     @BindView(R.id.ac_orderDetail_tv_size)
     TextView acOrderDetailTvSize;
+    @BindView(R.id.seeMore)
+    TextView seeMore;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
     private String order_id = "";
     private String order_state = "";
@@ -161,6 +169,8 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
     String token = SharePerferenceUtils.getToken(this);
     private int position = 0;
 
+    private int page = 1;
+    private AlsoLikeAdatper adatper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,23 +183,61 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
 
         acOrderDetailTvSize.setVisibility(View.INVISIBLE);
 
+
         back(titleThemeBack);
         titleThemeBack.setImageResource(R.drawable.goods_detial_back);
         changeTitle(titleThemeTitle, "订单详情");
         changeRightImg(titleThemeImgRight, R.drawable.goods_detail_home, null, null);
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                page = 1;
+                if (adatper != null) {
+                    adatper.clearData();
+                }
+                seeMore.setText("查看更多");
+                refreshLayout.setLoadmoreFinished(false);
+                getMyStoreOrderDetail();
+                getAlsoLike();
+
+                refreshlayout.finishRefresh();
+            }
+        });
+
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                page++;
+                getAlsoLike();
+                refreshlayout.finishLoadmore();
+            }
+        });
+
+
         getAlsoLike();
         getMyStoreOrderDetail();
     }
 
     private void getAlsoLike() {
-        MainSubscribe.alsoLike("1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.alsoLike(page+"", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 AlsoLikeResponseBean bean = GsonUtils.fromJson(result, AlsoLikeResponseBean.class);
                 final ArrayList<AlsoLikeResponseBean.DataBean> data = bean.getData();
                 GridLayoutManager layoutManager = new GridLayoutManager(MySupplyOrderDetailActivity.this, 2);
                 acMyOrderDetailRvCai.setLayoutManager(layoutManager);
-                AlsoLikeAdatper adatper = new AlsoLikeAdatper(MySupplyOrderDetailActivity.this, data);
+                if (adatper == null) {
+                    adatper = new AlsoLikeAdatper(MySupplyOrderDetailActivity.this, data);
+                } else {
+                    if (data != null && data.size() != 0) {
+                        if (data.size() < 10) {
+                            seeMore.setText("没有更多了");
+                            refreshLayout.setLoadmoreFinished(true);
+                        }
+                        adatper.addData(data);
+                    }
+                }
                 //设置添加或删除item时的动画，这里使用默认动画
                 acMyOrderDetailRvCai.setItemAnimator(new DefaultItemAnimator());
                 //设置适配器
@@ -197,9 +245,9 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                 acMyOrderDetailRvCai.setAdapter(adatper);
                 adatper.setOnItemClickListener(new AlsoLikeAdatper.ItemClickListener() {
                     @Override
-                    public void onItemClick(int position) {
+                    public void onItemClick(int position, ArrayList<AlsoLikeResponseBean.DataBean> mList) {
                         Intent intent = new Intent(MySupplyOrderDetailActivity.this, GoodsDetailActivity.class);
-                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                        intent.putExtra(Const.GOODS_ID, mList.get(position).getId() + "");
                         startActivity(intent);
                     }
                 });
@@ -245,9 +293,9 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
         atMyOrderDetailTvGoodsNum1.setText("x " + data.getOrder_num());
         atMyOrderDetailTvIsFreeShipping.setText("￥ " + data.getShipping_fee());
 
-        acMyOrderDetailTvAllPrice.setText("￥"+data.getGoods_price());
-        atMyOrderDetailTvIsFreeShipping.setText("-￥"+data.getShipping_fee());
-        acMyOrderDetailTvNeedPay.setText("￥"+data.getOrder_price());
+        acMyOrderDetailTvAllPrice.setText("￥" + data.getGoods_price());
+        atMyOrderDetailTvIsFreeShipping.setText("-￥" + data.getShipping_fee());
+        acMyOrderDetailTvNeedPay.setText("￥" + data.getOrder_price());
 
         atMyOrderDetailTvOrderSn.setText(data.getOrder_sn());
         atMyOrderDetailTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time() * 1000)));
@@ -327,7 +375,7 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
     @OnClick({R.id.ac_myOrderDetail_tv_cancel, R.id.ac_myOrderDetail_tv_pay, R.id.ac_myOrderDetail_tv_applyRefund,
             R.id.ac_myOrderDetail_tv_wuliu, R.id.ac_myOrderDetail_tv_delay, R.id.ac_myOrderDetail_tv_confirm,
             R.id.ac_myOrderDetail_tv_delete, R.id.ac_myOrderDetail_tv_comment, R.id.ac_myOrderDetail_tv_chat,
-            R.id.ac_myOrderDetail_tv_call,R.id.ac_myOrderDetail_ll})
+            R.id.ac_myOrderDetail_tv_call, R.id.ac_myOrderDetail_ll})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_myOrderDetail_tv_cancel:
@@ -361,13 +409,25 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
             case R.id.ac_myOrderDetail_tv_delay:
                 break;
             case R.id.ac_myOrderDetail_tv_confirm:
-                showPublishPopwindow();
+                //showPublishPopwindow();
+                SetSubscribe.mySupplyGoodsConfirm(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        showToast("确认收货成功");
+                        finish();
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
                 break;
             case R.id.ac_myOrderDetail_tv_delete:
                 SetSubscribe.mySupplyOrderDel(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        getMyStoreOrderDetail();
+                        finish();
                     }
 
                     @Override

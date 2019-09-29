@@ -185,7 +185,7 @@ public class PublishGoodsActivity extends ActivityBase {
         HttpUtils.uploadMoreImg(requestUrl, paths1, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                showToast("图片上传失败");
+
             }
 
             @Override
@@ -196,7 +196,7 @@ public class PublishGoodsActivity extends ActivityBase {
                 HttpUtils.uploadMoreImg(requestUrl, paths2, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        showToast("图片上传失败");
+
                     }
 
                     @Override

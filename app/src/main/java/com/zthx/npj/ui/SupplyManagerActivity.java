@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,8 @@ import com.zthx.npj.net.been.KuaiDiResponseBean;
 import com.zthx.npj.net.been.MySupplyListResponseBean;
 import com.zthx.npj.net.been.MySupplyOrderFahuoBean;
 import com.zthx.npj.net.been.MySupplyOrderRefund3ResponseBean;
+import com.zthx.npj.net.been.MySupplyOrderRefuseRefundBean;
+import com.zthx.npj.net.been.StoreOrderRefuseRefundBean;
 import com.zthx.npj.net.been.SupplyOrderResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -441,7 +444,8 @@ public class SupplyManagerActivity extends ActivityBase {
         refundReason.setText(data.getRefund_reason());
         refundDesc.setText(data.getRefund_desc() == null ? "无" : data.getRefund_desc());
         Glide.with(this).load(Uri.parse("http://app.npj-vip.com" + data.getRefund_img())).into(goodsImg);
-        Button refund = contentView.findViewById(R.id.pw_storeGoods_btn_refund);
+        TextView refund = contentView.findViewById(R.id.pw_storeGoods_btn_refund);
+        TextView refuse = contentView.findViewById(R.id.pw_storeGoods_btn_refuse);
         refund.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -460,6 +464,79 @@ public class SupplyManagerActivity extends ActivityBase {
                 }));
             }
         });
+        refuse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+                backgroundAlpha(1f);
+                showRefusePopwindow(order_id);
+            }
+        });
+        contentView.findViewById(R.id.pw_iv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+    }
+
+    //拒绝退款弹窗
+    public void showRefusePopwindow(final String order_id) {
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_store_goods_bill_refuse, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView);
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_500));
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_320));
+        // 设置PopupWindow的背景
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(true);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        window.setFocusable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+
+        final EditText etReason=contentView.findViewById(R.id.pw_storeGoodsBill_et_reason);
+        TextView confirm=contentView.findViewById(R.id.pw_storeGoodsBill_tv_refuse);
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MySupplyOrderRefuseRefundBean bean=new MySupplyOrderRefuseRefundBean();
+                bean.setUser_id(user_id);
+                bean.setToken(token);
+                bean.setOrder_id(order_id);
+                bean.setJujue_yuanyin(etReason.getText().toString().trim());
+                SetSubscribe.mySupplyOrderRefuseRefund(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Log.e("测试", "onSuccess: "+result);
+                        showToast("拒绝退款成功");
+                        backgroundAlpha(1f);
+                        window.dismiss();
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
+            }
+        });
+
         contentView.findViewById(R.id.pw_iv_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

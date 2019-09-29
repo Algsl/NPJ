@@ -46,7 +46,16 @@
                 android:text="时空房间啊链接法兰克福骄傲拉开飞机阿里进来撒劫匪了卡减肥了看见拉杀劫匪垃圾费垃圾费啦"
                 android:textColor="#333333"
                 android:textSize="14dp" />
-
+            <TextView
+                android:id="@+id/item_homeGoods_tv_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/iv_photo"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@id/tv_name"
+                android:textSize="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_5"
+                android:text="规格: 10瓶"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="35dp"

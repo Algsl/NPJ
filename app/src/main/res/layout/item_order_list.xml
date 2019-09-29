@@ -9,6 +9,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40">
+        <ImageView
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:src="@drawable/store_goods_detail_store"/>
         <TextView
             android:id="@+id/item_orderList_tv_storeName"
             android:layout_width="wrap_content"
@@ -17,8 +23,18 @@
             android:textSize="@dimen/sp_15"
             android:textColor="@color/text3"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_12"/>
-
+            android:layout_marginLeft="@dimen/dp_42"/>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/item_orderList_tv_remainTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="自动退款剩余时间 23：50：20"
+            android:textColor="@color/app_theme"
+            android:textSize="@dimen/sp_11"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_toLeftOf="@id/item_orderList_tv_orderState"/>
         <TextView
             android:id="@+id/item_orderList_tv_orderState"
             android:layout_width="wrap_content"

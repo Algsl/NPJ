@@ -21,7 +21,14 @@
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             app:riv_corner_radius="@dimen/dp_5"/>
-
+        <ImageView
+            android:id="@+id/item_storeQuotation_iv_video"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/dp_35"
+            android:src="@drawable/item_play"/>
         <TextView
             android:id="@+id/item_want_buy_manager_list_title"
             android:layout_width="wrap_content"
@@ -31,6 +38,7 @@
             android:textColor="@color/text3"
             android:layout_marginRight="@dimen/dp_20"
             android:maxLines="2"
+            android:lines="2"
             android:layout_toRightOf="@id/item_want_buy_manager_list_pic"
             android:textSize="@dimen/sp_15"
             android:layout_marginTop="@dimen/dp_8"
@@ -41,6 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:visibility="invisible"
             android:layout_below="@id/item_want_buy_manager_list_title"
             android:layout_alignLeft="@id/item_want_buy_manager_list_title">
             <TextView

@@ -27,7 +27,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class ClassfiyDetailActivity extends ActivityBase {
 
@@ -43,9 +42,11 @@ public class ClassfiyDetailActivity extends ActivityBase {
     TextView acClassifyTvNoGoodsHint;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.seeMore)
+    TextView seeMore;
 
     private int page = 0;
-    private ArrayList<GoodsListResponseBean.DataBean> allData=new ArrayList<>();
+    private ClassifyDetailAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +70,13 @@ public class ClassfiyDetailActivity extends ActivityBase {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 page = 0;
+                if (adapter != null) {
+                    adapter.clearData();
+                }
+                seeMore.setText("查看更多");
                 getGoodsList();
-                refreshlayout.finishRefresh(2000);
-                showToast("刷新完成");
+                refreshLayout.setLoadmoreFinished(false);
+                refreshlayout.finishRefresh();
             }
         });
 
@@ -80,7 +85,7 @@ public class ClassfiyDetailActivity extends ActivityBase {
             public void onLoadmore(RefreshLayout refreshlayout) {
                 page++;
                 getGoodsList();
-                refreshlayout.finishLoadmore(2000);
+                refreshlayout.finishLoadmore();
             }
         });
     }
@@ -103,26 +108,37 @@ public class ClassfiyDetailActivity extends ActivityBase {
         Log.e("测试", "setGoodsList: " + result);
         GoodsListResponseBean bean = GsonUtils.fromJson(result, GoodsListResponseBean.class);
         final ArrayList<GoodsListResponseBean.DataBean> data = bean.getData();
-        if (data.size() == 0 && page==0) {
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
+        atClassfiyDetailRv.setLayoutManager(layoutManager);
+
+        if (data.size() == 0 && page == 0) {
             atClassfiyDetailRv.setVisibility(View.GONE);
             acClassifyTvNoGoodsHint.setVisibility(View.VISIBLE);
         } else {
             atClassfiyDetailRv.setVisibility(View.VISIBLE);
             acClassifyTvNoGoodsHint.setVisibility(View.GONE);
         }
-        for(int i=0;i<data.size();i++){
-            allData.add(data.get(i));
+
+        if (adapter == null) {
+            adapter = new ClassifyDetailAdapter(this, data);
+        } else {
+            if (data != null && data.size()!=0) {
+                if(data.size()<10){
+                    seeMore.setText("没有更多了");
+                    refreshLayout.setLoadmoreFinished(true);
+                }
+                adapter.addData(data);
+            }
         }
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
-        atClassfiyDetailRv.setLayoutManager(layoutManager);
-        ClassifyDetailAdapter adapter = new ClassifyDetailAdapter(this, allData);
+
         atClassfiyDetailRv.setItemAnimator(new DefaultItemAnimator());
         atClassfiyDetailRv.setAdapter(adapter);
+        //atClassfiyDetailRv.smoothScrollToPosition(goodsData.size()-10);
         adapter.setOnItemClickListener(new ClassifyDetailAdapter.ItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(int position, ArrayList<GoodsListResponseBean.DataBean> mList) {
                 Intent intent = new Intent(ClassfiyDetailActivity.this, GoodsDetailActivity.class);
-                intent.putExtra("goods_id", data.get(position).getId() + "");
+                intent.putExtra("goods_id", mList.get(position).getId() + "");
                 startActivity(intent);
             }
         });

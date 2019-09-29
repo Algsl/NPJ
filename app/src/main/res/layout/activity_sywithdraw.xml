@@ -54,6 +54,7 @@
             android:textColor="@color/app_theme"
             android:text="￥"/>
         <EditText
+            android:inputType="number"
             android:id="@+id/ac_withdraw_et_drawMoney"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

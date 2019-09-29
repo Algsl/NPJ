@@ -116,38 +116,71 @@ public class EnterpriseCertification2Activity extends ActivityBase {
                     showToast("请填写企业简介");
                 }else if(atEnterpriseCertification2EtType.getText().toString().trim().equals("请选择企业类型")){
                     showToast("请选择企业类型");
-                }else if(path1==null){
-                    showToast("请上传营业执照");
-                }else if(path2==null ){
-                    showToast("请上传授权书");
+                }else if(path1==null && path2==null){
+                    showToast("请上传营业执照或授权书");
                 }else{
-                    HttpUtils.uploadImg(URLConstant.REQUEST_URL, path1, new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
+                    atEnterpriseCertification2BtnConfirm.setClickable(false);
+                    if(path1!=null){
+                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, path1, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                atEnterpriseCertification2BtnConfirm.setClickable(true);
+                            }
 
-                        }
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                UpLoadPicResponseBean bean = GsonUtils.fromJson(response.body().string(), UpLoadPicResponseBean.class);
+                                UpLoadPicResponseBean.DataBean data = bean.getData();
+                                img1 = data.getSrc();
+                                uploadData();
+                            }
+                        });
+                    }else if(path2!=null){
+                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, path2, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                atEnterpriseCertification2BtnConfirm.setClickable(true);
+                            }
 
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            UpLoadPicResponseBean bean = GsonUtils.fromJson(response.body().string(), UpLoadPicResponseBean.class);
-                            UpLoadPicResponseBean.DataBean data = bean.getData();
-                            img1 = data.getSrc();
-                            HttpUtils.uploadImg(URLConstant.REQUEST_URL, path2, new Callback() {
-                                @Override
-                                public void onFailure(Call call, IOException e) {
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                UpLoadPicResponseBean bean = GsonUtils.fromJson(response.body().string(), UpLoadPicResponseBean.class);
+                                UpLoadPicResponseBean.DataBean data = bean.getData();
+                                img2 = data.getSrc();
+                                uploadData();
+                            }
+                        });
+                    }else{
+                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, path1, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
 
-                                }
+                            }
 
-                                @Override
-                                public void onResponse(Call call, Response response) throws IOException {
-                                    UpLoadPicResponseBean bean = GsonUtils.fromJson(response.body().string(), UpLoadPicResponseBean.class);
-                                    UpLoadPicResponseBean.DataBean data = bean.getData();
-                                    img2 = data.getSrc();
-                                    uploadData();
-                                }
-                            });
-                        }
-                    });
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                UpLoadPicResponseBean bean = GsonUtils.fromJson(response.body().string(), UpLoadPicResponseBean.class);
+                                UpLoadPicResponseBean.DataBean data = bean.getData();
+                                img1 = data.getSrc();
+                                HttpUtils.uploadImg(URLConstant.REQUEST_URL, path2, new Callback() {
+                                    @Override
+                                    public void onFailure(Call call, IOException e) {
+
+                                    }
+
+                                    @Override
+                                    public void onResponse(Call call, Response response) throws IOException {
+                                        UpLoadPicResponseBean bean = GsonUtils.fromJson(response.body().string(), UpLoadPicResponseBean.class);
+                                        UpLoadPicResponseBean.DataBean data = bean.getData();
+                                        img2 = data.getSrc();
+                                        atEnterpriseCertification2BtnConfirm.setClickable(false);
+                                        uploadData();
+                                    }
+                                });
+                            }
+                        });
+                    }
+
                 }
                 break;
             case R.id.at_enterprise_certification2_et_type:
@@ -170,24 +203,26 @@ public class EnterpriseCertification2Activity extends ActivityBase {
             CertSubscribe.upLoadCompanyCert4(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
+                    atEnterpriseCertification2BtnConfirm.setClickable(true);
                     startActivity(new Intent(EnterpriseCertification2Activity.this, ConfirmAttestationSuccessActivity.class));
                 }
 
                 @Override
                 public void onFault(String errorMsg) {
-
+                    atEnterpriseCertification2BtnConfirm.setClickable(true);
                 }
             }));
         } else {
             CertSubscribe.upLoadCompanyCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
+                    atEnterpriseCertification2BtnConfirm.setClickable(true);
                     startActivity(new Intent(EnterpriseCertification2Activity.this, ConfirmAttestationSuccessActivity.class));
                 }
 
                 @Override
                 public void onFault(String errorMsg) {
-
+                    atEnterpriseCertification2BtnConfirm.setClickable(true);
                 }
             }));
         }

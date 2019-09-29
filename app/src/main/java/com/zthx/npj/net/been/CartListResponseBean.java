@@ -13,12 +13,27 @@ public class CartListResponseBean extends BaseReponseBean{
             private long goods_id;
             private String goods_name;
             private String goods_img;
-            private String member_price;
-            private String user_price;
+            private String goods_price;
+            private String spec_key_name;
             private String store_name;
-            private String price;
             private Boolean isSelect=false;
             private Boolean isSelectShop=false;
+
+        public String getGoods_price() {
+            return goods_price;
+        }
+
+        public void setGoods_price(String goods_price) {
+            this.goods_price = goods_price;
+        }
+
+        public String getSpec_key_name() {
+            return spec_key_name;
+        }
+
+        public void setSpec_key_name(String spec_key_name) {
+            this.spec_key_name = spec_key_name;
+        }
 
         public Boolean getSelectShop() {
             return isSelectShop;
@@ -84,21 +99,6 @@ public class CartListResponseBean extends BaseReponseBean{
                 this.goods_img = goods_img;
             }
 
-            public String getMember_price() {
-                return member_price;
-            }
-
-            public void setMember_price(String member_price) {
-                this.member_price = member_price;
-            }
-
-            public String getUser_price() {
-                return user_price;
-            }
-
-            public void setUser_price(String user_price) {
-                this.user_price = user_price;
-            }
 
             public String getStore_name() {
                 return store_name;
@@ -108,13 +108,6 @@ public class CartListResponseBean extends BaseReponseBean{
                 this.store_name = store_name;
             }
 
-            public String getPrice() {
-                return price;
-            }
-
-            public void setPrice(String price) {
-                this.price = price;
-            }
 
     }
     private ArrayList<ArrayList<DataBean>> data;

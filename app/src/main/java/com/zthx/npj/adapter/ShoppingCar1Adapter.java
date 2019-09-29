@@ -209,7 +209,7 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
                 if (isSelect) {
                     //商品选中，计算该商品的价格相加
                     String num = goodsBean.getGoods_num()+"";
-                    String price = goodsBean.getMember_price();
+                    String price = goodsBean.getGoods_price();
                     double v = Double.parseDouble(num);
                     double v1 = Double.parseDouble(price);
                     total_price = total_price + v * v1;
@@ -303,8 +303,16 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
         final String goods_id=goodsBean.getId()+"";
         Glide.with(context).load(goodsBean.getGoods_img()).into(childViewHolder.ivPhoto);
         childViewHolder.tvName.setText(goodsBean.getGoods_name());
-        childViewHolder.tvPriceValue.setText(goodsBean.getMember_price());
+        childViewHolder.tvPriceValue.setText(goodsBean.getGoods_price());
+        if(goodsBean.getSpec_key_name().equals("") || goodsBean.getSpec_key_name()==null){
+            childViewHolder.tvSize.setVisibility(View.GONE);
+        }else{
+            childViewHolder.tvSize.setVisibility(View.VISIBLE);
+            childViewHolder.tvSize.setText(goodsBean.getSpec_key_name());
+        }
+        childViewHolder.tvSize.setText(goodsBean.getSpec_key_name());
         childViewHolder.tvEditBuyNumber.setText(goodsBean.getGoods_num()+"");
+
 
         final boolean flag=data.get(groupPosition).get(childPosition).getSelect();
         //商品是否被选中
@@ -374,6 +382,7 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
         ImageView ivEditAdd;
         View view;
         View viewLast;
+        TextView tvSize;
 
         ChildViewHolder(View view) {
             ivSelect=view.findViewById(R.id.iv_select);
@@ -384,6 +393,7 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
             ivEditSubtract=view.findViewById(R.id.iv_edit_subtract);
             tvEditBuyNumber=view.findViewById(R.id.tv_edit_buy_number);
             ivEditAdd=view.findViewById(R.id.iv_edit_add);
+            tvSize=view.findViewById(R.id.item_homeGoods_tv_size);
         }
     }
 

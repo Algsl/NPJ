@@ -16,6 +16,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.GoodsListResponseBean;
 import com.zthx.npj.net.been.LocalStoreResponseBean;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class LocationStoreAdapter extends RecyclerView.Adapter<LocationStoreAdap
 
     private LocationStoreAdapter.ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
-        void onItemClick(int position) ;
+        void onItemClick(int position,ArrayList<LocalStoreResponseBean.DataBean> list) ;
     }
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
@@ -38,6 +39,16 @@ public class LocationStoreAdapter extends RecyclerView.Adapter<LocationStoreAdap
         this.list = list;
         mContext = context;
     }
+
+    public void addData(ArrayList<LocalStoreResponseBean.DataBean> goodsData){
+        int size=list.size();
+        list.addAll(goodsData);
+        notifyItemChanged(size,list.size());
+    }
+    public void clearData(){
+        list.clear();
+    }
+
     @NonNull
     @Override
     public LocationStoreAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -54,7 +65,7 @@ public class LocationStoreAdapter extends RecyclerView.Adapter<LocationStoreAdap
                 public void onClick(View v) {
                     int position = viewHolder.getLayoutPosition();
                     // 这里利用回调来给RecyclerView设置点击事件
-                    mItemClickListener.onItemClick(position);
+                    mItemClickListener.onItemClick(position,list);
                 }
             });
         }

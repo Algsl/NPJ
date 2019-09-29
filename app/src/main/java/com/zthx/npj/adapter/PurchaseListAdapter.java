@@ -96,6 +96,7 @@ public class PurchaseListAdapter extends RecyclerView.Adapter<PurchaseListAdapte
         String url = mList.get(i).getImg();
         if (url.substring(url.length() - 4).equals(".mp4")) {
             viewHolder.goodsImg.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
+            viewHolder.ivVideo.setVisibility(View.VISIBLE);
         } else {
             Glide.with(mContext).load(Uri.parse(url)).into(viewHolder.goodsImg);
         }
@@ -114,7 +115,7 @@ public class PurchaseListAdapter extends RecyclerView.Adapter<PurchaseListAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView goodsImg;
+        ImageView goodsImg,ivVideo;
         TextView goodsName,amount,onSale,shareGoods,deleteGoods,editGoods;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -126,6 +127,7 @@ public class PurchaseListAdapter extends RecyclerView.Adapter<PurchaseListAdapte
             shareGoods=itemView.findViewById(R.id.item_wantBuy_btn_share);
             deleteGoods=itemView.findViewById(R.id.item_wantBuy_btn_delete);
             editGoods=itemView.findViewById(R.id.item_wantBuy_btn_edit);
+            ivVideo=itemView.findViewById(R.id.item_storeQuotation_iv_video);
         }
     }
 }

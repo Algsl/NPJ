@@ -66,7 +66,7 @@ public class TrustedStoreActivity extends ActivityBase {
                 int status = chengXinCertResponseBean.getData().getStatus();
                 if (status == 1) {
                     atTrustStoreLlBaozhengjin.setVisibility(View.VISIBLE);
-                    atTrustStoreTvBaozhengjin.setText("您的当前保证金为" + chengXinCertResponseBean.getData().getStatus() + "元");
+                    atTrustStoreTvBaozhengjin.setText("您的当前保证金为" + chengXinCertResponseBean.getData().getBail() + "元");
                 } else {
                     atTrustStoreLlBaozhengjin.setVisibility(View.GONE);
                 }
@@ -83,7 +83,7 @@ public class TrustedStoreActivity extends ActivityBase {
     public void onViewClicked(View v) {
         switch (v.getId()){
             case R.id.at_trust_store_btn_attestation:
-                CertSubscribe.isChengXinAlready2Cert(SharePerferenceUtils.getUserId(this), BaseConstant.TOKEN, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                CertSubscribe.isChengXinAlready2Cert(SharePerferenceUtils.getUserId(this), SharePerferenceUtils.getToken(this), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
                         startActivity(new Intent(TrustedStoreActivity.this, TrustedStore2Activity.class));

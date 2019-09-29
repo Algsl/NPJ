@@ -38,10 +38,11 @@ public class AttestationSuccessActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
+        final String reason=getIntent().getStringExtra("key0");
+        final String attestationId = getIntent().getStringExtra("key1");//认证类别
+        String result = getIntent().getStringExtra("key2");//认证结果
+        final String cert_id=getIntent().getStringExtra("key3");//认证id
 
-        final String attestationId = getIntent().getStringExtra("key0");//认证类别
-        String result = getIntent().getStringExtra("key1");//认证结果
-        final String cert_id=getIntent().getStringExtra("key2");//
 
         if (result.equals("0")) {//待审核
             acAttestationTvStatus.setText("认证信息审核中");
@@ -89,6 +90,7 @@ public class AttestationSuccessActivity extends ActivityBase {
                 }
             });
             acAttestationTvHint.setVisibility(View.VISIBLE);
+            acAttestationTvHint.setText(reason);
         }
 
 

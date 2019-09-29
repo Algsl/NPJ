@@ -83,24 +83,11 @@ public class ReferrerActivity extends ActivityBase {
         GiftSubscribe.referrer(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: "+result );
                 setMyReferrer(result);
             }
 
             @Override
             public void onFault(String errorMsg) {
-                CommonDialog dialog=new CommonDialog(ReferrerActivity.this, R.style.dialog, "您还没有推荐人", new CommonDialog.OnCloseListener() {
-                    @Override
-                    public void onClick(Dialog dialog, boolean confirm) {
-                        if(confirm){
-                            openActivity(InputInvitationCodeActivity.class);
-                        }else{
-                            finish();
-                        }
-                    }
-                });
-                dialog.setPositiveButton("绑定邀请人");
-                dialog.show();
             }
         }));
     }

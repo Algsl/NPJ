@@ -21,11 +21,12 @@
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_422">
-            <com.zthx.npj.banner.Banner
-                android:id="@+id/banner"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="@dimen/dp_422"
+                android:visibility="visible">
+                <com.zthx.npj.banner.Banner
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
             </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -425,67 +426,67 @@
                     android:layout_marginLeft="@dimen/dp_20"/>
 
                 <LinearLayout
+                    android:id="@+id/ac_supply_ll"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_25"
                     android:orientation="horizontal"
+                    android:gravity="center_vertical"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/dp_20"
+                    android:layout_marginBottom="@dimen/dp_15"
                     android:layout_marginLeft="@dimen/dp_12">
                     <TextView
-                        android:id="@+id/ac_supply_tv_company"
                         android:visibility="gone"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/ac_supply_tv_realName"
+                        android:layout_width="@dimen/dp_56"
                         android:layout_height="wrap_content"
                         android:background="#F39B1F"
-                        android:text="企业保证"
-                        android:textSize="@dimen/sp_11"
-                        android:textColor="@android:color/white"
-                        android:paddingLeft="@dimen/dp_6"
-                        android:paddingRight="@dimen/dp_6"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="#4FA0F1"
-                        android:text="七天退换"
-                        android:textSize="@dimen/sp_11"
-                        android:textColor="@android:color/white"
-                        android:paddingLeft="@dimen/dp_6"
-                        android:paddingRight="@dimen/dp_6"
-                        android:layout_marginLeft="@dimen/dp_10"/>
-                    <TextView
-                        android:id="@+id/ac_supply_tv_realName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="#2FA22F"
                         android:text="实名认证"
                         android:textSize="@dimen/sp_11"
                         android:textColor="@android:color/white"
-                        android:paddingLeft="@dimen/dp_6"
-                        android:paddingRight="@dimen/dp_6"
+                        android:gravity="center"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/ac_supply_tv_enterPrice"
+                        android:layout_width="@dimen/dp_56"
+                        android:layout_height="wrap_content"
+                        android:background="#4FA0F1"
+                        android:text="企业认证"
+                        android:textSize="@dimen/sp_11"
+                        android:textColor="@android:color/white"
+                        android:gravity="center"
                         android:layout_marginLeft="@dimen/dp_10"/>
                     <TextView
-                        android:id="@+id/ac_supply_tv_storeQuality"
                         android:visibility="gone"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/ac_supply_tv_purchase"
+                        android:layout_width="@dimen/dp_56"
+                        android:layout_height="wrap_content"
+                        android:background="#2FA22F"
+                        android:text="采购认证"
+                        android:textSize="@dimen/sp_11"
+                        android:textColor="@android:color/white"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/dp_10"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/ac_supply_tv_trust"
+                        android:layout_width="@dimen/dp_56"
                         android:layout_height="wrap_content"
                         android:background="#EB6877"
-                        android:text="商家品质认证"
+                        android:text="3k保证"
                         android:textSize="@dimen/sp_11"
                         android:textColor="@android:color/white"
-                        android:paddingLeft="@dimen/dp_6"
-                        android:paddingRight="@dimen/dp_6"
+                        android:gravity="center"
                         android:layout_marginLeft="@dimen/dp_10"/>
                     <TextView
                         android:visibility="gone"
-                        android:id="@+id/ac_supply_tv_soldOver"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/ac_supply_tv_zizhi"
+                        android:layout_width="@dimen/dp_56"
                         android:layout_height="wrap_content"
                         android:background="#38BDB5"
-                        android:text="单月销量过百万"
+                        android:text="资质认证"
                         android:textSize="@dimen/sp_11"
                         android:textColor="@android:color/white"
-                        android:paddingLeft="@dimen/dp_6"
-                        android:paddingRight="@dimen/dp_6"
+                        android:gravity="center"
                         android:layout_marginLeft="@dimen/dp_10"/>
                 </LinearLayout>
                 <View

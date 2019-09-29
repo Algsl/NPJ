@@ -81,6 +81,8 @@ public class PayToStoreActivity extends ActivityBase {
     private String token = SharePerferenceUtils.getToken(this);
     private String payType = "";
     private String store_id;
+    private String store_img;
+    private String store_name;
     private OfflineBuyResponseBean.DataBean data1;
     private String offer="";
 
@@ -115,8 +117,6 @@ public class PayToStoreActivity extends ActivityBase {
     private static final int SDK_PAY_FLAG = 1001;
     private String payMoney = "";
 
-    private String goodsImg;
-    private String goodsName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,13 +154,12 @@ public class PayToStoreActivity extends ActivityBase {
     }
 
     private void setStoreDetail(String result) {
-
         StoreDetailResponseBean bean = GsonUtils.fromJson(result, StoreDetailResponseBean.class);
         //Glide.with(this).load(Uri.parse(bean.getData().getStore_img().get(0))).into(atPayToStoreIvPic);
-        goodsImg=bean.getData().getStore_img().get(0);
-        goodsName=bean.getData().getStore_name();
 
         Glide.with(this).load(Uri.parse(bean.getData().getStore_img().get(0))).into(atPayToStoreIvPic);
+        store_img=bean.getData().getStore_img().get(0);
+        store_name=bean.getData().getStore_name();
         acPayToStoreTvStoreName.setText(bean.getData().getStore_name());
         offer=bean.getData().getOffer();
         acPayToStoreTvOffer.setText("升级代言人后可优惠"+bean.getData().getOffer()+"%");
@@ -232,7 +231,8 @@ public class PayToStoreActivity extends ActivityBase {
             public void onClick(View view) {
                 payType = "3";
                 showToast("订单生成中，请稍等...");
-                generateOrder();
+                openActivity(PayToStoreFinishActivity.class,store_id,store_img,store_name,payMoney);
+                //generateOrder();
                 dialog.dismiss();
             }
         });
@@ -295,7 +295,8 @@ public class PayToStoreActivity extends ActivityBase {
                     } else {
                         int code = obj.getInt("code");
                         if (code == 2) {
-                            openActivity(OrderFinishActivity.class, goodsImg, goodsName, payMoney);
+                            //openActivity(OrderFinishActivity.class, goodsImg, goodsName, payMoney);
+                            openActivity(PayToStoreFinishActivity.class,store_id,store_img,store_name,payMoney);
                         }
                     }
                 } catch (JSONException e) {

@@ -1,9 +1,7 @@
 package com.zthx.npj.ui;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,13 +10,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
-import android.support.v4.content.PermissionChecker;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,14 +29,11 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.gson.Gson;
 import com.zthx.npj.R;
-import com.zthx.npj.base.BaseConstant;
 import com.zthx.npj.entity.JsonBean;
 import com.zthx.npj.net.api.URLConstant;
-import com.zthx.npj.net.been.UpLoadPicResponseBean;
 import com.zthx.npj.net.been.UploadCaigouBean;
 import com.zthx.npj.net.been.UploadImgResponseBean;
 import com.zthx.npj.net.netsubscribe.CertSubscribe;
-import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -52,20 +43,13 @@ import com.zthx.npj.utils.SharePerferenceUtils;
 
 import org.json.JSONArray;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.api.BasicCallback;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -75,7 +59,7 @@ public class PurchaserCertification2Activity extends ActivityBase {
     @BindView(R.id.at_location_store_tv_ruzhu)
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.at_purchaser_certification2_et_mobile)
-    EditText atPurchaserCertification2EtMobile;
+    TextView atPurchaserCertification2EtMobile;
     @BindView(R.id.at_purchaser_certification2_et_id)
     TextView atPurchaserCertification2EtId;
     @BindView(R.id.at_purchaser_certification2_et_company_name)
@@ -106,8 +90,8 @@ public class PurchaserCertification2Activity extends ActivityBase {
     Button atPurchaserCertification2BtnConfirm;
     @BindView(R.id.at_purchaser_certification2_tv_tuijian)
     TextView atPurchaserCertification2TvTuijian;
-    @BindView(R.id.at_purchaser_certification2_tv_dianjishangchuan)
-    TextView atPurchaserCertification2TvDianjishangchuan;
+    //@BindView(R.id.at_purchaser_certification2_tv_dianjishangchuan)
+    //TextView atPurchaserCertification2TvDianjishangchuan;
     @BindView(R.id.at_purchaser_certification2_et_name)
     EditText atPurchaserCertification2EtName;
     @BindView(R.id.title_back)
@@ -118,28 +102,36 @@ public class PurchaserCertification2Activity extends ActivityBase {
     ImageView acTitleIv;
     @BindView(R.id.ac_purchaser_certification_tv_hint)
     TextView acPurchaserCertificationTvHint;
+    @BindView(R.id.at_purchaser_certification2_tv_yyzz)
+    TextView atPurchaserCertification2TvYyzz;
 
     private int type;
-    private int picType;
+    private int picType = 0;
     private String path;
     private String img;
     private Uri imageUri;
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
-    private String cert_id="";
+    private String cert_id = "";
     private ArrayList<JsonBean> options1Items = new ArrayList<>(); //省
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();//市
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();//区
+
+    private String mobile = SharePerferenceUtils.getUserMobile(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchaser_certification2);
         ButterKnife.bind(this);
+
+        atPurchaserCertification2EtMobile.setText(mobile);
+
+
         initJsonData();
 
-        if(getIntent().getStringExtra("key0")!=null){
-            cert_id=getIntent().getStringExtra("key0");
+        if (getIntent().getStringExtra("key0") != null) {
+            cert_id = getIntent().getStringExtra("key0");
         }
 
         back(titleBack);
@@ -151,46 +143,51 @@ public class PurchaserCertification2Activity extends ActivityBase {
     }
 
     @OnClick({R.id.at_purchaser_certification2_et_id, R.id.at_purchaser_certification2_btn_confirm,
-            R.id.at_purchaser_certification2_rl_pic, R.id.at_purchaser_certification2_tv_dangkou_pic,
+            R.id.at_purchaser_certification2_tv_yyzz, R.id.at_purchaser_certification2_tv_dangkou_pic,
             R.id.at_purchaser_certification2_tv_dangkou_id_card, R.id.at_purchaser_certification2_et_address,
-            R.id.at_purchaser_certification2_et_shichang_name})
+            R.id.at_purchaser_certification2_et_shichang_name, R.id.at_purchaser_certification2_rl_fei_dangkou_pic})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.at_purchaser_certification2_rl_pic:
-                picType = 0;
+            case R.id.at_purchaser_certification2_rl_fei_dangkou_pic:
                 showPicDialog();
                 break;
-            case R.id.at_purchaser_certification2_tv_dangkou_pic:
+            case R.id.at_purchaser_certification2_tv_yyzz:
+                picType = 0;
+                atPurchaserCertification2TvTuijian.setText("推荐使用营业执照进行认证");
+                acPurchaserCertificationTvHint.setText("1.营业执照需盖红章和企业名称清晰可见\n" +
+                        "2.使用附近件需加盖公司红章\n" +
+                        "3.建议图片上传完毕后检查能否看清字体通过更有把握");
+                break;
+            case R.id.at_purchaser_certification2_tv_dangkou_pic://上传档口照片
                 picType = 1;
                 atPurchaserCertification2TvTuijian.setText("上传档口照片进行认证");
-                atPurchaserCertification2TvDianjishangchuan.setText("1.需要您与档口的合照\n" +
+                acPurchaserCertificationTvHint.setText("1.需要您与档口的合照\n" +
                         "2.确保图片中能清晰看到档口名称和档口正门\n");
                 break;
-            case R.id.at_purchaser_certification2_tv_dangkou_id_card:
+            case R.id.at_purchaser_certification2_tv_dangkou_id_card://上传名片或工牌
                 picType = 2;
                 atPurchaserCertification2TvTuijian.setText("上传名片或工牌进行认证");
-                atPurchaserCertification2TvDianjishangchuan.setText(
+                acPurchaserCertificationTvHint.setText(
                         "1.图片中需要展示名片/工牌的全部信息，名片包含但不限于联系人、联系方式、企业/档口名称、地址等信息。工牌需包含但不限于联系人、企业名称、部门/职位等信息。\n" +
                                 "2.图片上传完毕，请确保内容清晰，无阅读障碍，以保顺利通过。\n");
                 break;
             case R.id.at_purchaser_certification2_btn_confirm:
-                if(atPurchaserCertification2EtName.getText().toString().trim().equals("")){
+                if (atPurchaserCertification2EtName.getText().toString().trim().equals("")) {
                     showToast("请填写真实姓名");
-                }else if(atPurchaserCertification2EtMobile.getText().toString().trim().equals("")){
-                    showToast("请填写手机号");
-                }else if(atPurchaserCertification2EtId.getText().toString().trim().equals("请选择采购商身份")){
+                } else if (atPurchaserCertification2EtId.getText().toString().trim().equals("请选择采购商身份")) {
                     showToast("请选择身份");
-                }else{
-                    if(type==1){
-                        if(atPurchaserCertification2EtDangkouName.getText().toString().equals("")){
+                } else {
+                    if (type == 1) {
+                        atPurchaserCertification2TvYyzz.setVisibility(View.VISIBLE);
+                        if (atPurchaserCertification2EtDangkouName.getText().toString().equals("")) {
                             showToast("请填写档口名称");
-                        }else if(atPurchaserCertification2EtShichangName.getText().toString().equals("")){
+                        } else if (atPurchaserCertification2EtShichangName.getText().toString().equals("")) {
                             showToast("请选择市场所在地");
-                        }else if(atPurchaserCertification2EtDangkouAddress.getText().toString().equals("")){
+                        } else if (atPurchaserCertification2EtDangkouAddress.getText().toString().equals("")) {
                             showToast("请填写详细地址");
-                        }else if(path==null){
+                        } else if (path == null) {
                             showToast("请上传图片");
-                        }else{
+                        } else {
                             HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
                                 @Override
                                 public void onFailure(Call call, IOException e) {
@@ -201,19 +198,19 @@ public class PurchaserCertification2Activity extends ActivityBase {
                                 public void onResponse(Call call, Response response) throws IOException {
                                     UploadImgResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadImgResponseBean.class);
                                     UploadImgResponseBean.DataBean data = bean.getData();
-                                    img=data.getSrc();
+                                    img = data.getSrc();
                                     uploadData();
                                 }
                             });
                         }
-                    }else{
-                        if(atPurchaserCertification2EtCompanyName.getText().toString().trim().equals("")){
+                    } else {
+                        if (atPurchaserCertification2EtCompanyName.getText().toString().trim().equals("")) {
                             showToast("请填写企业名称");
-                        }else if(atPurchaserCertification2EtAddress.getText().toString().trim().equals("")){
+                        } else if (atPurchaserCertification2EtAddress.getText().toString().trim().equals("")) {
                             showToast("请选择市场所在地");
-                        }else if(path==null){
+                        } else if (path == null) {
                             showToast("请上传图片");
-                        }else{
+                        } else {
                             HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
                                 @Override
                                 public void onFailure(Call call, IOException e) {
@@ -224,7 +221,7 @@ public class PurchaserCertification2Activity extends ActivityBase {
                                 public void onResponse(Call call, Response response) throws IOException {
                                     UploadImgResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadImgResponseBean.class);
                                     UploadImgResponseBean.DataBean data = bean.getData();
-                                    img=data.getSrc();
+                                    img = data.getSrc();
                                     uploadData();
                                 }
                             });
@@ -266,7 +263,7 @@ public class PurchaserCertification2Activity extends ActivityBase {
         } else {
             bean.setBusiness_card(img);
         }
-        if(!cert_id.equals("")){
+        if (!cert_id.equals("")) {
             bean.setCert_id(cert_id);
             CertSubscribe.upLoadCaigouCert3(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
@@ -279,7 +276,7 @@ public class PurchaserCertification2Activity extends ActivityBase {
                     showToast(errorMsg);
                 }
             }));
-        }else{
+        } else {
             CertSubscribe.upLoadCaigouCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
@@ -327,7 +324,7 @@ public class PurchaserCertification2Activity extends ActivityBase {
                 type = 0;
                 atPurchaserCertification2LlDangkou.setVisibility(View.GONE);
                 atPurchaserCertification2LlName.setVisibility(View.VISIBLE);
-                atPurchaserCertification2RlFeiDangkouPic.setVisibility(View.VISIBLE);
+                atPurchaserCertification2TvDangkouPic.setVisibility(View.GONE);
             }
         });
         dialog.findViewById(R.id.dl_dangkou_chukoucaigou).setOnClickListener(new View.OnClickListener() {
@@ -338,7 +335,7 @@ public class PurchaserCertification2Activity extends ActivityBase {
                 type = 0;
                 atPurchaserCertification2LlDangkou.setVisibility(View.GONE);
                 atPurchaserCertification2LlName.setVisibility(View.VISIBLE);
-                atPurchaserCertification2RlFeiDangkouPic.setVisibility(View.VISIBLE);
+                atPurchaserCertification2TvDangkouPic.setVisibility(View.GONE);
             }
         });
         dialog.findViewById(R.id.dl_dangkou_canyinqiye).setOnClickListener(new View.OnClickListener() {
@@ -349,7 +346,7 @@ public class PurchaserCertification2Activity extends ActivityBase {
                 type = 0;
                 atPurchaserCertification2LlDangkou.setVisibility(View.GONE);
                 atPurchaserCertification2LlName.setVisibility(View.VISIBLE);
-                atPurchaserCertification2RlFeiDangkouPic.setVisibility(View.VISIBLE);
+                atPurchaserCertification2TvDangkouPic.setVisibility(View.GONE);
             }
         });
         dialog.findViewById(R.id.dl_dangkou_jiagongcahngcaigou).setOnClickListener(new View.OnClickListener() {
@@ -360,7 +357,7 @@ public class PurchaserCertification2Activity extends ActivityBase {
                 type = 0;
                 atPurchaserCertification2LlDangkou.setVisibility(View.GONE);
                 atPurchaserCertification2LlName.setVisibility(View.VISIBLE);
-                atPurchaserCertification2RlFeiDangkouPic.setVisibility(View.VISIBLE);
+                atPurchaserCertification2TvDangkouPic.setVisibility(View.GONE);
             }
         });
         dialog.findViewById(R.id.dl_dangkou_qita).setOnClickListener(new View.OnClickListener() {
@@ -371,7 +368,7 @@ public class PurchaserCertification2Activity extends ActivityBase {
                 type = 0;
                 atPurchaserCertification2LlDangkou.setVisibility(View.GONE);
                 atPurchaserCertification2LlName.setVisibility(View.VISIBLE);
-                atPurchaserCertification2RlFeiDangkouPic.setVisibility(View.VISIBLE);
+                atPurchaserCertification2TvDangkouPic.setVisibility(View.GONE);
             }
         });
         dialog.findViewById(R.id.dl_dangkou_cancel).setOnClickListener(new View.OnClickListener() {
@@ -447,7 +444,7 @@ public class PurchaserCertification2Activity extends ActivityBase {
                 if (resultCode == RESULT_OK) {
                     try {
                         Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-                        atPurchaserCertification2RlPic.setBackground(new BitmapDrawable(bitmap));
+                        atPurchaserCertification2RlFeiDangkouPic.setBackground(new BitmapDrawable(bitmap));
                         path = getExternalCacheDir() + "/output_image.jpg";
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -465,7 +462,7 @@ public class PurchaserCertification2Activity extends ActivityBase {
                         path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
                         Bitmap bitmap = BitmapFactory.decodeFile(path);
-                        atPurchaserCertification2RlPic.setBackground(new BitmapDrawable(bitmap));
+                        atPurchaserCertification2RlFeiDangkouPic.setBackground(new BitmapDrawable(bitmap));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

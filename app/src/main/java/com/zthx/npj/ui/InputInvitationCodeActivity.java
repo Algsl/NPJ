@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,9 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zthx.npj.R;
+import com.zthx.npj.net.been.InvitationResponseBean;
 import com.zthx.npj.net.netsubscribe.LoginSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import butterknife.BindView;
@@ -82,7 +85,7 @@ public class InputInvitationCodeActivity extends ActivityBase {
 
     private void invitation() {
         if(atInputInvitationCodeEtPhone.getText().toString().trim().equals(SharePerferenceUtils.getUserMobile(this))){
-            showToast("代言人不能为自己");
+            showToast("请不要添加自己为推荐人");
         }else{
             LoginSubscribe.invitation(atInputInvitationCodeEtPhone.getText().toString().trim(), SharePerferenceUtils.getUserId(this),
                 new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
@@ -95,7 +98,17 @@ public class InputInvitationCodeActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-                        showToast(errorMsg);
+                        InvitationResponseBean bean=GsonUtils.fromJson(errorMsg,InvitationResponseBean.class);
+                        switch (bean.getCode()){
+                            case -1:
+                                break;
+                            case -3:
+                                showToast("请填写有效的手机号");
+                                break;
+                            case -5:
+                                showToast("请不要添加直属成员为推荐人");
+                                break;
+                        }
                         //Toast.makeText(InputInvitationCodeActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
                     }
                 }, this));

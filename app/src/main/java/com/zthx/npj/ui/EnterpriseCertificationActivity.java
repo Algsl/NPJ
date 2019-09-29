@@ -78,7 +78,6 @@ public class EnterpriseCertificationActivity extends ActivityBase {
             @Override
             public void onFault(String errorMsg) {
                 showDialog();
-                showToast(errorMsg);
             }
         }, this));
     }
@@ -89,7 +88,7 @@ public class EnterpriseCertificationActivity extends ActivityBase {
             @Override
             public void onClick(Dialog dialog, boolean confirm) {
                 if(confirm){
-                    openActivity(RealNameAuthenticationActivity.class);
+                    openActivity(MyAttestationActivity.class);
                 }
             }
         });

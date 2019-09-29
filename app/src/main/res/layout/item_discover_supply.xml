@@ -24,117 +24,122 @@
         android:adjustViewBounds="true"
         android:src="@mipmap/ic_launcher"
         app:riv_corner_radius="@dimen/dp_5"/>
+    <ImageView
+        android:id="@+id/item_storeQuotation_iv_video"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:layout_marginLeft="@dimen/dp_43"
+        android:src="@drawable/item_play"/>
     <LinearLayout
-        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/item_discover_supply_pic"
         android:orientation="vertical"
         android:layout_marginLeft="@dimen/dp_10">
-
-        <TextView
-            android:id="@+id/item_discover_supply_tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="四川正宗纯天然无公害橘子支持微商发货，数量有限，欢迎采购"
-            android:layout_marginTop="@dimen/dp_8"
-            android:textColor="@color/text3"
-            android:textSize="@dimen/sp_15"
-            android:layout_marginRight="@dimen/sp_12"
-            android:ellipsize="end"
-            android:maxLines="2"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/dp_4">
-            <TextView
-                android:id="@+id/item_discoverSupply_tv_company"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:text="企业保证"
-                android:textSize="@dimen/sp_11"
-                android:textColor="@android:color/white"
-                android:background="#F39B1F"
-                android:paddingRight="@dimen/dp_6"
-                android:paddingLeft="@dimen/dp_6"
-                android:layout_marginRight="@dimen/dp_10"/>
-            <TextView
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="销量过万"
-                android:textSize="@dimen/sp_11"
-                android:textColor="@android:color/white"
-                android:background="#38BDB5"
-                android:paddingRight="@dimen/dp_6"
-                android:paddingLeft="@dimen/dp_6"
-                android:layout_marginRight="@dimen/dp_10"/>
-            <TextView
-                android:id="@+id/item_discoverSupply_tv_storeQuality"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:text="商家认证"
-                android:textSize="@dimen/sp_11"
-                android:textColor="@android:color/white"
-                android:background="#EB6877"
-                android:paddingRight="@dimen/dp_6"
-                android:paddingLeft="@dimen/dp_6"/>
-        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/dp_4">
+            android:orientation="horizontal">
             <TextView
+                android:id="@+id/item_discover_need_tv_isTop"
+                android:layout_width="@dimen/dp_35"
+                android:layout_height="@dimen/dp_18"
+                android:textSize="@dimen/sp_12"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="@drawable/theme_conner_5"
+                android:text="置顶"
+                android:layout_marginRight="@dimen/dp_5"/>
+            <TextView
+                android:id="@+id/item_discover_supply_tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="七天退换"
-                android:textSize="@dimen/sp_11"
-                android:textColor="@android:color/white"
-                android:background="#4FA0F1"
-                android:paddingRight="@dimen/dp_6"
-                android:paddingLeft="@dimen/dp_6"/>
-            <TextView
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="信用最高"
-                android:textSize="@dimen/sp_11"
-                android:textColor="@android:color/white"
-                android:background="#81AB64"
-                android:paddingRight="@dimen/dp_6"
-                android:paddingLeft="@dimen/dp_6"
-                android:layout_marginLeft="@dimen/dp_10"/>
-            <TextView
-                android:id="@+id/item_discoverSupply_tv_realName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:text="实名认证"
-                android:textSize="@dimen/sp_11"
-                android:textColor="@android:color/white"
-                android:background="#2FA22F"
-                android:paddingRight="@dimen/dp_6"
-                android:paddingLeft="@dimen/dp_6"
-                android:layout_marginLeft="@dimen/dp_10"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/item_discover_supply_tv_distance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1.5km"
-                    android:textColor="@color/text6"
-                    android:layout_marginRight="@dimen/dp_20"
-                    android:layout_alignParentRight="true"
-                    android:textSize="@dimen/sp_12"/>
-            </RelativeLayout>
+                android:text="四川正宗纯天然无公害橘子支持微商发货，数量有限，欢迎采购"
+                android:layout_marginTop="@dimen/dp_8"
+                android:textColor="@color/text3"
+                android:textSize="@dimen/sp_15"
+                android:layout_marginRight="@dimen/sp_12"
+                android:ellipsize="end"
+                android:maxLines="2"/>
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/item_discoverSupply_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_36"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            android:layout_marginTop="@dimen/dp_4">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/item_discoverSupply_tv_realName"
+                    android:layout_width="@dimen/dp_56"
+                    android:layout_height="wrap_content"
+                    android:text="实名认证"
+                    android:textSize="@dimen/sp_11"
+                    android:textColor="@android:color/white"
+                    android:background="#F39B1F"
+                    android:gravity="center"
+                    android:layout_marginRight="@dimen/dp_10"/>
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/item_discoverSupply_purchase"
+                    android:layout_width="@dimen/dp_56"
+                    android:layout_height="wrap_content"
+                    android:text="采购认证"
+                    android:textSize="@dimen/sp_11"
+                    android:textColor="@android:color/white"
+                    android:background="#38BDB5"
+                    android:gravity="center"
+                    android:layout_marginRight="@dimen/dp_10"/>
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/item_discoverSupply_tv_zizhi"
+                    android:layout_width="@dimen/dp_56"
+                    android:layout_height="wrap_content"
+                    android:text="资质认证"
+                    android:textSize="@dimen/sp_11"
+                    android:textColor="@android:color/white"
+                    android:background="#EB6877"
+                    android:gravity="center"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/dp_4">
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/item_discoverSupply_tv_enterPrice"
+                    android:layout_width="@dimen/dp_56"
+                    android:layout_height="wrap_content"
+                    android:text="企业保证"
+                    android:textSize="@dimen/sp_11"
+                    android:textColor="@android:color/white"
+                    android:background="#4FA0F1"
+                    android:gravity="center"/>
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/item_discoverSupply_tv_trust"
+                    android:layout_width="@dimen/dp_56"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="3k保证"
+                    android:textSize="@dimen/sp_11"
+                    android:textColor="@android:color/white"
+                    android:background="#81AB64"
+                    android:paddingRight="@dimen/dp_6"
+                    android:paddingLeft="@dimen/dp_6"
+                    android:layout_marginLeft="@dimen/dp_10"/>
+            </LinearLayout>
+        </LinearLayout>
+
 
         <RelativeLayout
             android:id="@+id/item_discover_supply_rl"
@@ -172,6 +177,7 @@
                 android:layout_centerVertical="true"/>
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/item_discover_supply_tv_online"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -181,38 +187,16 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/dp_12"
                 android:layout_centerVertical="true"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/item_discover_need_rl"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/item_discover_supply_tv_caigou_num"
+                android:id="@+id/item_discover_supply_tv_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="采购量："
+                android:text="1.5km"
                 android:textColor="@color/text6"
-                android:textSize="@dimen/sp_13"/>
-            <TextView
-                android:id="@+id/item_discover_need_tv_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2000斤 "
-                android:layout_toRightOf="@id/item_discover_supply_tv_caigou_num"
-                android:textColor="@color/app_theme"
-                android:textSize="@dimen/sp_15"
-                android:layout_centerVertical="true"/>
-            <TextView
-                android:id="@+id/item_discover_need_tv_online"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3分钟前在线"
-                android:textSize="@dimen/sp_12"
-                android:textColor="@color/app_theme"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_20"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dp_12"
-                android:layout_centerVertical="true"/>
+                android:textSize="@dimen/sp_12"/>
         </RelativeLayout>
     </LinearLayout>
     <View

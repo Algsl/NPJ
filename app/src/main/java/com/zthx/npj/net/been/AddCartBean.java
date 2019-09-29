@@ -5,6 +5,16 @@ public class AddCartBean {
     private String token;
     private String goods_id;
     private String goods_num;
+    private String item_id;
+
+
+    public String getItem_id() {
+        return item_id;
+    }
+
+    public void setItem_id(String item_id) {
+        this.item_id = item_id;
+    }
 
     public String getUser_id() {
         return user_id;

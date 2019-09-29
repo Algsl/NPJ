@@ -127,7 +127,7 @@ public class SupplySearchActivity extends ActivityBase {
                 mAdapter.notifyDataSetChanged();
                 mAdapter.setOnItemClickListener(new DiscoverSupplyAdapter.ItemClickListener() {
                     @Override
-                    public void onItemClick(int position) {
+                    public void onItemClick(int position, ArrayList<SupplyListResponseBean.DataBean> list) {
                         Intent intent = new Intent(SupplySearchActivity.this, SupplyProductsActivity.class);
                         intent.setAction(Const.SUPPLY_DETAIL);
                         intent.putExtra("goods_id", data.get(position).getId() + "");
@@ -163,7 +163,7 @@ public class SupplySearchActivity extends ActivityBase {
                 mAdapter2.notifyDataSetChanged();
                 mAdapter2.setOnItemClickListener(new DiscoverNeedAdapter.ItemClickListener() {
                     @Override
-                    public void onItemClick(int position) {
+                    public void onItemClick(int position, ArrayList<NeedListResponseBean.DataBean> list) {
                         Intent intent = new Intent(SupplySearchActivity.this, SupplyProductsActivity.class);
                         intent.setAction(Const.NEED_DETAIL);
                         intent.putExtra("goods_id", data.get(position).getId() + "");

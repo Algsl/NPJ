@@ -39,7 +39,7 @@ public class ClassifyDetailAdapter extends RecyclerView.Adapter<ClassifyDetailAd
     }
 
     public interface ItemClickListener{
-        void onItemClick(int position);
+        void onItemClick(int position,ArrayList<GoodsListResponseBean.DataBean> mList);
     }
 
     @NonNull
@@ -57,7 +57,7 @@ public class ClassifyDetailAdapter extends RecyclerView.Adapter<ClassifyDetailAd
                 public void onClick(View v) {
                     int position =viewHolder.getLayoutPosition();
                     // 这里利用回调来给RecyclerView设置点击事件
-                    mItemClickListener.onItemClick(position);
+                    mItemClickListener.onItemClick(position,mList);
                 }
             });
         }
@@ -69,6 +69,15 @@ public class ClassifyDetailAdapter extends RecyclerView.Adapter<ClassifyDetailAd
             viewHolder.mTvOldPrice.setText("￥"+mList.get(i).getMarket_price());
             viewHolder.mTvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
+    }
+
+    public void addData(ArrayList<GoodsListResponseBean.DataBean> goodsData){
+        int size=goodsData.size();
+        mList.addAll(goodsData);
+        notifyItemChanged(size,mList.size());
+    }
+    public void clearData(){
+        mList.clear();
     }
 
     @Override

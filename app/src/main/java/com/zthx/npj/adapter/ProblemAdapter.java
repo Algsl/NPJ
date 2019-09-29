@@ -67,7 +67,7 @@ public class ProblemAdapter extends RecyclerView.Adapter<ProblemAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        MyCircleView problemIv;
+        ImageView problemIv;
         TextView problemTitle;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

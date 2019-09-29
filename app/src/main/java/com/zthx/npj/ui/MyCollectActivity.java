@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AlsoLikeAdatper;
@@ -58,11 +59,16 @@ public class MyCollectActivity extends ActivityBase {
     TextView acMyCollectTvPreGoods;
     @BindView(R.id.at_my_collect_presell_rv)
     RecyclerView atMyCollectPresellRv;
+    @BindView(R.id.seeMore)
+    TextView seeMore;
 
     private boolean flag = true;
     private String type = "1";
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
+
+    private int page = 1;
+    private AlsoLikeAdatper adatper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,25 +82,51 @@ public class MyCollectActivity extends ActivityBase {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
+                page = 1;
+                if (adatper != null) {
+                    adatper.clearData();
+                }
+                seeMore.setText("查看更多");
+                refreshLayout.setLoadmoreFinished(false);
                 getCollection();
                 getAlsoLike();
                 refreshlayout.finishRefresh();
-                showToast("刷新完成");
             }
         });
+
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                page++;
+                getAlsoLike();
+                refreshlayout.finishLoadmore();
+            }
+        });
+
         getCollection();
         getAlsoLike();
     }
 
     private void getAlsoLike() {
-        MainSubscribe.alsoLike("1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.alsoLike(page+"", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 AlsoLikeResponseBean bean = GsonUtils.fromJson(result, AlsoLikeResponseBean.class);
                 final ArrayList<AlsoLikeResponseBean.DataBean> data = bean.getData();
                 GridLayoutManager layoutManager = new GridLayoutManager(MyCollectActivity.this, 2);
                 atMyCollectLikeRv.setLayoutManager(layoutManager);
-                AlsoLikeAdatper adatper = new AlsoLikeAdatper(MyCollectActivity.this, data);
+
+                if (adatper == null) {
+                    adatper = new AlsoLikeAdatper(MyCollectActivity.this, data);
+                } else {
+                    if (data != null && data.size() != 0) {
+                        if (data.size() < 10) {
+                            seeMore.setText("没有更多了");
+                            refreshLayout.setLoadmoreFinished(true);
+                        }
+                        adatper.addData(data);
+                    }
+                }
                 //设置添加或删除item时的动画，这里使用默认动画
                 atMyCollectLikeRv.setItemAnimator(new DefaultItemAnimator());
                 //设置适配器
@@ -102,9 +134,9 @@ public class MyCollectActivity extends ActivityBase {
                 atMyCollectLikeRv.setAdapter(adatper);
                 adatper.setOnItemClickListener(new AlsoLikeAdatper.ItemClickListener() {
                     @Override
-                    public void onItemClick(int position) {
+                    public void onItemClick(int position, ArrayList<AlsoLikeResponseBean.DataBean> mList) {
                         Intent intent = new Intent(MyCollectActivity.this, GoodsDetailActivity.class);
-                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                        intent.putExtra(Const.GOODS_ID, mList.get(position).getId() + "");
                         startActivity(intent);
                     }
                 });
@@ -140,7 +172,7 @@ public class MyCollectActivity extends ActivityBase {
             final ArrayList<CollectionResponseBean.DataBean> data = bean.getData();
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             atMyCollectGoodsRv.setLayoutManager(layoutManager);
-            CollectionAdapter adapter = new CollectionAdapter(this, data,"1");
+            CollectionAdapter adapter = new CollectionAdapter(this, data, "1");
             atMyCollectGoodsRv.setItemAnimator(new DefaultItemAnimator());
             atMyCollectGoodsRv.setAdapter(adapter);
             adapter.setOnItemClickListener(new CollectionAdapter.ItemClickListener() {
@@ -171,7 +203,7 @@ public class MyCollectActivity extends ActivityBase {
                     }));
                 }
             });
-        } else if(type.equals("2")){
+        } else if (type.equals("2")) {
             CollectionStoreResponseBean bean = GsonUtils.fromJson(result, CollectionStoreResponseBean.class);
             final ArrayList<CollectionStoreResponseBean.DataBean> data = bean.getData();
             atMyCollectGoodsRv.setVisibility(View.GONE);
@@ -185,7 +217,7 @@ public class MyCollectActivity extends ActivityBase {
             adapter.setOnItemClickListener(new CollectionStoreAdapter.ItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
-                    openActivity(StoreActivity.class, data.get(position).getList_id()+"");
+                    openActivity(StoreActivity.class, data.get(position).getList_id() + "");
                 }
 
                 @Override
@@ -203,7 +235,7 @@ public class MyCollectActivity extends ActivityBase {
                     }));
                 }
             });
-        }else{
+        } else {
             atMyCollectGoodsRv.setVisibility(View.GONE);
             atMyCollectStoreRv.setVisibility(View.GONE);
             atMyCollectPresellRv.setVisibility(View.VISIBLE);
@@ -211,7 +243,7 @@ public class MyCollectActivity extends ActivityBase {
             final ArrayList<CollectionResponseBean.DataBean> data = bean.getData();
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             atMyCollectPresellRv.setLayoutManager(layoutManager);
-            CollectionAdapter adapter = new CollectionAdapter(this, data,"3");
+            CollectionAdapter adapter = new CollectionAdapter(this, data, "3");
             atMyCollectPresellRv.setItemAnimator(new DefaultItemAnimator());
             atMyCollectPresellRv.setAdapter(adapter);
             adapter.setOnItemClickListener(new CollectionAdapter.ItemClickListener() {
@@ -246,7 +278,7 @@ public class MyCollectActivity extends ActivityBase {
         }
     }
 
-    @OnClick({R.id.ac_myCollect_tv_goods, R.id.ac_myStore_tv_stores,R.id.ac_myCollect_tv_preGoods})
+    @OnClick({R.id.ac_myCollect_tv_goods, R.id.ac_myStore_tv_stores, R.id.ac_myCollect_tv_preGoods})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_myCollect_tv_goods:

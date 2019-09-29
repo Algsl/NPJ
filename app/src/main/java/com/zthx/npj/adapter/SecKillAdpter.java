@@ -80,7 +80,7 @@ public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder
         viewHolder.mTvOldPrice.setText("￥"+mList.get(i).getMarket_price());
         viewHolder.mTvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         viewHolder.mTvTitle.setText(mList.get(i).getGoods_desc());
-        //viewHolder.mSpv.setTotalAndCurrentCount(Integer.parseInt(mList.get(i).getGoods_num()),Integer.parseInt(mList.get(i).getSale_num()));
+        viewHolder.mSpv.setTotalAndCurrentCount((int)mList.get(i).getGoods_num(),(int)mList.get(i).getSold());
         switch (type){
             case "1"://抢购结束
                 viewHolder.time.setVisibility(View.VISIBLE);

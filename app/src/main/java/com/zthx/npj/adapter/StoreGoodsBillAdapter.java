@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -96,23 +97,49 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
                     viewHolder.goodsSend.setVisibility(View.GONE);
                     break;
                 case "2":
-                    viewHolder.orderState.setText("已付款");
+                    viewHolder.orderState.setText("待发货");
+
+                    viewHolder.goodsSend.setVisibility(View.VISIBLE);
+                    viewHolder.goodsdrawback.setVisibility(View.GONE);
+                    viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
+                    viewHolder.residueLlTime.setVisibility(View.GONE);
                     break;
                 case "3":viewHolder.orderState.setText("已发货");
+
                     viewHolder.goodsSend.setVisibility(View.GONE);
+                    viewHolder.goodsdrawback.setVisibility(View.GONE);
+                    viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
+                    viewHolder.residueLlTime.setVisibility(View.GONE);
                     break;
-                case "4":viewHolder.orderState.setText("已收货");
+                case "4":viewHolder.orderState.setText("已发货");
                     viewHolder.goodsSend.setVisibility(View.GONE);
+                    viewHolder.goodsdrawback.setVisibility(View.GONE);
+                    viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
+                    viewHolder.residueLlTime.setVisibility(View.GONE);
                     break;
-                case "5":viewHolder.orderState.setText("已完成");
+                case "5":viewHolder.orderState.setText("已发货");
                     viewHolder.goodsSend.setVisibility(View.GONE);
+                    viewHolder.goodsdrawback.setVisibility(View.GONE);
+                    viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
+                    viewHolder.residueLlTime.setVisibility(View.GONE);
                     break;
                 case "6":viewHolder.orderState.setText("申请退款");
                     viewHolder.goodsSend.setVisibility(View.GONE);
                     viewHolder.goodsdrawback.setVisibility(View.VISIBLE);
+                    viewHolder.goodsIvState.setImageResource(R.drawable.refund);
+                    viewHolder.residueLlTime.setVisibility(View.VISIBLE);
                     break;
                 case "7":viewHolder.orderState.setText("已退款");
                     viewHolder.goodsSend.setVisibility(View.GONE);
+                    viewHolder.goodsdrawback.setVisibility(View.GONE);
+                    viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
+                    viewHolder.residueLlTime.setVisibility(View.GONE);
+                    break;
+                case "8":viewHolder.orderState.setText("已取消退款");
+                    viewHolder.goodsSend.setVisibility(View.GONE);
+                    viewHolder.goodsdrawback.setVisibility(View.GONE);
+                    viewHolder.goodsIvState.setImageResource(R.drawable.refuse_refund);
+                    viewHolder.residueLlTime.setVisibility(View.GONE);
                     break;
             }
         }
@@ -124,7 +151,7 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView goodsImg;
+        ImageView goodsImg,goodsIvState;
         TextView goodsName;
         TextView goodsPrice;
         TextView goodsNum;
@@ -133,6 +160,7 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
         TextView orderState;
         TextView goodsSend;
         TextView goodsdrawback;
+        LinearLayout residueLlTime;
         ViewHolder(View itemView) {
             super(itemView);
             goodsImg=itemView.findViewById(R.id.item_store_goods_bill_iv_pic);
@@ -144,6 +172,9 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
             orderState=itemView.findViewById(R.id.item_store_goods_bill_tv_state);
             goodsSend=itemView.findViewById(R.id.item_store_goods_bill_tv_send);
             goodsdrawback=itemView.findViewById(R.id.item_store_goods_bill_tv_drawaback);
+            residueLlTime=itemView.findViewById(R.id.item_storeGoodsBill_ll_time);
+
+            goodsIvState=itemView.findViewById(R.id.item_storeGoodsBill_iv_state);
         }
     }
 }

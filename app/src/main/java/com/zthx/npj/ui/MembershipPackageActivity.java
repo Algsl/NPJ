@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -117,7 +118,8 @@ public class MembershipPackageActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
+                SharePerferenceUtils.setUserId(MembershipPackageActivity.this,"");
             }
         }));
     }
@@ -135,7 +137,28 @@ public class MembershipPackageActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_membership_package_tv_tuijian:
-                openActivity(ReferrerActivity.class);
+                GiftSubscribe.referrer(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        openActivity(ReferrerActivity.class);
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+                        CommonDialog dialog=new CommonDialog(MembershipPackageActivity.this, R.style.dialog, "您还没有推荐人", new CommonDialog.OnCloseListener() {
+                            @Override
+                            public void onClick(Dialog dialog, boolean confirm) {
+                                if(confirm){
+                                    openActivity(InputInvitationCodeActivity.class);
+                                }else{
+                                    finish();
+                                }
+                            }
+                        });
+                        dialog.setPositiveButton("绑定邀请人");
+                        dialog.show();
+                    }
+                }));
                 break;
             case R.id.at_membership_package_tv_share:
                 showPublishPopwindow();

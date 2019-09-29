@@ -134,6 +134,7 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                 }else if(UrlQuan==null || UrlQuan.equals("")){
                     showToast("请上传手持身份证照");
                 }else{
+                    atRealNameAuthentication2BtnConfirm.setClickable(false);
                     upLoadInformation();
                 }
                 break;
@@ -155,11 +156,13 @@ public class RealNameAuthentication2Activity extends ActivityBase {
             CertSubscribe.upLoadMyCert3(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
+                    atRealNameAuthentication2BtnConfirm.setClickable(true);
                     SharePerferenceUtils.setUserName(RealNameAuthentication2Activity.this,atRealNameAuthentication2EtName.getText().toString().trim());
                     startActivity(new Intent(RealNameAuthentication2Activity.this, ConfirmAttestationSuccessActivity.class));
                 }
                 @Override
                 public void onFault(String errorMsg) {
+                    atRealNameAuthentication2BtnConfirm.setClickable(true);
                     showToast(errorMsg);
                 }
             }));
@@ -167,12 +170,14 @@ public class RealNameAuthentication2Activity extends ActivityBase {
             CertSubscribe.upLoadMyCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
+                    atRealNameAuthentication2BtnConfirm.setClickable(true);
                     SharePerferenceUtils.setUserName(RealNameAuthentication2Activity.this,atRealNameAuthentication2EtName.getText().toString().trim());
                     startActivity(new Intent(RealNameAuthentication2Activity.this, ConfirmAttestationSuccessActivity.class));
                 }
 
                 @Override
                 public void onFault(String errorMsg) {
+                    atRealNameAuthentication2BtnConfirm.setClickable(true);
                     showToast(errorMsg);
                 }
             }));

@@ -90,7 +90,7 @@ public class ZiZhiActivity extends ActivityBase {
                             @Override
                             public void onClick(Dialog dialog, boolean confirm) {
                                 if(confirm){
-                                    openActivity(EnterpriseCertificationActivity.class);
+                                    openActivity(MyAttestationActivity.class);
                                 }
                             }
                         });

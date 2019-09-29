@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AlsoLikeAdatper;
@@ -50,6 +51,7 @@ import com.zthx.npj.ui.MyCollectActivity;
 import com.zthx.npj.ui.MyCouponActivity;
 import com.zthx.npj.ui.MyOrderActivity;
 import com.zthx.npj.ui.MyStoreActivity;
+import com.zthx.npj.ui.MyStoreOrderDetailActivity;
 import com.zthx.npj.ui.MySupplyActivity;
 import com.zthx.npj.ui.MyTeamActivity;
 import com.zthx.npj.ui.MyWalletActivity;
@@ -165,6 +167,8 @@ public class MineFragment
     LinearLayout titleTheme;
     @BindView(R.id.title_theme_tv_right)
     TextView titleThemeTvRight;
+    @BindView(R.id.seeMore)
+    TextView seeMore;
 
     //private String level=SharePerferenceUtils.getLevel(getContext());
     private String user_id = SharePerferenceUtils.getUserId(getContext());
@@ -183,11 +187,13 @@ public class MineFragment
 
     }
 
+    private int page = 1;
+    private AlsoLikeAdatper adatper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("测试", "onCreate: "+SharePerferenceUtils.getUserId(getContext()).equals(""));
+        Log.e("测试", "onCreate0: " + SharePerferenceUtils.getUserId(getContext()).equals(""));
         if (SharePerferenceUtils.getUserId(getContext()).equals("")) {
             startActivity(new Intent(getContext(), LoginActivity.class));
         }
@@ -197,7 +203,7 @@ public class MineFragment
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            Log.e("测试", "onCreate: "+SharePerferenceUtils.getUserId(getContext()).equals(""));
+            Log.e("测试", "onCreate1: " + SharePerferenceUtils.getUserId(getContext()).equals(""));
             if (SharePerferenceUtils.getUserId(getContext()).equals("")) {
                 startActivity(new Intent(getContext(), LoginActivity.class));
             } else if (!NetUtil.isNetworkConnected(getContext())) {
@@ -223,18 +229,32 @@ public class MineFragment
         titleThemeTvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(),SettingsActivity.class));
+                startActivity(new Intent(getContext(), SettingsActivity.class));
             }
         });
 
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
+                page = 1;
+                if (adatper != null) {
+                    adatper.clearData();
+                }
+                seeMore.setText("查看更多");
                 getUserInfo();
                 getAlsoLike();
                 getOrderSize();
                 refreshlayout.finishRefresh();
-                Toast.makeText(getContext(), "刷新完成", Toast.LENGTH_SHORT).show();
+                refreshLayout.setLoadmoreFinished(false);
+            }
+        });
+
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                page++;
+                getAlsoLike();
+                refreshlayout.finishLoadmore();
             }
         });
 
@@ -359,14 +379,24 @@ public class MineFragment
 
 
     private void getAlsoLike() {
-        MainSubscribe.alsoLike("1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.alsoLike(page+"", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 AlsoLikeResponseBean bean = GsonUtils.fromJson(result, AlsoLikeResponseBean.class);
                 final ArrayList<AlsoLikeResponseBean.DataBean> data = bean.getData();
                 GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
                 fgMineRvLike.setLayoutManager(layoutManager);
-                AlsoLikeAdatper adatper = new AlsoLikeAdatper(getContext(), data);
+                if (adatper == null) {
+                    adatper = new AlsoLikeAdatper(getContext(), data);
+                } else {
+                    if (data != null && data.size() != 0) {
+                        if (data.size() < 10) {
+                            seeMore.setText("没有更多了");
+                            refreshLayout.setLoadmoreFinished(true);
+                        }
+                        adatper.addData(data);
+                    }
+                }
                 //设置添加或删除item时的动画，这里使用默认动画
                 fgMineRvLike.setItemAnimator(new DefaultItemAnimator());
                 //设置适配器
@@ -374,9 +404,9 @@ public class MineFragment
                 fgMineRvLike.setAdapter(adatper);
                 adatper.setOnItemClickListener(new AlsoLikeAdatper.ItemClickListener() {
                     @Override
-                    public void onItemClick(int position) {
+                    public void onItemClick(int position, ArrayList<AlsoLikeResponseBean.DataBean> mList) {
                         Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
-                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                        intent.putExtra(Const.GOODS_ID, mList.get(position).getId() + "");
                         startActivity(intent);
                     }
                 });
@@ -400,7 +430,7 @@ public class MineFragment
 
             @Override
             public void onFault(String errorMsg) {
-
+                SharePerferenceUtils.setUserId(getContext(), "");
             }
         }));
     }
@@ -605,22 +635,22 @@ public class MineFragment
                         MyTeamResponseBean bean = GsonUtils.fromJson(result, MyTeamResponseBean.class);
                         MyTeamResponseBean.DataBean data = bean.getData();
                         if ((int) data.getStatus() == 1) {
-                            CommonDialog dialog= new CommonDialog(getContext(), R.style.dialog, "请先升级成为VIP代言人", new CommonDialog.OnCloseListener() {
+                            CommonDialog dialog = new CommonDialog(getContext(), R.style.dialog, "请先升级成为VIP代言人", new CommonDialog.OnCloseListener() {
                                 @Override
                                 public void onClick(Dialog dialog, boolean confirm) {
-                                    if(confirm){
-                                        startActivity(new Intent(getContext(),MembershipPackageActivity.class));
+                                    if (confirm) {
+                                        startActivity(new Intent(getContext(), MembershipPackageActivity.class));
                                     }
                                 }
                             });
                             dialog.setPositiveButton("升级为代言人");
                             dialog.show();
                         } else if ((int) data.getStatus() == 2) {
-                            CommonDialog dialog=new CommonDialog(getContext(), R.style.dialog, "请先绑定邀请人！", new CommonDialog.OnCloseListener() {
+                            CommonDialog dialog = new CommonDialog(getContext(), R.style.dialog, "请先绑定邀请人！", new CommonDialog.OnCloseListener() {
                                 @Override
                                 public void onClick(Dialog dialog, boolean confirm) {
-                                    if(confirm){
-                                        startActivity(new Intent(getContext(),InputInvitationCodeActivity.class));
+                                    if (confirm) {
+                                        startActivity(new Intent(getContext(), InputInvitationCodeActivity.class));
                                     }
                                 }
                             });

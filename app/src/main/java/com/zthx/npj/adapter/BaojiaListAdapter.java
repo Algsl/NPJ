@@ -18,6 +18,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.BaojiaListResponseBean;
 import com.zthx.npj.net.been.SupplyOrderResponseBean;
+import com.zthx.npj.utils.MyCustomUtils;
 
 import java.util.ArrayList;
 
@@ -61,7 +62,16 @@ public class BaojiaListAdapter extends RecyclerView.Adapter<BaojiaListAdapter.Vi
                 }
             });
         }
-        Glide.with(mContext).load(Uri.parse(mList.get(i).getImg())).into(viewHolder.goodsImg);
+
+
+
+        String url = mList.get(i).getImg();
+        if (url.substring(url.length() - 4).equals(".mp4")) {
+            viewHolder.goodsImg.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
+            viewHolder.ivVideo.setVisibility(View.VISIBLE);
+        } else {
+            Glide.with(mContext).load(Uri.parse(url)).into(viewHolder.goodsImg);
+        }
         viewHolder.title.setText(mList.get(i).getTitle());
         viewHolder.number.setText(mList.get(i).getBaojia_num()+"人报价");
     }
@@ -72,7 +82,7 @@ public class BaojiaListAdapter extends RecyclerView.Adapter<BaojiaListAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView goodsImg;
+        ImageView goodsImg,ivVideo;
         TextView title,number;
         Button see;
         public ViewHolder(@NonNull View itemView) {
@@ -81,6 +91,7 @@ public class BaojiaListAdapter extends RecyclerView.Adapter<BaojiaListAdapter.Vi
             title=itemView.findViewById(R.id.item_store_quotation_title);
             number=itemView.findViewById(R.id.item_store_quotation_tv_number);
             see=itemView.findViewById(R.id.item_store_quotation_btn_see);
+            ivVideo=itemView.findViewById(R.id.item_storeQuotation_iv_video);
         }
     }
 }

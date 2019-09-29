@@ -96,6 +96,7 @@ public class MySupplyListAdapter extends RecyclerView.Adapter<MySupplyListAdapte
         String url = mList.get(i).getGoods_img();
         if (url.substring(url.length() - 4).equals(".mp4")) {
             viewHolder.goodsImg.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
+            viewHolder.ivVideo.setVisibility(View.VISIBLE);
         } else {
             Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
         }
@@ -119,7 +120,7 @@ public class MySupplyListAdapter extends RecyclerView.Adapter<MySupplyListAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView goodsImg;
+        ImageView goodsImg,ivVideo;
         TextView goodsName,marketPrice,memberPrice,sold,goodsNumber,onSale,shareGoods,deleteGoods,editGoods;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -133,6 +134,7 @@ public class MySupplyListAdapter extends RecyclerView.Adapter<MySupplyListAdapte
             shareGoods=itemView.findViewById(R.id.item_storeGoodsList_tv_share);
             deleteGoods=itemView.findViewById(R.id.item_storeGoodsList_tv_delete);
             editGoods=itemView.findViewById(R.id.item_storeGoodsList_tv_edit);
+            ivVideo=itemView.findViewById(R.id.item_storeQuotation_iv_video);
         }
     }
 }

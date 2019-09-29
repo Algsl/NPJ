@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/dp_170"
+    android:layout_width="@dimen/dp_168"
     android:layout_height="@dimen/dp_225"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_marginTop="@dimen/dp_20"
-    android:layout_marginLeft="@dimen/dp_10"
+    android:layout_marginLeft="@dimen/dp_8"
+    android:layout_marginTop="@dimen/dp_10"
     android:background="@drawable/white_conner_8">
 
     <com.makeramen.roundedimageview.RoundedImageView

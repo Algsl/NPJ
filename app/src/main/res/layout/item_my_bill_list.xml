@@ -49,6 +49,14 @@
             android:layout_marginLeft="@dimen/dp_12"
             app:riv_corner_radius="@dimen/dp_5"
             android:scaleType="centerCrop"/>
+        <ImageView
+            android:id="@+id/item_storeQuotation_iv_video"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/dp_35"
+            android:src="@drawable/item_play"/>
         <TextView
             android:id="@+id/item_myBillList_tv_goodsName"
             android:layout_width="match_parent"

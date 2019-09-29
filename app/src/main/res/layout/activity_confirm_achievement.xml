@@ -36,6 +36,7 @@
         android:layout_marginTop="@dimen/dp_33"/>
 
     <Button
+        android:id="@+id/ac_confirmAchievement_btn_apply"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:layout_marginRight="@dimen/dp_40"

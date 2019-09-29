@@ -45,7 +45,7 @@ public class HttpUtils {
         Request request = new Request.Builder().url(address).post(requestBody).build();
         client.newCall(request).enqueue(callback);
     }
-
+    //尝试将视频和图片合并
     public static void uploadVideo(String address,List<String> paths,okhttp3.Callback callback){
         OkHttpClient client=new OkHttpClient();
         List<File> files=new ArrayList<>();
@@ -58,17 +58,6 @@ public class HttpUtils {
         for(File file:files){
             builder.addFormDataPart("images[]",file.getName(),RequestBody.create(MediaType.parse("application/octet-stream"),file));
         }
-        RequestBody requestBody = builder.build();
-        Request request = new Request.Builder().url(address).post(requestBody).build();
-        client.newCall(request).enqueue(callback);
-    }
-    public static void uploadSVideo(String address,String path,okhttp3.Callback callback){
-        OkHttpClient client = new OkHttpClient();
-        File file = new File(path);
-        MultipartBody.Builder builder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("file", file.getName(),
-                        RequestBody.create(MediaType.parse("application/octet-stream"), file));
         RequestBody requestBody = builder.build();
         Request request = new Request.Builder().url(address).post(requestBody).build();
         client.newCall(request).enqueue(callback);

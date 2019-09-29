@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -33,6 +34,7 @@ import com.youth.banner.listener.OnBannerListener;
 import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.common.Constant;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.ClassifyDetailAdapter;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BannerResponseBean;
@@ -53,7 +55,6 @@ import com.zthx.npj.ui.MessageCenterActivity;
 import com.zthx.npj.ui.PayToStoreActivity;
 import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.ui.SecKillActivity;
-import com.zthx.npj.ui.WebViewActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.GlideImageLoader;
@@ -106,15 +107,16 @@ public class HomeFragment extends BaseFragment {
     TextView fgHomeTvMyLower;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @BindView(R.id.loadMore)
-    TextView loadMore;
+    @BindView(R.id.seeMore)
+    TextView seeMore;
 
     private Unbinder unbinder;
 
     private static final int REQUEST_CODE_SCAN = 1;
     private boolean isChild;
     private ArrayList<RecommendResponseBean.DataBean> data;
-    private int page=1;
+    private int page = 1;
+    private HomeGoodsAdapter mAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -135,7 +137,7 @@ public class HomeFragment extends BaseFragment {
 
         //initBanner();
         //getMainRecommed(page+"");
-        getGroupHome(page+"");
+        getGroupHome(page + "");
         getBanner();
 
 
@@ -147,15 +149,32 @@ public class HomeFragment extends BaseFragment {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                page=1;
+                page = 1;
                 if (isChild) {
-                    getChildHome(page+"");
+                    getChildHome(page + "");
                 } else {
-                    getGroupHome(page+"");
+                    getGroupHome(page + "");
                 }
+                if (mAdapter != null) {
+                    mAdapter.clearData();
+                }
+                seeMore.setText("查看更多");
                 getBanner();
+                refreshLayout.setLoadmoreFinished(false);
                 refreshlayout.finishRefresh();
-                Toast.makeText(getContext(), "刷新完成", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                page += 1;
+                if (isChild) {
+                    getChildHome(page + "");
+                } else {
+                    getGroupHome(page + "");
+                }
+                refreshlayout.finishLoadmore();
             }
         });
 
@@ -308,7 +327,7 @@ public class HomeFragment extends BaseFragment {
                 Intent intent = new Intent(getContext(), BannerActivity.class);
                 intent.putExtra("title", bean.getData().get(position).getTitle());
                 intent.putExtra("type", bean.getData().get(position).getType());
-                intent.putExtra("id", bean.getData().get(position).getId()+"");
+                intent.putExtra("id", bean.getData().get(position).getId() + "");
                 startActivity(intent);
             }
         });
@@ -319,7 +338,7 @@ public class HomeFragment extends BaseFragment {
     @OnClick({R.id.fg_home_iv_scan, R.id.fg_home_et_search, R.id.fg_home_ll_classify,
             R.id.fg_home_iv_message, R.id.fg_home_ll_secKill, R.id.fg_home_ll_presell,
             R.id.fg_home_ll_local, R.id.fg_home_ll_gift, R.id.fg_home_rl_go_game,
-            R.id.fg_home_ll_recommend,R.id.loadMore})
+            R.id.fg_home_ll_recommend})
     public void onViewClicked(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -361,26 +380,21 @@ public class HomeFragment extends BaseFragment {
             case R.id.fg_home_ll_recommend:
                 toggle();
                 break;
-            case R.id.loadMore:
-                page+=1;
-                if(isChild){
-                    getChildHome(page+"");
-                }else{
-                    getGroupHome(page+"");
-                }
-                break;
         }
     }
 
     private void toggle() {
-        page=1;
+        page = 1;
         isChild = !isChild;
+        if (mAdapter != null) {
+            mAdapter.clearData();
+        }
         if (isChild) {
             fgHomeTvMyLower.setText("下级用户首页");
-            getChildHome(page+"");
+            getChildHome(page + "");
         } else {
             fgHomeTvMyLower.setText("精品推荐 好货不断");
-            getGroupHome(page+"");
+            getGroupHome(page + "");
         }
     }
 
@@ -389,21 +403,25 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onSuccess(String result) {
                 RecommendResponseBean bean = GsonUtils.fromJson(result, RecommendResponseBean.class);
-                if(page.equals("1")){
-                    data=bean.getData();
-                }else{
-                    if(bean.getData()==null){
-                        loadMore.setText("没有更多了");
-                    }else{
-                        data.addAll(bean.getData());
+                ArrayList<RecommendResponseBean.DataBean> data=bean.getData();
+                if (mAdapter == null) {
+                    mAdapter = new HomeGoodsAdapter(getActivity(), data);
+                } else {
+                    Log.e("测试", "setGoodsList: "+data.size());
+                    if (data != null && data.size()!=0) {
+                        if(data.size()<10){
+                            seeMore.setText("没有更多了");
+                            refreshLayout.setLoadmoreFinished(true);
+                        }
+                        mAdapter.addData(data);
                     }
                 }
-                HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);
+
                 mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
                     @Override
-                    public void onItemClick(int position) {
+                    public void onItemClick(int position, ArrayList<RecommendResponseBean.DataBean> list) {
                         Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
-                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                        intent.putExtra(Const.GOODS_ID, list.get(position).getId() + "");
                         startActivity(intent);
                     }
                 });
@@ -423,21 +441,25 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onSuccess(String result) {
                 RecommendResponseBean bean = GsonUtils.fromJson(result, RecommendResponseBean.class);
-                if(page.equals("1")){
-                    data=bean.getData();
-                }else{
-                    if(bean.getData()==null){
-                        loadMore.setText("没有更多了");
-                    }else{
-                        data.addAll(bean.getData());
+                ArrayList<RecommendResponseBean.DataBean> data=bean.getData();
+                if (mAdapter == null) {
+                    mAdapter = new HomeGoodsAdapter(getActivity(), data);
+                } else {
+                    Log.e("测试", "setGoodsList: "+data.size());
+                    if (data != null && data.size()!=0) {
+                        if(data.size()<10){
+                            seeMore.setText("没有更多了");
+                            refreshLayout.setLoadmoreFinished(true);
+                        }
+                        mAdapter.addData(data);
                     }
                 }
-                HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);
+
                 mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
                     @Override
-                    public void onItemClick(int position) {
+                    public void onItemClick(int position, ArrayList<RecommendResponseBean.DataBean> list) {
                         Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
-                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                        intent.putExtra(Const.GOODS_ID, list.get(position).getId() + "");
                         startActivity(intent);
                     }
                 });
@@ -479,11 +501,11 @@ public class HomeFragment extends BaseFragment {
                     String page = uri.getQueryParameter("page");
                     String type = uri.getQueryParameter("type");
                     String id = uri.getQueryParameter("id");
-                    if(page==null){
+                    if (page == null) {
                         Intent intent = new Intent(Intent.ACTION_VIEW); //Intent.ACTION_VIEW固定写法
                         intent.setData(Uri.parse(context)); //url是你要跳转的网页地址
                         startActivity(intent);
-                    }else{
+                    } else {
                         if (page.equals("goodsDetail")) {
                             Intent intent = new Intent(getContext(), GoodsDetailActivity.class);
                             intent.setAction(type);

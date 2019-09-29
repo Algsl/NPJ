@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.zthx.npj.R;
 import com.zthx.npj.base.BaseApp;
+import com.zthx.npj.base.BaseConstant;
 import com.zthx.npj.net.been.CartListResponseBean;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
@@ -211,12 +212,14 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(String result) {
                 UserResponseBean bean = GsonUtils.fromJson(result, UserResponseBean.class);
                 SharePerferenceUtils.setUserLevel(MainActivity.this, bean.getData().getLevel() + "");
+                BaseConstant.TOKEN = SharePerferenceUtils.getToken(MainActivity.this);
                 loginIM(bean.getData().getMobile(), bean.getData().getMobile());
             }
 
             @Override
             public void onFault(String errorMsg) {
                 //showToast(errorMsg);
+                SharePerferenceUtils.setUserId(MainActivity.this,"");
             }
         }));
     }

@@ -17,6 +17,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.AlsoLikeResponseBean;
+import com.zthx.npj.net.been.GoodsListResponseBean;
 import com.zthx.npj.utils.GlideRoundTransform;
 import com.zthx.npj.view.MyCircleView;
 
@@ -29,7 +30,7 @@ public class AlsoLikeAdatper extends RecyclerView.Adapter<AlsoLikeAdatper.ViewHo
 
     private ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
-        void onItemClick(int position) ;
+        void onItemClick(int position,ArrayList<AlsoLikeResponseBean.DataBean> mList) ;
     }
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         mItemClickListener = itemClickListener ;
@@ -40,6 +41,17 @@ public class AlsoLikeAdatper extends RecyclerView.Adapter<AlsoLikeAdatper.ViewHo
         mList = list;
         mContext = context;
     }
+
+    public void addData(ArrayList<AlsoLikeResponseBean.DataBean> goodsData){
+        int size=goodsData.size();
+        mList.addAll(goodsData);
+        notifyItemChanged(size,mList.size());
+    }
+    public void clearData(){
+        mList.clear();
+    }
+
+
     @NonNull
     @Override
     public AlsoLikeAdatper.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -56,7 +68,7 @@ public class AlsoLikeAdatper extends RecyclerView.Adapter<AlsoLikeAdatper.ViewHo
                 public void onClick(View v) {
                     int position = viewHolder.getLayoutPosition();
                     // 这里利用回调来给RecyclerView设置点击事件
-                    mItemClickListener.onItemClick(position);
+                    mItemClickListener.onItemClick(position,mList);
                 }
             });
         }

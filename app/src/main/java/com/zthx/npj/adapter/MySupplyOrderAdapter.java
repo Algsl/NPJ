@@ -132,6 +132,7 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
             String url = list.get(i).getGoods_img();
             if (url.substring(url.length() - 4).equals(".mp4")) {
                 viewHolder.goodsImg.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
+                viewHolder.ivVideo.setVisibility(View.VISIBLE);
             } else {
                 Glide.with(mContext).load(Uri.parse(url)).into(viewHolder.goodsImg);
             }
@@ -205,7 +206,7 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
                     viewHolder.confirm.setVisibility(View.GONE);
                     viewHolder.again.setVisibility(View.VISIBLE);
                     viewHolder.comment.setVisibility(View.VISIBLE);
-                    viewHolder.goodsReturn.setVisibility(View.VISIBLE);
+                    viewHolder.goodsReturn.setVisibility(View.GONE);
                     break;
                 case "5":
                     viewHolder.orderState.setText("已完成");
@@ -257,7 +258,7 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView goodsImg;
+        ImageView goodsImg,ivVideo;
         TextView storeName,goodsName,goodsPrice,goodsNum,orderPrice,orderState;
         Button cancel,delete,cuidan,pay,query,confirm,again,comment,goodsReturn;
         ViewHolder(View itemView) {
@@ -278,6 +279,7 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
             again=itemView.findViewById(R.id.item_myBillList_btn_again);
             comment=itemView.findViewById(R.id.item_myBillList_btn_comment);
             goodsReturn=itemView.findViewById(R.id.item_myBillList_btn_goodsReturn);
+            ivVideo=itemView.findViewById(R.id.item_storeQuotation_iv_video);
         }
     }
 }

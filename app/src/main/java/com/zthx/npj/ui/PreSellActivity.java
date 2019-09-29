@@ -164,7 +164,7 @@ public class PreSellActivity extends ActivityBase {
     @OnClick({R.id.at_pre_sell_tv_ing, R.id.at_pre_sell_tv_ed})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.at_pre_sell_tv_ing:
+            case R.id.at_pre_sell_tv_ing://众筹进行中
                 if (!isIng) {
                     atPreSellTvIng.setTextColor(getResources().getColor(android.R.color.white));
                     atPreSellTvIng.setBackgroundColor(getResources().getColor(R.color.app_theme));
@@ -175,7 +175,7 @@ public class PreSellActivity extends ActivityBase {
                     getPreSellList("0");
                 }
                 break;
-            case R.id.at_pre_sell_tv_ed:
+            case R.id.at_pre_sell_tv_ed://众筹结束
                 if (isIng) {
                     atPreSellTvIng.setTextColor(getResources().getColor(R.color.text3));
                     atPreSellTvIng.setBackgroundColor(getResources().getColor(android.R.color.white));

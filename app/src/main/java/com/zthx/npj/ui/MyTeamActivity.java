@@ -1,15 +1,16 @@
 package com.zthx.npj.ui;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,6 +65,12 @@ public class MyTeamActivity extends ActivityBase {
     LinearLayout atMyAchievementLl3;
     @BindView(R.id.at_my_achievement_ll_4)
     LinearLayout atMyAchievementLl4;
+    @BindView(R.id.ac_tvBg)
+    TextView acTvBg;
+    @BindView(R.id.ac_myAchievement_tv_totalTeam)
+    TextView acMyAchievementTvTotalTeam;
+    @BindView(R.id.ac_myAchievement_tv_myTeam)
+    TextView acMyAchievementTvMyTeam;
 
 
     private String user_id = SharePerferenceUtils.getUserId(this);
@@ -75,6 +82,9 @@ public class MyTeamActivity extends ActivityBase {
         setContentView(R.layout.activity_my_achievement);
         ButterKnife.bind(this);
 
+        getMyTeam();
+        getUserInfo();
+
         back(titleThemeBack);
         changeTitle(titleThemeTitle, "我的业绩");
         changeRightImg(titleThemeImgRight, R.drawable.myachievement_more, AskForPartnerActivity.class, null);
@@ -84,8 +94,6 @@ public class MyTeamActivity extends ActivityBase {
     @Override
     protected void onResume() {
         super.onResume();
-        getMyTeam();
-        getUserInfo();
     }
 
     private void getUserInfo() {
@@ -103,35 +111,35 @@ public class MyTeamActivity extends ActivityBase {
                         break;
                     case 2:
                         acMyAchievementTvLevel.setText("天使代言人");
-                        atMyAchievementViewAll.setMax(100);
+                        //atMyAchievementViewAll.setMax(100);
                         break;
                     case 3:
                         acMyAchievementTvLevel.setText("金牌代言人");
-                        atMyAchievementViewAll.setMax(600);
+                        //atMyAchievementViewAll.setMax(600);
                         break;
                     case 4:
                         acMyAchievementTvLevel.setText("钻石代言人");
-                        atMyAchievementViewAll.setMax(3000);
+                        //atMyAchievementViewAll.setMax(3000);
                         break;
                     case 5:
                         acMyAchievementTvLevel.setText("首席代言人");
-                        atMyAchievementViewAll.setMax(10000);
+                        //atMyAchievementViewAll.setMax(10000);
                         break;
                     case 6:
                         acMyAchievementTvLevel.setText("天使股东代言人");
-                        atMyAchievementViewAll2.setMax(30000);
+                        //atMyAchievementViewAll2.setMax(30000);
                         break;
                     case 7:
                         acMyAchievementTvLevel.setText("金牌股东代言人");
-                        atMyAchievementViewAll2.setMax(50000);
+                        //atMyAchievementViewAll2.setMax(50000);
                         break;
                     case 8:
                         acMyAchievementTvLevel.setText("钻石股东代言人");
-                        atMyAchievementViewAll2.setMax(100000);
+                        //atMyAchievementViewAll2.setMax(100000);
                         break;
                     case 9:
                         acMyAchievementTvLevel.setText("首席股东代言人");
-                        atMyAchievementViewAll2.setMax(200000);
+                        //atMyAchievementViewAll2.setMax(200000);
                         break;
                     case 10:
                         acMyAchievementTvLevel.setText("城市代言人");
@@ -141,7 +149,7 @@ public class MyTeamActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-
+                SharePerferenceUtils.setUserId(MyTeamActivity.this, "");
             }
         }));
     }
@@ -153,25 +161,25 @@ public class MyTeamActivity extends ActivityBase {
                 MyTeamResponseBean bean = GsonUtils.fromJson(result, MyTeamResponseBean.class);
                 MyTeamResponseBean.DataBean data = bean.getData();
                 if ((int) data.getStatus() == 1) {
-                   CommonDialog dialog= new CommonDialog(MyTeamActivity.this, R.style.dialog, "请先升级成为VIP代言人", new CommonDialog.OnCloseListener() {
+                    CommonDialog dialog = new CommonDialog(MyTeamActivity.this, R.style.dialog, "请先升级成为VIP代言人", new CommonDialog.OnCloseListener() {
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
-                            if(confirm){
+                            if (confirm) {
                                 openActivity(MembershipPackageActivity.class);
-                            }else{
+                            } else {
                                 finish();
                             }
                         }
                     });
-                   dialog.setPositiveButton("升级为代言人");
-                   dialog.show();
+                    dialog.setPositiveButton("升级为代言人");
+                    dialog.show();
                 } else if ((int) data.getStatus() == 2) {
-                    CommonDialog dialog=new CommonDialog(MyTeamActivity.this, R.style.dialog, "请先绑定邀请人！", new CommonDialog.OnCloseListener() {
+                    CommonDialog dialog = new CommonDialog(MyTeamActivity.this, R.style.dialog, "请先绑定邀请人！", new CommonDialog.OnCloseListener() {
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
-                            if(confirm){
+                            if (confirm) {
                                 openActivity(MembershipPackageActivity.class);
-                            }else{
+                            } else {
                                 finish();
                             }
                         }
@@ -193,6 +201,16 @@ public class MyTeamActivity extends ActivityBase {
     private void setMyTeam(MyTeamResponseBean.DataBean data) {
         Glide.with(MyTeamActivity.this).load(Uri.parse(data.getResult().getHead_img())).into(atMyAchievementHeadPic);
         atMyAchievementTvName.setText("推荐人：" + data.getResult().getNick_name());
+        atMyAchievementViewAll.setMax((int) data.getResult().getTotal_myteam());
+        atMyAchievementViewAll.setProgress((int) data.getResult().getMyteam());
+
+
+
+        RelativeLayout.LayoutParams layoutParams= (RelativeLayout.LayoutParams) acTvBg.getLayoutParams();
+        layoutParams.width=(int)(data.getResult().getMyteam()*10.0/10/data.getResult().getTotal_myteam()*acTvBg.getMeasuredWidth());
+        Log.e("测试", "setMyTeam: "+layoutParams.width+" "+acTvBg.getMeasuredWidth()+" "+acTvBg.getMeasuredHeight()+" "+(int)(data.getResult().getMyteam()*10.0/10/data.getResult().getTotal_myteam()));
+        acTvBg.setLayoutParams(layoutParams);
+
         switch ((int) data.getResult().getLevel()) {
             case 0:
                 acMyAchievementTvLevel.setText("普通会员");
@@ -229,8 +247,9 @@ public class MyTeamActivity extends ActivityBase {
                 break;
         }
         acMyAchievementTvTotalMyTeam.setText(data.getResult().getTotal_myteam() + "");
-        atMyAchievementViewAll.setProgress((int) data.getResult().getMyteam());
         atMyAchievementViewAll2.setProgress((int) data.getResult().getMyamount());
+        acMyAchievementTvMyTeam.setText(data.getResult().getMyteam()+"人");
+        acMyAchievementTvTotalTeam.setText(data.getResult().getTotal_myteam()+"");
     }
 
     @OnClick({R.id.at_my_achievement_btn_daiyanren, R.id.at_my_achievement_btn_daiyanren2})

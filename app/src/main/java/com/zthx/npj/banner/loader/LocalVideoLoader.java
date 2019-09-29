@@ -9,6 +9,7 @@ import android.widget.VideoView;
 
 import com.dueeeke.videocontroller.StandardVideoController;
 import com.dueeeke.videoplayer.player.IjkVideoView;
+import com.zthx.npj.utils.MyCustomUtils;
 
 public class LocalVideoLoader extends VideoLoafer {
     /*@Override
@@ -28,6 +29,8 @@ public class LocalVideoLoader extends VideoLoafer {
             view.setBackgroundColor(Color.TRANSPARENT);
             view.setUrl((String) path);
             StandardVideoController controller = new StandardVideoController(context);
+            controller.getThumb().setImageBitmap(MyCustomUtils.getVideoThumbnail((String) path));
+            view.setScreenScale(IjkVideoView.SCREEN_SCALE_MATCH_PARENT);
             view.setVideoController(controller);
         } catch (Exception e) {
             e.printStackTrace();

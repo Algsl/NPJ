@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:numStars="5"
             android:stepSize="1"
-            android:rating="4"
+            android:rating="5"
             android:visibility="visible"
             style="@style/roomRatingBar"/>
         <TextView
@@ -45,7 +45,7 @@
             android:layout_height="@dimen/dp_50"
             android:gravity="center_vertical"
             android:textSize="@dimen/sp_13"
-            android:text="非常好"/>
+            android:text="很好"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -87,6 +87,7 @@
         android:layout_marginRight="@dimen/dp_12"
         android:background="@color/background"/>
     <RelativeLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:orientation="horizontal">
@@ -165,7 +166,7 @@
             android:layout_height="wrap_content"
             android:numStars="5"
             android:stepSize="1"
-            android:rating="4"
+            android:rating="5"
             style="@style/roomRatingBar"/>
         <TextView
             android:id="@+id/ac_orderComment_tv_logistics"
@@ -197,7 +198,7 @@
             android:layout_height="wrap_content"
             android:numStars="5"
             android:stepSize="1"
-            android:rating="4"
+            android:rating="5"
             style="@style/roomRatingBar"/>
         <TextView
             android:id="@+id/ac_orderComment_tv_service"

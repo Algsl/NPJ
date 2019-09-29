@@ -60,9 +60,9 @@ public class CommentActivity extends ActivityBase {
     @BindView(R.id.ac_orderComment_tv_service)
     TextView acOrderCommentTvService;
 
-    String goods_start;
-    String logistics_start;
-    String service_start;
+    String goods_start="5";
+    String logistics_start="5";
+    String service_start="5";
 
     String user_id = SharePerferenceUtils.getUserId(this);
     String token = SharePerferenceUtils.getToken(this);
@@ -79,6 +79,7 @@ public class CommentActivity extends ActivityBase {
     private static final int CHOOSE_PHOTO = 1;
     private String img;
     private boolean isHint;
+
 
 
     @Override
@@ -218,6 +219,7 @@ public class CommentActivity extends ActivityBase {
         SetSubscribe.orderComment(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
+                showToast("评价成功");
                 finish();
             }
 
@@ -232,22 +234,11 @@ public class CommentActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_location_store_tv_ruzhu:
-                if (paths.size() == 1) {
-                    HttpUtils.uploadImg(URLConstant.REQUEST_URL, paths.get(0), new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-
-                        }
-
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            UpLoadPicResponseBean bean = GsonUtils.fromJson(response.body().string(), UpLoadPicResponseBean.class);
-                            UpLoadPicResponseBean.DataBean data = bean.getData();
-                            img = data.getSrc();
-                            commentConfirm();
-                        }
-                    });
-                } else if (paths.size() > 1) {
+                if(acOrderCommentEtContent.getText().toString().trim().equals("")){
+                    showToast("请填写您对商品的评价");
+                }else if(paths==null || paths.size()<1){
+                    showToast("您还没有上传图片呢！");
+                }else{
                     HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
@@ -262,8 +253,6 @@ public class CommentActivity extends ActivityBase {
                             commentConfirm();
                         }
                     });
-                } else {
-                    showToast("您还没有上传图片呢！");
                 }
                 break;
             case R.id.ac_orderComment_iv_isHint:

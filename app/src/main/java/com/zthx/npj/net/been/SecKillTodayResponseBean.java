@@ -25,8 +25,18 @@ public class SecKillTodayResponseBean {
         private String goods_price;
         private String market_price;
         private String goods_img;
-        private String sale_num;
+        private long goods_num;
+        private long sale_num;
         private long begin_time;
+        private long sold;
+
+        public long getSold() {
+            return sold;
+        }
+
+        public void setSold(long sold) {
+            this.sold = sold;
+        }
 
         public long getBegin_time() {
             return begin_time;
@@ -84,19 +94,19 @@ public class SecKillTodayResponseBean {
             this.goods_img = goods_img;
         }
 
-        public String getSale_num() {
+        public long getSale_num() {
             return sale_num;
         }
 
-        public void setSale_num(String sale_num) {
+        public void setSale_num(long sale_num) {
             this.sale_num = sale_num;
         }
 
-        public String getGoods_num() {
+        public long getGoods_num() {
             return goods_num;
         }
 
-        public void setGoods_num(String goods_num) {
+        public void setGoods_num(long goods_num) {
             this.goods_num = goods_num;
         }
 
@@ -116,7 +126,6 @@ public class SecKillTodayResponseBean {
             this.end_time = end_time;
         }
 
-        private String goods_num;
         private int status;
         private long end_time;
     }

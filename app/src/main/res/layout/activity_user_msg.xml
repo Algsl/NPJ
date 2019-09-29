@@ -247,7 +247,20 @@
                         android:orientation="horizontal">
                         <TextView
                             android:visibility="gone"
-                            android:id="@+id/ac_userMsg_tv_qyCert"
+                            android:background="#FED435"
+                            android:id="@+id/ac_userMsg_tv_realName"
+                            android:text="实名认证"
+                            android:layout_width="@dimen/dp_55"
+                            android:layout_height="@dimen/dp_18"
+                            android:layout_marginLeft="@dimen/dp_11"
+                            android:layout_marginTop="@dimen/dp_12"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white" />
+                        <TextView
+                            android:visibility="gone"
+                            android:id="@+id/ac_userMsg_tv_purchase"
+                            android:background="#9685ED"
                             android:layout_width="@dimen/dp_55"
                             android:layout_height="@dimen/dp_18"
                             android:layout_marginLeft="@dimen/dp_11"
@@ -255,9 +268,21 @@
                             android:gravity="center"
                             android:textSize="@dimen/sp_12"
                             android:textColor="@color/white"
-                            android:background="#F39B1F"
-                            android:text="企业保证"/>
+                            android:text="采购认证"/>
                         <TextView
+                            android:visibility="gone"
+                            android:background="#62DD57"
+                            android:id="@+id/ac_userMsg_tv_zizhi"
+                            android:layout_width="@dimen/dp_55"
+                            android:layout_height="@dimen/dp_18"
+                            android:layout_marginLeft="@dimen/dp_11"
+                            android:layout_marginTop="@dimen/dp_12"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:text="资质认证"/>
+                        <TextView
+                            android:visibility="gone"
                             android:id="@+id/ac_userMsg_tv_sellOver"
                             android:layout_width="@dimen/dp_55"
                             android:layout_height="@dimen/dp_18"
@@ -268,29 +293,6 @@
                             android:textColor="@color/white"
                             android:background="#C490BF"
                             android:text="销量过万"/>
-                        <TextView
-                            android:visibility="gone"
-                            android:id="@+id/ac_userMsg_tv_sjCert"
-                            android:layout_width="@dimen/dp_55"
-                            android:layout_height="@dimen/dp_18"
-                            android:layout_marginLeft="@dimen/dp_11"
-                            android:layout_marginTop="@dimen/dp_12"
-                            android:gravity="center"
-                            android:textSize="@dimen/sp_12"
-                            android:textColor="@color/white"
-                            android:background="#EB6877"
-                            android:text="商家认证"/>
-                        <TextView
-                            android:id="@+id/ac_userMsg_iv_mdCert"
-                            android:layout_width="@dimen/dp_55"
-                            android:layout_height="@dimen/dp_18"
-                            android:layout_marginLeft="@dimen/dp_11"
-                            android:layout_marginTop="@dimen/dp_12"
-                            android:gravity="center"
-                            android:textSize="@dimen/sp_12"
-                            android:textColor="@color/white"
-                            android:background="#F37C64"
-                            android:text="线下门店"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -298,6 +300,9 @@
                         android:layout_weight="1"
                         android:orientation="horizontal">
                         <TextView
+                            android:visibility="gone"
+                            android:id="@+id/ac_userMsg_tv_enterprice"
+                            android:background="#5AAFFA"
                             android:layout_width="@dimen/dp_55"
                             android:layout_height="@dimen/dp_18"
                             android:layout_marginLeft="@dimen/dp_11"
@@ -305,9 +310,21 @@
                             android:gravity="center"
                             android:textSize="@dimen/sp_12"
                             android:textColor="@color/white"
-                            android:background="#4FA0F1"
-                            android:text="七天退换"/>
+                            android:text="企业保证"/>
                         <TextView
+                            android:visibility="gone"
+                            android:background="#EA6E6D"
+                            android:id="@+id/ac_userMsg_tv_trust"
+                            android:layout_width="@dimen/dp_55"
+                            android:layout_height="@dimen/dp_18"
+                            android:layout_marginLeft="@dimen/dp_11"
+                            android:layout_marginTop="@dimen/dp_5"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:text="3k保证"/>
+                        <TextView
+                            android:visibility="gone"
                             android:id="@+id/ac_userMsg_tv_hReputation"
                             android:layout_width="@dimen/dp_55"
                             android:layout_height="@dimen/dp_18"
@@ -318,18 +335,7 @@
                             android:textColor="@color/white"
                             android:background="#81AB64"
                             android:text="信用最高"/>
-                        <TextView
-                            android:visibility="gone"
-                            android:id="@+id/ac_userMsg_tv_smCert"
-                            android:layout_width="@dimen/dp_55"
-                            android:layout_height="@dimen/dp_18"
-                            android:layout_marginLeft="@dimen/dp_11"
-                            android:layout_marginTop="@dimen/dp_5"
-                            android:gravity="center"
-                            android:textSize="@dimen/sp_12"
-                            android:textColor="@color/white"
-                            android:background="#2FA22F"
-                            android:text="实名认证"/>
+
                         <TextView
                             android:id="@+id/ac_userMsg_tv_goCert"
                             android:layout_width="@dimen/dp_55"

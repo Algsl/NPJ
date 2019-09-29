@@ -185,6 +185,17 @@
                         android:src="@drawable/gold_daiyanren"
                         android:layout_marginLeft="@dimen/dp_13"/>
                 </LinearLayout>
+                <TextView
+                    android:id="@+id/ac_tvBg"
+                    android:layout_width="@dimen/dp_250"
+                    android:layout_height="@dimen/dp_12"
+                    android:minHeight="@dimen/dp_12"
+                    android:maxHeight="@dimen/dp_12"
+                    android:background="@drawable/white_conner_5"
+                    android:layout_marginLeft="@dimen/dp_50"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/dp_29">
+                </TextView>
                 <ProgressBar
                     android:id="@+id/at_my_achievement_view_all"
                     android:layout_width="@dimen/dp_250"
@@ -192,14 +203,16 @@
                     android:minHeight="@dimen/dp_12"
                     android:maxHeight="@dimen/dp_12"
                     style="?android:attr/progressBarStyleHorizontal"
+                    android:background="@drawable/white_conner_5"
                     android:progressDrawable="@drawable/activity_progress_bar"
                     android:progress="24"
                     android:max="30"
-                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/dp_50"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="@dimen/dp_29"/>
 
                 <TextView
+                    android:id="@+id/ac_myAchievement_tv_totalTeam"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="30"
@@ -210,16 +223,18 @@
                     android:layout_marginBottom="@dimen/dp_11"/>
 
                 <TextView
+                    android:id="@+id/ac_myAchievement_tv_myTeam"
                     android:layout_width="@dimen/dp_40"
                     android:layout_height="@dimen/dp_23"
                     android:background="@drawable/myachievement_done_bg"
                     android:layout_above="@id/at_my_achievement_view_all"
                     android:text="24人"
+                    android:layout_toRightOf="@id/ac_tvBg"
                     android:textSize="@dimen/sp_12"
                     android:textColor="@color/text3"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/dp_5"
-                    android:layout_marginLeft="240dp"
+                    android:gravity="center_horizontal"
+                    android:paddingBottom="@dimen/dp_m_12"
+                    android:layout_marginLeft="-15dp"
                     android:layout_marginBottom="@dimen/dp_3"/>
             </RelativeLayout>
 
@@ -331,7 +346,7 @@
                     android:text="24人"
                     android:textSize="@dimen/sp_12"
                     android:textColor="@color/text3"
-                    android:gravity="center"
+                    android:gravity="center_horizontal"
                     android:paddingBottom="@dimen/dp_5"
                     android:layout_marginLeft="240dp"
                     android:layout_marginBottom="@dimen/dp_3"/>

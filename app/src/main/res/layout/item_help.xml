@@ -1,31 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/dp_185"
-    android:layout_height="@dimen/dp_50"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_40"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
-        <com.zthx.npj.view.MyCircleView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/item_help_iv_problemImg"
             android:layout_width="@dimen/dp_27"
             android:layout_height="@dimen/dp_27"
             android:src="@drawable/yuanlin"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp_12"/>
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            app:riv_corner_radius="@dimen/dp_5"/>
         <TextView
             android:id="@+id/item_help_tv_problemTitle"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@id/item_help_iv_problemImg"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/dp_240"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="庄园相关问题"
+            android:singleLine="true"
             android:textColor="@color/text3"
             android:textSize="@dimen/sp_14"
-            android:lines="2"
             android:ellipsize="end"
             android:layout_marginLeft="@dimen/dp_10"/>
         <ImageView
-            android:layout_width="@dimen/dp_8"
-            android:layout_height="@dimen/dp_14"
-            android:layout_gravity="center_vertical"
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:layout_centerVertical="true"
             android:src="@drawable/mine_dingdan_go"
-            android:layout_marginLeft="@dimen/dp_10"/>
-</LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_5"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginRight="@dimen/dp_12"
+            android:background="@color/background"
+            android:layout_alignParentBottom="true"/>
+</RelativeLayout>

@@ -2,104 +2,7 @@ package com.zthx.npj.net.netsubscribe;
 
 import android.util.Log;
 
-import com.zthx.npj.net.been.AddAddressBean;
-import com.zthx.npj.net.been.AddBankCardBean;
-import com.zthx.npj.net.been.AddCartBean;
-import com.zthx.npj.net.been.AddCollectionBean;
-import com.zthx.npj.net.been.AddGoodsBean;
-import com.zthx.npj.net.been.AddressInfoBean;
-import com.zthx.npj.net.been.AddressListBean;
-import com.zthx.npj.net.been.ApplyRefundBean;
-import com.zthx.npj.net.been.BankBean;
-import com.zthx.npj.net.been.BankCardBean;
-import com.zthx.npj.net.been.BaojiaListBean;
-import com.zthx.npj.net.been.BaojiaUserDetailBean;
-import com.zthx.npj.net.been.BaojiaUserListBean;
-import com.zthx.npj.net.been.BuyBean;
-import com.zthx.npj.net.been.CancelOrderBean;
-import com.zthx.npj.net.been.CartListBean;
-import com.zthx.npj.net.been.CartOrderBean;
-import com.zthx.npj.net.been.CartOrderOneBean;
-import com.zthx.npj.net.been.CollectionBean;
-import com.zthx.npj.net.been.ConfirmOrderBean;
-import com.zthx.npj.net.been.DefaultAddressBean;
-import com.zthx.npj.net.been.DelAddressBean;
-import com.zthx.npj.net.been.DelCartBean;
-import com.zthx.npj.net.been.DelCollectionBean;
-import com.zthx.npj.net.been.DelGoodsBean;
-import com.zthx.npj.net.been.DelOrderBean;
-import com.zthx.npj.net.been.EditAddressBean;
-import com.zthx.npj.net.been.EditGoodsBean;
-import com.zthx.npj.net.been.EditHeadimgBean;
-import com.zthx.npj.net.been.EditNicknameBean;
-import com.zthx.npj.net.been.EditOfflineStoreBean;
-import com.zthx.npj.net.been.FeedBackBean;
-import com.zthx.npj.net.been.GoodsBuyOneBean;
-import com.zthx.npj.net.been.GoodsCateBean;
-import com.zthx.npj.net.been.GoodsInfoBean;
-import com.zthx.npj.net.been.GoodsOrderBean;
-import com.zthx.npj.net.been.InComeBean;
-import com.zthx.npj.net.been.InComeLogBean;
-import com.zthx.npj.net.been.KuaiDiBean;
-import com.zthx.npj.net.been.LookKDBean;
-import com.zthx.npj.net.been.MyCouponBean;
-import com.zthx.npj.net.been.MyGoodsBean;
-import com.zthx.npj.net.been.MyOfflineStoreBean;
-import com.zthx.npj.net.been.MyOrderDetailBean;
-import com.zthx.npj.net.been.MyOrderListBean;
-import com.zthx.npj.net.been.MyStoreBean;
-import com.zthx.npj.net.been.MySupplyListBean;
-import com.zthx.npj.net.been.MySupplyOrderBean;
-import com.zthx.npj.net.been.MySupplyOrderBuyBean;
-import com.zthx.npj.net.been.MySupplyOrderCancelBean;
-import com.zthx.npj.net.been.MySupplyOrderCommentBean;
-import com.zthx.npj.net.been.MySupplyGoodsConfirmBean;
-import com.zthx.npj.net.been.MySupplyOrderConfirmBean;
-import com.zthx.npj.net.been.MySupplyOrderDelBean;
-import com.zthx.npj.net.been.MySupplyOrderDetailBean;
-import com.zthx.npj.net.been.MySupplyOrderFahuoBean;
-import com.zthx.npj.net.been.MySupplyOrderRefund2Bean;
-import com.zthx.npj.net.been.MySupplyOrderRefund3Bean;
-import com.zthx.npj.net.been.MySupplyOrderRefundBean;
-import com.zthx.npj.net.been.MyTeamBean;
-import com.zthx.npj.net.been.OfflineStoreBean;
-import com.zthx.npj.net.been.OrderBean;
-import com.zthx.npj.net.been.OrderCommentBean;
-import com.zthx.npj.net.been.OutGoodsBean;
-import com.zthx.npj.net.been.PDetailBean;
-import com.zthx.npj.net.been.ProblemBean;
-import com.zthx.npj.net.been.PurchaseDelBean;
-import com.zthx.npj.net.been.PurchaseDownBean;
-import com.zthx.npj.net.been.PurchaseEdit2Bean;
-import com.zthx.npj.net.been.PurchaseEditBean;
-import com.zthx.npj.net.been.PurchaseListBean;
-import com.zthx.npj.net.been.PurchaseUpBean;
-import com.zthx.npj.net.been.ReceiveConfirmBean;
-import com.zthx.npj.net.been.RechargeBean;
-import com.zthx.npj.net.been.RefundBean;
-import com.zthx.npj.net.been.ReportBean;
-import com.zthx.npj.net.been.SeckillOrderBean;
-import com.zthx.npj.net.been.SetStoreBean;
-import com.zthx.npj.net.been.ShipBean;
-import com.zthx.npj.net.been.ShopLogBean;
-import com.zthx.npj.net.been.SpikeOrderBuyOneBean;
-import com.zthx.npj.net.been.SupplyDelBean;
-import com.zthx.npj.net.been.SupplyDownBean;
-import com.zthx.npj.net.been.SupplyEdit2Bean;
-import com.zthx.npj.net.been.SupplyEditBean;
-import com.zthx.npj.net.been.SupplyOrderBean;
-import com.zthx.npj.net.been.SupplyUpBean;
-import com.zthx.npj.net.been.TiQuBean;
-import com.zthx.npj.net.been.TqIncomeBean;
-import com.zthx.npj.net.been.UpLoadFileBean;
-import com.zthx.npj.net.been.UpdateCartBean;
-import com.zthx.npj.net.been.UploadPicsBean;
-import com.zthx.npj.net.been.UserAppBean;
-import com.zthx.npj.net.been.UserAppLogBean;
-import com.zthx.npj.net.been.UserBean;
-import com.zthx.npj.net.been.UserMoneyBean;
-import com.zthx.npj.net.been.VipJLBean;
-import com.zthx.npj.net.been.WithdrawBean;
+import com.zthx.npj.net.been.*;
 import com.zthx.npj.net.netutils.RetrofitFactory;
 
 import java.io.File;
@@ -1673,6 +1576,42 @@ public class SetSubscribe {
         bean.setToken(token);
         bean.setOrder_id(order_id);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyOrderDetail(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的商品订单拒绝退款
+     * @param bean
+     * @param subscriber
+     */
+    public static void storeOrderRefuseRefund(StoreOrderRefuseRefundBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().storeOrderRefuseRefund(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的供应订单拒绝退款
+     * @param bean
+     * @param subscriber
+     */
+    public static void mySupplyOrderRefuseRefund(MySupplyOrderRefuseRefundBean bean, DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().mySupplyOrderRefuseRefund(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 催单
+     * @param user_id
+     * @param token
+     * @param order_id
+     * @param subscriber
+     */
+    public static void reminders(String user_id,String token,String order_id, DisposableObserver<ResponseBody> subscriber) {
+        RemindersBean bean=new RemindersBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setOrder_id(order_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().reminders(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

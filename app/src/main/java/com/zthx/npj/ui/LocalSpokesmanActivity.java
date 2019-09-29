@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -67,9 +68,14 @@ public class LocalSpokesmanActivity extends ActivityBase {
                             mAdapter.setOnItemClickListener(new LocalSpokesmanAdapter.ItemClickListener() {
                                 @Override
                                 public void onItemClick(int position) {
+
+                                }
+
+                                @Override
+                                public void onChooseClick(int position) {
                                     Intent intent = new Intent();
                                     intent.putExtra("code", list.get(position).getMobile());
-                                    setResult(100);
+                                    setResult(100,intent);
                                     finish();
                                 }
                             });

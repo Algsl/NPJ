@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
+import com.zthx.npj.net.been.NeedListResponseBean;
 import com.zthx.npj.net.been.SupplyListResponseBean;
 import com.zthx.npj.utils.MyCustomUtils;
 
@@ -30,7 +32,7 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
 
     private ItemClickListener mItemClickListener ;
     public interface ItemClickListener{
-        void onItemClick(int position) ;
+        void onItemClick(int position,ArrayList<SupplyListResponseBean.DataBean> list) ;
     }
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
@@ -42,10 +44,13 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
         mContext = context;
     }
 
-    public void updateData(ArrayList<SupplyListResponseBean.DataBean> data) {
+    public void addData(ArrayList<SupplyListResponseBean.DataBean> goodsData){
+        int size=goodsData.size();
+        list.addAll(goodsData);
+        notifyItemChanged(size,list.size());
+    }
+    public void clearData(){
         list.clear();
-        list.addAll(data);
-        notifyDataSetChanged();
     }
     @NonNull
     @Override
@@ -63,13 +68,14 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
                 public void onClick(View v) {
                     int position = viewHolder.getLayoutPosition();
                     // 这里利用回调来给RecyclerView设置点击事件
-                    mItemClickListener.onItemClick(position);
+                    mItemClickListener.onItemClick(position,list);
                 }
             });
         }
 
         String url = list.get(i).getGoods_img();
         if (url.substring(url.length() - 4).equals(".mp4")) {
+            viewHolder.ivVideo.setVisibility(View.VISIBLE);
             viewHolder.mIvPic.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
         } else {
             Glide.with(mContext).load(Uri.parse(url)).into(viewHolder.mIvPic);
@@ -82,21 +88,36 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
         }
         viewHolder.mTvTitle.setText(list.get(i).getTitle());
         viewHolder.mTvSupplyUnit.setText("元/"+list.get(i).getGoods_unit());
-        if(list.get(i).getCert()==null){
-            viewHolder.company.setVisibility(View.GONE);
-            viewHolder.realName.setVisibility(View.GONE);
+
+        if(list.get(i).getIs_top().equals("1")){
+            viewHolder.zhiding.setVisibility(View.VISIBLE);
         }else{
+            viewHolder.zhiding.setVisibility(View.GONE);
+        }
+
+
+        if(list.get(i).getCert()==null || list.get(i).getCert().equals("")){
+            viewHolder.supplyLl.setVisibility(View.INVISIBLE);
+        }else{
+            viewHolder.supplyLl.setVisibility(View.VISIBLE);
             String cert=list.get(i).getCert();
             String[] strs=cert.split(",");
             for(String str:strs){
                 if(str.equals("1")){
                     viewHolder.realName.setVisibility(View.VISIBLE);
-                    viewHolder.storeQuality.setVisibility(View.VISIBLE);
                 }else if(str.equals("2")){
-                    viewHolder.company.setVisibility(View.VISIBLE);
+                    viewHolder.enterPrice.setVisibility(View.VISIBLE);
+                }else if(str.equals("3")){
+                    viewHolder.purchase.setVisibility(View.VISIBLE);
+                }else if(str.equals("4")){
+                    viewHolder.trust.setVisibility(View.VISIBLE);
+                }else if(str.equals("5")){
+                    viewHolder.zizhi.setVisibility(View.VISIBLE);
                 }
             }
         }
+
+
     }
 
     @Override
@@ -105,7 +126,7 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mIvPic;
+        ImageView mIvPic,ivVideo;
         TextView mTvTitle;
         TextView mTvPrice;
         RelativeLayout mRlSupply;
@@ -113,7 +134,9 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
         TextView mTvSupplyUnit;
         TextView mTvSellNum;
         TextView mTvDistance;
-        TextView company,realName,storeQuality;
+        TextView realName,enterPrice,purchase,trust,zizhi;
+        TextView zhiding;
+        LinearLayout supplyLl;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -124,9 +147,16 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
             mTvSupplyUnit = itemView.findViewById(R.id.item_discover_supply_tv_price_danwei);
             mRlSupply = itemView.findViewById(R.id.item_discover_supply_rl);
             mRlNeed = itemView.findViewById(R.id.item_discover_need_rl);
-            company=itemView.findViewById(R.id.item_discoverSupply_tv_company);
+            zhiding= itemView.findViewById(R.id.item_discover_need_tv_isTop);
+
             realName=itemView.findViewById(R.id.item_discoverSupply_tv_realName);
-            storeQuality=itemView.findViewById(R.id.item_discoverSupply_tv_storeQuality);
+            enterPrice=itemView.findViewById(R.id.item_discoverSupply_tv_enterPrice);
+            purchase=itemView.findViewById(R.id.item_discoverSupply_purchase);
+            trust=itemView.findViewById(R.id.item_discoverSupply_tv_trust);
+            zizhi=itemView.findViewById(R.id.item_discoverSupply_tv_zizhi);
+            supplyLl=itemView.findViewById(R.id.item_discoverSupply_ll);
+
+            ivVideo=itemView.findViewById(R.id.item_storeQuotation_iv_video);
         }
     }
 }

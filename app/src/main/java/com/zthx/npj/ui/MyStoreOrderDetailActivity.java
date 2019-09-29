@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +22,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AlsoLikeAdatper;
 import com.zthx.npj.adapter.GradViewAdapter;
@@ -150,6 +156,10 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     LinearLayout atMyOrderDetailLlOver;
     @BindView(R.id.ac_myOrderDetail_ll)
     LinearLayout acMyOrderDetailLl;
+    @BindView(R.id.seeMore)
+    TextView seeMore;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
 
     private String user_id = SharePerferenceUtils.getUserId(this);
@@ -159,6 +169,11 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     private String order_state = "";
 
     private int position = 0;
+
+    private int page = 1;
+    private AlsoLikeAdatper adatper;
+    private String str = "农品街所有退换商品经审核后将直接退回至余额。可在余额中进行提现等操作" ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +189,31 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
 
         getMyStoreOrderDetail();
         getAlsoLike();
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                page = 1;
+                if (adatper != null) {
+                    adatper.clearData();
+                }
+                seeMore.setText("查看更多");
+                refreshLayout.setLoadmoreFinished(false);
+                getMyStoreOrderDetail();
+                getAlsoLike();
+
+                refreshlayout.finishRefresh();
+            }
+        });
+
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                page++;
+                getAlsoLike();
+                refreshlayout.finishLoadmore();
+            }
+        });
 
     }
 
@@ -194,14 +234,25 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     }
 
     private void getAlsoLike() {
-        MainSubscribe.alsoLike("1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.alsoLike(page + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 AlsoLikeResponseBean bean = GsonUtils.fromJson(result, AlsoLikeResponseBean.class);
                 final ArrayList<AlsoLikeResponseBean.DataBean> data = bean.getData();
                 GridLayoutManager layoutManager = new GridLayoutManager(MyStoreOrderDetailActivity.this, 2);
                 acMyOrderDetailRvCai.setLayoutManager(layoutManager);
-                AlsoLikeAdatper adatper = new AlsoLikeAdatper(MyStoreOrderDetailActivity.this, data);
+
+                if (adatper == null) {
+                    adatper = new AlsoLikeAdatper(MyStoreOrderDetailActivity.this, data);
+                } else {
+                    if (data != null && data.size() != 0) {
+                        if (data.size() < 10) {
+                            seeMore.setText("没有更多了");
+                            refreshLayout.setLoadmoreFinished(true);
+                        }
+                        adatper.addData(data);
+                    }
+                }
                 //设置添加或删除item时的动画，这里使用默认动画
                 acMyOrderDetailRvCai.setItemAnimator(new DefaultItemAnimator());
                 //设置适配器
@@ -209,9 +260,9 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                 acMyOrderDetailRvCai.setAdapter(adatper);
                 adatper.setOnItemClickListener(new AlsoLikeAdatper.ItemClickListener() {
                     @Override
-                    public void onItemClick(int position) {
+                    public void onItemClick(int position, ArrayList<AlsoLikeResponseBean.DataBean> mList) {
                         Intent intent = new Intent(MyStoreOrderDetailActivity.this, GoodsDetailActivity.class);
-                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                        intent.putExtra(Const.GOODS_ID, mList.get(position).getId() + "");
                         startActivity(intent);
                     }
                 });
@@ -320,7 +371,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     @OnClick({R.id.ac_myOrderDetail_tv_cancel, R.id.ac_myOrderDetail_tv_pay, R.id.ac_myOrderDetail_tv_applyRefund,
             R.id.ac_myOrderDetail_tv_wuliu, R.id.ac_myOrderDetail_tv_delay, R.id.ac_myOrderDetail_tv_confirm,
             R.id.ac_myOrderDetail_tv_delete, R.id.ac_myOrderDetail_tv_comment, R.id.ac_myOrderDetail_tv_chat,
-            R.id.ac_myOrderDetail_tv_call,R.id.ac_myOrderDetail_ll})
+            R.id.ac_myOrderDetail_tv_call, R.id.ac_myOrderDetail_ll,R.id.ac_myOrderDetail_iv_pwMsg})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_myOrderDetail_tv_cancel:
@@ -354,7 +405,19 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
             case R.id.ac_myOrderDetail_tv_delay:
                 break;
             case R.id.ac_myOrderDetail_tv_confirm:
-                showPublishPopwindow();
+                //showPublishPopwindow();
+                SetSubscribe.receiveConfirm(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        showToast("确认收货成功");
+                        finish();
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+                        showToast(errorMsg);
+                    }
+                }));
                 break;
             case R.id.ac_myOrderDetail_tv_delete:
                 SetSubscribe.delOrder(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
@@ -383,6 +446,9 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                 Intent intentll = new Intent(MyStoreOrderDetailActivity.this, ApplyRefundActivity.class);
                 intentll.putExtra("order_id", order_id);
                 startActivity(intentll);
+                break;
+            case R.id.ac_myOrderDetail_iv_pwMsg:
+                showPublishPopwindow(str, R.dimen.dp_195);
                 break;
         }
     }
@@ -489,6 +555,37 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
         lp.alpha = bgAlpha;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         getWindow().setAttributes(lp);
+    }
+
+    public void showPublishPopwindow(String str, int id) {
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_publish_goods, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView);
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_280));
+        window.setHeight((int) getResources().getDimension(id));
+        // 设置PopupWindow的背景
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(false);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+        TextView tv = contentView.findViewById(R.id.pw_publishGoods_tv_content);
+        Button btn = contentView.findViewById(R.id.pw_publishGoods_tv_know);
+        tv.setText(str);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
     }
 
 }

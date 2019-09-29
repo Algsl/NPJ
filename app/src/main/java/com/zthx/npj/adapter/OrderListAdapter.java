@@ -176,7 +176,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.confirm.setVisibility(View.GONE);
                     viewHolder.again.setVisibility(View.GONE);
                     viewHolder.comment.setVisibility(View.GONE);
-                    if(list.get(i).getOrder_type().equals("1")){
+                    if(list.get(i).getOrder_type().equals("1")){//判断是否为礼包店商品
                         viewHolder.goodsReturn.setVisibility(View.GONE);
                     }else{
                         viewHolder.goodsReturn.setVisibility(View.VISIBLE);
@@ -201,20 +201,20 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     break;
                 case "4"://已收货，待评价
                     viewHolder.orderState.setText("待评价");
-
                     viewHolder.cancel.setVisibility(View.GONE);
                     viewHolder.delete.setVisibility(View.GONE);
                     viewHolder.cuidan.setVisibility(View.GONE);
                     viewHolder.pay.setVisibility(View.GONE);
                     viewHolder.query.setVisibility(View.GONE);
                     viewHolder.confirm.setVisibility(View.GONE);
-                    viewHolder.again.setVisibility(View.VISIBLE);
-                    viewHolder.comment.setVisibility(View.VISIBLE);
-                    if(list.get(i).getOrder_type().equals("1")){
-                        viewHolder.goodsReturn.setVisibility(View.GONE);
+                    if(list.get(i).getOrder_type().equals("0")){
+                        viewHolder.again.setVisibility(View.VISIBLE);
                     }else{
-                        viewHolder.goodsReturn.setVisibility(View.VISIBLE);
+                        viewHolder.again.setVisibility(View.GONE);
                     }
+
+                    viewHolder.comment.setVisibility(View.VISIBLE);
+                    viewHolder.goodsReturn.setVisibility(View.GONE);
                     break;
                 case "5":
                     viewHolder.orderState.setText("已完成");
@@ -244,6 +244,19 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     break;
                 case "7"://已退款
                     viewHolder.orderState.setText("已退款");
+
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.delete.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.query.setVisibility(View.GONE);
+                    viewHolder.confirm.setVisibility(View.GONE);
+                    viewHolder.again.setVisibility(View.GONE);
+                    viewHolder.comment.setVisibility(View.GONE);
+                    viewHolder.goodsReturn.setVisibility(View.GONE);
+                    break;
+                case "8":
+                    viewHolder.orderState.setText("取消退款");
 
                     viewHolder.cancel.setVisibility(View.GONE);
                     viewHolder.delete.setVisibility(View.GONE);

@@ -66,7 +66,8 @@ public class SpokesmanRightsNoPermissionActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
+                SharePerferenceUtils.setUserId(SpokesmanRightsNoPermissionActivity.this,"");
             }
         }));
     }

@@ -188,8 +188,6 @@ public class GoodsDetailActivity extends ActivityBase {
     TextView atGoodsDetailTvGoodsTitle1;
     @BindView(R.id.ac_goodsdetail_ll_kefu)
     LinearLayout acGoodsdetailLlKefu;
-    @BindView(R.id.ac_goodsDetail_ll_3bar)
-    LinearLayout acGoodsDetailLl3bar;
 
 
     private String user_id = SharePerferenceUtils.getUserId(this);
@@ -251,7 +249,7 @@ public class GoodsDetailActivity extends ActivityBase {
             }
             type = "4";
             acGoodsDetailChooseSize.setVisibility(View.GONE);
-            acGoodsDetailLl3bar.setVisibility(View.GONE);
+            acGoodsDetailLlCollect.setVisibility(View.GONE);
             atGoodsDetailLlGoods.setVisibility(View.VISIBLE);
             atGoodsDetailLlPresell.setVisibility(View.GONE);
             atGoodsDetailBtnAddShoppingCart.setVisibility(View.GONE);
@@ -334,7 +332,7 @@ public class GoodsDetailActivity extends ActivityBase {
         atGoodsDetailTvGoodsNewPrice.setText("¥" + mSeckillData.getGoods_price());
         atGoodsDetailTvGoodsOldPrice.setText("¥" + mSeckillData.getMarket_price());
         atGoodsDetailTvGoodsOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        atGoodsDetailSelledNum.setText("已售" + mSeckillData.getSold() == null ? "0" : mSeckillData.getSold());
+        atGoodsDetailSelledNum.setText("已售" + (mSeckillData.getSold() == null ? "0" : mSeckillData.getSold())+"件");
         atGoodsDetailHoldNum.setText("库存" + mSeckillData.getGoods_num());
 
 
@@ -353,7 +351,7 @@ public class GoodsDetailActivity extends ActivityBase {
             time = (mSeckillData.getBegin_time() * 1000 - System.currentTimeMillis()) / 1000;
             setTime(acGoodsDetailTtvBeginTime, time);
         }
-        atGoodsDetailSpv.setTotalAndCurrentCount(Integer.parseInt(mSeckillData.getGoods_num()), Integer.parseInt(mSeckillData.getSale_num()));
+        atGoodsDetailSpv.setTotalAndCurrentCount(Integer.parseInt(mSeckillData.getGoods_num()), Integer.parseInt(mSeckillData.getSold()));
     }
 
     public void setTime(TimeTextView ttv, long time) {
@@ -590,7 +588,12 @@ public class GoodsDetailActivity extends ActivityBase {
                     dialog.setPositiveButton("去登录");
                     dialog.show();
                 } else {
-                    openActivity(StoreActivity.class, mGoodsData.getUser_id());
+                    if(type.equals("1")){
+                        openActivity(StoreActivity.class, mGoodsData.getUser_id());
+                    }else if(type.equals("4")){
+                        openActivity(StoreActivity.class, mSeckillData.getUser_id()+"");
+                    }
+
                 }
                 break;
             case R.id.ac_goodsDetail_iv_home://首页
@@ -682,6 +685,7 @@ public class GoodsDetailActivity extends ActivityBase {
                     bean.setToken(token);
                     bean.setGoods_id(goodsId);
                     bean.setGoods_num(count + "");
+                    bean.setItem_id(attribute_id);
                     SetSubscribe.addCart(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
@@ -786,7 +790,7 @@ public class GoodsDetailActivity extends ActivityBase {
             case "1":
                 Glide.with(this).load(Uri.parse(mSeckillData.getGroup_img().get(0))).into(headImg);
                 marketPrice.setText("￥" + mSeckillData.getMarket_price());
-                memberPrice.setText("会员价" + mSeckillData.getGoods_price());
+                memberPrice.setText("代言人价" + mSeckillData.getGoods_price());
                 rlToVip.setVisibility(View.INVISIBLE);
                 break;
             case "2":
@@ -796,7 +800,7 @@ public class GoodsDetailActivity extends ActivityBase {
             case "3":
                 Glide.with(this).load(Uri.parse(mGoodsData.getGoods_img().get(0))).into(headImg);
                 marketPrice.setText("￥" + mGoodsData.getUser_price());
-                memberPrice.setText("会员价 " + mGoodsData.getMember_price());
+                memberPrice.setText("代言人价 " + mGoodsData.getMember_price());
                 inventory.setText("库存：" + mGoodsData.getInventory());
                 //double lisheng = Double.parseDouble(mGoodsData.getUser_price()) - Double.parseDouble(mGoodsData.getMember_price());
                 //toVip.setText("成为农品街代言人此单立省" + String.format("%.2f", lisheng) + "元");

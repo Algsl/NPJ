@@ -12,8 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -25,12 +23,14 @@ import android.widget.Toast;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.ClassifyDetailAdapter;
 import com.zthx.npj.adapter.DiscoverNeedAdapter;
 import com.zthx.npj.adapter.DiscoverSupplyAdapter;
 import com.zthx.npj.base.Const;
@@ -91,8 +91,6 @@ public class DiscoverSupplyFragment extends Fragment {
     @BindView(R.id.fg_discover_supply_tv_price)
     TextView fgDiscoverSupplyTvPrice;
 
-    DiscoverSupplyAdapter mAdapter;
-    DiscoverNeedAdapter mAdapter2;
     @BindView(R.id.fg_discover_supply_ll_supply)
     LinearLayout fgDiscoverSupplyLlSupply;
     @BindView(R.id.fg_discover_need_tv_new)
@@ -117,16 +115,23 @@ public class DiscoverSupplyFragment extends Fragment {
     Banner banner;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.seeMore)
+    TextView seeMore;
 
 
     private String type1 = "1";
     private String type2 = "1";
+    private int itemType=1;
+
+    private int page = 1;
+    private int page2=1;
+    private DiscoverSupplyAdapter mAdapter;
+    private DiscoverNeedAdapter mAdapter2;
 
 
     public DiscoverSupplyFragment() {
 
     }
-
     /**
      * 获取对象实例
      *
@@ -149,18 +154,47 @@ public class DiscoverSupplyFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_discover_supply, container, false);
         unbinder = ButterKnife.bind(this, view);
-
         getQiYeList();
         getSupplyData(type1);
+
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
+                if(itemType==1){
+                    page=1;
+                    if (mAdapter != null) {
+                        mAdapter.clearData();
+                    }
+                }else{
+                    page2=1;
+                    if (mAdapter2 != null) {
+                        mAdapter2.clearData();
+                    }
+                }
+                seeMore.setText("查看更多");
+                refreshLayout.setLoadmoreFinished(false);
                 getSupplyData(type1);
+                getNeedData(type2);
                 initBanner();
                 refreshlayout.finishRefresh();
                 Toast.makeText(getContext(), "刷新完成", Toast.LENGTH_SHORT).show();
             }
         });
+
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                if(itemType==1){
+                    page++;
+                    getSupplyData(type1);
+                }else{
+                    page2++;
+                    getNeedData(type2);
+                }
+                refreshlayout.finishLoadmore();
+            }
+        });
+
         initBanner();
         return view;
     }
@@ -168,7 +202,7 @@ public class DiscoverSupplyFragment extends Fragment {
     private void getSupplyData(String type) {
         SupplyListBean bean = new SupplyListBean();
         bean.setType(type);
-        bean.setPage("1");
+        bean.setPage(page+"");
         bean.setLng(SharePerferenceUtils.getLng(getActivity()));
         bean.setLat(SharePerferenceUtils.getLat(getActivity()));
 
@@ -183,13 +217,27 @@ public class DiscoverSupplyFragment extends Fragment {
                 /*if (mAdapter != null) {
                     mAdapter.updateData(data);
                 } else {}*/
-                mAdapter = new DiscoverSupplyAdapter(getActivity(), data);
+                if (mAdapter == null) {
+                    mAdapter = new DiscoverSupplyAdapter(getContext(), data);
+                } else {
+                    Log.e("测试", "setGoodsList: "+data.size());
+                    if (data != null && data.size()!=0) {
+                        if(data.size()<10){
+                            seeMore.setText("没有更多了");
+                            refreshLayout.setLoadmoreFinished(true);
+                        }
+                        mAdapter.addData(data);
+                    }else{
+                        seeMore.setText("没有更多了");
+                        refreshLayout.setLoadmoreFinished(true);
+                    }
+                }
                 mAdapter.setOnItemClickListener(new DiscoverSupplyAdapter.ItemClickListener() {
                     @Override
-                    public void onItemClick(int position) {
+                    public void onItemClick(int position, ArrayList<SupplyListResponseBean.DataBean> list) {
                         Intent intent = new Intent(getActivity(), SupplyProductsActivity.class);
                         intent.setAction(Const.SUPPLY_DETAIL);
-                        intent.putExtra("goods_id", data.get(position).getId() + "");
+                        intent.putExtra("goods_id", list.get(position).getId() + "");
                         startActivity(intent);
                     }
                 });
@@ -209,7 +257,7 @@ public class DiscoverSupplyFragment extends Fragment {
         SupplyListBean bean = new SupplyListBean();
         bean.setLat(SharePerferenceUtils.getLat(getActivity()));
         bean.setLng(SharePerferenceUtils.getLng(getActivity()));
-        bean.setPage("1");
+        bean.setPage(page2+"");
         bean.setType(type);
         DiscoverSubscribe.needList(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
@@ -217,13 +265,27 @@ public class DiscoverSupplyFragment extends Fragment {
                 final ArrayList<NeedListResponseBean.DataBean> data = GsonUtils.fromJson(result, NeedListResponseBean.class).getData();
                 LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                 fgDiscoverNeedRv.setLayoutManager(manager);
-                mAdapter2 = new DiscoverNeedAdapter(getActivity(), data);
+                if (mAdapter2 == null) {
+                    mAdapter2 = new DiscoverNeedAdapter(getContext(), data);
+                } else {
+                    Log.e("测试", "setGoodsList: "+data.size());
+                    if (data != null && data.size()!=0) {
+                        if(data.size()<10){
+                            seeMore.setText("没有更多了");
+                            refreshLayout.setLoadmoreFinished(true);
+                        }
+                        mAdapter2.addData(data);
+                    }else{
+                        seeMore.setText("没有更多了");
+                        refreshLayout.setLoadmoreFinished(true);
+                    }
+                }
                 mAdapter2.setOnItemClickListener(new DiscoverNeedAdapter.ItemClickListener() {
                     @Override
-                    public void onItemClick(int position) {
+                    public void onItemClick(int position, ArrayList<NeedListResponseBean.DataBean> list) {
                         Intent intent = new Intent(getActivity(), SupplyProductsActivity.class);
                         intent.setAction(Const.NEED_DETAIL);
-                        intent.putExtra("goods_id", data.get(position).getId() + "");
+                        intent.putExtra("goods_id", list.get(position).getId() + "");
                         startActivity(intent);
                     }
                 });
@@ -265,7 +327,7 @@ public class DiscoverSupplyFragment extends Fragment {
     public void onViewClicked(View view) {
         Intent intent;
         switch (view.getId()) {
-            //求购模块
+            //求购模块选择操作
             case R.id.fg_discover_need_tv_new:
                 fgDiscoverNeedTvNew.setTextColor(getResources().getColor(R.color.app_theme));
                 fgDiscoverNeedTvLocation.setTextColor(getResources().getColor(R.color.text3));
@@ -278,17 +340,27 @@ public class DiscoverSupplyFragment extends Fragment {
                 type2 = "2";
                 getNeedData(type2);
                 break;
-            case R.id.fg_discover_supply_tv_supply:
+            case R.id.fg_discover_supply_tv_supply://切换为供应模式
+                if (mAdapter != null) {
+                    mAdapter.clearData();
+                }
                 fgDiscoverSupplyRvSearch.setVisibility(View.VISIBLE);
                 fgDiscoverSupplyLl.setVisibility(View.GONE);
                 changeButtonColor(1);
-                getSupplyData(type1);
+                itemType=1;
+                page=1;
+                //getSupplyData(type1);
                 break;
-            case R.id.fg_discover_supply_tv_need:
+            case R.id.fg_discover_supply_tv_need://切换为求购模式
+                if (mAdapter2 != null) {
+                    mAdapter2.clearData();
+                }
+                page2=1;
                 fgDiscoverSupplyRvSearch.setVisibility(View.VISIBLE);
                 fgDiscoverSupplyLl.setVisibility(View.GONE);
                 changeButtonColor(2);
-                getNeedData(type2);
+                itemType=2;
+                //getNeedData(type2);
                 break;
             case R.id.fg_discover_supply_tv_company:
                 fgDiscoverSupplyRvSearch.setVisibility(View.VISIBLE);
@@ -296,7 +368,7 @@ public class DiscoverSupplyFragment extends Fragment {
                 changeButtonColor(3);
                 break;
 
-            //供应模块
+            //供应模块选择操作
             case R.id.fg_discover_supply_tv_new:
                 selectType("1");
                 getSupplyData(type1);
@@ -404,7 +476,7 @@ public class DiscoverSupplyFragment extends Fragment {
         }
     }
 
-    public void getQiYeList(){
+    public void getQiYeList() {
         fgDiscoverWvBusiness.loadUrl("http://www.ynshangji.com/hb-25/");
         fgDiscoverWvBusiness.setWebViewClient(new WebViewClient() {
             @Override
@@ -451,7 +523,7 @@ public class DiscoverSupplyFragment extends Fragment {
                         Intent intent = new Intent(getContext(), BannerActivity.class);
                         intent.putExtra("title", bean.getData().get(position).getTitle());
                         intent.putExtra("type", bean.getData().get(position).getType());
-                        intent.putExtra("id", bean.getData().get(position).getId()+"");
+                        intent.putExtra("id", bean.getData().get(position).getId() + "");
                         startActivity(intent);
                     }
                 });

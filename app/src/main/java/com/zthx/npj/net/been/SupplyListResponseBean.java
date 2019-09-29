@@ -26,6 +26,16 @@ public class SupplyListResponseBean extends BaseReponseBean {
         private String price;
         private String cert;
         private String distance;
+        private String is_top;
+
+
+        public String getIs_top() {
+            return is_top;
+        }
+
+        public void setIs_top(String is_top) {
+            this.is_top = is_top;
+        }
 
         public long getId() {
             return id;

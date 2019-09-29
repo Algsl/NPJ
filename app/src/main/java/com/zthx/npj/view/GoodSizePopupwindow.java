@@ -211,7 +211,7 @@ public class GoodSizePopupwindow extends PopupWindow {
         final TextView choose=view.findViewById(R.id.pop_goods_size_tv_choice);
         prePrice=view.findViewById(R.id.pop_goods_size_tv_old_price);
 
-        memberPrice.setVisibility(View.VISIBLE);
+        memberPrice.setVisibility(View.GONE);
         goodsRlNum.setVisibility(View.VISIBLE);
         mAddShoppingCar.setVisibility(View.GONE);
 

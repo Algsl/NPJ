@@ -3,12 +3,12 @@
     android:layout_width="@dimen/dp_321"
     android:layout_height="@dimen/dp_500"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@drawable/popwindow_supply_products_bg">
+    android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/white">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -202,16 +202,6 @@
                 android:adjustViewBounds="true"
                 app:riv_corner_radius="@dimen/dp_5"/>
         </LinearLayout>
-        <Button
-            android:id="@+id/pw_storeGoods_btn_refund"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="@dimen/dp_30"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/app_theme"
-            android:text="退款"
-            android:textSize="@dimen/sp_15"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="@dimen/dp_10"/>
     </LinearLayout>
     <ImageView
         android:id="@+id/pw_iv_cancel"
@@ -221,4 +211,30 @@
         android:layout_marginTop="@dimen/dp_5"
         android:layout_marginRight="@dimen/dp_5"
         android:src="@drawable/pop_goods_detail_size_delete"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:id="@+id/pw_storeGoods_btn_refund"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="@dimen/sp_16"
+            android:text="确认退款"
+            android:background="@color/app_theme"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/pw_storeGoods_btn_refuse"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:background="@color/orange"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="取消退款"/>
+    </LinearLayout>
 </RelativeLayout>

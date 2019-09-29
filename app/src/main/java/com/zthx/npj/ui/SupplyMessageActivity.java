@@ -206,7 +206,7 @@ public class SupplyMessageActivity extends ActivityBase {
     public static final String APPID = "2019062565701049";
     public static IWXAPI api;
     private static final int SDK_PAY_FLAG = 1001;
-    private String payMoney = "";
+    private String payMoney="1";
     private String payType;
     private UploadChengxinCertResponseBean.DataBean data1;
 
@@ -424,6 +424,14 @@ public class SupplyMessageActivity extends ActivityBase {
                 }else if(picPaths2.size()<1){
                     showToast("请上传商品详情图片");
                 }else{
+                    //拼接视频地址
+                    for(int i=0;i<imgList.size();i++){
+                        if(i==imgList.size()-1){
+                            goodsImg+=imgList.get(i);
+                        }else{
+                            goodsImg+=imgList.get(i)+",";
+                        }
+                    }
                     if(supplyType==1){//采购
                         if(atQgMessageTitle.getText().toString().trim().length()==0){
                             showToast("请输入采购品类");
@@ -434,13 +442,7 @@ public class SupplyMessageActivity extends ActivityBase {
                         }else if(atSupplyMessageEtMin.getText().toString().length()==0 || atSupplyMessageEtMax.getText().toString().length()==0){
                             showToast("请输入最低价和最高价");
                         }else{
-                            for(int i=0;i<imgList.size();i++){
-                                if(i==imgList.size()-1){
-                                    goodsImg+=imgList.get(i);
-                                }else{
-                                    goodsImg+=imgList.get(i)+",";
-                                }
-                            }
+                            showToast("信息上传中..");
                             uploadImage();
                         }
                     }else{//供应
@@ -457,14 +459,14 @@ public class SupplyMessageActivity extends ActivityBase {
                         }else if(atSupplyMessageEtPrice.getText().toString().trim().length()==0){
                             showToast("请填写供应价格");
                         }else{
+                            showToast("信息上传中..");
                             uploadImage();
                         }
                     }
                 }
                 break;
             case R.id.at_supply_message_rb_zhiding:
-                //showSingleChoiceDialog();
-                showPublishPopwindow();
+                toggle();
                 break;
             case R.id.at_supply_message_tv_unit:
                 MyCustomUtils.showUnitPickerView(this,atSupplyMessageTvUnit,atSupplyMessageTvUnit1,atSupplyMessageTvDanwei);
@@ -501,7 +503,12 @@ public class SupplyMessageActivity extends ActivityBase {
                 public void onResponse(Call call, Response response) throws IOException {
                     UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
                     UploadPicsResponseBean.DataBean data = bean.getData();
-                    goodsImg+=","+data.getImg();
+                    //拼接视频和图片
+                    if(!goodsImg.equals("")){//有视频地址需在视频和图片间添加 ","
+                        goodsImg+=","+data.getImg();
+                    }else{//没有视频地址，直接拼接
+                        goodsImg+=data.getImg();
+                    }
                     uploadContentImg();
                 }
             });
@@ -539,6 +546,11 @@ public class SupplyMessageActivity extends ActivityBase {
                         purchaseBean.setMax_price(atSupplyMessageEtMax.getText().toString());
                         purchaseBean.setIs_top(isTop);
                         purchaseBean.setCity(atQgMessageTvAddress.getText().toString());
+                        if(isTop.equals("1")){
+                            purchaseBean.setTop_days(payMoney);
+                            purchaseBean.setTop_price(payMoney);
+                            purchaseBean.setPay_code(payType);
+                        }
                         break;
                     case 2:
                         supplyBean.setGoods_img(goodsImg);
@@ -554,10 +566,9 @@ public class SupplyMessageActivity extends ActivityBase {
                         supplyBean.setGoods_name(atSupplyMessageName.getText().toString());
                         supplyBean.setCity(atSupplyMessageTvAddress.getText().toString());
                         supplyBean.setBuy_num(atSupplyMessageWhole.getText().toString().trim());
-                        supplyBean.setIs_recommend2(isTop);
+                        supplyBean.setIs_top(isTop);
                         break;
                 }
-                showToast("信息上传中，请稍等...");
                 uploadData();
             }
         });
@@ -565,33 +576,37 @@ public class SupplyMessageActivity extends ActivityBase {
 
 
     private void uploadData() {
-        switch (supplyType) {
-            case 1://采购
-                DiscoverSubscribe.addPurchase(purchaseBean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                    @Override
-                    public void onSuccess(String result) {
-                        showToast("信息发布成功");
-                        finish();
-                    }
+        if(isTop.equals("1")){
+            showPublishPopwindow();
+        }else{
+            switch (supplyType) {
+                case 1://采购
+                    DiscoverSubscribe.addPurchase(purchaseBean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            showToast("信息发布成功");
+                            finish();
+                        }
 
-                    @Override
-                    public void onFault(String errorMsg) {
-                    }
-                }));
-                break;
-            case 2://供应
-                DiscoverSubscribe.addSupply(supplyBean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                    @Override
-                    public void onSuccess(String result) {
-                        showToast("信息发布成功");
-                        finish();
-                    }
+                        @Override
+                        public void onFault(String errorMsg) {
+                        }
+                    }));
+                    break;
+                case 2://供应
+                    DiscoverSubscribe.addSupply(supplyBean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            showToast("信息发布成功");
+                            finish();
+                        }
 
-                    @Override
-                    public void onFault(String errorMsg) {
-                    }
-                }));
-                break;
+                        @Override
+                        public void onFault(String errorMsg) {
+                        }
+                    }));
+                    break;
+            }
         }
     }
 
@@ -873,7 +888,9 @@ public class SupplyMessageActivity extends ActivityBase {
     }
 
     public void generateOrder() {
-        UploadChengXinCertBean bean=new UploadChengXinCertBean();
+        isTop="1";
+        atSupplyMessageRbZhiding.setImageResource(R.drawable.at_edit_address_selector);
+        /*UploadChengXinCertBean bean=new UploadChengXinCertBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
         bean.setPay_code(payType);
@@ -913,7 +930,7 @@ public class SupplyMessageActivity extends ActivityBase {
                     showToast("余额不足");
                 }
             }
-        }));
+        }));*/
     }
 
     private void yue() {

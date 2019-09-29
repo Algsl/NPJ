@@ -600,5 +600,17 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/mysupplyorderdetail.html")
     Observable<ResponseBody> mySupplyOrderDetail(@Body MySupplyOrderDetailBean bean);
+
+    @POST("index.php/api/user/refund3.html")
+    Observable<ResponseBody> storeOrderRefuseRefund(@Body StoreOrderRefuseRefundBean bean);
+
+    @POST("index.php/api/user/supplyrefund4.html")
+    Observable<ResponseBody> mySupplyOrderRefuseRefund(@Body MySupplyOrderRefuseRefundBean bean);
+
+    @POST("index.php/api/user/reminders.html")
+    Observable<ResponseBody> reminders(@Body RemindersBean bean);
+
+    @POST("index.php/api/user/offlinecomment.html")
+    Observable<ResponseBody> offlineStoreComment(@Body OfflineStoreCommentBean bean);
 }
 
