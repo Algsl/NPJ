@@ -18,6 +18,16 @@ public class MyOrderDetailResponseBean extends BaseReponseBean{
         private long order_state;
         private String express_name;
         private String express_number;
+        private String jujue_yuanyin;
+
+
+        public String getJujue_yuanyin() {
+            return jujue_yuanyin;
+        }
+
+        public void setJujue_yuanyin(String jujue_yuanyin) {
+            this.jujue_yuanyin = jujue_yuanyin;
+        }
 
         public String getStore_name() {
             return store_name;

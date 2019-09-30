@@ -40,6 +40,7 @@ import com.zthx.npj.ui.ConfirmOrderActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.KuaiDiDetailActivity;
 import com.zthx.npj.ui.MyStoreOrderDetailActivity;
+import com.zthx.npj.ui.StoreOrderRefuseActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
@@ -131,8 +132,8 @@ public class OrderListFragment extends Fragment {
         mAdapter.setOnItemClickListener(new OrderListAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                if(data.get(position).getId()==8){
-                    Intent intent = new Intent(getContext(), MyStoreOrderDetailActivity.class);
+                if(data.get(position).getOrder_state().equals("6") || data.get(position).getOrder_state().equals("7") || data.get(position).getOrder_state().equals("8") ){
+                    Intent intent = new Intent(getContext(), StoreOrderRefuseActivity.class);
                     intent.putExtra("order_id", data.get(position).getId() + "");
                     intent.putExtra("order_state", data.get(position).getOrder_state() + "");
                     startActivity(intent);
