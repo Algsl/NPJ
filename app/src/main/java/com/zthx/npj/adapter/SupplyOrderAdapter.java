@@ -89,7 +89,7 @@ public class SupplyOrderAdapter extends RecyclerView.Adapter<SupplyOrderAdapter.
             }
             Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
             viewHolder.goodsName.setText(mList.get(i).getGoods_name());
-            viewHolder.goodsPrice.setText("已付款"+mList.get(i).getOrder_price());
+            viewHolder.goodsPrice.setText("已付款 ￥"+mList.get(i).getOrder_price());
             viewHolder.goodsNum.setText(mList.get(i).getOrder_num()+"斤");
             viewHolder.goodsOrder.setText("订  单  号："+mList.get(i).getOrder_sn());
             viewHolder.goodsTime.setText("下单时间："+ new SimpleDateFormat("yyyy年MM月dd日").format(new Date(mList.get(i).getOrder_time()*1000)));
