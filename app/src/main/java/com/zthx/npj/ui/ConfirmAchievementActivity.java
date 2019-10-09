@@ -43,7 +43,6 @@ public class ConfirmAchievementActivity extends ActivityBase {
         back(titleThemeBack);
         changeTitle(titleThemeTitle, "我的申请");
 
-        applyUpgrade();
     }
 
     private void applyUpgrade() {
@@ -63,6 +62,6 @@ public class ConfirmAchievementActivity extends ActivityBase {
 
     @OnClick(R.id.ac_confirmAchievement_btn_apply)
     public void onViewClicked() {
-
+        applyUpgrade();
     }
 }

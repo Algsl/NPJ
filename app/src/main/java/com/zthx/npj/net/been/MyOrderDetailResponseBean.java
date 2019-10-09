@@ -16,10 +16,19 @@ public class MyOrderDetailResponseBean extends BaseReponseBean{
         private long order_time;
         private String order_sn;
         private long order_state;
+        private String express_code;
         private String express_name;
         private String express_number;
         private String jujue_yuanyin;
 
+
+        public String getExpress_code() {
+            return express_code;
+        }
+
+        public void setExpress_code(String express_code) {
+            this.express_code = express_code;
+        }
 
         public String getJujue_yuanyin() {
             return jujue_yuanyin;

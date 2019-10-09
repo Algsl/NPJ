@@ -4,17 +4,20 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,11 +28,6 @@ import android.widget.Toast;
 
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.ChatListAdapter;
-import com.zthx.npj.net.api.URLConstant;
-import com.zthx.npj.net.been.UploadImgResponseBean;
-import com.zthx.npj.net.netutils.HttpUtils;
-import com.zthx.npj.utils.GsonUtils;
-import com.zthx.npj.utils.MyCustomUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,11 +42,8 @@ import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.Message;
 import cn.jpush.im.android.api.options.MessageSendingOptions;
 import cn.jpush.im.api.BasicCallback;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
-public class ServicesChatActivity extends ActivityBase {
+public class ServicesChatActivity extends AppCompatActivity {
     @BindView(R.id.ac_serviceChat_et_content)
     EditText acServiceChatEtContent;
     @BindView(R.id.ac_serviceChat_iv_expression)
@@ -63,10 +58,6 @@ public class ServicesChatActivity extends ActivityBase {
     LinearLayout acServiceChatLlAdd;
     @BindView(R.id.ac_serviceChat_ll)
     RelativeLayout acServiceChatLl;
-    @BindView(R.id.title_theme_back)
-    ImageView titleThemeBack;
-    @BindView(R.id.title_theme_title)
-    TextView titleThemeTitle;
     @BindView(R.id.ac_serviceChat_ll1)
     LinearLayout acServiceChatLl1;
     @BindView(R.id.line)
@@ -75,6 +66,10 @@ public class ServicesChatActivity extends ActivityBase {
     LinearLayout acServiceChatLlPhotoGraphic;
     @BindView(R.id.ac_serviceChat_ll_takePhoto)
     LinearLayout acServiceChatLlTakePhoto;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.ac_title)
+    TextView acTitle;
 
     private String chat_name = "";
     private String receiveTitle = "";
@@ -89,11 +84,29 @@ public class ServicesChatActivity extends ActivityBase {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_services_chat);
+
+        //getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS); //去除半透明状态栏
+        // getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN); //全屏显示
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//实现状态栏图标和文字颜色为暗色
+        //getWindow().setStatusBarColor(Color.TRANSPARENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WindowManager.LayoutParams localLayoutParams = this.getWindow().getAttributes();
+            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+        }
+
         ButterKnife.bind(this);
         chat_name = getIntent().getStringExtra("key0");
         receiveTitle = getIntent().getStringExtra("key1");
-        back(titleThemeBack);
-        changeTitle(titleThemeTitle, receiveTitle);
+
+        titleBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        acTitle.setText(receiveTitle);
         getChatMsg();
 
 
@@ -122,10 +135,10 @@ public class ServicesChatActivity extends ActivityBase {
     }
 
     private void getChatMsg() {
-        mConversation = JMessageClient.getSingleConversation(chat_name,"8893ea927c390d073532296c");
+        mConversation = JMessageClient.getSingleConversation(chat_name, "8893ea927c390d073532296c");
         if (mConversation == null) {
-            Log.e("测试", "getChatMsg: "+chat_name+""+(mConversation==null) );
-        }else{
+            Log.e("测试", "getChatMsg: " + chat_name + "" + (mConversation == null));
+        } else {
             acServiceChatLv.setDivider(null);
             List<Message> lists = mConversation.getMessagesFromNewest(0, 18);
             ChatListAdapter adapter = new ChatListAdapter(this, lists);
@@ -185,7 +198,7 @@ public class ServicesChatActivity extends ActivityBase {
         }
     }
 
-    @OnClick({R.id.ac_serviceChat_iv_expression, R.id.ac_serviceChat_iv_add,R.id.ac_serviceChat_ll_photoGraphic, R.id.ac_serviceChat_ll_takePhoto})
+    @OnClick({R.id.ac_serviceChat_iv_expression, R.id.ac_serviceChat_iv_add, R.id.ac_serviceChat_ll_photoGraphic, R.id.ac_serviceChat_ll_takePhoto})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_serviceChat_iv_expression:
@@ -229,7 +242,7 @@ public class ServicesChatActivity extends ActivityBase {
                     try {
                         Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
                         String filePath = getExternalCacheDir() + "/output_image.jpg";
-                        Message message=JMessageClient.createSingleImageMessage(chat_name,new File(filePath));
+                        Message message = JMessageClient.createSingleImageMessage(chat_name, new File(filePath));
                         JMessageClient.sendMessage(message);
                         getChatMsg();
                     } catch (Exception e) {
@@ -247,7 +260,7 @@ public class ServicesChatActivity extends ActivityBase {
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         final String path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
-                        Message message=JMessageClient.createSingleImageMessage(chat_name,new File(path));
+                        Message message = JMessageClient.createSingleImageMessage(chat_name, new File(path));
                         JMessageClient.sendMessage(message);
                         getChatMsg();
                     } catch (Exception e) {
@@ -256,16 +269,13 @@ public class ServicesChatActivity extends ActivityBase {
                 }
         }
     }
+
     public void toggle() {
         isOpen = !isOpen;
         if (isOpen) {
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 500);
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            acServiceChatLl.setLayoutParams(layoutParams);
+            acServiceChatLlAdd.setVisibility(View.VISIBLE);
         } else {
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 200);
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            acServiceChatLl.setLayoutParams(layoutParams);
+            acServiceChatLlAdd.setVisibility(View.GONE);
         }
     }
 }

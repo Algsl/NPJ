@@ -37,6 +37,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -294,7 +295,8 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
         atMyOrderDetailTvIsFreeShipping.setText("￥ " + data.getShipping_fee());
 
         acMyOrderDetailTvAllPrice.setText("￥" + data.getGoods_price());
-        atMyOrderDetailTvIsFreeShipping.setText("-￥" + data.getShipping_fee());
+        acMyOrderDetailTvAllPrice.setText("￥" + new DecimalFormat("#0.00").format(Double.parseDouble(data.getOrder_price())-Double.parseDouble(data.getShipping_fee())));
+        atMyOrderDetailTvIsFreeShipping.setText("￥" + data.getShipping_fee());
         acMyOrderDetailTvNeedPay.setText("￥" + data.getOrder_price());
 
         atMyOrderDetailTvOrderSn.setText(data.getOrder_sn());
@@ -378,11 +380,11 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
             R.id.ac_myOrderDetail_tv_call, R.id.ac_myOrderDetail_ll})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.ac_myOrderDetail_tv_cancel:
+            case R.id.ac_myOrderDetail_tv_cancel://取消订单
                 SetSubscribe.mySupplyOrderCancel(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        getMyStoreOrderDetail();
+                        finish();
                     }
 
                     @Override
@@ -391,19 +393,20 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                     }
                 }));
                 break;
-            case R.id.ac_myOrderDetail_tv_pay:
+            case R.id.ac_myOrderDetail_tv_pay://支付订单
                 Intent intent = new Intent(MySupplyOrderDetailActivity.this, ConfirmMySupplyOrderActivity.class);
                 intent.putExtra("order_id", order_id);
                 startActivity(intent);
                 break;
-            case R.id.ac_myOrderDetail_tv_applyRefund:
+            case R.id.ac_myOrderDetail_tv_applyRefund://申请退款
                 Intent intent3 = new Intent(MySupplyOrderDetailActivity.this, MySupplyOrderRefundActivity.class);
                 intent3.putExtra("order_id", order_id);
                 startActivity(intent3);
                 break;
-            case R.id.ac_myOrderDetail_tv_wuliu:
+            case R.id.ac_myOrderDetail_tv_wuliu://查看物流
                 Intent intent1 = new Intent(MySupplyOrderDetailActivity.this, KuaiDiDetailActivity.class);
                 intent1.putExtra("order_id", order_id);
+                intent1.putExtra("type","supply");
                 startActivity(intent1);
                 break;
             case R.id.ac_myOrderDetail_tv_delay:
@@ -447,9 +450,11 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
 
                 break;
             case R.id.ac_myOrderDetail_ll:
-                Intent intentll = new Intent(MySupplyOrderDetailActivity.this, MySupplyOrderRefundActivity.class);
-                intentll.putExtra("order_id", order_id);
-                startActivity(intentll);
+                if(order_state.equals("2") || order_state.equals("3")){
+                    Intent intentll = new Intent(MySupplyOrderDetailActivity.this, MySupplyOrderRefundActivity.class);
+                    intentll.putExtra("order_id", order_id);
+                    startActivity(intentll);
+                }
                 break;
         }
     }

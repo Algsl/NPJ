@@ -214,6 +214,7 @@ public class OrderListFragment extends Fragment {
             public void onQueryClick(int position) {
                 Intent intent = new Intent(getContext(), KuaiDiDetailActivity.class);
                 intent.putExtra("order_id", data.get(position).getId() + "");
+                intent.putExtra("type","store");
                 startActivity(intent);
             }
 

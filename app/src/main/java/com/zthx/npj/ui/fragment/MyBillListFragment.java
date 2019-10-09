@@ -35,6 +35,7 @@ import com.zthx.npj.ui.KuaiDiDetailActivity;
 import com.zthx.npj.ui.MySupplyOrderCommentActivity;
 import com.zthx.npj.ui.MySupplyOrderDetailActivity;
 import com.zthx.npj.ui.MySupplyOrderRefundActivity;
+import com.zthx.npj.ui.MySupplyOrderRefuseActivity;
 import com.zthx.npj.ui.SupplyProductsActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
@@ -120,10 +121,18 @@ public class MyBillListFragment extends Fragment {
             //查看详细信息
             @Override
             public void onItemClick(int position) {
-                Intent intent=new Intent(getContext(), MySupplyOrderDetailActivity.class);
-                intent.putExtra("order_id",data.get(position).getId()+"");
-                intent.putExtra("order_state",data.get(position).getOrder_state()+"");
-                startActivity(intent);
+                if(data.get(position).getOrder_state()==6 || data.get(position).getOrder_state()==7 || data.get(position).getOrder_state()==8){
+                    Intent intent=new Intent(getContext(), MySupplyOrderRefuseActivity.class);
+                    intent.putExtra("order_id",data.get(position).getId()+"");
+                    intent.putExtra("order_state",data.get(position).getOrder_state()+"");
+                    startActivity(intent);
+                }else{
+                    Intent intent=new Intent(getContext(), MySupplyOrderDetailActivity.class);
+                    intent.putExtra("order_id",data.get(position).getId()+"");
+                    intent.putExtra("order_state",data.get(position).getOrder_state()+"");
+                    startActivity(intent);
+                }
+
             }
 
             //取消订单
@@ -192,6 +201,7 @@ public class MyBillListFragment extends Fragment {
             public void onQueryClick(int position) {
                 Intent intent = new Intent(getContext(), KuaiDiDetailActivity.class);
                 intent.putExtra("order_id", data.get(position).getId() + "");
+                intent.putExtra("type","supply");
                 startActivity(intent);
             }
 

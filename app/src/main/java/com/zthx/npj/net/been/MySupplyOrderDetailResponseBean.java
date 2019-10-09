@@ -36,6 +36,17 @@ public class MySupplyOrderDetailResponseBean extends BaseReponseBean{
         private long update_time;
         private String user_id;
 
+        private String jujue_yuanyin;
+
+
+        public String getJujue_yuanyin() {
+            return jujue_yuanyin;
+        }
+
+        public void setJujue_yuanyin(String jujue_yuanyin) {
+            this.jujue_yuanyin = jujue_yuanyin;
+        }
+
         public String getAddress() {
             return address;
         }

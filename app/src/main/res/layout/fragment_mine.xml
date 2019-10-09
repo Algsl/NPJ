@@ -438,10 +438,11 @@
                     android:layout_marginLeft="@dimen/dp_12"
                     android:src="@drawable/mine_middle_title"/>
                 <LinearLayout
+                    android:layout_marginTop="@dimen/dp_10"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_73"
+                    android:background="@color/white"
                     android:orientation="horizontal">
-
                     <LinearLayout
                         android:id="@+id/fg_mine_ll_my_wallet"
                         android:layout_width="0dp"
@@ -502,6 +503,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_73"
                     android:orientation="horizontal">

@@ -32,10 +32,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitFactory {
     public String TAG = "RetrofitFactory";
     //TODO 填写自己的包名
-    public static final String CACHE_NAME = "com.zthx.npj";
-    public static String BASE_URL = URLConstant.BASE_URL;
-    private static final int DEFAULT_CONNECT_TIMEOUT = 30;
-    private static final int DEFAULT_WRITE_TIMEOUT = 30;
+    public static final String CACHE_NAME = "com.zthx.npj";//包名
+    public static String BASE_URL = URLConstant.BASE_URL;//网址拼接
+    private static final int DEFAULT_CONNECT_TIMEOUT = 30;//默认连接时间30ms
+    private static final int DEFAULT_WRITE_TIMEOUT = 30;//默认读写时间30ms
     private static final int DEFAULT_READ_TIMEOUT = 30;
     private Retrofit retrofit;
     private HttpApi httpApi;
@@ -180,13 +180,14 @@ public class RetrofitFactory {
     /**
      * 设置订阅 和 所在的线程环境
      */
-    public <T> void toSubscribe(Observable<T> o, DisposableObserver<T> s) {
+    //<T>  提前声明泛型类
+    public <T> void toSubscribe(Observable<T> o, DisposableObserver<T> s) {//被观察者绑定在观察者上
 
-        o.subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        o.subscribeOn(Schedulers.io())//网络请求切换到io线程
+                .unsubscribeOn(Schedulers.io())//网络请求取消切换
+                .observeOn(AndroidSchedulers.mainThread())//观察后切换到主线程
                 .retry(RETRY_COUNT)//请求失败重连次数
-                .subscribe(s);
+                .subscribe(s);//绑定到观察者
 
     }
 }

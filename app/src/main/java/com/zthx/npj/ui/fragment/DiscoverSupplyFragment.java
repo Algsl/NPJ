@@ -127,7 +127,7 @@ public class DiscoverSupplyFragment extends Fragment {
     private int page2=1;
     private DiscoverSupplyAdapter mAdapter;
     private DiscoverNeedAdapter mAdapter2;
-
+    private View view=null;
 
     public DiscoverSupplyFragment() {
 
@@ -137,12 +137,7 @@ public class DiscoverSupplyFragment extends Fragment {
      *
      * @return
      */
-    public static DiscoverSupplyFragment getInstance() {
-        if (mFragment == null) {
-            mFragment = new DiscoverSupplyFragment();
-        }
-        return mFragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -152,11 +147,17 @@ public class DiscoverSupplyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_discover_supply, container, false);
+        if (view != null) {
+            ViewGroup parent = (ViewGroup) view.getParent();
+            if (parent != null) {
+                parent.removeView(view);
+            }
+        }else{
+            view = inflater.inflate(R.layout.fragment_discover_supply, container, false);
+        }
         unbinder = ButterKnife.bind(this, view);
         getQiYeList();
         getSupplyData(type1);
-
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -180,7 +181,6 @@ public class DiscoverSupplyFragment extends Fragment {
                 Toast.makeText(getContext(), "刷新完成", Toast.LENGTH_SHORT).show();
             }
         });
-
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
@@ -536,5 +536,11 @@ public class DiscoverSupplyFragment extends Fragment {
 
             }
         }));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 }

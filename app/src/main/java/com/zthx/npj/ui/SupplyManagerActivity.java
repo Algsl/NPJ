@@ -387,6 +387,7 @@ public class SupplyManagerActivity extends ActivityBase {
                     @Override
                     public void onSuccess(String result) {
                         showToast("发货成功");
+                        getOrder();
                         backgroundAlpha(1f);
                         window.dismiss();
                     }

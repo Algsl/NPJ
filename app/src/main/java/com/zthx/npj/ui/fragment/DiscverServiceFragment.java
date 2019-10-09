@@ -90,23 +90,14 @@ public class DiscverServiceFragment extends Fragment {
     private Intent intent1 = null;
     private boolean flag = false;
     private AgricultureKnowledgeAdatper mAdapter;
+    private View view=null;
 
-
-    public DiscverServiceFragment() {
-        // Required empty public constructor
-    }
 
     /**
      * 获取对象实例
      *
      * @return
      */
-    public static DiscverServiceFragment getInstance() {
-        if (mFragment == null) {
-            mFragment = new DiscverServiceFragment();
-        }
-        return mFragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,12 +107,19 @@ public class DiscverServiceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View View = inflater.inflate(R.layout.fragment_discver_service, container, false);
-        unbinder = ButterKnife.bind(this, View);
+        if (view != null) {
+            ViewGroup parent = (ViewGroup) view.getParent();
+            if (parent != null) {
+                parent.removeView(view);
+            }
+        }else{
+            view = inflater.inflate(R.layout.fragment_discver_service, container, false);
+        }
+        unbinder = ButterKnife.bind(this, view);
 
         intent1 = new Intent(getContext(), DefaultPageActivity.class);
 
-        mRecyclerView = View.findViewById(R.id.fg_discover_service_rv);
+        mRecyclerView = view.findViewById(R.id.fg_discover_service_rv);
 
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -139,7 +137,7 @@ public class DiscverServiceFragment extends Fragment {
 
         getDataList();
         initBanner();
-        return View;
+        return view;
     }
 
     private void getDataList() {

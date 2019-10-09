@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getShoppingCartSize() {
-        SetSubscribe.cartList(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.cartList(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {//第一个OnSuccessAndFaultSub是设置是否显示进度条，第二个是引用接口
             @Override
             public void onSuccess(String result) {
                 CartListResponseBean bean = GsonUtils.fromJson(result, CartListResponseBean.class);

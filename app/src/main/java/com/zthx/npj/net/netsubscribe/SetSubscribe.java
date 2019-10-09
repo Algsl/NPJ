@@ -1366,7 +1366,7 @@ public class SetSubscribe {
         CartListBean bean=new CartListBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
-        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().cartList(bean);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().cartList(bean);//定义被观察者，获取RetrofitFactory的单例，在获取cartList对应的实体的链接，确定被观察者
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 

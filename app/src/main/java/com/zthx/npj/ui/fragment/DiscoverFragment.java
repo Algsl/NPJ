@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class DiscoverFragment extends BaseFragment {
     ViewPager viewPager;
 
     private Unbinder unbinder;
+    private View view=null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,25 +51,33 @@ public class DiscoverFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_discover, container, false);
+        if (view != null) {
+            ViewGroup parent = (ViewGroup) view.getParent();
+            if (parent != null) {
+                parent.removeView(view);
+            }
+        }else{
+            view = inflater.inflate(R.layout.fragment_discover, container, false);
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
             view.requestApplyInsets();
         }
+
         view.setFitsSystemWindows(false);
         unbinder = ButterKnife.bind(this, view);
-
-
         List<String> list = new ArrayList<>();
         list.add("服务");
         list.add("供求");
         List<Fragment> list2 = new ArrayList<>();
-        list2.add(DiscverServiceFragment.getInstance());
-        list2.add(DiscoverSupplyFragment.getInstance());
+        list2.add(new DiscverServiceFragment());
+        list2.add(new DiscoverSupplyFragment());
         DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getChildFragmentManager(), getContext(), list, list2);
         viewPager.setAdapter(mAdapter);
         fgDiscoverMainTab.setTabMode(TabLayout.MODE_FIXED);
         fgDiscoverMainTab.setTabGravity(TabLayout.GRAVITY_CENTER);
         fgDiscoverMainTab.setupWithViewPager(viewPager);
+
         return view;
     }
 

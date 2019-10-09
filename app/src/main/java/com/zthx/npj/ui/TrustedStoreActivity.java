@@ -7,12 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.zthx.npj.R;
-import com.zthx.npj.base.BaseConstant;
 import com.zthx.npj.net.been.ChengXinCertResponseBean;
 import com.zthx.npj.net.netsubscribe.CertSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -44,6 +41,8 @@ public class TrustedStoreActivity extends ActivityBase {
     TextView acTitle;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
+    @BindView(R.id.ac_trustedStore_tv_apply)
+    TextView acTrustedStoreTvApply;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,7 @@ public class TrustedStoreActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,"诚信商家");
+        changeTitle(acTitle, "诚信商家");
         getData();
     }
 
@@ -79,9 +78,9 @@ public class TrustedStoreActivity extends ActivityBase {
         }, this));
     }
 
-    @OnClick({R.id.at_trust_store_btn_attestation,R.id.at_trust_bottom})
+    @OnClick({R.id.at_trust_store_btn_attestation, R.id.at_trust_bottom,R.id.ac_trustedStore_tv_apply})
     public void onViewClicked(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.at_trust_store_btn_attestation:
                 CertSubscribe.isChengXinAlready2Cert(SharePerferenceUtils.getUserId(this), SharePerferenceUtils.getToken(this), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
@@ -91,11 +90,11 @@ public class TrustedStoreActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-                        CommonDialog dialog=new CommonDialog(TrustedStoreActivity.this, R.style.dialog, "请先完成企业认证\n" +
+                        CommonDialog dialog = new CommonDialog(TrustedStoreActivity.this, R.style.dialog, "请先完成企业认证\n" +
                                 "再进行诚信认证", new CommonDialog.OnCloseListener() {
                             @Override
                             public void onClick(Dialog dialog, boolean confirm) {
-                                if(confirm){
+                                if (confirm) {
                                     openActivity(EnterpriseCertificationActivity.class);
                                 }
                             }
@@ -107,6 +106,8 @@ public class TrustedStoreActivity extends ActivityBase {
                 break;
             case R.id.at_trust_bottom:
                 openActivity(ConsultActivity.class);
+                break;
+            case R.id.ac_trustedStore_tv_apply:
                 break;
         }
     }

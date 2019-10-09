@@ -206,6 +206,25 @@
                         android:textSize="@dimen/sp_16"
                         android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/dp_20"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/ac_trustedStore_tv_apply"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="申请退款"
+                            android:paddingTop="@dimen/dp_5"
+                            android:paddingLeft="@dimen/dp_10"
+                            android:paddingRight="@dimen/dp_10"
+                            android:paddingBottom="@dimen/dp_5"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/dp_12"
+                            android:textColor="@color/app_theme"
+                            android:textSize="@dimen/sp_13"
+                            android:background="@drawable/gray_conner"/>
+                    </RelativeLayout>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
@@ -240,6 +259,7 @@
     </LinearLayout>
     
     <Button
+        android:visibility="gone"
         android:id="@+id/at_trust_store_btn_attestation"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"

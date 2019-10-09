@@ -246,6 +246,19 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
                     viewHolder.comment.setVisibility(View.GONE);
                     viewHolder.goodsReturn.setVisibility(View.GONE);
                     break;
+                case "8"://取消退款
+                    viewHolder.orderState.setText("取消退款");
+
+                    viewHolder.cancel.setVisibility(View.GONE);
+                    viewHolder.delete.setVisibility(View.GONE);
+                    viewHolder.cuidan.setVisibility(View.GONE);
+                    viewHolder.pay.setVisibility(View.GONE);
+                    viewHolder.query.setVisibility(View.GONE);
+                    viewHolder.confirm.setVisibility(View.GONE);
+                    viewHolder.again.setVisibility(View.GONE);
+                    viewHolder.comment.setVisibility(View.GONE);
+                    viewHolder.goodsReturn.setVisibility(View.GONE);
+                    break;
             }
         } else {
 

@@ -400,6 +400,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
             case R.id.ac_myOrderDetail_tv_wuliu:
                 Intent intent1 = new Intent(MyStoreOrderDetailActivity.this, KuaiDiDetailActivity.class);
                 intent1.putExtra("order_id", order_id);
+                intent1.putExtra("type","store");
                 startActivity(intent1);
                 break;
             case R.id.ac_myOrderDetail_tv_delay:

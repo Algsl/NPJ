@@ -23,10 +23,10 @@
         android:text="@string/go_to_game"
         android:layout_marginTop="@dimen/dp_5"
         android:layout_marginLeft="@dimen/dp_5"
-        android:textColor="@color/goods_text_color"
+        android:textColor="@color/text6"
         android:lines="1"
         android:ellipsize="end"
-        android:textSize="@dimen/sp_15"/>
+        android:textSize="@dimen/sp_14"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="￥188"
-            android:textSize="@dimen/sp_14"
+            android:textSize="@dimen/sp_15"
             android:textStyle="bold"
             android:textColor="@color/app_theme"/>
 
@@ -47,7 +47,7 @@
             android:id="@+id/item_tv_home_goods_old_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_12"
+            android:textSize="@dimen/sp_10"
             android:layout_marginLeft="@dimen/dp_10"
             android:text="￥200"/>
 

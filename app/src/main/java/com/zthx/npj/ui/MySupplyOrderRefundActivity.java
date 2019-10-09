@@ -63,7 +63,7 @@ public class MySupplyOrderRefundActivity extends ActivityBase {
     @BindView(R.id.at_order_applyRefund_tv_reason)
     TextView atOrderApplyRefundTvReason;
     @BindView(R.id.at_order_applyRefund_tv_orderPrice)
-    TextView atOrderApplyRefundTvOrderPrice;
+    EditText atOrderApplyRefundTvOrderPrice;
     @BindView(R.id.at_order_applyRefund_tv_ship)
     TextView atOrderApplyRefundTvShip;
     @BindView(R.id.ac_order_applyRefund_et_reason)
@@ -136,7 +136,7 @@ public class MySupplyOrderRefundActivity extends ActivityBase {
         atOrderApplyRefundTvGoodsName.setText(data.getGoods_name());
         atOrderApplyRefundTvGoodsPrice.setText("￥ " + data.getGoods_price());
         atOrderApplyRefundTvGoodsNum.setText("x " + data.getOrder_num());
-        atOrderApplyRefundTvOrderPrice.setText("￥ " + data.getOrder_price());
+        atOrderApplyRefundTvOrderPrice.setText( data.getOrder_price());
         atOrderApplyRefundTvShip.setText("最多" + data.getOrder_price() + "元，含运费￥" + data.getShipping_fee());
     }
 
@@ -226,7 +226,7 @@ public class MySupplyOrderRefundActivity extends ActivityBase {
         bean.setOrder_id(getIntent().getStringExtra("order_id"));
         bean.setRefund_state(refund_state);
         bean.setRefund_reason(atOrderApplyRefundTvReason.getText().toString().trim());
-        bean.setRefund_price(data.getOrder_price());
+        bean.setRefund_price(atOrderApplyRefundTvOrderPrice.getText().toString().trim());
         bean.setRefund_desc(acOrderApplyRefundEtReason.getText().toString().trim());
         bean.setRefund_img(img);
         SetSubscribe.mySupplyOrderRefund(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {

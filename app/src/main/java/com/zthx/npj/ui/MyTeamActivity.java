@@ -37,8 +37,6 @@ public class MyTeamActivity extends ActivityBase {
     TextView atMyAchievementTvName;
     @BindView(R.id.at_my_achievement_tv_fudao)
     TextView atMyAchievementTvFudao;
-    @BindView(R.id.at_my_achievement_btn_daiyanren)
-    Button atMyAchievementBtnDaiyanren;
     @BindView(R.id.at_my_achievement_view_all)
     ProgressBar atMyAchievementViewAll;
     @BindView(R.id.at_my_achievement_view_all_2)
@@ -47,8 +45,6 @@ public class MyTeamActivity extends ActivityBase {
     TextView acMyAchievementTvLevel;
     @BindView(R.id.ac_myAchievement_tv_totalMyTeam)
     TextView acMyAchievementTvTotalMyTeam;
-    @BindView(R.id.at_my_achievement_btn_daiyanren2)
-    Button atMyAchievementBtnDaiyanren2;
     @BindView(R.id.title_theme_back)
     ImageView titleThemeBack;
     @BindView(R.id.title_theme_title)
@@ -71,6 +67,12 @@ public class MyTeamActivity extends ActivityBase {
     TextView acMyAchievementTvTotalTeam;
     @BindView(R.id.ac_myAchievement_tv_myTeam)
     TextView acMyAchievementTvMyTeam;
+    @BindView(R.id.at_my_achievement_btn_teamDYR)
+    Button atMyAchievementBtnTeamDYR;
+    @BindView(R.id.at_my_achievement_btn_bossDYR)
+    Button atMyAchievementBtnBossDYR;
+    @BindView(R.id.at_my_achievement_btn_cityDYR)
+    Button atMyAchievementBtnCityDYR;
 
 
     private String user_id = SharePerferenceUtils.getUserId(this);
@@ -205,10 +207,9 @@ public class MyTeamActivity extends ActivityBase {
         atMyAchievementViewAll.setProgress((int) data.getResult().getMyteam());
 
 
-
-        RelativeLayout.LayoutParams layoutParams= (RelativeLayout.LayoutParams) acTvBg.getLayoutParams();
-        layoutParams.width=(int)(data.getResult().getMyteam()*10.0/10/data.getResult().getTotal_myteam()*acTvBg.getMeasuredWidth());
-        Log.e("测试", "setMyTeam: "+layoutParams.width+" "+acTvBg.getMeasuredWidth()+" "+acTvBg.getMeasuredHeight()+" "+(int)(data.getResult().getMyteam()*10.0/10/data.getResult().getTotal_myteam()));
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) acTvBg.getLayoutParams();
+        layoutParams.width = (int) (data.getResult().getMyteam() * 10.0 / 10 / data.getResult().getTotal_myteam() * acTvBg.getMeasuredWidth());
+        Log.e("测试", "setMyTeam: " + layoutParams.width + " " + acTvBg.getMeasuredWidth() + " " + acTvBg.getMeasuredHeight() + " " + (int) (data.getResult().getMyteam() * 10.0 / 10 / data.getResult().getTotal_myteam()));
         acTvBg.setLayoutParams(layoutParams);
 
         switch ((int) data.getResult().getLevel()) {
@@ -248,17 +249,20 @@ public class MyTeamActivity extends ActivityBase {
         }
         acMyAchievementTvTotalMyTeam.setText(data.getResult().getTotal_myteam() + "");
         atMyAchievementViewAll2.setProgress((int) data.getResult().getMyamount());
-        acMyAchievementTvMyTeam.setText(data.getResult().getMyteam()+"人");
-        acMyAchievementTvTotalTeam.setText(data.getResult().getTotal_myteam()+"");
+        acMyAchievementTvMyTeam.setText(data.getResult().getMyteam() + "人");
+        acMyAchievementTvTotalTeam.setText(data.getResult().getTotal_myteam() + "");
     }
 
-    @OnClick({R.id.at_my_achievement_btn_daiyanren, R.id.at_my_achievement_btn_daiyanren2})
+    @OnClick({R.id.at_my_achievement_btn_teamDYR, R.id.at_my_achievement_btn_bossDYR, R.id.at_my_achievement_btn_cityDYR})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.at_my_achievement_btn_daiyanren:
+            case R.id.at_my_achievement_btn_teamDYR:
                 openActivity(ConfirmAchievementActivity.class);
                 break;
-            case R.id.at_my_achievement_btn_daiyanren2:
+            case R.id.at_my_achievement_btn_bossDYR:
+                openActivity(ConfirmAchievementActivity.class);
+                break;
+            case R.id.at_my_achievement_btn_cityDYR:
                 openActivity(ConfirmAchievementActivity.class);
                 break;
         }

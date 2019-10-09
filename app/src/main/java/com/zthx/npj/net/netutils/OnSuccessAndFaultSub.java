@@ -42,7 +42,7 @@ public class OnSuccessAndFaultSub extends DisposableObserver<ResponseBody>
     /**
      * @param mOnSuccessAndFaultListener 成功回调监听
      */
-    public OnSuccessAndFaultSub(OnSuccessAndFaultListener mOnSuccessAndFaultListener) {
+    public OnSuccessAndFaultSub(OnSuccessAndFaultListener mOnSuccessAndFaultListener) {//不含进度条提示的回调监听
         this.mOnSuccessAndFaultListener = mOnSuccessAndFaultListener;
     }
 
@@ -51,7 +51,7 @@ public class OnSuccessAndFaultSub extends DisposableObserver<ResponseBody>
      * @param mOnSuccessAndFaultListener 成功回调监听
      * @param context 上下文
      */
-    public OnSuccessAndFaultSub(OnSuccessAndFaultListener mOnSuccessAndFaultListener, Context context) {
+    public OnSuccessAndFaultSub(OnSuccessAndFaultListener mOnSuccessAndFaultListener, Context context) {//含进度条提示的回调监听
         this.mOnSuccessAndFaultListener = mOnSuccessAndFaultListener;
         this.context = context;
         progressDialog = new ProgressDialog(context);
@@ -64,7 +64,7 @@ public class OnSuccessAndFaultSub extends DisposableObserver<ResponseBody>
      * @param context 上下文
      * @param showProgress 是否需要显示默认Loading
      */
-    public OnSuccessAndFaultSub(OnSuccessAndFaultListener mOnSuccessAndFaultListener, Context context, boolean showProgress) {
+    public OnSuccessAndFaultSub(OnSuccessAndFaultListener mOnSuccessAndFaultListener, Context context, boolean showProgress) {//设置是否含进度条提示
         this.mOnSuccessAndFaultListener = mOnSuccessAndFaultListener;
         this.context = context;
         progressDialog = new ProgressDialog(context);
@@ -73,14 +73,14 @@ public class OnSuccessAndFaultSub extends DisposableObserver<ResponseBody>
 
 
     private void showProgressDialog() {
-        if (showProgress && null != progressDialog) {
+        if (showProgress && null != progressDialog) {//进度条存在，非空，显示
             progressDialog.show();
         }
     }
 
 
     private void dismissProgressDialog() {
-        if (showProgress && null != progressDialog) {
+        if (showProgress && null != progressDialog) {//进度条不存在，非空，不显示
             progressDialog.dismiss();
         }
     }

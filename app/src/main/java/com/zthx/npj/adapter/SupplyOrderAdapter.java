@@ -141,6 +141,14 @@ public class SupplyOrderAdapter extends RecyclerView.Adapter<SupplyOrderAdapter.
                     viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
                     viewHolder.residueLlTime.setVisibility(View.GONE);
                     break;
+
+                case "8":
+                    viewHolder.goodsState.setText("已取消退款");
+                    viewHolder.sendGoods.setVisibility(View.GONE);
+                    viewHolder.refund.setVisibility(View.GONE);
+                    viewHolder.goodsIvState.setImageResource(R.drawable.refuse_refund);
+                    viewHolder.residueLlTime.setVisibility(View.GONE);
+                    break;
             }
         }
     }

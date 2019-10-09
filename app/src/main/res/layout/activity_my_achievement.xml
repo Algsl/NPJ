@@ -123,12 +123,12 @@
                 android:layout_marginTop="@dimen/dp_20"/>
 
             <Button
-                android:id="@+id/at_my_achievement_btn_daiyanren"
+                android:id="@+id/at_my_achievement_btn_teamDYR"
                 android:layout_width="@dimen/dp_280"
                 android:layout_height="@dimen/dp_37"
                 android:background="@drawable/theme_conner_5"
                 android:layout_gravity="center_horizontal"
-                android:text="申请升级代言人"
+                android:text="申请升级团队代言人"
                 android:textSize="@dimen/sp_15"
                 android:textColor="@android:color/white"
                 android:layout_marginTop="@dimen/dp_10"/>
@@ -254,6 +254,7 @@
                 android:layout_marginTop="@dimen/dp_20"/>
 
             <Button
+                android:id="@+id/at_my_achievement_btn_bossDYR"
                 android:layout_width="@dimen/dp_280"
                 android:layout_height="@dimen/dp_37"
                 android:background="@drawable/theme_conner_5"
@@ -367,7 +368,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_20"/>
             <Button
-                android:id="@+id/at_my_achievement_btn_daiyanren2"
+                android:id="@+id/at_my_achievement_btn_cityDYR"
                 android:layout_width="@dimen/dp_280"
                 android:layout_height="@dimen/dp_37"
                 android:background="@drawable/yellow_conner_5"

@@ -209,6 +209,9 @@
         <activity android:name=".ui.SupplyMessageInfoActivity"/>
         <activity android:name=".ui.SYWithDrawActivity"/>
         <activity android:name=".ui.OrderFinishActivity"/>
+        <activity android:name=".ui.MySupplyOrderRefuseActivity"/>
+
+
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"

@@ -16,6 +16,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.adapter.KuaiDiDetailAdapter;
 import com.zthx.npj.net.been.LookKDResponseBean;
 import com.zthx.npj.net.been.MyOrderDetailResponseBean;
+import com.zthx.npj.net.been.MySupplyOrderDetailResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -56,17 +57,49 @@ public class KuaiDiDetailActivity extends ActivityBase {
 
     private void getOrderDetail() {
         String order_id = getIntent().getStringExtra("order_id");
-        SetSubscribe.myOrderDetail(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                setOrderDetail(result);
-            }
+        String type=getIntent().getStringExtra("type");
+        if(type.equals("supply")){
+            SetSubscribe.mySupplyOrderDetail(user_id,token,order_id,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    setMySupplyOrderDetail(result);
+                }
 
-            @Override
-            public void onFault(String errorMsg) {
+                @Override
+                public void onFault(String errorMsg) {
 
-            }
-        }));
+                }
+            }));
+        }else{
+            SetSubscribe.myOrderDetail(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    setOrderDetail(result);
+                }
+
+                @Override
+                public void onFault(String errorMsg) {
+
+                }
+            }));
+        }
+    }
+
+    private void setMySupplyOrderDetail(String result) {
+        MySupplyOrderDetailResponseBean bean=GsonUtils.fromJson(result,MySupplyOrderDetailResponseBean.class);
+        MySupplyOrderDetailResponseBean.DataBean data=bean.getData();
+        Glide.with(this).load(Uri.parse("http://app.npj-vip.com"+data.getGoods_img().get(0))).into(acKuaidiIvGoodsImg);
+        /*switch (data.getExpress_name()){
+            case "韵达快递":express_code="yunda";break;
+            case "申通快递":express_code="shentong";break;
+            case "圆通速递":express_code="yuantong";break;
+            case "邮政快递":express_code="youzhengguonei";break;
+            case "中通快递":express_code="zhongtong";break;
+            case "顺丰速运":express_code="shunfeng";break;
+            case "百世快递":express_code="huitongkuaidi";break;
+            case "天天快递":express_code="tiantian";break;
+        }*/
+        getKuaiDiDetail(data.getExpress_code(),data.getExpress_number());
     }
 
     private void setOrderDetail(String result) {
@@ -84,6 +117,7 @@ public class KuaiDiDetailActivity extends ActivityBase {
             case "百世快递":express_code="huitongkuaidi";break;
             case "天天快递":express_code="tiantian";break;
         }
+        Log.e("测试", "setOrderDetail: "+data.getExpress_code() );
         getKuaiDiDetail(express_code,data.getExpress_number());
     }
 
