@@ -55,6 +55,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_10"/>
     </RelativeLayout>
+
     <LinearLayout
         android:visibility="gone"
         android:id="@+id/ac_agriculture_ll1"
@@ -80,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_93"
         android:orientation="horizontal"
-        android:background="@color/background">
+        android:background="@color/title_bg">
         <LinearLayout
             android:id="@+id/at_ak_ll_1"
             android:layout_width="0dp"

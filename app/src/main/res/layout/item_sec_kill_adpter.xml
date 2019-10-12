@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_110"
-    android:layout_marginTop="@dimen/dp_5"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
@@ -144,4 +143,9 @@
         android:background="@drawable/buton_stroke_theme"
         android:textSize="@dimen/sp_13"
         android:textColor="@color/app_theme"/>
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/line_list"/>
 </RelativeLayout>

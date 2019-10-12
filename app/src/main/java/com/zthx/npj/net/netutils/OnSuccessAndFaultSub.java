@@ -169,7 +169,9 @@ public class OnSuccessAndFaultSub extends DisposableObserver<ResponseBody>
             if (resultCode == 1) {
                 mOnSuccessAndFaultListener.onSuccess(result);
             } else {
-                if(resultCode==2){
+                if(resultCode==-1){
+                    mOnSuccessAndFaultListener.onFault(result);
+                }if(resultCode==2){
                     mOnSuccessAndFaultListener.onFault(result);
                 }else if(resultCode==-2){
                     mOnSuccessAndFaultListener.onFault(result);

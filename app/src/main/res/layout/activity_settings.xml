@@ -35,7 +35,7 @@
             android:layout_width="@dimen/dp_30"
             android:layout_height="@dimen/dp_30"
             android:layout_toLeftOf="@id/at_settings_go1"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/logo"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_5"/>
 

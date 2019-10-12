@@ -10,7 +10,7 @@
         android:id="@+id/item_iv_agriculture_knowledge"
         android:layout_width="@dimen/dp_60"
         android:layout_height="@dimen/dp_60"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@drawable/logo"/>
 
     <TextView
         android:id="@+id/item_tv_agriculture_knowledge_name"

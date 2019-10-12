@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,12 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.bumptech.glide.Glide;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
@@ -53,7 +60,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class UserMsgActivity extends ActivityBase {
+public class UserMsgActivity extends ActivityBase{
     @BindView(R.id.title_theme_back)
     ImageView titleThemeBack;
     @BindView(R.id.title_theme_title)
@@ -130,11 +137,15 @@ public class UserMsgActivity extends ActivityBase {
     private String att_user_id = "";
     private String type = "1";
 
+
+    private static final String TAG = "测试";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_msg);
         ButterKnife.bind(this);
+
+        acUserMsgTvAddress.setSelected(true);
 
         att_user_id = getIntent().getStringExtra("key0");
         getLookUser(att_user_id);
@@ -153,7 +164,9 @@ public class UserMsgActivity extends ActivityBase {
             acUserMsgTvBeDYR.setVisibility(View.INVISIBLE);
         }
 
-
+        LatLng latLng=new LatLng(Double.parseDouble(SharePerferenceUtils.getLat(this)), Double.parseDouble(SharePerferenceUtils.getLng(this)));
+        Log.e(TAG, "onCreate: "+Double.parseDouble(SharePerferenceUtils.getLat(this))+"  "+Double.parseDouble(SharePerferenceUtils.getLng(this)) );
+        getLocateinfo(latLng);
         getStoreGoodsList();
     }
 
@@ -567,4 +580,20 @@ public class UserMsgActivity extends ActivityBase {
             }
         });
     }
+
+    private void getLocateinfo(LatLng latLng) {
+        GeoCoder geoCoder = GeoCoder.newInstance();
+        geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+
+            @Override public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+
+            }
+            @Override public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+                acUserMsgTvAddress.setText(reverseGeoCodeResult.getAddress() + reverseGeoCodeResult.getSematicDescription());
+                //Log.e(TAG, "onGetReverseGeoCodeResult: "+ reverseGeoCodeResult.getAddress() + reverseGeoCodeResult.getSematicDescription());
+            }
+        });
+        geoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(latLng));
+    }
+
 }

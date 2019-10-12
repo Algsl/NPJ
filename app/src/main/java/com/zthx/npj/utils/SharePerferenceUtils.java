@@ -163,12 +163,12 @@ public class SharePerferenceUtils {
     }
 
     public static String getUserId(Context context) {
-        return "29";
-        //return getString(context, "user_id", "");
+        //return "29";
+        return getString(context, "user_id", "");
     }
     public static String getToken(Context context) {
-        return "79cb87e0d09c40a7655e1c99482ede7c";
-        //return getString(context, "token", "");
+        //return "79cb87e0d09c40a7655e1c99482ede7c";
+        return getString(context, "token", "");
     }
 
     public static void setUserLevel(Context context, String level) {

@@ -13,7 +13,7 @@
         android:id="@+id/item_buy_gift_pic"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_175"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/logo"
         android:background="@drawable/white_conner"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"

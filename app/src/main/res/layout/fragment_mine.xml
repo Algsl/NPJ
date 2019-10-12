@@ -120,84 +120,88 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginTop="@dimen/dp_13"
                         android:src="@drawable/mine_people_right"/>
-
-                    <LinearLayout
+                </RelativeLayout>
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_80"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/dp_161"
-                    android:background="@drawable/white_conner"
-                    android:layout_marginRight="@dimen/dp_12"
-                    android:layout_marginLeft="@dimen/dp_12">
-
+                    android:layout_height="@dimen/dp_95"
+                    android:background="@drawable/layer"
+                    android:layout_marginTop="@dimen/dp_m_80">
                     <LinearLayout
-                        android:id="@+id/fg_mine_ll_collect"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_65"
+                        android:orientation="horizontal"
+                        android:background="@drawable/white_conner"
+                        android:layout_marginRight="@dimen/dp_12"
+                        android:layout_marginLeft="@dimen/dp_12">
 
-                        <TextView
-                            android:id="@+id/fg_mine_tv_collectionNum"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/text3"
-                            android:textSize="@dimen/sp_15"
-                            android:text="20"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="收藏"
-                            android:textSize="@dimen/sp_13"
-                            android:textColor="@color/text9"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/fg_mine_ll_my_coin"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        <LinearLayout
+                            android:id="@+id/fg_mine_ll_collect"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/fg_mine_tv_gourdCoin"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/text3"
-                            android:textSize="@dimen/sp_15"
-                            android:text="20"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="葫芦币"
-                            android:textSize="@dimen/sp_13"
-                            android:textColor="@color/text9"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/fg_mine_ll_coupon"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/fg_mine_tv_collectionNum"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/text3"
+                                android:textSize="@dimen/sp_15"
+                                android:text="20"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="收藏"
+                                android:textSize="@dimen/sp_13"
+                                android:textColor="@color/text9"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/fg_mine_ll_my_coin"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/fg_mine_tv_couponNum"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/text3"
-                            android:textSize="@dimen/sp_15"
-                            android:text="20"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="优惠券"
-                            android:textSize="@dimen/sp_13"
-                            android:textColor="@color/text9"/>
+                            <TextView
+                                android:id="@+id/fg_mine_tv_gourdCoin"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/text3"
+                                android:textSize="@dimen/sp_15"
+                                android:text="20"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="葫芦币"
+                                android:textSize="@dimen/sp_13"
+                                android:textColor="@color/text9"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/fg_mine_ll_coupon"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/fg_mine_tv_couponNum"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/text3"
+                                android:textSize="@dimen/sp_15"
+                                android:text="20"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="优惠券"
+                                android:textSize="@dimen/sp_13"
+                                android:textColor="@color/text9"/>
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-                </RelativeLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

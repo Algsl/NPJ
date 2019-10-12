@@ -8,7 +8,7 @@
     <com.zthx.npj.view.MyCircleView
         android:layout_width="@dimen/dp_60"
         android:layout_height="@dimen/dp_60"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/logo"
         android:layout_marginLeft="@dimen/dp_12"
         android:layout_marginTop="@dimen/dp_10"
         android:id="@+id/item_quotation_people_head_pic"/>

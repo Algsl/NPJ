@@ -197,7 +197,7 @@
                 android:id="@+id/pw_storeGoods_iv_goodsImg"
                 android:layout_width="@dimen/dp_70"
                 android:layout_height="@dimen/dp_70"
-                android:src="@mipmap/ic_launcher"
+                android:src="@drawable/logo"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
                 app:riv_corner_radius="@dimen/dp_5"/>

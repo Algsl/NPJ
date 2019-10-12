@@ -58,7 +58,7 @@
                         android:id="@+id/at_video_buy_confirm_img"
                         android:layout_width="@dimen/dp_95"
                         android:layout_height="@dimen/dp_95"
-                        android:src="@mipmap/ic_launcher"
+                        android:src="@drawable/logo"
                         android:layout_centerVertical="true"
                         android:scaleType="centerCrop"
                         android:layout_marginLeft="@dimen/dp_12"

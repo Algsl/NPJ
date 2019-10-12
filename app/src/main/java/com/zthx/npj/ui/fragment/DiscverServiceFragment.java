@@ -227,12 +227,15 @@ public class DiscverServiceFragment extends Fragment {
                 startActivity(intent);
                 break;
             case R.id.fg_discover_ll_auction:
+                intent1.putExtra("type","1");
                 startActivity(intent1);
                 break;
             case R.id.fg_discover_ll_goods_for_goods:
+                intent1.putExtra("type","2");
                 startActivity(intent1);
                 break;
             case R.id.fg_discover_ll_loan:
+                intent1.putExtra("type","3");
                 startActivity(intent1);
                 break;
             case R.id.fg_discoverService_iv_search:

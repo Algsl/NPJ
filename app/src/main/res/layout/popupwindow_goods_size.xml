@@ -24,7 +24,7 @@
             android:layout_marginLeft="@dimen/dp_12"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/logo"/>
         <TextView
             android:id="@+id/pop_goods_size_tv_old_price"
             android:layout_width="wrap_content"

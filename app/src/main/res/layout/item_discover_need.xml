@@ -27,7 +27,7 @@
             android:layout_height="@dimen/dp_90"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/logo"
             app:riv_corner_radius="@dimen/dp_5"/>
         <ImageView
             android:id="@+id/item_storeQuotation_iv_video"

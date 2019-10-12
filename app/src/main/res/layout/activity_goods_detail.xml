@@ -146,11 +146,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_16"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/white"
                         android:text="本场抢购活动已结束"/>
                 </LinearLayout>
             </RelativeLayout>
-
             <LinearLayout
               android:id="@+id/at_goods_detail_ll_goods"
               android:layout_width="match_parent"
@@ -185,13 +184,14 @@
                   android:id="@+id/at_goods_detail_tv_goods_title"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
+                  android:lineHeight="@dimen/dp_22"
                   android:layout_marginLeft="@dimen/dp_13"
                   android:layout_marginRight="@dimen/dp_13"
                   android:layout_marginTop="@dimen/dp_9"
                   android:maxLines="2"
                   android:text="异丙甲草胺绿色无污染大豆田玉米田小麦田均可放心使用;会员可享受包邮"
                   android:textColor="@color/text3"
-                  android:textSize="@dimen/sp_15" />
+                  android:textSize="@dimen/sp_14" />
                 <TextView
                     android:id="@+id/at_goods_detail_tv_goods_title1"
                     android:layout_width="wrap_content"
@@ -202,7 +202,7 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:text="异丙甲草胺绿色无污染大豆田玉米田小麦田均可放心使用;会员可享受包邮"
-                    android:textColor="@color/text6"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/sp_12" />
               <RelativeLayout
                   android:layout_width="match_parent"
@@ -218,8 +218,8 @@
                       android:layout_height="wrap_content"
                       android:layout_marginLeft="@dimen/dp_12"
                       android:text="已售100"
-                      android:textColor="@color/text9"
-                      android:textSize="@dimen/sp_12" />
+                      android:textColor="@color/text_color"
+                      android:textSize="@dimen/sp_11" />
 
                   <TextView
                       android:id="@+id/at_goods_detail_hold_num"
@@ -228,8 +228,8 @@
                       android:layout_alignParentRight="true"
                       android:layout_marginRight="@dimen/dp_12"
                       android:text="库存200"
-                      android:textColor="@color/text9"
-                      android:textSize="@dimen/sp_12" />
+                      android:textColor="@color/text_color"
+                      android:textSize="@dimen/sp_11" />
               </RelativeLayout>
             </LinearLayout>
 
@@ -474,7 +474,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_10"
-                android:background="@color/background"/>
+                android:background="@color/background2"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
@@ -562,7 +562,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_10"
-                android:background="@color/background"/>
+                android:background="@color/background2"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_38"
@@ -671,16 +671,17 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:gravity="center">
                 <ImageView
-                    android:layout_width="@dimen/dp_22"
-                    android:layout_height="@dimen/dp_22"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
                     android:src="@drawable/goods_detail_store"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="店铺"
-                    android:textSize="@dimen/sp_12"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:textSize="@dimen/sp_10"
                     android:textColor="@color/text6"/>
             </LinearLayout>
             <LinearLayout
@@ -689,17 +690,18 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:gravity="center">
                 <ImageView
                     android:id="@+id/ac_goodsDetail_iv_collect"
-                    android:layout_width="@dimen/dp_22"
-                    android:layout_height="@dimen/dp_22"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
                     android:src="@drawable/uncollect_star"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="收藏"
-                    android:textSize="@dimen/sp_12"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:textSize="@dimen/sp_10"
                     android:textColor="@color/text6"/>
             </LinearLayout>
             <LinearLayout
@@ -708,19 +710,24 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:gravity="center">
                 <ImageView
-                    android:layout_width="@dimen/dp_22"
-                    android:layout_height="@dimen/dp_22"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
                     android:src="@drawable/goods_detail_kefu"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="客服"
-                    android:textSize="@dimen/sp_12"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:textSize="@dimen/sp_10"
                     android:textColor="@color/text6"/>
             </LinearLayout>
         </LinearLayout>
+        <View
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="match_parent"
+            android:background="@color/background1"/>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"

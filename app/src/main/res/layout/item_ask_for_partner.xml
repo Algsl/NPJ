@@ -13,7 +13,7 @@
             android:id="@+id/item_ask_for_partner_head"
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/logo"
             android:layout_centerVertical="true"
             />
 

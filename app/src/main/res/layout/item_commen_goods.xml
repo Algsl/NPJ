@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_170"
         android:scaleType="centerCrop"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/logo"
         app:riv_border_color="#333333"
         app:riv_border_width="@dimen/dp_0"
         app:riv_corner_radius_top_left="@dimen/dp_5"

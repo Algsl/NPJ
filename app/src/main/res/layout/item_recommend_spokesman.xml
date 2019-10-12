@@ -11,7 +11,7 @@
             android:id="@+id/item_local_spokesman_head_pic"
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_60"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/logo"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/dp_12"/>
     </LinearLayout>

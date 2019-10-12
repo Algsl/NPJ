@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.tencent.qcloud.tim.uikit.component.picture.imageEngine.impl.GlideEngine;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.GoodsListResponseBean;
 import com.zthx.npj.net.been.HomeGoodsBeen;

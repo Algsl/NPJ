@@ -8,6 +8,12 @@ import android.util.Log;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
+import com.baidu.mapapi.SDKInitializer;
+import com.tencent.imsdk.TIMSdkConfig;
+import com.tencent.qcloud.tim.uikit.TUIKit;
+import com.tencent.qcloud.tim.uikit.config.CustomFaceConfig;
+import com.tencent.qcloud.tim.uikit.config.GeneralConfig;
+import com.tencent.qcloud.tim.uikit.config.TUIKitConfigs;
 import com.zthx.npj.baidumap.LocationService;
 import com.zthx.npj.services.GlobalEventListener;
 import com.zthx.npj.ui.SplashActivity;
@@ -29,6 +35,8 @@ public class BaseApp extends Application {
     public static BaseApp app;
     public LocationService locationService;
 
+    public static final int SDKAPPID=1400269107;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -37,6 +45,15 @@ public class BaseApp extends Application {
         JPushInterface.init(this);
         JMessageClient.registerEventReceiver(new GlobalEventListener(getApplicationContext()));
         app = this;
+
+        TUIKitConfigs configs=TUIKitConfigs.getConfigs();
+        configs.setSdkConfig(new TIMSdkConfig(SDKAPPID));
+        configs.setCustomFaceConfig(new CustomFaceConfig());
+        configs.setGeneralConfig(new GeneralConfig());
+
+        TUIKit.init(this,SDKAPPID,configs);
+
+        SDKInitializer.initialize(this);
     }
 
     @Override

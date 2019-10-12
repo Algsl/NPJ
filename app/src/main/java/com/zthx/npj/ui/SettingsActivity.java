@@ -320,6 +320,7 @@ public class SettingsActivity extends ActivityBase {
                         e.printStackTrace();
                     }
                 }
+                break;
         }
     }
 

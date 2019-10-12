@@ -20,7 +20,7 @@
             android:id="@+id/ac_mySupply_mcv_headImg"
             android:layout_width="@dimen/dp_70"
             android:layout_height="@dimen/dp_70"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/logo"/>
 
         <TextView
             android:id="@+id/ac_mySupply_tv_nickName"

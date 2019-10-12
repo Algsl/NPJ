@@ -8,7 +8,7 @@
         android:id="@+id/item_location_store_pic"
         android:layout_width="@dimen/dp_90"
         android:layout_height="@dimen/dp_90"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/logo"
         android:layout_centerVertical="true"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"

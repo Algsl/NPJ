@@ -96,6 +96,7 @@ public class ConfirmMyOrderActivity extends ActivityBase {
     ImageView atConfirmOrderIvAlipay;
     @BindView(R.id.at_confirm_order_tv_jin)
     TextView atConfirmOrderTvJin;
+
     private String RSA_PRIVATE ="MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
             "NEU5up1siPOXKJBU0ypde7oPfm9gyy2ajgcw6v3KF2ryjot5AKlBED6qdQPRa5Sk\n" +
             "jIf8ZE1W+x8CVOvEC2m1lCglpm5zbAw2EGXdE4NNH6D0tcxIHza94RFkVilx1rjc\n" +

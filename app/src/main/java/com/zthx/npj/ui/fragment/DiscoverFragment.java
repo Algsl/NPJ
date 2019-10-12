@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.DiscoverViewPagerAdapter;
 import com.zthx.npj.net.netutils.NetUtil;
-import com.zthx.npj.ui.MessageCenterActivity;
 
 import java.util.ArrayList;
 import java.util.List;

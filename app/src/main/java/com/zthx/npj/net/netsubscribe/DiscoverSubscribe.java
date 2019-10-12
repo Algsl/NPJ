@@ -26,6 +26,7 @@ import com.zthx.npj.net.been.TwjcListBean;
 import com.zthx.npj.net.been.UploadCommentBean;
 import com.zthx.npj.net.been.VideoInfoBean;
 import com.zthx.npj.net.been.VideoOrderBean;
+import com.zthx.npj.net.been.XTSZBean;
 import com.zthx.npj.net.netutils.RetrofitFactory;
 
 import io.reactivex.Observable;
@@ -453,6 +454,16 @@ public class DiscoverSubscribe {
         bean.setPay_money(pay_money);
         bean.setType(type);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().supplyPay(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     *
+     * @param subscriber
+     */
+    public static void xtsz(DisposableObserver<ResponseBody> subscriber) {
+        XTSZBean bean=new XTSZBean();
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().xtsz(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

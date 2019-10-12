@@ -39,13 +39,14 @@ import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.NetUtil;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.tencent.activity.MessageCenterActivity;
 import com.zthx.npj.ui.EditMyOfflineStoreActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.HelpActivity;
 import com.zthx.npj.ui.InputInvitationCodeActivity;
 import com.zthx.npj.ui.LoginActivity;
 import com.zthx.npj.ui.MembershipPackageActivity;
-import com.zthx.npj.ui.MessageCenterActivity;
+
 import com.zthx.npj.ui.MyAttestationActivity;
 import com.zthx.npj.ui.MyCollectActivity;
 import com.zthx.npj.ui.MyCouponActivity;
@@ -570,13 +571,14 @@ public class MineFragment
                 startActivity(new Intent(getActivity(), HelpActivity.class));
                 break;
             case R.id.fg_mine_ll_my_supply:
-                if (level.equals("0")) {
+                /*if (level.equals("0")) {
                     Toast toast = Toast.makeText(getContext(), "成为农品街代言人，才可使用供求操作", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else {
                     startActivity(new Intent(getContext(), MySupplyActivity.class));
-                }
+                }*/
+                startActivity(new Intent(getContext(), MySupplyActivity.class));
                 break;
             case R.id.fg_mine_ll_my_offlinestore:
                 if (level.equals("0")) {

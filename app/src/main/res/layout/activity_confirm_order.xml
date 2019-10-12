@@ -83,7 +83,7 @@
                     android:scaleType="centerCrop"
                     android:adjustViewBounds="true"
                     android:layout_marginLeft="@dimen/dp_12"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/logo"
                     app:riv_corner_radius="@dimen/dp_5"/>
                 <TextView
                     android:id="@+id/at_confirm_order_tv_title"

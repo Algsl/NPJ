@@ -48,7 +48,8 @@ public class EditNicknameActivity extends ActivityBase {
                     return;
                 }
                 lastClickTime=System.currentTimeMillis();
-                final String title =acEditNickname.getText().toString();
+                final String title =acEditNickname.getText().toString().trim();
+                Log.e("测试", "onClick: "+title );
                 SetSubscribe.editNickname(user_id,token,type,title,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {

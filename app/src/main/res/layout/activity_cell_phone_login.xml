@@ -28,7 +28,7 @@
             android:id="@+id/at_cellphone_login_iv_head_pic"
             android:layout_width="@dimen/dp_70"
             android:layout_height="@dimen/dp_70"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/logo"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/dp_50"/>
         <TextView

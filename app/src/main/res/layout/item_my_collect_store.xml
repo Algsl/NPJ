@@ -8,7 +8,7 @@
         android:id="@+id/item_my_collect_store_pic"
         android:layout_width="@dimen/dp_70"
         android:layout_height="@dimen/dp_70"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/logo"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/dp_12"
         app:riv_corner_radius="@dimen/dp_5"/>

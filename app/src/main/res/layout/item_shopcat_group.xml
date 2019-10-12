@@ -25,7 +25,7 @@
             android:layout_height="@dimen/dp_22"
             android:layout_toRightOf="@id/item_shopping_cart_cb_store"
             android:layout_marginLeft="@dimen/dp_9"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/logo"
             android:layout_centerVertical="true"/>
 
 

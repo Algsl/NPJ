@@ -612,5 +612,8 @@ public interface HttpApi  {
 
     @POST("index.php/api/user/offlinecomment.html")
     Observable<ResponseBody> offlineStoreComment(@Body OfflineStoreCommentBean bean);
+
+    @POST("index.php/api/set/xtsz")
+    Observable<ResponseBody> xtsz(@Body XTSZBean bean);
 }
 

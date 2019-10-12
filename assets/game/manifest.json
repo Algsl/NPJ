@@ -3,12 +3,11 @@
 		"js/egret.min.js",
 		"js/egret.web.min.js",
 		"js/eui.min.js",
-		"js/game.min.js",
+		"js/assetsmanager.min.js",
 		"js/tween.min.js",
 		"js/promise.min.js",
-		"js/assetsmanager.min.js",
-		"js/socket.min.js",
-		"js/dragonBones.min.js"
+		"js/WXCloudApi.min.js",
+		"js/egretmgobe.min.js"
 	],
 	"game": [
 		"js/default.thm.js",

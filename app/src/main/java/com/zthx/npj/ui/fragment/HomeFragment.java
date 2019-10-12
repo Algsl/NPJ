@@ -34,7 +34,6 @@ import com.youth.banner.listener.OnBannerListener;
 import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.common.Constant;
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.ClassifyDetailAdapter;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BannerResponseBean;
@@ -45,13 +44,14 @@ import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.NetUtil;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.tencent.activity.MessageCenterActivity;
 import com.zthx.npj.ui.BannerActivity;
 import com.zthx.npj.ui.ClassfiysActivity;
+import com.zthx.npj.ui.GameActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.HomeSearchActivity;
 import com.zthx.npj.ui.LocationStoreActivity;
 import com.zthx.npj.ui.MembershipPackageActivity;
-import com.zthx.npj.ui.MessageCenterActivity;
 import com.zthx.npj.ui.PayToStoreActivity;
 import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.ui.SecKillActivity;
@@ -375,7 +375,7 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.fg_home_rl_go_game:
-                //startActivity(new Intent(getContext(), GameActivity.class));
+                startActivity(new Intent(getContext(), GameActivity.class));
                 break;
             case R.id.fg_home_ll_recommend:
                 toggle();

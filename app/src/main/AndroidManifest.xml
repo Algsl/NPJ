@@ -108,7 +108,6 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.SupplyBillActivity" />
         <activity android:name=".ui.AddAddressActivity" />
-        <activity android:name=".ui.MessageCenterActivity" />
         <activity android:name=".ui.SystemMessageActivity" />
         <activity android:name=".ui.SettingsActivity" />
         <activity android:name=".ui.AskForPartnerActivity" />
@@ -210,6 +209,8 @@
         <activity android:name=".ui.SYWithDrawActivity"/>
         <activity android:name=".ui.OrderFinishActivity"/>
         <activity android:name=".ui.MySupplyOrderRefuseActivity"/>
+        <activity android:name=".tencent.activity.MessageCenterActivity"/>
+        <activity android:name=".tencent.activity.ChatActivity"/>
 
 
         <activity

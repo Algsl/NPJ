@@ -29,7 +29,7 @@
                     <com.makeramen.roundedimageview.RoundedImageView
                         android:layout_width="@dimen/dp_70"
                         android:layout_height="@dimen/dp_70"
-                        android:src="@mipmap/ic_launcher"
+                        android:src="@drawable/logo"
                         android:layout_marginTop="@dimen/dp_15"
                         android:layout_marginLeft="@dimen/dp_12"
                         android:id="@+id/at_membership_package_head_pic"

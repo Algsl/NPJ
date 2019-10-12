@@ -16,7 +16,7 @@
             android:layout_width="@dimen/dp_75"
             android:layout_height="@dimen/dp_75"
             android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/logo"
             android:layout_marginLeft="@dimen/dp_12"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"

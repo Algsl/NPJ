@@ -60,7 +60,7 @@
             android:id="@+id/item_orderList_iv_goodsImg"
             android:layout_width="@dimen/dp_80"
             android:layout_height="@dimen/dp_80"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/logo"
             android:layout_centerVertical="true"
             android:scaleType="centerCrop"
             android:layout_marginLeft="@dimen/dp_12"

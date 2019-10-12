@@ -34,11 +34,13 @@ import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.tencent.util.TencentUtil;
 import com.zthx.npj.ui.fragment.DiscoverFragment;
 import com.zthx.npj.ui.fragment.HomeFragment;
 import com.zthx.npj.ui.fragment.MineFragment;
 import com.zthx.npj.ui.fragment.ShoppingCart1Fragment;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
@@ -214,6 +216,8 @@ public class MainActivity extends AppCompatActivity {
                 SharePerferenceUtils.setUserLevel(MainActivity.this, bean.getData().getLevel() + "");
                 BaseConstant.TOKEN = SharePerferenceUtils.getToken(MainActivity.this);
                 loginIM(bean.getData().getMobile(), bean.getData().getMobile());
+
+                TencentUtil.login(bean.getData().getMobile());
             }
 
             @Override
@@ -321,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
                 setIndexSelected(1);
                 break;
             case R.id.ll_main_check_03:
-                //startActivity(new Intent(this,GameActivity.class));
+                startActivity(new Intent(this,GameActivity.class));
                 break;
             case R.id.ll_main_check_04:
                 setIndexSelected(2);

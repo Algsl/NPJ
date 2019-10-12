@@ -9,7 +9,7 @@
     <com.makeramen.roundedimageview.RoundedImageView
         android:layout_width="@dimen/dp_75"
         android:layout_height="@dimen/dp_75"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/logo"
         android:layout_marginLeft="@dimen/dp_12"
         android:layout_centerVertical="true"
         android:id="@+id/item_store_quotation_pic"

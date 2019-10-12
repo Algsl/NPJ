@@ -12,7 +12,7 @@
             android:id="@+id/item_local_store_head_pic"
             android:layout_width="@dimen/dp_35"
             android:layout_height="@dimen/dp_35"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/logo"/>
     </LinearLayout>
     <TextView
         android:id="@+id/item_local_store_tv_name"
