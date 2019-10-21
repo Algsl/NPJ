@@ -207,14 +207,12 @@ public class ChatListAdapter extends BaseAdapter {
                     imgContent.downloadThumbnailImage(msg, new DownloadCompletionCallback() {
                         @Override
                         public void onComplete(int status, String desc, File file) {
-                            Log.e("测试", "onComplete: "+status+" "+desc+" "+file );
                             if (status == 0) {
                                 Glide.with(mContext).load(file).into(holder.picture);
                             }
                         }
                     });
                 } else {
-                    Log.e("测试", "getView: "+path );
                     Picasso.with(mContext).load(new File(path)).into(holder.picture);
                 }
                 break;

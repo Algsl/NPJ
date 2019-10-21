@@ -38,12 +38,11 @@ public class TencentUtil {
             @Override
             public void onError(int i, String s) {
                 //DemoLog.e(TAG, "modifySelfProfile err code = " + i + ", desc = " + s);
-                ToastUtil.toastShortMessage("Error code = " + i + ", desc = " + s);
             }
 
             @Override
             public void onSuccess() {
-                //DemoLog.i(TAG, "modifySelfProfile success");
+                //DemoLog.i(TAG, "modifySelfProfile success")
             }
         });
     }

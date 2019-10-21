@@ -13,13 +13,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
-import com.zthx.npj.net.been.LocalStoreResponseBean;
+import com.zthx.npj.net.been.SelfLiftingResponseBean;
+import com.zthx.npj.utils.MyCustomUtils;
 
 import java.util.ArrayList;
 
 public class LocalStoreAdapter extends RecyclerView.Adapter<LocalStoreAdapter.ViewHolder> {
 
-    private ArrayList<LocalStoreResponseBean.DataBean> mList;
+    private ArrayList<SelfLiftingResponseBean.DataBean> mList;
     private Context mContext;
     private ItemClickListener mItemClickListener;
 
@@ -31,7 +32,7 @@ public class LocalStoreAdapter extends RecyclerView.Adapter<LocalStoreAdapter.Vi
         void onItemClick(int position);
     }
 
-    public LocalStoreAdapter(Context context,ArrayList<LocalStoreResponseBean.DataBean> list){
+    public LocalStoreAdapter(Context context,ArrayList<SelfLiftingResponseBean.DataBean> list){
         mContext=context;
         mList=list;
     }
@@ -57,15 +58,14 @@ public class LocalStoreAdapter extends RecyclerView.Adapter<LocalStoreAdapter.Vi
             });
         }
         if (mList.size()>0){
-                Glide.with(mContext).load(Uri.parse(mList.get(i).getStore_img())).into(viewHolder.headImg);
-                viewHolder.storeName.setText(mList.get(i).getStore_name());
-                viewHolder.storeAddress.setText(mList.get(i).getAddress2());
-                if(mList.get(i).getDistance()>1000){
-                    viewHolder.storeDistance.setText(String.format("%.1f",mList.get(i).getDistance()*0.001)+"km");
-                }else{
-                    viewHolder.storeDistance.setText(mList.get(i).getDistance()+"m");
-                }
-
+            Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getStore_img())).into(viewHolder.headImg);
+            viewHolder.storeName.setText(mList.get(i).getStore_name());
+            MyCustomUtils.getLocateinfo(mList.get(i).getLat(),mList.get(i).getLng(),viewHolder.storeAddress);
+            if(mList.get(i).getDistance()>1000){
+                viewHolder.storeDistance.setText(String.format("%.1f",mList.get(i).getDistance()*0.001)+"km");
+            }else{
+                viewHolder.storeDistance.setText(mList.get(i).getDistance()+"m");
+            }
         }
 
     }

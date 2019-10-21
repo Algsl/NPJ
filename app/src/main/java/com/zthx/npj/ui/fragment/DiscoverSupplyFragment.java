@@ -220,7 +220,6 @@ public class DiscoverSupplyFragment extends Fragment {
                 if (mAdapter == null) {
                     mAdapter = new DiscoverSupplyAdapter(getContext(), data);
                 } else {
-                    Log.e("测试", "setGoodsList: "+data.size());
                     if (data != null && data.size()!=0) {
                         if(data.size()<10){
                             seeMore.setText("没有更多了");
@@ -268,7 +267,6 @@ public class DiscoverSupplyFragment extends Fragment {
                 if (mAdapter2 == null) {
                     mAdapter2 = new DiscoverNeedAdapter(getContext(), data);
                 } else {
-                    Log.e("测试", "setGoodsList: "+data.size());
                     if (data != null && data.size()!=0) {
                         if(data.size()<10){
                             seeMore.setText("没有更多了");
@@ -541,6 +539,5 @@ public class DiscoverSupplyFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
     }
 }

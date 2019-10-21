@@ -172,7 +172,7 @@ public class StoreGoodsListFragment extends Fragment {
                     @Override
                     public void onSuccess(String result) {
                         getStoreGoods();
-                        Toast toast=Toast.makeText(getContext(),"订单删除成功",Toast.LENGTH_SHORT);
+                        Toast toast=Toast.makeText(getContext(),"商品删除成功",Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
                         toast.show();
                     }

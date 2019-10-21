@@ -154,13 +154,20 @@
                         android:layout_height="wrap_content"
                         android:text="当前等级:"
                         android:textSize="@dimen/sp_13"
-                        android:textColor="@android:color/white"
-                        />
-                    <ImageView
+                        android:textColor="@android:color/white" />
+                    <!--<ImageView
                         android:layout_width="@dimen/dp_91"
                         android:layout_height="@dimen/dp_26"
                         android:src="@drawable/gold_daiyanren"
-                        android:layout_marginLeft="@dimen/dp_13"/>
+                        android:layout_marginLeft="@dimen/dp_13"/>-->
+                    <TextView
+                        android:id="@+id/ac_myAchievement_tv_teamNow"
+                        android:layout_width="@dimen/dp_120"
+                        android:layout_height="@dimen/dp_26"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/white"
+                        android:text="无"
+                        android:layout_marginLeft="@dimen/dp_13" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -179,11 +186,19 @@
                         android:textSize="@dimen/sp_13"
                         android:textColor="@android:color/white"
                         />
-                    <ImageView
+                    <TextView
+                        android:id="@+id/ac_myAchievement_tv_teamNext"
+                        android:layout_width="@dimen/dp_120"
+                        android:layout_height="@dimen/dp_26"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/white"
+                        android:text="天使股东代言人"
+                        android:layout_marginLeft="@dimen/dp_13" />
+                    <!--<ImageView
                         android:layout_width="@dimen/dp_91"
                         android:layout_height="@dimen/dp_26"
                         android:src="@drawable/gold_daiyanren"
-                        android:layout_marginLeft="@dimen/dp_13"/>
+                        android:layout_marginLeft="@dimen/dp_13"/>-->
                 </LinearLayout>
                 <TextView
                     android:id="@+id/ac_tvBg"
@@ -194,8 +209,7 @@
                     android:background="@drawable/white_conner_5"
                     android:layout_marginLeft="@dimen/dp_50"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/dp_29">
-                </TextView>
+                    android:layout_marginBottom="@dimen/dp_29"/>
                 <ProgressBar
                     android:id="@+id/at_my_achievement_view_all"
                     android:layout_width="@dimen/dp_250"
@@ -234,7 +248,7 @@
                     android:textColor="@color/text3"
                     android:gravity="center_horizontal"
                     android:paddingBottom="@dimen/dp_m_12"
-                    android:layout_marginLeft="-15dp"
+                    android:layout_marginLeft="@dimen/dp_m_15"
                     android:layout_marginBottom="@dimen/dp_3"/>
             </RelativeLayout>
 
@@ -287,11 +301,19 @@
                         android:textSize="@dimen/sp_13"
                         android:textColor="@android:color/white"
                         />
-                    <ImageView
+                    <TextView
+                        android:id="@+id/ac_myAchievement_tv_bossNow"
+                        android:layout_width="@dimen/dp_120"
+                        android:layout_height="@dimen/dp_26"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/white"
+                        android:text="无"
+                        android:layout_marginLeft="@dimen/dp_13" />
+                    <!--<ImageView
                         android:layout_width="@dimen/dp_91"
                         android:layout_height="@dimen/dp_26"
                         android:src="@drawable/gold_daiyanren"
-                        android:layout_marginLeft="@dimen/dp_13"/>
+                        android:layout_marginLeft="@dimen/dp_13"/>-->
                 </LinearLayout>
 
                 <LinearLayout
@@ -308,14 +330,32 @@
                         android:layout_height="wrap_content"
                         android:text="下一等级:"
                         android:textSize="@dimen/sp_13"
-                        android:textColor="@android:color/white"
-                        />
-                    <ImageView
+                        android:textColor="@android:color/white" />
+                    <TextView
+                        android:id="@+id/ac_myAchievement_tv_bossNext"
+                        android:layout_width="@dimen/dp_120"
+                        android:layout_height="@dimen/dp_26"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/white"
+                        android:text="天使股东代言人"
+                        android:layout_marginLeft="@dimen/dp_13" />
+                    <!--<ImageView
                         android:layout_width="@dimen/dp_91"
                         android:layout_height="@dimen/dp_26"
                         android:src="@drawable/gold_daiyanren"
-                        android:layout_marginLeft="@dimen/dp_13"/>
+                        android:layout_marginLeft="@dimen/dp_13"/>-->
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/ac_tvBg1"
+                    android:layout_width="@dimen/dp_250"
+                    android:layout_height="@dimen/dp_12"
+                    android:minHeight="@dimen/dp_12"
+                    android:maxHeight="@dimen/dp_12"
+                    android:background="@drawable/white_conner_5"
+                    android:layout_marginLeft="@dimen/dp_50"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/dp_29"/>
                 <ProgressBar
                     android:id="@+id/at_my_achievement_view_all_2"
                     android:layout_width="@dimen/dp_250"
@@ -330,6 +370,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="@dimen/dp_29"/>
                 <TextView
+                    android:id="@+id/ac_myAchievement_tv_totalBoss"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="30"
@@ -340,6 +381,7 @@
                     android:layout_marginBottom="@dimen/dp_11"/>
 
                 <TextView
+                    android:id="@+id/ac_myAchievement_tv_myBoss"
                     android:layout_width="@dimen/dp_40"
                     android:layout_height="@dimen/dp_23"
                     android:background="@drawable/myachievement_done_bg"
@@ -349,7 +391,8 @@
                     android:textColor="@color/text3"
                     android:gravity="center_horizontal"
                     android:paddingBottom="@dimen/dp_5"
-                    android:layout_marginLeft="240dp"
+                    android:layout_toRightOf="@id/ac_tvBg1"
+                    android:layout_marginLeft="@dimen/dp_m_15"
                     android:layout_marginBottom="@dimen/dp_3"/>
             </RelativeLayout>
 

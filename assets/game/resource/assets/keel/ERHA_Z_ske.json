@@ -1,0 +1,126 @@
+{
+    "frameRate": 24,
+    "name": "ERHA_Z",
+    "version": "5.5",
+    "compatibleVersion": "5.5",
+    "armature": [
+        {
+            "type": "Armature",
+            "frameRate": 24,
+            "name": "ErHA_Z",
+            "aabb": {
+                "x": -7,
+                "y": -59,
+                "width": 86,
+                "height": 90
+            },
+            "bone": [
+                {
+                    "name": "root"
+                },
+                {
+                    "length": 21,
+                    "name": "尾巴",
+                    "parent": "root",
+                    "transform": {
+                        "x": 16.2,
+                        "y": 8,
+                        "skX": -138.0715,
+                        "skY": -138.0715
+                    }
+                }
+            ],
+            "slot": [
+                {
+                    "name": "尾巴",
+                    "parent": "尾巴"
+                },
+                {
+                    "name": "erha",
+                    "parent": "root"
+                },
+                {
+                    "name": "头",
+                    "parent": "root"
+                }
+            ],
+            "skin": [
+                {
+                    "slot": [
+                        {
+                            "name": "erha",
+                            "display": [
+                                {
+                                    "name": "erha",
+                                    "transform": {
+                                        "x": 40.5,
+                                        "y": 10
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "头",
+                            "display": [
+                                {
+                                    "name": "头",
+                                    "transform": {
+                                        "x": 53,
+                                        "y": -31
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "尾巴",
+                            "display": [
+                                {
+                                    "name": "尾巴",
+                                    "transform": {
+                                        "x": 14.98,
+                                        "y": 0.66,
+                                        "skX": 138.07,
+                                        "skY": 138.07
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "animation": [
+                {
+                    "duration": 24,
+                    "playTimes": 0,
+                    "name": "newErHa_Z",
+                    "bone": [
+                        {
+                            "name": "尾巴",
+                            "rotateFrame": [
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0,
+                                    "rotate": 20
+                                },
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0,
+                                    "rotate": 2
+                                },
+                                {
+                                    "duration": 0,
+                                    "rotate": 20
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "defaultActions": [
+                {
+                    "gotoAndPlay": "newErHa_Z"
+                }
+            ]
+        }
+    ]
+}

@@ -615,5 +615,14 @@ public interface HttpApi  {
 
     @POST("index.php/api/set/xtsz")
     Observable<ResponseBody> xtsz(@Body XTSZBean bean);
+
+    @POST("index.php/api/usercert/margin.html")
+    Observable<ResponseBody> margin(@Body MarginBean bean);
+
+    @POST("index.php/api/user/userapp.html")
+    Observable<ResponseBody> userApply(@Body UserApplyBean bean);
+
+    @POST("index.php/api/user2/selflifting.html")
+    Observable<ResponseBody> selfLifting(@Body SelfLiftingBean bean);
 }
 

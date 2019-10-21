@@ -1,0 +1,106 @@
+{
+    "frameRate": 24,
+    "name": "hoe_BaiJin",
+    "version": "5.5",
+    "compatibleVersion": "5.5",
+    "armature": [
+        {
+            "type": "Armature",
+            "frameRate": 24,
+            "name": "GuJia_BaiJin",
+            "aabb": {
+                "x": -41,
+                "y": -37.5,
+                "width": 82,
+                "height": 75
+            },
+            "bone": [
+                {
+                    "name": "root"
+                }
+            ],
+            "slot": [
+                {
+                    "name": "feiliao",
+                    "parent": "root"
+                }
+            ],
+            "skin": [
+                {
+                    "slot": [
+                        {
+                            "name": "feiliao",
+                            "display": [
+                                {
+                                    "name": "feiliao",
+                                    "transform": {
+                                        "scX": 3,
+                                        "scY": 3
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "animation": [
+                {
+                    "duration": 42,
+                    "playTimes": 0,
+                    "name": "newBaiJin",
+                    "bone": [
+                        {
+                            "name": "root",
+                            "rotateFrame": [
+                                {
+                                    "duration": 12,
+                                    "curve": [
+                                        0.5,
+                                        0,
+                                        0.5,
+                                        1
+                                    ],
+                                    "rotate": 45
+                                },
+                                {
+                                    "duration": 6,
+                                    "tweenEasing": 0,
+                                    "rotate": -80
+                                },
+                                {
+                                    "duration": 6,
+                                    "tweenEasing": 0,
+                                    "rotate": 45
+                                },
+                                {
+                                    "duration": 6,
+                                    "tweenEasing": 0,
+                                    "rotate": -65
+                                },
+                                {
+                                    "duration": 6,
+                                    "tweenEasing": 0,
+                                    "rotate": 20
+                                },
+                                {
+                                    "duration": 6,
+                                    "tweenEasing": 0,
+                                    "rotate": -65
+                                },
+                                {
+                                    "duration": 0,
+                                    "rotate": 45
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "defaultActions": [
+                {
+                    "gotoAndPlay": "newBaiJin"
+                }
+            ]
+        }
+    ]
+}

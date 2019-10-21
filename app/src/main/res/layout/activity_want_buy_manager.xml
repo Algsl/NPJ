@@ -87,7 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/refreshLayout1">
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -96,30 +96,38 @@
                     android:background="@color/background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/at_swant_buy_manager_rv_supply_list2"
-                    android:background="@color/background"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:layout_height="match_parent"/>
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/showHint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/dp_100"
+                    android:text="暂无相关内容"/>
+            </RelativeLayout>
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     </LinearLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
-        android:visibility="gone"
-        android:id="@+id/at_want_buy_manager_ll_supply_bill"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/at_want_buy_manager_rv_supply_bill"
-            android:background="@color/background"
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/at_want_buy_manager_ll_supply_bill"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/at_want_buy_manager_rv_supply_bill"
+                android:background="@color/background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:id="@+id/showHint1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dp_100"
+                android:text="暂无相关内容"/>
+        </RelativeLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

@@ -40,6 +40,7 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.gson.Gson;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.R;
 import com.zthx.npj.aliapi.OrderInfoUtil2_0;
 import com.zthx.npj.aliapi.PayResult;
@@ -225,6 +226,10 @@ public class SupplyMessageActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
+
+        api = WXAPIFactory.createWXAPI(this, null);
+        // 将该app注册到微信
+        api.registerApp("wx76500efa65d19915");
 
         supplyType = getIntent().getIntExtra(Const.SUPPLY_TYPE, 1);
 
@@ -442,8 +447,11 @@ public class SupplyMessageActivity extends ActivityBase {
                         }else if(atSupplyMessageEtMin.getText().toString().length()==0 || atSupplyMessageEtMax.getText().toString().length()==0){
                             showToast("请输入最低价和最高价");
                         }else{
-                            showToast("信息上传中..");
-                            uploadImage();
+                            if(isTop.equals("1")){
+                                showPublishPopwindow();
+                            }else{
+                                uploadImage();
+                            }
                         }
                     }else{//供应
                         if(atSupplyMessageTitle.getText().toString().trim().length()==0){
@@ -459,8 +467,11 @@ public class SupplyMessageActivity extends ActivityBase {
                         }else if(atSupplyMessageEtPrice.getText().toString().trim().length()==0){
                             showToast("请填写供应价格");
                         }else{
-                            showToast("信息上传中..");
-                            uploadImage();
+                            if(isTop.equals("1")){
+                                showPublishPopwindow();
+                            }else{
+                                uploadImage();
+                            }
                         }
                     }
                 }
@@ -489,7 +500,7 @@ public class SupplyMessageActivity extends ActivityBase {
     }
 
     private void uploadImage() {//上传商品图片
-
+        Log.e("测试", "uploadImage: "+picPaths1 );
         if(picPaths1.size()==0 || picPaths1==null){//产品图不存在，直接上传详情
             uploadContentImg();
         }else{//产品图存在，上传产品图和详情图
@@ -520,6 +531,7 @@ public class SupplyMessageActivity extends ActivityBase {
 
 
     private void uploadContentImg() {
+        Log.e("测试", "uploadContentImg: "+picPaths2 );
         HttpUtils.uploadMoreImg(address, picPaths2, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -528,9 +540,9 @@ public class SupplyMessageActivity extends ActivityBase {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.e("测试", "onResponse: " + response);
                 UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
                 UploadPicsResponseBean.DataBean data = bean.getData();
+                Log.e("测试", "onResponse: "+supplyType );
                 switch (supplyType) {
                     case 1:
                         purchaseBean.setImg(goodsImg);
@@ -547,9 +559,9 @@ public class SupplyMessageActivity extends ActivityBase {
                         purchaseBean.setIs_top(isTop);
                         purchaseBean.setCity(atQgMessageTvAddress.getText().toString());
                         if(isTop.equals("1")){
-                            purchaseBean.setTop_days(payMoney);
-                            purchaseBean.setTop_price(payMoney);
                             purchaseBean.setPay_code(payType);
+                            purchaseBean.setTop_price(payMoney);
+                            purchaseBean.setTop_days(payMoney);
                         }
                         break;
                     case 2:
@@ -567,6 +579,11 @@ public class SupplyMessageActivity extends ActivityBase {
                         supplyBean.setCity(atSupplyMessageTvAddress.getText().toString());
                         supplyBean.setBuy_num(atSupplyMessageWhole.getText().toString().trim());
                         supplyBean.setIs_top(isTop);
+                        if(isTop.equals("1")){
+                            supplyBean.setPay_code(payType);
+                            supplyBean.setTop_price(payMoney);
+                            supplyBean.setTop_days(payMoney);
+                        }
                         break;
                 }
                 uploadData();
@@ -576,37 +593,77 @@ public class SupplyMessageActivity extends ActivityBase {
 
 
     private void uploadData() {
-        if(isTop.equals("1")){
-            showPublishPopwindow();
-        }else{
-            switch (supplyType) {
-                case 1://采购
-                    DiscoverSubscribe.addPurchase(purchaseBean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                        @Override
-                        public void onSuccess(String result) {
+        switch (supplyType) {
+            case 1://采购
+                DiscoverSubscribe.addPurchase(purchaseBean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        if(isTop.equals("1")){
+                            data1=GsonUtils.fromJson(result,UploadChengxinCertResponseBean.class).getData();
+                            Log.e("测试", "onSuccess: "+result );
+                            DiscoverSubscribe.supplyPay(data1.getPay_code(), data1.getOrder_sn(), data1.getPay_money(),"6", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                                @Override
+                                public void onSuccess(String result) {
+                                    if(payType.equals("1")){
+                                        setPayResult(result);
+                                    }else if(payType.equals("2")){
+                                        setWXResult(result);
+                                    }else{
+                                        yue();
+                                    }
+                                }
+
+                                @Override
+                                public void onFault(String errorMsg) {
+                                    showToast(errorMsg);
+                                }
+                            }));
+                        }else{
                             showToast("信息发布成功");
                             finish();
                         }
+                    }
 
-                        @Override
-                        public void onFault(String errorMsg) {
-                        }
-                    }));
-                    break;
-                case 2://供应
-                    DiscoverSubscribe.addSupply(supplyBean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                        @Override
-                        public void onSuccess(String result) {
+                    @Override
+                    public void onFault(String errorMsg) {
+                    }
+                }));
+                break;
+            case 2://供应
+
+                DiscoverSubscribe.addSupply(supplyBean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        if(isTop.equals("1")){
+                            data1=GsonUtils.fromJson(result,UploadChengxinCertResponseBean.class).getData();
+                            DiscoverSubscribe.supplyPay(data1.getPay_code(), data1.getOrder_sn(), data1.getPay_money(),"6", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                                @Override
+                                public void onSuccess(String result) {
+                                    if(payType.equals("1")){
+                                        setPayResult(result);
+                                    }else if(payType.equals("2")){
+                                        setWXResult(result);
+                                    }else{
+                                        yue();
+                                    }
+                                }
+
+                                @Override
+                                public void onFault(String errorMsg) {
+                                    showToast(errorMsg);
+                                }
+                            }));
+                        }else{
                             showToast("信息发布成功");
                             finish();
                         }
+                    }
 
-                        @Override
-                        public void onFault(String errorMsg) {
-                        }
-                    }));
-                    break;
-            }
+                    @Override
+                    public void onFault(String errorMsg) {
+                    }
+                }));
+                break;
         }
     }
 
@@ -856,8 +913,6 @@ public class SupplyMessageActivity extends ActivityBase {
             @Override
             public void onClick(View view) {
                 payType = "3";
-                showToast("订单生成中，请稍等...");
-                generateOrder();
                 dialog.dismiss();
             }
         });
@@ -865,8 +920,7 @@ public class SupplyMessageActivity extends ActivityBase {
             @Override
             public void onClick(View view) {
                 payType = "1";
-                showToast("订单生成中，请稍等...");
-                generateOrder();
+                uploadImage();
                 dialog.dismiss();
             }
         });
@@ -874,8 +928,7 @@ public class SupplyMessageActivity extends ActivityBase {
             @Override
             public void onClick(View view) {
                 payType = "2";
-                showToast("订单生成中，请稍等...");
-                generateOrder();
+                uploadImage();
                 dialog.dismiss();
             }
         });
@@ -887,69 +940,11 @@ public class SupplyMessageActivity extends ActivityBase {
         });
     }
 
-    public void generateOrder() {
-        isTop="1";
-        atSupplyMessageRbZhiding.setImageResource(R.drawable.at_edit_address_selector);
-        /*UploadChengXinCertBean bean=new UploadChengXinCertBean();
-        bean.setUser_id(user_id);
-        bean.setToken(token);
-        bean.setPay_code(payType);
-        bean.setPrice(payMoney);
-        CertSubscribe.uploadChengxinCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                showToast("用户订单已生成,正在调起支付...");
-                UploadChengxinCertResponseBean bean = GsonUtils.fromJson(result, UploadChengxinCertResponseBean.class);
-                data1 = bean.getData();
-                if (payType.equals("3")) {
-                    yue();
-                } else if (payType.equals("2")) {
-                    wxpay();
-                } else {
-                    alipay();
-                }
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-                JSONObject obj = null;
-                try {
-                    obj = new JSONObject(errorMsg);
-                    Log.e("测试", "onFault: " + obj);
-                    int code = obj.getInt("code");
-                    if (code == 2) {
-                        showToast("余额支付成功");
-                        isTop = "1";
-                        atSupplyMessageRbZhiding.setImageResource(R.drawable.at_edit_address_selector);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Log.e("测试", "onFault: " + (obj == null));
-                if (obj == null) {
-                    showToast("余额不足");
-                }
-            }
-        }));*/
-    }
 
     private void yue() {
 
     }
 
-    private void wxpay() {
-        GiftSubscribe.pay("weixin", data1.getOrder_sn(), data1.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                setWXResult(result);
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-                showToast(errorMsg);
-            }
-        }));
-    }
 
     private void setWXResult(String result) {
         PayResponse1Bean bean = GsonUtils.fromJson(result, PayResponse1Bean.class);
@@ -967,19 +962,6 @@ public class SupplyMessageActivity extends ActivityBase {
         api.sendReq(req);
     }
 
-    private void alipay() {
-        GiftSubscribe.pay("alipay", data1.getOrder_sn(), data1.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                setPayResult(result);
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-                showToast(errorMsg);
-            }
-        }));
-    }
 
     private void setPayResult(String result) {
         PayResponseBean bean = GsonUtils.fromJson(result, PayResponseBean.class);

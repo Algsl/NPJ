@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.entity.NotificationBean;
+import com.zthx.npj.utils.marquee.LooperBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class SharePerferenceUtils {
     private static String cateName;
     private static String totlePrice;
     private static ArrayList<NotificationBean> list=new ArrayList<>();
-
+    private static ArrayList<LooperBean> looperBeans=new ArrayList<>();
 
 
     public static String getTotlePrice() {
@@ -163,11 +164,11 @@ public class SharePerferenceUtils {
     }
 
     public static String getUserId(Context context) {
-        //return "29";
+        //return "86";
         return getString(context, "user_id", "");
     }
     public static String getToken(Context context) {
-        //return "79cb87e0d09c40a7655e1c99482ede7c";
+        //return "d01c46ebc76db8cd96d9b121d99c7f12";
         return getString(context, "token", "");
     }
 
@@ -208,6 +209,14 @@ public class SharePerferenceUtils {
 
     public static void setList(ArrayList<NotificationBean> list) {
         SharePerferenceUtils.list = list;
+    }
+
+    public static ArrayList<LooperBean> getLooperBeans() {
+        return looperBeans;
+    }
+
+    public static void setLooperBeans(ArrayList<LooperBean> looperBeans) {
+        SharePerferenceUtils.looperBeans = looperBeans;
     }
 
     public static void setToken(Context context, String token) {

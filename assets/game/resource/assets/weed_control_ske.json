@@ -1,0 +1,149 @@
+{
+    "frameRate": 24,
+    "name": "weed_control",
+    "version": "5.5",
+    "compatibleVersion": "5.5",
+    "armature": [
+        {
+            "type": "Armature",
+            "frameRate": 24,
+            "name": "weed_control",
+            "aabb": {
+                "x": -115,
+                "y": 104.55,
+                "width": 216,
+                "height": 218
+            },
+            "bone": [
+                {
+                    "name": "root"
+                },
+                {
+                    "length": 85,
+                    "name": "zhuochong@3x",
+                    "parent": "root",
+                    "transform": {
+                        "x": -28,
+                        "y": 189,
+                        "skX": 42.6338,
+                        "skY": 42.6338
+                    }
+                },
+                {
+                    "length": 10,
+                    "name": "cao@3x",
+                    "parent": "root",
+                    "transform": {
+                        "x": 31,
+                        "y": 296
+                    }
+                }
+            ],
+            "slot": [
+                {
+                    "name": "zhuochong@3x",
+                    "parent": "zhuochong@3x"
+                },
+                {
+                    "name": "cao@3x",
+                    "parent": "cao@3x"
+                }
+            ],
+            "skin": [
+                {
+                    "slot": [
+                        {
+                            "name": "zhuochong@3x",
+                            "display": [
+                                {
+                                    "name": "3x",
+                                    "transform": {
+                                        "x": 32.08,
+                                        "y": 3.84,
+                                        "skX": 47.37,
+                                        "skY": 47.37
+                                    },
+                                    "path": "zhuochong@3x"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "cao@3x",
+                            "display": [
+                                {
+                                    "name": "3x",
+                                    "transform": {
+                                        "x": 5,
+                                        "y": -1.5,
+                                        "scX": 0.9,
+                                        "scY": 0.9
+                                    },
+                                    "path": "cao@3x"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "animation": [
+                {
+                    "duration": 30,
+                    "playTimes": 0,
+                    "name": "newweed_control",
+                    "bone": [
+                        {
+                            "name": "zhuochong@3x",
+                            "translateFrame": [
+                                {
+                                    "duration": 8,
+                                    "tweenEasing": 0
+                                },
+                                {
+                                    "duration": 8,
+                                    "tweenEasing": 0,
+                                    "y": -8.3
+                                },
+                                {
+                                    "duration": 14,
+                                    "tweenEasing": 0
+                                },
+                                {
+                                    "duration": 0,
+                                    "y": -219.12
+                                }
+                            ]
+                        },
+                        {
+                            "name": "cao@3x",
+                            "translateFrame": [
+                                {
+                                    "duration": 8,
+                                    "tweenEasing": 0
+                                },
+                                {
+                                    "duration": 8,
+                                    "tweenEasing": 0,
+                                    "y": -1.77
+                                },
+                                {
+                                    "duration": 14,
+                                    "tweenEasing": 0,
+                                    "y": 3.28
+                                },
+                                {
+                                    "duration": 0,
+                                    "y": -219.12
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "defaultActions": [
+                {
+                    "gotoAndPlay": "newweed_control"
+                }
+            ]
+        }
+    ]
+}

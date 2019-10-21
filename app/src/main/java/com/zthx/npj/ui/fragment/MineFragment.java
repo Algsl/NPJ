@@ -194,7 +194,6 @@ public class MineFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("测试", "onCreate0: " + SharePerferenceUtils.getUserId(getContext()).equals(""));
         if (SharePerferenceUtils.getUserId(getContext()).equals("")) {
             startActivity(new Intent(getContext(), LoginActivity.class));
         }
@@ -204,7 +203,6 @@ public class MineFragment
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            Log.e("测试", "onCreate1: " + SharePerferenceUtils.getUserId(getContext()).equals(""));
             if (SharePerferenceUtils.getUserId(getContext()).equals("")) {
                 startActivity(new Intent(getContext(), LoginActivity.class));
             } else if (!NetUtil.isNetworkConnected(getContext())) {
@@ -437,7 +435,6 @@ public class MineFragment
     }
 
     private void setUserInfo(String result) {
-        Log.e("测试", "setUserInfo: " + result);
         UserResponseBean userResponseBean = GsonUtils.fromJson(result, UserResponseBean.class);
         UserResponseBean.DataBean data = userResponseBean.getData();
         level = data.getLevel() + "";
@@ -451,9 +448,7 @@ public class MineFragment
         fgMineTvCollectionNum.setText(String.valueOf(data.getCollection_num()));
         balance = data.getBalance();
         SharePerferenceUtils.setBalance(getContext(), balance);
-        Glide.with(getContext())
-                .load(Uri.parse(data.getHead_img()))
-                .into(fgMineIvHeadPic);
+        Glide.with(getContext()).load(Uri.parse(data.getHead_img())).into(fgMineIvHeadPic);
         SharePerferenceUtils.setHeadPic(getContext(), data.getHead_img());
         SharePerferenceUtils.setNickName(getContext(), data.getNick_name());
         SharePerferenceUtils.setReputation(getContext(), data.getReputation());

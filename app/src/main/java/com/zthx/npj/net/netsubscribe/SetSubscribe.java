@@ -1483,15 +1483,15 @@ public class SetSubscribe {
      * 申请升级
      * @param user_id
      * @param token
-     * @param user_level
+     * @param type
      * @param app_level
      * @param subscriber
      */
-    public static void userApp(String user_id,String token,String user_level,String app_level, DisposableObserver<ResponseBody> subscriber) {
+    public static void userApp(String user_id,String token,long type,long app_level, DisposableObserver<ResponseBody> subscriber) {
         UserAppBean bean=new UserAppBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
-        bean.setUser_level(user_level);
+        bean.setType(type);
         bean.setApp_level(app_level);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().userApp(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
@@ -1612,6 +1612,42 @@ public class SetSubscribe {
         bean.setToken(token);
         bean.setOrder_id(order_id);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().reminders(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 合伙人申请等级
+     * @param user_id
+     * @param token
+     * @param type
+     * @param app_level
+     * @param subscriber
+     */
+    public static void userApply(String user_id,String token,long type,long app_level, DisposableObserver<ResponseBody> subscriber) {
+        UserApplyBean bean=new UserApplyBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setType(type);
+        bean.setApp_level(app_level);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().userApply(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 自提列表
+     * @param user_id
+     * @param token
+     * @param lng
+     * @param lat
+     * @param subscriber
+     */
+    public static void selfLifting(String user_id,String token,String lng,String lat, DisposableObserver<ResponseBody> subscriber) {
+        SelfLiftingBean bean=new SelfLiftingBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setLng(lng);
+        bean.setLat(lat);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().selfLifting(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

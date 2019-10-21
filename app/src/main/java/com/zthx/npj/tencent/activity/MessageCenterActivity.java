@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.baidu.mapsdkplatform.comapi.map.MessageCenter;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMManager;
@@ -30,11 +31,21 @@ import com.tencent.qcloud.tim.uikit.utils.PopWindowUtil;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.MessageCenterAdapter;
 import com.zthx.npj.base.BaseApp;
+import com.zthx.npj.base.BaseConstant;
+import com.zthx.npj.net.been.UserResponseBean;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.tencent.util.Constants;
 import com.zthx.npj.tencent.util.GenerateTestUserSig;
+import com.zthx.npj.tencent.util.TencentUtil;
 import com.zthx.npj.ui.ActivityBase;
+import com.zthx.npj.ui.MainActivity;
 import com.zthx.npj.ui.NotificationListActivity;
 import com.zthx.npj.ui.ServicesChatActivity;
+import com.zthx.npj.ui.ServicesListActivity;
+import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +87,8 @@ public class MessageCenterActivity extends ActivityBase {
     private String nickName;
     private String signature;
 
+    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +100,27 @@ public class MessageCenterActivity extends ActivityBase {
 
         initView();
         initPopMenuAction();
+
+        getUserMsg();
+    }
+
+    private void getUserMsg() {
+        SetSubscribe.getUserInfo(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                UserResponseBean bean = GsonUtils.fromJson(result, UserResponseBean.class);
+                SharePerferenceUtils.setUserLevel(MessageCenterActivity.this, bean.getData().getLevel() + "");
+                BaseConstant.TOKEN = SharePerferenceUtils.getToken(MessageCenterActivity.this);
+                Log.e("测试", "getUserMsg: " +bean.getData().getNick_name() + " " + bean.getData().getHead_img());
+                TencentUtil.updateProfile(bean.getData().getHead_img(),bean.getData().getNick_name(),"");
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                //showToast(errorMsg);
+                SharePerferenceUtils.setUserId(MessageCenterActivity.this,"");
+            }
+        }));
     }
 
     private void initView() {
@@ -125,8 +159,6 @@ public class MessageCenterActivity extends ActivityBase {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         BaseApp.getApp().startActivity(intent);
     }
-
-
 
     private void showItemPopMenu(final int index, final ConversationInfo conversationInfo, float locationX, float locationY) {
         if (mConversationPopActions == null || mConversationPopActions.size() == 0)
@@ -169,8 +201,8 @@ public class MessageCenterActivity extends ActivityBase {
         }, 10000); // 10s后无操作自动消失
     }
 
-    private void initPopMenuAction() {
 
+    private void initPopMenuAction() {
         // 设置长按conversation显示PopAction
         List<PopMenuAction> conversationPopActions = new ArrayList<PopMenuAction>();
         PopMenuAction action = new PopMenuAction();
@@ -213,7 +245,7 @@ public class MessageCenterActivity extends ActivityBase {
                 openActivity(NotificationListActivity.class);
                 break;
             case R.id.at_message_center_rl_kefu_message:
-                openActivity(ServicesChatActivity.class, "gsla1", "农品街客服");
+                openActivity(ServicesListActivity.class);
                 break;
         }
     }

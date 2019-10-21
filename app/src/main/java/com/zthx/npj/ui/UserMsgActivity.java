@@ -165,7 +165,6 @@ public class UserMsgActivity extends ActivityBase{
         }
 
         LatLng latLng=new LatLng(Double.parseDouble(SharePerferenceUtils.getLat(this)), Double.parseDouble(SharePerferenceUtils.getLng(this)));
-        Log.e(TAG, "onCreate: "+Double.parseDouble(SharePerferenceUtils.getLat(this))+"  "+Double.parseDouble(SharePerferenceUtils.getLng(this)) );
         getLocateinfo(latLng);
         getStoreGoodsList();
     }

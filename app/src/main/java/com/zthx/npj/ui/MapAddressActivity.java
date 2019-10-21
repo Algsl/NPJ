@@ -277,7 +277,7 @@ public class MapAddressActivity extends ActivityBase {
         @Override
         public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
             ArrayList<String> list = new ArrayList<>();
-            Log.e("测试", "onGetReverseGeoCodeResult: " + reverseGeoCodeResult.getPoiList());
+            //Log.e("测试", "onGetReverseGeoCodeResult: " + reverseGeoCodeResult.getPoiList());
             for (int i = 0; i < reverseGeoCodeResult.getPoiList().size(); i++) {
                 list.add(reverseGeoCodeResult.getPoiList().get(i).getName());
                 options1Items1.add(reverseGeoCodeResult.getPoiList().get(i).getName());

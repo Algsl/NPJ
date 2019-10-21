@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -66,7 +67,7 @@ public class AskForPartnerActivity extends ActivityBase {
     private void setUserAppLog(String result) {
         UserAppLogResponseBean bean = GsonUtils.fromJson(result, UserAppLogResponseBean.class);
         ArrayList<UserAppLogResponseBean.DataBean> data = bean.getData();
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
         atAskForPartnerRv.setLayoutManager(manager);
         AskForPartnerAdapter mAdapter = new AskForPartnerAdapter(this, data);
         atAskForPartnerRv.setItemAnimator(new DefaultItemAnimator());

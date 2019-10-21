@@ -26,41 +26,44 @@
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/iv_photo"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_80"
                 android:layout_centerVertical="true"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
+                android:background="@drawable/conner_5_background"
                 app:riv_corner_radius="@dimen/dp_5"/>
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_10"
                 android:layout_toRightOf="@id/iv_photo"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="时空房间啊链接法兰克福骄傲拉开飞机阿里进来撒劫匪了卡减肥了看见拉杀劫匪垃圾费垃圾费啦"
                 android:textColor="#333333"
-                android:textSize="14dp" />
+                android:lineHeight="@dimen/dp_22"
+                android:textSize="@dimen/sp_14" />
             <TextView
                 android:id="@+id/item_homeGoods_tv_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/iv_photo"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:layout_below="@id/tv_name"
-                android:textSize="@dimen/dp_12"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/sp_12"
                 android:layout_marginTop="@dimen/dp_5"
                 android:text="规格: 10瓶"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:layout_toRightOf="@id/iv_photo">
 
                 <TextView
@@ -108,7 +111,7 @@
                         android:gravity="center"
                         android:minEms="1"
                         android:text="1"
-                        android:textColor="#666666"
+                        android:textColor="@color/text_color"
                         android:textSize="12dp" />
 
                     <ImageView
@@ -120,4 +123,10 @@
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="12dp"
+        android:background="@color/title_bg"/>
 </LinearLayout>

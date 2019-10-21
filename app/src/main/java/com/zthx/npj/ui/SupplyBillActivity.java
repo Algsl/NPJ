@@ -32,6 +32,7 @@ import com.zthx.npj.net.been.PayResponse1Bean;
 import com.zthx.npj.net.been.PayResponseBean;
 import com.zthx.npj.net.been.SupplyBuy2Bean;
 import com.zthx.npj.net.been.SupplyBuy2ResponseBean;
+import com.zthx.npj.net.been.SupplyPayBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netsubscribe.GiftSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -172,7 +173,7 @@ public class SupplyBillActivity extends ActivityBase {
                         atSupplyBillTvName.setText(data.getNick_name());
                         Glide.with(SupplyBillActivity.this).load(data.getGoods_img()).into(atSupplyBillIvGoodsPic);
                         atSupplyBillTvTitle.setText(data.getTitle());
-                        atSupplyBillTvDanjia.setText("¥" + data.getPrice());
+                        atSupplyBillTvDanjia.setText("¥" + data.getPrice()+"/");
                         atSupplyBillTvUnit.setText(data.getGoods_unit());
                         atSupplyBillTvBuyNum.setHint(data.getBuy_num()+""+data.getGoods_unit()+"起批");
                         address_id = data.getAddress_id() + "";
@@ -334,7 +335,7 @@ public class SupplyBillActivity extends ActivityBase {
     }
 
     private void wxpay() {
-        GiftSubscribe.pay("weixin", data1.getOrder_sn(), data1.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        DiscoverSubscribe.supplyPay("weixin", data1.getOrder_sn(), data1.getPay_money(),"4", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setWXResult(result);
@@ -364,7 +365,7 @@ public class SupplyBillActivity extends ActivityBase {
     }
 
     private void alipay() {
-        GiftSubscribe.pay("alipay", data1.getOrder_sn(), data1.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        DiscoverSubscribe.supplyPay("alipay", data1.getOrder_sn(), data1.getPay_money(),"4", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setPayResult(result);

@@ -29,11 +29,15 @@ import com.zthx.npj.R;
 import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.base.BaseConstant;
 import com.zthx.npj.base.Const;
+import com.zthx.npj.net.been.OrderPushBean;
+import com.zthx.npj.net.been.OrderPushResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.NetUtil;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.utils.marquee.LooperBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +45,7 @@ import java.util.List;
 public class SplashActivity extends ActivityBase{
     LinearLayout atSplash;
     static final int GPS_REQUEST_CODE=10;
+
     /*private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -82,6 +87,7 @@ public class SplashActivity extends ActivityBase{
         startClock();
     }
 
+
     private void startClock() {
         new CountDownTimer(2000,1000) {
             @Override
@@ -109,8 +115,8 @@ public class SplashActivity extends ActivityBase{
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_PHONE_STATE
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.RECORD_AUDIO,
         };
         //过滤以获取的权限，得到未获取的权限
         List<String> mRequestPermission=new ArrayList<>();

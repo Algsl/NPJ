@@ -44,6 +44,11 @@ public class TrustedStoreActivity extends ActivityBase {
     @BindView(R.id.ac_trustedStore_tv_apply)
     TextView acTrustedStoreTvApply;
 
+    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
+    private String money;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +70,8 @@ public class TrustedStoreActivity extends ActivityBase {
                 int status = chengXinCertResponseBean.getData().getStatus();
                 if (status == 1) {
                     atTrustStoreLlBaozhengjin.setVisibility(View.VISIBLE);
-                    atTrustStoreTvBaozhengjin.setText("您的当前保证金为" + chengXinCertResponseBean.getData().getBail() + "元");
+                    money=chengXinCertResponseBean.getData().getBail();
+                    atTrustStoreTvBaozhengjin.setText("您的当前保证金为" + money+ "元");
                 } else {
                     atTrustStoreLlBaozhengjin.setVisibility(View.GONE);
                 }
@@ -108,6 +114,17 @@ public class TrustedStoreActivity extends ActivityBase {
                 openActivity(ConsultActivity.class);
                 break;
             case R.id.ac_trustedStore_tv_apply:
+                CertSubscribe.margin(user_id,token,money,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        showToast("退款成功");
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
                 break;
         }
     }

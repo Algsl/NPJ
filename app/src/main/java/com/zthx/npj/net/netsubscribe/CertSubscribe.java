@@ -4,6 +4,7 @@ import com.zthx.npj.net.been.CertBean;
 import com.zthx.npj.net.been.CompanyBean;
 import com.zthx.npj.net.been.GiftListBean;
 import com.zthx.npj.net.been.IntegrityBean;
+import com.zthx.npj.net.been.MarginBean;
 import com.zthx.npj.net.been.RealNameBean;
 import com.zthx.npj.net.been.StockBean;
 import com.zthx.npj.net.been.UpLoadMyCertBean;
@@ -252,6 +253,22 @@ public class CertSubscribe {
         bean.setUser_id(user_id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().integrity(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 退换保证金
+     * @param user_id
+     * @param token
+     * @param money
+     * @param subscriber
+     */
+    public static void margin(String user_id,String token,String money, DisposableObserver<ResponseBody> subscriber) {
+        MarginBean bean=new MarginBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setMoney(money);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().margin(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 

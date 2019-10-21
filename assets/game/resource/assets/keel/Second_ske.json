@@ -1,0 +1,482 @@
+{
+    "frameRate": 24,
+    "isGlobal": 0,
+    "armature": [
+        {
+            "ik": [],
+            "type": "Armature",
+            "bone": [
+                {
+                    "name": "root",
+                    "transform": {}
+                },
+                {
+                    "length": 10,
+                    "transform": {
+                        "y": 25.7,
+                        "skX": 113.4542,
+                        "skY": 113.4542,
+                        "x": 22.9
+                    },
+                    "parent": "root",
+                    "name": "形状_1"
+                },
+                {
+                    "length": 13,
+                    "transform": {
+                        "y": 26.75,
+                        "skX": 98.6156,
+                        "skY": 98.6156,
+                        "x": 35.85
+                    },
+                    "parent": "root",
+                    "name": "前左"
+                },
+                {
+                    "length": 13,
+                    "transform": {
+                        "y": 23.15,
+                        "skX": 100.5064,
+                        "skY": 100.5064,
+                        "x": 60.55
+                    },
+                    "parent": "root",
+                    "name": "后左"
+                },
+                {
+                    "length": 10,
+                    "transform": {
+                        "y": 24.45,
+                        "skX": 103.0791,
+                        "skY": 103.0791,
+                        "x": 47.3
+                    },
+                    "parent": "root",
+                    "name": "后右"
+                },
+                {
+                    "length": 17,
+                    "transform": {
+                        "y": 13.25,
+                        "skX": -37.7425,
+                        "skY": -37.7425,
+                        "x": 66.9
+                    },
+                    "parent": "root",
+                    "name": "尾巴"
+                },
+                {
+                    "length": 31,
+                    "transform": {
+                        "y": -9.4,
+                        "x": 12.2
+                    },
+                    "parent": "root",
+                    "name": "头"
+                }
+            ],
+            "aabb": {
+                "width": 91.99999999999999,
+                "y": -46,
+                "height": 93,
+                "x": -5
+            },
+            "slot": [
+                {
+                    "color": {},
+                    "name": "尾巴",
+                    "parent": "尾巴"
+                },
+                {
+                    "z": 1,
+                    "color": {},
+                    "name": "erha",
+                    "parent": "root"
+                },
+                {
+                    "z": 2,
+                    "color": {},
+                    "name": "头",
+                    "parent": "头"
+                },
+                {
+                    "z": 3,
+                    "color": {},
+                    "name": "后右",
+                    "parent": "后右"
+                },
+                {
+                    "z": 4,
+                    "color": {},
+                    "name": "后左",
+                    "parent": "后左"
+                },
+                {
+                    "z": 5,
+                    "color": {},
+                    "name": "形状_1",
+                    "parent": "形状_1"
+                },
+                {
+                    "z": 6,
+                    "color": {},
+                    "name": "前左",
+                    "parent": "前左"
+                }
+            ],
+            "animation": [
+                {
+                    "duration": 24,
+                    "frame": [],
+                    "bone": [
+                        {
+                            "rotateFrame": [],
+                            "name": "root",
+                            "translateFrame": [],
+                            "scaleFrame": []
+                        },
+                        {
+                            "rotateFrame": [
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0,
+                                    "rotate": -10.4542
+                                },
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0,
+                                    "rotate": 20.5458
+                                },
+                                {
+                                    "duration": 0,
+                                    "rotate": -10.4542
+                                }
+                            ],
+                            "name": "形状_1",
+                            "translateFrame": [
+                                {
+                                    "duration": 12,
+                                    "y": -1.7,
+                                    "tweenEasing": 0,
+                                    "x": 0.83
+                                },
+                                {
+                                    "duration": 12,
+                                    "y": -1.7,
+                                    "tweenEasing": 0,
+                                    "x": -2.17
+                                },
+                                {
+                                    "duration": 0,
+                                    "y": -1.7,
+                                    "x": 0.83
+                                }
+                            ],
+                            "scaleFrame": [
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0
+                                },
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0
+                                },
+                                {
+                                    "duration": 0
+                                }
+                            ]
+                        },
+                        {
+                            "rotateFrame": [
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0,
+                                    "rotate": 10.3844
+                                },
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0,
+                                    "rotate": -10.6156
+                                },
+                                {
+                                    "duration": 0,
+                                    "rotate": 10.3844
+                                }
+                            ],
+                            "name": "前左",
+                            "translateFrame": [
+                                {
+                                    "duration": 24,
+                                    "y": -1.75,
+                                    "tweenEasing": 0
+                                },
+                                {
+                                    "duration": 0,
+                                    "y": -1.75
+                                }
+                            ],
+                            "scaleFrame": []
+                        },
+                        {
+                            "rotateFrame": [
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0,
+                                    "rotate": -10.5064
+                                },
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0,
+                                    "rotate": 6.4936
+                                },
+                                {
+                                    "duration": 0,
+                                    "rotate": -10.5064
+                                }
+                            ],
+                            "name": "后左",
+                            "translateFrame": [
+                                {
+                                    "duration": 24,
+                                    "tweenEasing": 0
+                                },
+                                {
+                                    "duration": 0
+                                }
+                            ],
+                            "scaleFrame": []
+                        },
+                        {
+                            "rotateFrame": [
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0,
+                                    "rotate": 13.9209
+                                },
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0,
+                                    "rotate": -15.0791
+                                },
+                                {
+                                    "duration": 0,
+                                    "rotate": 13.9209
+                                }
+                            ],
+                            "name": "后右",
+                            "translateFrame": [],
+                            "scaleFrame": []
+                        },
+                        {
+                            "rotateFrame": [
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0,
+                                    "rotate": -7.2575
+                                },
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0,
+                                    "rotate": 1.6739
+                                },
+                                {
+                                    "duration": 0,
+                                    "rotate": -7.2575
+                                }
+                            ],
+                            "name": "尾巴",
+                            "translateFrame": [],
+                            "scaleFrame": []
+                        },
+                        {
+                            "rotateFrame": [
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0,
+                                    "rotate": -1
+                                },
+                                {
+                                    "duration": 12,
+                                    "tweenEasing": 0,
+                                    "rotate": 5
+                                },
+                                {
+                                    "duration": 0,
+                                    "rotate": -1
+                                }
+                            ],
+                            "name": "头",
+                            "translateFrame": [],
+                            "scaleFrame": []
+                        }
+                    ],
+                    "slot": [
+                        {
+                            "colorFrame": [],
+                            "displayFrame": [],
+                            "name": "尾巴"
+                        },
+                        {
+                            "colorFrame": [],
+                            "displayFrame": [],
+                            "name": "erha"
+                        },
+                        {
+                            "colorFrame": [],
+                            "displayFrame": [],
+                            "name": "头"
+                        },
+                        {
+                            "colorFrame": [],
+                            "displayFrame": [],
+                            "name": "后右"
+                        },
+                        {
+                            "colorFrame": [],
+                            "displayFrame": [],
+                            "name": "后左"
+                        },
+                        {
+                            "colorFrame": [],
+                            "displayFrame": [],
+                            "name": "形状_1"
+                        },
+                        {
+                            "colorFrame": [],
+                            "displayFrame": [],
+                            "name": "前左"
+                        }
+                    ],
+                    "ffd": [],
+                    "ik": [],
+                    "playTimes": 0,
+                    "name": "Second"
+                }
+            ],
+            "defaultActions": [
+                {
+                    "gotoAndPlay": "Second"
+                }
+            ],
+            "name": "armatureName",
+            "frameRate": 24,
+            "skin": [
+                {
+                    "name": "",
+                    "slot": [
+                        {
+                            "display": [
+                                {
+                                    "path": "后右",
+                                    "type": "image",
+                                    "name": "后右",
+                                    "transform": {
+                                        "y": 2.2536,
+                                        "skX": -103.0791,
+                                        "skY": -103.0791,
+                                        "x": 9.3013
+                                    }
+                                }
+                            ],
+                            "name": "后右"
+                        },
+                        {
+                            "display": [
+                                {
+                                    "path": "后左",
+                                    "type": "image",
+                                    "name": "后左",
+                                    "transform": {
+                                        "y": 1.2385,
+                                        "skX": -100.5064,
+                                        "skY": -100.5064,
+                                        "x": 12.7903
+                                    }
+                                }
+                            ],
+                            "name": "后左"
+                        },
+                        {
+                            "display": [
+                                {
+                                    "path": "形状_1",
+                                    "type": "image",
+                                    "name": "形状_1",
+                                    "transform": {
+                                        "y": -0.3058,
+                                        "skX": -113.4542,
+                                        "skY": -113.4542,
+                                        "x": 6.7347
+                                    }
+                                }
+                            ],
+                            "name": "形状_1"
+                        },
+                        {
+                            "display": [
+                                {
+                                    "path": "前左",
+                                    "type": "image",
+                                    "name": "前左",
+                                    "transform": {
+                                        "y": 2.7205,
+                                        "skX": -98.6156,
+                                        "skY": -98.6156,
+                                        "x": 7.7449
+                                    }
+                                }
+                            ],
+                            "name": "前左"
+                        },
+                        {
+                            "display": [
+                                {
+                                    "path": "尾巴",
+                                    "type": "image",
+                                    "name": "尾巴",
+                                    "transform": {
+                                        "y": -2.3565,
+                                        "skX": 37.7425,
+                                        "skY": 37.7425,
+                                        "x": 12.0673
+                                    }
+                                }
+                            ],
+                            "name": "尾巴"
+                        },
+                        {
+                            "display": [
+                                {
+                                    "path": "erha",
+                                    "type": "image",
+                                    "name": "erha",
+                                    "transform": {
+                                        "y": 13.5,
+                                        "x": 34.5
+                                    }
+                                }
+                            ],
+                            "name": "erha"
+                        },
+                        {
+                            "display": [
+                                {
+                                    "path": "头",
+                                    "type": "image",
+                                    "name": "头",
+                                    "transform": {
+                                        "y": -8.6,
+                                        "x": 8.8
+                                    }
+                                }
+                            ],
+                            "name": "头"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "name": "Second",
+    "version": "5.5"
+}

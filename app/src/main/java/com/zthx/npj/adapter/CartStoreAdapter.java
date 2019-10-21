@@ -26,6 +26,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.net.been.CartOrderResponseBean;
 import com.zthx.npj.net.been.LocalStoreBean;
 import com.zthx.npj.net.been.LocalStoreResponseBean;
+import com.zthx.npj.net.been.SelfLiftingResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -40,7 +41,7 @@ public class CartStoreAdapter extends RecyclerView.Adapter<CartStoreAdapter.View
     private Context mContext;
     private ItemClickListener mItemClickListener;
     private Activity mActivity;
-    private ArrayList<LocalStoreResponseBean.DataBean> localData=new ArrayList<>();
+    private ArrayList<SelfLiftingResponseBean.DataBean> localData=new ArrayList<>();
 
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         mItemClickListener=itemClickListener;
@@ -226,7 +227,7 @@ public class CartStoreAdapter extends RecyclerView.Adapter<CartStoreAdapter.View
         MainSubscribe.getLocalStore(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                LocalStoreResponseBean bean=GsonUtils.fromJson(result,LocalStoreResponseBean.class);
+                SelfLiftingResponseBean bean=GsonUtils.fromJson(result,SelfLiftingResponseBean.class);
                 localData=bean.getData();
             }
 

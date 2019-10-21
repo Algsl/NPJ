@@ -3,6 +3,8 @@ package com.zthx.npj.ui;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -37,6 +39,10 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -225,8 +231,8 @@ public class PublishGoodsActivity extends ActivityBase {
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         String path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
-                        paths1.add(path);
-                        acPulishGoodsIvGoodsImg.addImage(path);
+                        paths1.add(compress(path));
+                        acPulishGoodsIvGoodsImg.addImage(compress(path));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -242,8 +248,8 @@ public class PublishGoodsActivity extends ActivityBase {
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         String path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
-                        paths2.add(path);
-                        acPulishGoodsIvGoodsContent.addImage(path);
+                        paths2.add(compress(path));
+                        acPulishGoodsIvGoodsContent.addImage(compress(path));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -491,5 +497,44 @@ public class PublishGoodsActivity extends ActivityBase {
             }
         });
 
+    }
+
+    /**
+     * 图片压缩
+     * @param path：原始图片路径
+     * @return
+     */
+    public String compress(String path){
+        File file=new File(path);
+        Bitmap compressBitmap;
+        /*if (file.length()>=2.5*1024*1024){//从相册中选择照片，2.5M以上的用2压缩
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = false;
+            options.inSampleSize = 3;
+            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+        }else */if(file.length()>=600*1024){//从相册中选择照片，600k以上的用2压缩
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = false;
+            options.inSampleSize = 2;
+            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+        }else{
+            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+        }
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        compressBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        String bmString="";
+        try {
+            File bmFile=new File(getExternalCacheDir(), System.currentTimeMillis()+".jpg");
+            FileOutputStream fos = new FileOutputStream(bmFile);
+            fos.write(bos.toByteArray());
+            fos.flush();
+            fos.close();
+            bmString=bmFile.getPath();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmString;
     }
 }

@@ -3,6 +3,8 @@ package com.zthx.npj.ui;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -40,6 +42,10 @@ import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,12 +126,12 @@ public class StoreGoodsInfoActivity extends ActivityBase {
         setContentView(R.layout.activity_store_goods_info);
         ButterKnife.bind(this);
         back(titleThemeBack);
-        changeTitle(titleThemeTitle, "发布商品");
+        changeTitle(titleThemeTitle, "编辑商品");
 
         getStoreGoodsInfo();
         getGoodsCate();
 
-        acStoreGoodsInfoIvGoodsImg.setOnlineImageLoader(new ZzImageBox.OnlineImageLoader() {
+        /*acStoreGoodsInfoIvGoodsImg.setOnlineImageLoader(new ZzImageBox.OnlineImageLoader() {
             @Override
             public void onLoadImage(ImageView iv, String url) {
                 Glide.with(StoreGoodsInfoActivity.this).load(url).into(iv);
@@ -136,7 +142,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
             public void onLoadImage(ImageView iv, String url) {
                 Glide.with(StoreGoodsInfoActivity.this).load(url).into(iv);
             }
-        });
+        });*/
 
         acStoreGoodsInfoIvGoodsImg.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
             @Override
@@ -182,7 +188,6 @@ public class StoreGoodsInfoActivity extends ActivityBase {
         SetSubscribe.goodsInfo(user_id, token, getIntent().getStringExtra("goods_id"), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: " + result);
                 setStoreGoodsInfo(result);
             }
 
@@ -215,15 +220,6 @@ public class StoreGoodsInfoActivity extends ActivityBase {
             acStoreGoodsInfoTvGoodsType.setText("仅对直接邀请用户可显示购买");
         } else {
             acStoreGoodsInfoTvGoodsType.setText("仅对直接和间接邀请用户可显示购买");
-        }
-
-        for (int i = 0; i < data.getGoods_img().size(); i++) {
-            acStoreGoodsInfoIvGoodsImg.addImageOnline(data.getGoods_img().get(i));
-            paths1.add(data.getGoods_img().get(i));
-        }
-        for (int i = 0; i < data.getGoods_content().size(); i++) {
-            acStoreGoodsInfoIvGoodsContent.addImageOnline(data.getGoods_content().get(i));
-            paths2.add(data.getGoods_content().get(i));
         }
     }
 
@@ -265,58 +261,36 @@ public class StoreGoodsInfoActivity extends ActivityBase {
     }
 
     public void publishImages() {
-        MyCustomUtils.splitUrl(paths1, paths3, paths4);
-        MyCustomUtils.splitUrl(paths2, paths5, paths6);
-
-        if (paths3.size() == 0) {//无商品图片上传
-            goodsImg = MyCustomUtils.listToString(paths4);
-            if (paths5.size() == 0) {//无详情图片上传
-                goodsContent = MyCustomUtils.listToString(paths6);
-                showToast("请等待信息上传");
-                editStoreGoodsInfo();
-            } else {//上传商品详情
-                uploadGoodsContent();
-            }
-        } else {
-            HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths3, new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    showToast("图片上传失败");
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
-                    UploadPicsResponseBean.DataBean data = bean.getData();
-                    goodsImg = MyCustomUtils.listToString(paths4);
-                    goodsImg = goodsImg + "," + data.getImg();
-                    if (paths5.size() == 0) {
-                        goodsContent = MyCustomUtils.listToString(paths6);
-                        showToast("请等待信息上传");
-                        editStoreGoodsInfo();
-                    } else {
-                        uploadGoodsContent();
-                    }
-                }
-            });
-        }
-    }
-
-
-    public void uploadGoodsContent() {
-        HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths5, new Callback() {
+        HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths1, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                showToast("图片上传失败");
+
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
                 UploadPicsResponseBean.DataBean data = bean.getData();
-                goodsContent = MyCustomUtils.listToString(paths6);
-                goodsContent = goodsContent + "," + data.getImg();
-                showToast("请等待信息上传");
+                goodsImg=data.getImg();
+                uploadGoodsContent();
+            }
+        });
+    }
+
+
+    public void uploadGoodsContent() {
+        HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths2, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                UploadPicsResponseBean.DataBean data = bean.getData();
+                goodsContent=data.getImg();
+                //showToast("请等待信息上传");
                 editStoreGoodsInfo();
             }
         });
@@ -370,8 +344,8 @@ public class StoreGoodsInfoActivity extends ActivityBase {
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         String path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
-                        paths1.add(path);
-                        acStoreGoodsInfoIvGoodsImg.addImage(path);
+                        paths1.add(compress(path));
+                        acStoreGoodsInfoIvGoodsImg.addImage(compress(path));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -387,8 +361,8 @@ public class StoreGoodsInfoActivity extends ActivityBase {
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         String path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
-                        paths2.add(path);
-                        acStoreGoodsInfoIvGoodsContent.addImage(path);
+                        paths2.add(compress(path));
+                        acStoreGoodsInfoIvGoodsContent.addImage(compress(path));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -494,7 +468,6 @@ public class StoreGoodsInfoActivity extends ActivityBase {
         for (int i = 0; i < groupCount; i++) {
             elv.expandGroup(i);
         }
-        ;
         adapter.setOnItemClickListener(new GoodsCateAdapter.ItemClickListener() {
             @Override
             public void groupMsg(String cate_id, String cate_name) {
@@ -517,5 +490,45 @@ public class StoreGoodsInfoActivity extends ActivityBase {
             }
         });
 
+    }
+
+    /**
+     * 图片压缩
+     * @param path：原始图片路径
+     * @return
+     */
+    public String compress(String path){
+        File file=new File(path);
+        Bitmap compressBitmap;
+        /*if (file.length()>=2.5*1024*1024){//从相册中选择照片，2.5M以上的用2压缩
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = false;
+            options.inSampleSize = 3;
+            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+        }else */
+        if(file.length()>=600*1024){//从相册中选择照片，600k以上的用2压缩
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = false;
+            options.inSampleSize = 2;
+            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+        }else{
+            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+        }
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        compressBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        String bmString="";
+        try {
+            File bmFile=new File(getExternalCacheDir(), System.currentTimeMillis()+".jpg");
+            FileOutputStream fos = new FileOutputStream(bmFile);
+            fos.write(bos.toByteArray());
+            fos.flush();
+            fos.close();
+            bmString=bmFile.getPath();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmString;
     }
 }

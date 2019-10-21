@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,17 +58,19 @@ public class AskForPartnerAdapter extends RecyclerView.Adapter<AskForPartnerAdap
                 }
             });
         }
+
+        if(mList.get(i).getStatus()==0){
+            viewHolder.askStatus.setText("等待审核");
+        }else{
+            viewHolder.askStatus.setText("已审核");
+            viewHolder.askStatus.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+            viewHolder.askStatus.setTextColor(mContext.getResources().getColor(R.color.text9));
+        }
         if (mList!= null && mList.size() > 0) {
-            Glide.with(mContext).load(Uri.parse(mList.get(i).getUser_img())).into(viewHolder.mIvGoods);
-            viewHolder.userName.setText(mList.get(i).getUser_name());
-            viewHolder.createTime.setText(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date(mList.get(i).getCreate_time())));
-            if(mList.get(i).getStatus()==1){
-                viewHolder.askStatus.setText("等待审核");
-            }else{
-                viewHolder.askStatus.setText("已审核");
-                viewHolder.askStatus.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-                viewHolder.askStatus.setTextColor(mContext.getResources().getColor(R.color.text9));
-            }
+            Log.e("测试", "onBindViewHolder: "+mList.get(i).getCreate_time() );
+            Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getHead_img())).into(viewHolder.mIvGoods);
+            viewHolder.userName.setText(mList.get(i).getNick_name());
+            viewHolder.createTime.setText(new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(new Date(Long.parseLong(mList.get(i).getCreate_time())*1000)));
         }
 
     }

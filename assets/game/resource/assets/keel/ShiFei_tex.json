@@ -1,0 +1,43 @@
+{
+    "width": 128,
+    "SubTexture": [
+        {
+            "width": 1,
+            "y": 126,
+            "height": 1,
+            "name": "3x",
+            "x": 4
+        },
+        {
+            "width": 78,
+            "y": 1,
+            "height": 86,
+            "name": "feiliao",
+            "x": 1
+        },
+        {
+            "width": 30,
+            "y": 89,
+            "height": 15,
+            "name": "xiaofeiliao",
+            "x": 36
+        },
+        {
+            "width": 1,
+            "y": 126,
+            "height": 1,
+            "name": "3x(1)",
+            "x": 1
+        },
+        {
+            "width": 33,
+            "y": 89,
+            "height": 35,
+            "name": "dafeiliao",
+            "x": 1
+        }
+    ],
+    "height": 128,
+    "name": "ShiFei",
+    "imagePath": "ShiFei_tex.png"
+}

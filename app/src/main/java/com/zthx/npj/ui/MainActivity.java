@@ -26,11 +26,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.base.BaseConstant;
 import com.zthx.npj.net.been.CartListResponseBean;
+import com.zthx.npj.net.been.OrderPushBean;
+import com.zthx.npj.net.been.OrderPushResponseBean;
 import com.zthx.npj.net.been.UserResponseBean;
+import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -42,6 +46,7 @@ import com.zthx.npj.ui.fragment.ShoppingCart1Fragment;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.utils.marquee.LooperBean;
 
 import java.util.ArrayList;
 
@@ -138,6 +143,8 @@ public class MainActivity extends AppCompatActivity {
 
         getBrowserResult();
     }
+
+
 
     @Override
     protected void onResume() {

@@ -139,34 +139,40 @@
                android:layout_height="@dimen/dp_68">
                <ImageView
                    android:id="@+id/ac_storeDetail_showLocation"
-                   android:layout_width="@dimen/dp_20"
-                   android:layout_height="@dimen/dp_20"
+                   android:layout_width="@dimen/dp_28"
+                   android:layout_height="@dimen/dp_28"
                    android:src="@drawable/location_store_locate"
                    android:layout_centerVertical="true"
                    android:layout_marginLeft="@dimen/dp_8"/>
-
-               <TextView
-                   android:id="@+id/at_store_detail_tv_address"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginLeft="@dimen/dp_38"
-                   android:layout_marginTop="@dimen/dp_10"
-                   android:text="金水区中州大道御郑汴路交叉口向西100米路南凯德广场3号楼15楼1502"
-                   android:maxLines="2"
-                   android:ellipsize="end"
-                   android:maxEms="15"
-                   android:textSize="@dimen/sp_13"
-                   android:textColor="@color/text3"/>
-               <TextView
-                   android:id="@+id/at_store_detail_tv_address2"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_below="@id/at_store_detail_tv_address"
-                   android:layout_alignLeft="@id/at_store_detail_tv_address"
-                   android:text="距中州锦绣花苑500m"
-                   android:textColor="@color/text9"
-                   android:textSize="@dimen/sp_12"/>
-
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:layout_width="260dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="@dimen/dp_50">
+                    <TextView
+                        android:id="@+id/at_store_detail_tv_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineHeight="@dimen/dp_22"
+                        android:text="金水区中州大道御郑汴路交叉口向西100米路南凯德广场3号楼15楼1502"
+                        android:ellipsize="end"
+                        android:maxEms="15"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/text3"/>
+                    <TextView
+                        android:id="@+id/at_store_detail_tv_address2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        android:layout_below="@id/at_store_detail_tv_address"
+                        android:layout_alignLeft="@id/at_store_detail_tv_address"
+                        android:text="距中州锦绣花苑500m"
+                        android:textColor="@color/text9"
+                        android:textSize="@dimen/sp_12"/>
+                </LinearLayout>
                <ImageView
                    android:id="@+id/at_store_detail_iv_call"
                    android:layout_width="@dimen/dp_24"

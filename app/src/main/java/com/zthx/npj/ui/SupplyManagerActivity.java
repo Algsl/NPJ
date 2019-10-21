@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -36,12 +37,10 @@ import com.zthx.npj.net.been.MySupplyListResponseBean;
 import com.zthx.npj.net.been.MySupplyOrderFahuoBean;
 import com.zthx.npj.net.been.MySupplyOrderRefund3ResponseBean;
 import com.zthx.npj.net.been.MySupplyOrderRefuseRefundBean;
-import com.zthx.npj.net.been.StoreOrderRefuseRefundBean;
 import com.zthx.npj.net.been.SupplyOrderResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
-import com.zthx.npj.ui.SupplyMessageActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
@@ -61,14 +60,12 @@ public class SupplyManagerActivity extends ActivityBase {
     TextView titleThemeTvRight;
     @BindView(R.id.at_supply_manager_rv_supply_list1)
     RecyclerView atSupplyManagerRvSupplyList1;
-    @BindView(R.id.at_supply_manager_rv_supply_list2)
-    RecyclerView atSupplyManagerRvSupplyList2;
     @BindView(R.id.at_supply_manager_ll_supply_list)
     LinearLayout atSupplyManagerLlSupplyList;
     @BindView(R.id.at_supply_manager_rv_supply_bill)
     RecyclerView atSupplyManagerRvSupplyBill;
     @BindView(R.id.at_supply_manager_ll_supply_bill)
-    LinearLayout atSupplyManagerLlSupplyBill;
+    RelativeLayout atSupplyManagerLlSupplyBill;
     @BindView(R.id.ac_supplyManager_tv_supply)
     TextView acSupplyManagerTvSupply;
     @BindView(R.id.ac_supplyManager_tv_order)
@@ -81,6 +78,10 @@ public class SupplyManagerActivity extends ActivityBase {
     SmartRefreshLayout refreshLayout1;
     @BindView(R.id.refreshLayout2)
     SmartRefreshLayout refreshLayout2;
+    @BindView(R.id.showHint)
+    TextView showHint;
+    @BindView(R.id.showHint1)
+    TextView showHint1;
 
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
@@ -136,6 +137,11 @@ public class SupplyManagerActivity extends ActivityBase {
     private void setMySupplyList(String result) {
         MySupplyListResponseBean bean = GsonUtils.fromJson(result, MySupplyListResponseBean.class);
         final ArrayList<MySupplyListResponseBean.DataBean> data = bean.getData();
+        if (data == null || data.size() == 0) {
+            showHint.setVisibility(View.VISIBLE);
+        } else {
+            showHint.setVisibility(View.GONE);
+        }
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         atSupplyManagerRvSupplyList1.setLayoutManager(layoutManager);
         MySupplyListAdapter adapter = new MySupplyListAdapter(this, data, type);
@@ -184,7 +190,7 @@ public class SupplyManagerActivity extends ActivityBase {
 
             @Override
             public void onSupplyEditClick(int position) {
-                openActivity(SupplyMessageInfoActivity.class,data.get(position).getId(),"2");
+                openActivity(SupplyMessageInfoActivity.class, data.get(position).getId(), "2");
             }
 
             @Override
@@ -264,6 +270,11 @@ public class SupplyManagerActivity extends ActivityBase {
     private void setOrder(String result) {
         SupplyOrderResponseBean bean = GsonUtils.fromJson(result, SupplyOrderResponseBean.class);
         final ArrayList<SupplyOrderResponseBean.DataBean> data = bean.getData();
+        if (data == null || data.size() == 0) {
+            showHint1.setVisibility(View.VISIBLE);
+        } else {
+            showHint1.setVisibility(View.GONE);
+        }
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         atSupplyManagerRvSupplyBill.setLayoutManager(layoutManager);
         SupplyOrderAdapter adapter = new SupplyOrderAdapter(this, data);
@@ -510,21 +521,21 @@ public class SupplyManagerActivity extends ActivityBase {
         // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
         window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
 
-        final EditText etReason=contentView.findViewById(R.id.pw_storeGoodsBill_et_reason);
-        TextView confirm=contentView.findViewById(R.id.pw_storeGoodsBill_tv_refuse);
+        final EditText etReason = contentView.findViewById(R.id.pw_storeGoodsBill_et_reason);
+        TextView confirm = contentView.findViewById(R.id.pw_storeGoodsBill_tv_refuse);
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MySupplyOrderRefuseRefundBean bean=new MySupplyOrderRefuseRefundBean();
+                MySupplyOrderRefuseRefundBean bean = new MySupplyOrderRefuseRefundBean();
                 bean.setUser_id(user_id);
                 bean.setToken(token);
                 bean.setOrder_id(order_id);
                 bean.setJujue_yuanyin(etReason.getText().toString().trim());
-                SetSubscribe.mySupplyOrderRefuseRefund(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                SetSubscribe.mySupplyOrderRefuseRefund(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.e("测试", "onSuccess: "+result);
+                        Log.e("测试", "onSuccess: " + result);
                         showToast("拒绝退款成功");
                         backgroundAlpha(1f);
                         window.dismiss();

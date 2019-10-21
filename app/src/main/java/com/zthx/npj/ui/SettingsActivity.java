@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
@@ -38,7 +39,11 @@ import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.MyCircleView;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import butterknife.BindView;
@@ -263,7 +268,33 @@ public class SettingsActivity extends ActivityBase {
                         Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
                         fgSettingIvHeadimg.setImageBitmap(bitmap);
                         String filePath = getExternalCacheDir() + "/output_image.jpg";
-                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, filePath, new Callback() {
+                        /*File file=new File(filePath);
+                        Bitmap compressBitmap;
+                        Log.e("测试", "onActivityResult: "+file.length() );
+
+                        //所有相机拍摄的图片进行4倍压缩
+                        BitmapFactory.Options options = new BitmapFactory.Options();
+                        options.inJustDecodeBounds = false;
+                        options.inSampleSize = 4;
+                        compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        compressBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                        String bmString="";
+                        try {
+                            File bmFile=new File(getExternalCacheDir(), "output.jpg");
+                            FileOutputStream fos = new FileOutputStream(bmFile);
+                            fos.write(bos.toByteArray());
+                            fos.flush();
+                            fos.close();
+                            bmString=bmFile.getPath();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }*/
+                        String compressPath=compress(filePath,2,null);
+                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, compressPath, new Callback() {
                             @Override
                             public void onFailure(Call call, IOException e) {
 
@@ -291,19 +322,42 @@ public class SettingsActivity extends ActivityBase {
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         final String path = cursor.getString(columnIndex);  //获取照片路径
                         cursor.close();
-                        Bitmap bitmap = BitmapFactory.decodeFile(path);
-                        fgSettingIvHeadimg.setImageBitmap(bitmap);
-                        JMessageClient.updateUserAvatar(new File(path), new BasicCallback() {
-                            @Override
-                            public void gotResult(int i, String s) {
-                                if (i == 0) {
-                                    Log.e("测试", "gotResult: " + i + " " + s);
-                                } else {
-                                    Log.e("测试", "gotResult: " + i + " " + s);
-                                }
-                            }
-                        });
-                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
+
+                        //图片压缩
+                       /* File file=new File(path);
+                        Bitmap compressBitmap;
+                        if (file.length()>=2.5*1.24*1024){//从相册中选择照片，600k以上的用2压缩
+                            BitmapFactory.Options options = new BitmapFactory.Options();
+                            options.inJustDecodeBounds = false;
+                            options.inSampleSize = 3;
+                            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+                        }else if(file.length()>=600*1024){
+                            BitmapFactory.Options options = new BitmapFactory.Options();
+                            options.inJustDecodeBounds = false;
+                            options.inSampleSize = 2;
+                            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+                        }else{
+                            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+                        }
+
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        compressBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                        String bmString="";
+                        try {
+                            File bmFile=new File(getExternalCacheDir(), "output.jpg");
+                            FileOutputStream fos = new FileOutputStream(bmFile);
+                            fos.write(bos.toByteArray());
+                            fos.flush();
+                            fos.close();
+                            bmString=bmFile.getPath();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        fgSettingIvHeadimg.setImageBitmap(compressBitmap);*/
+                        String compressPath=compress(path,1,fgSettingIvHeadimg);
+                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, compressPath, new Callback() {
                             @Override
                             public void onFailure(Call call, IOException e) {
 
@@ -379,5 +433,48 @@ public class SettingsActivity extends ActivityBase {
     public void onViewClicked() {
         SharePerferenceUtils.setUserId(this, "");
         openActivity(SplashActivity.class);
+    }
+
+
+    public String compress(String path, int type,ImageView imageView){
+        File file=new File(path);
+        Bitmap compressBitmap;
+        if(type==1){
+            if (file.length()>=2.5*1024*1024){//从相册中选择照片，2.5M以上的用2压缩
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = false;
+                options.inSampleSize = 3;
+                compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+            }else if(file.length()>=600*1024){//从相册中选择照片，600k以上的用2压缩
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = false;
+                options.inSampleSize = 2;
+                compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+            }else{
+                compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+            }
+            imageView.setImageBitmap(compressBitmap);
+        }else{
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = false;
+            options.inSampleSize =4;
+            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+        }
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        compressBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        String bmString="";
+        try {
+            File bmFile=new File(getExternalCacheDir(), System.currentTimeMillis()+".jpg");
+            FileOutputStream fos = new FileOutputStream(bmFile);
+            fos.write(bos.toByteArray());
+            fos.flush();
+            fos.close();
+            bmString=bmFile.getPath();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmString;
     }
 }

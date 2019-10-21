@@ -17,10 +17,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -39,7 +37,6 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.GradViewAdapter;
 import com.zthx.npj.adapter.LocalStoreAdapter;
 import com.zthx.npj.aliapi.OrderInfoUtil2_0;
 import com.zthx.npj.aliapi.PayResult;
@@ -51,18 +48,15 @@ import com.zthx.npj.net.been.GiftConfirmResponseBean;
 import com.zthx.npj.net.been.GoodsBuyOneBean;
 import com.zthx.npj.net.been.GoodsOrderBean;
 import com.zthx.npj.net.been.GoodsOrderResponseBean;
-import com.zthx.npj.net.been.LocalStoreBean;
-import com.zthx.npj.net.been.LocalStoreResponseBean;
 import com.zthx.npj.net.been.PayResponse1Bean;
 import com.zthx.npj.net.been.PayResponseBean;
-import com.zthx.npj.net.been.SecKillGoodsDetailResponseBean;
 import com.zthx.npj.net.been.SeckillOrderBean;
 import com.zthx.npj.net.been.SeckillOrderResponseBean;
+import com.zthx.npj.net.been.SelfLiftingResponseBean;
 import com.zthx.npj.net.been.SpikeOrderBuyOneBean;
 import com.zthx.npj.net.been.YsBuyOneBean;
 import com.zthx.npj.net.been.YsBuyOneResponseBean;
 import com.zthx.npj.net.netsubscribe.GiftSubscribe;
-import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.PreSellSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -181,7 +175,7 @@ public class ConfirmOrderActivity extends ActivityBase {
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
     private String level = SharePerferenceUtils.getUserLevel(this);
-    private ArrayList<LocalStoreResponseBean.DataBean> localData = new ArrayList<>();
+    private ArrayList<SelfLiftingResponseBean.DataBean> localData = new ArrayList<>();
 
     private String RSA_PRIVATE = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
             "NEU5up1siPOXKJBU0ypde7oPfm9gyy2ajgcw6v3KF2ryjot5AKlBED6qdQPRa5Sk\n" +
@@ -409,7 +403,7 @@ public class ConfirmOrderActivity extends ActivityBase {
     }
 
     private void getLocalStore(String type) {
-        LocalStoreBean bean = new LocalStoreBean();
+        /*LocalStoreBean bean = new LocalStoreBean();
         bean.setLat(SharePerferenceUtils.getLat(this));
         bean.setLng(SharePerferenceUtils.getLng(this));
         bean.setPage("1");
@@ -424,6 +418,18 @@ public class ConfirmOrderActivity extends ActivityBase {
             @Override
             public void onFault(String errorMsg) {
                 showToast(errorMsg);
+            }
+        }));*/
+        SetSubscribe.selfLifting(user_id,token,SharePerferenceUtils.getLng(this),SharePerferenceUtils.getLat(this),new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                SelfLiftingResponseBean bean=GsonUtils.fromJson(result,SelfLiftingResponseBean.class);
+                localData=bean.getData();
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
             }
         }));
     }

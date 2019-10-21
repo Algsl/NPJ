@@ -22,7 +22,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -55,11 +54,17 @@ import com.zthx.npj.ui.MembershipPackageActivity;
 import com.zthx.npj.ui.PayToStoreActivity;
 import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.ui.SecKillActivity;
+import com.zthx.npj.ui.TestActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.utils.marquee.AppBus;
+import com.zthx.npj.utils.marquee.LooperBean;
+import com.zthx.npj.utils.marquee.LooperImageView;
+import com.zthx.npj.utils.marquee.LooperTextView;
 import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -97,10 +102,10 @@ public class HomeFragment extends BaseFragment {
     RelativeLayout fgHomeLlGoGame;
     @BindView(R.id.fg_home_ll_recommend)
     LinearLayout fgHomeLlRecommend;
-    @BindView(R.id.fg_home_mcv_headImg)
+    /*@BindView(R.id.fg_home_mcv_headImg)
     ImageView fgHomeMcvHeadImg;
     @BindView(R.id.fg_home_tv_title)
-    TextView fgHomeTvTitle;
+    TextView fgHomeTvTitle;*/
     @BindView(R.id.fg_home_ll_classify)
     LinearLayout fgHomeLlClassify;
     @BindView(R.id.fg_home_tv_myLower)
@@ -110,6 +115,12 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.seeMore)
     TextView seeMore;
 
+    @BindView(R.id.fg_home_mcv_headImg)
+    LooperImageView fgHomeMcvHeadImg;
+    @BindView(R.id.fg_home_tv_title)
+    LooperTextView fgHomeTvTitle;
+
+
     private Unbinder unbinder;
 
     private static final int REQUEST_CODE_SCAN = 1;
@@ -117,7 +128,9 @@ public class HomeFragment extends BaseFragment {
     private ArrayList<RecommendResponseBean.DataBean> data;
     private int page = 1;
     private HomeGoodsAdapter mAdapter;
-
+    private List<LooperBean> looperBeenList;
+    private int position;
+    private ArrayList<LooperBean> looperBeans=new ArrayList<>();
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -126,6 +139,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //looperBeenList = generateTips();
     }
 
     @Override
@@ -134,12 +148,14 @@ public class HomeFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
 
+        AppBus.getInstance().register(this);
 
         //initBanner();
         //getMainRecommed(page+"");
         getGroupHome(page + "");
         getBanner();
 
+        getOrderPush();
 
         //设置RecyclerView管理器
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);
@@ -160,6 +176,7 @@ public class HomeFragment extends BaseFragment {
                 }
                 seeMore.setText("查看更多");
                 getBanner();
+                getOrderPush();
                 refreshLayout.setLoadmoreFinished(false);
                 refreshlayout.finishRefresh();
             }
@@ -246,12 +263,12 @@ public class HomeFragment extends BaseFragment {
         if (!NetUtil.isNetworkConnected(getContext())) {
             Toast.makeText(getContext(), "请打开网络连接", Toast.LENGTH_SHORT).show();
         } else {
-            getOrderPush();
+            //getOrderPush();
         }
     }
 
 
-    private void getOrderPush() {
+    /*private void getOrderPush() {
         MainSubscribe.orderPush(new OrderPushBean(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -269,7 +286,8 @@ public class HomeFragment extends BaseFragment {
         OrderPushResponseBean bean = GsonUtils.fromJson(result, OrderPushResponseBean.class);
         Glide.with(getContext()).load(Uri.parse(bean.getData().get(0).getHead_img())).into(fgHomeMcvHeadImg);
         fgHomeTvTitle.setText(bean.getData().get(0).getTitle());
-    }
+    }*/
+
 
     /**
      * 初始化轮播图
@@ -403,13 +421,12 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onSuccess(String result) {
                 RecommendResponseBean bean = GsonUtils.fromJson(result, RecommendResponseBean.class);
-                ArrayList<RecommendResponseBean.DataBean> data=bean.getData();
+                ArrayList<RecommendResponseBean.DataBean> data = bean.getData();
                 if (mAdapter == null) {
                     mAdapter = new HomeGoodsAdapter(getActivity(), data);
                 } else {
-                    Log.e("测试", "setGoodsList: "+data.size());
-                    if (data != null && data.size()!=0) {
-                        if(data.size()<10){
+                    if (data != null && data.size() != 0) {
+                        if (data.size() < 10) {
                             seeMore.setText("没有更多了");
                             refreshLayout.setLoadmoreFinished(true);
                         }
@@ -441,13 +458,12 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onSuccess(String result) {
                 RecommendResponseBean bean = GsonUtils.fromJson(result, RecommendResponseBean.class);
-                ArrayList<RecommendResponseBean.DataBean> data=bean.getData();
+                ArrayList<RecommendResponseBean.DataBean> data = bean.getData();
                 if (mAdapter == null) {
                     mAdapter = new HomeGoodsAdapter(getActivity(), data);
                 } else {
-                    Log.e("测试", "setGoodsList: "+data.size());
-                    if (data != null && data.size()!=0) {
-                        if(data.size()<10){
+                    if (data != null && data.size() != 0) {
+                        if (data.size() < 10) {
                             seeMore.setText("没有更多了");
                             refreshLayout.setLoadmoreFinished(true);
                         }
@@ -472,6 +488,35 @@ public class HomeFragment extends BaseFragment {
 
             }
         }));
+    }
+
+    private void getOrderPush() {
+        MainSubscribe.orderPush(new OrderPushBean(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                OrderPushResponseBean bean = GsonUtils.fromJson(result, OrderPushResponseBean.class);
+                for(int i=0;i<bean.getData().size();i++){
+                    looperBeans.add(new LooperBean(bean.getData().get(i).getHead_img(),bean.getData().get(i).getTitle()));
+                }
+                looperBeenList=looperBeans;
+                onStartBanner();
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void onStartBanner() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                fgHomeMcvHeadImg.setTipList(looperBeenList, position);
+                fgHomeTvTitle.setTipList(looperBeenList, position);
+            }
+        });
     }
 
     @Override
@@ -522,5 +567,25 @@ public class HomeFragment extends BaseFragment {
                 }
                 break;
         }
+    }
+
+    private List<LooperBean> generateTips() {
+        List<LooperBean> tips = SharePerferenceUtils.getLooperBeans();
+        return tips;
+    }
+
+
+
+    /*@Override
+    public void onStart() {
+        super.onStart();
+
+    }*/
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        AppBus.getInstance().unregister(this);
     }
 }

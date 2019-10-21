@@ -21,6 +21,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.net.been.GoodsListResponseBean;
 import com.zthx.npj.net.been.HomeGoodsBeen;
 import com.zthx.npj.net.been.RecommendResponseBean;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
@@ -80,6 +81,12 @@ public class HomeGoodsAdapter extends RecyclerView.Adapter<HomeGoodsAdapter.View
         }
         level=SharePerferenceUtils.getUserLevel(mContext);
         Glide.with(mContext).load(list.get(i).getGoods_img()).into(viewHolder.mIvGoods);
+        /*Glide.with(mContext).load(list.get(i).getGoods_img()).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                MyCustomUtils.compress(resource,viewHolder.mIvGoods);
+            }
+        });*/
         Glide.with(mContext).load(list.get(i).getStore_img()).into(viewHolder.mIvMall);
         viewHolder.mTvMallName.setText(list.get(i).getStore_name());
         viewHolder.mTvNewPrice.setText("￥"+list.get(i).getUser_price());

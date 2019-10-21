@@ -259,7 +259,6 @@
     </LinearLayout>
     
     <Button
-        android:visibility="gone"
         android:id="@+id/at_trust_store_btn_attestation"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"

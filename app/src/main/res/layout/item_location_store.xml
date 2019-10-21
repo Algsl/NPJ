@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:text="御而阁时尚健身房"
         android:layout_toRightOf="@id/item_location_store_pic"
-        android:layout_marginLeft="@dimen/dp_5"
+        android:layout_marginLeft="@dimen/dp_8"
         android:layout_marginTop="@dimen/dp_12"
         android:textColor="@color/text3"
         android:textSize="@dimen/sp_15"/>
@@ -138,5 +138,9 @@
             android:textSize="@dimen/sp_12"
             android:layout_marginTop="@dimen/dp_3"/>
     </LinearLayout>
-
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/background"/>
 </RelativeLayout>

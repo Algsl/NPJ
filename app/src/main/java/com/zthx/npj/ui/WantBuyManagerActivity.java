@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -41,14 +42,12 @@ public class WantBuyManagerActivity extends ActivityBase {
     TextView titleThemeTvRight;
     @BindView(R.id.at_want_buy_manager_rv_supply_list1)
     RecyclerView atWantBuyManagerRvSupplyList1;
-    @BindView(R.id.at_swant_buy_manager_rv_supply_list2)
-    RecyclerView atSwantBuyManagerRvSupplyList2;
     @BindView(R.id.at_want_buy_manager_ll_supply_list)
     LinearLayout atWantBuyManagerLlSupplyList;
     @BindView(R.id.at_want_buy_manager_rv_supply_bill)
     RecyclerView atWantBuyManagerRvSupplyBill;
     @BindView(R.id.at_want_buy_manager_ll_supply_bill)
-    LinearLayout atWantBuyManagerLlSupplyBill;
+    RelativeLayout atWantBuyManagerLlSupplyBill;
     @BindView(R.id.ac_wantBuy_tv_wantBuy)
     TextView acWantBuyTvWantBuy;
     @BindView(R.id.ac_wantBuy_tv_baojia)
@@ -61,6 +60,10 @@ public class WantBuyManagerActivity extends ActivityBase {
     SmartRefreshLayout refreshLayout1;
     @BindView(R.id.refreshLayout2)
     SmartRefreshLayout refreshLayout2;
+    @BindView(R.id.showHint)
+    TextView showHint;
+    @BindView(R.id.showHint1)
+    TextView showHint1;
 
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
@@ -114,6 +117,11 @@ public class WantBuyManagerActivity extends ActivityBase {
     private void setMyWantBuy(String result) {
         PurchaseListResponseBean bean = GsonUtils.fromJson(result, PurchaseListResponseBean.class);
         final ArrayList<PurchaseListResponseBean.DataBean> data = bean.getData();
+        if (data == null || data.size() == 0) {
+            showHint.setVisibility(View.VISIBLE);
+        } else {
+            showHint.setVisibility(View.GONE);
+        }
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         atWantBuyManagerRvSupplyList1.setLayoutManager(layoutManager);
         atWantBuyManagerRvSupplyList1.setLayoutManager(layoutManager);
@@ -162,7 +170,7 @@ public class WantBuyManagerActivity extends ActivityBase {
 
             @Override
             public void onSupplyEditClick(int position) {
-                openActivity(SupplyMessageInfoActivity.class,data.get(position).getId()+"","1");
+                openActivity(SupplyMessageInfoActivity.class, data.get(position).getId() + "", "1");
             }
 
             @Override
@@ -243,6 +251,11 @@ public class WantBuyManagerActivity extends ActivityBase {
     private void setBaojia(String result) {
         BaojiaListResponseBean bean = GsonUtils.fromJson(result, BaojiaListResponseBean.class);
         final ArrayList<BaojiaListResponseBean.DataBean> data = bean.getData();
+        if(data==null || data.size()==0){
+            showHint1.setVisibility(View.VISIBLE);
+        }else{
+            showHint1.setVisibility(View.GONE);
+        }
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         atWantBuyManagerRvSupplyBill.setLayoutManager(layoutManager);
         BaojiaListAdapter adapter = new BaojiaListAdapter(this, data);

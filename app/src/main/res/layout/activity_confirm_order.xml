@@ -30,7 +30,7 @@
                     android:layout_width="@dimen/dp_22"
                     android:layout_height="@dimen/dp_22"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/confirm_order_location"
+                    android:src="@drawable/location_store_locate"
                     android:layout_marginLeft="@dimen/dp_12"/>
                 <TextView
                     android:id="@+id/at_confirm_order_tv_address"
@@ -53,7 +53,7 @@
                     android:layout_width="@dimen/dp_21"
                     android:layout_height="@dimen/dp_21"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/confirm_store"
+                    android:src="@drawable/store_goods_detail_store"
                     android:layout_marginLeft="@dimen/dp_12"/>
 
                 <TextView

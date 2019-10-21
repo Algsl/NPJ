@@ -29,6 +29,7 @@ import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
@@ -99,6 +100,8 @@ public class StoreDetailActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_detail);
         ButterKnife.bind(this);
+
+        atStoreDetailTvAddress2.setSelected(true);
 
         back(titleBack);
         changeTitle(acTitle, "店铺详情");
@@ -198,7 +201,9 @@ public class StoreDetailActivity extends ActivityBase {
         atStoreDetailTvOffer.setText("葫芦币折扣" + data.getOffer() + "%现金");
         atStoreDetailTvRelief.setText("新会员在该商家成为代言人首单结算减免" + data.getRelief() + "元现金");
         atStoreDetailTvAddress.setText(data.getAddress2());
-        atStoreDetailTvAddress2.setText(data.getAddress());
+        //atStoreDetailTvAddress2.setText(data.getAddress());
+        Log.e("测试", "setData: "+data.getLat()+","+data.getLng() );
+        MyCustomUtils.getLocateinfo(data.getLat(),data.getLng(),atStoreDetailTvAddress2);
     }
 
     private void initBanner(ArrayList<String> list) {

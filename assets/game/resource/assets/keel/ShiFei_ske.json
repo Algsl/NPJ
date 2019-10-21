@@ -1,0 +1,504 @@
+{
+    "frameRate": 24,
+    "name": "ShiFei",
+    "version": "5.5",
+    "compatibleVersion": "5.5",
+    "armature": [
+        {
+            "type": "Armature",
+            "frameRate": 24,
+            "name": "GuJia_ShiFei",
+            "aabb": {
+                "x": 4.5,
+                "y": -89.5,
+                "width": 417.85,
+                "height": 437.8
+            },
+            "bone": [
+                {
+                    "name": "root"
+                },
+                {
+                    "length": 82,
+                    "name": "肥料 拷贝@3x",
+                    "parent": "root",
+                    "transform": {
+                        "x": 70,
+                        "y": -14.2,
+                        "skX": -130.9318,
+                        "skY": -130.9318
+                    }
+                },
+                {
+                    "name": "图层 1@3x6",
+                    "parent": "root",
+                    "transform": {
+                        "x": 113.35,
+                        "y": 143.3
+                    }
+                },
+                {
+                    "name": "图层 1@3x4",
+                    "parent": "root",
+                    "transform": {
+                        "x": 147.5,
+                        "y": 235.8
+                    }
+                },
+                {
+                    "name": "图层 1@3x(1)",
+                    "parent": "root",
+                    "transform": {
+                        "x": 237.5,
+                        "y": 35
+                    }
+                },
+                {
+                    "name": "图层 1@3x3",
+                    "parent": "root",
+                    "transform": {
+                        "x": 191.65,
+                        "y": 135
+                    }
+                },
+                {
+                    "name": "图层 1@3x1",
+                    "parent": "root",
+                    "transform": {
+                        "x": 370.85,
+                        "y": 155.8
+                    }
+                },
+                {
+                    "name": "图层 1@3x",
+                    "parent": "root",
+                    "transform": {
+                        "x": 405.85,
+                        "y": 211.65
+                    }
+                },
+                {
+                    "name": "图层 1@3x2",
+                    "parent": "root",
+                    "transform": {
+                        "x": 285,
+                        "y": 219.15
+                    }
+                }
+            ],
+            "slot": [
+                {
+                    "displayIndex": 1,
+                    "name": "肥料 拷贝@3x",
+                    "parent": "肥料 拷贝@3x"
+                },
+                {
+                    "displayIndex": 1,
+                    "name": "图层 1@3x(1)",
+                    "parent": "图层 1@3x(1)"
+                },
+                {
+                    "displayIndex": 1,
+                    "name": "图层 1@3x",
+                    "parent": "图层 1@3x"
+                },
+                {
+                    "displayIndex": 1,
+                    "name": "图层 1@3x1",
+                    "parent": "图层 1@3x1"
+                },
+                {
+                    "displayIndex": 1,
+                    "name": "图层 1@3x2",
+                    "parent": "图层 1@3x2"
+                },
+                {
+                    "displayIndex": 1,
+                    "name": "图层 1@3x3",
+                    "parent": "图层 1@3x3"
+                },
+                {
+                    "displayIndex": 1,
+                    "name": "图层 1@3x4",
+                    "parent": "图层 1@3x4"
+                },
+                {
+                    "displayIndex": 1,
+                    "name": "图层 1@3x6",
+                    "parent": "图层 1@3x6"
+                }
+            ],
+            "skin": [
+                {
+                    "slot": [
+                        {
+                            "name": "图层 1@3x1",
+                            "display": [
+                                {
+                                    "name": "3x",
+                                    "transform": {
+                                        "x": -2.35,
+                                        "y": 2.7
+                                    }
+                                },
+                                {
+                                    "name": "dafeiliao"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x2",
+                            "display": [
+                                {
+                                    "name": "3x",
+                                    "transform": {
+                                        "x": -0.5,
+                                        "y": 2.35,
+                                        "skX": 135,
+                                        "skY": 135
+                                    }
+                                },
+                                {
+                                    "name": "dafeiliao"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x3",
+                            "display": [
+                                {
+                                    "name": "3x",
+                                    "transform": {
+                                        "x": 2.85,
+                                        "y": 2.5,
+                                        "skX": 180,
+                                        "skY": 180
+                                    }
+                                },
+                                {
+                                    "name": "dafeiliao"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x4",
+                            "display": [
+                                {
+                                    "name": "3x",
+                                    "transform": {
+                                        "x": -3,
+                                        "y": -0.3,
+                                        "skX": 180,
+                                        "skY": 180
+                                    }
+                                },
+                                {
+                                    "name": "dafeiliao"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x6",
+                            "display": [
+                                {
+                                    "name": "3x",
+                                    "transform": {
+                                        "x": -6.85,
+                                        "y": 0.2,
+                                        "skX": 90,
+                                        "skY": 90
+                                    }
+                                },
+                                {
+                                    "name": "dafeiliao"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "肥料 拷贝@3x",
+                            "display": [
+                                {
+                                    "name": "3x",
+                                    "transform": {
+                                        "x": 41.76,
+                                        "y": 1.14,
+                                        "skX": 130.93,
+                                        "skY": 130.93
+                                    }
+                                },
+                                {
+                                    "name": "feiliao",
+                                    "transform": {
+                                        "x": 41.76,
+                                        "y": 1.14,
+                                        "skX": 130.93,
+                                        "skY": 130.93
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x(1)",
+                            "display": [
+                                {
+                                    "name": "3x(1)",
+                                    "transform": {
+                                        "x": -1.29,
+                                        "y": -2.83
+                                    }
+                                },
+                                {
+                                    "name": "xiaofeiliao"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x",
+                            "display": [
+                                {
+                                    "name": "3x",
+                                    "transform": {
+                                        "x": -3.35,
+                                        "y": -2.15,
+                                        "skX": 180,
+                                        "skY": 180
+                                    }
+                                },
+                                {
+                                    "name": "dafeiliao"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "animation": [
+                {
+                    "duration": 28,
+                    "playTimes": 0,
+                    "name": "newShiFei",
+                    "bone": [
+                        {
+                            "name": "肥料 拷贝@3x",
+                            "rotateFrame": [
+                                {
+                                    "duration": 10,
+                                    "tweenEasing": 0,
+                                    "rotate": -0.06
+                                },
+                                {
+                                    "duration": 18,
+                                    "rotate": -49.76
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x6",
+                            "translateFrame": [
+                                {
+                                    "duration": 15
+                                },
+                                {
+                                    "duration": 13,
+                                    "tweenEasing": 0,
+                                    "x": -129.31,
+                                    "y": -106.29
+                                },
+                                {
+                                    "duration": 0,
+                                    "x": -129.31,
+                                    "y": 20.5
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x4",
+                            "translateFrame": [
+                                {
+                                    "duration": 23
+                                },
+                                {
+                                    "duration": 5,
+                                    "tweenEasing": 0,
+                                    "x": -169.25,
+                                    "y": -185.13
+                                },
+                                {
+                                    "duration": 0,
+                                    "x": -169.25,
+                                    "y": -135.33
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x(1)",
+                            "translateFrame": [
+                                {
+                                    "duration": 10,
+                                    "tweenEasing": 0,
+                                    "x": -271.25
+                                },
+                                {
+                                    "duration": 18,
+                                    "tweenEasing": 0,
+                                    "x": -259.54,
+                                    "y": -14.25
+                                },
+                                {
+                                    "duration": 0,
+                                    "x": -259.54,
+                                    "y": 157.13
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x3",
+                            "translateFrame": [
+                                {
+                                    "duration": 19
+                                },
+                                {
+                                    "duration": 9,
+                                    "tweenEasing": 0,
+                                    "x": -214.97,
+                                    "y": -86.67
+                                },
+                                {
+                                    "duration": 0,
+                                    "x": -214.97,
+                                    "y": -7.83
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x1",
+                            "translateFrame": [
+                                {
+                                    "duration": 28
+                                },
+                                {
+                                    "duration": 0,
+                                    "x": -390.42,
+                                    "y": -121.92
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x2",
+                            "translateFrame": [
+                                {
+                                    "duration": 26
+                                },
+                                {
+                                    "duration": 2,
+                                    "tweenEasing": 0,
+                                    "x": -307.92,
+                                    "y": -173.67
+                                },
+                                {
+                                    "duration": 0,
+                                    "x": -307.92,
+                                    "y": -152
+                                }
+                            ]
+                        }
+                    ],
+                    "slot": [
+                        {
+                            "name": "图层 1@3x(1)",
+                            "displayFrame": [
+                                {
+                                    "duration": 10,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 18,
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x",
+                            "displayFrame": [
+                                {
+                                    "duration": 28,
+                                    "value": -1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x1",
+                            "displayFrame": [
+                                {
+                                    "duration": 28,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 0,
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x2",
+                            "displayFrame": [
+                                {
+                                    "duration": 26,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 2,
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x3",
+                            "displayFrame": [
+                                {
+                                    "duration": 19,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 9,
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x4",
+                            "displayFrame": [
+                                {
+                                    "duration": 23,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 5,
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "图层 1@3x6",
+                            "displayFrame": [
+                                {
+                                    "duration": 15,
+                                    "value": -1
+                                },
+                                {
+                                    "duration": 13,
+                                    "value": 1
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "defaultActions": [
+                {
+                    "gotoAndPlay": "newShiFei"
+                }
+            ]
+        }
+    ]
+}

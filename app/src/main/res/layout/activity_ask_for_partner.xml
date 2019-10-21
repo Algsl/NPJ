@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AskForPartnerActivity">
+    tools:context=".ui.AskForPartnerActivity"
+    android:orientation="vertical">
 
     <include
         layout="@layout/title_theme"></include>
@@ -11,6 +12,6 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/at_ask_for_partner_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

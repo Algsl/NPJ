@@ -65,7 +65,6 @@ public class JianjieFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
 
         String url = "http://game.npj-vip.com/h5/knowledgevideo.html?id="+getArguments().getString("id")+"&user_id="+user_id;
-        Log.e("测试", "onCreate: "+url );
         fgContentWv.loadUrl(url);
         WebSettings settings = fgContentWv.getSettings();
         settings.setJavaScriptEnabled(true);

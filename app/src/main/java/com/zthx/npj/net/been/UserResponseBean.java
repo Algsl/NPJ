@@ -18,6 +18,36 @@ public class UserResponseBean extends BaseReponseBean{
         private String signature;
         private int level;
         private long gourd_coin;
+
+        private int team_level;
+        private int boss_level;
+        private int city_level;
+
+
+        public int getTeam_level() {
+            return team_level;
+        }
+
+        public void setTeam_level(int team_level) {
+            this.team_level = team_level;
+        }
+
+        public int getBoss_level() {
+            return boss_level;
+        }
+
+        public void setBoss_level(int boss_level) {
+            this.boss_level = boss_level;
+        }
+
+        public int getCity_level() {
+            return city_level;
+        }
+
+        public void setCity_level(int city_level) {
+            this.city_level = city_level;
+        }
+
         public long getId() {
             return id;
         }

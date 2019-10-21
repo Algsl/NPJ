@@ -34,6 +34,9 @@ public class ConfirmAchievementActivity extends ActivityBase {
     private String token=SharePerferenceUtils.getToken(this);
     private String level=SharePerferenceUtils.getUserLevel(this);
 
+    private long type;
+    private long appLevel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +46,12 @@ public class ConfirmAchievementActivity extends ActivityBase {
         back(titleThemeBack);
         changeTitle(titleThemeTitle, "我的申请");
 
+        type=Long.parseLong(getIntent().getStringExtra("key0"));
+        appLevel=Long.parseLong(getIntent().getStringExtra("key1"));
     }
 
     private void applyUpgrade() {
-        SetSubscribe.userApp(user_id,token,level,(Double.parseDouble(level)+1)+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        SetSubscribe.userApp(user_id,token,type,appLevel,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 showToast("申请升级成功");
