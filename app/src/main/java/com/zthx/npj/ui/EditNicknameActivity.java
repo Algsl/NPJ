@@ -49,18 +49,32 @@ public class EditNicknameActivity extends ActivityBase {
                 }
                 lastClickTime=System.currentTimeMillis();
                 final String title =acEditNickname.getText().toString().trim();
-                Log.e("测试", "onClick: "+title );
-                SetSubscribe.editNickname(user_id,token,type,title,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                    @Override
-                    public void onSuccess(String result) {
-                        openActivity(SettingsActivity.class);
+                if(title.length()<=0){
+                    if(type.equals("1")){
+                        showToast("请输入要修改的昵称");
+                    }else{
+                        showToast("请输入要修改的签名");
                     }
+                }else{
+                    SetSubscribe.editNickname(user_id,token,type,title,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            Intent intent=getIntent();
+                            intent.putExtra("content",title);
+                            if(type.equals("1")){
+                                setResult(3,intent);
+                            }else{
+                                setResult(4,intent);
+                            }
+                            finish();
+                        }
 
-                    @Override
-                    public void onFault(String errorMsg) {
-                        showToast(errorMsg);
-                    }
-                }));
+                        @Override
+                        public void onFault(String errorMsg) {
+                            showToast(errorMsg);
+                        }
+                    }));
+                }
             }
         });
     }

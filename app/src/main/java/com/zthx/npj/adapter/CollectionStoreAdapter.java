@@ -64,7 +64,11 @@ public class CollectionStoreAdapter extends RecyclerView.Adapter<CollectionStore
                 }
             });
         }
-        Glide.with(mContext).load(Uri.parse(mList.get(i).getStore_img())).into(viewHolder.storeImg);
+        if(mList.get(i).getStore_img().split("/")[0].equals("http:")){
+            Glide.with(mContext).load(Uri.parse(mList.get(i).getStore_img())).into(viewHolder.storeImg);
+        }else{
+            Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getStore_img())).into(viewHolder.storeImg);
+        }
         viewHolder.storeName.setText(mList.get(i).getStore_name());
         viewHolder.goodsCount.setText(mList.get(i).getCount()+"");
     }

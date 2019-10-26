@@ -102,6 +102,7 @@ public class SettingsActivity extends ActivityBase {
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
 
+        acSettingsTvSignature.setSelected(true);
 
         back(titleThemeBack);
         changeTitle(titleThemeTitle, "设置");
@@ -375,6 +376,21 @@ public class SettingsActivity extends ActivityBase {
                     }
                 }
                 break;
+            case 3:
+                if(resultCode==3){
+                    acSettingsTvNickname.setText(data.getStringExtra("content"));
+                }
+                break;
+            case 4:
+                Log.e("测试", "onActivityResult: "+resultCode );
+                if(requestCode==4){
+                    Log.e("测试", "onActivityResult: "+data.getStringExtra("content") );
+                    acSettingsTvSignature.setText(data.getStringExtra("content"));
+                }
+                break;
+            case 0:
+                getUserInfo();
+                break;
         }
     }
 
@@ -402,7 +418,14 @@ public class SettingsActivity extends ActivityBase {
                         /*Intent intent = new Intent(SettingsActivity.this, EditNicknameActivity.class);
                         intent.putExtra("type", type);
                         startActivity(intent);*/
-                        openActivity(EditNicknameActivity.class, type);
+                        //openActivity(EditNicknameActivity.class, type);
+                        Intent intent=new Intent(SettingsActivity.this,EditNicknameActivity.class);
+                        intent.putExtra("key0",type);
+                        if(type.equals("1")){
+                            startActivityForResult(intent,3);
+                        }else{
+                            startActivityForResult(intent,4);
+                        }
                         dialog.dismiss();
                     }
                 });

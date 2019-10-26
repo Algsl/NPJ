@@ -81,7 +81,11 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
             });
         }
         if (list!= null && list.size() > 0) {
-            Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
+            if(list.get(i).getGoods_img().split("/")[0].equals("http:")){
+                Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
+            }else{
+                Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+list.get(i).getGoods_img())).into(viewHolder.goodsImg);
+            }
             viewHolder.goodsName.setText(list.get(i).getGoods_name());
             viewHolder.goodsPrice.setText("￥"+list.get(i).getGoods_price());
             viewHolder.goodsNum.setText("x "+list.get(i).getGoods_num()+"");

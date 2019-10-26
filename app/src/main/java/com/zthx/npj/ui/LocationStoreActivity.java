@@ -90,7 +90,7 @@ public class LocationStoreActivity extends ActivityBase {
     private String token = SharePerferenceUtils.getToken(this);
     private String level = SharePerferenceUtils.getUserLevel(this);
 
-    private int page = 0;
+    private int page = 1;
     private LocationStoreAdapter mAdapter;
 
     @Override
@@ -101,6 +101,7 @@ public class LocationStoreActivity extends ActivityBase {
 
         back(titleBack);
         changeTitle(acTitle, "附近商家");
+        getLocalStore(type);
 
         atLocationStoreTvRuzhu.setText("我的店铺");
         acLocaltionStoreTvAddress.setSelected(true);
@@ -108,7 +109,7 @@ public class LocationStoreActivity extends ActivityBase {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                page = 0;
+                page = 1;
                 if (mAdapter != null) {
                     mAdapter.clearData();
                 }
@@ -134,7 +135,6 @@ public class LocationStoreActivity extends ActivityBase {
     @Override
     protected void onResume() {
         super.onResume();
-        getLocalStore(type);
     }
 
     private void getLocalStore(String type) {
@@ -143,6 +143,7 @@ public class LocationStoreActivity extends ActivityBase {
         bean.setLng(SharePerferenceUtils.getLng(this));
         bean.setPage(page+"");
         bean.setType(type);
+
         MainSubscribe.getLocalStore(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -151,16 +152,19 @@ public class LocationStoreActivity extends ActivityBase {
 
                 LinearLayoutManager manager = new LinearLayoutManager(LocationStoreActivity.this, LinearLayoutManager.VERTICAL, false);
                 atLocationStoreRv.setLayoutManager(manager);
-                if (mAdapter == null) {
+                if (mAdapter == null) {//当适配器为空时，创建适配器
                     mAdapter = new LocationStoreAdapter(LocationStoreActivity.this, data);
                 } else {
                     Log.e("测试", "setGoodsList: "+data.size());
                     if (data != null && data.size()!=0) {
-                        if(data.size()<10){
+                        if(data.size()<10){//
                             seeMore.setText("没有更多了");
                             refreshLayout.setLoadmoreFinished(true);
                         }
                         mAdapter.addData(data);
+                    }else{
+                        seeMore.setText("没有更多了");
+                        refreshLayout.setLoadmoreFinished(true);
                     }
                 }
                 mAdapter.setOnItemClickListener(new LocationStoreAdapter.ItemClickListener() {
@@ -199,24 +203,36 @@ public class LocationStoreActivity extends ActivityBase {
                 acLocationStoreTvType1.setTextColor(getResources().getColor(R.color.app_theme));
                 acLocationStoreTvType1.setBackground(getResources().getDrawable(R.drawable.stroke_theme_2));
                 type = "1";
+                if (mAdapter != null) {
+                    mAdapter.clearData();
+                }
                 getLocalStore(type);
                 break;
             case R.id.ac_locationStore_tv_type2:
                 acLocationStoreTvType2.setBackgroundResource(R.drawable.stroke_app_theme);
                 acLocationStoreTvType2.setBackground(getResources().getDrawable(R.drawable.stroke_theme_2));
                 type = "2";
+                if (mAdapter != null) {
+                    mAdapter.clearData();
+                }
                 getLocalStore(type);
                 break;
             case R.id.ac_locationStore_tv_type3:
                 acLocationStoreTvType3.setTextColor(getResources().getColor(R.color.app_theme));
                 acLocationStoreTvType3.setBackground(getResources().getDrawable(R.drawable.stroke_theme_2));
                 type = "3";
+                if (mAdapter != null) {
+                    mAdapter.clearData();
+                }
                 getLocalStore(type);
                 break;
             case R.id.ac_locationStore_tv_type4:
                 acLocationStoreTvType4.setTextColor(getResources().getColor(R.color.app_theme));
                 acLocationStoreTvType4.setBackground(getResources().getDrawable(R.drawable.stroke_theme_2));
                 type = "4";
+                if (mAdapter != null) {
+                    mAdapter.clearData();
+                }
                 getLocalStore(type);
                 break;
             case R.id.at_location_store_et_search:
@@ -257,6 +273,7 @@ public class LocationStoreActivity extends ActivityBase {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e("测试", "onActivityResult: "+resultCode );
         if (requestCode == 1) {
             acLocaltionStoreTvAddress.setText(data.getStringExtra("addressDetail"));
         }

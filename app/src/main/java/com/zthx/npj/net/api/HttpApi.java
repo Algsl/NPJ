@@ -624,5 +624,11 @@ public interface HttpApi  {
 
     @POST("index.php/api/user2/selflifting.html")
     Observable<ResponseBody> selfLifting(@Body SelfLiftingBean bean);
+
+    @POST("index.php/api/user2/userone.html")
+    Observable<ResponseBody> userOne(@Body UserOneBean bean);
+
+    @POST("index.php/api/user2/usertwo.html")
+    Observable<ResponseBody> userTwo(@Body UserTwoBean bean);
 }
 

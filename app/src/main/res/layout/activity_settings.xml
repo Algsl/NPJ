@@ -104,6 +104,7 @@
             android:layout_width="@dimen/dp_200"
             android:layout_height="wrap_content"
             android:text="诚信第一、互惠互利、共赢 "
+            android:gravity="right"
             android:ellipsize="end"
             android:singleLine="true"
             android:textSize="@dimen/sp_15"

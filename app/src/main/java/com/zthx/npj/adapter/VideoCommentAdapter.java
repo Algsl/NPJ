@@ -77,7 +77,11 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<VideoCommentAdapte
             }
         }));
         if (mList!= null && mList.size() > 0) {
-            Glide.with(mContext).load(Uri.parse(mList.get(i).getHead_img())).into(viewHolder.mIvGoods);
+            if(mList.get(i).getHead_img().split("/")[0].equals("http:")){
+                Glide.with(mContext).load(Uri.parse(mList.get(i).getHead_img())).into(viewHolder.mIvGoods);
+            }else{
+                Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getHead_img())).into(viewHolder.mIvGoods);
+            }
             viewHolder.userName.setText(mList.get(i).getNick_name());
             viewHolder.content.setText(mList.get(i).getContent());
             viewHolder.createTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(mList.get(i).getCreate_time()*1000)));

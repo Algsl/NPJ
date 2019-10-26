@@ -126,10 +126,12 @@ public class MembershipPackageActivity extends ActivityBase {
 
     private void setUserInfo(String result) {
         UserResponseBean bean = GsonUtils.fromJson(result, UserResponseBean.class);
+        UserResponseBean.DataBean data=bean.getData();
         Glide.with(this).load(Uri.parse(bean.getData().getHead_img())).into(atMembershipPackageHeadPic);
         atMembershipPackageTvName.setText(bean.getData().getNick_name());
         level=bean.getData().getLevel()+"";
-        MyCustomUtils.showLevelImg(bean.getData().getLevel(), acMembershipIvLevel);
+        //MyCustomUtils.showLevelImg(bean.getData().getLevel(), acMembershipIvLevel);
+        MyCustomUtils.showLevelImg(data.getCity_level(),data.getBoss_level(),data.getTeam_level(),data.getLevel(),acMembershipIvLevel);
     }
 
     @OnClick({R.id.at_membership_package_tv_tuijian, R.id.at_membership_package_tv_share,

@@ -78,7 +78,11 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
             viewHolder.ivVideo.setVisibility(View.VISIBLE);
             viewHolder.mIvPic.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
         } else {
-            Glide.with(mContext).load(Uri.parse(url)).into(viewHolder.mIvPic);
+            if(list.get(i).getGoods_img().split("/")[0].equals("http:")){
+                Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.mIvPic);
+            }else{
+                Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+list.get(i).getGoods_img())).into(viewHolder.mIvPic);
+            }
         }
         viewHolder.mTvPrice.setText(list.get(i).getPrice());
         if(Integer.valueOf(list.get(i).getDistance())>1000){

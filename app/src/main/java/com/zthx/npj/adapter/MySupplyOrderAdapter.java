@@ -134,7 +134,11 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
                 viewHolder.goodsImg.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
                 viewHolder.ivVideo.setVisibility(View.VISIBLE);
             } else {
-                Glide.with(mContext).load(Uri.parse(url)).into(viewHolder.goodsImg);
+                if(list.get(i).getGoods_img().split("/")[0].equals("http:")){
+                    Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
+                }else{
+                    Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+list.get(i).getGoods_img())).into(viewHolder.goodsImg);
+                }
             }
             //Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
             viewHolder.storeName.setText("朝花夕拾");

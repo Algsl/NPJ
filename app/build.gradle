@@ -153,7 +153,7 @@ dependencies {
     implementation 'com.github.dueeeke.dkplayer:dkplayer-armv7a:2.5.4'
     implementation 'com.github.dueeeke.dkplayer:dkplayer-ui:2.5.4'
 
-    implementation 'com.github.open-android:ImageSelector:0.1.0'
+    implementation 'com.github.donkingliang:ImageSelector:1.1.1'
 
     implementation 'com.makeramen:roundedimageview:2.3.0'
 

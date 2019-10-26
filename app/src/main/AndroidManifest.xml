@@ -61,6 +61,14 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="PHUVgcMQuv0RmOk9nMH8IGnp5qGduaCy" /> <!-- 活动页面 -->
+
+        <activity android:name="com.donkingliang.imageselector.ImageSelectorActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name="com.donkingliang.imageselector.PreviewActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+
         <activity
             android:name=".ui.MainActivity"
             android:theme="@style/TranslucentTheme">
@@ -143,7 +151,7 @@
         <activity android:name=".ui.SupplyManagerActivity" />
         <activity android:name=".ui.WantBuyManagerActivity" />
         <activity android:name=".ui.ReleaseSupplyActivity" />
-        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.LoginActivity"  android:launchMode="singleTask"/>
         <activity android:name=".ui.CellPhoneLoginActivity" />
         <activity android:name=".ui.InputInvitationCodeActivity" />
         <activity android:name=".ui.LocalSpokesmanActivity" />
@@ -213,6 +221,7 @@
         <activity android:name=".tencent.activity.MessageCenterActivity"/>
         <activity android:name=".tencent.activity.ChatActivity"/>
         <activity android:name=".ui.ServicesListActivity"/>
+        <activity android:name=".ui.ZjdyrActivity"/>
 
         <activity
             android:name=".wxapi.WXEntryActivity"

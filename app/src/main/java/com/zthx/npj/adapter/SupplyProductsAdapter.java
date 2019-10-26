@@ -36,7 +36,11 @@ public class SupplyProductsAdapter extends RecyclerView.Adapter<SupplyProductsAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         if(mList.size()>0){
-            Glide.with(mContext).load(Uri.parse(mList.get(i))).into(viewHolder.imgContent);
+            if(mList.get(i).split("/")[0].equals("http:")){
+                Glide.with(mContext).load(Uri.parse(mList.get(i))).into(viewHolder.imgContent);
+            }else{
+                Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i))).into(viewHolder.imgContent);
+            }
         }
     }
 

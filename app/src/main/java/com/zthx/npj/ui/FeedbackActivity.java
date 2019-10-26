@@ -3,6 +3,8 @@ package com.zthx.npj.ui;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.donkingliang.imageselector.utils.ImageSelectorUtils;
 import com.zthx.npj.R;
 import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.FeedBackBean;
@@ -27,6 +30,11 @@ import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.CommonDialog;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -106,8 +114,9 @@ public class FeedbackActivity extends ActivityBase {
 
             @Override
             public void onAddClick() {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, CHOOSE_PHOTO);
+                /*Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, CHOOSE_PHOTO);*/
+                ImageSelectorUtils.openPhoto(FeedbackActivity.this,CHOOSE_PHOTO,false,3);
             }
         });
     }
@@ -131,7 +140,7 @@ public class FeedbackActivity extends ActivityBase {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case CHOOSE_PHOTO:
-                if (resultCode == RESULT_OK) {
+                /*if (resultCode == RESULT_OK) {
                     Uri selectImg = data.getData();
                     String[] filepathColum = {MediaStore.Images.Media.DATA};
                     Cursor cursor = getContentResolver().query(selectImg, filepathColum, null, null, null);
@@ -141,6 +150,13 @@ public class FeedbackActivity extends ActivityBase {
                     cursor.close();
                     paths.add(path);
                     acFeedBackZibPingzheng.addImage(path);
+                }*/
+                if(resultCode!=0){
+                    ArrayList<String> images = data.getStringArrayListExtra(ImageSelectorUtils.SELECT_RESULT);
+                    for(int i=0;i<images.size();i++){
+                        paths.add(compress(images.get(i)));
+                        acFeedBackZibPingzheng.addImage(compress(images.get(i)));
+                    }
                 }
                 break;
         }
@@ -252,5 +268,49 @@ public class FeedbackActivity extends ActivityBase {
                 showToast(errorMsg);
             }
         }));
+    }
+
+    public String compress(String path){
+        File file=new File(path);
+        Bitmap compressBitmap;
+        /*if (file.length()>=2.5*1024*1024){//从相册中选择照片，2.5M以上的用2压缩
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = false;
+            options.inSampleSize = 3;
+            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+        }else */if(file.length()>=600*1024){//从相册中选择照片，600k以上的用2压缩
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = false;
+            options.inSampleSize = 2;
+            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+        }else{
+            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+        }
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        compressBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+
+        int options1 = 90;
+        while (bos.toByteArray().length / 1024 > 500) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            bos.reset(); // 重置baos即清空baos
+            compressBitmap.compress(Bitmap.CompressFormat.JPEG, options1, bos);// 这里压缩options%，把压缩后的数据存放到baos中
+            options1 -= 10;// 每次都减少10
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(bos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
+        compressBitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
+
+        String bmString="";
+        try {
+            File bmFile=new File(getExternalCacheDir(), System.currentTimeMillis()+".jpg");
+            FileOutputStream fos = new FileOutputStream(bmFile);
+            fos.write(bos.toByteArray());
+            fos.flush();
+            fos.close();
+            bmString=bmFile.getPath();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmString;
     }
 }

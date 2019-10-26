@@ -1,25 +1,14 @@
 package com.zthx.npj.ui;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.GradViewAdapter;
 import com.zthx.npj.net.been.InComeResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -72,6 +61,10 @@ public class SpokesmanRightsActivity extends ActivityBase {
     TextView acSpokesmanTvMingxi;
     @BindView(R.id.ac_spokesman_ll_myTeam)
     LinearLayout acSpokesmanLlMyTeam;
+    @BindView(R.id.ac_spokesman_ll_zt)
+    LinearLayout acSpokesmanLlZt;
+    @BindView(R.id.ac_spokesman_ll_jt)
+    LinearLayout acSpokesmanLlJt;
 
     private String shouyiAmount;
 
@@ -109,7 +102,7 @@ public class SpokesmanRightsActivity extends ActivityBase {
     private void setInCome(String result) {
         InComeResponseBean bean = GsonUtils.fromJson(result, InComeResponseBean.class);
         InComeResponseBean.DataBean data = bean.getData();
-        shouyiAmount=data.getIncome_amount()+"";
+        shouyiAmount = data.getIncome_amount() + "";
         atSpokesmanRightTvMoney.setText(data.getIncome_amount() + "");
         acSpokesmanTvZtPush.setText(data.getZt_push() + "");
         acSpokesmanTvJtPush.setText(data.getJt_push() + "");
@@ -119,11 +112,13 @@ public class SpokesmanRightsActivity extends ActivityBase {
         acSpokesmanTvExtracted.setText(data.getExtracted() + "元");
     }
 
-    @OnClick({R.id.at_spokesman_right_btn_tiqu, R.id.at_spokesman_rl_daiyanjiangli, R.id.ac_spokesman_rl_store, R.id.ac_spokesman_rl_tiqu, R.id.ac_spokesman_tv_mingxi,R.id.ac_spokesman_ll_myTeam})
+    @OnClick({R.id.at_spokesman_right_btn_tiqu, R.id.at_spokesman_rl_daiyanjiangli, R.id.ac_spokesman_rl_store,
+            R.id.ac_spokesman_rl_tiqu, R.id.ac_spokesman_tv_mingxi, R.id.ac_spokesman_ll_myTeam,
+            R.id.ac_spokesman_ll_zt, R.id.ac_spokesman_ll_jt})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_spokesman_right_btn_tiqu:
-                openActivity(SYWithDrawActivity.class,shouyiAmount);
+                openActivity(SYWithDrawActivity.class, shouyiAmount);
                 break;
             case R.id.at_spokesman_rl_daiyanjiangli:
                 openActivity(VipJLActivity.class);
@@ -139,6 +134,12 @@ public class SpokesmanRightsActivity extends ActivityBase {
                 break;
             case R.id.ac_spokesman_ll_myTeam:
                 openActivity(MyTeamActivity.class);
+                break;
+            case R.id.ac_spokesman_ll_zt:
+                openActivity(ZjdyrActivity.class,"1");
+                break;
+            case R.id.ac_spokesman_ll_jt:
+                openActivity(ZjdyrActivity.class,"2");
                 break;
         }
     }

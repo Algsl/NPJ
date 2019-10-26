@@ -5,8 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_marginTop="@dimen/dp_10"
-    android:background="@android:color/white">
+    android:background="@color/white">
     <RelativeLayout
+        android:id="@+id/item_orderList_rl"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40">
         <ImageView
@@ -49,19 +50,19 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
             android:background="@color/background"
-            android:layout_alignParentBottom="true"></View>
+            android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_100">
+        android:layout_height="@dimen/dp_90">
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/item_orderList_iv_goodsImg"
             android:layout_width="@dimen/dp_80"
             android:layout_height="@dimen/dp_80"
             android:src="@drawable/logo"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="12dp"
             android:scaleType="centerCrop"
             android:layout_marginLeft="@dimen/dp_12"
             app:riv_corner_radius="@dimen/dp_5"/>
@@ -98,131 +99,130 @@
             android:layout_marginRight="@dimen/dp_12"
             android:layout_below="@id/item_orderList_tv_goodsName"
             android:layout_marginTop="@dimen/dp_13"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
-            android:background="@color/background"
-            android:layout_alignParentBottom="true"></View>
     </RelativeLayout>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="共一件商品，总金额 "
+            android:layout_toLeftOf="@id/item_orderList_tv_orderPrice"
+            android:layout_marginTop="@dimen/dp_8"
+            android:textSize="@dimen/sp_12"
+            android:textColor="@color/text6"/>
         <TextView
             android:id="@+id/item_orderList_tv_orderPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="￥1560"
+            android:textStyle="bold"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:textColor="@color/app_theme"
-            android:textSize="@dimen/sp_15"
-            android:layout_marginRight="@dimen/dp_12"
-            android:layout_marginTop="@dimen/dp_5"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="共一件商品，总金额"
-            android:layout_toLeftOf="@id/item_orderList_tv_orderPrice"
-            android:layout_marginTop="@dimen/dp_5"
-            android:textSize="@dimen/sp_14"
-            android:textColor="@color/text3"/>
-        <LinearLayout
+            android:textSize="@dimen/sp_16"
             android:layout_marginBottom="@dimen/dp_5"
-            android:gravity="end"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@id/item_orderList_tv_orderPrice"
-            android:layout_marginRight="@dimen/dp_12">
-
-            <Button
-                android:id="@+id/item_orderList_btn_cancel"
-                android:layout_width="@dimen/dp_70"
-                android:layout_height="@dimen/dp_20"
-                android:layout_marginRight="@dimen/dp_12"
-                android:background="@drawable/stroke_zise_5"
-                android:text="取消订单"
-                android:textColor="@color/text6"
-                android:textSize="@dimen/sp_14"/>
-
-            <Button
-                android:id="@+id/item_orderList_btn_delete"
-                android:layout_width="@dimen/dp_70"
-                android:layout_height="@dimen/dp_20"
-                android:layout_marginRight="@dimen/dp_12"
-                android:background="@drawable/stroke_zise_5"
-                android:text="删除订单"
-                android:textColor="@color/text6"
-                android:textSize="@dimen/sp_14" />
-            <Button
-                android:id="@+id/item_orderList_btn_cuidan"
-                android:layout_width="@dimen/dp_70"
-                android:layout_height="@dimen/dp_20"
-                android:background="@drawable/stroke_theme_5"
-                android:layout_marginRight="@dimen/dp_12"
-                android:text="催单"
-                android:textColor="@color/app_theme"
-                android:textSize="@dimen/sp_14"/>
-            <Button
-                android:id="@+id/item_orderList_btn_pay"
-                android:layout_width="@dimen/dp_70"
-                android:layout_height="@dimen/dp_20"
-                android:background="@drawable/stroke_theme_5"
-                android:text="去支付"
-                android:textColor="@color/app_theme"
-                android:textSize="@dimen/sp_14" />
-            <Button
-                android:id="@+id/item_orderList_btn_query"
-                android:layout_width="@dimen/dp_70"
-                android:layout_height="@dimen/dp_20"
-                android:layout_marginRight="@dimen/dp_12"
-                android:background="@drawable/stroke_zise_5"
-                android:text="查询物流"
-                android:textColor="@color/text6"
-                android:textSize="@dimen/sp_14"
-                android:visibility="gone"/>
-            <Button
-                android:id="@+id/item_orderList_btn_confirm"
-                android:layout_width="@dimen/dp_70"
-                android:layout_height="@dimen/dp_20"
-                android:layout_marginRight="@dimen/dp_12"
-                android:background="@drawable/stroke_theme_5"
-                android:text="确认收货"
-                android:textColor="@color/app_theme"
-                android:textSize="@dimen/sp_14"
-                android:visibility="gone"/>
-            <Button
-                android:id="@+id/item_orderList_btn_again"
-                android:layout_width="@dimen/dp_70"
-                android:layout_height="@dimen/dp_20"
-                android:layout_marginRight="@dimen/dp_12"
-                android:background="@drawable/stroke_theme_5"
-                android:text="再来一单"
-                android:textColor="@color/app_theme"
-                android:textSize="@dimen/sp_14"
-                android:visibility="gone"/>
-            <Button
-                android:id="@+id/item_orderList_btn_comment"
-                android:layout_width="@dimen/dp_70"
-                android:layout_height="@dimen/dp_20"
-                android:layout_marginRight="@dimen/dp_12"
-                android:background="@drawable/stroke_zise_5"
-                android:text="评价"
-                android:textColor="@color/text6"
-                android:textSize="@dimen/sp_14"
-                android:visibility="gone"/>
-            <Button
-                android:id="@+id/item_orderList_btn_goodsReturn"
-                android:layout_width="@dimen/dp_70"
-                android:layout_height="@dimen/dp_20"
-                android:layout_marginRight="@dimen/dp_12"
-                android:background="@drawable/stroke_zise_5"
-                android:text="退换"
-                android:textColor="@color/text6"
-                android:textSize="@dimen/sp_14"
-                android:visibility="gone"/>
-        </LinearLayout>
+            android:layout_marginRight="@dimen/dp_12"/>
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/background"
+        android:layout_alignParentBottom="true"/>
+
+
+    <LinearLayout
+        android:gravity="center_vertical|right"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:orientation="horizontal"
+        android:layout_marginRight="@dimen/dp_12">
+
+        <Button
+            android:id="@+id/item_orderList_btn_cancel"
+            android:layout_width="@dimen/dp_75"
+            android:layout_height="@dimen/dp_26"
+            android:layout_marginRight="@dimen/dp_12"
+            android:background="@drawable/stroke_zise_15"
+            android:text="取消订单"
+            android:textColor="@color/text6"
+            android:textSize="@dimen/sp_14"/>
+
+        <Button
+            android:id="@+id/item_orderList_btn_delete"
+            android:layout_width="@dimen/dp_75"
+            android:layout_height="@dimen/dp_26"
+            android:layout_marginRight="@dimen/dp_12"
+            android:background="@drawable/stroke_zise_15"
+            android:text="删除订单"
+            android:textColor="@color/text6"
+            android:textSize="@dimen/sp_14" />
+        <Button
+            android:id="@+id/item_orderList_btn_cuidan"
+            android:layout_width="@dimen/dp_75"
+            android:layout_height="@dimen/dp_26"
+            android:background="@drawable/stroke_theme_15"
+            android:layout_marginRight="@dimen/dp_12"
+            android:text="催单"
+            android:textColor="@color/app_theme"
+            android:textSize="@dimen/sp_14"/>
+        <Button
+            android:id="@+id/item_orderList_btn_pay"
+            android:layout_width="@dimen/dp_75"
+            android:layout_height="@dimen/dp_26"
+            android:background="@drawable/stroke_theme_15"
+            android:text="去支付"
+            android:textColor="@color/app_theme"
+            android:textSize="@dimen/sp_14" />
+        <Button
+            android:id="@+id/item_orderList_btn_query"
+            android:layout_width="@dimen/dp_75"
+            android:layout_height="@dimen/dp_26"
+            android:layout_marginRight="@dimen/dp_12"
+            android:background="@drawable/stroke_zise_15"
+            android:text="查询物流"
+            android:textColor="@color/text6"
+            android:textSize="@dimen/sp_14"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/item_orderList_btn_confirm"
+            android:layout_width="@dimen/dp_75"
+            android:layout_height="@dimen/dp_26"
+            android:layout_marginRight="@dimen/dp_12"
+            android:background="@drawable/stroke_theme_15"
+            android:text="确认收货"
+            android:textColor="@color/app_theme"
+            android:textSize="@dimen/sp_14"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/item_orderList_btn_again"
+            android:layout_width="@dimen/dp_75"
+            android:layout_height="@dimen/dp_26"
+            android:layout_marginRight="@dimen/dp_12"
+            android:background="@drawable/stroke_theme_15"
+            android:text="再来一单"
+            android:textColor="@color/app_theme"
+            android:textSize="@dimen/sp_14"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/item_orderList_btn_comment"
+            android:layout_width="@dimen/dp_75"
+            android:layout_height="@dimen/dp_26"
+            android:layout_marginRight="@dimen/dp_12"
+            android:background="@drawable/stroke_zise_15"
+            android:text="评价"
+            android:textColor="@color/text6"
+            android:textSize="@dimen/sp_14"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/item_orderList_btn_goodsReturn"
+            android:layout_width="@dimen/dp_75"
+            android:layout_height="@dimen/dp_26"
+            android:layout_marginRight="@dimen/dp_12"
+            android:background="@drawable/stroke_zise_15"
+            android:text="退换"
+            android:textColor="@color/text6"
+            android:textSize="@dimen/sp_14"
+            android:visibility="gone"/>
+    </LinearLayout>
 </LinearLayout>

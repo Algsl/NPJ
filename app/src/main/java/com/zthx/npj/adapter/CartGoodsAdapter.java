@@ -35,7 +35,11 @@ public class CartGoodsAdapter extends RecyclerView.Adapter<CartGoodsAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
+        if(mList.get(i).getGoods_img().split("/")[0].equals("http:")){
+            Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
+        }else{
+            Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
+        }
         viewHolder.goodsName.setText(mList.get(i).getGoods_name());
         viewHolder.goodsPrice.setText("￥"+mList.get(i).getPrice());
         viewHolder.goodsNum.setText("x"+mList.get(i).getGoods_num());

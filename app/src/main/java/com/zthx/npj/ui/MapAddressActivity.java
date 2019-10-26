@@ -75,6 +75,7 @@ public class MapAddressActivity extends ActivityBase {
     //经纬度
     private double lat, lon, lat1, lon1;
     private GeoCoder mSearch;
+    private boolean flag;
 
     private String address;
 
@@ -104,7 +105,8 @@ public class MapAddressActivity extends ActivityBase {
             @Override
             public void onMapClick(LatLng latLng) {
                 baiduMap.clear();
-                BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.location_store_locate);
+                flag=true;
+                BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.locate);
                 OverlayOptions options = new MarkerOptions().position(latLng).icon(bitmap);
                 baiduMap.addOverlay(options);
                 initGeoCoder(latLng);
@@ -189,13 +191,19 @@ public class MapAddressActivity extends ActivityBase {
 
     @OnClick(R.id.ac_map_tv_commit)
     public void onViewClicked() {
-        SharePerferenceUtils.setLat(this, lat1 + "");
-        SharePerferenceUtils.setLng(this, lon1 + "");
-        Intent intent = new Intent(this, LocationStoreActivity.class);
-        intent.putExtra("address", address);
-        intent.putExtra("addressDetail", acMapEtAddressDetail.getText().toString().trim());
-        setResult(1, intent);
-        finish();
+        if(acMapEtAddressDetail.getText().toString().trim().equals("")){
+            showToast("请填写详细的位置信息");
+        }else{
+            if(flag){
+                SharePerferenceUtils.setLat(this, lat1 + "");
+                SharePerferenceUtils.setLng(this, lon1 + "");
+            }
+            Intent intent = new Intent(this, LocationStoreActivity.class);
+            intent.putExtra("address", address);
+            intent.putExtra("addressDetail", acMapEtAddressDetail.getText().toString().trim());
+            setResult(1, intent);
+            finish();
+        }
     }
 
     /**

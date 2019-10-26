@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_marginLeft="@dimen/dp_8"
-    android:layout_marginTop="@dimen/dp_10"
+    android:layout_marginTop="@dimen/dp_12"
     android:background="@drawable/white_conner">
     <RelativeLayout
         android:layout_width="match_parent"

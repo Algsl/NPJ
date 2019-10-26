@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
+import com.zthx.npj.net.been.UserAppResponseBean;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -54,7 +55,13 @@ public class ConfirmAchievementActivity extends ActivityBase {
         SetSubscribe.userApp(user_id,token,type,appLevel,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                showToast("申请升级成功");
+                UserAppResponseBean bean=GsonUtils.fromJson(result,UserAppResponseBean.class);
+                UserAppResponseBean.DataBean data=bean.getData();
+                if(data.getStatus()==1){
+                    showToast("申请升级成功");
+                }else{
+                    showToast("该申请正在审核中，无需重复申请");
+                }
                 finish();
             }
 

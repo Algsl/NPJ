@@ -61,7 +61,11 @@ public class ClassifyAdapter extends RecyclerView.Adapter<ClassifyAdapter.ViewHo
             });
         }
         if(mList.size()>0){
-            Glide.with(mContext).load(Uri.parse(mList.get(i).getImage())).into(viewHolder.iv_icon);
+            if(mList.get(i).getImage().split("/")[0].equals("http:")){
+                Glide.with(mContext).load(Uri.parse(mList.get(i).getImage())).into(viewHolder.iv_icon);
+            }else{
+                Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getImage())).into(viewHolder.iv_icon);
+            }
             viewHolder.tv_name.setText(mList.get(i).getName());
         }
     }

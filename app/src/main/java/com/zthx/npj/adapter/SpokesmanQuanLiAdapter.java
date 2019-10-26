@@ -62,8 +62,11 @@ public class SpokesmanQuanLiAdapter extends RecyclerView.Adapter<SpokesmanQuanLi
             });
         }
         if (list!= null && list.size() > 0) {
-            Glide.with(mContext).load(Uri.parse(list.get(i).getImg())).into(viewHolder.mIvPic);
-            Glide.with(mContext).load(Uri.parse(list.get(i).getImg())).into(viewHolder.mIvPic);
+            if(list.get(i).getImg().split("/")[0].equals("http:")){
+                Glide.with(mContext).load(Uri.parse(list.get(i).getImg())).into(viewHolder.mIvPic);
+            }else{
+                Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+list.get(i).getImg())).into(viewHolder.mIvPic);
+            }
             viewHolder.mTvContent.setText(list.get(i).getDescription());
             viewHolder.mTvTitle.setText(list.get(i).getTitle());
         } else {

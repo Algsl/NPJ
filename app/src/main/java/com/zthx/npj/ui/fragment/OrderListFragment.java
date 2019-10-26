@@ -261,6 +261,11 @@ public class OrderListFragment extends Fragment {
                 intent.putExtra("order_id", data.get(position).getId() + "");
                 startActivity(intent);
             }
+
+            @Override
+            public void onGoStore(int position) {
+
+            }
         });
         fgOrderList.setItemAnimator(new DefaultItemAnimator());
         fgOrderList.setAdapter(mAdapter);

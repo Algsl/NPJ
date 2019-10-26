@@ -13,11 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
         android:orientation="horizontal">
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/ac_orderComment_iv_goodsImg"
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40"
-            android:layout_marginTop="@dimen/dp_5"
+            android:layout_gravity="center_vertical"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="@dimen/dp_5"
             android:layout_marginLeft="@dimen/dp_12"/>
         <TextView
             android:layout_marginLeft="@dimen/dp_10"

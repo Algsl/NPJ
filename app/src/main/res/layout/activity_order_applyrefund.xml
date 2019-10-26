@@ -170,10 +170,11 @@
             android:text="￥ "/>
         <EditText
             android:id="@+id/at_order_applyRefund_tv_orderPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="match_parent"
             android:background="@null"
             android:textColor="@color/app_theme"
+            android:inputType="number"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
     <LinearLayout

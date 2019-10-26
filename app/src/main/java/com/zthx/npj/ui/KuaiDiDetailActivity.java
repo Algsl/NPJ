@@ -88,7 +88,11 @@ public class KuaiDiDetailActivity extends ActivityBase {
     private void setMySupplyOrderDetail(String result) {
         MySupplyOrderDetailResponseBean bean=GsonUtils.fromJson(result,MySupplyOrderDetailResponseBean.class);
         MySupplyOrderDetailResponseBean.DataBean data=bean.getData();
-        Glide.with(this).load(Uri.parse("http://app.npj-vip.com"+data.getGoods_img().get(0))).into(acKuaidiIvGoodsImg);
+        if(data.getGoods_img().get(0).split("/")[0].equals("http:")){
+            Glide.with(this).load(Uri.parse(data.getGoods_img().get(0))).into(acKuaidiIvGoodsImg);
+        }else{
+            Glide.with(this).load(Uri.parse("http://app.npj-vip.com"+data.getGoods_img().get(0))).into(acKuaidiIvGoodsImg);
+        }
         /*switch (data.getExpress_name()){
             case "韵达快递":express_code="yunda";break;
             case "申通快递":express_code="shentong";break;

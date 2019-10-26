@@ -82,8 +82,11 @@ public class BaojiaUserListAdapter extends RecyclerView.Adapter<BaojiaUserListAd
                 }
             }
         }
-
-        Glide.with(mContext).load(Uri.parse(mList.get(i).getHead_img())).into(viewHolder.goodsImg);
+        if(mList.get(i).getHead_img().split("/")[0].equals("http:")){
+            Glide.with(mContext).load(Uri.parse(mList.get(i).getHead_img())).into(viewHolder.goodsImg);
+        }else{
+            Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getHead_img())).into(viewHolder.goodsImg);
+        }
         viewHolder.name.setText(mList.get(i).getNick_name());
         viewHolder.day.setText("已持续经营365天");
         viewHolder.time.setText(new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss").format(new Date(mList.get(i).getCreate_time()*1000)));

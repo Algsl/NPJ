@@ -455,7 +455,7 @@ public class GoodsDetailActivity extends ActivityBase {
     @OnClick({R.id.at_goods_detail_btn_add_shopping_cart, R.id.at_goods_detail_btn_buy_now, R.id.ac_goodsDetail_ll_collect,
             R.id.ac_goodsDetail_ll_store, R.id.at_goods_detail_btn_pre_sell_know, R.id.at_goods_detail_btn_pre_sell_comment,
             R.id.at_goods_detail_btn_pre_sell_detail, R.id.ac_goodsDetail_chooseSize, R.id.ac_goodsDetail_iv_share,
-            R.id.ac_goodsDetail_iv_home, R.id.ac_goodsDetail_save})
+            R.id.ac_goodsDetail_iv_home, R.id.ac_goodsDetail_save,R.id.ac_goodsdetail_ll_kefu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_goods_detail_btn_add_shopping_cart://加入购物车
@@ -508,6 +508,9 @@ public class GoodsDetailActivity extends ActivityBase {
                 } else {
                     goodsCollect();
                 }
+                break;
+            case R.id.ac_goodsdetail_ll_kefu:
+                openActivity(ServicesListActivity.class);
                 break;
             case R.id.at_goods_detail_btn_pre_sell_detail://商品详情
                 acGoodsDetailLlKnow.setVisibility(View.GONE);

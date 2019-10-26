@@ -63,6 +63,8 @@ import com.zthx.npj.utils.marquee.LooperImageView;
 import com.zthx.npj.utils.marquee.LooperTextView;
 import com.zthx.npj.view.GlideImageLoader;
 
+import org.egret.egretnativeandroid.EgretNativeAndroid;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -131,6 +133,12 @@ public class HomeFragment extends BaseFragment {
     private List<LooperBean> looperBeenList;
     private int position;
     private ArrayList<LooperBean> looperBeans=new ArrayList<>();
+
+
+
+
+
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -156,7 +164,6 @@ public class HomeFragment extends BaseFragment {
         getBanner();
 
         getOrderPush();
-
         //设置RecyclerView管理器
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);
         fgHomeShoppingCast.setLayoutManager(layoutManager);

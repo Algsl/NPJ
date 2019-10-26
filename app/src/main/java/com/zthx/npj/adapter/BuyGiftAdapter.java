@@ -72,7 +72,11 @@ public class BuyGiftAdapter extends RecyclerView.Adapter<BuyGiftAdapter.ViewHold
                 }
             });
         }
-        Glide.with(mContext).load(Uri.parse(list.get(i).getImg())).into(viewHolder.mIvGoods);
+        if(list.get(i).getImg().split("/")[0].equals("http:")){
+            Glide.with(mContext).load(Uri.parse(list.get(i).getImg())).into(viewHolder.mIvGoods);
+        }else{
+            Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+list.get(i).getImg())).into(viewHolder.mIvGoods);
+        }
         viewHolder.mTvPrice.setText("￥"+list.get(i).getPrice());
         viewHolder.mTvDes.setText(list.get(i).getDescription());
         viewHolder.mTvTitle.setText(list.get(i).getTitle());

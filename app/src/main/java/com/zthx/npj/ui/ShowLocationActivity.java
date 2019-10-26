@@ -1,11 +1,15 @@
 package com.zthx.npj.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +36,7 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.zthx.npj.R;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,11 +81,11 @@ public class ShowLocationActivity extends ActivityBase {
 
         Lat = getIntent().getStringExtra("key0");
         Lng = getIntent().getStringExtra("key1");
-        atLocationStoreTvRuzhu.setText("高德地图");
+        atLocationStoreTvRuzhu.setText("本机地图");
         atLocationStoreTvRuzhu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToGaodeMap();
+                showBottomDialog();
             }
         });
 
@@ -146,7 +151,7 @@ public class ShowLocationActivity extends ActivityBase {
 
         //显示商家位置
         LatLng latLng1 = new LatLng(Double.parseDouble(Lat), Double.parseDouble(Lng));
-        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.location_store_locate);
+        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.locate);
         OverlayOptions options = new MarkerOptions().position(latLng1).icon(bitmap);
         baiduMap.addOverlay(options);
     }
@@ -290,5 +295,79 @@ public class ShowLocationActivity extends ActivityBase {
         Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(stringBuffer.toString()));
         intent.setPackage("com.autonavi.minimap");
         startActivity(intent);
+    }
+
+    private void goToBaiduMap() throws URISyntaxException {
+        if (!isInstalled("com.baidu.BaiduMap")) {
+            showToast("请安装百度地图客户端");
+            return;
+        }
+
+        String url_map = "intent://map/direction?" +
+                //"origin=latlng:" + dqLatitude + "," + dqLongitude +   //起点  此处不传值默认选择当前位置如果传参则提示参数错误
+                "destination=latlng:" + Lat + "," + Lng + "|name:" + "" +
+                "&mode=driving&" +          //导航路线方式
+                "region=" + "" +           //
+                "&src=" + "" + "#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end";
+        Intent intent = Intent.getIntent(url_map);
+        startActivity(intent); // 启动调用
+    }
+
+    private void goToTengxunMap(){
+        if (!isInstalled("com.tencent.map")) {
+            showToast("请安装腾讯地图客户端");
+            return;
+        }
+        String url1 = "qqmap://map/routeplan?type=drive&to=" + "" + "&tocoord=" + Lat+ "," +Lng  + "&policy=2&referer=myapp";
+        Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse(url1));
+        startActivity(intent);
+    }
+
+
+    private void showBottomDialog() {
+        //1、使用Dialog、设置style
+        final Dialog dialog = new Dialog(this, R.style.DialogTheme);
+        //2、设置布局
+        View view = View.inflate(this, R.layout.dialog_map_layout, null);
+        dialog.setContentView(view);
+        Window window = dialog.getWindow();
+        //设置弹出位置
+        window.setGravity(Gravity.BOTTOM);
+        //设置弹出动画
+        window.setWindowAnimations(R.style.main_menu_animStyle);
+        //设置对话框大小
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+        dialog.findViewById(R.id.dl_map_baidu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    goToBaiduMap();
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dl_map_gaode).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToGaodeMap();
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dl_map_tengxun).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToTengxunMap();
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dl_photo_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
     }
 }

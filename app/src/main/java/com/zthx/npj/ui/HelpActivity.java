@@ -128,7 +128,7 @@ public class HelpActivity extends ActivityBase {
                 }).show();
                 break;
             case R.id.at_help_tv_kefu_online:
-                openActivity(ServicesChatActivity.class,"gsla1","农品街客服");
+                openActivity(ServicesListActivity.class);
                 break;
             case R.id.at_help_tv_pingjia:
                 startActivity(new Intent(this,FeedbackActivity.class));

@@ -453,7 +453,10 @@ public class MineFragment
         SharePerferenceUtils.setNickName(getContext(), data.getNick_name());
         SharePerferenceUtils.setReputation(getContext(), data.getReputation());
         SharePerferenceUtils.putString(getContext(), "level", String.valueOf(data.getLevel()));
-        MyCustomUtils.showLevelImg(data.getLevel(), fgMineIvLevelimg);
+
+
+        //MyCustomUtils.showLevelImg(data.getLevel(), fgMineIvLevelimg);
+        MyCustomUtils.showLevelImg(data.getCity_level(),data.getBoss_level(),data.getTeam_level(),data.getLevel(),fgMineIvLevelimg);
     }
 
 

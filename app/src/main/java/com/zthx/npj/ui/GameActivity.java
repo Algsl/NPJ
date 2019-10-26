@@ -63,6 +63,8 @@ public class GameActivity extends Activity {
 
     private final String TAG = "测试";
     private EgretNativeAndroid nativeAndroid;
+    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
 
     private String RSA_PRIVATE ="MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
             "NEU5up1siPOXKJBU0ypde7oPfm9gyy2ajgcw6v3KF2ryjot5AKlBED6qdQPRa5Sk\n" +
@@ -101,6 +103,7 @@ public class GameActivity extends Activity {
 
     private String lat="";
     private String lng="";
+    private String SD="0";
 
 
 
@@ -119,12 +122,13 @@ public class GameActivity extends Activity {
             return;
         }
 
-        nativeAndroid.config.showFPS = true;
+        nativeAndroid.config.showFPS = false;
         nativeAndroid.config.fpsLogTime = 30;
         nativeAndroid.config.disableNativeRender = false;
         nativeAndroid.config.clearCache = false;
         nativeAndroid.config.loadingTimeout = 0;
 
+        //nativeAndroid.callExternalInterface("sendToJS","ZHMM,"+user_id+","+token );
         setExternalInterfaces();
 
 
@@ -162,13 +166,29 @@ public class GameActivity extends Activity {
         nativeAndroid.setExternalInterface("sendToNative", new INativePlayer.INativeInterface() {
             @Override
             public void callback(String message) {
+                Log.e(TAG, "callback: "+message );
                 String[] strs= Pattern.compile("[&=]").split(message);
-                Log.e(TAG, "callback: "+(strs.length>=6) );
-                if(strs.length>=6){
-                    pay_code=strs[3];
-                    order_sn=strs[1];
-                    order_price=strs[5];
-
+                if(strs[1].equals("ZHMM")){
+                    nativeAndroid.callExternalInterface("sendToJS","ZHMM,"+user_id+","+token);
+                }if(strs[1].equals("TP")){
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, CHOOSE_PHOTO);
+                }else if(strs[1].equals("HYLBWZ")){
+                    lat=strs[3];
+                    lng=strs[5];
+                    SD=strs[7];
+                    LatLng latLng=new LatLng(Double.parseDouble(lat),Double.parseDouble(lng));
+                    getLocation(latLng,1,SD);
+                }else if(strs[1].equals("TJHYWZ")){
+                    lat=strs[3];
+                    lng=strs[5];
+                    SD=strs[7];
+                    LatLng latLng=new LatLng(Double.parseDouble(lat),Double.parseDouble(lng));
+                    getLocation(latLng,2,SD);
+                }else if(strs[1].equals("ZF")){
+                    order_sn=strs[3];
+                    pay_code=strs[5];
+                    order_price=strs[7];
                     GiftSubscribe.pay(pay_code,order_sn,order_price,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
@@ -187,14 +207,6 @@ public class GameActivity extends Activity {
 
                         }
                     }));
-                }else if(strs.length==4){
-                    lat=strs[1];
-                    lng=strs[3];
-                    LatLng latLng=new LatLng(Double.parseDouble(lat),Double.parseDouble(lng));
-                    getLocation(latLng);
-                }else if(strs.length<=2){
-                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent, CHOOSE_PHOTO);
                 }
             }
         });
@@ -225,7 +237,7 @@ public class GameActivity extends Activity {
                                 UploadImgResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadImgResponseBean.class);
                                 UploadImgResponseBean.DataBean data = bean.getData();
                                 Log.e(TAG, "onResponse: "+data.getSrcall() );
-                                nativeAndroid.callExternalInterface("sendToJS","3,"+data.getSrcall());
+                                nativeAndroid.callExternalInterface("sendToJS","TP,"+data.getSrcall());
                             }
                         });
                     } catch (Exception e) {
@@ -236,7 +248,7 @@ public class GameActivity extends Activity {
         }
     }
 
-    private void getLocation(LatLng latLng) {
+    private void getLocation(LatLng latLng, final int i, final String sd) {
         GeoCoder geoCoder=GeoCoder.newInstance();
         geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
             @Override
@@ -246,8 +258,12 @@ public class GameActivity extends Activity {
 
             @Override
             public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
-                Log.e(TAG, "onGetReverseGeoCodeResult: "+reverseGeoCodeResult.getAddress()+reverseGeoCodeResult.getSematicDescription() );
-                nativeAndroid.callExternalInterface("sendToJS","2,"+reverseGeoCodeResult.getAddress()+reverseGeoCodeResult.getSematicDescription() );
+                Log.e(TAG, "onGetReverseGeoCodeResult: "+"HY,"+reverseGeoCodeResult.getAddress()+","+sd);
+                if(i==1){
+                    nativeAndroid.callExternalInterface("sendToJS","HY,"+reverseGeoCodeResult.getAddress()+","+sd);
+                }else{
+                    nativeAndroid.callExternalInterface("sendToJS","TJHY,"+reverseGeoCodeResult.getAddress()+","+sd);
+                }
             }
         });
         geoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(latLng));

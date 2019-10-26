@@ -57,7 +57,11 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                }
            });
        }
-        Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
+        if(mList.get(i).getGoods_img().split("/")[0].equals("http:")){
+            Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
+        }else{
+            Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
+        }
         viewHolder.goodsName.setText(mList.get(i).getGoods_name());
         viewHolder.memberPrice.setText("￥"+mList.get(i).getUser_price());
         viewHolder.marketPrice.setText("￥"+mList.get(i).getMarket_price());

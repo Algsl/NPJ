@@ -4,15 +4,24 @@ import java.util.ArrayList;
 
 public class UserAppResponseBean extends BaseReponseBean{
     public class DataBean{
+        private int status;
 
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
     }
-    private ArrayList<DataBean> data;
 
-    public ArrayList<DataBean> getData() {
+    private DataBean data;
+
+    public DataBean getData() {
         return data;
     }
 
-    public void setData(ArrayList<DataBean> data) {
+    public void setData(DataBean data) {
         this.data = data;
     }
 }

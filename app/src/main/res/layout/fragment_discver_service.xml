@@ -153,7 +153,7 @@
                         android:layout_marginLeft="@dimen/dp_5"
                         android:textSize="@dimen/sp_16"
                         android:textColor="#333333"
-                        android:text="农作物系统解决方案"
+                        android:text="农作物系统增产方案"
                         android:layout_centerVertical="true"/>
                     <LinearLayout
                         android:id="@+id/fg_discover_ll"

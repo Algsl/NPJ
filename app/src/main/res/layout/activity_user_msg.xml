@@ -468,7 +468,10 @@
                         android:layout_height="match_parent" />
 
                     <android.support.v7.widget.RecyclerView
+                        android:background="@color/background"
                         android:id="@+id/fg_mine_rv_like"
+                        android:paddingLeft="@dimen/dp_6"
+                        android:paddingRight="@dimen/dp_10"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="@dimen/dp_13" />

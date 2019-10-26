@@ -37,6 +37,7 @@
             android:id="@+id/mapView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_50"
             android:clickable="true"/>
         <ImageView
             android:id="@+id/back"
@@ -51,11 +52,10 @@
             android:orientation="horizontal"
             android:background="@color/white"
             android:gravity="center_vertical"
-            android:layout_marginBottom="@dimen/dp_10"
             android:layout_alignParentBottom="true">
             <EditText
                 android:id="@+id/ac_map_et_addressDetail"
-                android:layout_width="@dimen/dp_300"
+                android:layout_width="@dimen/dp_260"
                 android:layout_height="@dimen/dp_30"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="@dimen/dp_12"
@@ -63,8 +63,8 @@
                 android:hint="选择或填写详细信"/>
             <TextView
                 android:id="@+id/ac_map_tv_commit"
-                android:layout_width="@dimen/dp_40"
-                android:layout_height="@dimen/dp_25"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:text="确定"/>

@@ -14,6 +14,33 @@ public class LookUserResponseBean extends BaseReponseBean{
         private String certification;
         private String att_num;
 
+        private int city_level;
+        private int boss_level;
+        private int team_level;
+
+        public int getCity_level() {
+            return city_level;
+        }
+
+        public void setCity_level(int city_level) {
+            this.city_level = city_level;
+        }
+
+        public int getBoss_level() {
+            return boss_level;
+        }
+
+        public void setBoss_level(int boss_level) {
+            this.boss_level = boss_level;
+        }
+
+        public int getTeam_level() {
+            return team_level;
+        }
+
+        public void setTeam_level(int team_level) {
+            this.team_level = team_level;
+        }
 
         public String getNick_name() {
             return nick_name;

@@ -56,8 +56,16 @@ public class BankCardAdapter extends RecyclerView.Adapter<BankCardAdapter.ViewHo
             });
         }
         if(mList.size()>0){
-            Glide.with(mContext).load(Uri.parse(mList.get(i).getBank_bg())).into(viewHolder.cardBg);
-            Glide.with(mContext).load(Uri.parse(mList.get(i).getBank_logo())).into(viewHolder.cardIcon);
+            if(mList.get(i).getBank_bg().split("/")[0].equals("http:")){
+                Glide.with(mContext).load(Uri.parse(mList.get(i).getBank_bg())).into(viewHolder.cardBg);
+            }else{
+                Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getBank_bg())).into(viewHolder.cardBg);
+            }
+            if(mList.get(i).getBank_logo().split("/")[0].equals("http:")){
+                Glide.with(mContext).load(Uri.parse(mList.get(i).getBank_logo())).into(viewHolder.cardIcon);
+            }else{
+                Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getBank_logo())).into(viewHolder.cardIcon);
+            }
             viewHolder.bankName.setText(mList.get(i).getBank_name());
             viewHolder.cardNum.setText(mList.get(i).getCard_number());
         }

@@ -1,99 +1,87 @@
 package com.zthx.npj.ui;
 
-
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.view.KeyEvent;
+import android.widget.Toast;
 
-import com.zthx.npj.R;
-import com.zthx.npj.net.been.OrderPushBean;
-import com.zthx.npj.net.been.OrderPushResponseBean;
-import com.zthx.npj.net.netsubscribe.MainSubscribe;
-import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
-import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
-import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
-import com.zthx.npj.utils.marquee.AppBus;
-import com.zthx.npj.utils.marquee.Looper;
-import com.zthx.npj.utils.marquee.LooperBean;
-import com.zthx.npj.utils.marquee.LooperImageView;
-import com.zthx.npj.utils.marquee.LooperTextView;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.egret.runtime.launcherInterface.INativePlayer;
+import org.egret.egretnativeandroid.EgretNativeAndroid;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+//Android项目发布设置详见doc目录下的README_ANDROID.md
 
-
-public class TestActivity extends AppCompatActivity{
-
-    @BindView(R.id.image)
-    ImageView image;
-    @BindView(R.id.marquee_image_view)
-    LooperImageView marqueeImageView;
-    @BindView(R.id.marquee_text_view)
-    LooperTextView marqueeTextView;
-    @BindView(R.id.rl_marquee_view)
-    RelativeLayout rlMarqueeView;
-    private List<LooperBean> looperBeenList;
-    private LooperImageView mMarqueeImageView;
-    private LooperTextView mMarqueeTextView;
-    private int position;
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        AppBus.getInstance().unregister(this);
-    }
+public class TestActivity extends Activity {
+    private final String TAG = "测试";
+    private EgretNativeAndroid nativeAndroid;
+    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
-        ButterKnife.bind(this);
-        AppBus.getInstance().register(this);
-        initView();
 
-        looperBeenList = generateTips();
+        nativeAndroid = new EgretNativeAndroid(this);
+        if (!nativeAndroid.checkGlEsVersion()) {
+            Toast.makeText(this, "This device does not support OpenGL ES 2.0.",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        nativeAndroid.config.showFPS = false;
+        nativeAndroid.config.fpsLogTime = 30;
+        nativeAndroid.config.disableNativeRender = false;
+        nativeAndroid.config.clearCache = false;
+        nativeAndroid.config.loadingTimeout = 0;
+
+        setExternalInterfaces();
+
+        if (!nativeAndroid.initialize("http://tool.egret-labs.org/Weiduan/game/index.html")) {
+            Toast.makeText(this, "Initialize native failed.",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        setContentView(nativeAndroid.getRootFrameLayout());
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        mMarqueeImageView.setTipList(looperBeenList, position);
-        mMarqueeTextView.setTipList(looperBeenList, position);
+    protected void onPause() {
+        super.onPause();
+        nativeAndroid.pause();
     }
 
-    public void setPostion(Looper looper) {
-        this.position = looper.getPosition();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        nativeAndroid.resume();
     }
 
-    private void initView() {
-        mMarqueeImageView = (LooperImageView) findViewById(R.id.marquee_image_view);
-        mMarqueeTextView = (LooperTextView) findViewById(R.id.marquee_text_view);
-    }
-
-    String[] strs = {"http://app.npj-vip.com/public/upload/20190824/2624b76cf7f8aa60133a9ef3e882fcc3.jpg", "http://app.npj-vip.com/public/upload/20190824/1fd1855d6cad1d9f1b183d7e5658bea5.jpg",
-            "http://app.npj-vip.com/public/upload/20190824/98bb5f52aa525ad28666fedc27bbd0e2.jpg", "http://app.npj-vip.com/public/upload/20190824/f79aca1bbafec425d3637bbf54f15ccf.jpg",
-            "http://app.npj-vip.com/public/upload/20190824/46aabd1dbe02702eaa84461fe2328ace.jpg"};
-
-    private List<LooperBean> generateTips() {
-        List<LooperBean> tips = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            LooperBean looperBean = new LooperBean();
-            looperBean.setMsg("huangxiaoguo" + i);
-            looperBean.setHeadImg(strs[i]);
-            tips.add(looperBean);
+    @Override
+    public boolean onKeyDown(final int keyCode, final KeyEvent keyEvent) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            nativeAndroid.exitGame();
         }
-        List<LooperBean> lists=SharePerferenceUtils.getLooperBeans();
-        for(int i=0;i<lists.size();i++){
-            Log.e("测试", "generateTips: "+lists.get(i).getMsg()+"\n");
-        }
-        return tips;
+
+        return super.onKeyDown(keyCode, keyEvent);
+    }
+
+    private void setExternalInterfaces() {
+        nativeAndroid.setExternalInterface("sendToNative", new INativePlayer.INativeInterface() {
+            @Override
+            public void callback(String message) {
+                Log.e(TAG, "callback: "+message );
+                if(message.equals("账号")){
+                    nativeAndroid.callExternalInterface("sendToJS","ZHMM,"+user_id+","+token);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
-

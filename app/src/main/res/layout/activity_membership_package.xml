@@ -130,7 +130,8 @@
                     android:text="代言人权益"/>
             </LinearLayout>
             <android.support.v7.widget.RecyclerView
-                android:background="@color/white"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:background="@color/background"
                 android:id="@+id/ac_membership_rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:text="选择本机地图"
+        android:textColor="@color/text3"
+        android:textSize="@dimen/sp_13"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:gravity="center_vertical"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"/>
+    <LinearLayout
+        android:id="@+id/dg_payLayout_ll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:src="@drawable/baidu"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_gravity="center_vertical"/>
+        <TextView
+            android:id="@+id/dl_map_baidu"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:text="百度地图"
+            android:textColor="@color/text3"
+            android:textSize="@dimen/sp_15" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:src="@drawable/gaode"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_gravity="center_vertical"/>
+        <TextView
+            android:id="@+id/dl_map_gaode"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:text="高德地图"
+            android:textColor="@color/text3"
+            android:textSize="@dimen/sp_15" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:src="@drawable/tengxun"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_gravity="center_vertical"/>
+        <TextView
+            android:id="@+id/dl_map_tengxun"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:text="腾讯地图"
+            android:textColor="@color/text3"
+            android:textSize="@dimen/sp_15" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/background" />
+
+    <TextView
+        android:id="@+id/dl_photo_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/text3"
+        android:textSize="@dimen/sp_15" />
+
+</LinearLayout>

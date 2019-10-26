@@ -67,15 +67,70 @@ public class MyCustomUtils {
         switch (level) {
             case 0: img.setImageResource(R.drawable.level0);break;
             case 1: img.setImageResource(R.drawable.level1);break;
+
             case 2: img.setImageResource(R.drawable.level2);break;
             case 3: img.setImageResource(R.drawable.level3);break;
-            case 4: img.setImageResource(R.drawable.level4);break;
+            case 8: img.setImageResource(R.drawable.level8);break;
             case 5: img.setImageResource(R.drawable.level5);break;
+
             case 6: img.setImageResource(R.drawable.level6);break;
             case 7: img.setImageResource(R.drawable.level7);break;
-            case 8: img.setImageResource(R.drawable.level8);break;
+            case 4: img.setImageResource(R.drawable.level4);break;
             case 9: img.setImageResource(R.drawable.level9);break;
+
             case 10: img.setImageResource(R.drawable.level10);break;
+        }
+    }
+
+    public static void showLevelImg(int city_level,int boss_level,int team_level,int level,ImageView img){
+        if(city_level!=0){
+            img.setImageResource(R.drawable.level10);
+        }else if(boss_level!=0){
+            switch (boss_level){
+                case 1: img.setImageResource(R.drawable.level6);break;
+                case 2: img.setImageResource(R.drawable.level7);break;
+                case 3: img.setImageResource(R.drawable.level4);break;
+                case 4: img.setImageResource(R.drawable.level9);break;
+            }
+        }else if(team_level!=0){
+            switch (team_level){
+                case 1: img.setImageResource(R.drawable.level2);break;
+                case 2: img.setImageResource(R.drawable.level3);break;
+                case 3: img.setImageResource(R.drawable.level8);break;
+                case 4: img.setImageResource(R.drawable.level5);break;
+            }
+        }else{
+            if(level==0){
+                img.setImageResource(R.drawable.level0);
+            }else{
+                img.setImageResource(R.drawable.level1);
+            }
+        }
+    }
+
+    public static void showLevelText(int city_level,int boss_level,int team_level,int level,TextView tv){
+        if(city_level!=0){
+            tv.setText("城市代言人");
+        }else if(boss_level!=0){
+            switch (boss_level){
+                case 1:tv.setText("天使股东代言人");break;
+                case 2:tv.setText("金牌股东代言人");break;
+                case 3:tv.setText("钻石股东代言人");break;
+                case 4:tv.setText("首席股东代言人");break;
+            }
+        }else if(team_level!=0){
+            switch (team_level){
+                case 1:tv.setText("天使代言人");break;
+                case 2:tv.setText("金牌代言人");break;
+                case 3:tv.setText("钻石代言人");break;
+                case 4:tv.setText("首席代言人");break;
+            }
+        }else{
+            if(level==0){
+                tv.setText("普通用户");
+            }else{
+                tv.setText("VIP代言人");
+            }
         }
     }
 

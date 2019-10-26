@@ -1,5 +1,6 @@
 package com.zthx.npj.ui.fragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -42,12 +43,15 @@ import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.AgricultureVideoMainActivity;
 import com.zthx.npj.ui.BannerActivity;
+import com.zthx.npj.ui.LoginActivity;
 import com.zthx.npj.ui.SupplyMessageActivity;
 import com.zthx.npj.ui.SupplyProductsActivity;
 import com.zthx.npj.ui.SupplySearchActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
@@ -403,10 +407,13 @@ public class DiscoverSupplyFragment extends Fragment {
                 fgDiscoverSupplyLl.setVisibility(View.GONE);
                 break;
             case R.id.fg_discover_btn_issue:
-                fgDiscoverSupplyRvSearch.setVisibility(View.GONE);
-                fgDiscoverSupplyLl.setVisibility(View.VISIBLE);
+                if (SharePerferenceUtils.getUserId(getContext()).equals("")) {
+                    Toast.makeText(getContext(),"用户未登录，暂不能发布供求",Toast.LENGTH_SHORT).show();
+                } else {
+                    fgDiscoverSupplyRvSearch.setVisibility(View.GONE);
+                    fgDiscoverSupplyLl.setVisibility(View.VISIBLE);
+                }
                 break;
-
             case R.id.fg_discover_supply_search:
                 startActivity(new Intent(getContext(), SupplySearchActivity.class));
                 break;

@@ -78,7 +78,11 @@ public class BaojiaUserDetailActivity extends ActivityBase {
         BaojiaUserListResponseBean bean = GsonUtils.fromJson(result, BaojiaUserListResponseBean.class);
 
         id = bean.getData().get(position).getId() + "";
-        Glide.with(this).load(Uri.parse(bean.getData().get(position).getHead_img())).into(acBaojiaDetailMvHeadImg);
+        if(bean.getData().get(position).getHead_img().split("/")[0].equals("http:")){
+            Glide.with(this).load(Uri.parse(bean.getData().get(position).getHead_img())).into(acBaojiaDetailMvHeadImg);
+        }else{
+            Glide.with(this).load(Uri.parse("http://app.npj-vip.com"+bean.getData().get(position).getHead_img())).into(acBaojiaDetailMvHeadImg);
+        }
         acBaojiaDetailTvNickName.setText(bean.getData().get(position).getNick_name());
         MyCustomUtils.showLevelImg((int)bean.getData().get(position).getLevel(),acBaojiaDetailTvLevel);
         getBaojiaDetail();

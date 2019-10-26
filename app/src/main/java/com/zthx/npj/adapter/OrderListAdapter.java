@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -38,6 +39,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         void onAgainClick(int position);
         void onCommentClick(int position);
         void onGoodsReturn(int position);
+        void onGoStore(int position);
     }
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
@@ -130,14 +132,25 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     mItemClickListener.onGoodsReturn(position);
                 }
             });
+            viewHolder.orderListRl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onGoStore(position);
+                }
+            });
         }
         if (list!= null && list.size() > 0) {
-            Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
+            if(list.get(i).getGoods_img().split("/")[0].equals("http:")){
+                Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
+            }else{
+                Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+list.get(i).getGoods_img())).into(viewHolder.goodsImg);
+            }
             viewHolder.storeName.setText(list.get(i).getStore_name());
             viewHolder.goodsName.setText(list.get(i).getGoods_name());
-            viewHolder.goodsPrice.setText("￥ "+list.get(i).getGoods_price());
-            viewHolder.goodsNum.setText("x "+list.get(i).getGoods_num());
-            viewHolder.orderPrice.setText("￥ "+list.get(i).getOrder_price());
+            viewHolder.goodsPrice.setText("￥"+list.get(i).getGoods_price());
+            viewHolder.goodsNum.setText("x"+list.get(i).getGoods_num());
+            viewHolder.orderPrice.setText("￥"+list.get(i).getOrder_price());
             switch (list.get(i).getOrder_state()+""){
                 case "0"://已取消
                     viewHolder.orderState.setText("已取消");
@@ -281,6 +294,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         ImageView goodsImg;
         TextView storeName,goodsName,goodsPrice,goodsNum,orderPrice,orderState;
         Button cancel,delete,cuidan,pay,query,confirm,again,comment,goodsReturn;
+        RelativeLayout orderListRl;
+
         ViewHolder(View itemView) {
             super(itemView);
             goodsImg=itemView.findViewById(R.id.item_orderList_iv_goodsImg);
@@ -299,6 +314,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             again=itemView.findViewById(R.id.item_orderList_btn_again);
             comment=itemView.findViewById(R.id.item_orderList_btn_comment);
             goodsReturn=itemView.findViewById(R.id.item_orderList_btn_goodsReturn);
+            orderListRl=itemView.findViewById(R.id.item_orderList_rl);
         }
     }
 }

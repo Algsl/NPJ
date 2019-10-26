@@ -306,7 +306,6 @@ public class MyTeamActivity extends ActivityBase {
                 }
                 break;
             case R.id.at_my_achievement_btn_cityDYR:
-
                 openActivity(ConfirmAchievementActivity.class,"3","1");
                 break;
         }

@@ -75,6 +75,7 @@
             android:layout_height="@dimen/dp_80"
             android:orientation="horizontal">
             <LinearLayout
+                android:id="@+id/ac_spokesman_ll_zt"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -95,6 +96,7 @@
                     android:textColor="@color/text3"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/ac_spokesman_ll_jt"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -110,7 +112,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="间代言人"
+                    android:text="间推代言人"
                     android:textSize="@dimen/sp_13"
                     android:textColor="@color/text3"/>
             </LinearLayout>

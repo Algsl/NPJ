@@ -164,11 +164,11 @@ public class SharePerferenceUtils {
     }
 
     public static String getUserId(Context context) {
-        //return "86";
+        //return "40";
         return getString(context, "user_id", "");
     }
     public static String getToken(Context context) {
-        //return "d01c46ebc76db8cd96d9b121d99c7f12";
+        //return "e8ed8cfd852bd9ec764b599ec449d597";
         return getString(context, "token", "");
     }
 

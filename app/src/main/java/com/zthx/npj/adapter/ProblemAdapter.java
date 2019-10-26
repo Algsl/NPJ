@@ -56,7 +56,11 @@ public class ProblemAdapter extends RecyclerView.Adapter<ProblemAdapter.ViewHold
             });
         }
         if(mList.size()>0){
-            Glide.with(mContext).load(Uri.parse(mList.get(i).getImg())).into(viewHolder.problemIv);
+            if(mList.get(i).getImg().split("/")[0].equals("http:")){
+                Glide.with(mContext).load(Uri.parse(mList.get(i).getImg())).into(viewHolder.problemIv);
+            }else{
+                Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getImg())).into(viewHolder.problemIv);
+            }
             viewHolder.problemTitle.setText(mList.get(i).getTitle());
         }
     }

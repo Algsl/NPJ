@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.donkingliang.imageselector.utils.ImageSelectorUtils;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.GoodsCateAdapter;
 import com.zthx.npj.net.been.AddGoodsBean;
@@ -39,6 +40,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -148,8 +150,9 @@ public class PublishGoodsActivity extends ActivityBase {
 
             @Override
             public void onAddClick() {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, CHOOSE_PHOTO1);
+                /*Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, CHOOSE_PHOTO1);*/
+                ImageSelectorUtils.openPhoto(PublishGoodsActivity.this,CHOOSE_PHOTO1,false,5);
             }
         });
         acPulishGoodsIvGoodsContent.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
@@ -166,8 +169,9 @@ public class PublishGoodsActivity extends ActivityBase {
 
             @Override
             public void onAddClick() {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, CHOOSE_PHOTO2);
+                /*Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, CHOOSE_PHOTO2);*/
+                ImageSelectorUtils.openPhoto(PublishGoodsActivity.this,CHOOSE_PHOTO2);
             }
         });
     }
@@ -221,7 +225,7 @@ public class PublishGoodsActivity extends ActivityBase {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case CHOOSE_PHOTO1:
+            /*case CHOOSE_PHOTO1:
                 if (resultCode == RESULT_OK) {
                     try {
                         Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
@@ -252,6 +256,24 @@ public class PublishGoodsActivity extends ActivityBase {
                         acPulishGoodsIvGoodsContent.addImage(compress(path));
                     } catch (Exception e) {
                         e.printStackTrace();
+                    }
+                }
+                break;*/
+            case CHOOSE_PHOTO1:
+                if(resultCode!=0){
+                    ArrayList<String> images = data.getStringArrayListExtra(ImageSelectorUtils.SELECT_RESULT);
+                    for(int i=0;i<images.size();i++){
+                        paths1.add(compress(images.get(i)));
+                        acPulishGoodsIvGoodsImg.addImage(compress(images.get(i)));
+                    }
+                }
+                break;
+            case CHOOSE_PHOTO2:
+                if(resultCode!=0){
+                    ArrayList<String> images1 = data.getStringArrayListExtra(ImageSelectorUtils.SELECT_RESULT);
+                    for(int i=0;i<images1.size();i++){
+                        paths2.add(compress(images1.get(i)));
+                        acPulishGoodsIvGoodsContent.addImage(compress(images1.get(i)));
                     }
                 }
                 break;
@@ -522,6 +544,16 @@ public class PublishGoodsActivity extends ActivityBase {
         }
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         compressBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+
+        int options1 = 90;
+        while (bos.toByteArray().length / 1024 > 500) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            bos.reset(); // 重置baos即清空baos
+            compressBitmap.compress(Bitmap.CompressFormat.JPEG, options1, bos);// 这里压缩options%，把压缩后的数据存放到baos中
+            options1 -= 10;// 每次都减少10
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(bos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
+        compressBitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
+
         String bmString="";
         try {
             File bmFile=new File(getExternalCacheDir(), System.currentTimeMillis()+".jpg");

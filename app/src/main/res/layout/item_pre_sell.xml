@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dp_365"
     android:layout_height="@dimen/dp_230"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/item_pre_sell_bg">
 
-    <ImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/item_pre_sell_pic"
         android:layout_width="@dimen/dp_351"
         android:layout_height="@dimen/dp_150"
         android:layout_marginLeft="@dimen/dp_6"
         android:layout_marginTop="@dimen/dp_7"
         android:scaleType="centerCrop"
-        android:src="@drawable/logo"/>
+        android:src="@drawable/logo"
+        app:riv_corner_radius="@dimen/dp_5"/>
     <RelativeLayout
         android:layout_width="@dimen/dp_351"
         android:layout_height="@dimen/dp_34"

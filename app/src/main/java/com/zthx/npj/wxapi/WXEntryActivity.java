@@ -155,7 +155,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			bean.setLat(lat);
 			bean.setLng(lng);
 			//调用第三方登录
-			Log.e("测试", "authLogin: \n"+headimg+"\n"+nickname+"\n"+openid+"\n"+lat+"\n"+lng );
 			LoginSubscribe.authLogin(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
 				@Override
 				public void onSuccess(String result) {//已绑定手机号

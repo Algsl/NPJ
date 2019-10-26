@@ -17,7 +17,6 @@
             android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -52,15 +51,6 @@
                                     android:layout_marginLeft="@dimen/dp_23"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
-                                <!--<TextView
-                                    android:id="@+id/fg_home_tv_title"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="@dimen/dp_23"
-                                    android:text="恭喜一诺千金下单成功"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/dp_10" />-->
                             </LinearLayout>
                             <com.zthx.npj.utils.marquee.LooperImageView
                                 android:id="@+id/fg_home_mcv_headImg"
@@ -68,18 +58,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/dp_12"
                                 android:layout_marginTop="@dimen/dp_10"/>
-                            <!--<com.makeramen.roundedimageview.RoundedImageView
-                                android:id="@+id/fg_home_mcv_headImg"
-                                android:layout_width="@dimen/dp_23"
-                                android:layout_height="@dimen/dp_23"
-                                android:layout_marginLeft="@dimen/dp_12"
-                                android:layout_marginTop="@dimen/dp_10"
-                                android:src="@drawable/logo"
-                                app:riv_oval="true"
-                                android:scaleType="fitXY"
-                                android:adjustViewBounds="true"
-                                app:riv_border_width="@dimen/dp_1"
-                                app:riv_border_color="@color/white"/>-->
                         </com.youth.banner.Banner>
                     </RelativeLayout>
                     <LinearLayout
@@ -243,11 +221,6 @@
                         android:text="下拉加载更多"/>
                 </LinearLayout>
             </android.support.v4.widget.NestedScrollView>
-
-            <!--<com.scwang.smartrefresh.layout.footer.ClassicsFooter
-                android:id="@+id/footRefresh"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />-->
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     </LinearLayout>
 

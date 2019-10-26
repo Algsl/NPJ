@@ -1650,4 +1650,32 @@ public class SetSubscribe {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().selfLifting(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
+
+    /**
+     * 直推代言人
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void userOne(String user_id,String token,DisposableObserver<ResponseBody> subscriber) {
+        UserOneBean bean=new UserOneBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().userOne(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 间推代言人
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void userTwo(String user_id,String token,DisposableObserver<ResponseBody> subscriber) {
+        UserTwoBean bean=new UserTwoBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().userTwo(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
 }

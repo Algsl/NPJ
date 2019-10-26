@@ -58,7 +58,11 @@ public class OtherSearchAdapter extends RecyclerView.Adapter<OtherSearchAdapter.
             });
         }
         if(mList.size()>0){
-            Glide.with(mContext).load(Uri.parse(mList.get(i).getImg())).into(viewHolder.img);
+            if(mList.get(i).getImg().split("/")[0].equals("http:")){
+                Glide.with(mContext).load(Uri.parse(mList.get(i).getImg())).into(viewHolder.img);
+            }else{
+                Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getImg())).into(viewHolder.img);
+            }
             viewHolder.title.setText(mList.get(i).getTitle());
             long time=System.currentTimeMillis()/1000-Long.valueOf(mList.get(i).getCreate_time());
             if(time/60<60){

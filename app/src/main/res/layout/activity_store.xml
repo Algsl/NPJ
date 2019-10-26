@@ -239,6 +239,8 @@
             </LinearLayout>
             <android.support.v7.widget.RecyclerView
                 android:background="@color/background"
+                android:layout_marginLeft="@dimen/dp_6"
+                android:layout_marginRight="@dimen/dp_10"
                 android:id="@+id/ac_store_rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

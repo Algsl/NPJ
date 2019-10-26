@@ -3,6 +3,7 @@ package com.zthx.npj.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -74,7 +75,11 @@ public class StoreGoodsSearchAdapter extends RecyclerView.Adapter<StoreGoodsSear
             });
         }
 
-        Glide.with(mContext).load(mList.get(i).getGoods_img()).into(viewHolder.goodsImg);
+        if(mList.get(i).getGoods_img().split("/")[0].equals("http:")){
+            Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
+        }else{
+            Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
+        }
         viewHolder.goodsName.setText(mList.get(i).getGoods_name());
         viewHolder.goodsPrice.setText("￥"+mList.get(i).getUser_price());
         viewHolder.goodsOldPrice.setText("￥"+mList.get(i).getMarket_price());

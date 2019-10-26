@@ -138,7 +138,7 @@ public class ApplyRefundActivity extends ActivityBase {
         atOrderApplyRefundTvGoodsName.setText(data.getGoods_name());
         atOrderApplyRefundTvGoodsPrice.setText("￥ " + data.getGoods_price());
         atOrderApplyRefundTvGoodsNum.setText("x " + data.getGoods_num());
-        atOrderApplyRefundTvShip.setText("最多" + data.getOrder_price() + "元，含运费￥" + data.getShipping_fee());
+        atOrderApplyRefundTvShip.setText("最多￥" + data.getOrder_price() + "元，含运费￥" + data.getShipping_fee());
     }
 
     @OnClick({R.id.at_order_applyRefund_tv_state, R.id.at_order_applyRefund_tv_reason, R.id.ac_order_applyRefund_btn_confirm})

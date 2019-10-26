@@ -290,7 +290,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:background="@color/app_theme"
-        android:text="提交申请"
+        android:text="提交反馈"
         android:textColor="@android:color/white"
         android:textSize="@dimen/sp_15"
         android:layout_alignParentBottom="true"/>
