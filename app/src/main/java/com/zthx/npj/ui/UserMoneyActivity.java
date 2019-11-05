@@ -123,7 +123,6 @@ public class UserMoneyActivity extends ActivityBase {
     }
 
     private void setUserMoney(String result) {
-        Log.e("测试", "setUserMoney: "+result );
         UserMoneyResponseBean bean = GsonUtils.fromJson(result, UserMoneyResponseBean.class);
         UserMoneyResponseBean.DataBean data = bean.getData();
         acMyWalletTvIoMoney.setText("充值" + data.getRecharge() + "元，提现" + data.getWithdraw() + "元");

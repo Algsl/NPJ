@@ -54,13 +54,13 @@
             android:textColor="@color/app_theme"
             android:text="￥"/>
         <EditText
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:id="@+id/ac_withdraw_et_drawMoney"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:background="@null"
-            android:hint="提现金额最少10元，单笔限额5万元"
+            android:hint="提取金额最少10元，单笔限额5万元"
             android:textSize="@dimen/sp_12"
             android:textColor="@color/text9"/>
     </LinearLayout>

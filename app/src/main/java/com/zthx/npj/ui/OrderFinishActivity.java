@@ -43,6 +43,7 @@ public class OrderFinishActivity extends ActivityBase {
     TextView acOrderFinishTvShopping;
 
     private ArrayList<LooperBean> looperBeans=new ArrayList<>();
+    private String type;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,13 +59,13 @@ public class OrderFinishActivity extends ActivityBase {
         String goodsImg=getIntent().getStringExtra("key0");
         String goodsName=getIntent().getStringExtra("key1");
         String goodsPrice=getIntent().getStringExtra("key2");
+        type=getIntent().getStringExtra("key3");
         Glide.with(this).load(goodsImg).into(acOrderFinishRivGoodsImg);
         acOrderFinishTvGoodsName.setText(goodsName);
         acOrderFinishTvPayMoney.setText(goodsPrice);
     }
 
     private void getOrderPush() {
-        Log.e("测试", "onSuccess: " );
         MainSubscribe.orderPush(new OrderPushBean(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -91,7 +92,28 @@ public class OrderFinishActivity extends ActivityBase {
                 startActivity(intent);
                 break;
             case R.id.ac_orderFinish_tv_shopping:
-                openActivity(ClassfiysActivity.class);
+                //openActivity(ClassfiysActivity.class);
+                //openActivity(MainActivity.class);
+                switch (type){
+                    case "1":
+                        openActivity(MainActivity.class);
+                        break;
+                    case "2":
+                        openActivity(PreSellActivity.class);
+                        break;
+                    case "3":
+                        openActivity(MainActivity.class);
+                        break;
+                    case "4":
+                        openActivity(SecKillActivity.class);
+                        break;
+                    case "5":
+                        openActivity(AgricultureKnowledgeActivity.class);
+                        break;
+                    case "6":
+                        openActivity(MainActivity.class);
+                        break;
+                }
                 break;
         }
     }

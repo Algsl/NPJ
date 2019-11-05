@@ -152,7 +152,7 @@ public class PublishGoodsActivity extends ActivityBase {
             public void onAddClick() {
                 /*Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, CHOOSE_PHOTO1);*/
-                ImageSelectorUtils.openPhoto(PublishGoodsActivity.this,CHOOSE_PHOTO1,false,5);
+                ImageSelectorUtils.openPhoto(PublishGoodsActivity.this,CHOOSE_PHOTO1,false,5-paths1.size());
             }
         });
         acPulishGoodsIvGoodsContent.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
@@ -225,40 +225,6 @@ public class PublishGoodsActivity extends ActivityBase {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            /*case CHOOSE_PHOTO1:
-                if (resultCode == RESULT_OK) {
-                    try {
-                        Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
-                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
-                        cursor.moveToFirst();
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        String path = cursor.getString(columnIndex);  //获取照片路径
-                        cursor.close();
-                        paths1.add(compress(path));
-                        acPulishGoodsIvGoodsImg.addImage(compress(path));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-            case CHOOSE_PHOTO2:
-                if (resultCode == RESULT_OK) {
-                    try {
-                        Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
-                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
-                        cursor.moveToFirst();
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        String path = cursor.getString(columnIndex);  //获取照片路径
-                        cursor.close();
-                        paths2.add(compress(path));
-                        acPulishGoodsIvGoodsContent.addImage(compress(path));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;*/
             case CHOOSE_PHOTO1:
                 if(resultCode!=0){
                     ArrayList<String> images = data.getStringArrayListExtra(ImageSelectorUtils.SELECT_RESULT);
@@ -299,8 +265,12 @@ public class PublishGoodsActivity extends ActivityBase {
                     Toast.makeText(PublishGoodsActivity.this, "请填写平台结算价格", Toast.LENGTH_SHORT).show();
                 } else if (acPulishGoodsEtMemberPrice.getText().toString().trim().equals("")) {
                     Toast.makeText(PublishGoodsActivity.this, "请填写VIP会员价格", Toast.LENGTH_SHORT).show();
+                }else if (Long.parseLong(acPulishGoodsEtMemberPrice.getText().toString().trim()) <= Long.parseLong(acPulishGoodsEtPlatformPrice.getText().toString().trim())){
+                    Toast.makeText(PublishGoodsActivity.this, "VIP会员价格不得低于平台结算价格", Toast.LENGTH_SHORT).show();
                 } else if (acPulishGoodsEtMarketPrice.getText().toString().trim().equals("")) {
                     Toast.makeText(PublishGoodsActivity.this, "请填写市场参考价格", Toast.LENGTH_SHORT).show();
+                }else if (Long.parseLong(acPulishGoodsEtMarketPrice.getText().toString().trim()) <= Long.parseLong(acPulishGoodsEtMemberPrice.getText().toString().trim())) {
+                    Toast.makeText(PublishGoodsActivity.this, "市场参考价格不得低于VIP会员价格", Toast.LENGTH_SHORT).show();
                 } else if (acPulishGoodsEtInventory.getText().toString().trim().equals("")) {
                     Toast.makeText(PublishGoodsActivity.this, "请填写供应数量", Toast.LENGTH_SHORT).show();
                 } else if (cate_id.equals("")) {
@@ -308,6 +278,7 @@ public class PublishGoodsActivity extends ActivityBase {
                 } else if (acPulishGoodsTvGoodsType.getText().toString().trim().equals("请选择")) {
                     Toast.makeText(PublishGoodsActivity.this, "请选择商品显示类型", Toast.LENGTH_SHORT).show();
                 } else {
+                    acPulishGoodsBtnPulish.setClickable(false);
                     Toast.makeText(PublishGoodsActivity.this, "商品信息上传中，请等待", Toast.LENGTH_SHORT).show();
                     publishImages();
                 }

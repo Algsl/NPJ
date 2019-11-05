@@ -1,7 +1,6 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -13,14 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
-import com.zthx.npj.net.been.MyGoodsBean;
-import com.zthx.npj.net.been.MyGoodsResponseBean;
 import com.zthx.npj.net.been.StoreGoodsListResponseBean;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class StoreGoodsAdapter extends RecyclerView.Adapter<StoreGoodsAdapter.ViewHolder> {

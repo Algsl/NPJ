@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -90,6 +91,7 @@ public class InComeLogActivity extends ActivityBase {
         SetSubscribe.inComeLog(user_id, token, begin_time, end_time, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
+                Log.e("测试", "onSuccess: "+result );
                 InComeLogResponseBean bean = GsonUtils.fromJson(result, InComeLogResponseBean.class);
                 ArrayList<InComeLogResponseBean.DataBean> data = bean.getData();
                 if (data.size() == 0 || data == null) {
@@ -97,6 +99,7 @@ public class InComeLogActivity extends ActivityBase {
                 } else {
                     acIncomeLogRvMingxi.setVisibility(View.VISIBLE);
                 }
+                acIncomeLogTvIoMoney.setText("充值元，提现2516.30元");
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(InComeLogActivity.this);
                 acIncomeLogRvMingxi.setLayoutManager(layoutManager);
                 InComeLogAdapter adapter = new InComeLogAdapter(InComeLogActivity.this, data);

@@ -199,6 +199,8 @@ public class MineFragment
         }
     }
 
+
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -285,7 +287,7 @@ public class MineFragment
     @Override
     public void onResume() {
         super.onResume();
-
+        getUserInfo();
     }
 
     private void getOrderSize() {

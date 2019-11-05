@@ -31,6 +31,24 @@ public class PreSellDetailResponseBean extends BaseReponseBean {
         private double proportion;
         private long is_shoucang;
 
+        private String nick_name;
+        private String mobile;
+
+        public String getNick_name() {
+            return nick_name;
+        }
+
+        public void setNick_name(String nick_name) {
+            this.nick_name = nick_name;
+        }
+
+        public String getMobile() {
+            return mobile;
+        }
+
+        public void setMobile(String mobile) {
+            this.mobile = mobile;
+        }
 
         public long getIs_shoucang() {
             return is_shoucang;

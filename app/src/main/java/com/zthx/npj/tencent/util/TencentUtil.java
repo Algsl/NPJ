@@ -57,7 +57,6 @@ public class TencentUtil {
 
             @Override
             public void onSuccess() {
-                Log.e("测试", "onSuccess: " );
             }
         });
     }

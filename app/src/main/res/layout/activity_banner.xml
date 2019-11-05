@@ -7,7 +7,7 @@
     android:orientation="vertical">
     <include layout="@layout/title"/>
     <WebView
-        android:id="@+id/ac_banner_wv"
+        android:id="@+id/ac_bannerDetail_wv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

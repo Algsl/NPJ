@@ -1,29 +1,18 @@
 package com.zthx.npj.utils;
 
-import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.RectF;
-import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.media.MediaMetadataRetriever;
-import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.baidu.mapapi.model.LatLng;
@@ -35,32 +24,39 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
-import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.GradViewAdapter;
-import com.zthx.npj.entity.JsonBean;
-import com.zthx.npj.net.been.UpLoadPicResponseBean;
-import com.zthx.npj.net.netsubscribe.SetSubscribe;
-import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
-import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 
-import org.json.JSONArray;
-
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class MyCustomUtils {
 
+    public static String path="";
+
+    //位置转为经纬度
+    public static Address getGeoPointBystr(Context context,String str) {
+        Address address_temp = null;
+        if (str != null) {
+            Geocoder gc = new Geocoder(context, Locale.CHINA);
+            List<Address> addressList = null;
+            try {
+                addressList = gc.getFromLocationName(str, 1);
+                if (!addressList.isEmpty()) {
+                    address_temp = addressList.get(0);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return address_temp;
+    }
 
     //等级图片显示
     public static void showLevelImg(int level,ImageView img){

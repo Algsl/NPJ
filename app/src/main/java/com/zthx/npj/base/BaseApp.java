@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
-import android.util.Log;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -15,14 +14,11 @@ import com.tencent.qcloud.tim.uikit.config.CustomFaceConfig;
 import com.tencent.qcloud.tim.uikit.config.GeneralConfig;
 import com.tencent.qcloud.tim.uikit.config.TUIKitConfigs;
 import com.zthx.npj.baidumap.LocationService;
-import com.zthx.npj.services.GlobalEventListener;
-import com.zthx.npj.ui.SplashActivity;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
 
 import cn.jpush.android.api.JPushInterface;
-import cn.jpush.im.android.api.JMessageClient;
 
 /**
  * Created by huangxin on 2019/5/28.
@@ -43,7 +39,7 @@ public class BaseApp extends Application {
         appContext = getApplicationContext();
         locationService = new LocationService(this);
         JPushInterface.init(this);
-        JMessageClient.registerEventReceiver(new GlobalEventListener(getApplicationContext()));
+        //JMessageClient.registerEventReceiver(new GlobalEventListener(getApplicationContext()));
         app = this;
 
         TUIKitConfigs configs=TUIKitConfigs.getConfigs();
@@ -68,14 +64,12 @@ public class BaseApp extends Application {
             @Override
             public void onReceiveLocation(BDLocation location) {
                 // TODO Auto-generated method stub
-                Log.e("测试", "onReceiveLocation: ");
                 if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                     //获取信息后的操作
                     double latitude = location.getLatitude();
                     double longitude = location.getLongitude();
                     SharePerferenceUtils.setLat(getConText(), latitude + "");
                     SharePerferenceUtils.setLng(getConText(), longitude + "");
-                    Log.e("测试", "onReceiveLocation: " + latitude + " " + longitude);
                 }
             }
         };

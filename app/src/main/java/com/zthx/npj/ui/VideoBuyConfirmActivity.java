@@ -1,6 +1,5 @@
 package com.zthx.npj.ui;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,14 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -229,7 +225,7 @@ public class VideoBuyConfirmActivity extends ActivityBase {
                             } else {
                                 int code = obj.getInt("code");
                                 if (code == 2) {
-                                    openActivity(OrderFinishActivity.class, goodsImg, goodsName, goodsPrice);
+                                    openActivity(OrderFinishActivity.class, goodsImg, goodsName, goodsPrice,"5");
                                 }
                             }
                         } catch (JSONException e) {

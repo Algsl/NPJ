@@ -140,7 +140,7 @@ public class StoreManagerActivity extends ActivityBase {
             public void onAddClick() {
                 /*Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, CHOOSE_PHOTO);*/
-                ImageSelectorUtils.openPhoto(StoreManagerActivity.this,CHOOSE_PHOTO,false,4);
+                ImageSelectorUtils.openPhoto(StoreManagerActivity.this,CHOOSE_PHOTO,false,4-paths.size());
             }
         });
     }

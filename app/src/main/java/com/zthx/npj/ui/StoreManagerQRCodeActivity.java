@@ -2,7 +2,6 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -66,6 +65,7 @@ public class StoreManagerQRCodeActivity extends ActivityBase {
             String offer=getIntent().getStringExtra("offer");
             acStoreManagerPb.setProgress((int)Double.parseDouble(offer));
             acStoreManagerTvHint.setText("优惠比率" + offer + "%，用户支付时葫芦币抵扣" + offer + "%消费金额");
+
             Glide.with(this).load(Uri.parse(SharePerferenceUtils.getHeadPic(this))).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {

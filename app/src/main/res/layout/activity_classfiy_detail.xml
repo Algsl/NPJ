@@ -23,12 +23,12 @@
                     android:id="@+id/at_classfiy_detail_rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-                <TextView
+                <!--<TextView
                     android:id="@+id/seeMore"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
                     android:gravity="center"
-                    android:text="查看更多"/>
+                    android:text="查看更多"/>-->
                 <TextView
                     android:id="@+id/ac_classify_tv_noGoodsHint"
                     android:visibility="gone"

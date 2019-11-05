@@ -209,13 +209,14 @@ public class GoodSizePopupwindow extends PopupWindow {
         spec=view.findViewById(R.id.pw_goodsSize_tv_spec);
         storeNum=view.findViewById(R.id.pop_goods_size_tv_total_num);
         final TextView choose=view.findViewById(R.id.pop_goods_size_tv_choice);
-        prePrice=view.findViewById(R.id.pop_goods_size_tv_old_price);
+
 
         memberPrice.setVisibility(View.GONE);
         goodsRlNum.setVisibility(View.VISIBLE);
         mAddShoppingCar.setVisibility(View.GONE);
+        Log.e("测试", "GoodSizePopupwindow: "+data.getGoods_price()+" "+data.getMarket_price()+" "+data.getGoods_num() );
 
-        prePrice.setText("￥"+data.getGoods_price());
+        storeNum.setText("库存："+data.getGoods_num());
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override

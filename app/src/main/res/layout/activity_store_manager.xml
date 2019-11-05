@@ -72,7 +72,7 @@
                             android:layout_height="wrap_content"
                             android:background="@null"
                             android:hint="请选择人均消费"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:textColor="@color/text9"
                             android:textSize="@dimen/sp_13"
                             android:layout_marginLeft="@dimen/dp_10"/>
@@ -341,7 +341,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:hint="请填写"
-                                android:inputType="number"
+                                android:inputType="numberDecimal"
                                 android:textSize="@dimen/sp_12"
                                 android:layout_marginLeft="@dimen/dp_10"
                                 android:layout_marginRight="@dimen/dp_10"

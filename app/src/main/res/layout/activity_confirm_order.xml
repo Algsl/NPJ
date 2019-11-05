@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="xxx旗舰店"
+                    android:text="中天恒信旗舰店"
                     android:layout_marginLeft="@dimen/dp_12"
                     android:textColor="@color/text6"
                     android:textSize="@dimen/sp_13"/>
@@ -95,7 +95,6 @@
                     android:layout_marginRight="@dimen/dp_23"
                     android:textSize="@dimen/sp_15"
                     android:textColor="@color/text6"
-                    android:text="毒贩夫妇付付付付付付付付付付付付付付付付付付付付过"
                     android:layout_marginTop="@dimen/dp_15"/>
 
                 <TextView
@@ -105,8 +104,7 @@
                     android:layout_alignLeft="@id/at_confirm_order_tv_title"
                     android:layout_below="@id/at_confirm_order_tv_title"
                     android:textSize="@dimen/sp_13"
-                    android:textColor="@color/text6"
-                    android:text="规格：速度 500/g"/>
+                    android:textColor="@color/text6"/>
 
                 <TextView
                     android:id="@+id/at_confirm_order_tv_goods_price"

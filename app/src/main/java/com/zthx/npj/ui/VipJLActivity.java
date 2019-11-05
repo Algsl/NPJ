@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,15 +108,18 @@ public class VipJLActivity extends ActivityBase {
     }
 
     private void setVipJL(String result) {
+        Log.e("测试", "setVipJL: "+result );
         VipJLResponseBean bean = GsonUtils.fromJson(result, VipJLResponseBean.class);
-        if (bean.getData().size() == 0 || bean.getData() == null) {
+        ArrayList<VipJLResponseBean.DataBean.MingXi> mingXis=bean.getData().getMingxi();
+        if (mingXis.size() == 0 || mingXis == null) {
             acVipJLRvMingxi.setVisibility(View.GONE);
         } else {
             acVipJLRvMingxi.setVisibility(View.VISIBLE);
         }
+        acVipJLTvIoMoney.setText("收益 ￥"+bean.getData().getShouyi());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acVipJLRvMingxi.setLayoutManager(layoutManager);
-        VipJLAdapter adapter = new VipJLAdapter(this, bean.getData());
+        VipJLAdapter adapter = new VipJLAdapter(this, mingXis);
         acVipJLRvMingxi.setItemAnimator(new DefaultItemAnimator());
         acVipJLRvMingxi.setAdapter(adapter);
     }

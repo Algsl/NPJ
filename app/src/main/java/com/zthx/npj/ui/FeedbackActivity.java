@@ -116,7 +116,7 @@ public class FeedbackActivity extends ActivityBase {
             public void onAddClick() {
                 /*Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, CHOOSE_PHOTO);*/
-                ImageSelectorUtils.openPhoto(FeedbackActivity.this,CHOOSE_PHOTO,false,3);
+                ImageSelectorUtils.openPhoto(FeedbackActivity.this,CHOOSE_PHOTO,false,3-paths.size());
             }
         });
     }

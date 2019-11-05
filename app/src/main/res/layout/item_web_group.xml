@@ -7,8 +7,8 @@
     android:layout_marginRight="@dimen/dp_12">
     <ImageView
         android:id="@+id/item_webGroup_iv_img"
-        android:layout_width="@dimen/dp_23"
-        android:layout_height="@dimen/dp_23"
+        android:layout_width="@dimen/dp_26"
+        android:layout_height="@dimen/dp_26"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/dp_12"
         android:src="@drawable/discover_img_artical1"/>
@@ -19,12 +19,12 @@
         android:layout_toRightOf="@id/item_webGroup_iv_img"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/dp_12"
-        android:textSize="@dimen/sp_15"
+        android:textSize="@dimen/sp_16"
         android:text="1.0-蓝莓的简介"/>
     <ImageView
         android:id="@+id/item_webGroup_iv_zhishi"
-        android:layout_width="@dimen/dp_22"
-        android:layout_height="@dimen/dp_22"
+        android:layout_width="@dimen/dp_26"
+        android:layout_height="@dimen/dp_26"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/dp_12"

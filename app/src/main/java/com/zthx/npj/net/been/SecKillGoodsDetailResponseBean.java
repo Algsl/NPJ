@@ -29,6 +29,25 @@ public class SecKillGoodsDetailResponseBean extends BaseReponseBean {
         private long user_id;
         private boolean isCollect;
 
+        private String nick_name;
+        private String mobile;
+
+        public String getNick_name() {
+            return nick_name;
+        }
+
+        public void setNick_name(String nick_name) {
+            this.nick_name = nick_name;
+        }
+
+        public String getMobile() {
+            return mobile;
+        }
+
+        public void setMobile(String mobile) {
+            this.mobile = mobile;
+        }
+
         public boolean isCollect() {
             return isCollect;
         }

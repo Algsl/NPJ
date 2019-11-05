@@ -1,7 +1,6 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -15,10 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
-import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.SecKillTodayResponseBean;
 import com.zthx.npj.view.SaleProgressView;
 import com.zthx.npj.view.TimeTextView;
@@ -26,7 +22,6 @@ import com.zthx.npj.view.TimeTextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class SecKillAdpter extends RecyclerView.Adapter<SecKillAdpter.ViewHolder> {
 

@@ -483,7 +483,6 @@ public class ConfirmOrderActivity extends ActivityBase {
                 Log.e("测试", "onSuccess: " + address_id);
                 atConfirmOrderTvAddress.setText(data.getAddress());
                 atConfirmOrderTvStoreName.setText(data.getStore_name());
-                //Glide.with(ConfirmOrderActivity.this).load(data.getGoods_img()).into(atConfirmOrderIvPic);
                 Glide.with(ConfirmOrderActivity.this).load(data.getGoods_img()).asBitmap().into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -630,7 +629,7 @@ public class ConfirmOrderActivity extends ActivityBase {
                     } else {
                         int code = obj.getInt("code");
                         if (code == 2) {
-                            openActivity(OrderFinishActivity.class, goodsImg, goodsName, goodsPrice);
+                            openActivity(OrderFinishActivity.class, goodsImg, goodsName, goodsPrice,confirmType);
                         }
                     }
                 } catch (JSONException e) {
@@ -686,7 +685,7 @@ public class ConfirmOrderActivity extends ActivityBase {
                     } else {
                         int code = obj.getInt("code");
                         if (code == 2) {
-                            openActivity(OrderFinishActivity.class, goodsImg, goodsName, goodsPrice);
+                            openActivity(OrderFinishActivity.class, goodsImg, goodsName, goodsPrice,confirmType);
                         }
                     }
                 } catch (JSONException e) {
@@ -737,7 +736,7 @@ public class ConfirmOrderActivity extends ActivityBase {
                     } else {
                         int code = obj.getInt("code");
                         if (code == 2) {
-                            openActivity(OrderFinishActivity.class, goodsImg, goodsName, goodsPrice);
+                            openActivity(OrderFinishActivity.class, goodsImg, goodsName, goodsPrice,confirmType);
                             SharePerferenceUtils.setUserLevel(ConfirmOrderActivity.this, "1");
                         }
                     }
@@ -791,7 +790,7 @@ public class ConfirmOrderActivity extends ActivityBase {
                     } else {
                         int code = obj.getInt("code");
                         if (code == 2) {
-                            openActivity(OrderFinishActivity.class, goodsImg, goodsName, goodsPrice);
+                            openActivity(OrderFinishActivity.class, goodsImg, goodsName, goodsPrice,confirmType);
                         }
                     }
                 } catch (JSONException e) {

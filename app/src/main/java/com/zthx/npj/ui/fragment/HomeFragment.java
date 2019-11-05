@@ -228,39 +228,6 @@ public class HomeFragment extends BaseFragment {
         }));
     }
 
-    /*private void getMainRecommed(final String page) {
-        MainSubscribe.getRecommend(SharePerferenceUtils.getUserId(getContext()), page, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                RecommendResponseBean bean = GsonUtils.fromJson(result, RecommendResponseBean.class);
-                if(page.equals("1")){
-                    data=bean.getData();
-                }else{
-                    data.addAll(bean.getData());
-                }
-                Log.e("测试", "onSuccess: "+data.size());
-                final HomeGoodsAdapter mAdapter = new HomeGoodsAdapter(getActivity(), data);
-                mAdapter.setOnItemClickListener(new HomeGoodsAdapter.ItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
-                        intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
-                        startActivity(intent);
-                    }
-                });
-                //设置添加或删除item时的动画，这里使用默认动画
-                fgHomeShoppingCast.setItemAnimator(new DefaultItemAnimator());
-                //设置适配器
-                fgHomeShoppingCast.setItemAnimator(new DefaultItemAnimator());
-                fgHomeShoppingCast.setAdapter(mAdapter);
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-
-            }
-        }));
-    }*/
 
 
     @Override
@@ -274,47 +241,6 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
-
-    /*private void getOrderPush() {
-        MainSubscribe.orderPush(new OrderPushBean(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                setOrderPush(result);
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-
-            }
-        }));
-    }
-
-    private void setOrderPush(String result) {
-        OrderPushResponseBean bean = GsonUtils.fromJson(result, OrderPushResponseBean.class);
-        Glide.with(getContext()).load(Uri.parse(bean.getData().get(0).getHead_img())).into(fgHomeMcvHeadImg);
-        fgHomeTvTitle.setText(bean.getData().get(0).getTitle());
-    }*/
-
-
-    /**
-     * 初始化轮播图
-     */
-    /*private void initBanner1() {
-        String mainBanner = SharePerferenceUtils.getMainBanner(getActivity());
-        BannerResponseBean bean = GsonUtils.fromJson(mainBanner, BannerResponseBean.class);
-        ArrayList<BannerResponseBean.DataBean> data = bean.getData();
-
-        ArrayList<ViewItemBean> list = new ArrayList<>();
-        for (int i = 0; i < data.size(); i++) {
-            list.add(new ViewItemBean(data.get(i).getImg()));
-        }
-        banner.setViews(list)
-                .setBannerAnimation(DefaultTransformer.class)
-                .setImageLoader(new LocalImageLoader())
-                .setVideoLoader(new LocalVideoLoader())
-                .setBannerStyle(com.zthx.npj.banner.BannerConfig.NUM_INDICATOR)
-                .start();
-    }*/
     private void initBanner(final BannerResponseBean bean, ArrayList<Uri> list, ArrayList<String> list2) {
 
         //final String mainBanner = SharePerferenceUtils.getMainBanner(getActivity());
@@ -349,10 +275,16 @@ public class HomeFragment extends BaseFragment {
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                Intent intent = new Intent(getContext(), BannerActivity.class);
-                intent.putExtra("title", bean.getData().get(position).getTitle());
-                intent.putExtra("type", bean.getData().get(position).getType());
-                intent.putExtra("id", bean.getData().get(position).getId() + "");
+                Intent intent;
+                if(position==0){
+                    intent = new Intent(getContext(), GoodsDetailActivity.class);
+                    intent.setAction("goods");
+                    intent.putExtra("goods_id",  "302");
+                }else{
+                    intent = new Intent(getContext(), BannerActivity.class);
+                    intent.putExtra("title", bean.getData().get(position).getTitle());
+                    intent.putExtra("id", position+"");
+                }
                 startActivity(intent);
             }
         });
@@ -400,7 +332,11 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.fg_home_rl_go_game:
-                startActivity(new Intent(getContext(), GameActivity.class));
+                if(SharePerferenceUtils.getUserId(getContext()).equals("")){
+                    Toast.makeText(getContext(),"请先完成登录",Toast.LENGTH_SHORT).show();
+                }else{
+                    startActivity(new Intent(getContext(), GameActivity.class));
+                }
                 break;
             case R.id.fg_home_ll_recommend:
                 toggle();

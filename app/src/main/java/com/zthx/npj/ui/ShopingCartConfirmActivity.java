@@ -241,7 +241,6 @@ public class ShopingCartConfirmActivity extends ActivityBase {
                 SetSubscribe.cartOrderOne(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.e("测试", "onSuccess: " + result);
                         YsBuyOneResponseBean bean = GsonUtils.fromJson(result, YsBuyOneResponseBean.class);
                         data1 = bean.getData();
                         switch (pay_code) {

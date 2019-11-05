@@ -1,11 +1,7 @@
 package com.zthx.npj.tencent.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +11,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.baidu.mapsdkplatform.comapi.map.MessageCenter;
-import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversationType;
-import com.tencent.imsdk.TIMManager;
 import com.tencent.qcloud.tim.uikit.component.TitleBarLayout;
 import com.tencent.qcloud.tim.uikit.component.action.PopActionClickListener;
 import com.tencent.qcloud.tim.uikit.component.action.PopDialogAdapter;
@@ -29,7 +22,6 @@ import com.tencent.qcloud.tim.uikit.modules.conversation.ConversationListLayout;
 import com.tencent.qcloud.tim.uikit.modules.conversation.base.ConversationInfo;
 import com.tencent.qcloud.tim.uikit.utils.PopWindowUtil;
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.MessageCenterAdapter;
 import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.base.BaseConstant;
 import com.zthx.npj.net.been.UserResponseBean;
@@ -37,12 +29,9 @@ import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.tencent.util.Constants;
-import com.zthx.npj.tencent.util.GenerateTestUserSig;
 import com.zthx.npj.tencent.util.TencentUtil;
 import com.zthx.npj.ui.ActivityBase;
-import com.zthx.npj.ui.MainActivity;
 import com.zthx.npj.ui.NotificationListActivity;
-import com.zthx.npj.ui.ServicesChatActivity;
 import com.zthx.npj.ui.ServicesListActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
@@ -53,9 +42,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.android.api.model.Conversation;
-import cn.jpush.im.android.api.model.UserInfo;
 
 public class MessageCenterActivity extends ActivityBase {
 
@@ -152,6 +138,7 @@ public class MessageCenterActivity extends ActivityBase {
     private void startChatActivity(ConversationInfo messageInfo) {
         ChatInfo chatInfo = new ChatInfo();
         chatInfo.setType(messageInfo.isGroup() ? TIMConversationType.Group : TIMConversationType.C2C);
+        Log.e("测试", "startChatActivity: "+messageInfo.getId()+" "+messageInfo.getTitle() );
         chatInfo.setId(messageInfo.getId());
         chatInfo.setChatName(messageInfo.getTitle());
         Intent intent = new Intent(BaseApp.getApp(), ChatActivity.class);

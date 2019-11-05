@@ -315,7 +315,7 @@ public class SupplyBillActivity extends ActivityBase {
 
                     int code = obj.getInt("code");
                     if (code == 2) {
-                        openActivity(OrderFinishActivity.class, goodsImg, goodsName, Double.parseDouble(allPrice+"")+Double.parseDouble(shipping_fee)+"");
+                        openActivity(OrderFinishActivity.class, goodsImg, goodsName, Double.parseDouble(allPrice+"")+Double.parseDouble(shipping_fee)+"","6");
                     }
 
                 } catch (JSONException e) {

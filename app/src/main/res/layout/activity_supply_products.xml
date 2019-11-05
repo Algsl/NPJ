@@ -126,6 +126,35 @@
                         android:textSize="@dimen/sp_13"
                         android:textColor="@color/text6"/>
                 </LinearLayout>
+                <RelativeLayout
+                    android:id="@+id/ac_supply_product_showLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_marginBottom="@dimen/dp_5">
+                    <ImageView
+                        android:layout_width="@dimen/dp_24"
+                        android:layout_height="@dimen/dp_24"
+                        android:src="@drawable/location_store_locate"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_8"/>
+                    <LinearLayout
+                        android:gravity="center_vertical"
+                        android:layout_width="300dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="@dimen/dp_35">
+                        <TextView
+                            android:id="@+id/at_supply_product_tv_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lineHeight="@dimen/dp_22"
+                            android:text="金水区中州大道御郑汴路交叉口向西100米路南凯德广场3号楼15楼1502"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:textSize="@dimen/sp_14"
+                            android:textColor="@color/text3"/>
+                    </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -362,7 +391,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/at_supply_products_iv_head_pic"
-                    android:text="初夏有乔木"
+                    android:text="农品街新客"
                     android:textSize="@dimen/sp_15"
                     android:textColor="@color/text3"
                     android:layout_marginTop="@dimen/dp_24"
@@ -439,7 +468,7 @@
                         android:id="@+id/ac_supply_tv_realName"
                         android:layout_width="@dimen/dp_56"
                         android:layout_height="wrap_content"
-                        android:background="#F39B1F"
+                        android:background="#FED435"
                         android:text="实名认证"
                         android:textSize="@dimen/sp_11"
                         android:textColor="@android:color/white"
@@ -449,7 +478,7 @@
                         android:id="@+id/ac_supply_tv_enterPrice"
                         android:layout_width="@dimen/dp_56"
                         android:layout_height="wrap_content"
-                        android:background="#4FA0F1"
+                        android:background="#5AAFFA"
                         android:text="企业认证"
                         android:textSize="@dimen/sp_11"
                         android:textColor="@android:color/white"
@@ -460,7 +489,7 @@
                         android:id="@+id/ac_supply_tv_purchase"
                         android:layout_width="@dimen/dp_56"
                         android:layout_height="wrap_content"
-                        android:background="#2FA22F"
+                        android:background="#9685ED"
                         android:text="采购认证"
                         android:textSize="@dimen/sp_11"
                         android:textColor="@android:color/white"
@@ -471,7 +500,7 @@
                         android:id="@+id/ac_supply_tv_trust"
                         android:layout_width="@dimen/dp_56"
                         android:layout_height="wrap_content"
-                        android:background="#EB6877"
+                        android:background="#EA6E6D"
                         android:text="3k保证"
                         android:textSize="@dimen/sp_11"
                         android:textColor="@android:color/white"
@@ -482,7 +511,7 @@
                         android:id="@+id/ac_supply_tv_zizhi"
                         android:layout_width="@dimen/dp_56"
                         android:layout_height="wrap_content"
-                        android:background="#38BDB5"
+                        android:background="#62DD57"
                         android:text="资质认证"
                         android:textSize="@dimen/sp_11"
                         android:textColor="@android:color/white"

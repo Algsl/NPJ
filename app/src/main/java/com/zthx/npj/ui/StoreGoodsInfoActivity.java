@@ -133,7 +133,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
         getStoreGoodsInfo();
         getGoodsCate();
 
-        /*acStoreGoodsInfoIvGoodsImg.setOnlineImageLoader(new ZzImageBox.OnlineImageLoader() {
+        acStoreGoodsInfoIvGoodsImg.setOnlineImageLoader(new ZzImageBox.OnlineImageLoader() {
             @Override
             public void onLoadImage(ImageView iv, String url) {
                 Glide.with(StoreGoodsInfoActivity.this).load(url).into(iv);
@@ -144,7 +144,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
             public void onLoadImage(ImageView iv, String url) {
                 Glide.with(StoreGoodsInfoActivity.this).load(url).into(iv);
             }
-        });*/
+        });
 
         acStoreGoodsInfoIvGoodsImg.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
             @Override
@@ -162,7 +162,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
             public void onAddClick() {
                 /*Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, CHOOSE_PHOTO1);*/
-                ImageSelectorUtils.openPhoto(StoreGoodsInfoActivity.this,CHOOSE_PHOTO1,false,5);
+                ImageSelectorUtils.openPhoto(StoreGoodsInfoActivity.this,CHOOSE_PHOTO1,false,5-paths1.size());
             }
         });
 
@@ -213,6 +213,16 @@ public class StoreGoodsInfoActivity extends ActivityBase {
         acStoreGoodsInfoEtMarketPrice.setText(data.getMarket_price());
         acStoreGoodsInfoEtInventory.setText(data.getInventory() + "");
         acStoreGoodsInfoTvCateName.setText(data.getCate_name());
+
+        for (int i = 0; i < data.getGoods_img().size(); i++) {
+            acStoreGoodsInfoIvGoodsImg.addImageOnline(data.getGoods_img().get(i));
+            paths1.add(data.getGoods_img().get(i));
+        }
+        for (int i = 0; i < data.getGoods_content().size(); i++) {
+            acStoreGoodsInfoIvGoodsContent.addImageOnline(data.getGoods_content().get(i));
+            paths2.add(data.getGoods_content().get(i));
+        }
+
         if (data.getIs_free_shipping() == 0) {
             acStoreGoodsInfoEtIsFreeShipping.setText("包邮");
         } else {
@@ -239,7 +249,8 @@ public class StoreGoodsInfoActivity extends ActivityBase {
             case R.id.ac_storeGoodsInfo_iv_goodsContent:
                 break;
             case R.id.ac_storeGoodsInfo_btn_pulish:
-                publishImages();
+                //publishImages();
+                getImgPath();
                 break;
             case R.id.ac_pulishGoods_rl_cateName:
                 showItemPopwindow();
@@ -276,6 +287,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
                 UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
                 UploadPicsResponseBean.DataBean data = bean.getData();
                 goodsImg=data.getImg();
+
                 uploadGoodsContent();
             }
         });
@@ -338,40 +350,6 @@ public class StoreGoodsInfoActivity extends ActivityBase {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            /*case CHOOSE_PHOTO1:
-                if (resultCode == RESULT_OK) {
-                    try {
-                        Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
-                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
-                        cursor.moveToFirst();
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        String path = cursor.getString(columnIndex);  //获取照片路径
-                        cursor.close();
-                        paths1.add(compress(path));
-                        acStoreGoodsInfoIvGoodsImg.addImage(compress(path));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-            case CHOOSE_PHOTO2:
-                if (resultCode == RESULT_OK) {
-                    try {
-                        Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
-                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
-                        cursor.moveToFirst();
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        String path = cursor.getString(columnIndex);  //获取照片路径
-                        cursor.close();
-                        paths2.add(compress(path));
-                        acStoreGoodsInfoIvGoodsContent.addImage(compress(path));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;*/
             case CHOOSE_PHOTO1:
                 if(resultCode!=0){
                     ArrayList<String> images = data.getStringArrayListExtra(ImageSelectorUtils.SELECT_RESULT);
@@ -562,5 +540,87 @@ public class StoreGoodsInfoActivity extends ActivityBase {
             e.printStackTrace();
         }
         return bmString;
+    }
+
+
+    public void getImgPath(){
+        for (String str : paths1) {
+            if (str.split("http://app.npj-vip.com").length == 1) {
+                paths3.add(str);
+            } else {//解析全链接
+                paths4.add(str.split("http://app.npj-vip.com")[1]);
+            }
+        }
+        if (paths3.size() == 0) {//没有上传新的图片
+            String paths3Str = "";
+            for (int i = 0; i < paths4.size(); i++) {
+                if (i == paths4.size() - 1) {
+                    paths3Str += paths4.get(i);
+                } else {
+                    paths3Str += paths4.get(i) + ",";
+                }
+            }
+            goodsImg=paths3Str;
+            getContentPath();
+        } else {//上传了新的图片
+            HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths3, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                    UploadPicsResponseBean.DataBean data = bean.getData();
+                    String paths3Str = "";
+                    for (String str : paths4) {
+                        paths3Str += str + ",";
+                    }
+                   goodsImg=paths3Str + data.getImg();
+                    getContentPath();
+                }
+            });
+        }
+    }
+    public void getContentPath(){
+        for (String str : paths2) {
+            if (str.split("http://app.npj-vip.com").length == 1) {
+                paths5.add(str);
+            } else {//解析全链接
+                paths6.add(str.split("http://app.npj-vip.com")[1]);
+            }
+        }
+        if (paths5.size() == 0) {//没有上传新的图片
+            String paths3Str = "";
+            for (int i = 0; i < paths6.size(); i++) {
+                if (i == paths6.size() - 1) {
+                    paths3Str += paths6.get(i);
+                } else {
+                    paths3Str += paths6.get(i) + ",";
+                }
+            }
+            goodsContent=paths3Str;
+            editStoreGoodsInfo();
+        } else {//上传了新的图片
+            HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths5, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                    UploadPicsResponseBean.DataBean data = bean.getData();
+                    String paths3Str = "";
+                    for (String str : paths6) {
+                        paths3Str += str + ",";
+                    }
+                    goodsContent=paths3Str + data.getImg();
+                    editStoreGoodsInfo();
+                }
+            });
+        }
     }
 }

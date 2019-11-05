@@ -193,7 +193,7 @@
                     android:layout_centerVertical="true"/>
 
                 <EditText
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:id="@+id/ac_pulishGoods_et_platformPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -235,7 +235,7 @@
                     android:layout_centerVertical="true"/>
 
                 <EditText
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:id="@+id/ac_pulishGoods_et_memberPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -278,7 +278,7 @@
                     android:layout_centerVertical="true"/>
 
                 <EditText
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:id="@+id/ac_pulishGoods_et_marketPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"

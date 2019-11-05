@@ -90,7 +90,7 @@
                     android:text="实名认证"
                     android:textSize="@dimen/sp_11"
                     android:textColor="@android:color/white"
-                    android:background="#F39B1F"
+                    android:background="#FED435"
                     android:layout_marginRight="@dimen/dp_10"/>
                 <TextView
                     android:visibility="gone"
@@ -100,7 +100,7 @@
                     android:text="采购认证"
                     android:textSize="@dimen/sp_11"
                     android:textColor="@android:color/white"
-                    android:background="#2FA22F"
+                    android:background="#9685ED"
                     android:gravity="center"
                     android:layout_marginRight="@dimen/dp_10"/>
                 <TextView
@@ -111,7 +111,7 @@
                     android:text="资质认证"
                     android:textSize="@dimen/sp_11"
                     android:textColor="@android:color/white"
-                    android:background="#EB6877"
+                    android:background="#62DD57"
                     android:gravity="center" />
             </LinearLayout>
             <LinearLayout
@@ -127,7 +127,7 @@
                     android:text="企业保证"
                     android:textSize="@dimen/sp_11"
                     android:textColor="@android:color/white"
-                    android:background="#4FA0F1"
+                    android:background="#5AAFFA"
                     android:layout_marginRight="@dimen/dp_10"
                     android:gravity="center"/>
                 <TextView
@@ -138,7 +138,7 @@
                     android:text="3k保证"
                     android:textSize="@dimen/sp_11"
                     android:textColor="@android:color/white"
-                    android:background="#4FA0F1"
+                    android:background="#EA6E6D"
                     android:gravity="center"
                     android:layout_marginRight="@dimen/dp_10"/>
             </LinearLayout>

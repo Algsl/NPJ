@@ -1,6 +1,5 @@
 package com.zthx.npj.ui.fragment;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +29,6 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.ClassifyDetailAdapter;
 import com.zthx.npj.adapter.DiscoverNeedAdapter;
 import com.zthx.npj.adapter.DiscoverSupplyAdapter;
 import com.zthx.npj.base.Const;
@@ -43,15 +40,12 @@ import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
-import com.zthx.npj.ui.AgricultureVideoMainActivity;
 import com.zthx.npj.ui.BannerActivity;
-import com.zthx.npj.ui.LoginActivity;
 import com.zthx.npj.ui.SupplyMessageActivity;
 import com.zthx.npj.ui.SupplyProductsActivity;
 import com.zthx.npj.ui.SupplySearchActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
-import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
@@ -121,21 +115,24 @@ public class DiscoverSupplyFragment extends Fragment {
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.seeMore)
     TextView seeMore;
+    @BindView(R.id.seeMore1)
+    TextView seeMore1;
 
 
-    private String type1 = "1";
-    private String type2 = "1";
-    private int itemType=1;
+    private String type1 = "1";//供应的销量的类型
+    private String type2 = "1";//求购的销量、距离类型
+    private int itemType = 1;//供求类型
 
     private int page = 1;
-    private int page2=1;
+    private int page2 = 1;
     private DiscoverSupplyAdapter mAdapter;
     private DiscoverNeedAdapter mAdapter2;
-    private View view=null;
+    private View view = null;
 
     public DiscoverSupplyFragment() {
 
     }
+
     /**
      * 获取对象实例
      *
@@ -156,28 +153,30 @@ public class DiscoverSupplyFragment extends Fragment {
             if (parent != null) {
                 parent.removeView(view);
             }
-        }else{
+        } else {
             view = inflater.inflate(R.layout.fragment_discover_supply, container, false);
         }
+
         unbinder = ButterKnife.bind(this, view);
         getQiYeList();
         getSupplyData(type1);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                if(itemType==1){
-                    page=1;
+                if (itemType == 1) {
+                    page = 1;
                     if (mAdapter != null) {
                         mAdapter.clearData();
                     }
-                }else{
-                    page2=1;
+                    seeMore.setText("查看更多");
+                } else {
+                    page2 = 1;
                     if (mAdapter2 != null) {
                         mAdapter2.clearData();
                     }
+                    seeMore1.setText("查看更多");
                 }
-                seeMore.setText("查看更多");
-                refreshLayout.setLoadmoreFinished(false);
+                //refreshLayout.setLoadmoreFinished(false);
                 getSupplyData(type1);
                 getNeedData(type2);
                 initBanner();
@@ -188,10 +187,10 @@ public class DiscoverSupplyFragment extends Fragment {
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                if(itemType==1){
+                if (itemType == 1) {
                     page++;
                     getSupplyData(type1);
-                }else{
+                } else {
                     page2++;
                     getNeedData(type2);
                 }
@@ -206,7 +205,7 @@ public class DiscoverSupplyFragment extends Fragment {
     private void getSupplyData(String type) {
         SupplyListBean bean = new SupplyListBean();
         bean.setType(type);
-        bean.setPage(page+"");
+        bean.setPage(page + "");
         bean.setLng(SharePerferenceUtils.getLng(getActivity()));
         bean.setLat(SharePerferenceUtils.getLat(getActivity()));
 
@@ -222,17 +221,14 @@ public class DiscoverSupplyFragment extends Fragment {
                     mAdapter.updateData(data);
                 } else {}*/
                 if (mAdapter == null) {
-                    mAdapter = new DiscoverSupplyAdapter(getContext(), data);
+                    mAdapter = new DiscoverSupplyAdapter(getContext(), data, false);
                 } else {
-                    if (data != null && data.size()!=0) {
-                        if(data.size()<10){
+                    if (data != null && data.size() != 0) {
+                        if (data.size() < 10) {
                             seeMore.setText("没有更多了");
-                            refreshLayout.setLoadmoreFinished(true);
+                            //refreshLayout.setLoadmoreFinished(true);
                         }
                         mAdapter.addData(data);
-                    }else{
-                        seeMore.setText("没有更多了");
-                        refreshLayout.setLoadmoreFinished(true);
                     }
                 }
                 mAdapter.setOnItemClickListener(new DiscoverSupplyAdapter.ItemClickListener() {
@@ -253,14 +249,14 @@ public class DiscoverSupplyFragment extends Fragment {
             public void onFault(String errorMsg) {
 
             }
-        }));
+        }, getContext()));
     }
 
     private void getNeedData(String type) {
         SupplyListBean bean = new SupplyListBean();
         bean.setLat(SharePerferenceUtils.getLat(getActivity()));
         bean.setLng(SharePerferenceUtils.getLng(getActivity()));
-        bean.setPage(page2+"");
+        bean.setPage(page2 + "");
         bean.setType(type);
         DiscoverSubscribe.needList(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
@@ -269,17 +265,14 @@ public class DiscoverSupplyFragment extends Fragment {
                 LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                 fgDiscoverNeedRv.setLayoutManager(manager);
                 if (mAdapter2 == null) {
-                    mAdapter2 = new DiscoverNeedAdapter(getContext(), data);
+                    mAdapter2 = new DiscoverNeedAdapter(getContext(), data, false);
                 } else {
-                    if (data != null && data.size()!=0) {
-                        if(data.size()<10){
-                            seeMore.setText("没有更多了");
-                            refreshLayout.setLoadmoreFinished(true);
+                    if (data != null && data.size() != 0) {
+                        if (data.size() < 10) {
+                            seeMore1.setText("没有更多了");
+                            //refreshLayout.setLoadmoreFinished(true);
                         }
                         mAdapter2.addData(data);
-                    }else{
-                        seeMore.setText("没有更多了");
-                        refreshLayout.setLoadmoreFinished(true);
                     }
                 }
                 mAdapter2.setOnItemClickListener(new DiscoverNeedAdapter.ItemClickListener() {
@@ -299,7 +292,7 @@ public class DiscoverSupplyFragment extends Fragment {
             public void onFault(String errorMsg) {
 
             }
-        }, getActivity()));
+        }, getContext()));
     }
 
 
@@ -330,39 +323,41 @@ public class DiscoverSupplyFragment extends Fragment {
         Intent intent;
         switch (view.getId()) {
             //求购模块选择操作
+            //最新
             case R.id.fg_discover_need_tv_new:
+                mAdapter2.clearData();
                 fgDiscoverNeedTvNew.setTextColor(getResources().getColor(R.color.app_theme));
                 fgDiscoverNeedTvLocation.setTextColor(getResources().getColor(R.color.text3));
                 type2 = "1";
                 getNeedData(type2);
                 break;
+            //附近
             case R.id.fg_discover_need_tv_location:
+                mAdapter2.clearData();
                 fgDiscoverNeedTvLocation.setTextColor(getResources().getColor(R.color.app_theme));
                 fgDiscoverNeedTvNew.setTextColor(getResources().getColor(R.color.text3));
                 type2 = "2";
                 getNeedData(type2);
                 break;
+
+
             case R.id.fg_discover_supply_tv_supply://切换为供应模式
-                if (mAdapter != null) {
-                    mAdapter.clearData();
-                }
+                mAdapter.clearData();
+                page = 1;
+                itemType = 1;
                 fgDiscoverSupplyRvSearch.setVisibility(View.VISIBLE);
                 fgDiscoverSupplyLl.setVisibility(View.GONE);
                 changeButtonColor(1);
-                itemType=1;
-                page=1;
-                //getSupplyData(type1);
                 break;
             case R.id.fg_discover_supply_tv_need://切换为求购模式
+                page2 = 1;
+                itemType = 2;
                 if (mAdapter2 != null) {
                     mAdapter2.clearData();
                 }
-                page2=1;
                 fgDiscoverSupplyRvSearch.setVisibility(View.VISIBLE);
                 fgDiscoverSupplyLl.setVisibility(View.GONE);
                 changeButtonColor(2);
-                itemType=2;
-                //getNeedData(type2);
                 break;
             case R.id.fg_discover_supply_tv_company:
                 fgDiscoverSupplyRvSearch.setVisibility(View.VISIBLE);
@@ -408,7 +403,7 @@ public class DiscoverSupplyFragment extends Fragment {
                 break;
             case R.id.fg_discover_btn_issue:
                 if (SharePerferenceUtils.getUserId(getContext()).equals("")) {
-                    Toast.makeText(getContext(),"用户未登录，暂不能发布供求",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "用户未登录，暂不能发布供求", Toast.LENGTH_SHORT).show();
                 } else {
                     fgDiscoverSupplyRvSearch.setVisibility(View.GONE);
                     fgDiscoverSupplyLl.setVisibility(View.VISIBLE);
@@ -427,6 +422,7 @@ public class DiscoverSupplyFragment extends Fragment {
         fgDiscoverSupplyTvSellNum.setTextColor(getResources().getColor(R.color.text3));
         fgDiscoverSupplyTvXinyong.setTextColor(getResources().getColor(R.color.text3));
         fgDiscoverSupplyTvPrice.setTextColor(getResources().getColor(R.color.text3));
+        mAdapter.clearData();
         if ("1".equals(type)) {
             fgDiscoverSupplyTvNew.setTextColor(getResources().getColor(R.color.app_theme));
             type1 = "1";

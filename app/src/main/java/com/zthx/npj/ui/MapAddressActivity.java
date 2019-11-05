@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.baidu.location.Address;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -43,6 +44,7 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.MapAddressAdapter;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
@@ -194,11 +196,15 @@ public class MapAddressActivity extends ActivityBase {
         if(acMapEtAddressDetail.getText().toString().trim().equals("")){
             showToast("请填写详细的位置信息");
         }else{
-            if(flag){
-                SharePerferenceUtils.setLat(this, lat1 + "");
-                SharePerferenceUtils.setLng(this, lon1 + "");
-            }
             Intent intent = new Intent(this, LocationStoreActivity.class);
+            if(flag){//点击获取经纬度
+                intent.putExtra("lat",lat1);
+                intent.putExtra("lng",lon1);
+            }else{//文字输入获取经纬度
+                android.location.Address address=MyCustomUtils.getGeoPointBystr(this,acMapEtAddressDetail.getText().toString().trim());
+                intent.putExtra("lat",address.getLatitude()+"");
+                intent.putExtra("lng",address.getLongitude()+"");
+            }
             intent.putExtra("address", address);
             intent.putExtra("addressDetail", acMapEtAddressDetail.getText().toString().trim());
             setResult(1, intent);

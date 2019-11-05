@@ -22,6 +22,10 @@ public class GoodsDetailResponseBean extends BaseReponseBean {
         private ArrayList<String> goods_content;
         private String spec;
         private long collection;
+
+        private String nick_name;
+        private String mobile;
+
         public class Attributes{
             private long item_id;
             private long goods_id;
@@ -87,6 +91,23 @@ public class GoodsDetailResponseBean extends BaseReponseBean {
                 this.store_count = store_count;
             }
         }
+
+        public String getNick_name() {
+            return nick_name;
+        }
+
+        public void setNick_name(String nick_name) {
+            this.nick_name = nick_name;
+        }
+
+        public String getMobile() {
+            return mobile;
+        }
+
+        public void setMobile(String mobile) {
+            this.mobile = mobile;
+        }
+
         private ArrayList<Attributes> attributes;
 
         public long getCollection() {

@@ -114,55 +114,62 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="center_vertical">
-        <Button
-            android:id="@+id/item_wantBuy_btn_sale"
-            android:layout_width="@dimen/dp_0"
-            android:layout_height="@dimen/dp_20"
-            android:layout_weight="1"
-            android:background="@drawable/stroke_theme_2"
-            android:text="下架"
-            android:textColor="@color/app_theme"
-            android:textSize="@dimen/sp_14"
-            android:gravity="center"
-            android:layout_marginLeft="@dimen/dp_24"/>
-        <Button
-            android:id="@+id/item_wantBuy_btn_share"
-            android:layout_width="@dimen/dp_0"
-            android:layout_height="@dimen/dp_20"
-            android:layout_weight="1"
-            android:background="@drawable/stroke_theme_2"
-            android:text="分享"
-            android:textColor="@color/app_theme"
-            android:textSize="@dimen/sp_14"
-            android:gravity="center"
-            android:layout_marginLeft="@dimen/dp_24"/>
-        <Button
-            android:id="@+id/item_wantBuy_btn_edit"
-            android:layout_width="@dimen/dp_0"
-            android:layout_height="@dimen/dp_20"
-            android:layout_weight="1"
-            android:background="@drawable/stroke_theme_2"
-            android:text="编辑"
-            android:textColor="@color/app_theme"
-            android:textSize="@dimen/sp_14"
-            android:gravity="center"
-            android:layout_marginLeft="@dimen/dp_32"/>
-        <Button
-            android:id="@+id/item_wantBuy_btn_delete"
-            android:layout_width="@dimen/dp_0"
-            android:layout_height="@dimen/dp_20"
-            android:layout_weight="1"
-            android:background="@drawable/stroke_gray_2"
-            android:text="删除"
-            android:textColor="@color/text6"
-            android:textSize="@dimen/sp_14"
-            android:gravity="center"
-            android:layout_marginLeft="@dimen/dp_24"
-            android:layout_marginRight="@dimen/dp_32"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="@dimen/dp_12"
+            android:gravity="center_vertical">
+            <Button
+                android:id="@+id/item_wantBuy_btn_sale"
+                android:layout_width="@dimen/dp_0"
+                android:layout_weight="1"
+                android:layout_height="@dimen/dp_26"
+                android:background="@drawable/stroke_theme_5"
+                android:text="上架"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/app_theme"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/dp_12"/>
 
+            <Button
+                android:id="@+id/item_wantBuy_btn_share"
+                android:layout_width="@dimen/dp_0"
+                android:layout_weight="1"
+                android:layout_height="@dimen/dp_26"
+                android:background="@drawable/stroke_theme_5"
+                android:text="分享"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/app_theme"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/dp_12"/>
+
+            <Button
+                android:id="@+id/item_wantBuy_btn_edit"
+                android:layout_width="@dimen/dp_0"
+                android:layout_weight="1"
+                android:layout_height="@dimen/dp_26"
+                android:background="@drawable/stroke_theme_5"
+                android:text="编辑"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/app_theme"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/dp_12"/>
+            <Button
+                android:id="@+id/item_wantBuy_btn_delete"
+                android:layout_width="@dimen/dp_0"
+                android:layout_weight="1"
+                android:layout_height="@dimen/dp_26"
+                android:background="@drawable/stroke_zise_5"
+                android:text="删除"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/text6"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/dp_12"/>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

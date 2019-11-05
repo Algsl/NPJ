@@ -147,17 +147,18 @@ public class MembershipPackageActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-                        CommonDialog dialog=new CommonDialog(MembershipPackageActivity.this, R.style.dialog, "您还没有推荐人", new CommonDialog.OnCloseListener() {
+                        CommonDialog dialog=new CommonDialog(MembershipPackageActivity.this, R.style.dialog, "您还没有推荐人",true, new CommonDialog.OnCloseListener() {
                             @Override
                             public void onClick(Dialog dialog, boolean confirm) {
                                 if(confirm){
                                     openActivity(InputInvitationCodeActivity.class);
                                 }else{
-                                    finish();
+                                    dialog.dismiss();
                                 }
                             }
                         });
                         dialog.setPositiveButton("绑定邀请人");
+                        dialog.setNegativeButton("暂不绑定");
                         dialog.show();
                     }
                 }));
@@ -244,12 +245,34 @@ public class MembershipPackageActivity extends ActivityBase {
                     }
 
                     @Override
-                    public void onBuyClick(int position) {
+                    public void onBuyClick(final int position) {
                         if(level.equals("0")){
-                            Intent intent = new Intent(MembershipPackageActivity.this, ConfirmOrderActivity.class);
-                            intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
-                            intent.setAction(Const.GIFT);
-                            startActivity(intent);
+                            GiftSubscribe.referrer(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                                @Override
+                                public void onSuccess(String result) {
+                                    Intent intent = new Intent(MembershipPackageActivity.this, ConfirmOrderActivity.class);
+                                    intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                                    intent.setAction(Const.GIFT);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void onFault(String errorMsg) {
+                                    CommonDialog dialog=new CommonDialog(MembershipPackageActivity.this, R.style.dialog, "您还没有绑定推荐人，请先去绑定推荐人",true, new CommonDialog.OnCloseListener() {
+                                        @Override
+                                        public void onClick(Dialog dialog, boolean confirm) {
+                                            if(confirm){
+                                                openActivity(InputInvitationCodeActivity.class);
+                                            }else{
+                                                dialog.dismiss();
+                                            }
+                                        }
+                                    });
+                                    dialog.setPositiveButton("绑定推荐人");
+                                    dialog.setNegativeButton("暂不绑定");
+                                    dialog.show();
+                                }
+                            }));
                         }else{
                             Toast toast=Toast.makeText(MembershipPackageActivity.this,"您已经是代言人了，赶快去邀请好友加入农品街吧！",Toast.LENGTH_LONG);
                             toast.setGravity(Gravity.CENTER_VERTICAL,0,0);

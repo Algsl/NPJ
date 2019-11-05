@@ -4,11 +4,11 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +21,18 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.tencent.imsdk.TIMConversationType;
+import com.tencent.qcloud.tim.uikit.modules.chat.base.ChatInfo;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommentAdapter;
 import com.zthx.npj.adapter.GoodsImgDetailAdapter;
@@ -34,6 +42,7 @@ import com.zthx.npj.banner.loader.LocalImageLoader;
 import com.zthx.npj.banner.loader.LocalVideoLoader;
 import com.zthx.npj.banner.loader.ViewItemBean;
 import com.zthx.npj.banner.transformer.DefaultTransformer;
+import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BaoJiaBean;
 import com.zthx.npj.net.been.CommentResponseBean;
@@ -43,6 +52,8 @@ import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.tencent.activity.ChatActivity;
+import com.zthx.npj.tencent.util.Constants;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
@@ -129,6 +140,10 @@ public class SupplyProductsActivity extends ActivityBase {
     TextView acSupplyTvZizhi;
     @BindView(R.id.ac_supply_ll)
     LinearLayout acSupplyLl;
+    @BindView(R.id.at_supply_product_tv_address)
+    TextView atSupplyProductTvAddress;
+    @BindView(R.id.ac_supply_product_showLocation)
+    RelativeLayout acSupplyProductShowLocation;
 
 
     private String type;
@@ -139,6 +154,11 @@ public class SupplyProductsActivity extends ActivityBase {
     private NeedDetailResponseBean.DataBean needData;
     private GoodsImgDetailAdapter adapter;
     private String sn_user_id = "";
+
+    private String mobile;
+    private String nick_name;
+    private String lat;
+    private String lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,11 +204,18 @@ public class SupplyProductsActivity extends ActivityBase {
             public void onSuccess(String result) {
                 NeedDetailResponseBean bean = GsonUtils.fromJson(result, NeedDetailResponseBean.class);
                 needData = bean.getData();
-                MyCustomUtils.showLevelImg(needData.getLevel(),atSupplyProductsTvLevel);
+                MyCustomUtils.showLevelImg(needData.getLevel(), atSupplyProductsTvLevel);
                 atNeedProductsTvCaigouNum.setVisibility(View.VISIBLE);
                 atSupplyProductsLlNeedBaojia.setVisibility(View.VISIBLE);
                 atSupplyProductsLlSupplyGuanggao.setVisibility(View.GONE);
                 atSupplyProductsRlNeedGuanggao.setVisibility(View.VISIBLE);
+                lat = needData.getLat();
+                lng = needData.getLng();
+                LatLng latLng=new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
+                getLocateinfo(latLng);
+
+                mobile = needData.getMobile();
+                nick_name = needData.getNick_name();
 
                 initBanner1(needData.getImg());
                 atSupplyProductsTvPrice.setText(needData.getAmount());
@@ -207,9 +234,9 @@ public class SupplyProductsActivity extends ActivityBase {
                             acSupplyTvEnterPrice.setVisibility(View.VISIBLE);
                         } else if (str.equals("3")) {
                             acSupplyTvPurchase.setVisibility(View.VISIBLE);
-                        }else if (str.equals("4")) {
+                        } else if (str.equals("4")) {
                             acSupplyTvTrust.setVisibility(View.VISIBLE);
-                        }else if (str.equals("5")) {
+                        } else if (str.equals("5")) {
                             acSupplyTvZizhi.setVisibility(View.VISIBLE);
                         }
                     }
@@ -228,9 +255,10 @@ public class SupplyProductsActivity extends ActivityBase {
 
 
                 sn_user_id = needData.getUser_id();
-
-                Glide.with(SupplyProductsActivity.this).load(needData.getHead_img()).into(atSupplyProductsIvHeadPic);
-                atSupplyProductsTvName.setText(needData.getNick_name());
+                if (!needData.getHead_img().equals("")) {
+                    Glide.with(SupplyProductsActivity.this).load(needData.getHead_img()).into(atSupplyProductsIvHeadPic);
+                    atSupplyProductsTvName.setText(needData.getNick_name());
+                }
                 atSupplyProductsTvXinyufen.setText("信誉分" + needData.getReputation());
                 //SupplyProductsAdapter adapter = new SupplyProductsAdapter(SupplyProductsActivity.this, data.getContent());
                 GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(SupplyProductsActivity.this, needData.getContent());
@@ -254,10 +282,18 @@ public class SupplyProductsActivity extends ActivityBase {
                 supplyData = supplyDetailResponseBean.getData();
                 initBanner1(supplyData.getGoods_img());
 
-                MyCustomUtils.showLevelImg(supplyData.getLevel(),atSupplyProductsTvLevel);
+                MyCustomUtils.showLevelImg(supplyData.getLevel(), atSupplyProductsTvLevel);
                 atSupplyProductsTvPrice.setText("￥" + supplyData.getPrice());
                 atSupplyProductsTvUnit.setText("元/" + supplyData.getGoods_unit());
                 atSupplyProductsTvTitle.setText(supplyData.getTitle());
+                lat = supplyData.getLat();
+                lng = supplyData.getLng();
+                LatLng latLng=new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
+                getLocateinfo(latLng);
+
+                mobile = supplyData.getMobile();
+                nick_name = supplyData.getNick_name();
+
                 if (supplyData.getHits() == null) {
                     atSupplyProductsTvLookNum.setText("0人看过");
                 } else {
@@ -274,9 +310,11 @@ public class SupplyProductsActivity extends ActivityBase {
                     atSupplyProductsTvXinyufen.setText("信誉分： " + supplyData.getReputation());
                 }
                 sn_user_id = supplyData.getUser_id();
-                Glide.with(SupplyProductsActivity.this).load(supplyData.getHead_img()).into(atSupplyProductsIvHeadPic);
-                atSupplyProductsTvName.setText(supplyData.getNick_name());
-                if (supplyData.getCertification() == null ) {
+                if(!supplyData.getHead_img().equals("")){
+                    Glide.with(SupplyProductsActivity.this).load(supplyData.getHead_img()).into(atSupplyProductsIvHeadPic);
+                    atSupplyProductsTvName.setText(supplyData.getNick_name());
+                }
+                if (supplyData.getCertification() == null) {
                     acSupplyLl.setVisibility(View.GONE);
                 } else {
                     acSupplyLl.setVisibility(View.VISIBLE);
@@ -288,9 +326,9 @@ public class SupplyProductsActivity extends ActivityBase {
                             acSupplyTvEnterPrice.setVisibility(View.VISIBLE);
                         } else if (str.equals("3")) {
                             acSupplyTvPurchase.setVisibility(View.VISIBLE);
-                        }else if (str.equals("4")) {
+                        } else if (str.equals("4")) {
                             acSupplyTvTrust.setVisibility(View.VISIBLE);
-                        }else if (str.equals("5")) {
+                        } else if (str.equals("5")) {
                             acSupplyTvZizhi.setVisibility(View.VISIBLE);
                         }
                     }
@@ -326,14 +364,23 @@ public class SupplyProductsActivity extends ActivityBase {
     }
 
     @OnClick({R.id.at_supply_products_btn_buy_now, R.id.at_supply_products_ll_call, R.id.at_supply_products_ll_chat,
-            R.id.ac_supply_iv_home, R.id.ac_supplyProducts_seeInfo, R.id.ac_supply_tv_detail, R.id.ac_supply_tv_common})
+            R.id.ac_supply_iv_home, R.id.ac_supplyProducts_seeInfo, R.id.ac_supply_tv_detail, R.id.ac_supply_tv_common,
+            R.id.ac_supply_product_showLocation})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_supply_products_ll_call:
+                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mobile)));
                 break;
             case R.id.at_supply_products_ll_chat:
+                ChatInfo chatInfo = new ChatInfo();
+                chatInfo.setType(TIMConversationType.C2C);
+                chatInfo.setId(mobile);
+                chatInfo.setChatName(nick_name);
+                Intent intent = new Intent(BaseApp.getApp(), ChatActivity.class);
+                intent.putExtra(Constants.CHAT_INFO, chatInfo);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                BaseApp.getApp().startActivity(intent);
                 break;
-
             case R.id.at_supply_products_btn_buy_now:
                 if (user_id.equals("")) {
                     CommonDialog dialog = new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
@@ -380,6 +427,9 @@ public class SupplyProductsActivity extends ActivityBase {
                 acSupplyTvCommon.setBackgroundColor(getResources().getColor(R.color.app_theme));
                 acSupplyTvCommon.setTextColor(getResources().getColor(R.color.white));
                 getComment();
+                break;
+            case R.id.ac_supply_product_showLocation:
+                openActivity(ShowLocationActivity.class, lat, lng);
                 break;
         }
     }
@@ -470,4 +520,21 @@ public class SupplyProductsActivity extends ActivityBase {
         getWindow().setAttributes(lp);
     }
 
+    private void getLocateinfo(LatLng latLng) {
+        GeoCoder geoCoder = GeoCoder.newInstance();
+        geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+
+            @Override
+            public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+
+            }
+
+            @Override
+            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+                atSupplyProductTvAddress.setText(reverseGeoCodeResult.getAddress());
+                //Log.e(TAG, "onGetReverseGeoCodeResult: "+ reverseGeoCodeResult.getAddress() + reverseGeoCodeResult.getSematicDescription());
+            }
+        });
+        geoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(latLng));
+    }
 }

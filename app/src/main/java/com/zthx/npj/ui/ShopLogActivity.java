@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -102,14 +103,16 @@ public class ShopLogActivity extends ActivityBase {
 
     private void setShopLog(String result) {
         ShopLogResponseBean bean = GsonUtils.fromJson(result, ShopLogResponseBean.class);
-        if (bean.getData().size() == 0 || bean.getData() == null) {
+        ArrayList<ShopLogResponseBean.DataBean.MingXi> mingXis=bean.getData().getMingxi();
+        if (mingXis.size() == 0 || mingXis == null) {
             acShopLogRvMingxi.setVisibility(View.GONE);
         } else {
             acShopLogRvMingxi.setVisibility(View.VISIBLE);
         }
+        acShopLogTvIoMoney.setText("店铺收益 ￥"+bean.getData().getShouyi());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acShopLogRvMingxi.setLayoutManager(layoutManager);
-        ShopLogAdapter adapter = new ShopLogAdapter(this, bean.getData());
+        ShopLogAdapter adapter = new ShopLogAdapter(this, mingXis);
         acShopLogRvMingxi.setItemAnimator(new DefaultItemAnimator());
         acShopLogRvMingxi.setAdapter(adapter);
     }

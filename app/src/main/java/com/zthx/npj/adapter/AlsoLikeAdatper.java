@@ -1,25 +1,18 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.AlsoLikeResponseBean;
-import com.zthx.npj.net.been.GoodsListResponseBean;
-import com.zthx.npj.utils.GlideRoundTransform;
-import com.zthx.npj.view.MyCircleView;
 
 import java.util.ArrayList;
 

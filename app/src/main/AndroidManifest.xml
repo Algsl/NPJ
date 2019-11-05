@@ -24,7 +24,7 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -40,6 +40,7 @@
     <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
     <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <!-- ShortcutBadger -->
     <application
@@ -62,13 +63,14 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="PHUVgcMQuv0RmOk9nMH8IGnp5qGduaCy" /> <!-- 活动页面 -->
 
-        <activity android:name="com.donkingliang.imageselector.ImageSelectorActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name="com.donkingliang.imageselector.PreviewActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-
+        <activity
+            android:name="com.donkingliang.imageselector.ImageSelectorActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.donkingliang.imageselector.PreviewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".ui.MainActivity"
             android:theme="@style/TranslucentTheme">
@@ -96,7 +98,7 @@
         <activity android:name=".ui.StoreDetailActivity" />
         <activity android:name=".ui.PayToStoreActivity" />
         <activity android:name=".ui.PayToStoreFinishActivity" />
-        <activity android:name=".ui.StoreOrderRefuseActivity"/>
+        <activity android:name=".ui.StoreOrderRefuseActivity" />
         <activity android:name=".ui.StoreManagerActivity" />
         <activity android:name=".ui.StoreManagerBillActivity" />
         <activity android:name=".ui.StoreManagerCenterActivity" />
@@ -107,14 +109,16 @@
             android:name=".ui.SystemSolutionActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.AgricultureVideoMainActivity"
+        <activity
+            android:name=".ui.AgricultureVideoMainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.BuyVideoActivity" />
         <activity android:name=".ui.SupplyMessageActivity" />
-        <activity android:name=".ui.SupplyProductsActivity"
+        <activity
+            android:name=".ui.SupplyProductsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.SupplyBillActivity" />
         <activity android:name=".ui.AddAddressActivity" />
         <activity android:name=".ui.SystemMessageActivity" />
@@ -133,7 +137,9 @@
         <activity android:name=".ui.StoreGoodsListActivity" />
         <activity android:name=".ui.StoreGoodsBillActivity" />
         <activity android:name=".ui.GoodsBillDetailActivity" />
-        <activity android:name=".ui.MyAttestationActivity" android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.MyAttestationActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".ui.TrustedStoreActivity" />
         <activity android:name=".ui.TrustedStore2Activity" />
         <activity android:name=".ui.PurchaserCertificationActivity" />
@@ -151,7 +157,9 @@
         <activity android:name=".ui.SupplyManagerActivity" />
         <activity android:name=".ui.WantBuyManagerActivity" />
         <activity android:name=".ui.ReleaseSupplyActivity" />
-        <activity android:name=".ui.LoginActivity"  android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.LoginActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".ui.CellPhoneLoginActivity" />
         <activity android:name=".ui.InputInvitationCodeActivity" />
         <activity android:name=".ui.LocalSpokesmanActivity" />
@@ -211,18 +219,17 @@
         <activity android:name=".ui.LoadingActivity" />
         <activity android:name=".ui.SupplySearchActivity" />
         <activity android:name=".ui.ReportActivity" />
-        <activity android:name=".ui.TermsOfServiceActivity"/>
-        <activity android:name=".ui.Splash2Activity"/>
-        <activity android:name=".ui.BannerActivity"/>
-        <activity android:name=".ui.SupplyMessageInfoActivity"/>
-        <activity android:name=".ui.SYWithDrawActivity"/>
-        <activity android:name=".ui.OrderFinishActivity"/>
-        <activity android:name=".ui.MySupplyOrderRefuseActivity"/>
-        <activity android:name=".tencent.activity.MessageCenterActivity"/>
-        <activity android:name=".tencent.activity.ChatActivity"/>
-        <activity android:name=".ui.ServicesListActivity"/>
-        <activity android:name=".ui.ZjdyrActivity"/>
-
+        <activity android:name=".ui.TermsOfServiceActivity" />
+        <activity android:name=".ui.Splash2Activity" />
+        <activity android:name=".ui.BannerActivity" />
+        <activity android:name=".ui.SupplyMessageInfoActivity" />
+        <activity android:name=".ui.SYWithDrawActivity" />
+        <activity android:name=".ui.OrderFinishActivity" />
+        <activity android:name=".ui.MySupplyOrderRefuseActivity" />
+        <activity android:name=".tencent.activity.MessageCenterActivity" />
+        <activity android:name=".tencent.activity.ChatActivity" />
+        <activity android:name=".ui.ServicesListActivity" />
+        <activity android:name=".ui.ZjdyrActivity" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
@@ -310,12 +317,18 @@
         <receiver
             android:name=".services.MyJPushMessageReceiver"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+
                 <category android:name="com.zthx.npj" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name=".downapk.DownloadService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

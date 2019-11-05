@@ -74,13 +74,10 @@ public class MyStoreActivity extends ActivityBase {
     TextView titleThemeTvRight;
 
     private static final int CHOOSE_PHOTO = 1;
-    private String store_img;
+    private String store_img="";
     private String store_name="";
     private MyCircleView pwStoreEditMCVStoreImg;
 
-    public MyStoreActivity() {
-        store_img = "";
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,20 +167,26 @@ public class MyStoreActivity extends ActivityBase {
         pwStoreEditBtnCommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                store_name=pwStoreEditTvStoreName.getText().toString().trim();
-                SetSubscribe.setStore(user_id, token, store_name, store_img, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                    @Override
-                    public void onSuccess(String result) {
-                        window.dismiss();
-                        backgroundAlpha(1f);
-                        getMyStore();
-                    }
+                if(store_img.equals("")){
+                    showToast("请点击农品街图片上传店铺头像");
+                }else if(pwStoreEditTvStoreName.getText().toString().trim().equals("")){
+                    showToast("请填写店铺名称");
+                }else{
+                    store_name=pwStoreEditTvStoreName.getText().toString().trim();
+                    SetSubscribe.setStore(user_id, token, store_name, store_img, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            window.dismiss();
+                            backgroundAlpha(1f);
+                            getMyStore();
+                        }
 
-                    @Override
-                    public void onFault(String errorMsg) {
-                        showToast(errorMsg);
-                    }
-                }));
+                        @Override
+                        public void onFault(String errorMsg) {
+                            showToast(errorMsg);
+                        }
+                    }));
+                }
             }
         });
         window.setOnDismissListener(new PopupWindow.OnDismissListener() {

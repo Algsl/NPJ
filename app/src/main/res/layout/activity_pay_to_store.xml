@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:layout_marginLeft="@dimen/dp_20"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:hint="请输入付款金额"
                 android:textSize="@dimen/sp_13"
                 android:textColor="@color/text9"/>

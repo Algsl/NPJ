@@ -3,9 +3,6 @@ package com.zthx.npj.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,9 +11,6 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
@@ -29,7 +23,6 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.zthx.npj.R;
 import com.zthx.npj.aliapi.OrderInfoUtil2_0;
 import com.zthx.npj.aliapi.PayResult;
 import com.zthx.npj.net.api.URLConstant;
@@ -46,15 +39,10 @@ import com.zthx.npj.utils.SharePerferenceUtils;
 import org.egret.egretnativeandroid.EgretNativeAndroid;
 import org.egret.runtime.launcherInterface.INativePlayer;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.api.BasicCallback;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -170,6 +158,7 @@ public class GameActivity extends Activity {
                 String[] strs= Pattern.compile("[&=]").split(message);
                 if(strs[1].equals("ZHMM")){
                     nativeAndroid.callExternalInterface("sendToJS","ZHMM,"+user_id+","+token);
+                    nativeAndroid.callExternalInterface("sendToJS","WZ,"+SharePerferenceUtils.getLat(GameActivity.this)+","+SharePerferenceUtils.getLng(GameActivity.this));
                 }if(strs[1].equals("TP")){
                     Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, CHOOSE_PHOTO);

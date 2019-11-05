@@ -104,8 +104,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:background="@null"
-            android:inputType="number"
-            android:hint="提现金额最少10元，单笔限额5万元"
+            android:inputType="numberDecimal"
             android:textSize="@dimen/sp_25"
             android:textStyle="bold"
             android:textColor="@color/text9"/>

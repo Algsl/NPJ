@@ -115,7 +115,9 @@ public class WithDrawActivity extends ActivityBase {
                     dialog.show();
                 } else if (acWithdrawEtDrawMoney.getText().toString().equals("")) {
                     showToast("请输入提现金额");
-                } else {
+                } else if(Long.parseLong(acWithdrawEtDrawMoney.getText().toString().trim())<10) {
+                    showToast("提现金额最少10元");
+                }else{
                     //showPublishPopwindow();
                     String money = acWithdrawEtDrawMoney.getText().toString();
                     SetSubscribe.withdraw(user_id, token, card_id, money, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
@@ -177,6 +179,7 @@ public class WithDrawActivity extends ActivityBase {
             case 1:
                 if (resultCode == 1) {
                     card_id=data.getStringExtra("card_id");
+                    Log.e("测试", "onActivityResult: "+card_id );
                     Glide.with(this).load(Uri.parse(data.getStringExtra("bank_logo"))).into(acWithdrawIvCardImg);
                     acWithdrawTvCardType.setText(data.getStringExtra("bank_name"));
                     String cardNum=data.getStringExtra("card_number");

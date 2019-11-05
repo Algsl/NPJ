@@ -42,10 +42,10 @@ public class ClassfiyDetailActivity extends ActivityBase {
     TextView acClassifyTvNoGoodsHint;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @BindView(R.id.seeMore)
-    TextView seeMore;
+    /*@BindView(R.id.seeMore)
+    TextView seeMore;*/
 
-    private int page = 0;
+    private int page = 1;
     private ClassifyDetailAdapter adapter;
 
     @Override
@@ -69,11 +69,11 @@ public class ClassfiyDetailActivity extends ActivityBase {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                page = 0;
+                page = 1;
                 if (adapter != null) {
                     adapter.clearData();
                 }
-                seeMore.setText("查看更多");
+                //seeMore.setText("查看更多");
                 getGoodsList();
                 refreshLayout.setLoadmoreFinished(false);
                 refreshlayout.finishRefresh();
@@ -124,7 +124,7 @@ public class ClassfiyDetailActivity extends ActivityBase {
         } else {
             if (data != null && data.size()!=0) {
                 if(data.size()<10){
-                    seeMore.setText("没有更多了");
+                    //seeMore.setText("没有更多了");
                     refreshLayout.setLoadmoreFinished(true);
                 }
                 adapter.addData(data);

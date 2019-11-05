@@ -45,7 +45,31 @@ public class HttpUtils {
         Request request = new Request.Builder().url(address).post(requestBody).build();
         client.newCall(request).enqueue(callback);
     }
+
     //尝试将视频和图片合并
+    public static void uploadIV(String address, List<String> paths, Callback callback){
+        OkHttpClient client=new OkHttpClient();
+        List<File> files=new ArrayList<>();
+        for(String path:paths){
+            File file=new File(path);
+            files.add(file);
+        }
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        for(File file:files){
+            String fileName=file.getName();
+            String prefix=fileName.substring(fileName.lastIndexOf(".")+1);
+            if(prefix.equals("mp4")){
+                builder.addFormDataPart("images[]",file.getName(),RequestBody.create(MediaType.parse("application/octet-stream"),file));
+            }else if(prefix.equals("jpg") || prefix.equals("png")){
+                builder.addFormDataPart("images[]",file.getName(),RequestBody.create(MediaType.parse("image/png"),file));
+            }
+        }
+        RequestBody requestBody = builder.build();
+        Request request = new Request.Builder().url(address).post(requestBody).build();
+        client.newCall(request).enqueue(callback);
+    }
+
     public static void uploadVideo(String address,List<String> paths,okhttp3.Callback callback){
         OkHttpClient client=new OkHttpClient();
         List<File> files=new ArrayList<>();

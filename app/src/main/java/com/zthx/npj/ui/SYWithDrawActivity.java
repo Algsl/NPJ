@@ -79,7 +79,7 @@ public class SYWithDrawActivity extends ActivityBase {
                 if (acWithdrawEtDrawMoney.getText().toString().equals("")) {
                     showToast("请输入提取金额");
                 } else if(Double.parseDouble(acWithdrawEtDrawMoney.getText().toString().trim())<10){
-                   showToast("提取收益金额需大于1元");
+                   showToast("提取收益金额至少10元");
                 }else{
                     //showPublishPopwindow();
                     String money = acWithdrawEtDrawMoney.getText().toString();

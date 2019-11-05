@@ -316,6 +316,7 @@ public class DiscoverSubscribe {
         bean.setLat(bean.getLat());
         bean.setLng(bean.getLng());
         bean.setBuy_num(bean.getBuy_num());
+        bean.setIs_top(bean.getIs_top());
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().addSupply(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }

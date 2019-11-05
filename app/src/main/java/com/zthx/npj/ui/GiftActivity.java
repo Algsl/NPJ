@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.GlideImageLoader;
 
 import java.util.ArrayList;
@@ -68,6 +70,8 @@ public class GiftActivity extends ActivityBase {
     LinearLayout acGiftLlKnow;*/
 
     private String mId;
+    private String user_id=SharePerferenceUtils.getUserId(this);
+    private String token=SharePerferenceUtils.getToken(this);
 
     private String level = SharePerferenceUtils.getUserLevel(this);
 
@@ -140,10 +144,32 @@ public class GiftActivity extends ActivityBase {
                 break;*/
             case R.id.at_gift_detail_btn_buy:
                 if (level.equals("0")) {
-                    Intent intent = new Intent(this, ConfirmOrderActivity.class);
-                    intent.putExtra(Const.GOODS_ID, mId);
-                    intent.setAction(Const.GIFT);
-                    startActivity(intent);
+                    GiftSubscribe.referrer(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            Intent intent = new Intent(GiftActivity.this, ConfirmOrderActivity.class);
+                            intent.putExtra(Const.GOODS_ID, mId);
+                            intent.setAction(Const.GIFT);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onFault(String errorMsg) {
+                            CommonDialog dialog=new CommonDialog(GiftActivity.this, R.style.dialog, "您还没有绑定推荐人，请先去绑定推荐人",true, new CommonDialog.OnCloseListener() {
+                                @Override
+                                public void onClick(Dialog dialog, boolean confirm) {
+                                    if(confirm){
+                                        openActivity(InputInvitationCodeActivity.class);
+                                    }else{
+                                        dialog.dismiss();
+                                    }
+                                }
+                            });
+                            dialog.setPositiveButton("绑定推荐人");
+                            dialog.setNegativeButton("暂不绑定");
+                            dialog.show();
+                        }
+                    }));
                 } else {
                     Toast toast = Toast.makeText(this, "您已经是代言人了，赶快去邀请好友加入农品街吧！", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);

@@ -24,7 +24,8 @@
             android:descendantFocusability="blocksDescendants">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_422">
+                android:layout_height="@dimen/dp_422"
+                android:visibility="visible">
                 <com.youth.banner.Banner
                     android:id="@+id/at_goods_detail_banner"
                     android:layout_width="match_parent"

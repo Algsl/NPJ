@@ -167,6 +167,16 @@ public class SharePerferenceUtils {
         //return "40";
         return getString(context, "user_id", "");
     }
+
+    public static void setVersion(Context context, String version) {
+        putString(context,"version",version);
+    }
+
+    public static String getVersion(Context context) {
+        //return "40";
+        return getString(context, "version", "");
+    }
+
     public static String getToken(Context context) {
         //return "e8ed8cfd852bd9ec764b599ec449d597";
         return getString(context, "token", "");

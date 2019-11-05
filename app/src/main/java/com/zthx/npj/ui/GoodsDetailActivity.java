@@ -29,11 +29,13 @@ import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.tencent.imsdk.TIMConversationType;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.qcloud.tim.uikit.modules.chat.base.ChatInfo;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -41,6 +43,7 @@ import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommentAdapter;
 import com.zthx.npj.adapter.GoodsImgDetailAdapter;
+import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AddCartBean;
 import com.zthx.npj.net.been.CommentResponseBean;
@@ -53,6 +56,8 @@ import com.zthx.npj.net.netsubscribe.SecKillSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.tencent.activity.ChatActivity;
+import com.zthx.npj.tencent.util.Constants;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.QRCodeUtil;
 import com.zthx.npj.utils.SharePerferenceUtils;
@@ -201,6 +206,9 @@ public class GoodsDetailActivity extends ActivityBase {
     private String collectType = "1";
     private String attribute_id = "";
 
+    private String nick_name;
+    private String mobile;
+
 
     private PreSellDetailResponseBean.DataBean mPreData = new PreSellDetailResponseBean().getData();
     private GoodsDetailResponseBean.DataBean mGoodsData = new GoodsDetailResponseBean().getData();
@@ -231,9 +239,9 @@ public class GoodsDetailActivity extends ActivityBase {
         if ("miaosha".equals(getIntent().getAction())) {//限时抢购
             int status = getIntent().getIntExtra(Const.SECKILL_STATUS, 1);
             if (status == 1) {//抢购已结束
-                atGoodsDetailRlWillBegin.setVisibility(View.GONE);
-                atGoodsDetailRlSecKill.setVisibility(View.GONE);
-                atGoodsDetailRlSecKillDone.setVisibility(View.VISIBLE);
+                atGoodsDetailRlWillBegin.setVisibility(View.GONE);//即将开始隐藏
+                atGoodsDetailRlSecKill.setVisibility(View.GONE);//
+                atGoodsDetailRlSecKillDone.setVisibility(View.VISIBLE);//结束隐藏
                 acGoodsDetailLlBar.setVisibility(View.GONE);
                 acGoodsDetailChooseSize.setClickable(false);
             } else if (status == 2) {//抢购进行中
@@ -241,7 +249,7 @@ public class GoodsDetailActivity extends ActivityBase {
                 atGoodsDetailRlSecKill.setVisibility(View.VISIBLE);
                 atGoodsDetailRlSecKillDone.setVisibility(View.GONE);
             } else {//抢购即将开始
-                acGoodsDetailChooseSize.setClickable(false);
+                acGoodsDetailChooseSize.setClickable(false);//规格隐藏
                 atGoodsDetailRlWillBegin.setVisibility(View.VISIBLE);
                 atGoodsDetailRlSecKill.setVisibility(View.GONE);
                 atGoodsDetailRlSecKillDone.setVisibility(View.GONE);
@@ -252,6 +260,7 @@ public class GoodsDetailActivity extends ActivityBase {
             acGoodsDetailLlCollect.setVisibility(View.GONE);
             atGoodsDetailLlGoods.setVisibility(View.VISIBLE);
             atGoodsDetailLlPresell.setVisibility(View.GONE);
+            acGoodsDetailIvShare.setVisibility(View.GONE);//隐藏分享按钮
             atGoodsDetailBtnAddShoppingCart.setVisibility(View.GONE);
             getSecKillDetail();
         } else if (Const.PRESELL.equals(getIntent().getAction())) {
@@ -264,6 +273,7 @@ public class GoodsDetailActivity extends ActivityBase {
             acGoodsDetailLlStore.setVisibility(View.GONE);
             acGoodsDetailLlWuliu.setVisibility(View.VISIBLE);
             atGoodsDetailBtnPreSellKnow.setVisibility(View.VISIBLE);
+            acGoodsDetailIvShare.setVisibility(View.GONE);//隐藏分享按钮
             getPreSellDetail(goodsId);
             if (!getIntent().getStringExtra("pre_type").equals("0")) {
                 acGoodsDetailLlBar.setVisibility(View.GONE);
@@ -322,12 +332,15 @@ public class GoodsDetailActivity extends ActivityBase {
     }
 
     private void setSecKillData(String result) {
-        Log.e("测试", "setSecKillData: " + result);
         SecKillGoodsDetailResponseBean secKillGoodsDetailResponseBean = GsonUtils.fromJson(result, SecKillGoodsDetailResponseBean.class);
         mSeckillData = secKillGoodsDetailResponseBean.getData();
         initBanner(mSeckillData.getGroup_img());
 
         getGoodsContent();
+
+        nick_name=mSeckillData.getNick_name();
+        mobile=mSeckillData.getMobile();
+
         atGoodsDetailTvGoodsTitle.setText(mSeckillData.getGoods_name());
         atGoodsDetailTvGoodsNewPrice.setText("¥" + mSeckillData.getGoods_price());
         atGoodsDetailTvGoodsOldPrice.setText("¥" + mSeckillData.getMarket_price());
@@ -387,6 +400,9 @@ public class GoodsDetailActivity extends ActivityBase {
         initBanner(mPreData.getGroup_img());
         getGoodsContent();
 
+        nick_name=mPreData.getNick_name();
+        mobile=mPreData.getMobile();
+
         if (mPreData.getIs_shoucang() == 1) {
             acGoodsDetailIvCollect.setImageResource(R.drawable.collect_star);
         }
@@ -441,6 +457,8 @@ public class GoodsDetailActivity extends ActivityBase {
         atGoodsDetailSelledNum.setText("已售" + mGoodsData.getSold() + "");
         atGoodsDetailHoldNum.setText("库存" + mGoodsData.getInventory() + "");
         atGoodsDetailTvGoodsTitle1.setText(mGoodsData.getGoods_desc());
+        nick_name=mGoodsData.getNick_name();
+        mobile=mGoodsData.getMobile();
         String str;
         if (mGoodsData.getIs_free_shipping() == 0) {
             str = "免运费";
@@ -510,7 +528,15 @@ public class GoodsDetailActivity extends ActivityBase {
                 }
                 break;
             case R.id.ac_goodsdetail_ll_kefu:
-                openActivity(ServicesListActivity.class);
+                //openActivity(ServicesListActivity.class);
+                ChatInfo chatInfo = new ChatInfo();
+                chatInfo.setType(TIMConversationType.C2C);
+                chatInfo.setId(mobile);
+                chatInfo.setChatName(nick_name);
+                Intent intent = new Intent(BaseApp.getApp(), ChatActivity.class);
+                intent.putExtra(Constants.CHAT_INFO, chatInfo);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                BaseApp.getApp().startActivity(intent);
                 break;
             case R.id.at_goods_detail_btn_pre_sell_detail://商品详情
                 acGoodsDetailLlKnow.setVisibility(View.GONE);
@@ -792,8 +818,7 @@ public class GoodsDetailActivity extends ActivityBase {
         switch (type) {
             case "1":
                 Glide.with(this).load(Uri.parse(mSeckillData.getGroup_img().get(0))).into(headImg);
-                marketPrice.setText("￥" + mSeckillData.getMarket_price());
-                memberPrice.setText("代言人价" + mSeckillData.getGoods_price());
+                marketPrice.setText("￥" + mSeckillData.getGoods_price());
                 rlToVip.setVisibility(View.INVISIBLE);
                 break;
             case "2":

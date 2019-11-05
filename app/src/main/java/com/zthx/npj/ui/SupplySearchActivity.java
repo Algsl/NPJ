@@ -123,7 +123,7 @@ public class SupplySearchActivity extends ActivityBase {
                 final ArrayList<SupplyListResponseBean.DataBean> data = supplyListResponseBean.getData();
                 LinearLayoutManager manager = new LinearLayoutManager(SupplySearchActivity.this, LinearLayoutManager.VERTICAL, false);
                 acSupplySearchRvSupply.setLayoutManager(manager);
-                DiscoverSupplyAdapter mAdapter = new DiscoverSupplyAdapter(SupplySearchActivity.this, data);
+                DiscoverSupplyAdapter mAdapter = new DiscoverSupplyAdapter(SupplySearchActivity.this, data,true);
                 mAdapter.notifyDataSetChanged();
                 mAdapter.setOnItemClickListener(new DiscoverSupplyAdapter.ItemClickListener() {
                     @Override
@@ -159,7 +159,7 @@ public class SupplySearchActivity extends ActivityBase {
                 final ArrayList<NeedListResponseBean.DataBean> data=bean.getData();
                 LinearLayoutManager manager = new LinearLayoutManager(SupplySearchActivity.this, LinearLayoutManager.VERTICAL, false);
                 acSupplySearchRvQiugou.setLayoutManager(manager);
-                DiscoverNeedAdapter mAdapter2 = new DiscoverNeedAdapter(SupplySearchActivity.this, data);
+                DiscoverNeedAdapter mAdapter2 = new DiscoverNeedAdapter(SupplySearchActivity.this, data,true);
                 mAdapter2.notifyDataSetChanged();
                 mAdapter2.setOnItemClickListener(new DiscoverNeedAdapter.ItemClickListener() {
                     @Override

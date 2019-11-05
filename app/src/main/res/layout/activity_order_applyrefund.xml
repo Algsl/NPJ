@@ -174,7 +174,7 @@
             android:layout_height="match_parent"
             android:background="@null"
             android:textColor="@color/app_theme"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
     <LinearLayout

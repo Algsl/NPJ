@@ -85,7 +85,7 @@ public class BankCardActivity extends ActivityBase {
             @Override
             public void onItemClick(int position) {
                 Intent intent=new Intent();
-                intent.putExtra("card_id",data.get(position).getId());
+                intent.putExtra("card_id",data.get(position).getId()+"");
                 intent.putExtra("bank_logo",data.get(position).getBank_logo());
                 intent.putExtra("bank_name",data.get(position).getBank_name());
                 intent.putExtra("card_number",data.get(position).getCard_number());

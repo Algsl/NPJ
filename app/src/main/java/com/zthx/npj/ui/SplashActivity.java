@@ -158,7 +158,6 @@ public class SplashActivity extends ActivityBase{
     }
 
     private void initLocation() {
-        Log.e("测试", "initLocation: 执行" );
         BaseApp.getApp().locationService.registerListener(BaseApp.getListener());
         BaseApp.getApp().locationService.setLocationOption(BaseApp.getApp().locationService.getDefaultLocationClientOption());
         BaseApp.getApp().locationService.start();

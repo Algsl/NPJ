@@ -12,14 +12,16 @@ import android.widget.TextView;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.VipJLResponseBean;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class VipJLAdapter extends RecyclerView.Adapter<VipJLAdapter.ViewHolder> {
 
-    private ArrayList<VipJLResponseBean.DataBean> mList;
+    private ArrayList<VipJLResponseBean.DataBean.MingXi> mList;
     private Context mContext;
 
-    public VipJLAdapter(Context context,ArrayList<VipJLResponseBean.DataBean> list){
+    public VipJLAdapter(Context context,ArrayList<VipJLResponseBean.DataBean.MingXi> list){
         mList=list;
         mContext=context;
     }
@@ -33,9 +35,18 @@ public class VipJLAdapter extends RecyclerView.Adapter<VipJLAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.tvTime.setText("");
-        viewHolder.tvPrice.setText("+");
-        viewHolder.tvTime.setText("");
+        switch (mList.get(i).getType()+"") {
+            case "1"://充值
+                viewHolder.ivHead.setImageResource(R.drawable.qbmx_cz);
+                viewHolder.tvPrice.setText("+"+mList.get(i).getPrice());
+                break;
+            case "2":
+                viewHolder.ivHead.setImageResource(R.drawable.qbmx_tx);
+                viewHolder.tvPrice.setText("-"+mList.get(i).getPrice());
+                break;
+        }
+        viewHolder.tvTime.setText(new SimpleDateFormat("MM月dd日 hh:mm:ss").format(new Date(mList.get(i).getCreate_time()*1000)));
+        viewHolder.tvTitle.setText(mList.get(i).getTitle());
     }
 
     @Override

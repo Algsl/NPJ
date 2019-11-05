@@ -745,16 +745,16 @@ public class SetSubscribe {
      * 用户钱包明细
      * @param user_id
      * @param token
-     * @param type
+     * @param status
      * @param begin_time
      * @param end_time
      * @param subscriber
      */
-    public static void userMoney(String user_id,String token,String type,String begin_time,String end_time,DisposableObserver<ResponseBody> subscriber) {
+    public static void userMoney(String user_id,String token,String status,String begin_time,String end_time,DisposableObserver<ResponseBody> subscriber) {
         UserMoneyBean bean=new UserMoneyBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
-        bean.setType(type);
+        bean.setStatus(status);
         bean.setBegin_time(begin_time);
         bean.setEnd_time(end_time);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().userMoney(bean);

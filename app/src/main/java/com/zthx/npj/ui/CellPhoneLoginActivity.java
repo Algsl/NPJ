@@ -21,18 +21,14 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.api.URLConstant;
-import com.zthx.npj.net.been.AuthLoginBean;
 import com.zthx.npj.net.been.AuthLoginByMoBileBean;
 import com.zthx.npj.net.been.AuthLoginByMobileResponseBean;
-import com.zthx.npj.net.been.AuthLoginResponseBean;
 import com.zthx.npj.net.been.MsgCodeResponseBeen;
 import com.zthx.npj.net.been.PhoneLoginBean;
 import com.zthx.npj.net.been.PhoneLoginResponseBean;
@@ -45,9 +41,6 @@ import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.MyCircleView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Set;
@@ -57,8 +50,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.api.BasicCallback;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -388,7 +379,7 @@ public class CellPhoneLoginActivity extends ActivityBase {
                         cursor.close();
                         Bitmap bitmap = BitmapFactory.decodeFile(path);
                         //fgSettingIvHeadimg.setImageBitmap(bitmap);
-                        JMessageClient.updateUserAvatar(new File(path), new BasicCallback() {
+                        /*JMessageClient.updateUserAvatar(new File(path), new BasicCallback() {
                             @Override
                             public void gotResult(int i, String s) {
                                 if (i == 0) {
@@ -397,7 +388,7 @@ public class CellPhoneLoginActivity extends ActivityBase {
                                     Log.e("测试", "gotResult: "+i+" "+s);
                                 }
                             }
-                        });
+                        });*/
                         HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
                             @Override
                             public void onFailure(Call call, IOException e) {

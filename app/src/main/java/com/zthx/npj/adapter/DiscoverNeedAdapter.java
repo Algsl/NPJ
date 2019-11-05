@@ -1,27 +1,19 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
-import com.zthx.npj.net.been.GoodsListResponseBean;
 import com.zthx.npj.net.been.NeedListResponseBean;
-import com.zthx.npj.net.been.SupplyListResponseBean;
 import com.zthx.npj.utils.MyCustomUtils;
 
 import java.util.ArrayList;
@@ -30,6 +22,7 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
 
     private ArrayList<NeedListResponseBean.DataBean> list;
     private Context mContext;
+    private boolean mIsSearch;
 
     private ItemClickListener mItemClickListener;
 
@@ -39,12 +32,12 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
 
     public void setOnItemClickListener(ItemClickListener itemClickListener) {
         this.mItemClickListener = itemClickListener;
-
     }
 
-    public DiscoverNeedAdapter(Context context, ArrayList<NeedListResponseBean.DataBean> list) {
+    public DiscoverNeedAdapter(Context context, ArrayList<NeedListResponseBean.DataBean> list,boolean isSearch) {
         this.list = list;
         mContext = context;
+        mIsSearch=isSearch;
     }
 
     public void addData(ArrayList<NeedListResponseBean.DataBean> goodsData){
@@ -76,6 +69,9 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
                 }
             });
         }
+        if(list.get(i).getImg()==null|| list.get(i).getImg().equals("")){
+            viewHolder.mIvPic.setImageResource(R.drawable.logo);
+        }
         String url = list.get(i).getImg();
         if (url.substring(url.length() - 4).equals(".mp4")) {
             viewHolder.mIvPic.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
@@ -84,10 +80,15 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
             Glide.with(mContext).load(Uri.parse(url)).into(viewHolder.mIvPic);
         }
         viewHolder.mTvNeedNum.setText(list.get(i).getAmount());
-        if (list.get(i).getDistance() > 1000) {
-            viewHolder.mTvDistance.setText((list.get(i).getDistance() / 1000) + "km");
-        } else {
-            viewHolder.mTvDistance.setText(list.get(i).getDistance() + "m");
+        if(mIsSearch){
+            viewHolder.mTvDistance.setVisibility(View.GONE);
+        }else{
+            viewHolder.mTvDistance.setVisibility(View.VISIBLE);
+            if (list.get(i).getDistance() > 1000) {
+                viewHolder.mTvDistance.setText((list.get(i).getDistance() / 1000) + "km");
+            } else {
+                viewHolder.mTvDistance.setText(list.get(i).getDistance() + "m");
+            }
         }
         viewHolder.mTvTitle.setText(list.get(i).getTitle());
         if (list.get(i).getIs_top() == 0) {

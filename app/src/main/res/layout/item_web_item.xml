@@ -8,8 +8,8 @@
     android:layout_marginRight="@dimen/dp_12">
     <ImageView
         android:id="@+id/iv1"
-        android:layout_width="@dimen/dp_13"
-        android:layout_height="@dimen/dp_13"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
         android:layout_marginTop="@dimen/dp_1"
         android:layout_marginLeft="@dimen/dp_35"
         android:layout_centerVertical="true"
@@ -21,6 +21,6 @@
         android:layout_toRightOf="@id/iv1"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/dp_12"
-        android:textSize="@dimen/sp_12"
+        android:textSize="@dimen/sp_14"
         android:text="1.1-蓝莓的生长过程"/>
 </RelativeLayout>

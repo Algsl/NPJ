@@ -15,7 +15,7 @@ public class SupplyEdit2Bean {
     private String lng;
     private String buy_num;
     private String price;
-    private String is_recommend2;
+    private String is_top;
 
     public String getPrice() {
         return price;
@@ -25,12 +25,12 @@ public class SupplyEdit2Bean {
         this.price = price;
     }
 
-    public String getIs_recommend2() {
-        return is_recommend2;
+    public String getIs_top() {
+        return is_top;
     }
 
-    public void setIs_recommend2(String is_recommend2) {
-        this.is_recommend2 = is_recommend2;
+    public void setIs_top(String is_top) {
+        this.is_top = is_top;
     }
 
     public String getUser_id() {

@@ -3,7 +3,7 @@ package com.zthx.npj.net.been;
 public class UserMoneyBean {
     private String user_id;
     private String token;
-    private String type;
+    private String status;
     private String begin_time;
     private String end_time;
 
@@ -23,12 +23,12 @@ public class UserMoneyBean {
         this.token = token;
     }
 
-    public String getType() {
-        return type;
+    public String getStatus() {
+        return status;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getBegin_time() {

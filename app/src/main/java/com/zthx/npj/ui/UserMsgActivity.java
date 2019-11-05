@@ -77,8 +77,8 @@ public class UserMsgActivity extends ActivityBase{
     TextView acUserMsgTvAddress;
     @BindView(R.id.fg_mine_rv_like)
     RecyclerView fgMineRvLike;
-    @BindView(R.id.ac_userMsg_sv)
-    ScrollView acUserMsgSv;
+    //@BindView(R.id.ac_userMsg_sv)
+    //ScrollView acUserMsgSv;
     @BindView(R.id.ac_userMsg_iv_show)
     ImageView acUserMsgIvShow;
     @BindView(R.id.ac_userMsg_tv_level)
@@ -233,7 +233,11 @@ public class UserMsgActivity extends ActivityBase{
     private void setLookUser(String result) {
         LookUserResponseBean bean = GsonUtils.fromJson(result, LookUserResponseBean.class);
         LookUserResponseBean.DataBean data = bean.getData();
-        Glide.with(this).load(Uri.parse(data.getHead_img())).into(acUserMsgMcvHeadImg);
+        if(data.getHead_img()==null || data.getHead_img().equals("")){
+            acUserMsgMcvHeadImg.setImageResource(R.drawable.logo);
+        }else{
+            Glide.with(this).load(Uri.parse(data.getHead_img())).into(acUserMsgMcvHeadImg);
+        }
         acUserMsgTvNickName.setText(data.getNick_name());
         acUserMsgTvSignature.setText(data.getSignature() == null ? "这个人很懒，什么也没留下" : data.getSignature());
         MyCustomUtils.showLevelImg((int) data.getLevel(), acUserMsgTvLevel);
@@ -249,11 +253,11 @@ public class UserMsgActivity extends ActivityBase{
             acUserMsgTvSellOver.setVisibility(View.GONE);
         }
 
-        if (Double.parseDouble(data.getReputation()) >= 80) {
+        /*if (Double.parseDouble(data.getReputation()) >= 100) {
             acUserMsgTvHReputation.setVisibility(View.VISIBLE);
         } else {
             acUserMsgTvHReputation.setVisibility(View.GONE);
-        }
+        }*/
 
         String[] strs = data.getCertification().split(",");
         for (String str : strs) {
@@ -300,6 +304,7 @@ public class UserMsgActivity extends ActivityBase{
                 acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.text6));
                 type = "1";
+                getStoreGoodsList();
                 break;
             case R.id.ac_userMsg_tv_allGoods:
                 acUserMsgTvTuijian.setTextColor(getResources().getColor(R.color.text6));
@@ -307,6 +312,7 @@ public class UserMsgActivity extends ActivityBase{
                 acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.text6));
                 type = "2";
+                getStoreGoodsList();
                 break;
             case R.id.ac_userMsg_tv_sellSort:
                 acUserMsgTvTuijian.setTextColor(getResources().getColor(R.color.text6));
@@ -314,6 +320,7 @@ public class UserMsgActivity extends ActivityBase{
                 acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.app_theme));
                 acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.text6));
                 type = "3";
+                getStoreGoodsList();
                 break;
             case R.id.ac_userMsg_tv_priceSort:
                 acUserMsgTvTuijian.setTextColor(getResources().getColor(R.color.text6));
@@ -321,6 +328,7 @@ public class UserMsgActivity extends ActivityBase{
                 acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.app_theme));
                 type = "4";
+                getStoreGoodsList();
                 break;
             /*case R.id.ac_userMsg_tv_toShare:
                 //bmp=SimpleUtil.createViewBitmap(acUserMsgLlShare);

@@ -158,7 +158,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			LoginSubscribe.authLogin(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
 				@Override
 				public void onSuccess(String result) {//已绑定手机号
-					Log.e("测试", "onSuccess: "+result );
 					AuthLoginResponseBean bean = GsonUtils.fromJson(result,AuthLoginResponseBean.class);
 					SharePerferenceUtils.setUserId(WXEntryActivity.this, bean.getData().getUser_id());
 					SharePerferenceUtils.setToken(WXEntryActivity.this,bean.getData().getToken());
