@@ -71,7 +71,7 @@ public class EditNicknameActivity extends ActivityBase {
 
                         @Override
                         public void onFault(String errorMsg) {
-                            showToast(errorMsg);
+                            //showToast(errorMsg);
                         }
                     }));
                 }

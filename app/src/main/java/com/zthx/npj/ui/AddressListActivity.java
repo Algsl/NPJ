@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.CommonDialog;
 
 import java.util.ArrayList;
 
@@ -99,18 +101,27 @@ public class AddressListActivity extends ActivityBase {
 
             @Override
             public void onDeleteClick(int position) {
-                String address_id = dataList.get(position).getId() + "";
-                SetSubscribe.delAddress(user_id, token, address_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                final String address_id = dataList.get(position).getId() + "";
+                CommonDialog dialog=new CommonDialog(AddressListActivity.this, R.style.dialog, "地址删除后将无法找回，确定要删除吗？", true, new CommonDialog.OnCloseListener() {
                     @Override
-                    public void onSuccess(String result) {
-                        getAddressList();
-                    }
+                    public void onClick(Dialog dialog, boolean confirm) {
+                        if(confirm){
+                            SetSubscribe.delAddress(user_id, token, address_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                                @Override
+                                public void onSuccess(String result) {
+                                    getAddressList();
+                                }
 
-                    @Override
-                    public void onFault(String errorMsg) {
+                                @Override
+                                public void onFault(String errorMsg) {
 
+                                }
+                            }));
+                        }
                     }
-                }));
+                });
+                dialog.setTitle("地址删除");
+                dialog.show();
             }
         });
         mAcAddressRecycle.setItemAnimator(new DefaultItemAnimator());

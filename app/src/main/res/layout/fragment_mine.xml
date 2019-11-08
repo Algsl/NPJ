@@ -605,28 +605,28 @@
                     </LinearLayout>
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="猜你喜欢"
-                    android:textSize="@dimen/sp_16"
-                    android:textColor="@color/text3"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/dp_10"/>
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/fg_mine_rv_like"
-                    android:layout_marginLeft="@dimen/dp_6"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/dp_10"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="猜你喜欢"
+                        android:textSize="@dimen/sp_16"
+                        android:textColor="@color/text3"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/dp_10"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/fg_mine_rv_like"
+                        android:layout_marginLeft="@dimen/dp_6"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/dp_10"/>
                     <TextView
                         android:id="@+id/seeMore"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_40"
                         android:gravity="center"
                         android:text="查看更多"/>
-            </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>

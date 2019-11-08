@@ -154,11 +154,12 @@
                 android:layout_marginLeft="@dimen/dp_12"/>
 
             <EditText
+                android:focusable="true"
                 android:id="@+id/at_supply_bill_tv_buy_num"
+                android:inputType="number"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:hint="1000斤起批"
                 android:textSize="@dimen/sp_13"
                 android:layout_marginRight="@dimen/dp_12"
                 android:textColor="@color/text9"
@@ -184,6 +185,7 @@
 
             <EditText
                 android:id="@+id/yunfei"
+                android:focusable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -245,7 +247,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="钱包(当前余额0.00元)"
+                    android:text="钱包"
                     android:textColor="@color/text3"
                     android:textSize="@dimen/sp_13"
                     android:layout_centerVertical="true"
@@ -349,7 +351,6 @@
                 android:id="@+id/at_supply_bill_tv_zongjia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="￥60000.00"
                 android:textSize="@dimen/sp_14"
                 android:textColor="@color/app_theme"/>
         </LinearLayout>
@@ -374,7 +375,6 @@
             android:id="@+id/at_supply_bill_tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="￥60000.00"
             android:textSize="@dimen/sp_13"
             android:textColor="@color/app_theme"
             android:layout_alignParentRight="true"/>
@@ -383,7 +383,6 @@
             android:id="@+id/at_supply_bill_tv_gongji_goods"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="共计10000斤商品   小计："
             android:textColor="@android:color/black"
             android:layout_alignTop="@id/at_supply_bill_tv_price"
             android:layout_toLeftOf="@id/at_supply_bill_tv_price"/>

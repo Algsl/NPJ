@@ -197,7 +197,7 @@
             android:id="@+id/item_myBillList_btn_pay"
             android:layout_width="@dimen/dp_72"
             android:layout_height="@dimen/dp_24"
-            android:background="@drawable/stroke_theme_5"
+            android:background="@drawable/stroke_theme_15"
             android:text="去支付"
             android:textColor="@color/app_theme"
             android:textSize="@dimen/sp_14"/>

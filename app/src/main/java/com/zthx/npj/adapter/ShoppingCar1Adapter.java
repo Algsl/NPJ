@@ -201,6 +201,7 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
         total_price = 0.0;
         tvTotalPrice.setText("¥0.00");
         btnOrder.setBackground(context.getResources().getDrawable(R.drawable.gray_conner_2));
+        btnOrder.setTextColor(context.getResources().getColor(R.color.text6));
         for (int i = 0; i < data.size(); i++) {
             ArrayList<CartListResponseBean.DataBean> goods = data.get(i);
             for (int y = 0; y < goods.size(); y++) {
@@ -218,6 +219,7 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
                     SharePerferenceUtils.setTotlePrice("¥" + decimalFormat.format(total_price));
                     tvTotalPrice.setText("¥" + decimalFormat.format(total_price));
                     btnOrder.setBackground(context.getResources().getDrawable(R.drawable.theme_conner_5));
+                    btnOrder.setTextColor(context.getResources().getColor(R.color.white));
                 }
             }
         }

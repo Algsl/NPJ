@@ -224,7 +224,7 @@ public class CellPhoneLoginActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
                 //Toast.makeText(CellPhoneLoginActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
             }
         }, this));
@@ -252,7 +252,7 @@ public class CellPhoneLoginActivity extends ActivityBase {
             }
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
                 //Toast.makeText(CellPhoneLoginActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
             }
         }));
@@ -272,7 +272,7 @@ public class CellPhoneLoginActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
                 //失败
                 //Toast.makeText(CellPhoneLoginActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
             }

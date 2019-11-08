@@ -90,6 +90,22 @@ public class StoreDetailActivity extends ActivityBase {
     ImageView acStoreDetailShowLocation;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.ac_store_tv_userNum)
+    TextView acStoreTvUserNum;
+    @BindView(R.id.ac_storeDetail_tv_score)
+    TextView acStoreDetailTvScore;
+    @BindView(R.id.ac_storeDetail_tv_hpPercent)
+    TextView acStoreDetailTvHpPercent;
+    @BindView(R.id.ac_storeDetail_iv_cstar1)
+    ImageView acStoreDetailIvCstar1;
+    @BindView(R.id.ac_storeDetail_iv_cstar2)
+    ImageView acStoreDetailIvCstar2;
+    @BindView(R.id.ac_storeDetail_iv_cstar3)
+    ImageView acStoreDetailIvCstar3;
+    @BindView(R.id.ac_storeDetail_iv_cstar4)
+    ImageView acStoreDetailIvCstar4;
+    @BindView(R.id.ac_storeDetail_iv_cstar5)
+    ImageView acStoreDetailIvCstar5;
 
     private String lat = "";
     private String lng = "";
@@ -138,6 +154,7 @@ public class StoreDetailActivity extends ActivityBase {
     private void setComment(String result) {
         CommentResponseBean bean = GsonUtils.fromJson(result, CommentResponseBean.class);
         ArrayList<CommentResponseBean.DataBean> data = bean.getData();
+        acStoreTvUserNum.setText("用户评价(" + data.size() + ")");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         atStoreDetailRv.setLayoutManager(layoutManager);
         CommentAdapter adapter = new CommentAdapter(this, data);
@@ -169,31 +186,54 @@ public class StoreDetailActivity extends ActivityBase {
         lng = data.getLng();
         mobile = data.getContact();
         atStoreDetailName.setText(data.getStore_name());
-        switch (data.getPopularity()) {
+        acStoreDetailTvScore.setText(data.getPopularity() + "分");
+        acStoreDetailTvHpPercent.setText("好评率" + (Double.parseDouble(data.getPopularity()) / 5 * 100) + "%");
+        Log.e("测试", "setData: " + (int) Math.floor(Double.parseDouble(data.getPopularity())));
+        switch ((int) Math.floor(Double.parseDouble(data.getPopularity()))) {
             case 1:
-                atStoreDetailIvStar1.setBackgroundResource(R.drawable.item_location_store_star);
+                atStoreDetailIvStar1.setImageResource(R.drawable.item_location_store_star);
+                acStoreDetailIvCstar1.setImageResource(R.drawable.item_location_store_star);
                 break;
             case 2:
-                atStoreDetailIvStar2.setBackgroundResource(R.drawable.item_location_store_star);
-                atStoreDetailIvStar1.setBackgroundResource(R.drawable.item_location_store_star);
+                atStoreDetailIvStar1.setImageResource(R.drawable.item_location_store_star);
+                atStoreDetailIvStar2.setImageResource(R.drawable.item_location_store_star);
+
+                acStoreDetailIvCstar1.setImageResource(R.drawable.item_location_store_star);
+                acStoreDetailIvCstar2.setImageResource(R.drawable.item_location_store_star);
                 break;
             case 3:
-                atStoreDetailIvStar1.setBackgroundResource(R.drawable.item_location_store_star);
-                atStoreDetailIvStar2.setBackgroundResource(R.drawable.item_location_store_star);
-                atStoreDetailIvStar3.setBackgroundResource(R.drawable.item_location_store_star);
+                atStoreDetailIvStar1.setImageResource(R.drawable.item_location_store_star);
+                atStoreDetailIvStar2.setImageResource(R.drawable.item_location_store_star);
+                atStoreDetailIvStar3.setImageResource(R.drawable.item_location_store_star);
+
+                acStoreDetailIvCstar1.setImageResource(R.drawable.item_location_store_star);
+                acStoreDetailIvCstar2.setImageResource(R.drawable.item_location_store_star);
+                acStoreDetailIvCstar3.setImageResource(R.drawable.item_location_store_star);
                 break;
             case 4:
-                atStoreDetailIvStar1.setBackgroundResource(R.drawable.item_location_store_star);
-                atStoreDetailIvStar2.setBackgroundResource(R.drawable.item_location_store_star);
-                atStoreDetailIvStar3.setBackgroundResource(R.drawable.item_location_store_star);
-                atStoreDetailIvStar4.setBackgroundResource(R.drawable.item_location_store_star);
+                atStoreDetailIvStar1.setImageResource(R.drawable.item_location_store_star);
+                atStoreDetailIvStar2.setImageResource(R.drawable.item_location_store_star);
+                atStoreDetailIvStar3.setImageResource(R.drawable.item_location_store_star);
+                atStoreDetailIvStar4.setImageResource(R.drawable.item_location_store_star);
+
+                acStoreDetailIvCstar1.setImageResource(R.drawable.item_location_store_star);
+                acStoreDetailIvCstar2.setImageResource(R.drawable.item_location_store_star);
+                acStoreDetailIvCstar3.setImageResource(R.drawable.item_location_store_star);
+                acStoreDetailIvCstar4.setImageResource(R.drawable.item_location_store_star);
                 break;
             case 5:
-                atStoreDetailIvStar1.setBackgroundResource(R.drawable.item_location_store_star);
-                atStoreDetailIvStar2.setBackgroundResource(R.drawable.item_location_store_star);
-                atStoreDetailIvStar3.setBackgroundResource(R.drawable.item_location_store_star);
-                atStoreDetailIvStar4.setBackgroundResource(R.drawable.item_location_store_star);
-                atStoreDetailIvStar5.setBackgroundResource(R.drawable.item_location_store_star);
+                atStoreDetailIvStar1.setImageResource(R.drawable.item_location_store_star);
+                atStoreDetailIvStar2.setImageResource(R.drawable.item_location_store_star);
+                atStoreDetailIvStar3.setImageResource(R.drawable.item_location_store_star);
+                atStoreDetailIvStar4.setImageResource(R.drawable.item_location_store_star);
+                atStoreDetailIvStar5.setImageResource(R.drawable.item_location_store_star);
+
+                acStoreDetailIvCstar1.setImageResource(R.drawable.item_location_store_star);
+                acStoreDetailIvCstar2.setImageResource(R.drawable.item_location_store_star);
+                acStoreDetailIvCstar3.setImageResource(R.drawable.item_location_store_star);
+                acStoreDetailIvCstar4.setImageResource(R.drawable.item_location_store_star);
+                acStoreDetailIvCstar5.setImageResource(R.drawable.item_location_store_star);
+
         }
         atStoreDetailTvPopularity.setText(data.getPopularity() + "分");
         atStoreDetailTvOpenTime.setText(data.getBusiness_hours() + "营业");
@@ -202,8 +242,8 @@ public class StoreDetailActivity extends ActivityBase {
         atStoreDetailTvRelief.setText("新会员在该商家成为代言人首单结算减免" + data.getRelief() + "元现金");
         atStoreDetailTvAddress.setText(data.getAddress2());
         //atStoreDetailTvAddress2.setText(data.getAddress());
-        Log.e("测试", "setData: "+data.getLat()+","+data.getLng() );
-        MyCustomUtils.getLocateinfo(data.getLat(),data.getLng(),atStoreDetailTvAddress2);
+        Log.e("测试", "setData: " + data.getLat() + "," + data.getLng());
+        MyCustomUtils.getLocateinfo(data.getLat(), data.getLng(), atStoreDetailTvAddress2);
     }
 
     private void initBanner(ArrayList<String> list) {

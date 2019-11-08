@@ -144,6 +144,8 @@ public class SupplyProductsActivity extends ActivityBase {
     TextView atSupplyProductTvAddress;
     @BindView(R.id.ac_supply_product_showLocation)
     RelativeLayout acSupplyProductShowLocation;
+    @BindView(R.id.comment_hint)
+    TextView commentHint;
 
 
     private String type;
@@ -211,7 +213,7 @@ public class SupplyProductsActivity extends ActivityBase {
                 atSupplyProductsRlNeedGuanggao.setVisibility(View.VISIBLE);
                 lat = needData.getLat();
                 lng = needData.getLng();
-                LatLng latLng=new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
+                LatLng latLng = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
                 getLocateinfo(latLng);
 
                 mobile = needData.getMobile();
@@ -268,7 +270,7 @@ public class SupplyProductsActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }, this));
     }
@@ -288,7 +290,7 @@ public class SupplyProductsActivity extends ActivityBase {
                 atSupplyProductsTvTitle.setText(supplyData.getTitle());
                 lat = supplyData.getLat();
                 lng = supplyData.getLng();
-                LatLng latLng=new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
+                LatLng latLng = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
                 getLocateinfo(latLng);
 
                 mobile = supplyData.getMobile();
@@ -310,7 +312,7 @@ public class SupplyProductsActivity extends ActivityBase {
                     atSupplyProductsTvXinyufen.setText("信誉分： " + supplyData.getReputation());
                 }
                 sn_user_id = supplyData.getUser_id();
-                if(!supplyData.getHead_img().equals("")){
+                if (!supplyData.getHead_img().equals("")) {
                     Glide.with(SupplyProductsActivity.this).load(supplyData.getHead_img()).into(atSupplyProductsIvHeadPic);
                     atSupplyProductsTvName.setText(supplyData.getNick_name());
                 }
@@ -413,6 +415,7 @@ public class SupplyProductsActivity extends ActivityBase {
                 acSupplyTvDetail.setTextColor(getResources().getColor(R.color.white));
                 acSupplyTvCommon.setBackgroundColor(getResources().getColor(R.color.white));
                 acSupplyTvCommon.setTextColor(getResources().getColor(R.color.text3));
+                commentHint.setVisibility(View.GONE);
                 if (type.equals(Const.SUPPLY_DETAIL)) {
                     adapter = new GoodsImgDetailAdapter(SupplyProductsActivity.this, supplyData.getContent());
                 } else {
@@ -439,6 +442,11 @@ public class SupplyProductsActivity extends ActivityBase {
             @Override
             public void onSuccess(String result) {
                 CommentResponseBean bean = GsonUtils.fromJson(result, CommentResponseBean.class);
+                if(bean.getData().size()==0){
+                    commentHint.setVisibility(View.VISIBLE);
+                }else{
+                    commentHint.setVisibility(View.GONE);
+                }
                 CommentAdapter adapter = new CommentAdapter(SupplyProductsActivity.this, bean.getData());
                 atSupplyProductsRvPic.setItemAnimator(new DefaultItemAnimator());
                 atSupplyProductsRvPic.setAdapter(adapter);
@@ -446,7 +454,7 @@ public class SupplyProductsActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -493,7 +501,7 @@ public class SupplyProductsActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-                        showToast(errorMsg);
+                        //showToast(errorMsg);
                     }
                 }));
             }

@@ -83,7 +83,7 @@ public class WithDrawActivity extends ActivityBase {
 
         back(titleThemeBack);
         changeTitle(titleThemeTitle, "余额提现");
-        balance= SharePerferenceUtils.getBalance(this);
+        balance= getIntent().getStringExtra("key0");
         acWithdrawTvMoney.setText(balance);
         SpannableString ss = new SpannableString("提现金额最少10元，单笔限额5万元");//定义hint的值
         AbsoluteSizeSpan ass = new AbsoluteSizeSpan(12,true);//设置字体大小 true表示单位是sp
@@ -131,7 +131,7 @@ public class WithDrawActivity extends ActivityBase {
 
                         @Override
                         public void onFault(String errorMsg) {
-                            showToast(errorMsg);
+                            //showToast(errorMsg);
                         }
                     }));
                 }
@@ -152,7 +152,7 @@ public class WithDrawActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -256,7 +256,7 @@ public class WithDrawActivity extends ActivityBase {
 
                             @Override
                             public void onFault(String errorMsg) {
-                                showToast(errorMsg);
+                                //showToast(errorMsg);
                             }
                         }));
                     } else {

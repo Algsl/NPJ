@@ -58,7 +58,7 @@ public class MyStoreActivity extends ActivityBase {
     @BindView(R.id.at_my_store_goods_list)
     LinearLayout atMyStoreGoodsList;
     @BindView(R.id.ac_myStore_mcv_storeImg)
-    MyCircleView acMyStoreMcvStoreImg;
+    ImageView acMyStoreMcvStoreImg;
     @BindView(R.id.ac_myStore_tv_storeName)
     TextView acMyStoreTvStoreName;
     @BindView(R.id.ac_myStore_tv_reputation)
@@ -183,7 +183,7 @@ public class MyStoreActivity extends ActivityBase {
 
                         @Override
                         public void onFault(String errorMsg) {
-                            showToast(errorMsg);
+                            //showToast(errorMsg);
                         }
                     }));
                 }
@@ -287,7 +287,7 @@ public class MyStoreActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-                        showToast(errorMsg);
+                        //showToast(errorMsg);
                     }
                 }));
             }

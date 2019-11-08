@@ -75,7 +75,7 @@ public class PreSellAdapter extends RecyclerView.Adapter<PreSellAdapter.ViewHold
         viewHolder.mTvTitle.setText(mList.get(i).getGoods_name());
         viewHolder.mTvPrice.setText("￥" +mList.get(i).getGoods_price());
         viewHolder.mTvYuDing.setText("预定 " +mList.get(i).getUser_num());
-        viewHolder.mTvYuShou.setText("众筹" +mList.get(i).getSale_num());
+        viewHolder.mTvYuShou.setText("众筹" +mList.get(i).getGoods_num());
         viewHolder.mTvDaCheng.setText((Integer.parseInt(mList.get(i).getSale_num())* 100)/Integer.parseInt(mList.get(i).getGoods_num()) +"%");
         viewHolder.mPb.setProgress((Integer.parseInt(mList.get(i).getSale_num())* 100)/Integer.parseInt(mList.get(i).getGoods_num()));
     }

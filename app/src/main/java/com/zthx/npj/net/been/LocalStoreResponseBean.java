@@ -28,6 +28,8 @@ public class LocalStoreResponseBean extends BaseReponseBean{
         private String lat;
         private String lng;
         private long distance;
+        private Double star;
+        private long popularity;
 
         public long getId() {
             return id;
@@ -101,23 +103,20 @@ public class LocalStoreResponseBean extends BaseReponseBean{
             this.distance = distance;
         }
 
-        public int getStar() {
+        public Double getStar() {
             return star;
         }
 
-        public void setStar(int star) {
+        public void setStar(Double star) {
             this.star = star;
         }
 
-        public int getPopularity() {
+        public long getPopularity() {
             return popularity;
         }
 
-        public void setPopularity(int popularity) {
+        public void setPopularity(long popularity) {
             this.popularity = popularity;
         }
-
-        private int star;
-        private int popularity;
     }
 }

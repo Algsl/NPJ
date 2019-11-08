@@ -136,8 +136,8 @@ public class TrustedStore2Activity extends ActivityBase {
                 check = 3;
                 break;
             case R.id.at_trust_store2_rl_4000:
-                clickPrice(4);
-                check = 4;
+                clickPrice(5);
+                check = 5;
                 break;
             case R.id.at_trust_store2_rb_read:
                 atTrustStore2RbRead.setChecked(true);
@@ -172,7 +172,7 @@ public class TrustedStore2Activity extends ActivityBase {
             atTrustStore2Rl3000.setBackgroundResource(R.color.app_theme);
             atTrustStore2Tv3000.setTextColor(getResources().getColor(android.R.color.white));
             atTrustStore2Tv23000.setTextColor(getResources().getColor(android.R.color.white));
-        } else if (i == 4) {
+        } else if (i == 5) {
             atTrustStore2Rl4000.setBackgroundResource(R.color.app_theme);
             atTrustStore2Tv4000.setTextColor(getResources().getColor(android.R.color.white));
             atTrustStore2Tv24000.setTextColor(getResources().getColor(android.R.color.white));
@@ -284,7 +284,7 @@ public class TrustedStore2Activity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -314,7 +314,7 @@ public class TrustedStore2Activity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }

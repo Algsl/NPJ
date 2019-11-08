@@ -63,6 +63,7 @@
             android:layout_height="@dimen/dp_1"
             android:background="@color/background"></View>
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"
             android:layout_marginLeft="@dimen/dp_12"
@@ -78,6 +79,34 @@
                 android:textColor="@color/text9"
                 android:textSize="@dimen/sp_13"
                 android:background="@null"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="请选择省市区"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <Spinner
+                android:id="@+id/province"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+            <Spinner
+                android:id="@+id/city"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+            <Spinner
+                android:id="@+id/district"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"

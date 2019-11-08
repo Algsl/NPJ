@@ -73,6 +73,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".ui.MainActivity"
+            android:launchMode="singleTask"
             android:theme="@style/TranslucentTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -91,9 +92,9 @@
         <activity android:name=".ui.HomeSearchActivity" />
         <activity android:name=".ui.ClassfiyDetailActivity" />
         <activity android:name=".ui.GoodsDetailActivity" />
-        <activity android:name=".ui.SecKillActivity" />
+        <activity android:name=".ui.SecKillActivity" android:launchMode="singleTask"/>
         <activity android:name=".ui.ConfirmOrderActivity" />
-        <activity android:name=".ui.PreSellActivity" />
+        <activity android:name=".ui.PreSellActivity" android:launchMode="singleTask"/>
         <activity android:name=".ui.LocationStoreActivity" />
         <activity android:name=".ui.StoreDetailActivity" />
         <activity android:name=".ui.PayToStoreActivity" />
@@ -104,7 +105,7 @@
         <activity android:name=".ui.StoreManagerCenterActivity" />
         <activity android:name=".ui.StoreManagerQRCodeActivity" />
         <activity android:name=".ui.GiftActivity" />
-        <activity android:name=".ui.AgricultureKnowledgeActivity" />
+        <activity android:name=".ui.AgricultureKnowledgeActivity" android:launchMode="singleTask"/>
         <activity
             android:name=".ui.SystemSolutionActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -120,11 +121,11 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.SupplyBillActivity" />
-        <activity android:name=".ui.AddAddressActivity" />
-        <activity android:name=".ui.SystemMessageActivity" />
-        <activity android:name=".ui.SettingsActivity" />
-        <activity android:name=".ui.AskForPartnerActivity" />
-        <activity android:name=".ui.SpokesmanRightsNoPermissionActivity" />
+        <activity android:name=".ui.AddAddressActivity"  />
+        <activity android:name=".ui.SystemMessageActivity"  />
+        <activity android:name=".ui.SettingsActivity"   />
+        <activity android:name=".ui.AskForPartnerActivity"  />
+        <activity android:name=".ui.SpokesmanRightsNoPermissionActivity"  />
         <activity android:name=".ui.ConfirmAchievementActivity" />
         <activity android:name=".ui.MyCollectActivity" />
         <activity android:name=".ui.MyOrderActivity" />
@@ -137,9 +138,7 @@
         <activity android:name=".ui.StoreGoodsListActivity" />
         <activity android:name=".ui.StoreGoodsBillActivity" />
         <activity android:name=".ui.GoodsBillDetailActivity" />
-        <activity
-            android:name=".ui.MyAttestationActivity"
-            android:launchMode="singleTask" />
+        <activity android:name=".ui.MyAttestationActivity" android:launchMode="singleTask" />
         <activity android:name=".ui.TrustedStoreActivity" />
         <activity android:name=".ui.TrustedStore2Activity" />
         <activity android:name=".ui.PurchaserCertificationActivity" />

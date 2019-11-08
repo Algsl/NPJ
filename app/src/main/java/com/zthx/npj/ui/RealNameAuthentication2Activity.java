@@ -145,7 +145,7 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                 @Override
                 public void onFault(String errorMsg) {
                     atRealNameAuthentication2BtnConfirm.setClickable(true);
-                    showToast(errorMsg);
+                    //showToast(errorMsg);
                 }
             }));
         }else{
@@ -160,7 +160,7 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                 @Override
                 public void onFault(String errorMsg) {
                     atRealNameAuthentication2BtnConfirm.setClickable(true);
-                    showToast(errorMsg);
+                    //showToast(errorMsg);
                 }
             }));
         }

@@ -273,7 +273,7 @@ public class PurchaserCertification2Activity extends ActivityBase {
 
                 @Override
                 public void onFault(String errorMsg) {
-                    showToast(errorMsg);
+                    //showToast(errorMsg);
                 }
             }));
         } else {
@@ -285,7 +285,7 @@ public class PurchaserCertification2Activity extends ActivityBase {
 
                 @Override
                 public void onFault(String errorMsg) {
-                    showToast(errorMsg);
+                    //showToast(errorMsg);
                 }
             }));
         }

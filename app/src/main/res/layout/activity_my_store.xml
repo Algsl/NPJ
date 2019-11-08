@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.zthx.npj.ui.MyStoreActivity"
     android:orientation="vertical">
     
@@ -15,12 +15,17 @@
 
         <include
             layout="@layout/title_theme" ></include>
-        <com.zthx.npj.view.MyCircleView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/ac_myStore_mcv_storeImg"
             android:layout_width="@dimen/dp_70"
             android:layout_height="@dimen/dp_70"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/logo"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            app:riv_oval="true"
+            app:riv_border_color="@color/white"
+            app:riv_border_width="@dimen/dp_1"
             android:layout_marginTop="@dimen/dp_10"/>
 
         <TextView

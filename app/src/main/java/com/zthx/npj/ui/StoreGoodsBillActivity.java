@@ -128,7 +128,13 @@ public class StoreGoodsBillActivity extends ActivityBase {
         mAdapter.setOnItemClickListener(new StoreGoodsBillAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //startActivity(new Intent(StoreGoodsBillActivity.this, MyStoreOrderDetailActivity.class));
+
+                    Intent intent=new Intent(StoreGoodsBillActivity.this,MyStoreOrderDetailActivity.class);
+                    intent.putExtra("order_state",data.get(position).getOrder_state());
+                    intent.putExtra("order_id",data.get(position).getId()+"");
+                    intent.putExtra("type","buss");
+                    startActivity(intent);
+
             }
 
             @Override
@@ -183,6 +189,7 @@ public class StoreGoodsBillActivity extends ActivityBase {
 
         final EditText storeGoodsEtExpressNumber = contentView.findViewById(R.id.pw_storeGoods_et_expressNumber);
         Spinner spinner = contentView.findViewById(R.id.pw_storeGoods_s_expressName);
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -197,6 +204,7 @@ public class StoreGoodsBillActivity extends ActivityBase {
 
             }
         });
+
         Button commit = contentView.findViewById(R.id.pw_storeGoods_btn_commit);
         commit.setOnClickListener(new View.OnClickListener() {
             @Override

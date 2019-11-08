@@ -3,14 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.zthx.npj.ui.StoreGoodsListActivity"
+    android:background="@color/background"
     android:orientation="vertical">
 
     <include
         layout="@layout/title_theme"></include>
 
-    <android.support.design.widget.TabLayout
+    <!--<android.support.design.widget.TabLayout
         android:id="@+id/at_store_goods_list_tab"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
@@ -19,11 +18,64 @@
         app:tabIndicatorColor="@color/app_theme"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/app_theme"
-        app:tabTextColor="@color/text3"></android.support.design.widget.TabLayout>
+        app:tabTextColor="@color/text3"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/at_store_goods_list_vp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
-
+        android:layout_height="match_parent"/>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:orientation="vertical"
+        android:gravity="center">
+        <LinearLayout
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_35"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_5"
+            android:background="@drawable/stroke_theme_2">
+            <TextView
+                android:id="@+id/ac_storeGoodsList_tv_sale"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:background="@color/app_theme"
+                android:textColor="@color/white"
+                android:text="出售中"/>
+            <TextView
+                android:id="@+id/ac_storeGoodsList_tv_down"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:textColor="@color/text3"
+                android:text="已下架"/>
+        </LinearLayout>
+    </LinearLayout>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ac_storeGoodsList_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:id="@+id/fg_storeGoodsList_tv_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_13"
+                android:textColor="@color/text3"
+                android:layout_marginTop="@dimen/dp_150"
+                android:text="暂无相关商品！"/>
+        </LinearLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

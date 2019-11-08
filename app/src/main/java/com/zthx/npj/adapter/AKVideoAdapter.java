@@ -69,7 +69,12 @@ public class AKVideoAdapter extends RecyclerView.Adapter<AKVideoAdapter.ViewHold
             });
         }
         viewHolder.mTvTitle.setText(mList.get(i).getTitle());
-        viewHolder.mTvTime.setText(mList.get(i).getDuration());
+        //viewHolder.mTvTime.setText(mList.get(i).getDuration());
+        if(mList.get(i).getStatus()==0){
+            viewHolder.mTvTime.setText("免费");
+        }else{
+            viewHolder.mTvTime.setText("付费");
+        }
         if(isClicked.get(i)){
             viewHolder.selectImg.setImageResource(R.drawable.item_play_theme);
             viewHolder.selectTime.setImageResource(R.drawable.item_play_time_theme);

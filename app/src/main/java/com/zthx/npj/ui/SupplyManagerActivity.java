@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -43,6 +44,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.CommonDialog;
 
 import java.util.ArrayList;
 
@@ -194,19 +196,28 @@ public class SupplyManagerActivity extends ActivityBase {
             }
 
             @Override
-            public void onSupplyDeleteClick(int position) {
-                SetSubscribe.mySupplyDel(user_id, token, data.get(position).getId() + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            public void onSupplyDeleteClick(final int position) {
+                CommonDialog dialog=new CommonDialog(SupplyManagerActivity.this, R.style.dialog, "商品删除后将无法找回，确定要删除吗？", true, new CommonDialog.OnCloseListener() {
                     @Override
-                    public void onSuccess(String result) {
-                        showToast("商品删除成功");
-                        getSupply();
-                    }
+                    public void onClick(Dialog dialog, boolean confirm) {
+                        if(confirm){
+                            SetSubscribe.mySupplyDel(user_id, token, data.get(position).getId() + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                                @Override
+                                public void onSuccess(String result) {
+                                    showToast("商品删除成功");
+                                    getSupply();
+                                }
 
-                    @Override
-                    public void onFault(String errorMsg) {
+                                @Override
+                                public void onFault(String errorMsg) {
 
+                                }
+                            }));
+                        }
                     }
-                }));
+                });
+                dialog.setTitle("商品删除");
+                dialog.show();
             }
 
             @Override
@@ -281,10 +292,11 @@ public class SupplyManagerActivity extends ActivityBase {
         adapter.setOnItemClickListener(new SupplyOrderAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                /*Intent intent = new Intent(SupplyManagerActivity.this, SupplyProductsActivity.class);
-                intent.setAction(Const.SUPPLY_DETAIL);
-                intent.putExtra("goods_id", data.get(position).getId() + "");
-                startActivity(intent);*/
+                Intent intent=new Intent(SupplyManagerActivity.this, MySupplyOrderDetailActivity.class);
+                intent.putExtra("order_id",data.get(position).getId()+"");
+                intent.putExtra("order_state",data.get(position).getOrder_state()+"");
+                intent.putExtra("type","buss");
+                startActivity(intent);
             }
 
             @Override

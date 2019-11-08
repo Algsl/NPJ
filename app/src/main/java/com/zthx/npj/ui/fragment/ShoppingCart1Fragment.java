@@ -6,10 +6,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,18 +22,32 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.mobileim.appmonitor.tiptool.DensityUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.AlsoLikeAdatper;
 import com.zthx.npj.adapter.ShoppingCar1Adapter;
+import com.zthx.npj.base.Const;
+import com.zthx.npj.net.been.AlsoLikeResponseBean;
 import com.zthx.npj.net.been.CartListResponseBean;
 import com.zthx.npj.net.been.UpdateCartBean;
+import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.NetUtil;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.tencent.activity.MessageCenterActivity;
+import com.zthx.npj.ui.GoodsDetailActivity;
+import com.zthx.npj.ui.OrderFinishActivity;
 import com.zthx.npj.ui.ShopingCartConfirmActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +85,15 @@ public class ShoppingCart1Fragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.fg_shopping_iv_message)
     ImageView fgShoppingIvMessage;
+    @BindView(R.id.fg_mine_rv_like)
+    RecyclerView fgMineRvLike;
+    @BindView(R.id.seeMore)
+    TextView seeMore;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+
+    private int page = 1;
+    private AlsoLikeAdatper adatper;
 
     private ArrayList<ArrayList<CartListResponseBean.DataBean>> datas;
     private Context context;
@@ -73,6 +101,7 @@ public class ShoppingCart1Fragment extends Fragment {
     private String user_id = SharePerferenceUtils.getUserId(getContext());
     private String token = SharePerferenceUtils.getToken(getContext());
     private TextView acMainTvShoppingCart;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,9 +113,37 @@ public class ShoppingCart1Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shoppingcart, container, false);
         unbinder = ButterKnife.bind(this, view);
-        acMainTvShoppingCart=getActivity().findViewById(R.id.ac_main_tv_shoppingCart);
+        acMainTvShoppingCart = getActivity().findViewById(R.id.ac_main_tv_shoppingCart);
         initExpandableListView();
-        initData();
+        //setExpandListViewHeight(elvShoppingCar);
+
+        //initData();
+        getAlsoLike();
+
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                page = 1;
+                if (adatper != null) {
+                    adatper.clearData();
+                }
+                seeMore.setText("查看更多");
+                getAlsoLike();
+                refreshlayout.finishRefresh();
+                refreshLayout.setLoadmoreFinished(false);
+            }
+        });
+
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                page++;
+                getAlsoLike();
+                refreshlayout.finishLoadmore();
+            }
+        });
+
         return view;
     }
 
@@ -95,10 +152,52 @@ public class ShoppingCart1Fragment extends Fragment {
         super.onResume();
         if (!NetUtil.isNetworkConnected(getContext())) {
             Toast.makeText(getContext(), "请打开网络连接", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             getCartList();
         }
         getShoppingCartSize();
+    }
+
+
+    private void getAlsoLike() {
+        MainSubscribe.alsoLike(page + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                AlsoLikeResponseBean bean = GsonUtils.fromJson(result, AlsoLikeResponseBean.class);
+                final ArrayList<AlsoLikeResponseBean.DataBean> data = bean.getData();
+                GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+                fgMineRvLike.setLayoutManager(layoutManager);
+                if (adatper == null) {
+                    adatper = new AlsoLikeAdatper(getContext(), data);
+                } else {
+                    if (data != null && data.size() != 0) {
+                        if (data.size() < 10) {
+                            seeMore.setText("没有更多了");
+                            refreshLayout.setLoadmoreFinished(true);
+                        }
+                        adatper.addData(data);
+                    }
+                }
+                //设置添加或删除item时的动画，这里使用默认动画
+                fgMineRvLike.setItemAnimator(new DefaultItemAnimator());
+                //设置适配器
+                fgMineRvLike.setItemAnimator(new DefaultItemAnimator());
+                fgMineRvLike.setAdapter(adatper);
+                adatper.setOnItemClickListener(new AlsoLikeAdatper.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position, ArrayList<AlsoLikeResponseBean.DataBean> mList) {
+                        Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+                        intent.putExtra(Const.GOODS_ID, mList.get(position).getId() + "");
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 
     private void getCartList() {
@@ -142,6 +241,7 @@ public class ShoppingCart1Fragment extends Fragment {
     private void initExpandableListView() {
         shoppingCarAdapter = new ShoppingCar1Adapter(getContext(), llSelectAll, ivSelectAll, btnOrder, btnDelete, rlTotalPrice, tvTotalPrice);
         elvShoppingCar.setAdapter(shoppingCarAdapter);
+
 
         //删除的回调
         shoppingCarAdapter.setOnDeleteListener(new ShoppingCar1Adapter.OnDeleteListener() {
@@ -228,6 +328,8 @@ public class ShoppingCart1Fragment extends Fragment {
             //刷新数据时，保持当前位置
             shoppingCarAdapter.setData(datas);
 
+            setExpandListViewHeight(elvShoppingCar,shoppingCarAdapter);
+
             //使所有组展开
             for (int i = 0; i < shoppingCarAdapter.getGroupCount(); i++) {
                 elvShoppingCar.expandGroup(i);
@@ -292,7 +394,7 @@ public class ShoppingCart1Fragment extends Fragment {
 
     }
 
-    @OnClick({R.id.tv_titlebar_right,R.id.fg_shopping_iv_message})
+    @OnClick({R.id.tv_titlebar_right, R.id.fg_shopping_iv_message})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_titlebar_right://编辑
@@ -310,7 +412,7 @@ public class ShoppingCart1Fragment extends Fragment {
                 }
                 break;
             case R.id.fg_shopping_iv_message:
-                startActivity(new Intent(getContext(),MessageCenterActivity.class));
+                startActivity(new Intent(getContext(), MessageCenterActivity.class));
                 break;
             default:
                 break;
@@ -333,11 +435,11 @@ public class ShoppingCart1Fragment extends Fragment {
                 if (data == null || data.size() == 0) {
                     acMainTvShoppingCart.setVisibility(View.GONE);
                 } else {
-                    int shoppingCartSize=0;
-                    for(int i=0;i<data.size();i++){
-                        shoppingCartSize+=data.get(i).size();
+                    int shoppingCartSize = 0;
+                    for (int i = 0; i < data.size(); i++) {
+                        shoppingCartSize += data.get(i).size();
                     }
-                    acMainTvShoppingCart.setText(shoppingCartSize+"");
+                    acMainTvShoppingCart.setText(shoppingCartSize + "");
                 }
             }
 
@@ -346,5 +448,35 @@ public class ShoppingCart1Fragment extends Fragment {
 
             }
         }));
+    }
+
+    public static void setExpandListViewHeight(ExpandableListView listView,ExpandableListAdapter listAdapter) {
+        if (listAdapter == null) {
+            return;
+        }
+        int totalHeight = 0;
+//获取所有expandlsitview的父条目
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+            View group = listAdapter.getGroupView(i, true, null, listView);
+//重新测量，重新申请合适的高和宽进行放置view
+            group.measure(0, 0);
+            totalHeight += group.getMeasuredHeight() + listView.getDividerHeight();
+//索取展开的子条目高度
+
+            for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
+                View child = listAdapter.getChildView(i, j, false, null, listView);
+                child.measure(0, 0);
+                totalHeight += child.getMeasuredHeight() + listView.getDividerHeight();
+            }
+
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        /*if (totalHeight > DensityUtil.getScreenHeight() - PhoneDensityUtils.dip2px(56 + 6) - PhoneDensityUtils.getStatusHeight()) {
+            totalHeight += PhoneDensityUtils.dip2px(56 + 6);
+        } else {
+            totalHeight += PhoneDensityUtils.dip2px(12);
+        }*/
+        params.height = totalHeight;
+        listView.setLayoutParams(params);
     }
 }

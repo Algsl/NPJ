@@ -56,10 +56,18 @@ public class OrderFinishActivity extends ActivityBase {
         back(titleThemeBack);
         changeTitle(titleThemeTitle,"订单支付成功");
 
+
         String goodsImg=getIntent().getStringExtra("key0");
         String goodsName=getIntent().getStringExtra("key1");
         String goodsPrice=getIntent().getStringExtra("key2");
         type=getIntent().getStringExtra("key3");
+
+
+        if(type.equals("5")){
+            acOrderFinishTvSeeOrder.setVisibility(View.GONE);
+            acOrderFinishTvShopping.setText("购买成功");
+        }
+
         Glide.with(this).load(goodsImg).into(acOrderFinishRivGoodsImg);
         acOrderFinishTvGoodsName.setText(goodsName);
         acOrderFinishTvPayMoney.setText(goodsPrice);
@@ -87,8 +95,14 @@ public class OrderFinishActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_orderFinish_tv_seeOrder:
-                Intent intent = new Intent(this, MyOrderActivity.class);
-                intent.putExtra("currentItem", 2);
+                Intent intent;
+                if(type.equals("6")){
+                    intent=new Intent(this,MyBillActivity.class);
+                    intent.putExtra("currentItem", 2);
+                }else{
+                    intent = new Intent(this, MyOrderActivity.class);
+                    intent.putExtra("currentItem", 2);
+                }
                 startActivity(intent);
                 break;
             case R.id.ac_orderFinish_tv_shopping:

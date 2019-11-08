@@ -38,6 +38,8 @@ public class MyBillActivity extends ActivityBase {
         setContentView(R.layout.activity_my_bill);
         ButterKnife.bind(this);
 
+        int currentItem=getIntent().getIntExtra("currentItem",0);
+
         back(titleBack);
         changeTitle(acTitle,"我的订单");
 
@@ -59,6 +61,7 @@ public class MyBillActivity extends ActivityBase {
         DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
 
         atWantBuyManagerVp.setAdapter(mAdapter);
+        atWantBuyManagerVp.setCurrentItem(currentItem);
         atWantBuyManagerTab.setupWithViewPager(atWantBuyManagerVp);
     }
 }

@@ -133,7 +133,7 @@ public class ZiZhiInfoActivity extends ActivityBase {
 
                 @Override
                 public void onFault(String errorMsg) {
-                    showToast(errorMsg);
+                    //showToast(errorMsg);
                 }
             }));
         } else {

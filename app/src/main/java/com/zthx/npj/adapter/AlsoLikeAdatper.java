@@ -67,7 +67,7 @@ public class AlsoLikeAdatper extends RecyclerView.Adapter<AlsoLikeAdatper.ViewHo
         }
         if (mList!= null && mList.size() > 0) {
             Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.mIvGoods);
-            viewHolder.mTvPrice.setText("￥"+mList.get(i).getMember_price());
+            viewHolder.mTvPrice.setText("￥"+mList.get(i).getUser_price());
             viewHolder.mTvSellNum.setText("已售"+mList.get(i).getSold()+"件");
             viewHolder.mTvTitle.setText(mList.get(i).getGoods_name());
         }

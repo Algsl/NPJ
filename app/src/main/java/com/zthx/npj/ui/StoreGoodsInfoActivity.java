@@ -197,7 +197,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -337,7 +337,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -380,7 +380,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }

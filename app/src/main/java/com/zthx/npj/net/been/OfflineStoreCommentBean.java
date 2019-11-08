@@ -7,7 +7,7 @@ public class OfflineStoreCommentBean {
     private String content;
     private String goods_star;
     private String service_star;
-    private String logistics_str;
+    private String logistics_star;
 
     public String getUser_id() {
         return user_id;
@@ -57,11 +57,11 @@ public class OfflineStoreCommentBean {
         this.service_star = service_star;
     }
 
-    public String getLogistics_str() {
-        return logistics_str;
+    public String getLogistics_star() {
+        return logistics_star;
     }
 
-    public void setLogistics_str(String logistics_str) {
-        this.logistics_str = logistics_str;
+    public void setLogistics_star(String logistics_star) {
+        this.logistics_star = logistics_star;
     }
 }

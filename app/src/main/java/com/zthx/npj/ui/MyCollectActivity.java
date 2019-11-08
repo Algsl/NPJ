@@ -144,7 +144,7 @@ public class MyCollectActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -158,7 +158,7 @@ public class MyCollectActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -198,7 +198,7 @@ public class MyCollectActivity extends ActivityBase {
 
                         @Override
                         public void onFault(String errorMsg) {
-                            showToast(errorMsg);
+                            //showToast(errorMsg);
                         }
                     }));
                 }
@@ -230,7 +230,7 @@ public class MyCollectActivity extends ActivityBase {
 
                         @Override
                         public void onFault(String errorMsg) {
-                            showToast(errorMsg);
+                            //showToast(errorMsg);
                         }
                     }));
                 }
@@ -251,6 +251,7 @@ public class MyCollectActivity extends ActivityBase {
                 public void onItemClick(int position) {
                     Intent intent = new Intent(MyCollectActivity.this, GoodsDetailActivity.class);
                     intent.setAction(Const.PRESELL);
+                    intent.putExtra("pre_type","0");
                     intent.putExtra(Const.GOODS_ID, data.get(position).getList_id() + "");
                     startActivity(intent);
                 }
@@ -270,7 +271,7 @@ public class MyCollectActivity extends ActivityBase {
 
                         @Override
                         public void onFault(String errorMsg) {
-                            showToast(errorMsg);
+                            //showToast(errorMsg);
                         }
                     }));
                 }

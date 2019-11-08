@@ -8,15 +8,20 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -24,16 +29,25 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.tencent.imsdk.TIMConversationType;
+import com.tencent.qcloud.tim.uikit.modules.chat.base.ChatInfo;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AlsoLikeAdatper;
 import com.zthx.npj.adapter.GradViewAdapter;
+import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AlsoLikeResponseBean;
+import com.zthx.npj.net.been.KuaiDiResponseBean;
 import com.zthx.npj.net.been.MySupplyOrderDetailResponseBean;
+import com.zthx.npj.net.been.MySupplyOrderFahuoBean;
+import com.zthx.npj.net.been.MySupplyOrderRefund3ResponseBean;
+import com.zthx.npj.net.been.MySupplyOrderRefuseRefundBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.tencent.activity.ChatActivity;
+import com.zthx.npj.tencent.util.Constants;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
@@ -172,6 +186,14 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
 
     private int page = 1;
     private AlsoLikeAdatper adatper;
+    private String type;
+
+    String storeGoodsExExpressId = "1";
+    String[] item;
+    private String goods_name;
+
+    private String nick_name="";
+    private String mobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,6 +203,8 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
 
         order_state = getIntent().getStringExtra("order_state");
         order_id = getIntent().getStringExtra("order_id");
+        type=getIntent().getStringExtra("type");
+
 
         acOrderDetailTvSize.setVisibility(View.INVISIBLE);
 
@@ -215,7 +239,7 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
             }
         });
 
-
+        getKuaiDiList();
         getAlsoLike();
         getMyStoreOrderDetail();
     }
@@ -256,7 +280,7 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -282,7 +306,11 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
         acMyOrderDetailTvUserName.setText(data.getConsignee());
         acMyOrderDetailTvCellPhone.setText(data.getMobile());
         acMyOrderDetailTvAddress.setText(data.getAddress());
+        goods_name=data.getGoods_name();
         //atMyOrderDetailTvStoreName.setText(data.getStore_name());
+
+        mobile=data.getMobile();
+
 
         Glide.with(this).load(Uri.parse("http://app.npj-vip.com" + data.getGoods_img().get(0))).into(atMyOrderDetailIvGoodsImg);
         Glide.with(this).load(Uri.parse("http://app.npj-vip.com" + data.getGoods_img().get(0))).into(atMyOrderDetailIvGoodsImg1);
@@ -303,74 +331,171 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
         atMyOrderDetailTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time() * 1000)));
         atMyOrderDetailTvPayTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time() * 1000)));
 
-        switch (order_state) {
-            case "1":
-                acMyOrderDetailTvStatus.setText("待付款");
-                acMyOrderDetailTvHint.setText("剩余24时00分自动关闭");
-                acMyOrderDetailTvOption.setText("待付款");
-                break;
-            case "2":
-                //头部
-                acMyOrderDetailTvStatus.setText("等待卖家发货");
-                acMyOrderDetailTvHint.setVisibility(View.GONE);//头部类型下方的文字提示
 
-                //商品信息
-                acMyOrderDetailTvOption.setText("退换");
+        if(type.equals("buss")){
+            acMyOrderDetailLl.setVisibility(View.GONE);
+            switch (order_state) {
+                case "1":
+                    acMyOrderDetailTvStatus.setText("待付款");
+                    acMyOrderDetailTvHint.setText("剩余24时00分自动关闭");
+                    acMyOrderDetailTvOption.setText("待付款");
+                    break;
+                case "2":
+                    //头部
+                    acMyOrderDetailTvStatus.setText("等待发货");
+                    acMyOrderDetailTvHint.setVisibility(View.GONE);//头部类型下方的文字提示
 
-                //订单
-                atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);//支付方式显示
-                atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);//支付时间显示
+                    //商品信息
+                    acMyOrderDetailTvOption.setText("退换");
+                    acMyOrderDetailTvPay.setText("发货");
 
-                //底部
-                acMyOrderDetailTvApplyRefund.setVisibility(View.VISIBLE);//申请退换显示
-                acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
-                acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
-                break;
-            case "3":
-                acMyOrderDetailTvStatus.setText("已发货");
-                acMyOrderDetailTvHint.setText("剩余9天4时自动确认");
-                acMyOrderDetailTvOption.setText("退换");
-                atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
-                atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
-                atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
+                    //订单
+                    atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);//支付方式显示
+                    atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);//支付时间显示
 
-                acMyOrderDetailTvWuliu.setVisibility(View.VISIBLE);//查看物流
-                acMyOrderDetailTvDelay.setVisibility(View.GONE);//延长收货
-                acMyOrderDetailTvConfirm.setVisibility(View.VISIBLE);//确认收货
-                acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
-                acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
-                break;
-            case "4":
-                acMyOrderDetailTvStatus.setText("交易成功");
-                acMyOrderDetailTvHint.setText("期待再次为您服务");
-                acMyOrderDetailTvOption.setText("申请售后");
-                atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
-                atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
-                atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
-                atMyOrderDetailLlOver.setVisibility(View.VISIBLE);
+                    //底部
+                    acMyOrderDetailTvApplyRefund.setVisibility(View.GONE);//申请退换显示
+                    acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
+                    acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    acMyOrderDetailTvPay.setVisibility(View.VISIBLE);//付款按钮隐藏
+                    break;
+                case "3":
+                    acMyOrderDetailTvStatus.setText("已发货");
+                    acMyOrderDetailTvHint.setText("剩余9天4时自动确认");
+                    acMyOrderDetailTvOption.setText("退换");
+                    atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
 
-                acMyOrderDetailTvWuliu.setVisibility(View.GONE);//查看物流
-                acMyOrderDetailTvDelete.setVisibility(View.GONE);//删除订单
-                acMyOrderDetailTvComment.setVisibility(View.VISIBLE);//评价
-                acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
-                acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
-                break;
-            case "6":
-                acMyOrderDetailLlPaySend.setVisibility(View.GONE);
-                acMyOrderDetailLlRefund.setVisibility(View.VISIBLE);
-                acMyOrderDetailLlRefundNum.setVisibility(View.VISIBLE);
-                acMyOrderDetailTvStatus.setText("已提交退款申请，等待卖家处理");
-                acMyOrderDetailTvHint.setText("剩余2天4时自动确认");
-                atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
-                atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
-                atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
-                atMyOrderDetailLlOver.setVisibility(View.VISIBLE);
+                    acMyOrderDetailTvWuliu.setVisibility(View.GONE);//查看物流
+                    acMyOrderDetailTvDelay.setVisibility(View.GONE);//延长收货
+                    acMyOrderDetailTvConfirm.setVisibility(View.GONE);//确认收货
+                    acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
+                    acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    break;
+                case "4":
+                    acMyOrderDetailTvStatus.setText("交易成功");
+                    acMyOrderDetailTvHint.setText("期待再次为您服务");
+                    acMyOrderDetailTvOption.setText("申请售后");
+                    atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlOver.setVisibility(View.VISIBLE);
 
-                acMyOrderDetailTvChat.setVisibility(View.VISIBLE);//联系卖家
-                acMyOrderDetailTvCall.setVisibility(View.VISIBLE);//拨打电话
-                acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
-                acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
-                break;
+                    acMyOrderDetailTvWuliu.setVisibility(View.GONE);//查看物流
+                    acMyOrderDetailTvDelete.setVisibility(View.GONE);//删除订单
+                    acMyOrderDetailTvComment.setVisibility(View.GONE);//评价
+                    acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
+                    acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    break;
+                case "5":
+                    acMyOrderDetailTvWuliu.setVisibility(View.GONE);//查看物流
+                    acMyOrderDetailTvDelete.setVisibility(View.GONE);//删除订单
+                    acMyOrderDetailTvComment.setVisibility(View.GONE);//评价
+                    acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
+                    acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    break;
+                case "6":
+                    acMyOrderDetailLlPaySend.setVisibility(View.GONE);
+                    acMyOrderDetailLlRefund.setVisibility(View.VISIBLE);
+                    acMyOrderDetailLlRefundNum.setVisibility(View.VISIBLE);
+                    acMyOrderDetailTvStatus.setText("已提交退款申请，等待卖家处理");
+                    acMyOrderDetailTvHint.setText("剩余2天4时自动确认");
+                    atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlOver.setVisibility(View.VISIBLE);
+
+                    acMyOrderDetailTvPay.setText("退款");
+
+                    acMyOrderDetailTvChat.setVisibility(View.GONE);//联系卖家
+                    acMyOrderDetailTvCall.setVisibility(View.GONE);//拨打电话
+                    acMyOrderDetailTvPay.setVisibility(View.VISIBLE);//付款按钮隐藏
+                    acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    break;
+                case "7":
+                    acMyOrderDetailTvChat.setVisibility(View.GONE);//联系卖家
+                    acMyOrderDetailTvCall.setVisibility(View.GONE);//拨打电话
+                    acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
+                    acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    break;
+                case "8":
+                    acMyOrderDetailTvChat.setVisibility(View.GONE);//联系卖家
+                    acMyOrderDetailTvCall.setVisibility(View.GONE);//拨打电话
+                    acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
+                    acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    break;
+            }
+        }else{
+            switch (order_state) {
+                case "1":
+                    acMyOrderDetailTvStatus.setText("待付款");
+                    acMyOrderDetailTvHint.setText("剩余24时00分自动关闭");
+                    acMyOrderDetailTvOption.setText("待付款");
+                    break;
+                case "2":
+                    //头部
+                    acMyOrderDetailTvStatus.setText("等待卖家发货");
+                    acMyOrderDetailTvHint.setVisibility(View.GONE);//头部类型下方的文字提示
+
+                    //商品信息
+                    acMyOrderDetailTvOption.setText("退换");
+
+                    //订单
+                    atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);//支付方式显示
+                    atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);//支付时间显示
+
+                    //底部
+                    acMyOrderDetailTvApplyRefund.setVisibility(View.VISIBLE);//申请退换显示
+                    acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
+                    acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    break;
+                case "3":
+                    acMyOrderDetailTvStatus.setText("已发货");
+                    acMyOrderDetailTvHint.setText("剩余9天4时自动确认");
+                    acMyOrderDetailTvOption.setText("退换");
+                    atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
+
+                    acMyOrderDetailTvWuliu.setVisibility(View.VISIBLE);//查看物流
+                    acMyOrderDetailTvDelay.setVisibility(View.GONE);//延长收货
+                    acMyOrderDetailTvConfirm.setVisibility(View.VISIBLE);//确认收货
+                    acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
+                    acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    break;
+                case "4":
+                    acMyOrderDetailTvStatus.setText("交易成功");
+                    acMyOrderDetailTvHint.setText("期待再次为您服务");
+                    acMyOrderDetailTvOption.setText("申请售后");
+                    atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlOver.setVisibility(View.VISIBLE);
+
+                    acMyOrderDetailTvWuliu.setVisibility(View.GONE);//查看物流
+                    acMyOrderDetailTvDelete.setVisibility(View.GONE);//删除订单
+                    acMyOrderDetailTvComment.setVisibility(View.VISIBLE);//评价
+                    acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
+                    acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    break;
+                case "6":
+                    acMyOrderDetailLlPaySend.setVisibility(View.GONE);
+                    acMyOrderDetailLlRefund.setVisibility(View.VISIBLE);
+                    acMyOrderDetailLlRefundNum.setVisibility(View.VISIBLE);
+                    acMyOrderDetailTvStatus.setText("已提交退款申请，等待卖家处理");
+                    acMyOrderDetailTvHint.setText("剩余2天4时自动确认");
+                    atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlOver.setVisibility(View.VISIBLE);
+
+                    acMyOrderDetailTvChat.setVisibility(View.VISIBLE);//联系卖家
+                    acMyOrderDetailTvCall.setVisibility(View.VISIBLE);//拨打电话
+                    acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
+                    acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    break;
+            }
         }
     }
 
@@ -394,9 +519,29 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                 }));
                 break;
             case R.id.ac_myOrderDetail_tv_pay://支付订单
-                Intent intent = new Intent(MySupplyOrderDetailActivity.this, ConfirmMySupplyOrderActivity.class);
-                intent.putExtra("order_id", order_id);
-                startActivity(intent);
+                if(type.equals("buss")){
+                    if(order_state.equals("2")){
+                        showPublishPopwindow(order_id);
+                    }else if(order_state.equals(6)){
+                        SetSubscribe.mySupplyOrderRefund3(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                            @Override
+                            public void onSuccess(String result) {
+                                MySupplyOrderRefund3ResponseBean bean = GsonUtils.fromJson(result, MySupplyOrderRefund3ResponseBean.class);
+                                MySupplyOrderRefund3ResponseBean.DataBean data = bean.getData();
+                                showRefundPopwindow(order_id, data, goods_name);
+                            }
+
+                            @Override
+                            public void onFault(String errorMsg) {
+
+                            }
+                        }));
+                    }
+                }else{
+                    Intent intent = new Intent(MySupplyOrderDetailActivity.this, ConfirmMySupplyOrderActivity.class);
+                    intent.putExtra("order_id", order_id);
+                    startActivity(intent);
+                }
                 break;
             case R.id.ac_myOrderDetail_tv_applyRefund://申请退款
                 Intent intent3 = new Intent(MySupplyOrderDetailActivity.this, MySupplyOrderRefundActivity.class);
@@ -445,9 +590,17 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                 startActivity(intent2);
                 break;
             case R.id.ac_myOrderDetail_tv_chat:
+                ChatInfo chatInfo = new ChatInfo();
+                chatInfo.setType(TIMConversationType.C2C);
+                chatInfo.setId(mobile);
+                chatInfo.setChatName(nick_name);
+                Intent intent = new Intent(BaseApp.getApp(), ChatActivity.class);
+                intent.putExtra(Constants.CHAT_INFO, chatInfo);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                BaseApp.getApp().startActivity(intent);
                 break;
             case R.id.ac_myOrderDetail_tv_call:
-
+                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+mobile)));
                 break;
             case R.id.ac_myOrderDetail_ll:
                 if(order_state.equals("2") || order_state.equals("3")){
@@ -560,5 +713,255 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
         lp.alpha = bgAlpha;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         getWindow().setAttributes(lp);
+    }
+
+    private void getKuaiDiList() {
+        SetSubscribe.getKuaiDiList(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setKuaiDiList(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setKuaiDiList(String result) {
+        KuaiDiResponseBean bean = GsonUtils.fromJson(result, KuaiDiResponseBean.class);
+        ArrayList<KuaiDiResponseBean.DataBean> data = bean.getData();
+        item = new String[data.size()];
+        for (int i = 0; i < data.size(); i++) {
+            item[i] = data.get(i).getExpress_name();
+        }
+    }
+
+
+    public void showPublishPopwindow(final String order_id) {
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_store_goods_bill, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView, RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT,
+                true);
+        // 设置PopupWindow的背景
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_350));
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_271));
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(true);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+
+        final EditText storeGoodsEtExpressNumber = contentView.findViewById(R.id.pw_storeGoods_et_expressNumber);
+        Spinner spinner = contentView.findViewById(R.id.pw_storeGoods_s_expressName);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                storeGoodsExExpressId = (i + 1) + "";
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        Button commit = contentView.findViewById(R.id.pw_storeGoods_btn_commit);
+        commit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String express_number = storeGoodsEtExpressNumber.getText().toString().trim();
+                MySupplyOrderFahuoBean bean = new MySupplyOrderFahuoBean();
+                bean.setUser_id(user_id);
+                bean.setToken(token);
+                bean.setOrder_id(order_id);
+                bean.setExpress_id(storeGoodsExExpressId);
+                bean.setExpress_number(express_number);
+                SetSubscribe.mySupplyOrderFahuo(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        showToast("发货成功");
+                        finish();
+                        backgroundAlpha(1f);
+                        window.dismiss();
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
+            }
+        });
+        contentView.findViewById(R.id.pw_iv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+            }
+        });
+    }
+
+
+    public void showRefundPopwindow(final String order_id, MySupplyOrderRefund3ResponseBean.DataBean data, String goods_name) {
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_store_goods_bill_refund, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView);
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_500));
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_320));
+        // 设置PopupWindow的背景
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(true);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+        TextView goodsName = contentView.findViewById(R.id.pw_storeGoods_tv_goodsName);
+        TextView goodsPrice = contentView.findViewById(R.id.pw_storeGoods_tv_goodsPrice);
+        TextView goodsState = contentView.findViewById(R.id.pw_storeGoods_tv_goodsState);
+        TextView refundReason = contentView.findViewById(R.id.pw_storeGoods_tv_refundReason);
+        TextView refundDesc = contentView.findViewById(R.id.pw_storeGoods_tv_refundDesc);
+        ImageView goodsImg = contentView.findViewById(R.id.pw_storeGoods_iv_goodsImg);
+        goodsName.setText(goods_name);
+        goodsPrice.setText("￥" + data.getRefund_price());
+        switch ((int) data.getRefund_state()) {
+            case 0:
+                goodsState.setText("已收货");
+                break;
+            case 1:
+                goodsState.setText("未收货");
+                break;
+        }
+        refundReason.setText(data.getRefund_reason());
+        refundDesc.setText(data.getRefund_desc() == null ? "无" : data.getRefund_desc());
+        Glide.with(this).load(Uri.parse("http://app.npj-vip.com" + data.getRefund_img())).into(goodsImg);
+        TextView refund = contentView.findViewById(R.id.pw_storeGoods_btn_refund);
+        TextView refuse = contentView.findViewById(R.id.pw_storeGoods_btn_refuse);
+        refund.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SetSubscribe.mySupplyOrderRefund2(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        showToast("退款成功");
+                        backgroundAlpha(1f);
+                        window.dismiss();
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
+            }
+        });
+        refuse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+                backgroundAlpha(1f);
+                showRefusePopwindow(order_id);
+            }
+        });
+        contentView.findViewById(R.id.pw_iv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+    }
+
+    //拒绝退款弹窗
+    public void showRefusePopwindow(final String order_id) {
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_store_goods_bill_refuse, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView);
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_500));
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_320));
+        // 设置PopupWindow的背景
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(true);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        window.setFocusable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+
+        final EditText etReason = contentView.findViewById(R.id.pw_storeGoodsBill_et_reason);
+        TextView confirm = contentView.findViewById(R.id.pw_storeGoodsBill_tv_refuse);
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MySupplyOrderRefuseRefundBean bean = new MySupplyOrderRefuseRefundBean();
+                bean.setUser_id(user_id);
+                bean.setToken(token);
+                bean.setOrder_id(order_id);
+                bean.setJujue_yuanyin(etReason.getText().toString().trim());
+                SetSubscribe.mySupplyOrderRefuseRefund(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Log.e("测试", "onSuccess: " + result);
+                        showToast("拒绝退款成功");
+                        backgroundAlpha(1f);
+                        window.dismiss();
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
+            }
+        });
+
+        contentView.findViewById(R.id.pw_iv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
     }
 }

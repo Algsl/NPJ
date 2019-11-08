@@ -8,6 +8,34 @@ public class AddAddressBean {
     private String address;
     private String house_number;
 
+    private String province;
+    private String city;
+    private String district;
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
     public String getUser_id() {
         return user_id;
     }

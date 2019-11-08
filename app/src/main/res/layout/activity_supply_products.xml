@@ -21,8 +21,7 @@
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_422"
-                android:visibility="visible">
+                android:layout_height="@dimen/dp_422">
                 <com.zthx.npj.banner.Banner
                     android:id="@+id/banner"
                     android:layout_width="match_parent"
@@ -172,6 +171,23 @@
                     android:layout_weight="1"
                     android:background="#F1F4DA"
                     android:orientation="vertical">
+                    <!--<LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/dp_20">
+                        <ImageView
+                            android:layout_width="@dimen/dp_22"
+                            android:layout_height="@dimen/dp_22"
+                            android:src="@drawable/supply_product_3"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="按时发货"
+                            android:textColor="#929F30"
+                            android:textSize="@dimen/sp_12"/>
+                    </LinearLayout>-->
                    <LinearLayout
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
@@ -179,7 +195,7 @@
                        android:gravity="center"
                        android:layout_marginTop="@dimen/dp_7"
                        android:layout_marginLeft="@dimen/dp_9">
-                       <ImageView
+                       <!--<ImageView
                            android:layout_width="@dimen/dp_22"
                            android:layout_height="@dimen/dp_22"
                            android:src="@drawable/supply_product_1"/>
@@ -188,7 +204,17 @@
                            android:layout_height="wrap_content"
                            android:text="该商家已认证请放心购买"
                            android:textSize="@dimen/sp_13"
-                           android:textColor="#929F30"/>
+                           android:textColor="#929F30"/>-->
+                       <ImageView
+                           android:layout_width="@dimen/dp_22"
+                           android:layout_height="@dimen/dp_22"
+                           android:src="@drawable/supply_product_3"/>
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text="产品质量有保证"
+                           android:textColor="#929F30"
+                           android:textSize="@dimen/sp_12"/>
                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -213,23 +239,7 @@
                                 android:textColor="#929F30"
                                 android:textSize="@dimen/sp_12"/>
                         </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center"
-                            android:layout_marginLeft="@dimen/dp_20">
-                            <ImageView
-                                android:layout_width="@dimen/dp_22"
-                                android:layout_height="@dimen/dp_22"
-                                android:src="@drawable/supply_product_3"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="按时发货"
-                                android:textColor="#929F30"
-                                android:textSize="@dimen/sp_12"/>
-                        </LinearLayout>
+
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
@@ -279,7 +289,7 @@
                                 android:textColor="#4A80B7"
                                 android:textSize="@dimen/sp_12"/>
                         </LinearLayout>
-                        <LinearLayout
+                        <!--<LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
@@ -295,7 +305,7 @@
                                 android:text="企业认证"
                                 android:textColor="#4A80B7"
                                 android:textSize="@dimen/sp_12"/>
-                        </LinearLayout>
+                        </LinearLayout>-->
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -535,6 +545,7 @@
                    android:layout_height="@dimen/dp_38"
                    android:orientation="horizontal"
                    android:layout_marginTop="@dimen/dp_10"
+                   android:layout_marginBottom="@dimen/dp_10"
                    android:gravity="center_horizontal">
                    <TextView
                        android:id="@+id/ac_supply_tv_detail"
@@ -571,20 +582,28 @@
                        android:background="@color/app_theme"
                        android:gravity="center"/>
                </LinearLayout>
-               <TextView
+               <!--<TextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="*联系我时，请说在农品街看到的"
                    android:textColor="@color/app_theme"
                    android:textSize="@dimen/sp_11"
                    android:layout_marginLeft="@dimen/dp_12"
-                   android:layout_marginTop="@dimen/dp_8"/>
+                   android:layout_marginTop="@dimen/dp_8"/>-->
                <android.support.v7.widget.RecyclerView
                    android:id="@+id/at_supply_products_rv_pic"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:layout_marginBottom="@dimen/dp_50"
                    android:background="@color/white"/>
+               <TextView
+                   android:id="@+id/comment_hint"
+                   android:layout_width="match_parent"
+                   android:layout_height="@dimen/dp_50"
+                   android:layout_marginBottom="@dimen/dp_50"
+                   android:visibility="gone"
+                   android:gravity="center"
+                   android:text="暂无评论"/>
            </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

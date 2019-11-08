@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,7 +8,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
+import com.zthx.npj.net.been.UserResponseBean;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import butterknife.BindView;
@@ -59,8 +67,7 @@ public class MyWalletActivity extends ActivityBase {
     @Override
     protected void onResume() {
         super.onResume();
-        balance=SharePerferenceUtils.getBalance(this);
-        atMyWalletTvMoney.setText(balance);
+        getUserInfo();
     }
 
     @OnClick({ R.id.at_myWallet_tv_mx, R.id.ac_myallet_rl_bankCard, R.id.at_my_wallet_btn_tiqu, R.id.ac_myWallet_rl_inManage})
@@ -73,11 +80,34 @@ public class MyWalletActivity extends ActivityBase {
                 openActivity(BankCardActivity.class);
                 break;
             case R.id.at_my_wallet_btn_tiqu:
-                openActivity(WithDrawActivity.class);
+                openActivity(WithDrawActivity.class,balance);
                 break;
             case R.id.ac_myWallet_rl_inManage:
                 openActivity(SpokesmanRightsActivity.class);
                 break;
         }
+    }
+
+    private void getUserInfo() {
+        String user_id = SharePerferenceUtils.getUserId(this);
+        String token = SharePerferenceUtils.getToken(this);
+        SetSubscribe.getUserInfo(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                setUserInfo(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setUserInfo(String result) {
+        UserResponseBean userResponseBean = GsonUtils.fromJson(result, UserResponseBean.class);
+        UserResponseBean.DataBean data = userResponseBean.getData();
+        balance=data.getBalance();
+        atMyWalletTvMoney.setText(balance);
     }
 }

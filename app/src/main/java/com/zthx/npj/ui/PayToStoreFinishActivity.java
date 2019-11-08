@@ -66,6 +66,9 @@ public class PayToStoreFinishActivity extends ActivityBase {
         setContentView(R.layout.activity_pay_store_finish);
         ButterKnife.bind(this);
 
+        back(titleThemeBack);
+        changeTitle(titleThemeTitle,"线下门店评价");
+
         store_id=getIntent().getStringExtra("key0");
         store_img=getIntent().getStringExtra("key1");
         store_name=getIntent().getStringExtra("key2");
@@ -133,7 +136,7 @@ public class PayToStoreFinishActivity extends ActivityBase {
                     bean.setContent(acPayStoreEtDesc.getText().toString().trim());
                     bean.setGoods_star(goods_start);
                     bean.setService_star(service_start);
-                    bean.setLogistics_str(logistics_start);
+                    bean.setLogistics_star(logistics_start);
                     MainSubscribe.offlineStoreComment(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {

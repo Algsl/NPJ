@@ -319,13 +319,13 @@
                         android:orientation="vertical"
                         android:gravity="center">
                         <TextView
+                            android:id="@+id/ac_goodsDetail_tv_prMoney"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0.00"
                             android:textColor="@color/text3"
                             android:textSize="@dimen/sp_15"/>
                         <TextView
-                            android:id="@+id/at_goods_detail_tv_pre_sell_yushou"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="众筹金额"
@@ -599,6 +599,7 @@
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
             <android.support.v7.widget.RecyclerView
+                android:visibility="visible"
                 android:id="@+id/ac_goodsDetail_rv_content"
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_width="match_parent"
@@ -609,8 +610,16 @@
                 android:id="@+id/ac_goodsDetail_rv_comment"
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_400"
-                android:layout_marginBottom="@dimen/dp_50"/>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_60"/>
+            <TextView
+                android:id="@+id/ac_goodsDetail_tv_comment"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_100"
+                android:layout_marginBottom="@dimen/dp_60"
+                android:gravity="center"
+                android:text="暂无评价"/>
             <LinearLayout
                 android:id="@+id/ac_goodsDetail_ll_know"
                 android:visibility="gone"

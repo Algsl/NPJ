@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -16,10 +20,15 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.gson.Gson;
 import com.zthx.npj.R;
 import com.zthx.npj.entity.JsonBean;
+import com.zthx.npj.net.been.AddAddressBean;
+import com.zthx.npj.net.been.CityResponseBean;
+import com.zthx.npj.net.been.DistrictResponseBean;
+import com.zthx.npj.net.been.ProvinceResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GetJsonDataUtil;
+import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import org.json.JSONArray;
@@ -39,6 +48,12 @@ public class AddAddressActivity extends ActivityBase {
     ImageView titleBack;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
+    @BindView(R.id.province)
+    Spinner province;
+    @BindView(R.id.city)
+    Spinner city;
+    @BindView(R.id.district)
+    Spinner district;
     private String is_default = "0";
 
     @BindView(R.id.ac_title)
@@ -62,6 +77,14 @@ public class AddAddressActivity extends ActivityBase {
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();//市
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();//区
 
+    private String provinceName="";
+    private String cityName="";
+    private String districtName="";
+    private String provinceId;
+    private String cityId;
+    private String districtId;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +92,9 @@ public class AddAddressActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(mAcTitle,"添加地址");
+        changeTitle(mAcTitle, "添加地址");
+
+        getProvince();
 
         initJsonData();
         mAcAddressIvIsDefault.setOnClickListener(new View.OnClickListener() {
@@ -86,14 +111,18 @@ public class AddAddressActivity extends ActivityBase {
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.ac_address_btn_save:
-                String user_id = SharePerferenceUtils.getUserId(this);
-                String token = SharePerferenceUtils.getToken(this);
-                String consignee = mAcAddressEtConsignee.getText().toString();
-                String mobile = mAcAddressEtMobile.getText().toString();
-                String address = acAddressTvAddress.getText().toString();
-                String house_number = mAcAddressEtHouseNumber.getText().toString();
-                SetSubscribe.addAddress(user_id, token, consignee, mobile, address, house_number, is_default,
-                        new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                AddAddressBean bean=new AddAddressBean();
+                bean.setUser_id(SharePerferenceUtils.getUserId(this));
+                bean.setToken(SharePerferenceUtils.getToken(this));
+                bean.setConsignee(mAcAddressEtConsignee.getText().toString());
+                bean.setMobile(mAcAddressEtMobile.getText().toString());
+                bean.setAddress(provinceName+cityName+districtName);
+                bean.setHouse_number(mAcAddressEtHouseNumber.getText().toString());
+                bean.setProvince(provinceId);
+                bean.setCity(cityId);
+                bean.setDistrict(districtId);
+                bean.setIs_default(is_default);
+                SetSubscribe.addAddress(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                             @Override
                             public void onSuccess(String result) {
                                 finish();
@@ -225,4 +254,116 @@ public class AddAddressActivity extends ActivityBase {
         pvOptions.show();
     }
 
+
+    public void getProvince(){
+        SetSubscribe.getProvince(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                ProvinceResponseBean bean=GsonUtils.fromJson(result,ProvinceResponseBean.class);
+                final ArrayList<ProvinceResponseBean.DataBean> data=bean.getData();
+
+                String[] provinces=new String[data.size()];
+                for(int i=0;i<data.size();i++){
+                    provinces[i]=data.get(i).getName();
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddAddressActivity.this, android.R.layout.simple_spinner_item,provinces );
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                province.setAdapter(adapter);
+                province.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        provinceName=data.get(i).getName();
+                        provinceId=data.get(i).getId()+"";
+                        getCity(data.get(i).getId()+"");
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+    public void getCity(String pid){
+        SetSubscribe.getCity(pid,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                CityResponseBean bean=GsonUtils.fromJson(result,CityResponseBean.class);
+                final ArrayList<CityResponseBean.DataBean> data=bean.getData();
+
+                String[] citys=new String[data.size()];
+                for(int i=0;i<data.size();i++){
+                    citys[i]=data.get(i).getName();
+                }
+
+                Log.e("测试", "onSuccess: "+data.toArray().toString() );
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddAddressActivity.this, android.R.layout.simple_spinner_item,citys );
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                city.setAdapter(adapter);
+                city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        cityName=data.get(i).getName();
+                        cityId=data.get(i).getId()+"";
+                        getDistrict(data.get(i).getId()+"");
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+    public void getDistrict(String pid){
+        SetSubscribe.getDistrict(pid,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                DistrictResponseBean bean=GsonUtils.fromJson(result,DistrictResponseBean.class);
+                final ArrayList<DistrictResponseBean.DataBean> data=bean.getData();
+
+                String[] districts=new String[data.size()];
+                for(int i=0;i<data.size();i++){
+                    districts[i]=data.get(i).getName();
+                }
+
+                Log.e("测试", "onSuccess: "+data.toArray().toString() );
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddAddressActivity.this, android.R.layout.simple_spinner_item,districts );
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                district.setAdapter(adapter);
+                district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        districtName=data.get(i).getName();
+                        districtId=data.get(i).getId()+"";
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
 }

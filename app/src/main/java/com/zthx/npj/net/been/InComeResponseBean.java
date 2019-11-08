@@ -2,19 +2,19 @@ package com.zthx.npj.net.been;
 
 public class InComeResponseBean extends BaseReponseBean{
     public class DataBean{
-        private long income_amount;
+        private String income_amount;
         private long zt_push;
         private long jt_push;
         private long all_push;
-        private long store_money;
-        private long reward;
-        private long extracted;
+        private String store_money;
+        private String reward;
+        private String extracted;
 
-        public long getIncome_amount() {
+        public String getIncome_amount() {
             return income_amount;
         }
 
-        public void setIncome_amount(long income_amount) {
+        public void setIncome_amount(String income_amount) {
             this.income_amount = income_amount;
         }
 
@@ -42,27 +42,27 @@ public class InComeResponseBean extends BaseReponseBean{
             this.all_push = all_push;
         }
 
-        public long getStore_money() {
+        public String getStore_money() {
             return store_money;
         }
 
-        public void setStore_money(long store_money) {
+        public void setStore_money(String store_money) {
             this.store_money = store_money;
         }
 
-        public long getReward() {
+        public String getReward() {
             return reward;
         }
 
-        public void setReward(long reward) {
+        public void setReward(String reward) {
             this.reward = reward;
         }
 
-        public long getExtracted() {
+        public String getExtracted() {
             return extracted;
         }
 
-        public void setExtracted(long extracted) {
+        public void setExtracted(String extracted) {
             this.extracted = extracted;
         }
     }

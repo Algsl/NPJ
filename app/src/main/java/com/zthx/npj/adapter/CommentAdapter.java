@@ -1,19 +1,28 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.CommentResponseBean;
+import com.zthx.npj.ui.StoreGoodsInfoActivity;
 import com.zthx.npj.utils.DateUtil;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.view.MyCircleView;
 
 import org.w3c.dom.Text;
@@ -21,12 +30,16 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.zhouzhuo.zzimagebox.ZzImageBox;
+
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
 
     private ArrayList<CommentResponseBean.DataBean> mList;
     private Context mContext;
 
     private ItemClickListener mItemClickListener ;
+
+
 
     public interface ItemClickListener{
         void onItemClick(int position) ;
@@ -62,26 +75,28 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         }
         Glide.with(mContext).load(mList.get(i).getHead_img()).into(viewHolder.mIvHead);
         viewHolder.mTvName.setText(mList.get(i).getNick_name());
-        switch (mList.get(i).getGoods_star()+"") {
-            case "1":
+
+        Double star=(mList.get(i).getGoods_star()+mList.get(i).getLogistics_star()+mList.get(i).getService_star())/3.0;
+        switch ((int)Math.floor(star)) {
+            case 1:
                 viewHolder.star1.setImageResource(R.drawable.item_location_store_star);
                 break;
-            case "2":
+            case 2:
                 viewHolder.star1.setImageResource(R.drawable.item_location_store_star);
                 viewHolder.star2.setImageResource(R.drawable.item_location_store_star);
                 break;
-            case "3":
+            case 3:
                 viewHolder.star1.setImageResource(R.drawable.item_location_store_star);
                 viewHolder.star2.setImageResource(R.drawable.item_location_store_star);
                 viewHolder.star3.setImageResource(R.drawable.item_location_store_star);
                 break;
-            case "4":
+            case 4:
                 viewHolder.star1.setImageResource(R.drawable.item_location_store_star);
                 viewHolder.star2.setImageResource(R.drawable.item_location_store_star);
                 viewHolder.star3.setImageResource(R.drawable.item_location_store_star);
                 viewHolder.star4.setImageResource(R.drawable.item_location_store_star);
                 break;
-            case "5":
+            case 5:
                 viewHolder.star1.setImageResource(R.drawable.item_location_store_star);
                 viewHolder.star2.setImageResource(R.drawable.item_location_store_star);
                 viewHolder.star3.setImageResource(R.drawable.item_location_store_star);
@@ -90,6 +105,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         }
         viewHolder.mTvContent.setText(mList.get(i).getContent());
         viewHolder.mTvDate.setText(DateUtil.timeslashData(mList.get(i).getCreate_time()+""));
+
+
+        if(!mList.get(i).getImg().get(0).equals("")){
+            LinearLayoutManager layoutManager=new LinearLayoutManager(mContext);
+            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            viewHolder.commentImgRv.setLayoutManager(layoutManager);
+            CommentImgAdapter adapter=new CommentImgAdapter(mContext,mList.get(i).getImg());
+            viewHolder.commentImgRv.setAdapter(adapter);
+        }else{
+            viewHolder.commentImgRv.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -108,6 +135,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         ImageView star5;
         TextView mTvContent;
         TextView mTvDate;
+        RecyclerView commentImgRv;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -121,6 +149,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
             mTvContent = itemView.findViewById(R.id.item_comment_tv_content);
             mTvDate = itemView.findViewById(R.id.item_comment_tv_date);
+            commentImgRv=itemView.findViewById(R.id.item_custom_comment_rv);
         }
     }
 }

@@ -119,7 +119,7 @@
                     android:id="@+id/item_discoverSupply_tv_enterPrice"
                     android:layout_width="@dimen/dp_56"
                     android:layout_height="wrap_content"
-                    android:text="企业保证"
+                    android:text="企业认证"
                     android:textSize="@dimen/sp_11"
                     android:textColor="@android:color/white"
                     android:background="#5AAFFA"

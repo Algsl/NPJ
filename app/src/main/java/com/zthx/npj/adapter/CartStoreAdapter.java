@@ -207,6 +207,14 @@ public class CartStoreAdapter extends RecyclerView.Adapter<CartStoreAdapter.View
             @Override
             public void onClick(View view) {
                 window.dismiss();
+                backgroundAlpha(1f);
+            }
+        });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                window.dismiss();
+                backgroundAlpha(1f);
             }
         });
     }

@@ -188,7 +188,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -277,7 +277,8 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
                 openActivity(StoreManagerCenterActivity.class);
                 break;
             case R.id.at_location_store_tv_ruzhu1:
-                if (is_open.equals("0")) {
+                toggle();
+                /*if (is_open.equals("0")) {
                     MainSubscribe.openStore(user_id, "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                         @Override
                         public void onSuccess(String result) {
@@ -303,7 +304,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
 
                         }
                     }));
-                }
+                }*/
                 break;
             case R.id.ac_storeManager_tv_address:
                 Intent intent = new Intent(this, MapAddressActivity.class);
@@ -326,6 +327,38 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
                 acStoreManagerLlEdit.setVisibility(View.VISIBLE);
                 acStoreManagerLlShow.setVisibility(View.GONE);
                 break;
+        }
+    }
+
+    private void toggle() {
+        if(is_open.equals("0")){//关闭->开启
+            is_open="1";
+            MainSubscribe.openStore(user_id, "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    showToast("店铺开启成功");
+                    atLocationStoreTvRuzhu1.setText("关闭");
+                }
+
+                @Override
+                public void onFault(String errorMsg) {
+
+                }
+            }));
+        }else{//开启->关闭
+            is_open="0";
+            MainSubscribe.openStore(user_id, "0", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    showToast("店铺关闭成功");
+                    atLocationStoreTvRuzhu1.setText("开启");
+                }
+
+                @Override
+                public void onFault(String errorMsg) {
+
+                }
+            }));
         }
     }
 
@@ -354,7 +387,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -369,7 +402,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }

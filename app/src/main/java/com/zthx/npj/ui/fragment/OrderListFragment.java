@@ -1,5 +1,6 @@
 package com.zthx.npj.ui.fragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -43,6 +44,7 @@ import com.zthx.npj.ui.MyStoreOrderDetailActivity;
 import com.zthx.npj.ui.StoreOrderRefuseActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.CommonDialog;
 
 import java.util.ArrayList;
 
@@ -141,6 +143,7 @@ public class OrderListFragment extends Fragment {
                     Intent intent = new Intent(getContext(), MyStoreOrderDetailActivity.class);
                     intent.putExtra("order_id", data.get(position).getId() + "");
                     intent.putExtra("order_state", data.get(position).getOrder_state() + "");
+                    intent.putExtra("type","mine");
                     startActivity(intent);
                 }
                 
@@ -167,19 +170,28 @@ public class OrderListFragment extends Fragment {
             //删除订单
             @Override
             public void onDeleteClick(final int position) {
-                String order_id = data.get(position).getId()+"";
-                SetSubscribe.delOrder(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                CommonDialog dialog=new CommonDialog(getContext(), R.style.dialog, "订单删除后将无法找回，确定要删除？", true, new CommonDialog.OnCloseListener() {
                     @Override
-                    public void onSuccess(String result) {
-                        mAdapter.notifyItemRemoved(position);
-                        getOrder();
-                    }
+                    public void onClick(Dialog dialog, boolean confirm) {
+                        if(confirm){
+                            String order_id = data.get(position).getId()+"";
+                            SetSubscribe.delOrder(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                                @Override
+                                public void onSuccess(String result) {
+                                    mAdapter.notifyItemRemoved(position);
+                                    showToast("订单删除成功");
+                                }
 
-                    @Override
-                    public void onFault(String errorMsg) {
+                                @Override
+                                public void onFault(String errorMsg) {
 
+                                }
+                            }));
+                        }
                     }
-                }));
+                });
+                dialog.setTitle("订单删除");
+                dialog.show();
             }
 
             //支付订单
@@ -227,7 +239,6 @@ public class OrderListFragment extends Fragment {
                     @Override
                     public void onSuccess(String result) {
                         showToast("确认收货成功");
-                        getOrder();
                     }
 
                     @Override

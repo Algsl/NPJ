@@ -116,8 +116,6 @@ public class GoodsDetailActivity extends ActivityBase {
     TextView atGoodsDetailTvPreSellPrice;
     @BindView(R.id.at_goods_detail_tv_pre_sell_yuding)
     TextView atGoodsDetailTvPreSellYuding;
-    @BindView(R.id.at_goods_detail_tv_pre_sell_yushou)
-    TextView atGoodsDetailTvPreSellYushou;
     @BindView(R.id.at_goods_detail_tv_pre_sell_dacheng)
     TextView atGoodsDetailTvPreSellDacheng;
     @BindView(R.id.at_goods_detail_ll_presell)
@@ -193,6 +191,10 @@ public class GoodsDetailActivity extends ActivityBase {
     TextView atGoodsDetailTvGoodsTitle1;
     @BindView(R.id.ac_goodsdetail_ll_kefu)
     LinearLayout acGoodsdetailLlKefu;
+    @BindView(R.id.ac_goodsDetail_tv_comment)
+    TextView acGoodsDetailTvComment;
+    @BindView(R.id.ac_goodsDetail_tv_prMoney)
+    TextView acGoodsDetailTvPrMoney;
 
 
     private String user_id = SharePerferenceUtils.getUserId(this);
@@ -275,10 +277,12 @@ public class GoodsDetailActivity extends ActivityBase {
             atGoodsDetailBtnPreSellKnow.setVisibility(View.VISIBLE);
             acGoodsDetailIvShare.setVisibility(View.GONE);//隐藏分享按钮
             getPreSellDetail(goodsId);
+
             if (!getIntent().getStringExtra("pre_type").equals("0")) {
                 acGoodsDetailLlBar.setVisibility(View.GONE);
                 acGoodsDetailChooseSize.setClickable(false);
             }
+
             atGoodsDetailBtnPreSellKnow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -291,6 +295,8 @@ public class GoodsDetailActivity extends ActivityBase {
                     acGoodsDetailLlKnow.setVisibility(View.VISIBLE);
                     acGoodsDetailRvContent.setVisibility(View.GONE);
                     acGoodsDetailRvComment.setVisibility(View.GONE);
+
+                    acGoodsDetailTvComment.setVisibility(View.GONE);
                 }
             });
         } else {
@@ -326,7 +332,7 @@ public class GoodsDetailActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }, this));
     }
@@ -338,14 +344,14 @@ public class GoodsDetailActivity extends ActivityBase {
 
         getGoodsContent();
 
-        nick_name=mSeckillData.getNick_name();
-        mobile=mSeckillData.getMobile();
+        nick_name = mSeckillData.getNick_name();
+        mobile = mSeckillData.getMobile();
 
         atGoodsDetailTvGoodsTitle.setText(mSeckillData.getGoods_name());
         atGoodsDetailTvGoodsNewPrice.setText("¥" + mSeckillData.getGoods_price());
         atGoodsDetailTvGoodsOldPrice.setText("¥" + mSeckillData.getMarket_price());
         atGoodsDetailTvGoodsOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        atGoodsDetailSelledNum.setText("已售" + (mSeckillData.getSold() == null ? "0" : mSeckillData.getSold())+"件");
+        atGoodsDetailSelledNum.setText("已售" + (mSeckillData.getSold() == null ? "0" : mSeckillData.getSold()) + "件");
         atGoodsDetailHoldNum.setText("库存" + mSeckillData.getGoods_num());
 
 
@@ -388,7 +394,7 @@ public class GoodsDetailActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }, this));
     }
@@ -400,8 +406,8 @@ public class GoodsDetailActivity extends ActivityBase {
         initBanner(mPreData.getGroup_img());
         getGoodsContent();
 
-        nick_name=mPreData.getNick_name();
-        mobile=mPreData.getMobile();
+        nick_name = mPreData.getNick_name();
+        mobile = mPreData.getMobile();
 
         if (mPreData.getIs_shoucang() == 1) {
             acGoodsDetailIvCollect.setImageResource(R.drawable.collect_star);
@@ -423,9 +429,13 @@ public class GoodsDetailActivity extends ActivityBase {
         atGoodsDetailTvPreSellTitle.setText(data.getGoods_name());
         atGoodsDetailTvPreSellPrice.setText("¥" + data.getGoods_price());
         atGoodsDetailTvPreSellYuding.setText(data.getUser_num());
-        atGoodsDetailTvPreSellYushou.setText(data.getSale_price());
-        atGoodsDetailTvPreSellDacheng.setText(data.getProportion() + "%");
-        atPreSellPb.setProgress(Integer.parseInt(data.getProportion() + ""));
+
+        Log.e("测试", "setPreSellData: "+(Double.parseDouble(data.getSale_num())*Double.parseDouble(data.getGoods_price()))+"\n"+ (Double.parseDouble(data.getSale_num())/Double.parseDouble(data.getGoods_num())*100));
+        acGoodsDetailTvPrMoney.setText(Long.parseLong(data.getSale_num())*Double.parseDouble(data.getGoods_price())+"");
+        atGoodsDetailTvPreSellDacheng.setText(Double.parseDouble(data.getSale_num())/Double.parseDouble(data.getGoods_num())*100 + "%");
+        //atPreSellPb.setProgress(Integer.parseInt(data.getProportion() + ""));
+        atPreSellPb.setMax((int)Long.parseLong(data.getGoods_num()));
+        atPreSellPb.setProgress((int)Long.parseLong(data.getSale_num()));
     }
 
 
@@ -439,7 +449,7 @@ public class GoodsDetailActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }, this));
     }
@@ -457,8 +467,8 @@ public class GoodsDetailActivity extends ActivityBase {
         atGoodsDetailSelledNum.setText("已售" + mGoodsData.getSold() + "");
         atGoodsDetailHoldNum.setText("库存" + mGoodsData.getInventory() + "");
         atGoodsDetailTvGoodsTitle1.setText(mGoodsData.getGoods_desc());
-        nick_name=mGoodsData.getNick_name();
-        mobile=mGoodsData.getMobile();
+        nick_name = mGoodsData.getNick_name();
+        mobile = mGoodsData.getMobile();
         String str;
         if (mGoodsData.getIs_free_shipping() == 0) {
             str = "免运费";
@@ -473,7 +483,7 @@ public class GoodsDetailActivity extends ActivityBase {
     @OnClick({R.id.at_goods_detail_btn_add_shopping_cart, R.id.at_goods_detail_btn_buy_now, R.id.ac_goodsDetail_ll_collect,
             R.id.ac_goodsDetail_ll_store, R.id.at_goods_detail_btn_pre_sell_know, R.id.at_goods_detail_btn_pre_sell_comment,
             R.id.at_goods_detail_btn_pre_sell_detail, R.id.ac_goodsDetail_chooseSize, R.id.ac_goodsDetail_iv_share,
-            R.id.ac_goodsDetail_iv_home, R.id.ac_goodsDetail_save,R.id.ac_goodsdetail_ll_kefu})
+            R.id.ac_goodsDetail_iv_home, R.id.ac_goodsDetail_save, R.id.ac_goodsdetail_ll_kefu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_goods_detail_btn_add_shopping_cart://加入购物车
@@ -542,6 +552,7 @@ public class GoodsDetailActivity extends ActivityBase {
                 acGoodsDetailLlKnow.setVisibility(View.GONE);
                 acGoodsDetailRvContent.setVisibility(View.VISIBLE);
                 acGoodsDetailRvComment.setVisibility(View.GONE);
+                acGoodsDetailTvComment.setVisibility(View.GONE);
                 atGoodsDetailBtnPreSellDetail.setBackgroundColor(getResources().getColor(R.color.app_theme));
                 atGoodsDetailBtnPreSellDetail.setTextColor(getResources().getColor(R.color.white));
                 atGoodsDetailBtnPreSellComment.setBackgroundColor(getResources().getColor(R.color.white));
@@ -617,10 +628,10 @@ public class GoodsDetailActivity extends ActivityBase {
                     dialog.setPositiveButton("去登录");
                     dialog.show();
                 } else {
-                    if(type.equals("1")){
+                    if (type.equals("1")) {
                         openActivity(StoreActivity.class, mGoodsData.getUser_id());
-                    }else if(type.equals("4")){
-                        openActivity(StoreActivity.class, mSeckillData.getUser_id()+"");
+                    } else if (type.equals("4")) {
+                        openActivity(StoreActivity.class, mSeckillData.getUser_id() + "");
                     }
 
                 }
@@ -658,7 +669,7 @@ public class GoodsDetailActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -668,6 +679,15 @@ public class GoodsDetailActivity extends ActivityBase {
         acGoodsDetailRvComment.setLayoutManager(layoutManager);
         CommentResponseBean bean = GsonUtils.fromJson(result, CommentResponseBean.class);
         ArrayList<CommentResponseBean.DataBean> data = bean.getData();
+
+        if (data == null || data.size() == 0) {
+            acGoodsDetailRvComment.setVisibility(View.GONE);
+            acGoodsDetailTvComment.setVisibility(View.VISIBLE);
+        } else {
+            acGoodsDetailRvComment.setVisibility(View.VISIBLE);
+            acGoodsDetailTvComment.setVisibility(View.GONE);
+        }
+
         CommentAdapter adapter = new CommentAdapter(this, data);
         acGoodsDetailRvComment.setItemAnimator(new DefaultItemAnimator());
         acGoodsDetailRvComment.setAdapter(adapter);
@@ -683,7 +703,7 @@ public class GoodsDetailActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                showToast("已收藏过该商品");
             }
         }));
     }
@@ -709,25 +729,47 @@ public class GoodsDetailActivity extends ActivityBase {
                     break;
                 case R.id.item_pop_goods_add_shopping_car:
                     attribute_id = sizePopWin.getAttId();
+
                     AddCartBean bean = new AddCartBean();
                     bean.setUser_id(user_id);
                     bean.setToken(token);
                     bean.setGoods_id(goodsId);
                     bean.setGoods_num(count + "");
                     bean.setItem_id(attribute_id);
-                    SetSubscribe.addCart(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                        @Override
-                        public void onSuccess(String result) {
-                            Toast.makeText(GoodsDetailActivity.this, "加入购物车成功", Toast.LENGTH_LONG).show();
-                            sizePopWin.dismiss();
-                            backgroundAlpha(1f);
-                        }
 
-                        @Override
-                        public void onFault(String errorMsg) {
-                            showToast(errorMsg);
+                    if (sizePopWin.getHasAttribute()) {
+                        if (attribute_id.equals("")) {
+                            showToast("请选择商品规格");
+                        } else {
+                            SetSubscribe.addCart(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                                @Override
+                                public void onSuccess(String result) {
+                                    Toast.makeText(GoodsDetailActivity.this, "加入购物车成功", Toast.LENGTH_LONG).show();
+                                    sizePopWin.dismiss();
+                                    backgroundAlpha(1f);
+                                }
+
+                                @Override
+                                public void onFault(String errorMsg) {
+                                    //showToast(errorMsg);
+                                }
+                            }));
                         }
-                    }));
+                    } else {
+                        SetSubscribe.addCart(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                            @Override
+                            public void onSuccess(String result) {
+                                Toast.makeText(GoodsDetailActivity.this, "加入购物车成功", Toast.LENGTH_LONG).show();
+                                sizePopWin.dismiss();
+                                backgroundAlpha(1f);
+                            }
+
+                            @Override
+                            public void onFault(String errorMsg) {
+                                //showToast(errorMsg);
+                            }
+                        }));
+                    }
                     break;
                 case R.id.item_pop_goods_buy:
                     attribute_id = sizePopWin.getAttId();

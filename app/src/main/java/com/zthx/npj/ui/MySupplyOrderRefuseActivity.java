@@ -26,6 +26,7 @@ import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.text.SimpleDateFormat;
@@ -152,7 +153,7 @@ public class MySupplyOrderRefuseActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -167,8 +168,13 @@ public class MySupplyOrderRefuseActivity extends ActivityBase {
 
         acMyOrderRefundTvAllPrice.setText("￥"+data.getOrder_price());
         acMyOrderRefundTvCharge.setText("￥"+data.getOrder_price());
+        String url = "http://app.npj-vip.com"+data.getGoods_img().get(0);
+        if (url.substring(url.length() - 4).equals(".mp4")) {
+            atMyOrderRefundIvGoodsImg.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
+        } else {
+            Glide.with(this).load(Uri.parse("http://app.npj-vip.com"+data.getGoods_img().get(0))).into(atMyOrderRefundIvGoodsImg);
+        }
 
-        Glide.with(this).load(Uri.parse("http://app.npj-vip.com"+data.getGoods_img().get(0))).into(atMyOrderRefundIvGoodsImg);
         atMyOrderRefundTvGoodsName.setText(data.getGoods_name());
         atMyOrderRefundTvGoodsPrice.setText("￥ " + data.getGoods_price());
         atMyOrderRefundTvGoodsNum.setText("x " + data.getOrder_num());
@@ -248,7 +254,7 @@ public class MySupplyOrderRefuseActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }

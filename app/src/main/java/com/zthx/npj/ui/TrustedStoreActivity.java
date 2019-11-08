@@ -2,14 +2,25 @@ package com.zthx.npj.ui;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.LocalStoreAdapter;
 import com.zthx.npj.net.been.ChengXinCertResponseBean;
 import com.zthx.npj.net.netsubscribe.CertSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -114,10 +125,54 @@ public class TrustedStoreActivity extends ActivityBase {
                 openActivity(ConsultActivity.class);
                 break;
             case R.id.ac_trustedStore_tv_apply:
-                CertSubscribe.margin(user_id,token,money,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                showPublishPopwindow();
+                /*CertSubscribe.margin(user_id,token,money,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        showToast("退款成功");
+                        showToast("申请成功");
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));*/
+                break;
+        }
+    }
+
+    public void showPublishPopwindow() {
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_trust_back, null);
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView);
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_350));
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_271));
+        // 设置PopupWindow的背景
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(false);
+        // 设置PopupWindow是否能响应点击事件
+        //window.setTouchable(true);
+        window.setFocusable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(contentView, Gravity.CENTER, 0, 0);
+
+        final EditText et= contentView.findViewById(R.id.pw_trustBack_et_back);
+        TextView tv=contentView.findViewById(R.id.pw_trustBack_tv_confirm);
+
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CertSubscribe.margin(user_id,token,et.getText().toString().trim(),new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        showToast("申请成功");
                     }
 
                     @Override
@@ -125,7 +180,31 @@ public class TrustedStoreActivity extends ActivityBase {
 
                     }
                 }));
-                break;
-        }
+                window.dismiss();
+                backgroundAlpha(1f);
+            }
+        });
+
+        contentView.findViewById(R.id.pw_iv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+                backgroundAlpha(1f);
+            }
+        });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                window.dismiss();
+                backgroundAlpha(1f);
+            }
+        });
+    }
+
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha;
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getWindow().setAttributes(lp);
     }
 }

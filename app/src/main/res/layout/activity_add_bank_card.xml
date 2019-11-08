@@ -92,6 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_10"
             android:hint="请输入银行卡号"
+            android:inputType="number"
             android:background="@null"/>
     </LinearLayout>
     <TextView

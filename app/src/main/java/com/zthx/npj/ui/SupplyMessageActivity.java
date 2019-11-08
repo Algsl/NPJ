@@ -620,7 +620,7 @@ public class SupplyMessageActivity extends ActivityBase {
 
                                 @Override
                                 public void onFault(String errorMsg) {
-                                    showToast(errorMsg);
+                                    //showToast(errorMsg);
                                 }
                             }));
                         }else{
@@ -654,7 +654,7 @@ public class SupplyMessageActivity extends ActivityBase {
 
                                 @Override
                                 public void onFault(String errorMsg) {
-                                    showToast(errorMsg);
+                                    //showToast(errorMsg);
                                 }
                             }));
                         }else{

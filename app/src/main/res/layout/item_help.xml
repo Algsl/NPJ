@@ -6,8 +6,8 @@
     android:orientation="horizontal">
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/item_help_iv_problemImg"
-            android:layout_width="@dimen/dp_27"
-            android:layout_height="@dimen/dp_27"
+            android:layout_width="@dimen/dp_35"
+            android:layout_height="@dimen/dp_35"
             android:src="@drawable/yuanlin"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_12"

@@ -158,11 +158,11 @@ public class StoreDetailResponseBean extends BaseReponseBean {
             this.update_time = update_time;
         }
 
-        public int getPopularity() {
+        public String getPopularity() {
             return popularity;
         }
 
-        public void setPopularity(int popularity) {
+        public void setPopularity(String popularity) {
             this.popularity = popularity;
         }
 
@@ -173,7 +173,7 @@ public class StoreDetailResponseBean extends BaseReponseBean {
         private int status;
         private long create_time;
         private long update_time;
-        private int popularity;
+        private String popularity;
 
     }
 }

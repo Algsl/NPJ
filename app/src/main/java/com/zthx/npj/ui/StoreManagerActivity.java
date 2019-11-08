@@ -254,7 +254,7 @@ public class StoreManagerActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                showToast("线下门店信息上传失败");
             }
         }));
     }

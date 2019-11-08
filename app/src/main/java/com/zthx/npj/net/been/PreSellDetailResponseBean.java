@@ -27,8 +27,8 @@ public class PreSellDetailResponseBean extends BaseReponseBean {
         private long shipment;
         private String content;
         private String user_num;
-        private int sale_price;
-        private double proportion;
+        //private int sale_price;
+        //private double proportion;
         private long is_shoucang;
 
         private String nick_name;
@@ -58,7 +58,7 @@ public class PreSellDetailResponseBean extends BaseReponseBean {
             this.is_shoucang = is_shoucang;
         }
 
-        public double getProportion() {
+        /*public double getProportion() {
             return proportion;
         }
 
@@ -72,7 +72,7 @@ public class PreSellDetailResponseBean extends BaseReponseBean {
 
         public void setSale_price(int sale_price) {
             this.sale_price = sale_price;
-        }
+        }*/
 
         public String getGoods_name() {
             return goods_name;

@@ -70,31 +70,31 @@ public class LocationStoreAdapter extends RecyclerView.Adapter<LocationStoreAdap
         viewHolder.mTvPopularity.setText("当前人气"+list.get(i).getPopularity());
         viewHolder.mTvOffer.setText("葫芦币折扣"+ list.get(i).getOffer() + "%现金");
         viewHolder.mTvRelief.setText("新会员减免"+ (int)Double.parseDouble(list.get(i).getRelief()) +"元现金");
-        switch (list.get(i).getStar()) {
+        switch ((int) Math.floor(list.get(i).getStar())) {
             case 1:
-                viewHolder.star1.setBackgroundResource(R.drawable.item_location_store_star);
+                viewHolder.star1.setImageResource(R.drawable.item_location_store_star);
                 break;
             case 2:
-                viewHolder.star1.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star2.setBackgroundResource(R.drawable.item_location_store_star);
+                viewHolder.star1.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star2.setImageResource(R.drawable.item_location_store_star);
                 break;
             case 3:
-                viewHolder.star1.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star2.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star3.setBackgroundResource(R.drawable.item_location_store_star);
+                viewHolder.star1.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star2.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star3.setImageResource(R.drawable.item_location_store_star);
                 break;
             case 4:
-                viewHolder.star1.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star2.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star3.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star4.setBackgroundResource(R.drawable.item_location_store_star);
+                viewHolder.star1.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star2.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star3.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star4.setImageResource(R.drawable.item_location_store_star);
                 break;
             case 5:
-                viewHolder.star1.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star2.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star3.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star4.setBackgroundResource(R.drawable.item_location_store_star);
-                viewHolder.star5.setBackgroundResource(R.drawable.item_location_store_star);
+                viewHolder.star1.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star2.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star3.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star4.setImageResource(R.drawable.item_location_store_star);
+                viewHolder.star5.setImageResource(R.drawable.item_location_store_star);
         }
     }
 

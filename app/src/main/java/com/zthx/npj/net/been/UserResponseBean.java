@@ -18,11 +18,20 @@ public class UserResponseBean extends BaseReponseBean{
         private String signature;
         private int level;
         private long gourd_coin;
+        private long shoucang_num;
 
         private int team_level;
         private int boss_level;
         private int city_level;
 
+
+        public long getShoucang_num() {
+            return shoucang_num;
+        }
+
+        public void setShoucang_num(long shoucang_num) {
+            this.shoucang_num = shoucang_num;
+        }
 
         public int getTeam_level() {
             return team_level;

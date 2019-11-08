@@ -445,9 +445,9 @@ public class MineFragment
         fgMineTvTel.setText(data.getMobile());
         SharePerferenceUtils.setUserMobile(getContext(), data.getMobile());
         fgMineTvWord.setText(data.getSignature() == null ? "这个人很懒，什么也没有留下" : data.getSignature());
-        fgMineTvGourdCoin.setText(String.valueOf(data.getGourd_coin()));
-        fgMineTvCouponNum.setText(String.valueOf(data.getCoupon_num()));
-        fgMineTvCollectionNum.setText(String.valueOf(data.getCollection_num()));
+        fgMineTvGourdCoin.setText(data.getGourd_coin()+"");
+        fgMineTvCouponNum.setText(data.getCoupon_num()+"");
+        fgMineTvCollectionNum.setText(data.getShoucang_num()+"");
         balance = data.getBalance();
         SharePerferenceUtils.setBalance(getContext(), balance);
         Glide.with(getContext()).load(Uri.parse(data.getHead_img())).into(fgMineIvHeadPic);
@@ -455,7 +455,6 @@ public class MineFragment
         SharePerferenceUtils.setNickName(getContext(), data.getNick_name());
         SharePerferenceUtils.setReputation(getContext(), data.getReputation());
         SharePerferenceUtils.putString(getContext(), "level", String.valueOf(data.getLevel()));
-
 
         //MyCustomUtils.showLevelImg(data.getLevel(), fgMineIvLevelimg);
         MyCustomUtils.showLevelImg(data.getCity_level(),data.getBoss_level(),data.getTeam_level(),data.getLevel(),fgMineIvLevelimg);

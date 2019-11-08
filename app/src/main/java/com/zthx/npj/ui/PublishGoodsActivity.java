@@ -136,6 +136,7 @@ public class PublishGoodsActivity extends ActivityBase {
 
         getGoodsCate();
 
+
         acPulishGoodsIvGoodsImg.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
             @Override
             public void onImageClick(int position, String url, String realPath, int realType, ImageView iv) {
@@ -185,7 +186,7 @@ public class PublishGoodsActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -347,7 +348,7 @@ public class PublishGoodsActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
                 //Toast.makeText(PublishGoodsActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
             }
         }));

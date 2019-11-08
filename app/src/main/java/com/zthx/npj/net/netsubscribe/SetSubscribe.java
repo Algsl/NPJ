@@ -89,24 +89,10 @@ public class SetSubscribe {
 
     /**
      * 添加收货地址
-     * @param user_id
-     * @param token
-     * @param consignee
-     * @param mobile
-     * @param address
-     * @param house_number
-     * @param is_default
+     * @param bean
      * @param subscriber
      */
-    public static void addAddress(String user_id,String token,String consignee,String mobile,String address,String house_number,String is_default, DisposableObserver<ResponseBody> subscriber) {
-        AddAddressBean bean=new AddAddressBean();
-        bean.setUser_id(user_id);
-        bean.setToken(token);
-        bean.setConsignee(consignee);
-        bean.setMobile(mobile);
-        bean.setAddress(address);
-        bean.setHouse_number(house_number);
-        bean.setIs_default(is_default);
+    public static void addAddress(AddAddressBean bean, DisposableObserver<ResponseBody> subscriber) {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().addAddress(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
@@ -1676,6 +1662,39 @@ public class SetSubscribe {
         bean.setUser_id(user_id);
         bean.setToken(token);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().userTwo(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 获取省列表
+     * @param subscriber
+     */
+    public static void getProvince(DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getProvince(new ProvinceBean());
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 获取市列表
+     * @param pid
+     * @param subscriber
+     */
+    public static void getCity(String pid,DisposableObserver<ResponseBody> subscriber) {
+        CityBean bean=new CityBean();
+        bean.setPid(pid);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getCity(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 获取区列表
+     * @param pid
+     * @param subscriber
+     */
+    public static void getDistrict(String pid,DisposableObserver<ResponseBody> subscriber) {
+        DistrictBean bean=new DistrictBean();
+        bean.setPid(pid);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getDistrict(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 }

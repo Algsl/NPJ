@@ -414,7 +414,7 @@ public class StoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                showToast("已收藏过该店铺");
             }
         }));
     }

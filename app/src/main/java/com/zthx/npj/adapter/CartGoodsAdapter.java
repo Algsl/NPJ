@@ -40,6 +40,11 @@ public class CartGoodsAdapter extends RecyclerView.Adapter<CartGoodsAdapter.View
         }else{
             Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
         }
+        if(mList.get(i).getItem_id().equals("0")){
+            viewHolder.goodsSize.setVisibility(View.GONE);
+        }else{
+            viewHolder.goodsSize.setText("规格："+mList.get(i).getKey_name());
+        }
         viewHolder.goodsName.setText(mList.get(i).getGoods_name());
         viewHolder.goodsPrice.setText("￥"+mList.get(i).getPrice());
         viewHolder.goodsNum.setText("x"+mList.get(i).getGoods_num());
@@ -60,6 +65,7 @@ public class CartGoodsAdapter extends RecyclerView.Adapter<CartGoodsAdapter.View
             goodsPrice=itemView.findViewById(R.id.item_cartGoods_tv_goodsPrice);
             goodsNum=itemView.findViewById(R.id.item_cartGoods_tv_goods_num);
             zitiHint=itemView.findViewById(R.id.item_cartStore_tv_zitiHint);
+            goodsSize=itemView.findViewById(R.id.item_cartStore_tv_goodsSize);
         }
     }
 }

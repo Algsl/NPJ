@@ -39,12 +39,17 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.baidu.mapapi.BMapManager.getContext;
 
 public class ShopingCartConfirmActivity extends ActivityBase {
     @BindView(R.id.ac_confirm_cartOrder_rv)
@@ -124,6 +129,9 @@ public class ShopingCartConfirmActivity extends ActivityBase {
     public static final String APPID = "2019062565701049";
     public static IWXAPI api;
     private static final int SDK_PAY_FLAG = 1001;
+
+    private static final String TAG = "测试";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -251,14 +259,29 @@ public class ShopingCartConfirmActivity extends ActivityBase {
                                 wxpay();
                                 break;
                             case "3":
-                                yuepay();
+
                                 break;
                         }
                     }
 
                     @Override
                     public void onFault(String errorMsg) {
-                        showToast(errorMsg);
+                        JSONObject obj = null;
+                        try {
+                            obj = new JSONObject(errorMsg);
+                            int code = obj.getInt("code");
+                            if(code==2){
+                                openActivity(OrderFinishActivity.class,"http://game.npj-vip.com/apk/logo.png","购物车商品",SharePerferenceUtils.getTotlePrice(),"1");
+                            }else{
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.e("测试", "onFault: " + (obj == null));
+                        if (obj == null) {
+                            showToast("余额不足");
+                        }
                     }
                 }));
                 break;
@@ -269,9 +292,6 @@ public class ShopingCartConfirmActivity extends ActivityBase {
         }
     }
 
-    private void yuepay() {
-        finish();
-    }
 
     private void wxpay() {
         GiftSubscribe.pay("weixin", data1.getOrder_sn(), data1.getPay_money(), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
@@ -282,7 +302,7 @@ public class ShopingCartConfirmActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -312,7 +332,7 @@ public class ShopingCartConfirmActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }

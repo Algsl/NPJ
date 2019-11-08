@@ -177,7 +177,7 @@ public class SupplyBillActivity extends ActivityBase {
                         atSupplyBillTvUnit.setText(data.getGoods_unit());
                         atSupplyBillTvBuyNum.setHint(data.getBuy_num()+""+data.getGoods_unit()+"起批");
                         address_id = data.getAddress_id() + "";
-                        atSupplyBillTvGongjiGoods.setText("共计" + atSupplyBillTvBuyNum.getText().toString().trim() + "斤商品   小计：");
+                        atSupplyBillTvGongjiGoods.setText("共计" + atSupplyBillTvBuyNum.getText().toString().trim() + data.getGoods_unit()+"商品   小计：");
                         allPrice=Double.parseDouble(atSupplyBillTvBuyNum.getText().toString()) * Double.parseDouble(data.getPrice());
                         atSupplyBillTvPrice.setText("¥" + allPrice);
                         atSupplyBillTvZongjia.setText("¥" + allPrice);
@@ -185,7 +185,7 @@ public class SupplyBillActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-                        showToast(errorMsg);
+                        //showToast(errorMsg);
                     }
                 }, this));
     }
@@ -343,7 +343,7 @@ public class SupplyBillActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -373,7 +373,7 @@ public class SupplyBillActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }

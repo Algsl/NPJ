@@ -101,7 +101,7 @@ public class LocationStoreActivity extends ActivityBase {
 
         back(titleBack);
         changeTitle(acTitle, "附近商家");
-        getLocalStore(type);
+        //getLocalStore(type);
 
         atLocationStoreTvRuzhu.setText("我的店铺");
         acLocaltionStoreTvAddress.setSelected(true);
@@ -135,6 +135,11 @@ public class LocationStoreActivity extends ActivityBase {
     @Override
     protected void onResume() {
         super.onResume();
+        page = 1;
+        if (mAdapter != null) {
+            mAdapter.clearData();
+        }
+        getLocalStore(type);
     }
 
     private void getLocalStore(String type) {
@@ -149,7 +154,6 @@ public class LocationStoreActivity extends ActivityBase {
             public void onSuccess(String result) {
                 LocalStoreResponseBean localStoreResponseBean = GsonUtils.fromJson(result, LocalStoreResponseBean.class);
                 final ArrayList<LocalStoreResponseBean.DataBean> data = localStoreResponseBean.getData();
-
                 LinearLayoutManager manager = new LinearLayoutManager(LocationStoreActivity.this, LinearLayoutManager.VERTICAL, false);
                 atLocationStoreRv.setLayoutManager(manager);
                 if (mAdapter == null) {//当适配器为空时，创建适配器
@@ -181,7 +185,7 @@ public class LocationStoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }, LocationStoreActivity.this));
     }
@@ -291,7 +295,7 @@ public class LocationStoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -360,7 +364,7 @@ public class LocationStoreActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }

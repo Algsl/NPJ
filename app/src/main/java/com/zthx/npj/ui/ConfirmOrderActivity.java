@@ -312,7 +312,7 @@ public class ConfirmOrderActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -363,7 +363,7 @@ public class ConfirmOrderActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -417,7 +417,7 @@ public class ConfirmOrderActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));*/
         SetSubscribe.selfLifting(user_id,token,SharePerferenceUtils.getLng(this),SharePerferenceUtils.getLat(this),new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
@@ -461,7 +461,7 @@ public class ConfirmOrderActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }, this));
     }
@@ -508,7 +508,7 @@ public class ConfirmOrderActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }, this));
     }
@@ -844,7 +844,7 @@ public class ConfirmOrderActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -874,7 +874,7 @@ public class ConfirmOrderActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }

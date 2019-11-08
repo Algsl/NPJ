@@ -16,10 +16,29 @@ public class CartOrderResponseBean extends BaseReponseBean{
             private long is_free_shipping;
             private String store_name;
             private String price;
+            private String item_id;
+            private String key_name;
+
 
             public boolean ziti=false;
             public String ziti_id;
             public String remark;
+
+            public String getKey_name() {
+                return key_name;
+            }
+
+            public void setKey_name(String key_name) {
+                this.key_name = key_name;
+            }
+
+            public String getItem_id() {
+                return item_id;
+            }
+
+            public void setItem_id(String item_id) {
+                this.item_id = item_id;
+            }
 
             public String getRemark() {
                 return remark;

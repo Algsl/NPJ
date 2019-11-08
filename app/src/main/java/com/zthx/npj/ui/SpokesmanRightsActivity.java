@@ -1,6 +1,7 @@
 package com.zthx.npj.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -73,7 +74,6 @@ public class SpokesmanRightsActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spokesman_rights2);
         ButterKnife.bind(this);
-
         back(titleThemeBack);
         changeTitle(titleThemeTitle, "收益明细");
 
@@ -100,6 +100,7 @@ public class SpokesmanRightsActivity extends ActivityBase {
     }
 
     private void setInCome(String result) {
+        Log.e("测试", "setInCome: "+result );
         InComeResponseBean bean = GsonUtils.fromJson(result, InComeResponseBean.class);
         InComeResponseBean.DataBean data = bean.getData();
         shouyiAmount = data.getIncome_amount() + "";

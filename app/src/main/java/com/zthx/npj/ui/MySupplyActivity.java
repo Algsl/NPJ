@@ -56,7 +56,7 @@ public class MySupplyActivity extends ActivityBase {
     @BindView(R.id.at_my_supply_ll_publish_supply)
     LinearLayout atMySupplyLlPublishSupply;
     @BindView(R.id.ac_mySupply_mcv_headImg)
-    MyCircleView acMySupplyMcvHeadImg;
+    ImageView acMySupplyMcvHeadImg;
     @BindView(R.id.ac_mySupply_tv_nickName)
     TextView acMySupplyTvNickName;
     @BindView(R.id.ac_mySupply_tv_reputation)

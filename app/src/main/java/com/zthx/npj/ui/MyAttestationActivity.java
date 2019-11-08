@@ -103,7 +103,7 @@ public class MyAttestationActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                showToast(errorMsg);
+                //showToast(errorMsg);
             }
         }));
     }
@@ -134,7 +134,7 @@ public class MyAttestationActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-                        showToast(errorMsg);
+                        //showToast(errorMsg);
                     }
                 }));
                 break;
@@ -161,7 +161,7 @@ public class MyAttestationActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-                        showToast(errorMsg);
+                        //showToast(errorMsg);
                     }
                 }));
                 break;
@@ -188,7 +188,7 @@ public class MyAttestationActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-                        showToast(errorMsg);
+                        //showToast(errorMsg);
                     }
                 }));
                 break;
@@ -216,7 +216,7 @@ public class MyAttestationActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-                        showToast(errorMsg);
+                        //showToast(errorMsg);
                     }
                 }));*/
                 break;
@@ -243,7 +243,7 @@ public class MyAttestationActivity extends ActivityBase {
 
                     @Override
                     public void onFault(String errorMsg) {
-                        showToast(errorMsg);
+                        //showToast(errorMsg);
                     }
                 }));
                 break;
