@@ -23,13 +23,13 @@ import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.GoodsImgDetailAdapter;
-import com.zthx.npj.base.BaseConstant;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.GiftDetailResponseBean;
 import com.zthx.npj.net.netsubscribe.GiftSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.GlideImageLoader;
@@ -66,12 +66,14 @@ public class GiftActivity extends ActivityBase {
     RecyclerView acGiftRvImgs;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.at_gift_detail_tv_content)
+    TextView atGiftDetailTvContent;
     /*@BindView(R.id.ac_gift_ll_know)
     LinearLayout acGiftLlKnow;*/
 
     private String mId;
-    private String user_id=SharePerferenceUtils.getUserId(this);
-    private String token=SharePerferenceUtils.getToken(this);
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
 
     private String level = SharePerferenceUtils.getUserLevel(this);
 
@@ -107,11 +109,12 @@ public class GiftActivity extends ActivityBase {
                 GiftDetailResponseBean.DataBean data = giftDetailResponseBean.getData();
                 atGiftDetailTvPrice.setText("¥" + data.getPrice());
                 atGiftDetailTvTitle.setText(data.getTitle());
+                atGiftDetailTvContent.setText(data.getDescription());
                 //atGiftDetailTvDes.setText(data.getDescription());
                 initBanner(data.getImggroup());
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(GiftActivity.this);
                 acGiftRvImgs.setLayoutManager(layoutManager);
-                GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(GiftActivity.this, data.getImggroup());
+                GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(GiftActivity.this, MyCustomUtils.getImgStr(data.getContent()));
                 acGiftRvImgs.setItemAnimator(new DefaultItemAnimator());
                 acGiftRvImgs.setAdapter(adapter);
             }
@@ -155,12 +158,12 @@ public class GiftActivity extends ActivityBase {
 
                         @Override
                         public void onFault(String errorMsg) {
-                            CommonDialog dialog=new CommonDialog(GiftActivity.this, R.style.dialog, "您还没有绑定推荐人，请先去绑定推荐人",true, new CommonDialog.OnCloseListener() {
+                            CommonDialog dialog = new CommonDialog(GiftActivity.this, R.style.dialog, "您还没有绑定推荐人，请先去绑定推荐人", true, new CommonDialog.OnCloseListener() {
                                 @Override
                                 public void onClick(Dialog dialog, boolean confirm) {
-                                    if(confirm){
+                                    if (confirm) {
                                         openActivity(InputInvitationCodeActivity.class);
-                                    }else{
+                                    } else {
                                         dialog.dismiss();
                                     }
                                 }

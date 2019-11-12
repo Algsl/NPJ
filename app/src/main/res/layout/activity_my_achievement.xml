@@ -74,7 +74,7 @@
                         android:layout_marginTop="@dimen/dp_23"
                         android:layout_marginLeft="@dimen/dp_10"/>
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/ac_myAchievement_tv_level"
                         android:layout_width="@dimen/dp_80"
                         android:layout_height="@dimen/dp_23"
@@ -85,6 +85,16 @@
                         android:background="@drawable/bg_daiyanren"
                         android:gravity="center"
                         android:textColor="@android:color/white"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:textSize="@dimen/sp_12"/>-->
+                    <ImageView
+                        android:id="@+id/ac_myAchievement_Iv_level"
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="23dp"
+                        android:layout_toRightOf="@id/at_my_achievement_head_pic"
+                        android:layout_below="@id/at_my_achievement_tv_name"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:textColor="@color/white"
                         android:layout_marginTop="@dimen/dp_5"
                         android:textSize="@dimen/sp_12"/>
 

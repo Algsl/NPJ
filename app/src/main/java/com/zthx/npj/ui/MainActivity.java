@@ -38,6 +38,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tencent.imsdk.TIMConversation;
+import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMManager;
 import com.zthx.npj.R;
 import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.base.BaseConstant;
@@ -47,6 +50,7 @@ import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.tencent.util.HttpUtil;
 import com.zthx.npj.tencent.util.TencentUtil;
 import com.zthx.npj.ui.fragment.DiscoverFragment;
 import com.zthx.npj.ui.fragment.HomeFragment;
@@ -62,8 +66,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -180,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
         getUserMsg();
 
         getBrowserResult();
+
     }
 
 
@@ -223,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
     private void getBrowserResult() {
         Intent mgetvalue = getIntent();
         String maction = mgetvalue.getAction();
+        Log.e("测试", "getBrowserResult: "+maction );
         if (Intent.ACTION_VIEW.equals(maction)) {
             Uri uri = mgetvalue.getData();
             if (uri != null) {

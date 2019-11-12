@@ -4,9 +4,8 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
@@ -31,6 +30,8 @@ public class MyOrderActivity extends ActivityBase {
     TextView atLocationStoreTvRuzhu;
     @BindView(R.id.title_back)
     ImageView titleBack;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +40,18 @@ public class MyOrderActivity extends ActivityBase {
         ButterKnife.bind(this);
 
         back(titleBack);
-        changeTitle(acTitle,"我的订单");
+        changeTitle(acTitle, "我的订单");
+        acTitleIv.setImageResource(R.drawable.discover_service_search);
 
-        int currentItem=getIntent().getIntExtra("currentItem",0);
+        acTitleIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openActivity(SearchStoreOrderActivity.class);
+            }
+        });
+
+
+        int currentItem = getIntent().getIntExtra("currentItem", 0);
 
         List<String> list = new ArrayList<>();
         list.add("全部");

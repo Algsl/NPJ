@@ -9,6 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.InComeResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
@@ -66,6 +69,8 @@ public class SpokesmanRightsActivity extends ActivityBase {
     LinearLayout acSpokesmanLlZt;
     @BindView(R.id.ac_spokesman_ll_jt)
     LinearLayout acSpokesmanLlJt;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
     private String shouyiAmount;
 
@@ -77,6 +82,14 @@ public class SpokesmanRightsActivity extends ActivityBase {
         back(titleThemeBack);
         changeTitle(titleThemeTitle, "收益明细");
 
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getInCome();
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
     }
 
     @Override
@@ -100,7 +113,6 @@ public class SpokesmanRightsActivity extends ActivityBase {
     }
 
     private void setInCome(String result) {
-        Log.e("测试", "setInCome: "+result );
         InComeResponseBean bean = GsonUtils.fromJson(result, InComeResponseBean.class);
         InComeResponseBean.DataBean data = bean.getData();
         shouyiAmount = data.getIncome_amount() + "";
@@ -137,10 +149,10 @@ public class SpokesmanRightsActivity extends ActivityBase {
                 openActivity(MyTeamActivity.class);
                 break;
             case R.id.ac_spokesman_ll_zt:
-                openActivity(ZjdyrActivity.class,"1");
+                openActivity(ZjdyrActivity.class, "1");
                 break;
             case R.id.ac_spokesman_ll_jt:
-                openActivity(ZjdyrActivity.class,"2");
+                openActivity(ZjdyrActivity.class, "2");
                 break;
         }
     }

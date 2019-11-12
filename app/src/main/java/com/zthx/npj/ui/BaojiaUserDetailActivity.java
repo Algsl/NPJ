@@ -1,11 +1,13 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,13 +15,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.tencent.imsdk.TIMConversationType;
+import com.tencent.qcloud.tim.uikit.modules.chat.base.ChatInfo;
+import com.tencent.qcloud.tim.uikit.modules.conversation.ConversationLayout;
+import com.tencent.qcloud.tim.uikit.modules.conversation.base.ConversationInfo;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.BaojiaUserDetailAdapter;
+import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.net.been.BaojiaUserDetailResponseBean;
 import com.zthx.npj.net.been.BaojiaUserListResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.tencent.activity.ChatActivity;
+import com.zthx.npj.tencent.util.Constants;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
@@ -61,6 +70,10 @@ public class BaojiaUserDetailActivity extends ActivityBase {
     private String token = SharePerferenceUtils.getToken(this);
     private String id = "";
     private String bjuser_id="";
+    private ConversationInfo conversationInfo=new ConversationInfo();
+
+    private String nick_name;
+    private String mobile;
 
 
     @Override
@@ -83,6 +96,8 @@ public class BaojiaUserDetailActivity extends ActivityBase {
         }else{
             Glide.with(this).load(Uri.parse("http://app.npj-vip.com"+bean.getData().get(position).getHead_img())).into(acBaojiaDetailMvHeadImg);
         }
+        nick_name=bean.getData().get(position).getNick_name();
+        mobile=bean.getData().get(position).getMobile();
         acBaojiaDetailTvNickName.setText(bean.getData().get(position).getNick_name());
         MyCustomUtils.showLevelImg((int)bean.getData().get(position).getLevel(),acBaojiaDetailTvLevel);
         getBaojiaDetail();
@@ -117,7 +132,22 @@ public class BaojiaUserDetailActivity extends ActivityBase {
                 openActivity(UserMsgActivity.class,bjuser_id);
                 break;
             case R.id.ac_baojia_btn_chat:
+                conversationInfo.setTitle(nick_name);
+                conversationInfo.setId(mobile);
+                startChatActivity(conversationInfo);
                 break;
         }
+    }
+
+    private void startChatActivity(ConversationInfo messageInfo) {
+        ChatInfo chatInfo = new ChatInfo();
+        chatInfo.setType(messageInfo.isGroup() ? TIMConversationType.Group : TIMConversationType.C2C);
+        Log.e("测试", "startChatActivity: "+messageInfo.getId()+" "+messageInfo.getTitle() );
+        chatInfo.setId(messageInfo.getId());
+        chatInfo.setChatName(messageInfo.getTitle());
+        Intent intent = new Intent(BaseApp.getApp(), ChatActivity.class);
+        intent.putExtra(Constants.CHAT_INFO, chatInfo);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        BaseApp.getApp().startActivity(intent);
     }
 }

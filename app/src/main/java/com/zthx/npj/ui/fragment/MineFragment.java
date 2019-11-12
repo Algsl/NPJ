@@ -211,7 +211,6 @@ public class MineFragment
                 Toast.makeText(getContext(), "请打开网络连接", Toast.LENGTH_SHORT).show();
             } else {
                 getUserInfo();
-                getAlsoLike();
                 getOrderSize();
             }
         }
@@ -633,6 +632,7 @@ public class MineFragment
                 SetSubscribe.myTeam(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
+
                         MyTeamResponseBean bean = GsonUtils.fromJson(result, MyTeamResponseBean.class);
                         MyTeamResponseBean.DataBean data = bean.getData();
                         if ((int) data.getStatus() == 1) {

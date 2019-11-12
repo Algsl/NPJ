@@ -1,36 +1,24 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.zthx.npj.R;
-import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.CommentResponseBean;
-import com.zthx.npj.ui.StoreGoodsInfoActivity;
+import com.zthx.npj.ui.ImageLookActivity;
 import com.zthx.npj.utils.DateUtil;
-import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.view.MyCircleView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
-
-import me.zhouzhuo.zzimagebox.ZzImageBox;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
 
@@ -61,7 +49,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
 // 点击事件一般都写在绑定数据这里，当然写到上边的创建布局时候也是可以的
         if (mItemClickListener != null){
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -108,14 +96,28 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
 
         if(!mList.get(i).getImg().get(0).equals("")){
-            LinearLayoutManager layoutManager=new LinearLayoutManager(mContext);
+            /*LinearLayoutManager layoutManager=new LinearLayoutManager(mContext);
             layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             viewHolder.commentImgRv.setLayoutManager(layoutManager);
             CommentImgAdapter adapter=new CommentImgAdapter(mContext,mList.get(i).getImg());
+            viewHolder.commentImgRv.setAdapter(adapter);*/
+            GridLayoutManager layoutManager=new GridLayoutManager(mContext,3);
+            viewHolder.commentImgRv.setLayoutManager(layoutManager);
+            CommentImgAdapter adapter=new CommentImgAdapter(mContext,mList.get(i).getImg());
             viewHolder.commentImgRv.setAdapter(adapter);
+            adapter.setOnItemClickListener(new CommentImgAdapter.ItemClickListener() {
+                @Override
+                public void onItemClickListener(int position) {
+                    Intent intent=new Intent(mContext,ImageLookActivity.class);
+                    intent.putExtra("position",(position+1));
+                    intent.putExtra("imgs",mList.get(i).getImg());
+                    mContext.startActivity(intent);
+                }
+            });
         }else{
             viewHolder.commentImgRv.setVisibility(View.GONE);
         }
+
 
     }
 

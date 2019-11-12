@@ -1,6 +1,5 @@
 package com.zthx.npj.ui;
 
-import android.app.Dialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,9 +21,11 @@ import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
-import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.MyCircleView;
+
+import java.text.DecimalFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,8 +42,7 @@ public class MyTeamActivity extends ActivityBase {
     ProgressBar atMyAchievementViewAll;
     @BindView(R.id.at_my_achievement_view_all_2)
     ProgressBar atMyAchievementViewAll2;
-    @BindView(R.id.ac_myAchievement_tv_level)
-    TextView acMyAchievementTvLevel;
+
     @BindView(R.id.ac_myAchievement_tv_totalMyTeam)
     TextView acMyAchievementTvTotalMyTeam;
     @BindView(R.id.title_theme_back)
@@ -87,6 +87,8 @@ public class MyTeamActivity extends ActivityBase {
     TextView acMyAchievementTvMyBoss;
     @BindView(R.id.ac_tvBg1)
     TextView acTvBg1;
+    @BindView(R.id.ac_myAchievement_Iv_level)
+    ImageView acMyAchievementIvLevel;
 
 
     private String user_id = SharePerferenceUtils.getUserId(this);
@@ -129,55 +131,55 @@ public class MyTeamActivity extends ActivityBase {
                 UserResponseBean.DataBean data = bean.getData();
                 switch (data.getTeam_level()) {
                     case 0:
-                        appLevel=1;
+                        appLevel = 1;
                         acMyAchievementTvTeamNow.setText("无");
                         acMyAchievementTvTeamNext.setText("天使代言人");
-                        total_team=100;
+                        total_team = 100;
                         break;
                     case 1:
-                        appLevel=2;
+                        appLevel = 2;
                         acMyAchievementTvTeamNow.setText("天使代言人");
                         acMyAchievementTvTeamNext.setText("金牌代言人");
-                        total_team=600;
+                        total_team = 600;
                         break;
                     case 2:
-                        appLevel=3;
+                        appLevel = 3;
                         acMyAchievementTvTeamNow.setText("金牌代言人");
                         acMyAchievementTvTeamNext.setText("钻石代言人");
-                        total_team=3000;
+                        total_team = 3000;
                         break;
                     case 3:
-                        appLevel=4;
+                        appLevel = 4;
                         acMyAchievementTvTeamNow.setText("钻石代言人");
                         acMyAchievementTvTeamNext.setText("首席代言人");
-                        total_team=10000;
+                        total_team = 10000;
                         break;
                 }
 
                 switch (data.getBoss_level()) {
                     case 0:
-                        appLevel=1;
+                        appLevel = 1;
                         acMyAchievementTvBossNow.setText("无");
                         acMyAchievementTvBossNext.setText("天使股东代言人");
-                        total_boss=30000;
+                        total_boss = 30000;
                         break;
                     case 1:
-                        appLevel=2;
+                        appLevel = 2;
                         acMyAchievementTvBossNow.setText("天使股东代言人");
                         acMyAchievementTvBossNext.setText("金牌股东代言人");
-                        total_boss=50000;
+                        total_boss = 50000;
                         break;
                     case 2:
-                        appLevel=3;
+                        appLevel = 3;
                         acMyAchievementTvBossNow.setText("金牌股东代言人");
                         acMyAchievementTvBossNext.setText("钻石股东代言人");
-                        total_boss=100000;
+                        total_boss = 100000;
                         break;
                     case 3:
-                        appLevel=4;
+                        appLevel = 4;
                         acMyAchievementTvBossNow.setText("钻石股东代言人");
                         acMyAchievementTvBossNext.setText("首席股东代言人");
-                        total_boss=200000;
+                        total_boss = 200000;
                         break;
                 }
                 atMyAchievementViewAll.setMax(total_team);
@@ -245,8 +247,8 @@ public class MyTeamActivity extends ActivityBase {
         atMyAchievementTvName.setText("推荐人：" + data.getResult().getNick_name());//推荐人
         acMyAchievementTvTotalMyTeam.setText(data.getResult().getTotal_myteam() + "");//辅导总人数
 
-        my_team=(int)data.getResult().getMyteam();
-        my_boss=(int)data.getResult().getMyamount();
+        my_team = (int) data.getResult().getMyteam();
+        my_boss = (int) Double.parseDouble(data.getResult().getMyamount());
 
         //设置团队代言人
 
@@ -254,59 +256,52 @@ public class MyTeamActivity extends ActivityBase {
         atMyAchievementViewAll.setProgress((int) data.getResult().getMyteam());
 
         acMyAchievementTvMyTeam.setText(data.getResult().getMyteam() + "人");//设置当前人数
-        acMyAchievementTvTotalTeam.setText(total_team+"");//设置总人数
+        acMyAchievementTvTotalTeam.setText(total_team + "");//设置总人数
 
         //设置团队代言人标识
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) acTvBg.getLayoutParams();
         layoutParams.width = (int) (data.getResult().getMyteam() * 10.0 / 10 / total_team * acTvBg.getMeasuredWidth());
-        //Log.e("测试", "setMyTeam: " + layoutParams.width + " " + acTvBg.getMeasuredWidth() + " " + acTvBg.getMeasuredHeight() + " " + (int) (data.getResult().getMyteam() * 10.0 / 10 / total_team));
+        Log.e("测试", "setMyTeam: " + layoutParams.width + " " + acTvBg.getMeasuredWidth() + " " + acTvBg.getMeasuredHeight() + " " + (int) (data.getResult().getMyteam() * 10.0 / 10 / total_team));
         acTvBg.setLayoutParams(layoutParams);
 
 
         //股东代言人
         //设置消费进度
-        atMyAchievementViewAll2.setProgress((int) data.getResult().getMyamount());
+        atMyAchievementViewAll2.setProgress((int) Double.parseDouble(data.getResult().getMyamount()));
 
-        acMyAchievementTvMyBoss.setText(data.getResult().getMyamount() + "元");//设置当前消费
-        acMyAchievementTvTotalBoss.setText((total_boss/10000)+ "万");//设置总消费
+        acMyAchievementTvMyBoss.setText(new DecimalFormat("0.0").format(Double.parseDouble(data.getResult().getMyamount()) / 10000) + "万元");//设置当前消费
+        acMyAchievementTvTotalBoss.setText((total_boss / 10000) + "万");//设置总消费
 
         //设置股东代言人标识
         RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) acTvBg1.getLayoutParams();
-        layoutParams1.width = (int) (data.getResult().getMyamount()* 10.0 / 10 / total_boss * acTvBg1.getMeasuredWidth());
-        Log.e("测试", "setMyTeam: " + layoutParams1.width + " " + acTvBg1.getMeasuredWidth() + " " + acTvBg1.getMeasuredHeight() + " " + (int) (data.getResult().getMyamount() * 10.0 / 10 / total_boss));
+        layoutParams1.width = (int) (Double.parseDouble(data.getResult().getMyamount()) / total_boss * acTvBg1.getMeasuredWidth());
+        Log.e("测试", "setMyTeam: " + layoutParams1.width + " " + acTvBg1.getMeasuredWidth() + " " + acTvBg1.getMeasuredHeight() + " " + (int) (Double.parseDouble(data.getResult().getMyamount()) / total_boss));
         acTvBg1.setLayoutParams(layoutParams1);
 
-        switch ((int) data.getResult().getLevel()) {
-            case 0:
-                acMyAchievementTvLevel.setText("普通会员");
-                break;
-            case 1:
-                acMyAchievementTvLevel.setText("VIP代言人");
-                break;
-        }
+        MyCustomUtils.showLevelImg(data.getResult().getCity_level(),data.getResult().getBoss_level(),data.getResult().getTeam_level(),data.getResult().getLevel(),acMyAchievementIvLevel);
     }
 
     @OnClick({R.id.at_my_achievement_btn_teamDYR, R.id.at_my_achievement_btn_bossDYR, R.id.at_my_achievement_btn_cityDYR})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_my_achievement_btn_teamDYR:
-                type=1;
-                if(my_team>=total_team){
-                    openActivity(ConfirmAchievementActivity.class,type+"",appLevel+"");
-                }else{
-                    showToast("团队人数不足，还差"+(total_team-my_team)+"人才可升级");
+                type = 1;
+                if (my_team >= total_team) {
+                    openActivity(ConfirmAchievementActivity.class, type + "", appLevel + "");
+                } else {
+                    showToast("团队人数不足，还差" + (total_team - my_team) + "人才可升级");
                 }
                 break;
             case R.id.at_my_achievement_btn_bossDYR:
-                type=2;
-                if(my_boss>=total_boss){
-                    openActivity(ConfirmAchievementActivity.class,type+"",appLevel+"");
-                }else{
-                    showToast("消费不足，还差"+(total_boss-my_boss)+"元才可升级");
+                type = 2;
+                if (my_boss >= total_boss) {
+                    openActivity(ConfirmAchievementActivity.class, type + "", appLevel + "");
+                } else {
+                    showToast("消费不足，还差" + (total_boss - my_boss) + "元才可升级");
                 }
                 break;
             case R.id.at_my_achievement_btn_cityDYR:
-                openActivity(ConfirmAchievementActivity.class,"3","1");
+                openActivity(ConfirmAchievementActivity.class, "3", "1");
                 break;
         }
     }

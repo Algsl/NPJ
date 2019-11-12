@@ -11,7 +11,9 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMManager;
 import com.tencent.qcloud.tim.uikit.component.TitleBarLayout;
 import com.tencent.qcloud.tim.uikit.component.action.PopActionClickListener;
 import com.tencent.qcloud.tim.uikit.component.action.PopDialogAdapter;
@@ -57,6 +59,8 @@ public class MessageCenterActivity extends ActivityBase {
     @BindView(R.id.conversation_layout)
     ConversationLayout conversationLayout;
 
+    private static final String TAG = "测试";
+
 
     private List<PopMenuAction> mConversationPopActions = new ArrayList<>();
     private ListView mConversationPopList;
@@ -88,6 +92,15 @@ public class MessageCenterActivity extends ActivityBase {
         initPopMenuAction();
 
         getUserMsg();
+
+        getChatNumber();
+    }
+
+    private void getChatNumber() {
+        TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, "18679410717");
+        //获取会话未读数
+        long num = con.getUnreadMessageNum();
+        Log.e(TAG, "unread msg num: " + num);
     }
 
     private void getUserMsg() {

@@ -192,6 +192,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     private String str = "农品街所有退换商品经审核后将直接退回至余额。可在余额中进行提现等操作" ;
     private String mobile;
     private String nick_name;
+    private String order_type;
 
 
     @Override
@@ -298,11 +299,13 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
 
     private void setMyOrderDetail(String result) {
         MyOrderDetailResponseBean bean = GsonUtils.fromJson(result, MyOrderDetailResponseBean.class);
-        MyOrderDetailResponseBean.DataBean data = bean.getData();
+        final MyOrderDetailResponseBean.DataBean data = bean.getData();
         acMyOrderDetailTvUserName.setText(data.getConsignee());
         acMyOrderDetailTvCellPhone.setText(data.getMobile());
         acMyOrderDetailTvAddress.setText(data.getAddress());
         atMyOrderDetailTvStoreName.setText(data.getStore_name());
+
+        order_type=data.getOrder_type();
 
         mobile=data.getMobile();
         nick_name=data.getStore_name();
@@ -314,7 +317,14 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MyStoreOrderDetailActivity.this, GoodsDetailActivity.class);
-                //intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                if(order_type.equals("4")){
+                    intent.setAction("miaosha");
+                    intent.putExtra(Const.SECKILL_STATUS, 2);
+                }else if(order_type.equals("3")){
+                    intent.setAction(Const.PRESELL);
+                    intent.putExtra("pre_type","0");
+                }
+                intent.putExtra(Const.GOODS_ID, data.getGoods_id()+"");
                 startActivity(intent);
             }
         });
@@ -322,8 +332,15 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MyStoreOrderDetailActivity.this, GoodsDetailActivity.class);
-                //intent.putExtra(Const.GOODS_ID, data.get(position).getId() + "");
+                intent.putExtra(Const.GOODS_ID, data.getGoods_id()+"");
                 startActivity(intent);
+            }
+        });
+
+        atMyOrderDetailTvStoreName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openActivity(StoreActivity.class, data.getStore_id()+"");
             }
         });
 
@@ -466,6 +483,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
                     break;
                 case "4":
+                    acMyOrderDetailLl.setVisibility(View.GONE);
                     acMyOrderDetailTvStatus.setText("交易成功");
                     acMyOrderDetailTvHint.setText("期待再次为您服务");
                     acMyOrderDetailTvOption.setVisibility(View.GONE);
@@ -480,7 +498,13 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
                     break;
+                case "5":
+                    acMyOrderDetailLl.setVisibility(View.GONE);
+                    acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
+                    acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    break;
                 case "6":
+                    acMyOrderDetailLl.setVisibility(View.GONE);
                     acMyOrderDetailLlPaySend.setVisibility(View.GONE);
                     acMyOrderDetailLlRefund.setVisibility(View.VISIBLE);
                     acMyOrderDetailLlRefundNum.setVisibility(View.VISIBLE);
@@ -590,6 +614,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
             case R.id.ac_myOrderDetail_tv_comment:
                 Intent intent2 = new Intent(MyStoreOrderDetailActivity.this, CommentActivity.class);
                 intent2.putExtra("order_id", order_id);
+                intent2.putExtra("order_type",order_type);
                 startActivity(intent2);
                 break;
             case R.id.ac_myOrderDetail_tv_chat:

@@ -44,6 +44,7 @@ import com.zthx.npj.net.netutils.NetUtil;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.tencent.activity.MessageCenterActivity;
+import com.zthx.npj.tencent.util.HttpUtil;
 import com.zthx.npj.ui.BannerActivity;
 import com.zthx.npj.ui.ClassfiysActivity;
 import com.zthx.npj.ui.GameActivity;
@@ -64,7 +65,12 @@ import com.zthx.npj.utils.marquee.LooperTextView;
 import com.zthx.npj.view.GlideImageLoader;
 
 import org.egret.egretnativeandroid.EgretNativeAndroid;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +78,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -312,8 +321,12 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.fg_home_iv_message:
-                intent = new Intent(getActivity(), MessageCenterActivity.class);
-                startActivity(intent);
+                if(SharePerferenceUtils.getUserId(getContext()).equals("")){
+                    Toast.makeText(getContext(),"请先完成登录",Toast.LENGTH_SHORT).show();
+                }else{
+                    intent = new Intent(getActivity(), MessageCenterActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.fg_home_ll_secKill:
                 intent = new Intent(getActivity(), SecKillActivity.class);

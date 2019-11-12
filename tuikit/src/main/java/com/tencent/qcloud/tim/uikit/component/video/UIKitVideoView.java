@@ -234,7 +234,7 @@ public class UIKitVideoView extends TextureView {
     }
 
     private void openVideo() {
-        TUIKitLog.i(TAG, "openVideo: mUri: " + mUri.getPath() + " mSurface: " + mSurface);
+        //TUIKitLog.i(TAG, "openVideo: mUri: " + mUri.getPath() + " mSurface: " + mSurface);
         if (mSurface == null) {
             return;
         }

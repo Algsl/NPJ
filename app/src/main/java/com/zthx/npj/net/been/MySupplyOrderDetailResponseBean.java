@@ -17,6 +17,16 @@ public class MySupplyOrderDetailResponseBean extends BaseReponseBean{
         private String goods_price;
         private long id;
         private String mobile;
+
+        public String getNick_name() {
+            return nick_name;
+        }
+
+        public void setNick_name(String nick_name) {
+            this.nick_name = nick_name;
+        }
+
+        private String nick_name;
         private String order_num;
         private String order_price;
         private String order_sn;

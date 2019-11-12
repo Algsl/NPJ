@@ -430,7 +430,6 @@ public class GoodsDetailActivity extends ActivityBase {
         atGoodsDetailTvPreSellPrice.setText("¥" + data.getGoods_price());
         atGoodsDetailTvPreSellYuding.setText(data.getUser_num());
 
-        Log.e("测试", "setPreSellData: "+(Double.parseDouble(data.getSale_num())*Double.parseDouble(data.getGoods_price()))+"\n"+ (Double.parseDouble(data.getSale_num())/Double.parseDouble(data.getGoods_num())*100));
         acGoodsDetailTvPrMoney.setText(Long.parseLong(data.getSale_num())*Double.parseDouble(data.getGoods_price())+"");
         atGoodsDetailTvPreSellDacheng.setText(Double.parseDouble(data.getSale_num())/Double.parseDouble(data.getGoods_num())*100 + "%");
         //atPreSellPb.setProgress(Integer.parseInt(data.getProportion() + ""));

@@ -307,7 +307,13 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
         acMyOrderDetailTvCellPhone.setText(data.getMobile());
         acMyOrderDetailTvAddress.setText(data.getAddress());
         goods_name=data.getGoods_name();
-        //atMyOrderDetailTvStoreName.setText(data.getStore_name());
+        Log.e("测试", "setMyOrderDetail: "+data.getNick_name().substring(2) );
+        if(data.getNick_name().substring(2).equals("用户")){
+            atMyOrderDetailTvStoreName.setText("农品街新客");
+        }else{
+            atMyOrderDetailTvStoreName.setText(data.getNick_name());
+        }
+
 
         mobile=data.getMobile();
 

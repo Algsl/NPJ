@@ -20,7 +20,33 @@ public class MyOrderDetailResponseBean extends BaseReponseBean{
         private String express_name;
         private String express_number;
         private String jujue_yuanyin;
+        private String order_type;
+        private long goods_id;
+        private long store_id;
 
+        public long getGoods_id() {
+            return goods_id;
+        }
+
+        public void setGoods_id(long goods_id) {
+            this.goods_id = goods_id;
+        }
+
+        public long getStore_id() {
+            return store_id;
+        }
+
+        public void setStore_id(long store_id) {
+            this.store_id = store_id;
+        }
+
+        public String getOrder_type() {
+            return order_type;
+        }
+
+        public void setOrder_type(String order_type) {
+            this.order_type = order_type;
+        }
 
         public String getExpress_code() {
             return express_code;

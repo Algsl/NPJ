@@ -6,15 +6,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.StoreManagerActivity"
     android:background="@color/background">
-
+    <include layout="@layout/title" android:id="@+id/title"/>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/title">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <include layout="@layout/title"></include>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

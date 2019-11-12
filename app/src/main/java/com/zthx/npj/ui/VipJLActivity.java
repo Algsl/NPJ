@@ -108,7 +108,6 @@ public class VipJLActivity extends ActivityBase {
     }
 
     private void setVipJL(String result) {
-        Log.e("测试", "setVipJL: "+result );
         VipJLResponseBean bean = GsonUtils.fromJson(result, VipJLResponseBean.class);
         ArrayList<VipJLResponseBean.DataBean.MingXi> mingXis=bean.getData().getMingxi();
         if (mingXis.size() == 0 || mingXis == null) {

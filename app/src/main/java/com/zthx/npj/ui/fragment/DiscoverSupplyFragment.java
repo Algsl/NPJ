@@ -249,7 +249,7 @@ public class DiscoverSupplyFragment extends Fragment {
             public void onFault(String errorMsg) {
 
             }
-        }, getContext()));
+        }));
     }
 
     private void getNeedData(String type) {
@@ -292,7 +292,7 @@ public class DiscoverSupplyFragment extends Fragment {
             public void onFault(String errorMsg) {
 
             }
-        }, getContext()));
+        }));
     }
 
 

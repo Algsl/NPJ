@@ -21,7 +21,8 @@
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_422">
+                android:layout_height="@dimen/dp_422"
+                android:visibility="visible">
                 <com.zthx.npj.banner.Banner
                     android:id="@+id/banner"
                     android:layout_width="match_parent"
@@ -511,7 +512,7 @@
                         android:layout_width="@dimen/dp_56"
                         android:layout_height="wrap_content"
                         android:background="#EA6E6D"
-                        android:text="3k保证"
+                        android:text="诚信认证"
                         android:textSize="@dimen/sp_11"
                         android:textColor="@android:color/white"
                         android:gravity="center"
@@ -569,13 +570,14 @@
                    android:id="@+id/at_supply_product_ll_need_detail"
                    android:visibility="gone"
                    android:layout_width="match_parent"
-                   android:layout_height="@dimen/dp_38"
+                   android:layout_height="@dimen/dp_58"
                    android:orientation="horizontal"
                    android:gravity="center_horizontal">
                    <TextView
                        android:layout_width="@dimen/dp_200"
                        android:layout_height="match_parent"
-                       android:layout_marginTop="@dimen/dp_8"
+                       android:layout_marginTop="@dimen/dp_10"
+                       android:layout_marginBottom="@dimen/dp_10"
                        android:text="采购详情"
                        android:textColor="@android:color/white"
                        android:textSize="@dimen/sp_16"
@@ -599,7 +601,7 @@
                <TextView
                    android:id="@+id/comment_hint"
                    android:layout_width="match_parent"
-                   android:layout_height="@dimen/dp_50"
+                   android:layout_height="@dimen/dp_30"
                    android:layout_marginBottom="@dimen/dp_50"
                    android:visibility="gone"
                    android:gravity="center"

@@ -28,25 +28,36 @@
                         android:layout_height="@dimen/dp_370"/>
 
                     <TextView
-                        android:id="@+id/at_gift_detail_tv_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="￥255"
-                        android:textStyle="bold"
-                        android:textColor="@color/app_theme"
-                        android:textSize="@dimen/sp_15"
-                        android:layout_marginLeft="@dimen/dp_12"
-                        android:layout_marginTop="@dimen/dp_20"/>
-
-                    <TextView
                         android:id="@+id/at_gift_detail_tv_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="PR梵睿品牌护肤诠释者"
                         android:textColor="@color/text3"
-                        android:textSize="@dimen/sp_13"
+                        android:textSize="@dimen/sp_15"
                         android:layout_marginLeft="@dimen/dp_13"
-                        android:layout_marginTop="@dimen/dp_12"/>
+                        android:layout_marginTop="@dimen/dp_8"/>
+                    <TextView
+                        android:id="@+id/at_gift_detail_tv_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text9"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:layout_marginLeft="@dimen/dp_12"
+                        android:layout_marginRight="@dimen/dp_12"
+                        android:textSize="@dimen/sp_12"
+                        android:text="测试"/>
+                    <TextView
+                        android:id="@+id/at_gift_detail_tv_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="￥255"
+                        android:textStyle="bold"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:textColor="@color/app_theme"
+                        android:textSize="@dimen/sp_15"
+                        android:layout_marginLeft="@dimen/dp_12"/>
+
+
                     <!--<TextView
                         android:id="@+id/at_gift_detail_tv_des"
                         android:layout_width="wrap_content"

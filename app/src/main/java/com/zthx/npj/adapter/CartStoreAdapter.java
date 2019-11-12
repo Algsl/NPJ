@@ -33,6 +33,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class CartStoreAdapter extends RecyclerView.Adapter<CartStoreAdapter.ViewHolder> {
@@ -124,7 +125,7 @@ public class CartStoreAdapter extends RecyclerView.Adapter<CartStoreAdapter.View
             viewHolder.showHint.setVisibility(View.GONE);
         }
         viewHolder.goodsNum.setText("共"+goodsNum+"件商品  小计：");
-        viewHolder.orderPrice.setText("￥ "+orderPrice);
+        viewHolder.orderPrice.setText("￥ "+new DecimalFormat("0.00").format(orderPrice));
 
 
 

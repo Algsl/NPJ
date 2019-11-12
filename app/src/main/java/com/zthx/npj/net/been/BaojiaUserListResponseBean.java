@@ -11,6 +11,15 @@ public class BaojiaUserListResponseBean extends BaseReponseBean{
         private String certification;
         private long reputation;
         private long id;
+        private String mobile;
+
+        public String getMobile() {
+            return mobile;
+        }
+
+        public void setMobile(String mobile) {
+            this.mobile = mobile;
+        }
 
         /*private long baojia_time;
         private long uid;

@@ -1,6 +1,5 @@
 package com.zthx.npj.ui;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,14 +7,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
-import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import butterknife.BindView;
@@ -42,6 +42,8 @@ public class MyWalletActivity extends ActivityBase {
     TextView titleThemeTvRight;
     @BindView(R.id.title_theme_img_right)
     ImageView titleThemeImgRight;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
     private String balance;
 
@@ -56,12 +58,20 @@ public class MyWalletActivity extends ActivityBase {
         changeTitle(titleThemeTitle, "我的钱包");
         changeRightText(titleThemeTvRight, "充值", RechargeActivity.class, null);
 
-        if(Double.parseDouble(SharePerferenceUtils.getUserLevel(this))>0){
+        if (Double.parseDouble(SharePerferenceUtils.getUserLevel(this)) > 0) {
             acMyWalletRlInManage.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             acMyWalletRlInManage.setVisibility(View.GONE);
         }
 
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getUserInfo();
+                refreshlayout.finishRefresh();
+                showToast("刷新完成");
+            }
+        });
     }
 
     @Override
@@ -70,7 +80,7 @@ public class MyWalletActivity extends ActivityBase {
         getUserInfo();
     }
 
-    @OnClick({ R.id.at_myWallet_tv_mx, R.id.ac_myallet_rl_bankCard, R.id.at_my_wallet_btn_tiqu, R.id.ac_myWallet_rl_inManage})
+    @OnClick({R.id.at_myWallet_tv_mx, R.id.ac_myallet_rl_bankCard, R.id.at_my_wallet_btn_tiqu, R.id.ac_myWallet_rl_inManage})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_myWallet_tv_mx:
@@ -80,7 +90,7 @@ public class MyWalletActivity extends ActivityBase {
                 openActivity(BankCardActivity.class);
                 break;
             case R.id.at_my_wallet_btn_tiqu:
-                openActivity(WithDrawActivity.class,balance);
+                openActivity(WithDrawActivity.class, balance);
                 break;
             case R.id.ac_myWallet_rl_inManage:
                 openActivity(SpokesmanRightsActivity.class);
@@ -107,7 +117,7 @@ public class MyWalletActivity extends ActivityBase {
     private void setUserInfo(String result) {
         UserResponseBean userResponseBean = GsonUtils.fromJson(result, UserResponseBean.class);
         UserResponseBean.DataBean data = userResponseBean.getData();
-        balance=data.getBalance();
+        balance = data.getBalance();
         atMyWalletTvMoney.setText(balance);
     }
 }

@@ -229,8 +229,8 @@
                                 android:layout_centerVertical="true"/>
                             <ImageView
                                 android:id="@+id/iv_jiantou"
-                                android:layout_width="@dimen/dp_6"
-                                android:layout_height="@dimen/dp_10"
+                                android:layout_width="@dimen/dp_14"
+                                android:layout_height="@dimen/dp_24"
                                 android:src="@drawable/mine_dingdan_go"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginRight="@dimen/dp_12"
@@ -243,8 +243,7 @@
                                 android:text="全部订单"
                                 android:textColor="@color/text6"
                                 android:textSize="@dimen/sp_12"
-                                android:layout_toLeftOf="@id/iv_jiantou"
-                                android:layout_marginRight="@dimen/dp_6"/>
+                                android:layout_toLeftOf="@id/iv_jiantou"/>
 
                         </RelativeLayout>
                         <View

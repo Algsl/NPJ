@@ -202,7 +202,6 @@
         <activity android:name=".ui.MapAddressActivity" />
         <activity android:name=".ui.GameActivity" />
         <activity android:name=".ui.UserMsgActivity" />
-        <activity android:name=".ui.ServicesChatActivity" />
         <activity android:name=".ui.ImgArticalActivity" />
         <activity android:name=".ui.NotificationDetailActivity" />
         <activity android:name=".ui.NotificationListActivity" />
@@ -229,6 +228,10 @@
         <activity android:name=".tencent.activity.ChatActivity" />
         <activity android:name=".ui.ServicesListActivity" />
         <activity android:name=".ui.ZjdyrActivity" />
+        <activity android:name=".ui.SearchStoreOrderActivity"/>
+        <activity android:name=".ui.ImageLookActivity"/>
+
+
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"

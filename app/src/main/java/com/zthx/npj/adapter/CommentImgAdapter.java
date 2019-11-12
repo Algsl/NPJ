@@ -18,6 +18,15 @@ public class CommentImgAdapter extends RecyclerView.Adapter<CommentImgAdapter.Vi
 
     private ArrayList<String> imgList;
     private Context mContext;
+    private ItemClickListener mItemClickListener;
+
+    public void setOnItemClickListener(ItemClickListener itemClickListener){
+        mItemClickListener=itemClickListener;
+    }
+
+    public interface ItemClickListener{
+        void onItemClickListener(int position);
+    }
 
     public CommentImgAdapter(Context context,ArrayList<String> imgs){
         mContext=context;
@@ -33,8 +42,16 @@ public class CommentImgAdapter extends RecyclerView.Adapter<CommentImgAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CommentImgAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final CommentImgAdapter.ViewHolder viewHolder, int i) {
         Glide.with(mContext).load(Uri.parse(imgList.get(i))).into(viewHolder.img);
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position=viewHolder.getLayoutPosition();
+                mItemClickListener.onItemClickListener(position);
+            }
+        });
     }
 
     @Override

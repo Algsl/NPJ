@@ -105,7 +105,7 @@
             android:layout_width="@dimen/dp_56"
             android:layout_height="wrap_content"
             android:background="#EB6877"
-            android:text="3k保证"
+            android:text="诚信认证"
             android:textSize="@dimen/sp_11"
             android:textColor="@android:color/white"
             android:gravity="center"

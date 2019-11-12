@@ -15,6 +15,7 @@ import org.egret.runtime.launcherInterface.INativePlayer;
 import org.egret.egretnativeandroid.EgretNativeAndroid;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,6 +28,11 @@ public class TestActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+
+        String position=getIntent().getStringExtra("position");
+        ArrayList<String> imgs=getIntent().getStringArrayListExtra("imgs");
+
+        Log.e(TAG, "onCreate: "+position+"/"+imgs.size() );
     }
 
 

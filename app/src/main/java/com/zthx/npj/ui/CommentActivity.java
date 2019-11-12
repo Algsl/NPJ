@@ -80,7 +80,7 @@ public class CommentActivity extends ActivityBase {
     private String img;
     private boolean isHint;
 
-
+    private String type;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,6 +93,8 @@ public class CommentActivity extends ActivityBase {
         changeTitle(acTitle, "发表评价");
         acTitle.setText("发表评价");
         atLocationStoreTvRuzhu.setText("提交");
+
+        type=getIntent().getStringExtra("order_type");
 
         acOrderCommentIvImg.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
             @Override
@@ -216,6 +218,7 @@ public class CommentActivity extends ActivityBase {
         bean.setGoods_star(goods_start);
         bean.setLogistics_star(logistics_start);
         bean.setService_star(service_start);
+        bean.setType(type);
         SetSubscribe.orderComment(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {

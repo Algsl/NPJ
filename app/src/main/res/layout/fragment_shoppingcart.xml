@@ -135,7 +135,7 @@
         android:layout_height="54dp"
         android:background="#ffffff"
         android:layout_alignParentBottom="true"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/ll_select_all"

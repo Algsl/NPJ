@@ -262,6 +262,7 @@ public class OrderListFragment extends Fragment {
             public void onCommentClick(int position) {
                 Intent intent = new Intent(getContext(), CommentActivity.class);
                 intent.putExtra("order_id", data.get(position).getId() + "");
+                intent.putExtra("order_type",data.get(position).getOrder_type()+"");
                 startActivity(intent);
             }
 

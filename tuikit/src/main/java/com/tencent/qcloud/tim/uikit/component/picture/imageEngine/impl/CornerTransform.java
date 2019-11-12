@@ -124,4 +124,6 @@ public class CornerTransform implements Transformation<Bitmap> {
     public String getId() {
         return null;
     }
+
+
 }

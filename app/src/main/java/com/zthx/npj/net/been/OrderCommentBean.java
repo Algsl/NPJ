@@ -9,6 +9,15 @@ public class OrderCommentBean {
     private String goods_star;
     private String logistics_star;
     private String service_star;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getUser_id() {
         return user_id;

@@ -32,7 +32,7 @@
             android:layout_centerVertical="true"
             android:background="@drawable/gray_conner"
             android:layout_toRightOf="@id/at_home_search_iv_back"
-            android:layout_marginLeft="@dimen/dp_30"
+            android:layout_marginLeft="@dimen/dp_20"
             android:hint="搜索你想要的产品"
             android:textSize="@dimen/sp_15"
             android:lines="1"
@@ -49,12 +49,13 @@
 
         <TextView
             android:id="@+id/at_home_search_tv_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_30"
+            android:gravity="center"
             android:layout_alignParentRight="true"
             android:text="搜索"
             android:textColor="@color/text6"
-            android:textSize="@dimen/sp_12"
+            android:textSize="@dimen/sp_14"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_12"/>
 
