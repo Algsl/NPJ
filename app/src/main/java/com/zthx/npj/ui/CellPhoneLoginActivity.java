@@ -38,6 +38,7 @@ import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.MyCircleView;
 
@@ -129,6 +130,8 @@ public class CellPhoneLoginActivity extends ActivityBase {
             case R.id.at_cellphone_login_tv_get_code:
                 if (TextUtils.isEmpty(atCellphoneLoginEtPhone.getText().toString().trim())) {
                     Toast.makeText(this, "手机号不能为空", Toast.LENGTH_SHORT).show();
+                }else if(!MyCustomUtils.isRegular(atCellphoneLoginEtPhone.getText().toString().trim(),"mobile")){
+                    Toast.makeText(this, "请正确填写手机号", Toast.LENGTH_SHORT).show();
                 } else {
                     new Thread(){
                         public void run(){

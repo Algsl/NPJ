@@ -5,72 +5,25 @@ public class MyOrderDetailResponseBean extends BaseReponseBean{
         private String consignee;
         private String mobile;
         private String address;
-        private String house_number;
+        private long goods_id;
         private String goods_name;
         private String goods_img;
+        private long item_id;
         private String goods_price;
         private long goods_num;
+        private long order_type;
+        private long store_id;
         private String order_price;
         private String store_name;
         private String shipping_fee;
         private long order_time;
         private String order_sn;
         private long order_state;
-        private String express_code;
         private String express_name;
         private String express_number;
         private String jujue_yuanyin;
-        private String order_type;
-        private long goods_id;
-        private long store_id;
-
-        public long getGoods_id() {
-            return goods_id;
-        }
-
-        public void setGoods_id(long goods_id) {
-            this.goods_id = goods_id;
-        }
-
-        public long getStore_id() {
-            return store_id;
-        }
-
-        public void setStore_id(long store_id) {
-            this.store_id = store_id;
-        }
-
-        public String getOrder_type() {
-            return order_type;
-        }
-
-        public void setOrder_type(String order_type) {
-            this.order_type = order_type;
-        }
-
-        public String getExpress_code() {
-            return express_code;
-        }
-
-        public void setExpress_code(String express_code) {
-            this.express_code = express_code;
-        }
-
-        public String getJujue_yuanyin() {
-            return jujue_yuanyin;
-        }
-
-        public void setJujue_yuanyin(String jujue_yuanyin) {
-            this.jujue_yuanyin = jujue_yuanyin;
-        }
-
-        public String getStore_name() {
-            return store_name;
-        }
-
-        public void setStore_name(String store_name) {
-            this.store_name = store_name;
-        }
+        private long refund_time;
+        private String key_name;
 
         public String getConsignee() {
             return consignee;
@@ -96,12 +49,12 @@ public class MyOrderDetailResponseBean extends BaseReponseBean{
             this.address = address;
         }
 
-        public String getHouse_number() {
-            return house_number;
+        public long getGoods_id() {
+            return goods_id;
         }
 
-        public void setHouse_number(String house_number) {
-            this.house_number = house_number;
+        public void setGoods_id(long goods_id) {
+            this.goods_id = goods_id;
         }
 
         public String getGoods_name() {
@@ -120,6 +73,14 @@ public class MyOrderDetailResponseBean extends BaseReponseBean{
             this.goods_img = goods_img;
         }
 
+        public long getItem_id() {
+            return item_id;
+        }
+
+        public void setItem_id(long item_id) {
+            this.item_id = item_id;
+        }
+
         public String getGoods_price() {
             return goods_price;
         }
@@ -136,12 +97,36 @@ public class MyOrderDetailResponseBean extends BaseReponseBean{
             this.goods_num = goods_num;
         }
 
+        public long getOrder_type() {
+            return order_type;
+        }
+
+        public void setOrder_type(long order_type) {
+            this.order_type = order_type;
+        }
+
+        public long getStore_id() {
+            return store_id;
+        }
+
+        public void setStore_id(long store_id) {
+            this.store_id = store_id;
+        }
+
         public String getOrder_price() {
             return order_price;
         }
 
         public void setOrder_price(String order_price) {
             this.order_price = order_price;
+        }
+
+        public String getStore_name() {
+            return store_name;
+        }
+
+        public void setStore_name(String store_name) {
+            this.store_name = store_name;
         }
 
         public String getShipping_fee() {
@@ -191,7 +176,32 @@ public class MyOrderDetailResponseBean extends BaseReponseBean{
         public void setExpress_number(String express_number) {
             this.express_number = express_number;
         }
+
+        public String getJujue_yuanyin() {
+            return jujue_yuanyin;
+        }
+
+        public void setJujue_yuanyin(String jujue_yuanyin) {
+            this.jujue_yuanyin = jujue_yuanyin;
+        }
+
+        public long getRefund_time() {
+            return refund_time;
+        }
+
+        public void setRefund_time(long refund_time) {
+            this.refund_time = refund_time;
+        }
+
+        public String getKey_name() {
+            return key_name;
+        }
+
+        public void setKey_name(String key_name) {
+            this.key_name = key_name;
+        }
     }
+
     private DataBean data;
 
     public DataBean getData() {

@@ -64,15 +64,14 @@
         android:textColor="@color/text3"
         android:textSize="@dimen/sp_15"
         android:layout_marginTop="@dimen/dp_25"
-        android:layout_marginLeft="@dimen/dp_12"/>
+        android:layout_marginLeft="@dimen/sp_14"/>
 
     <TextView
+        android:id="@+id/at_inputInvitation_tv_regulation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1.邀请人的邀请码请向身边代言人获取；
-2.一个用户只能绑定一个邀请人，绑定后无法修改。"
         android:layout_marginLeft="@dimen/dp_12"
         android:layout_marginTop="@dimen/dp_12"
         android:textSize="@dimen/sp_14"
-        android:textColor="@color/text3"/>
+        android:textColor="@color/text6"/>
 </LinearLayout>

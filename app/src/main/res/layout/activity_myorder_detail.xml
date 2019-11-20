@@ -38,21 +38,106 @@
                         android:textSize="@dimen/sp_16"
                         android:textColor="@color/white"
                         android:text="交易成功"/>
-                    <TextView
-                        android:id="@+id/ac_myOrderDetail_tv_hint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_3"
-                        android:layout_marginLeft="@dimen/dp_41"
-                        android:textSize="@dimen/sp_12"
-                        android:textColor="@color/white"
-                        android:text="期待再次为您服务"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_20"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/ac_myOrderDetail_tv_hint1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_3"
+                            android:layout_marginLeft="@dimen/dp_41"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:text="剩余"/>
+                        <com.zthx.npj.view.TimeTextView
+                            android:id="@+id/ac_myOrderDetail_tv_hint2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_3"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:text="1天20时20分30秒"/>
+                        <TextView
+                            android:id="@+id/ac_myOrderDetail_tv_hint3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_3"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:text="交易自动关闭"/>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+
+                    <!--退款拒绝提示-->
+                    <!--<LinearLayout
+                        android:id="@+id/ac_myOrderRefund_ll_reason"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_274"
+                        android:orientation="vertical">
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_10"
+                            android:background="@color/background"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_120"
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:layout_marginRight="@dimen/dp_12"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:background="@drawable/stroke_gray1_15">
+                            <TextView
+                                android:id="@+id/ac_myOrderRefund_tv_reason"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/dp_8"
+                                android:textSize="@dimen/sp_14"
+                                android:textColor="@color/text3"
+                                android:text="您好，我是卖家，修改退款原因，来去运费买家出，原则上是什么理由退货就写什么，卖家的原因卖家承担来去运费，比如质量问题，买家的原因买家承担来去运费，比如不想要了 "/>
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text9"
+                            android:textSize="@dimen/sp_13"
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:layout_marginRight="@dimen/dp_12"
+                            android:layout_marginTop="@dimen/dp_22"
+                            android:text="*若申请被拒绝，您可以尝试再次申请或申请客服介入，若 24小时内申请未处理，退款时申请将达成并退至您的余额里面。"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:gravity="center">
+                            <TextView
+                                android:id="@+id/ac_myOrderRefund_tv_again"
+                                android:layout_width="@dimen/dp_130"
+                                android:layout_height="@dimen/dp_35"
+                                android:gravity="center"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/sp_16"
+                                android:text="再次申请"
+                                android:background="@drawable/theme_conner_5"/>
+                            <TextView
+                                android:id="@+id/ac_myOrderRefund_tv_chat1"
+                                android:layout_width="@dimen/dp_130"
+                                android:layout_height="@dimen/dp_35"
+                                android:gravity="center"
+                                android:textSize="@dimen/sp_16"
+                                android:textColor="@color/app_theme"
+                                android:text="联系农品街客服"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:background="@drawable/stroke_theme_5"/>
+                        </LinearLayout>
+                    </LinearLayout>-->
 
                     <!--待付款、待发货、评价页面-->
                     <LinearLayout
@@ -327,8 +412,10 @@
                         android:visibility="gone"
                         android:orientation="vertical">
                         <LinearLayout
+                            android:id="@+id/ac_myOrderDetail_ll_refundHint"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dp_120"
+                            android:visibility="gone"
                             android:orientation="vertical">
                             <RelativeLayout
                                 android:layout_width="match_parent"

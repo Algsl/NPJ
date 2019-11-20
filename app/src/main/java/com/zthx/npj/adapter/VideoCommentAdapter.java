@@ -84,7 +84,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<VideoCommentAdapte
             }
             viewHolder.userName.setText(mList.get(i).getNick_name());
             viewHolder.content.setText(mList.get(i).getContent());
-            viewHolder.createTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(mList.get(i).getCreate_time()*1000)));
+            viewHolder.createTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(mList.get(i).getCreate_time()*1000)));
         }
     }
 

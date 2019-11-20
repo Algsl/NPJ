@@ -158,7 +158,7 @@
             tag:labelTextPaddingTop="@dimen/dp_4"
             tag:lineMargin="10dp"
             tag:wordMargin="10dp"
-            tag:selectType="SINGLE"
+            tag:selectType="SINGLE_IRREVOCABLY"
             tag:maxSelect="30" />
     </LinearLayout>
 

@@ -852,7 +852,6 @@ public class SupplyMessageInfoActivity extends ActivityBase {
 
 
     public void getImgPath(){
-
         for (String str : picPaths1) {
             if (str.split("http://app.npj-vip.com").length == 1) {
                 paths1.add(str);

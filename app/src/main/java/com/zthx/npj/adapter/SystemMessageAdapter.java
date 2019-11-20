@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.SystemMessageResponseBean;
+import com.zthx.npj.net.been.SystemMsgResponseBean;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.Date;
 
 public class SystemMessageAdapter extends RecyclerView.Adapter<SystemMessageAdapter.ViewHolder> {
 
-    private ArrayList<SystemMessageResponseBean.DataBean> mList;
+    private ArrayList<SystemMsgResponseBean.DataBean> mList;
     private Context mContext;
 
     private ItemClickListener mItemClickListener ;
@@ -32,7 +33,7 @@ public class SystemMessageAdapter extends RecyclerView.Adapter<SystemMessageAdap
 
     }
 
-    public SystemMessageAdapter(Context context, ArrayList<SystemMessageResponseBean.DataBean> list) {
+    public SystemMessageAdapter(Context context, ArrayList<SystemMsgResponseBean.DataBean> list) {
         mList = list;
         mContext = context;
     }
@@ -55,11 +56,13 @@ public class SystemMessageAdapter extends RecyclerView.Adapter<SystemMessageAdap
                 }
             });
         }
-        Glide.with(mContext).load(Uri.parse(mList.get(i).getMsgImg())).into(viewHolder.msgIv);
-        viewHolder.title.setText(mList.get(i).getMsgTitle());
-        viewHolder.content.setText(mList.get(i).getMsgContent());
-        viewHolder.msgFrom.setText(mList.get(i).getMsgFrom());
-        viewHolder.nowTime.setText(new SimpleDateFormat("yy/MM/dd").format(new Date(mList.get(i).getMsgTime())));
+        if(!mList.get(i).getImg().equals("")){
+            Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com/"+mList.get(i).getImg())).into(viewHolder.msgIv);
+        }
+        viewHolder.title.setText(mList.get(i).getTitle());
+        viewHolder.content.setText(mList.get(i).getDescription());
+        viewHolder.msgFrom.setText("来自  "+mList.get(i).getSource());
+        viewHolder.nowTime.setText(new SimpleDateFormat("yy/MM/dd").format(new Date(mList.get(i).getCreate_time()*1000)));
     }
 
     @Override

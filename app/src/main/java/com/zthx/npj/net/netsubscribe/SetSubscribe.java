@@ -1697,4 +1697,48 @@ public class SetSubscribe {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getDistrict(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
+
+    /**
+     * 获取乡镇列表
+     * @param pid
+     * @param subscriber
+     */
+    public static void getTown(String pid,DisposableObserver<ResponseBody> subscriber) {
+        TownBean bean=new TownBean();
+        bean.setPid(pid);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getTown(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的订单中搜索订单
+     * @param user_id
+     * @param token
+     * @param goods_name
+     * @param subscriber
+     */
+    public static void searchOrder(String user_id,String token,String goods_name,DisposableObserver<ResponseBody> subscriber) {
+        SearchOrderBean bean=new SearchOrderBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setGoods_name(goods_name);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().searchOrder(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 我的供应订单搜索
+     * @param user_id
+     * @param token
+     * @param title
+     * @param subscriber
+     */
+    public static void searchSupplyOrder(String user_id,String token,String title,DisposableObserver<ResponseBody> subscriber) {
+        SearchSupplyOrderBean bean=new SearchSupplyOrderBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setTitle(title);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().searchSupplyOrder(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
 }

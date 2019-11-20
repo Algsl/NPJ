@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.SupplyOrderResponseBean;
 import com.zthx.npj.utils.MyCustomUtils;
+import com.zthx.npj.view.TimeTextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -85,7 +86,7 @@ public class SupplyOrderAdapter extends RecyclerView.Adapter<SupplyOrderAdapter.
                 Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
             }
             Glide.with(mContext).load(Uri.parse(mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
-            viewHolder.goodsName.setText(mList.get(i).getGoods_name());
+            viewHolder.goodsName.setText(mList.get(i).getTitle());
             viewHolder.goodsPrice.setText("已付款 ￥"+mList.get(i).getOrder_price());
             viewHolder.goodsNum.setText(mList.get(i).getOrder_num()+"斤");
             viewHolder.goodsOrder.setText("订  单  号："+mList.get(i).getOrder_sn());
@@ -130,6 +131,13 @@ public class SupplyOrderAdapter extends RecyclerView.Adapter<SupplyOrderAdapter.
                     viewHolder.refund.setVisibility(View.VISIBLE);
                     viewHolder.goodsIvState.setImageResource(R.drawable.refund);
                     viewHolder.residueLlTime.setVisibility(View.VISIBLE);
+                    long time=mList.get(i).getUpdate_time()+3*24*60*60-System.currentTimeMillis()/1000;
+                    if(time<=0){
+                        //mItemClickListener.onRefund(list.get(i).getId()+"");
+                        viewHolder.residueLlTime.setVisibility(View.GONE);
+                    }else{
+                        setTime(viewHolder.refund_time,time);
+                    }
                     break;
                 case "7"://已退款
                     viewHolder.goodsState.setText("已退款");
@@ -159,6 +167,7 @@ public class SupplyOrderAdapter extends RecyclerView.Adapter<SupplyOrderAdapter.
         ImageView goodsImg,goodsIvState,ivVideo;
         TextView goodsName,goodsPrice,goodsNum,goodsOrder,goodsTime,goodsState,sendGoods,refund,residueTvTime;
         LinearLayout residueLlTime;
+        TimeTextView refund_time;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -175,6 +184,19 @@ public class SupplyOrderAdapter extends RecyclerView.Adapter<SupplyOrderAdapter.
             residueLlTime=itemView.findViewById(R.id.item_storeGoodsBill_ll_time);
             residueTvTime=itemView.findViewById(R.id.item_storeGoodsBill_tv_time);
             ivVideo=itemView.findViewById(R.id.item_storeQuotation_iv_video);
+
+            refund_time=itemView.findViewById(R.id.item_storeGoodsBill_tv_time);
+        }
+    }
+
+    public void setTime(TimeTextView ttv, long time) {
+        long second = time % 60;//计算秒
+        long min = time / 60 % 60;
+        long hour = time / 3600 % 24;
+        long day = time / 3600 / 24;
+        ttv.setTimes(new long[]{hour, min, second, day});
+        if (!ttv.isRun()) {
+            ttv.run();
         }
     }
 }

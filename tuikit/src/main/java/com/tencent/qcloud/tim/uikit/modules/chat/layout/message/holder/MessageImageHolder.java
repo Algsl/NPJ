@@ -142,7 +142,6 @@ public class MessageImageHolder extends MessageContentHolder {
         final TIMImageElem imageEle = (TIMImageElem) timMsg.getElement(0);
         final List<TIMImage> imgs = imageEle.getImageList();
         if (!TextUtils.isEmpty(msg.getDataPath())) {
-            Log.e(TAG, "performImage1: "+msg.getDataPath() );
             GlideEngine.loadCornerImage(contentImage, msg.getDataPath(), null, DEFAULT_RADIUS);
         } else {
             for (int i = 0; i < imgs.size(); i++) {
@@ -166,7 +165,6 @@ public class MessageImageHolder extends MessageContentHolder {
                         public void onSuccess() {
                             downloadEles.remove(img.getUuid());
                             msg.setDataPath(path);
-                            Log.e(TAG, "performImage2: "+msg.getDataPath() );
                             GlideEngine.loadCornerImage(contentImage, msg.getDataPath(), null, DEFAULT_RADIUS);
                         }
                     });
@@ -213,7 +211,6 @@ public class MessageImageHolder extends MessageContentHolder {
         final TIMVideo video = videoEle.getVideoInfo();
 
         if (!TextUtils.isEmpty(msg.getDataPath())) {
-            Log.e(TAG, "performImage3: "+msg.getDataPath() );
             GlideEngine.loadCornerImage(contentImage, msg.getDataPath(), null, DEFAULT_RADIUS);
         } else {
             final TIMSnapshot shotInfo = videoEle.getSnapshotInfo();
@@ -235,7 +232,6 @@ public class MessageImageHolder extends MessageContentHolder {
                 public void onSuccess() {
                     downloadEles.remove(shotInfo.getUuid());
                     msg.setDataPath(path);
-                    Log.e(TAG, "performImage4: "+msg.getDataPath() );
                     GlideEngine.loadCornerImage(contentImage, msg.getDataPath(), null, DEFAULT_RADIUS);
                 }
             });

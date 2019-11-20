@@ -4,26 +4,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
-
-import com.zthx.npj.entity.NotificationBean;
-import com.zthx.npj.jpush.TagAliasOperatorHelper;
-import com.zthx.npj.ui.MainActivity;
-import com.zthx.npj.ui.NotificationDetailActivity;
-import com.zthx.npj.utils.SharePerferenceUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.api.JPushMessage;
-import cn.jpush.android.service.JPushMessageReceiver;
 
 public class MyReceiver extends BroadcastReceiver {
     private static final String TAG = "测试";
@@ -56,13 +45,13 @@ public class MyReceiver extends BroadcastReceiver {
                 Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
 
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-                Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
+                /*Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
                 //打开自定义的Activity
                 Intent i = new Intent(context, NotificationDetailActivity.class);
                 i.putExtras(bundle);
                 //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
-                context.startActivity(i);
+                context.startActivity(i);*/
 
             } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
                 Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));

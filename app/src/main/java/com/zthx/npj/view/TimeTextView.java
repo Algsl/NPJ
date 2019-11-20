@@ -91,7 +91,7 @@ public class TimeTextView extends TextView implements Runnable {
         //标示已经启动
         run = true;
         ComputeTime();
-        String strTime =mday+"天"+mhour + ":" + mmin + ":" +msecond;
+        String strTime =mday+"天"+mhour + "时" + mmin + "分" +msecond+"秒";
         this.setText(Html.fromHtml(strTime));
         postDelayed(this, 1000);
     }

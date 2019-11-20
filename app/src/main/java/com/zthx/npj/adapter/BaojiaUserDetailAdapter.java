@@ -36,7 +36,7 @@ public class BaojiaUserDetailAdapter extends RecyclerView.Adapter<BaojiaUserDeta
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         if(mList.size()>0){
-            viewHolder.issueTime.setText("报价时间："+new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(new Date(mList.get(i).getCreate_time()*1000)));
+            viewHolder.issueTime.setText("报价时间："+new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date(mList.get(i).getCreate_time()*1000)));
             viewHolder.content.setText(mList.get(i).getContent());
             viewHolder.remark.setText("备注："+mList.get(i).getRemark());
         }

@@ -639,5 +639,17 @@ public interface HttpApi  {
 
     @POST("index.php/api/set/getdistrict.html")
     Observable<ResponseBody> getDistrict(@Body DistrictBean bean);
+
+    @POST("index.php/api/user2/searchorder.html")
+    Observable<ResponseBody> searchOrder(@Body SearchOrderBean bean);
+
+    @POST("index.php/api/user2/searchorder2.html")
+    Observable<ResponseBody> searchSupplyOrder(@Body SearchSupplyOrderBean bean);
+
+    @POST("index.php/api/set/gettown.html")
+    Observable<ResponseBody> getTown(@Body TownBean bean);
+
+    @POST("index.php/api/user2/bonuslist.html")
+    Observable<ResponseBody> getBonusList(@Body BonusListBean bean);
 }
 

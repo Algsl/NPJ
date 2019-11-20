@@ -91,7 +91,6 @@ public class InComeLogActivity extends ActivityBase {
         SetSubscribe.inComeLog(user_id, token, begin_time, end_time, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: "+result );
                 InComeLogResponseBean bean = GsonUtils.fromJson(result, InComeLogResponseBean.class);
                 ArrayList<InComeLogResponseBean.DataBean> data = bean.getData();
                 if (data.size() == 0 || data == null) {

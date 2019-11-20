@@ -5,7 +5,7 @@ public class LookUserResponseBean extends BaseReponseBean{
         private String nick_name;
         private String head_img;
         private String signature;
-        private long level;
+        private int level;
         private String lat;
         private String lng;
         private String reputation;
@@ -66,11 +66,11 @@ public class LookUserResponseBean extends BaseReponseBean{
             this.signature = signature;
         }
 
-        public long getLevel() {
+        public int getLevel() {
             return level;
         }
 
-        public void setLevel(long level) {
+        public void setLevel(int level) {
             this.level = level;
         }
 

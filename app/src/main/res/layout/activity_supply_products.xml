@@ -479,7 +479,7 @@
                         android:id="@+id/ac_supply_tv_realName"
                         android:layout_width="@dimen/dp_56"
                         android:layout_height="wrap_content"
-                        android:background="#FED435"
+                        android:background="@drawable/attestation1_conner_2"
                         android:text="实名认证"
                         android:textSize="@dimen/sp_11"
                         android:textColor="@android:color/white"
@@ -489,7 +489,7 @@
                         android:id="@+id/ac_supply_tv_enterPrice"
                         android:layout_width="@dimen/dp_56"
                         android:layout_height="wrap_content"
-                        android:background="#5AAFFA"
+                        android:background="@drawable/attestation2_conner_2"
                         android:text="企业认证"
                         android:textSize="@dimen/sp_11"
                         android:textColor="@android:color/white"
@@ -500,7 +500,7 @@
                         android:id="@+id/ac_supply_tv_purchase"
                         android:layout_width="@dimen/dp_56"
                         android:layout_height="wrap_content"
-                        android:background="#9685ED"
+                        android:background="@drawable/attestation3_conner_2"
                         android:text="采购认证"
                         android:textSize="@dimen/sp_11"
                         android:textColor="@android:color/white"
@@ -511,7 +511,7 @@
                         android:id="@+id/ac_supply_tv_trust"
                         android:layout_width="@dimen/dp_56"
                         android:layout_height="wrap_content"
-                        android:background="#EA6E6D"
+                        android:background="@drawable/attestation4_conner_2"
                         android:text="诚信认证"
                         android:textSize="@dimen/sp_11"
                         android:textColor="@android:color/white"
@@ -522,7 +522,7 @@
                         android:id="@+id/ac_supply_tv_zizhi"
                         android:layout_width="@dimen/dp_56"
                         android:layout_height="wrap_content"
-                        android:background="#62DD57"
+                        android:background="@drawable/attestation5_conner_2"
                         android:text="资质认证"
                         android:textSize="@dimen/sp_11"
                         android:textColor="@android:color/white"
@@ -601,8 +601,8 @@
                <TextView
                    android:id="@+id/comment_hint"
                    android:layout_width="match_parent"
-                   android:layout_height="@dimen/dp_30"
-                   android:layout_marginBottom="@dimen/dp_50"
+                   android:layout_height="@dimen/dp_20"
+                   android:layout_marginBottom="@dimen/dp_80"
                    android:visibility="gone"
                    android:gravity="center"
                    android:text="暂无评论"/>
@@ -612,61 +612,70 @@
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_49"
-        android:orientation="horizontal"
+        android:layout_height="@dimen/dp_50"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/white">
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/line_list"/>
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_49"
+            android:orientation="horizontal"
+            android:background="@color/white">
             <LinearLayout
-                android:id="@+id/at_supply_products_ll_call"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/at_supply_products_ll_call"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="@dimen/dp_22"
+                        android:layout_height="@dimen/dp_22"
+                        android:src="@drawable/supply_product_call"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="打电话"
+                        android:textColor="@color/text6"
+                        android:textSize="@dimen/sp_12"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/at_supply_products_ll_chat"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="@dimen/dp_22"
+                        android:layout_height="@dimen/dp_22"
+                        android:src="@drawable/supply_product_chat"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="聊一聊"
+                        android:textColor="@color/text6"
+                        android:textSize="@dimen/sp_12"/>
+                </LinearLayout>
+            </LinearLayout>
+            <Button
+                android:id="@+id/at_supply_products_btn_buy_now"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="@dimen/dp_22"
-                    android:layout_height="@dimen/dp_22"
-                    android:src="@drawable/supply_product_call"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="打电话"
-                    android:textColor="@color/text6"
-                    android:textSize="@dimen/sp_12"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/at_supply_products_ll_chat"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="@dimen/dp_22"
-                    android:layout_height="@dimen/dp_22"
-                    android:src="@drawable/supply_product_chat"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="聊一聊"
-                    android:textColor="@color/text6"
-                    android:textSize="@dimen/sp_12"/>
-            </LinearLayout>
+                android:background="@color/app_theme"
+                android:text="立即购买"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@android:color/white"/>
         </LinearLayout>
-        <Button
-            android:id="@+id/at_supply_products_btn_buy_now"
-            android:layout_width="@dimen/dp_0"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/app_theme"
-            android:text="立即购买"
-            android:textSize="@dimen/sp_14"
-            android:textColor="@android:color/white"/>
     </LinearLayout>
     <ImageView
         android:id="@+id/ac_supply_iv_back"

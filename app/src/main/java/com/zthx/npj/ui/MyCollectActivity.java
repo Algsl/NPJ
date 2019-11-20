@@ -107,6 +107,12 @@ public class MyCollectActivity extends ActivityBase {
         getAlsoLike();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getCollection();
+    }
+
     private void getAlsoLike() {
         MainSubscribe.alsoLike(page+"", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override

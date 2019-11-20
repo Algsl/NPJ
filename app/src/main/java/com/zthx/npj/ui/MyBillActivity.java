@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
@@ -18,6 +16,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MyBillActivity extends ActivityBase {
 
@@ -29,8 +28,8 @@ public class MyBillActivity extends ActivityBase {
     ImageView titleBack;
     @BindView(R.id.ac_title)
     TextView acTitle;
-    @BindView(R.id.at_location_store_tv_ruzhu)
-    TextView atLocationStoreTvRuzhu;
+    @BindView(R.id.ac_title_iv)
+    ImageView acTitleIv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +37,12 @@ public class MyBillActivity extends ActivityBase {
         setContentView(R.layout.activity_my_bill);
         ButterKnife.bind(this);
 
-        int currentItem=getIntent().getIntExtra("currentItem",0);
+        int currentItem = getIntent().getIntExtra("currentItem", 0);
 
         back(titleBack);
-        changeTitle(acTitle,"我的订单");
+        changeTitle(acTitle, "我的订单");
+
+        acTitleIv.setImageResource(R.drawable.discover_service_search);
 
         List<String> list = new ArrayList<>();
         list.add("全部");
@@ -63,5 +64,10 @@ public class MyBillActivity extends ActivityBase {
         atWantBuyManagerVp.setAdapter(mAdapter);
         atWantBuyManagerVp.setCurrentItem(currentItem);
         atWantBuyManagerTab.setupWithViewPager(atWantBuyManagerVp);
+    }
+
+    @OnClick(R.id.ac_title_iv)
+    public void onViewClicked() {
+        openActivity(SearchOrderActivity.class,"supply");
     }
 }

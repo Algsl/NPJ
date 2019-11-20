@@ -99,7 +99,6 @@ public class UserMoneyActivity extends ActivityBase {
         SetSubscribe.userMoney(user_id, token, type, begin_time, end_time, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: " + result);
                 setUserMoney(result);
             }
 

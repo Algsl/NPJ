@@ -41,6 +41,8 @@ import com.zthx.npj.adapter.LocalStoreAdapter;
 import com.zthx.npj.aliapi.OrderInfoUtil2_0;
 import com.zthx.npj.aliapi.PayResult;
 import com.zthx.npj.base.Const;
+import com.zthx.npj.net.been.BonusListBean;
+import com.zthx.npj.net.been.BonusListResponseBean;
 import com.zthx.npj.net.been.ConfirmPreSellBean;
 import com.zthx.npj.net.been.ConfirmPreSellResponseBean;
 import com.zthx.npj.net.been.GiftBuyOneBean;
@@ -67,6 +69,7 @@ import com.zthx.npj.utils.SharePerferenceUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -110,8 +113,6 @@ public class ConfirmOrderActivity extends ActivityBase {
     ImageView atConfirmOrderIvMyWechat;
     @BindView(R.id.at_confirm_order_iv_alipay)
     ImageView atConfirmOrderIvAlipay;
-    @BindView(R.id.at_confirm_order_tv_jin)
-    TextView atConfirmOrderTvJin;
     @BindView(R.id.at_confirm_order_rl_hongbao)
     RelativeLayout atConfirmOrderRlHongbao;
     @BindView(R.id.ac_confirmOrder_btn_pay)
@@ -176,6 +177,9 @@ public class ConfirmOrderActivity extends ActivityBase {
     private String token = SharePerferenceUtils.getToken(this);
     private String level = SharePerferenceUtils.getUserLevel(this);
     private ArrayList<SelfLiftingResponseBean.DataBean> localData = new ArrayList<>();
+
+    private String bonus_id="";
+    private String hongbao="";
 
     private String RSA_PRIVATE = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
             "NEU5up1siPOXKJBU0ypde7oPfm9gyy2ajgcw6v3KF2ryjot5AKlBED6qdQPRa5Sk\n" +
@@ -256,7 +260,6 @@ public class ConfirmOrderActivity extends ActivityBase {
                     acConfirmOrderRlTihuo.setVisibility(View.VISIBLE);
                     attId = getIntent().getStringExtra(Const.ATTRIBUTE_ID);
                     goodsId = getIntent().getStringExtra(Const.GOODS_ID);
-                    Log.e("测试", "onCreate: " + goodsCount);
                     goodsCount = getIntent().getStringExtra("count");
                     getGoodsData();
                 }
@@ -453,6 +456,8 @@ public class ConfirmOrderActivity extends ActivityBase {
 
                 atConfirmOrderTvPrice.setText("￥" + data.getPrice());
                 acConfirmOrderTvRealPay.setText("￥" + data.getPrice());
+
+                payMoney=Double.parseDouble(data.getPrice());
 
                 goodsImg = data.getImg();
                 goodsName = data.getTitle();
@@ -706,6 +711,8 @@ public class ConfirmOrderActivity extends ActivityBase {
         bean.setGift_id(goodsId);
         bean.setAddress_id(address_id);
         bean.setPay_code(pay_code);
+        bean.setBonus_id(bonus_id);
+
         GiftSubscribe.giftBuyOne(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -1016,9 +1023,37 @@ public class ConfirmOrderActivity extends ActivityBase {
             @Override
             public void onClick(View view) {
                 String hongbaoMa = input.getText().toString().trim();
-                acConfirmOrderTvHongbao.setText(hongbaoMa);
-                backgroundAlpha(1f);
-                window.dismiss();
+                GiftSubscribe.getBonusList(user_id,token,hongbaoMa,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Log.e("测试", "onSuccess: "+result );
+                        BonusListResponseBean bean=GsonUtils.fromJson(result,BonusListResponseBean.class);
+                        BonusListResponseBean.DataBean data=bean.getData();
+                        if(data.getStatus()==1){
+                            acConfirmOrderTvHongbao.setText("红包抵扣"+data.getList().getType_money()+"元");
+                            atConfirmOrderRlHongbao.setClickable(false);
+                            hongbao=data.getList().getType_money();
+                            bonus_id=data.getList().getBonus_id()+"";
+                            Log.e("测试", "onSuccess: "+payMoney+" "+Double.parseDouble(data.getList().getType_money())+" "+(payMoney-Double.parseDouble(data.getList().getType_money())));
+                            payMoney-=Double.parseDouble(data.getList().getType_money());
+                            acConfirmOrderTvRealPay.setText("￥" + new DecimalFormat("0.00").format(payMoney));
+                            backgroundAlpha(1f);
+                            window.dismiss();
+                        }else if(data.getStatus()==2){
+                            input.setText("");
+                            showToast("该红包码已被使用！");
+                        }else if(data.getStatus()==3){
+                            input.setText("");
+                            showToast("无效优惠码！");
+                        }
+
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
             }
         });
 

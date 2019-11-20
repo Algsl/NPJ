@@ -197,7 +197,6 @@ public class TrustedStore2Activity extends ActivityBase {
             @Override
             public void onClick(View view) {
                 payType="1";
-                showToast("订单生成中，请稍等...");
                 uploadData();
                 dialog.dismiss();
             }
@@ -206,7 +205,6 @@ public class TrustedStore2Activity extends ActivityBase {
             @Override
             public void onClick(View view) {
                 payType="2";
-                showToast("订单生成中，请稍等...");
                 uploadData();
                 dialog.dismiss();
             }
@@ -215,7 +213,6 @@ public class TrustedStore2Activity extends ActivityBase {
             @Override
             public void onClick(View view) {
                 payType="3";
-                showToast("订单生成中，请稍等...");
                 uploadData();
                 dialog.dismiss();
             }
@@ -237,7 +234,6 @@ public class TrustedStore2Activity extends ActivityBase {
         CertSubscribe.uploadChengxinCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                showToast("用户订单已生成,正在调起支付...");
                 UploadChengxinCertResponseBean bean=GsonUtils.fromJson(result,UploadChengxinCertResponseBean.class);
                 data1=bean.getData();
                 if(payType.equals("1")){
@@ -257,8 +253,7 @@ public class TrustedStore2Activity extends ActivityBase {
                     Log.e("测试", "onFault: " + obj);
                     int code = obj.getInt("code");
                     if (code == 2) {
-                        showToast("诚信认证成功");
-                        finish();
+                        openActivity(OrderFinishActivity.class,"http://game.npj-vip.com/apk/logo.png","诚信认证",check+"000","7");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

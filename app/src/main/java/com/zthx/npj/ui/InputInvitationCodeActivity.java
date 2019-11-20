@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +39,11 @@ public class InputInvitationCodeActivity extends ActivityBase {
     ImageView titleBack;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
+    @BindView(R.id.at_inputInvitation_tv_regulation)
+    TextView atInputInvitationTvRegulation;
+
+    private String regulation="1.邀请人的邀请码请向身边代言人获取；\n" +
+            "2.一个用户只能绑定一个邀请人，绑定后无法修改。";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +51,10 @@ public class InputInvitationCodeActivity extends ActivityBase {
         setContentView(R.layout.activity_input_invitation_code);
         ButterKnife.bind(this);
         back(titleBack);
-        changeTitle(acTitle,"输入邀请码");
+        changeTitle(acTitle, "输入邀请码");
         atLocationStoreTvRuzhu.setText("跳过");
+
+        atInputInvitationTvRegulation.setText(regulation);
     }
 
     @Override
@@ -84,34 +89,34 @@ public class InputInvitationCodeActivity extends ActivityBase {
     }
 
     private void invitation() {
-        if(atInputInvitationCodeEtPhone.getText().toString().trim().equals(SharePerferenceUtils.getUserMobile(this))){
+        if (atInputInvitationCodeEtPhone.getText().toString().trim().equals(SharePerferenceUtils.getUserMobile(this))) {
             showToast("请不要添加自己为推荐人");
-        }else{
+        } else {
             LoginSubscribe.invitation(atInputInvitationCodeEtPhone.getText().toString().trim(), SharePerferenceUtils.getUserId(this),
-                new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                    @Override
-                    public void onSuccess(String result) {
-                        showToast("代言人绑定成功");
-                        //SharePerferenceUtils.setIsBindSpokes(InputInvitationCodeActivity.this,"bind");
-                        startActivity(new Intent(InputInvitationCodeActivity.this, MainActivity.class));
-                    }
-
-                    @Override
-                    public void onFault(String errorMsg) {
-                        InvitationResponseBean bean=GsonUtils.fromJson(errorMsg,InvitationResponseBean.class);
-                        switch (bean.getCode()){
-                            case -1:
-                                break;
-                            case -3:
-                                showToast("请填写有效的手机号");
-                                break;
-                            case -5:
-                                showToast("请不要添加直属成员为推荐人");
-                                break;
+                    new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            showToast("代言人绑定成功");
+                            //SharePerferenceUtils.setIsBindSpokes(InputInvitationCodeActivity.this,"bind");
+                            startActivity(new Intent(InputInvitationCodeActivity.this, MainActivity.class));
                         }
-                        //Toast.makeText(InputInvitationCodeActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
-                    }
-                }, this));
+
+                        @Override
+                        public void onFault(String errorMsg) {
+                            InvitationResponseBean bean = GsonUtils.fromJson(errorMsg, InvitationResponseBean.class);
+                            switch (bean.getCode()) {
+                                case -1:
+                                    break;
+                                case -3:
+                                    showToast("请填写有效的手机号");
+                                    break;
+                                case -5:
+                                    showToast("请不要添加直属成员为推荐人");
+                                    break;
+                            }
+                            //Toast.makeText(InputInvitationCodeActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
+                        }
+                    }, this));
         }
     }
 }

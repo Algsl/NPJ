@@ -10,11 +10,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AlsoLikeAdatper;
 import com.zthx.npj.base.Const;
@@ -26,6 +30,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.TimeTextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,6 +38,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class StoreOrderRefuseActivity extends ActivityBase {
     @BindView(R.id.title_theme_back)
@@ -69,8 +75,8 @@ public class StoreOrderRefuseActivity extends ActivityBase {
     TextView atMyOrderRefundTvIsFreeShipping;
     @BindView(R.id.ac_myOrderRefund_tv_charge)
     TextView acMyOrderRefundTvCharge;
-    @BindView(R.id.ac_myOrderRefund_tv_needPay)
-    TextView acMyOrderRefundTvNeedPay;
+    /*@BindView(R.id.ac_myOrderRefund_tv_needPay)
+    TextView acMyOrderRefundTvNeedPay;*/
     @BindView(R.id.at_myOrderRefund_tv_orderSn)
     TextView atMyOrderRefundTvOrderSn;
     @BindView(R.id.at_myOrderRefund_ll_orderSn)
@@ -110,11 +116,17 @@ public class StoreOrderRefuseActivity extends ActivityBase {
     @BindView(R.id.ac_myOrderRefund_tv_state)
     TextView acMyOrderRefundTvState;
     @BindView(R.id.ac_myOrderRefund_tv_time)
-    TextView acMyOrderRefundTvTime;
+    TimeTextView acMyOrderRefundTvTime;
     @BindView(R.id.ac_myOrderRefund_ll_reason)
     LinearLayout acMyOrderRefundLlReason;
     @BindView(R.id.ac_myOrderRefund_tv_reason)
     TextView acMyOrderRefundTvReason;
+    @BindView(R.id.ac_myOrderRefund_rv)
+    RelativeLayout acMyOrderRefundRv;
+    @BindView(R.id.ac_myOrderRefund_tv_again)
+    TextView acMyOrderRefundTvAgain;
+    @BindView(R.id.ac_myOrderRefund_tv_chat1)
+    TextView acMyOrderRefundTvChat1;
 
     private String order_id;
     private String order_state;
@@ -137,6 +149,29 @@ public class StoreOrderRefuseActivity extends ActivityBase {
 
         getMyStoreOrderDetail();
         getAlsoLike();
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                page = 1;
+                if (adatper != null) {
+                    adatper.clearData();
+                }
+                seeMore.setText("查看更多");
+                getAlsoLike();
+                refreshlayout.finishRefresh();
+                refreshLayout.setLoadmoreFinished(false);
+            }
+        });
+
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                page++;
+                getAlsoLike();
+                refreshlayout.finishLoadmore();
+            }
+        });
 
     }
 
@@ -201,14 +236,14 @@ public class StoreOrderRefuseActivity extends ActivityBase {
 
     private void setMyOrderDetail(String result) {
         MyOrderDetailResponseBean bean = GsonUtils.fromJson(result, MyOrderDetailResponseBean.class);
-         data= bean.getData();
+        data = bean.getData();
         acMyOrderRefundTvUserName.setText(data.getConsignee());
         acMyOrderRefundTvCellPhone.setText(data.getMobile());
         acMyOrderRefundTvAddress.setText(data.getAddress());
         atMyOrderRefundTvStoreName.setText(data.getStore_name());
 
-        acMyOrderRefundTvAllPrice.setText("￥"+data.getOrder_price());
-        acMyOrderRefundTvCharge.setText("￥"+data.getOrder_price());
+        acMyOrderRefundTvAllPrice.setText("￥" + data.getOrder_price());
+        acMyOrderRefundTvCharge.setText("￥" + data.getOrder_price());
 
         Glide.with(this).load(Uri.parse(data.getGoods_img())).into(atMyOrderRefundIvGoodsImg);
         atMyOrderRefundTvGoodsName.setText(data.getGoods_name());
@@ -217,8 +252,8 @@ public class StoreOrderRefuseActivity extends ActivityBase {
         atMyOrderRefundTvIsFreeShipping.setText("￥ " + data.getShipping_fee());
 
         atMyOrderRefundTvOrderSn.setText(data.getJujue_yuanyin());
-        atMyOrderRefundTvPayType.setText("￥"+data.getOrder_price());
-        atMyOrderRefundTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time() * 1000)));
+        atMyOrderRefundTvPayType.setText("￥" + data.getOrder_price());
+        atMyOrderRefundTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(data.getOrder_time() * 1000)));
         atMyOrderRefundTvPayTime.setText(data.getOrder_sn());
 
         switch (order_state) {
@@ -228,7 +263,13 @@ public class StoreOrderRefuseActivity extends ActivityBase {
                 acMyOrderRefundTvOption.setText("退款中");
                 atMyOrderRefundLlAddress.setVisibility(View.VISIBLE);
                 acMyOrderRefundLlReason.setVisibility(View.GONE);
-                acMyOrderRefundTvTime.setVisibility(View.VISIBLE);
+                acMyOrderRefundRv.setVisibility(View.VISIBLE);
+                long time = data.getRefund_time() + 3 * 24 * 60 * 60 - System.currentTimeMillis() / 1000;
+                if (time <= 0) {
+                    acMyOrderRefundRv.setVisibility(View.GONE);
+                } else {
+                    setTime(acMyOrderRefundTvTime, time);
+                }
                 break;
             case "7":
                 acMyOrderRefundIv.setImageResource(R.drawable.refund_success);
@@ -236,7 +277,7 @@ public class StoreOrderRefuseActivity extends ActivityBase {
                 acMyOrderRefundTvOption.setText("退款成功");
                 atMyOrderRefundLlAddress.setVisibility(View.VISIBLE);
                 acMyOrderRefundLlReason.setVisibility(View.GONE);
-                acMyOrderRefundTvTime.setVisibility(View.GONE);
+                acMyOrderRefundRv.setVisibility(View.GONE);
                 break;
             case "8":
                 acMyOrderRefundIv.setImageResource(R.drawable.refund_fail);
@@ -245,7 +286,33 @@ public class StoreOrderRefuseActivity extends ActivityBase {
                 atMyOrderRefundLlAddress.setVisibility(View.GONE);
                 acMyOrderRefundLlReason.setVisibility(View.VISIBLE);
                 acMyOrderRefundTvReason.setText(data.getJujue_yuanyin());
-                acMyOrderRefundTvTime.setVisibility(View.GONE);
+                acMyOrderRefundRv.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+
+    public void setTime(TimeTextView ttv, long time) {
+        long second = time % 60;//计算秒
+        long min = time / 60 % 60;
+        long hour = time / 3600 % 24;
+        long day = time / 3600 / 24;
+        ttv.setTimes(new long[]{hour, min, second, day});
+        if (!ttv.isRun()) {
+            ttv.run();
+        }
+    }
+
+    @OnClick({R.id.ac_myOrderRefund_tv_again, R.id.ac_myOrderRefund_tv_chat1})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ac_myOrderRefund_tv_again:
+                Intent intent = new Intent(StoreOrderRefuseActivity.this, ApplyRefundActivity.class);
+                intent.putExtra("order_id", order_id);
+                startActivity(intent);
+                break;
+            case R.id.ac_myOrderRefund_tv_chat1:
+                openActivity(ServicesListActivity.class);
                 break;
         }
     }

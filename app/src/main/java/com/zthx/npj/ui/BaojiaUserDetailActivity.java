@@ -142,7 +142,6 @@ public class BaojiaUserDetailActivity extends ActivityBase {
     private void startChatActivity(ConversationInfo messageInfo) {
         ChatInfo chatInfo = new ChatInfo();
         chatInfo.setType(messageInfo.isGroup() ? TIMConversationType.Group : TIMConversationType.C2C);
-        Log.e("测试", "startChatActivity: "+messageInfo.getId()+" "+messageInfo.getTitle() );
         chatInfo.setId(messageInfo.getId());
         chatInfo.setChatName(messageInfo.getTitle());
         Intent intent = new Intent(BaseApp.getApp(), ChatActivity.class);

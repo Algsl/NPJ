@@ -18,6 +18,7 @@ import com.zthx.npj.net.netsubscribe.LoginSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,7 @@ public class LocalSpokesmanActivity extends ActivityBase {
     }
 
     private void requestLocalSpokesman() {
-        LoginSubscribe.getLocalSpokesman("34.810027", "113.65404", new OnSuccessAndFaultSub(
+        LoginSubscribe.getLocalSpokesman(SharePerferenceUtils.getLat(this),SharePerferenceUtils.getLng(this), new OnSuccessAndFaultSub(
                 new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {

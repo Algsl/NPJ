@@ -60,13 +60,14 @@
         <TextView
             android:id="@+id/item_myBillList_tv_goodsName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dp_40"
             android:text="韩国control眼部精华打底液隔离打底保湿水正品代购"
             android:layout_toRightOf="@id/item_myBillList_iv_goodsImg"
             android:layout_marginTop="@dimen/dp_12"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginLeft="@dimen/dp_11"
-            android:maxLines="2"/>
+            android:maxLines="2"
+            android:ellipsize="end"/>
             <TextView
                 android:id="@+id/item_myBillList_tv_goodsPrice"
                 android:layout_width="wrap_content"
@@ -99,25 +100,6 @@
         android:layout_gravity="right"
         android:layout_marginRight="@dimen/dp_12"
         android:layout_marginBottom="@dimen/dp_5">
-        <TextView
-            android:id="@+id/item_want_but_manager_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="总斤数："
-            android:layout_marginTop="@dimen/dp_8"
-            android:textColor="@color/text3"
-            android:textSize="@dimen/sp_12"
-            android:layout_marginLeft="@dimen/dp_12"/>
-
-        <TextView
-            android:id="@+id/item_myBillList_tv_orderNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="100斤"
-            android:layout_toRightOf="@id/item_want_but_manager_tv"
-            android:layout_marginTop="@dimen/dp_8"
-            android:textColor="@color/text3"
-            android:textSize="@dimen/sp_12"/>
 
         <TextView
             android:id="@+id/item_want_but_manager_tv2"
@@ -125,7 +107,6 @@
             android:layout_height="wrap_content"
             android:text="总金额"
             android:layout_marginLeft="@dimen/dp_10"
-            android:layout_toRightOf="@id/item_myBillList_tv_orderNum"
             android:layout_marginTop="@dimen/dp_8"
             android:textColor="@color/text3"
             android:textSize="@dimen/sp_12"/>

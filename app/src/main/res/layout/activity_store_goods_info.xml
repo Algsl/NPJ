@@ -204,6 +204,7 @@
                     android:textSize="@dimen/sp_13"/>
 
                 <ImageView
+                    android:id="@+id/ac_publishGoods_iv_hint1"
                     android:layout_width="@dimen/dp_20"
                     android:layout_height="@dimen/dp_20"
                     android:src="@drawable/help"
@@ -245,6 +246,7 @@
                     android:textSize="@dimen/sp_13"/>
 
                 <ImageView
+                    android:id="@+id/ac_publishGoods_iv_hint2"
                     android:layout_width="@dimen/dp_20"
                     android:layout_height="@dimen/dp_20"
                     android:src="@drawable/help"
@@ -286,6 +288,7 @@
                     android:textSize="@dimen/sp_13"/>
 
                 <ImageView
+                    android:id="@+id/ac_publishGoods_iv_hint3"
                     android:layout_width="@dimen/dp_20"
                     android:layout_height="@dimen/dp_20"
                     android:src="@drawable/help"
@@ -393,13 +396,13 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:hint="包邮"
-                    android:layout_toLeftOf="@id/publish_goods_iv"
+                    android:layout_toLeftOf="@id/ac_publishGoods_iv_hint4"
                     android:layout_marginRight="@dimen/dp_10"
                     android:textColorHint="@color/text3"
                     android:textSize="@dimen/sp_13"/>
 
                 <ImageView
-                    android:id="@+id/publish_goods_iv"
+                    android:id="@+id/ac_publishGoods_iv_hint4"
                     android:layout_width="@dimen/dp_20"
                     android:layout_height="@dimen/dp_20"
                     android:src="@drawable/help"

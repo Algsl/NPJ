@@ -261,7 +261,6 @@ public class MyTeamActivity extends ActivityBase {
         //设置团队代言人标识
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) acTvBg.getLayoutParams();
         layoutParams.width = (int) (data.getResult().getMyteam() * 10.0 / 10 / total_team * acTvBg.getMeasuredWidth());
-        Log.e("测试", "setMyTeam: " + layoutParams.width + " " + acTvBg.getMeasuredWidth() + " " + acTvBg.getMeasuredHeight() + " " + (int) (data.getResult().getMyteam() * 10.0 / 10 / total_team));
         acTvBg.setLayoutParams(layoutParams);
 
 

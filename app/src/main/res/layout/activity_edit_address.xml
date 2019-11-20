@@ -31,7 +31,7 @@
             android:orientation="horizontal">
             <EditText
                 android:id="@+id/ac_editAddress_et_consignee"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="请输入收件人姓名"
                 android:textColor="@color/text9"
@@ -50,8 +50,9 @@
             android:orientation="horizontal">
             <EditText
                 android:id="@+id/ac_editAddress_et_mobile"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:inputType="phone"
                 android:hint="请输入手机号"
                 android:textColor="@color/text9"
                 android:textSize="@dimen/sp_13"
@@ -112,6 +113,22 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <Spinner
+                    android:id="@+id/town"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+            </LinearLayout>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -124,7 +141,7 @@
             android:orientation="horizontal">
             <EditText
                 android:id="@+id/ac_editAddress_et_houseNumber"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="请填写详细地址"
                 android:textColor="@color/text9"

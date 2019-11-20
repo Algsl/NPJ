@@ -1,5 +1,6 @@
 package com.zthx.npj.net.netsubscribe;
 
+import com.zthx.npj.net.been.BonusListBean;
 import com.zthx.npj.net.been.EditInviterBean;
 import com.zthx.npj.net.been.GiftBuyOneBean;
 import com.zthx.npj.net.been.GiftDetailBean;
@@ -133,6 +134,22 @@ public class GiftSubscribe {
         bean.setToken(token);
         bean.setMobile(mobile);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().editInviter(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 红包兑换码
+     * @param user_id
+     * @param token
+     * @param bonus_sn
+     * @param subscriber
+     */
+    public static void getBonusList(String user_id,String token,String bonus_sn, DisposableObserver<ResponseBody> subscriber) {
+        BonusListBean bean=new BonusListBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setBonus_sn(bonus_sn);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getBonusList(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 

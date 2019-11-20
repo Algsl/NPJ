@@ -41,7 +41,7 @@ public class GoodsCateAdapter extends BaseExpandableListAdapter {
 
     public interface ItemClickListener{
         void groupMsg(String cate_id,String cate_name);
-        void childMsg(String cate_id,String cate_name);
+        void childMsg(String group_id,String id,String cate_name);
     }
 
 
@@ -110,12 +110,13 @@ public class GoodsCateAdapter extends BaseExpandableListAdapter {
 
         GridLayoutManager layoutManager=new GridLayoutManager(mContext,3);
         childHolder.childRv.setLayoutManager(layoutManager);
-        GoodsCateItemAdapter adapter=new GoodsCateItemAdapter(mContext,mList.get(i).getChild());
+        GoodsCateItemAdapter adapter=new GoodsCateItemAdapter(mContext,mList.get(i).getChild(),mList.get(i).getId()+"");
         childHolder.childRv.setAdapter(adapter);
+
         adapter.setOnItemClickListener(new GoodsCateItemAdapter.ItemClickListener() {
             @Override
-            public void onResult(String id, String name) {
-                mItemClickListener.childMsg(id,name);
+            public void onResult(String group_id, String id, String name) {
+                mItemClickListener.childMsg(group_id,id,name);
             }
         });
         return view;

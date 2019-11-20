@@ -278,6 +278,11 @@ public class OrderListFragment extends Fragment {
             public void onGoStore(int position) {
 
             }
+
+            @Override
+            public void onComment2Click(int position) {
+
+            }
         });
         fgOrderList.setItemAnimator(new DefaultItemAnimator());
         fgOrderList.setAdapter(mAdapter);

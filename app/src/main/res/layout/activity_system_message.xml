@@ -12,9 +12,5 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/at_system_message_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dp_10">
-
-    </android.support.v7.widget.RecyclerView>
-
+        android:layout_height="match_parent"/>
 </LinearLayout>

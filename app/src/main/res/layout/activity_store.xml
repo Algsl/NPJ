@@ -237,13 +237,17 @@
                         android:layout_marginLeft="@dimen/dp_5"/>
                 </RelativeLayout>
             </LinearLayout>
-            <android.support.v7.widget.RecyclerView
-                android:background="@color/background"
-                android:layout_marginLeft="@dimen/dp_6"
-                android:layout_marginRight="@dimen/dp_10"
-                android:id="@+id/ac_store_rv"
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent">
+                <android.support.v7.widget.RecyclerView
+                    android:background="@color/background"
+                    android:paddingLeft="@dimen/dp_6"
+                    android:paddingRight="@dimen/dp_10"
+                    android:id="@+id/ac_store_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -266,11 +270,17 @@
                 android:gravity="center"
                 android:textColor="@color/text3"
                 android:textSize="@dimen/sp_15"/>
-            <android.support.v7.widget.RecyclerView
-                android:background="@color/background"
-                android:id="@+id/ac_store_rv1"
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent">
+                <android.support.v7.widget.RecyclerView
+                    android:background="@color/background"
+                    android:id="@+id/ac_store_rv1"
+                    android:paddingLeft="@dimen/dp_6"
+                    android:paddingRight="@dimen/dp_10"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
             <TextView
                 android:id="@+id/ac_store_tv_noResult"
                 android:visibility="gone"
@@ -296,11 +306,17 @@
                 android:gravity="center"
                 android:textColor="@color/text3"
                 android:textSize="@dimen/sp_15"/>
-            <android.support.v7.widget.RecyclerView
-                android:background="@color/background"
-                android:id="@+id/ac_store_rv2"
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent">
+                <android.support.v7.widget.RecyclerView
+                    android:background="@color/background"
+                    android:id="@+id/ac_store_rv2"
+                    android:paddingLeft="@dimen/dp_6"
+                    android:paddingRight="@dimen/dp_10"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
             <TextView
                 android:id="@+id/ac_store_tv_classifyNoResult"
                 android:visibility="gone"

@@ -50,6 +50,7 @@ import com.zthx.npj.tencent.activity.ChatActivity;
 import com.zthx.npj.tencent.util.Constants;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.TimeTextView;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -93,8 +94,8 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
     ImageView titleThemeImgRight;
     @BindView(R.id.ac_myOrderDetail_tv_status)
     TextView acMyOrderDetailTvStatus;
-    @BindView(R.id.ac_myOrderDetail_tv_hint)
-    TextView acMyOrderDetailTvHint;
+    /*@BindView(R.id.ac_myOrderDetail_tv_hint)
+    TextView acMyOrderDetailTvHint;*/
     @BindView(R.id.ac_myOrderDetail_tv_userName)
     TextView acMyOrderDetailTvUserName;
     @BindView(R.id.ac_myOrderDetail_tv_cellPhone)
@@ -177,6 +178,14 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
     TextView seeMore;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.ac_myOrderDetail_tv_hint1)
+    TextView acMyOrderDetailTvHint1;
+    @BindView(R.id.ac_myOrderDetail_tv_hint2)
+    TimeTextView acMyOrderDetailTvHint2;
+    @BindView(R.id.ac_myOrderDetail_tv_hint3)
+    TextView acMyOrderDetailTvHint3;
+    @BindView(R.id.ac_myOrderDetail_ll_refundHint)
+    LinearLayout acMyOrderDetailLlRefundHint;
 
     private String order_id = "";
     private String order_state = "";
@@ -192,8 +201,12 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
     String[] item;
     private String goods_name;
 
-    private String nick_name="";
+    private String nick_name = "";
     private String mobile;
+
+    private long pay_time;//支付时间
+    private long refund_time;//退款时间
+    private long confirm_time;//确认收货时间
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,7 +216,7 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
 
         order_state = getIntent().getStringExtra("order_state");
         order_id = getIntent().getStringExtra("order_id");
-        type=getIntent().getStringExtra("type");
+        type = getIntent().getStringExtra("type");
 
 
         acOrderDetailTvSize.setVisibility(View.INVISIBLE);
@@ -242,10 +255,11 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
         getKuaiDiList();
         getAlsoLike();
         getMyStoreOrderDetail();
+
     }
 
     private void getAlsoLike() {
-        MainSubscribe.alsoLike(page+"", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.alsoLike(page + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 AlsoLikeResponseBean bean = GsonUtils.fromJson(result, AlsoLikeResponseBean.class);
@@ -301,21 +315,44 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
 
     private void setMyOrderDetail(String result) {
         MySupplyOrderDetailResponseBean bean = GsonUtils.fromJson(result, MySupplyOrderDetailResponseBean.class);
-        MySupplyOrderDetailResponseBean.DataBean data = bean.getData();
+        final MySupplyOrderDetailResponseBean.DataBean data = bean.getData();
 
         acMyOrderDetailTvUserName.setText(data.getConsignee());
         acMyOrderDetailTvCellPhone.setText(data.getMobile());
         acMyOrderDetailTvAddress.setText(data.getAddress());
-        goods_name=data.getGoods_name();
-        Log.e("测试", "setMyOrderDetail: "+data.getNick_name().substring(2) );
-        if(data.getNick_name().substring(2).equals("用户")){
+
+        atMyOrderDetailIvGoodsImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MySupplyOrderDetailActivity.this, SupplyProductsActivity.class);
+                intent.setAction(Const.SUPPLY_DETAIL);
+                intent.putExtra("goods_id", data.getGoods_id());
+                startActivity(intent);
+            }
+        });
+
+
+
+        goods_name = data.getGoods_name();
+        if (data.getNick_name().substring(0,2).equals("用户")) {
             atMyOrderDetailTvStoreName.setText("农品街新客");
-        }else{
+        } else {
             atMyOrderDetailTvStoreName.setText(data.getNick_name());
         }
 
+        atMyOrderDetailTvStoreName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openActivity(UserMsgActivity.class,data.getSeller_id());
+            }
+        });
 
-        mobile=data.getMobile();
+        pay_time = data.getOrder_time() + 24 * 60 * 60 - System.currentTimeMillis() / 1000;
+        confirm_time = data.getOrder_time() + 14 * 24 * 60 * 60 - System.currentTimeMillis() / 1000;
+        refund_time = data.getUpdate_time() + 3 * 24 * 60 * 60 - System.currentTimeMillis() / 1000;
+
+
+        mobile = data.getMobile();
 
 
         Glide.with(this).load(Uri.parse("http://app.npj-vip.com" + data.getGoods_img().get(0))).into(atMyOrderDetailIvGoodsImg);
@@ -328,28 +365,35 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
         atMyOrderDetailTvGoodsNum1.setText("x " + data.getOrder_num());
         atMyOrderDetailTvIsFreeShipping.setText("￥ " + data.getShipping_fee());
 
-        acMyOrderDetailTvAllPrice.setText("￥" + data.getGoods_price());
-        acMyOrderDetailTvAllPrice.setText("￥" + new DecimalFormat("#0.00").format(Double.parseDouble(data.getOrder_price())-Double.parseDouble(data.getShipping_fee())));
+        //acMyOrderDetailTvAllPrice.setText("￥" + data.getGoods_price());
+        acMyOrderDetailTvAllPrice.setText("￥" + new DecimalFormat("#0.00").format(Double.parseDouble(data.getOrder_price()) - Double.parseDouble(data.getShipping_fee())));
         atMyOrderDetailTvIsFreeShipping.setText("￥" + data.getShipping_fee());
         acMyOrderDetailTvNeedPay.setText("￥" + data.getOrder_price());
 
         atMyOrderDetailTvOrderSn.setText(data.getOrder_sn());
-        atMyOrderDetailTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time() * 1000)));
-        atMyOrderDetailTvPayTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time() * 1000)));
+        atMyOrderDetailTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(data.getOrder_time() * 1000)));
+        atMyOrderDetailTvPayTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(data.getOrder_time() * 1000)));
 
 
-        if(type.equals("buss")){
+        if (type.equals("buss")) {
             acMyOrderDetailLl.setVisibility(View.GONE);
             switch (order_state) {
                 case "1":
                     acMyOrderDetailTvStatus.setText("待付款");
-                    acMyOrderDetailTvHint.setText("剩余24时00分自动关闭");
+                    //acMyOrderDetailTvHint.setText("剩余24时00分自动关闭");
+                    if (pay_time >= 0) {
+                        setTime(acMyOrderDetailTvHint2, pay_time);
+                    }
+                    acMyOrderDetailTvHint3.setText("交易自动关闭");
                     acMyOrderDetailTvOption.setText("待付款");
                     break;
                 case "2":
                     //头部
                     acMyOrderDetailTvStatus.setText("等待发货");
-                    acMyOrderDetailTvHint.setVisibility(View.GONE);//头部类型下方的文字提示
+                    //acMyOrderDetailTvHint.setVisibility(View.GONE);//头部类型下方的文字提示
+                    acMyOrderDetailTvHint1.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint2.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint3.setVisibility(View.GONE);
 
                     //商品信息
                     acMyOrderDetailTvOption.setText("退换");
@@ -367,7 +411,11 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                     break;
                 case "3":
                     acMyOrderDetailTvStatus.setText("已发货");
-                    acMyOrderDetailTvHint.setText("剩余9天4时自动确认");
+                    //acMyOrderDetailTvHint.setText("剩余9天4时自动确认");
+                    if (confirm_time >= 0) {
+                        setTime(acMyOrderDetailTvHint2, confirm_time);
+                    }
+                    acMyOrderDetailTvHint3.setText("自动确认收货");
                     acMyOrderDetailTvOption.setText("退换");
                     atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
@@ -381,7 +429,9 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                     break;
                 case "4":
                     acMyOrderDetailTvStatus.setText("交易成功");
-                    acMyOrderDetailTvHint.setText("期待再次为您服务");
+                    acMyOrderDetailTvHint1.setText("期待再次为您服务");
+                    acMyOrderDetailTvHint2.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint3.setVisibility(View.GONE);
                     acMyOrderDetailTvOption.setText("申请售后");
                     atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
@@ -405,8 +455,13 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailLlPaySend.setVisibility(View.GONE);
                     acMyOrderDetailLlRefund.setVisibility(View.VISIBLE);
                     acMyOrderDetailLlRefundNum.setVisibility(View.VISIBLE);
-                    acMyOrderDetailTvStatus.setText("已提交退款申请，等待卖家处理");
-                    acMyOrderDetailTvHint.setText("剩余2天4时自动确认");
+                    acMyOrderDetailLlRefundHint.setVisibility(View.GONE);
+                    acMyOrderDetailTvStatus.setText("已提交退款申请，等待处理");
+                    //acMyOrderDetailTvHint.setText("剩余2天4时自动确认");
+                    if (refund_time >= 0) {
+                        setTime(acMyOrderDetailTvHint2, refund_time);
+                    }
+                    acMyOrderDetailTvHint3.setText("自动退款");
                     atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
@@ -432,17 +487,22 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
                     break;
             }
-        }else{
+        } else {
             switch (order_state) {
                 case "1":
                     acMyOrderDetailTvStatus.setText("待付款");
-                    acMyOrderDetailTvHint.setText("剩余24时00分自动关闭");
+                    if (pay_time >= 0) {
+                        setTime(acMyOrderDetailTvHint2, pay_time);
+                    }
+                    acMyOrderDetailTvHint3.setText("交易自动关闭");
                     acMyOrderDetailTvOption.setText("待付款");
                     break;
                 case "2":
                     //头部
                     acMyOrderDetailTvStatus.setText("等待卖家发货");
-                    acMyOrderDetailTvHint.setVisibility(View.GONE);//头部类型下方的文字提示
+                    acMyOrderDetailTvHint1.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint2.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint3.setVisibility(View.GONE);
 
                     //商品信息
                     acMyOrderDetailTvOption.setText("退换");
@@ -458,7 +518,11 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                     break;
                 case "3":
                     acMyOrderDetailTvStatus.setText("已发货");
-                    acMyOrderDetailTvHint.setText("剩余9天4时自动确认");
+                    //acMyOrderDetailTvHint.setText("剩余9天4时自动确认");
+                    if (confirm_time >= 0) {
+                        setTime(acMyOrderDetailTvHint2, confirm_time);
+                    }
+                    acMyOrderDetailTvHint3.setText("自动确认收货");
                     acMyOrderDetailTvOption.setText("退换");
                     atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
@@ -472,7 +536,9 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                     break;
                 case "4":
                     acMyOrderDetailTvStatus.setText("交易成功");
-                    acMyOrderDetailTvHint.setText("期待再次为您服务");
+                    acMyOrderDetailTvHint1.setText("期待再次为您服务");
+                    acMyOrderDetailTvHint2.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint3.setVisibility(View.GONE);
                     acMyOrderDetailTvOption.setText("申请售后");
                     atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
@@ -489,8 +555,13 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailLlPaySend.setVisibility(View.GONE);
                     acMyOrderDetailLlRefund.setVisibility(View.VISIBLE);
                     acMyOrderDetailLlRefundNum.setVisibility(View.VISIBLE);
+                    acMyOrderDetailLlRefundHint.setVisibility(View.VISIBLE);
                     acMyOrderDetailTvStatus.setText("已提交退款申请，等待卖家处理");
-                    acMyOrderDetailTvHint.setText("剩余2天4时自动确认");
+                    //acMyOrderDetailTvHint.setText("剩余2天4时自动确认");
+                    if (refund_time >= 0) {
+                        setTime(acMyOrderDetailTvHint2, refund_time);
+                    }
+                    acMyOrderDetailTvHint3.setText("自动退款");
                     atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
@@ -525,10 +596,10 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                 }));
                 break;
             case R.id.ac_myOrderDetail_tv_pay://支付订单
-                if(type.equals("buss")){
-                    if(order_state.equals("2")){
+                if (type.equals("buss")) {
+                    if (order_state.equals("2")) {
                         showPublishPopwindow(order_id);
-                    }else if(order_state.equals(6)){
+                    } else if (order_state.equals(6)) {
                         SetSubscribe.mySupplyOrderRefund3(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                             @Override
                             public void onSuccess(String result) {
@@ -543,7 +614,7 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                             }
                         }));
                     }
-                }else{
+                } else {
                     Intent intent = new Intent(MySupplyOrderDetailActivity.this, ConfirmMySupplyOrderActivity.class);
                     intent.putExtra("order_id", order_id);
                     startActivity(intent);
@@ -557,7 +628,7 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
             case R.id.ac_myOrderDetail_tv_wuliu://查看物流
                 Intent intent1 = new Intent(MySupplyOrderDetailActivity.this, KuaiDiDetailActivity.class);
                 intent1.putExtra("order_id", order_id);
-                intent1.putExtra("type","supply");
+                intent1.putExtra("type", "supply");
                 startActivity(intent1);
                 break;
             case R.id.ac_myOrderDetail_tv_delay:
@@ -606,10 +677,10 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                 BaseApp.getApp().startActivity(intent);
                 break;
             case R.id.ac_myOrderDetail_tv_call:
-                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+mobile)));
+                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mobile)));
                 break;
             case R.id.ac_myOrderDetail_ll:
-                if(order_state.equals("2") || order_state.equals("3")){
+                if (order_state.equals("2") || order_state.equals("3")) {
                     Intent intentll = new Intent(MySupplyOrderDetailActivity.this, MySupplyOrderRefundActivity.class);
                     intentll.putExtra("order_id", order_id);
                     startActivity(intentll);
@@ -969,5 +1040,16 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                 window.dismiss();
             }
         });
+    }
+
+    public void setTime(TimeTextView ttv, long time) {
+        long second = time % 60;//计算秒
+        long min = time / 60 % 60;
+        long hour = time / 3600 % 24;
+        long day = time / 3600 / 24;
+        ttv.setTimes(new long[]{hour, min, second, day});
+        if (!ttv.isRun()) {
+            ttv.run();
+        }
     }
 }

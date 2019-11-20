@@ -53,29 +53,33 @@
             android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
-
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/item_orderList_ll"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_90">
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/item_orderList_iv_goodsImg"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_80"
-            android:src="@drawable/logo"
-            android:layout_marginTop="12dp"
-            android:scaleType="centerCrop"
-            android:layout_marginLeft="@dimen/dp_12"
-            app:riv_corner_radius="@dimen/dp_5"/>
-        <TextView
-            android:id="@+id/item_orderList_tv_goodsName"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="韩国control眼部精华打底液隔离打底保湿水正品代购"
-            android:layout_toRightOf="@id/item_orderList_iv_goodsImg"
-            android:layout_marginTop="@dimen/dp_12"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginLeft="@dimen/dp_11"
-            android:maxLines="2"/>
+            android:layout_height="@dimen/dp_90">
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/item_orderList_iv_goodsImg"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_80"
+                android:src="@drawable/logo"
+                android:layout_marginTop="12dp"
+                android:scaleType="centerCrop"
+                android:layout_marginLeft="@dimen/dp_12"
+                app:riv_corner_radius="@dimen/dp_5"/>
+            <TextView
+                android:id="@+id/item_orderList_tv_goodsName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="韩国control眼部精华打底液隔离打底保湿水正品代购"
+                android:layout_toRightOf="@id/item_orderList_iv_goodsImg"
+                android:layout_marginTop="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginLeft="@dimen/dp_11"
+                android:maxLines="2"/>
             <TextView
                 android:id="@+id/item_orderList_tv_goodsPrice"
                 android:layout_width="wrap_content"
@@ -88,42 +92,43 @@
                 android:layout_below="@id/item_orderList_tv_goodsName"
                 android:layout_marginTop="@dimen/dp_13"/>
 
-        <TextView
-            android:id="@+id/item_orderList_tv_goodsNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="×1"
-            android:textSize="@dimen/sp_14"
-            android:textColor="@color/text6"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_12"
-            android:layout_below="@id/item_orderList_tv_goodsName"
-            android:layout_marginTop="@dimen/dp_13"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="共一件商品，总金额 "
-            android:layout_toLeftOf="@id/item_orderList_tv_orderPrice"
-            android:layout_marginTop="@dimen/dp_8"
-            android:textSize="@dimen/sp_12"
-            android:textColor="@color/text6"/>
-        <TextView
-            android:id="@+id/item_orderList_tv_orderPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="￥1560"
-            android:textStyle="bold"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:textColor="@color/app_theme"
-            android:textSize="@dimen/sp_16"
-            android:layout_marginBottom="@dimen/dp_5"
-            android:layout_marginRight="@dimen/dp_12"/>
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/item_orderList_tv_goodsNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="×1"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/text6"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_12"
+                android:layout_below="@id/item_orderList_tv_goodsName"
+                android:layout_marginTop="@dimen/dp_13"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="共一件商品，总金额 "
+                android:layout_toLeftOf="@id/item_orderList_tv_orderPrice"
+                android:layout_marginTop="@dimen/dp_8"
+                android:textSize="@dimen/sp_12"
+                android:textColor="@color/text6"/>
+            <TextView
+                android:id="@+id/item_orderList_tv_orderPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥1560"
+                android:textStyle="bold"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/app_theme"
+                android:textSize="@dimen/sp_16"
+                android:layout_marginBottom="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_12"/>
+        </RelativeLayout>
+    </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
@@ -211,6 +216,16 @@
             android:layout_marginRight="@dimen/dp_12"
             android:background="@drawable/stroke_zise_15"
             android:text="评价"
+            android:textColor="@color/text6"
+            android:textSize="@dimen/sp_14"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/item_orderList_btn_comment2"
+            android:layout_width="@dimen/dp_75"
+            android:layout_height="@dimen/dp_26"
+            android:layout_marginRight="@dimen/dp_12"
+            android:background="@drawable/stroke_zise_15"
+            android:text="评价管理"
             android:textColor="@color/text6"
             android:textSize="@dimen/sp_14"
             android:visibility="gone"/>

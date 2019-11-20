@@ -38,6 +38,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.TimeTextView;
 
 import java.util.ArrayList;
 
@@ -161,6 +162,21 @@ public class StoreGoodsBillActivity extends ActivityBase {
                 }));
 
             }
+
+            /*@Override
+            public void onRefund(String order_id) {
+                SetSubscribe.refund(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        getMyStoreOrderList();
+                    }
+
+                    @Override
+                    public void onFault(String errorMsg) {
+
+                    }
+                }));
+            }*/
         });
         atStoreGoodsBillRv.setItemAnimator(new DefaultItemAnimator());
         atStoreGoodsBillRv.setAdapter(mAdapter);
@@ -382,7 +398,7 @@ public class StoreGoodsBillActivity extends ActivityBase {
                 SetSubscribe.storeOrderRefuseRefund(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.e("测试", "onSuccess: "+result);
+                        getMyStoreOrderList();
                         showToast("拒绝退款成功");
                         backgroundAlpha(1f);
                         window.dismiss();
@@ -423,4 +439,6 @@ public class StoreGoodsBillActivity extends ActivityBase {
     public void onViewClicked() {
         openActivity(StoreGoodsListActivity.class);
     }
+
+
 }

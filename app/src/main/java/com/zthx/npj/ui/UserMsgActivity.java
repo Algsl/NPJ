@@ -238,9 +238,13 @@ public class UserMsgActivity extends ActivityBase{
         }else{
             Glide.with(this).load(Uri.parse(data.getHead_img())).into(acUserMsgMcvHeadImg);
         }
-        acUserMsgTvNickName.setText(data.getNick_name());
+        if (data.getNick_name().substring(0,2).equals("用户")) {
+            acUserMsgTvNickName.setText("农品街新客");
+        } else {
+            acUserMsgTvNickName.setText(data.getNick_name());
+        }
         acUserMsgTvSignature.setText(data.getSignature() == null ? "这个人很懒，什么也没留下" : data.getSignature());
-        MyCustomUtils.showLevelImg((int) data.getLevel(), acUserMsgTvLevel);
+        MyCustomUtils.showLevelImg(data.getCity_level(),data.getBoss_level(),data.getTeam_level(),data.getLevel(),acUserMsgTvLevel);
         acUserMsgTvHits.setText(data.getHits() == null ? "0" : data.getHits());
         acUserMsgTvAttNum.setText(data.getAtt_num() == null ? "0" : data.getAtt_num());
         acUserMsgTvHistoryMoney.setText(data.getHistory_money());

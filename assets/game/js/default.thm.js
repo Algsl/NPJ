@@ -397,11 +397,11 @@ window.skins=window.skins||{};
 
 	function friend_farmSkin() {
 		_super.call(this);
-		this.skinParts = ["BG","rotate0","Return","farmland1","farmland2","farmland3","farmland4","farmland5","farmland6","farmland7","farmland8","farmland9","rail","LandBuy","land1","land2","land3","land4","land5","land6","land7","land8","land9","rare1","rare2","rare3","rare4","rare5","rare6","rare7","rare8","rare9","ripe1","ripe2","ripe3","ripe4","ripe5","ripe6","ripe7","ripe8","ripe9","cover1","cover2","cover3","cover4","cover5","cover6","cover7","cover8","cover9","dogbowl0","zhai1","zhai2","zhai3","zhai4","zhai5","zhai6","zhai7","zhai8","zhai9","IndianArrowheads","dog","rotate1","kz1","kz2","kz3","kz4","kz5","kz6","kz7","kz8","kz9","daoju1","dagoubang0","gouyidong","rollxd","roll","NameBackground","Name","HeadPortrait","LV","fanhui","Money","tishixinxi_text","tishixinxi_colse","tishixinxi_yes","tishixinxi"];
+		this.skinParts = ["BG","rotate0","Return","farmland1","farmland2","farmland3","farmland4","farmland5","farmland6","farmland7","farmland8","farmland9","rail","LandBuy","land1","land2","land3","land4","land5","land6","land7","land8","land9","rare1","rare2","rare3","rare4","rare5","rare6","rare7","rare8","rare9","ripe1","ripe2","ripe3","ripe4","ripe5","ripe6","ripe7","ripe8","ripe9","cover1","cover2","cover3","cover4","cover5","cover6","cover7","cover8","cover9","dogbowl0","zhai1","zhai2","zhai3","zhai4","zhai5","zhai6","zhai7","zhai8","zhai9","IndianArrowheads","dog","rotate1","kz1","kz2","kz3","kz4","kz5","kz6","kz7","kz8","kz9","daoju1","dagoubang0","gouyidong","rollxd","roll","NameBackground","Name","HeadPortrait","FHZSJBJ","FHZSJ","LV","fanhui","Money","tishixinxi_text","tishixinxi_colse","tishixinxi_yes","tishixinxi"];
 		
 		this.height = 667;
 		this.width = 375;
-		this.elementsContent = [this.roll_i(),this.NameBackground_i(),this.Name_i(),this.HeadPortrait_i(),this._Image7_i(),this._Button1_i(),this._Image8_i(),this._Image9_i(),this.LV_i(),this.fanhui_i(),this.Money_i(),this.tishixinxi_i()];
+		this.elementsContent = [this.roll_i(),this.NameBackground_i(),this.Name_i(),this.HeadPortrait_i(),this._Image7_i(),this._Button1_i(),this.FHZSJBJ_i(),this.FHZSJ_i(),this._Image8_i(),this._Image9_i(),this.LV_i(),this.fanhui_i(),this.Money_i(),this.tishixinxi_i()];
 	}
 	var _proto = friend_farmSkin.prototype;
 
@@ -1339,7 +1339,7 @@ window.skins=window.skins||{};
 		t.anchorOffsetX = 0;
 		t.anchorOffsetY = 0;
 		t.height = 20;
-		t.source = "JX35@3x_png";
+		t.source = "jjjjjjjxxxxxxx_png";
 		t.width = 60;
 		t.x = 11.68;
 		t.y = 85;
@@ -1393,6 +1393,31 @@ window.skins=window.skins||{};
 		t.x = 196;
 		t.y = 18;
 		t.skinName = friend_farmSkin$Skin3;
+		return t;
+	};
+	_proto.FHZSJBJ_i = function () {
+		var t = new eui.Image();
+		this.FHZSJBJ = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 24;
+		t.rotation = 180;
+		t.source = "DJJJMP_png";
+		t.visible = false;
+		t.width = 132;
+		t.x = 146;
+		t.y = 128;
+		return t;
+	};
+	_proto.FHZSJ_i = function () {
+		var t = new eui.Label();
+		this.FHZSJ = t;
+		t.size = 11;
+		t.text = "截止时间：10月41日8h";
+		t.textColor = 0x000000;
+		t.visible = false;
+		t.x = 22;
+		t.y = 112;
 		return t;
 	};
 	_proto._Image8_i = function () {
@@ -5511,6 +5536,9 @@ window.skins=window.skins||{};
 				,
 				new eui.State ("down",
 					[
+						new eui.SetProperty("_Image1","source","x_png"),
+						new eui.SetProperty("_Image1","percentWidth",90),
+						new eui.SetProperty("_Image1","percentHeight",90)
 					])
 				,
 				new eui.State ("disabled",
@@ -5522,8 +5550,11 @@ window.skins=window.skins||{};
 
 		_proto._Image1_i = function () {
 			var t = new eui.Image();
+			this._Image1 = t;
 			t.percentHeight = 100;
-			t.source = "queding@3x_png";
+			t.horizontalCenter = 0;
+			t.source = "x_png";
+			t.verticalCenter = 0;
 			t.percentWidth = 100;
 			return t;
 		};
@@ -5563,7 +5594,7 @@ window.skins=window.skins||{};
 		_proto._Image1_i = function () {
 			var t = new eui.Image();
 			t.percentHeight = 100;
-			t.source = "queding@3x_png";
+			t.source = "yiwen@3x_png";
 			t.percentWidth = 100;
 			return t;
 		};
@@ -5591,6 +5622,9 @@ window.skins=window.skins||{};
 				,
 				new eui.State ("down",
 					[
+						new eui.SetProperty("_Image1","source","x_png"),
+						new eui.SetProperty("_Image1","percentWidth",90),
+						new eui.SetProperty("_Image1","percentHeight",90)
 					])
 				,
 				new eui.State ("disabled",
@@ -5602,8 +5636,11 @@ window.skins=window.skins||{};
 
 		_proto._Image1_i = function () {
 			var t = new eui.Image();
+			this._Image1 = t;
 			t.percentHeight = 100;
-			t.source = "queding@3x_png";
+			t.horizontalCenter = 0;
+			t.source = "x_png";
+			t.verticalCenter = 0;
 			t.percentWidth = 100;
 			return t;
 		};
@@ -5631,7 +5668,6 @@ window.skins=window.skins||{};
 				,
 				new eui.State ("down",
 					[
-						new eui.SetProperty("_Image1","source","x_png")
 					])
 				,
 				new eui.State ("disabled",
@@ -5643,9 +5679,8 @@ window.skins=window.skins||{};
 
 		_proto._Image1_i = function () {
 			var t = new eui.Image();
-			this._Image1 = t;
 			t.percentHeight = 100;
-			t.source = "x_png";
+			t.source = "queding(1)_png";
 			t.percentWidth = 100;
 			return t;
 		};
@@ -5673,9 +5708,6 @@ window.skins=window.skins||{};
 				,
 				new eui.State ("down",
 					[
-						new eui.SetProperty("_Image1","source","x_png"),
-						new eui.SetProperty("_Image1","percentWidth",90),
-						new eui.SetProperty("_Image1","percentHeight",90)
 					])
 				,
 				new eui.State ("disabled",
@@ -5687,11 +5719,8 @@ window.skins=window.skins||{};
 
 		_proto._Image1_i = function () {
 			var t = new eui.Image();
-			this._Image1 = t;
 			t.percentHeight = 100;
-			t.horizontalCenter = 0;
-			t.source = "x_png";
-			t.verticalCenter = 0;
+			t.source = "queding@3x_png";
 			t.percentWidth = 100;
 			return t;
 		};
@@ -5731,7 +5760,7 @@ window.skins=window.skins||{};
 		_proto._Image1_i = function () {
 			var t = new eui.Image();
 			t.percentHeight = 100;
-			t.source = "yiwen@3x_png";
+			t.source = "queding@3x_png";
 			t.percentWidth = 100;
 			return t;
 		};
@@ -5759,9 +5788,6 @@ window.skins=window.skins||{};
 				,
 				new eui.State ("down",
 					[
-						new eui.SetProperty("_Image1","source","x_png"),
-						new eui.SetProperty("_Image1","percentWidth",90),
-						new eui.SetProperty("_Image1","percentHeight",90)
 					])
 				,
 				new eui.State ("disabled",
@@ -5773,11 +5799,8 @@ window.skins=window.skins||{};
 
 		_proto._Image1_i = function () {
 			var t = new eui.Image();
-			this._Image1 = t;
 			t.percentHeight = 100;
-			t.horizontalCenter = 0;
-			t.source = "x_png";
-			t.verticalCenter = 0;
+			t.source = "queding@3x_png";
 			t.percentWidth = 100;
 			return t;
 		};
@@ -5805,6 +5828,7 @@ window.skins=window.skins||{};
 				,
 				new eui.State ("down",
 					[
+						new eui.SetProperty("_Image1","source","x_png")
 					])
 				,
 				new eui.State ("disabled",
@@ -5816,8 +5840,9 @@ window.skins=window.skins||{};
 
 		_proto._Image1_i = function () {
 			var t = new eui.Image();
+			this._Image1 = t;
 			t.percentHeight = 100;
-			t.source = "queding(1)_png";
+			t.source = "x_png";
 			t.percentWidth = 100;
 			return t;
 		};
@@ -6895,13 +6920,99 @@ window.skins=window.skins||{};
 		return TheFarmLobbySkin$Skin102;
 	})(eui.Skin);
 
+	var TheFarmLobbySkin$Skin103 = 	(function (_super) {
+		__extends(TheFarmLobbySkin$Skin103, _super);
+		function TheFarmLobbySkin$Skin103() {
+			_super.call(this);
+			this.skinParts = ["labelDisplay"];
+			
+			this.elementsContent = [this._Image1_i(),this.labelDisplay_i()];
+			this.states = [
+				new eui.State ("up",
+					[
+					])
+				,
+				new eui.State ("down",
+					[
+						new eui.SetProperty("_Image1","source","x_png"),
+						new eui.SetProperty("_Image1","percentWidth",90),
+						new eui.SetProperty("_Image1","percentHeight",90)
+					])
+				,
+				new eui.State ("disabled",
+					[
+					])
+			];
+		}
+		var _proto = TheFarmLobbySkin$Skin103.prototype;
+
+		_proto._Image1_i = function () {
+			var t = new eui.Image();
+			this._Image1 = t;
+			t.percentHeight = 100;
+			t.horizontalCenter = 0;
+			t.source = "x_png";
+			t.verticalCenter = 0;
+			t.percentWidth = 100;
+			return t;
+		};
+		_proto.labelDisplay_i = function () {
+			var t = new eui.Label();
+			this.labelDisplay = t;
+			t.horizontalCenter = 0;
+			t.verticalCenter = 0;
+			return t;
+		};
+		return TheFarmLobbySkin$Skin103;
+	})(eui.Skin);
+
+	var TheFarmLobbySkin$Skin104 = 	(function (_super) {
+		__extends(TheFarmLobbySkin$Skin104, _super);
+		function TheFarmLobbySkin$Skin104() {
+			_super.call(this);
+			this.skinParts = ["labelDisplay"];
+			
+			this.elementsContent = [this._Image1_i(),this.labelDisplay_i()];
+			this.states = [
+				new eui.State ("up",
+					[
+					])
+				,
+				new eui.State ("down",
+					[
+					])
+				,
+				new eui.State ("disabled",
+					[
+					])
+			];
+		}
+		var _proto = TheFarmLobbySkin$Skin104.prototype;
+
+		_proto._Image1_i = function () {
+			var t = new eui.Image();
+			t.percentHeight = 100;
+			t.source = "queding(1)_png";
+			t.percentWidth = 100;
+			return t;
+		};
+		_proto.labelDisplay_i = function () {
+			var t = new eui.Label();
+			this.labelDisplay = t;
+			t.horizontalCenter = 0;
+			t.verticalCenter = 0;
+			return t;
+		};
+		return TheFarmLobbySkin$Skin104;
+	})(eui.Skin);
+
 	function TheFarmLobbySkin() {
 		_super.call(this);
-		this.skinParts = ["BG","rotate0","Return","farmland1","farmland2","farmland3","farmland4","farmland5","farmland6","farmland7","farmland8","farmland9","IndianArrowheads","rail","gouyidong","rail0","land1","land2","land3","land4","land5","land6","land7","land8","land9","rare1","rare2","rare3","rare4","rare5","rare6","rare7","rare8","rare9","ripe1","ripe2","ripe3","ripe4","ripe5","ripe6","ripe7","ripe8","ripe9","cover1","cover2","cover3","cover4","cover5","cover6","cover7","cover8","cover9","LandBuy","dogbowl0","zhai1","zhai2","zhai3","zhai4","zhai5","zhai6","zhai7","zhai8","zhai9","kz1","kz2","kz3","kz4","kz5","kz6","kz7","kz8","kz9","dog","rotate1","rollxd","roll","NameBackground","Name","HeadPortrait","daoju1","daoju2","LV","Install","Friend","Money","Help","Task","FHZSJBJ","FHZSJ","FHZSJBJ0","FHZSJ0","DTGDXX","Prop","WBJL_S","WBDJLQ","WBJL_text","WBJLJM","wabao","jlda","dim0","kjts_close","KJTS_text","KJTS_close","KJTS","succeed_close0","shut0","feiliaotishiyu","dark","hint_text","hint_X","dim","quit","watering","weeding","deinsectization","RipeTime1","RipeTime2","RipeTime3","RipeTime4","RipeTime5","RipeTime6","RipeTime7","RipeTime8","RipeTime9","manure1","manure2","manure3","manure1_bj","manure2_bj","manure3_bj","manure1_text","manure2_text","manure3_text","AggregateScheduling1","Scheduling1","Scheduling_Number1","AggregateScheduling9","Scheduling9","Scheduling_Number9","AggregateScheduling2","Scheduling2","Scheduling_Number2","AggregateScheduling3","Scheduling3","Scheduling_Number3","AggregateScheduling4","Scheduling4","Scheduling_Number4","AggregateScheduling5","Scheduling5","Scheduling_Number5","AggregateScheduling6","Scheduling6","Scheduling_Number6","AggregateScheduling7","Scheduling7","Scheduling_Number7","AggregateScheduling8","Scheduling8","Scheduling_Number8","condition","Music","SoundEffect","Options_close","Options","MyCenter_close","ChangeName","modification","CurrentTitleLevel","detail","TheCurrentMoney","TotalMoney","TheNextLevel","TotalMoneyTow","TheNextLevelMoney","fertilizer","plan","schedule","Money_center","MyCenter","Designation_close","CHQD","Designation","TheIndianArrowheads_close","Goldhoe","IndianArrowheadsNumber","Indian_arrowheads_record1","platinumhoe","diamondhoe","platinumhoe_zhi","diamondhoe_zhi","gundong1","wenzi1","inform_frame","inform_close","inform","Log_message","Indian_arrowheads_record2_close","Indian_arrowheads_record2","WBCS__close","WBCS","WBXX_zi","WBXX__close","WBXX","TheIndianArrowheads","ForRecord_close","money","RecordBox","RecordStrip","GoAndSee","ForRecord","BrowserHelpMenu_close","RaiseMoney","Water","Seed","PetPig","HelpText","HelpText0","HelpText1","HelpText2","BrowserHelpMenu","PropsFor_close","ContentProps","Conversion","warehouse","prop_money","PropsRecord","consume","function","seed","petattack","gundong0","wenzi0","cry","WarehouseGoods","ConsumeGoods","ConsumeGoods_close","SPTP","buy_text","ConsumeGoods_Subtract","ConsumeGoods_Plus","PurchaseQuantity","presented","purchase0","price","ConsumeGoods_Buy","ConsumeGoods_close_zhongzi","SPTP_zhongzi","buy_text_zhongzi","ConsumeGoods_Subtract_zhongzi","ConsumeGoods_Plus_zhongzi","PurchaseQuantity_zhongzi","presented_zhongzi","purchase_zhongzi","price_zhongzi","ConsumeGoods_zhongzi","ConsumeGoods_close0","DJSYJMSPTB","buy_text0","purchase1","shuliang","ConsumeGoods_Buy0","PropsOrder_close","OrderForm","Indent","PropsOrder","Presented_close","PresentedJM","Presented","zhifu_bj","weixin1","zhifubao1","weixin","zhifubao","zhifu","PropsClass","Change","tu1","tu2","tu3","secret1","secret2","secret3","gundong2","wenzi2","conversion_presenter_1","conversion_presenter_2","conversion_presenter_3","Conversion_money","Modellpause","Bill","All","Obligation","ForShipping","HasBeenShipped","indent_particulars","Indent0","MyOrder","DiscussX","Discuss","ChangeTheOrder_close","exchange","ChangeTheOrder","succeed_close","deficiency_text","shut1","deficiency","shut2","succeed","tishi_text","shut3","Tishi","discuss_text","discuss_tu","discuss_yes","discuss_close","discuss","Select_category_close","Xtu","Xname","Xshu","tishi","Select_category","receiver_address","receiver_name","address_close","receiver_number","address_yes","address","hint3_colse","hint3_yes","hint3","ConversionGoods","commodity","Best","Attention","Pick","REGISTRATION","PrivateLetter","AddFriend","Parameters","friend_money","friend_close","figure","MeetPeople","tianjia_close","tianjia_text","tianjia_quxiao","tianjia_queding","tianjia","shanchu_close","shanchu_quxiao","shanchu_queding","shanchu_text","shanchu","PeopleChat_text","PeopleChat","ChatToolsw","ChatTools","ChatFrame","ChatIcon","Send","Expression_bar","SQBJ","FriendsBar1","FriendsBar0","Chitchat","ApplyFor","FindMyPhone_close","PhoneNumber","Find","PlayerList","FindMyPhone","FriendSet_close","MobileSearch","RecommendationFriend","FriendSet","friend","TASK_close","tupian0","tupian1","tupian2","tupian3","tupian4","tupian5","Task1","HebdomadTask1","QDRW","HYRW","WBRW","STRW","HLBZJ1","HLBZJ0","HLBZJ2","DJJJMP","DJJJMP_neirou","jieshaojiemian","TASK","DeadlineTASK_close","Task2","HebdomadTask2","tp1","DJLQ","QDYC","ZZYCZW","day","DrillOne0","TaskOne0","TaskThree0","DrillThree0","tp2","SQYCZW","JCCGYC","DJLQ0","day0","TaskThree1","TaskThree2","TaskThree3","DJSZPM","GMYKZZ","JCCGSC","DrillThree1","DrillThree2","DrillThree3","tp4","tp3","DJLQ1","day1","leij","TaskThree6","DrillTow2","DrillTow0","tp6","LJWBSC","LJSQHLSC","tp5","DJLQ2","day2","jiao","jiao0","jiao1","TJSGHY","WYLCG","SYFLLC","DrillTow3","DrillTow1","DrillTow4","tp8","tp0","tp7","DJLQ3","day3","DrillOne4","DJSZZN","SQSCHYDHL","WBWC","SQWCHL","DrillOne1","DrillOne2","TaskOne4","TaskOne1","TaskOne2","TaskThree4","DrillThree4","tp11","tp10","tp9","DJLQ4","day4","DrillOne5","TaskOne5","GMYZG","JCCLJSSC","WBLC","SQLCHL","SQHYHLBGESG","TaskThree5","TaskThree7","TaskThree8","TaskThree9","DrillThree5","DrillThree6","DrillThree7","DrillThree8","tp14","tp15","tp16","tp13","tp12","DJLQ5","day5","DJJJMP0","DJJJMP_neirou0","jieshaojiemian0","OneDays","TowDays","ThreeDays","FourDays","FiveDays","SixDays","SevenDays","DeadlineTASK","TISHIYUJU","tishixinxi"];
+		this.skinParts = ["BG","rotate0","Return","farmland1","farmland2","farmland3","farmland4","farmland5","farmland6","farmland7","farmland8","farmland9","IndianArrowheads","rail","gouyidong","rail0","land1","land2","land3","land4","land5","land6","land7","land8","land9","rare1","rare2","rare3","rare4","rare5","rare6","rare7","rare8","rare9","ripe1","ripe2","ripe3","ripe4","ripe5","ripe6","ripe7","ripe8","ripe9","cover1","cover2","cover3","cover4","cover5","cover6","cover7","cover8","cover9","LandBuy","dogbowl0","zhai1","zhai2","zhai3","zhai4","zhai5","zhai6","zhai7","zhai8","zhai9","kz1","kz2","kz3","kz4","kz5","kz6","kz7","kz8","kz9","dog","rotate1","rollxd","roll","NameBackground","Name","HeadPortrait","daoju1","daoju2","LV","Install","Friend","Money","Help","Task","FHZSJBJ","FHZSJ","FHZSJBJ0","FHZSJ0","DTGDXX","Prop","WBJL_S","WBDJLQ","WBJL_text","WBJLJM","wabao","jlda","dim0","kjts_close","KJTS_text","KJTS_close","KJTS","succeed_close0","shut0","feiliaotishiyu","dark","hint_text","hint_X","dim","quit","watering","weeding","deinsectization","RipeTime1","RipeTime2","RipeTime3","RipeTime4","RipeTime5","RipeTime6","RipeTime7","RipeTime8","RipeTime9","manure1","manure2","manure3","manure1_bj","manure2_bj","manure3_bj","manure1_text","manure2_text","manure3_text","AggregateScheduling1","Scheduling1","Scheduling_Number1","AggregateScheduling9","Scheduling9","Scheduling_Number9","AggregateScheduling2","Scheduling2","Scheduling_Number2","AggregateScheduling3","Scheduling3","Scheduling_Number3","AggregateScheduling4","Scheduling4","Scheduling_Number4","AggregateScheduling5","Scheduling5","Scheduling_Number5","AggregateScheduling6","Scheduling6","Scheduling_Number6","AggregateScheduling7","Scheduling7","Scheduling_Number7","AggregateScheduling8","Scheduling8","Scheduling_Number8","condition","Music","SoundEffect","Options_close","Options","MyCenter_close","ChangeName","modification","CurrentTitleLevel","detail","TheCurrentMoney","TotalMoney","TheNextLevel","TotalMoneyTow","TheNextLevelMoney","fertilizer","plan","schedule","Money_center","MyCenter","Designation_close","CHQD","Designation","TheIndianArrowheads_close","Goldhoe","IndianArrowheadsNumber","Indian_arrowheads_record1","platinumhoe","diamondhoe","platinumhoe_zhi","diamondhoe_zhi","gundong1","wenzi1","inform_frame","inform_close","inform","Log_message","Indian_arrowheads_record2_close","Indian_arrowheads_record2","WBCS__close","WBCS","WBXX_zi","WBXX__close","WBXX","TheIndianArrowheads","ForRecord_close","money","RecordBox","RecordStrip","GoAndSee","ForRecord","BrowserHelpMenu_close","RaiseMoney","Water","Seed","PetPig","HelpText","HelpText0","HelpText1","HelpText2","BrowserHelpMenu","PropsFor_close","ContentProps","Conversion","warehouse","prop_money","PropsRecord","consume","function","seed","petattack","gundong0","wenzi0","cry","WarehouseGoods","ConsumeGoods","ConsumeGoods_close","SPTP","buy_text","ConsumeGoods_Subtract","ConsumeGoods_Plus","PurchaseQuantity","presented","purchase0","price","ConsumeGoods_Buy","ConsumeGoods_close_zhongzi","SPTP_zhongzi","buy_text_zhongzi","ConsumeGoods_Subtract_zhongzi","ConsumeGoods_Plus_zhongzi","PurchaseQuantity_zhongzi","presented_zhongzi","purchase_zhongzi","price_zhongzi","ConsumeGoods_zhongzi","ConsumeGoods_close0","DJSYJMSPTB","buy_text0","purchase1","shuliang","ConsumeGoods_Buy0","PropsOrder_close","OrderForm","Indent","PropsOrder","Presented_close","PresentedJM","Presented","zhifu_bj","weixin1","zhifubao1","weixin","zhifubao","zhifu","PropsClass","Change","tu1","tu2","tu3","secret1","secret2","secret3","gundong2","wenzi2","conversion_presenter_1","conversion_presenter_2","conversion_presenter_3","Conversion_money","Modellpause","Bill","All","Obligation","ForShipping","HasBeenShipped","indent_particulars","Indent0","MyOrder","DiscussX","Discuss","ChangeTheOrder_close","exchange","ChangeTheOrder","succeed_close","deficiency_text","shut1","deficiency","Select_category_close","Xtu","Xname","Xshu","tishi","Select_category","receiver_address","receiver_name","address_close","receiver_number","address_yes","address","shut2","succeed","tishi_text","shut3","Tishi","discuss_text","discuss_tu","discuss_yes","discuss_close","discuss","hint3_colse","hint3_yes","hint3","ConversionGoods","commodity","Best","Attention","Pick","REGISTRATION","PrivateLetter","AddFriend","Parameters","friend_money","friend_close","figure","MeetPeople","tianjia_close","tianjia_text","tianjia_quxiao","tianjia_queding","tianjia","shanchu_close","shanchu_quxiao","shanchu_queding","shanchu_text","shanchu","PeopleChat_text","PeopleChat","ChatToolsw","ChatTools","ChatFrame","ChatIcon","Send","Expression_bar","SQBJ","FriendsBar1","FriendsBar0","Chitchat","ApplyFor","FindMyPhone_close","PhoneNumber","Find","PlayerList","FindMyPhone","FriendSet_close","MobileSearch","RecommendationFriend","FriendSet","friend","TASK_close","tupian0","tupian1","tupian2","tupian3","tupian4","tupian5","Task1","HebdomadTask1","QDRW","HYRW","WBRW","STRW","HLBZJ1","HLBZJ0","HLBZJ2","DJJJMP","DJJJMP_neirou","jieshaojiemian","TASK","DeadlineTASK_close","Task2","HebdomadTask2","tp1","DJLQ","QDYC","ZZYCZW","day","DrillOne0","TaskOne0","TaskThree0","DrillThree0","tp2","SQYCZW","JCCGYC","DJLQ0","day0","TaskThree1","TaskThree2","TaskThree3","DJSZPM","GMYKZZ","JCCGSC","DrillThree1","DrillThree2","DrillThree3","tp4","tp3","DJLQ1","day1","leij","TaskThree6","DrillTow2","DrillTow0","tp6","LJWBSC","LJSQHLSC","tp5","DJLQ2","day2","jiao","jiao0","jiao1","TJSGHY","WYLCG","SYFLLC","DrillTow3","DrillTow1","DrillTow4","tp8","tp0","tp7","DJLQ3","day3","DrillOne4","DJSZZN","SQSCHYDHL","WBWC","SQWCHL","DrillOne1","DrillOne2","TaskOne4","TaskOne1","TaskOne2","TaskThree4","DrillThree4","tp11","tp10","tp9","DJLQ4","day4","DrillOne5","TaskOne5","GMYZG","JCCLJSSC","WBLC","SQLCHL","SQHYHLBGESG","TaskThree5","TaskThree7","TaskThree8","TaskThree9","DrillThree5","DrillThree6","DrillThree7","DrillThree8","tp14","tp15","tp16","tp13","tp12","DJLQ5","day5","DJJJMP0","DJJJMP_neirou0","jieshaojiemian0","OneDays","TowDays","ThreeDays","FourDays","FiveDays","SixDays","SevenDays","DeadlineTASK","receiver_address0","receiver_name0","address_close0","receiver_number0","address_yes0","address0_DT","TISHIYUJU","tishixinxi"];
 		
 		this.height = 667;
 		this.width = 375;
-		this.elementsContent = [this.roll_i(),this.NameBackground_i(),this.Name_i(),this._Image7_i(),this.HeadPortrait_i(),this._Image8_i(),this._Button1_i(),this._Image9_i(),this._Image10_i(),this.daoju1_i(),this.daoju2_i(),this.LV_i(),this.Install_i(),this.Friend_i(),this.Money_i(),this.Help_i(),this.Task_i(),this.FHZSJBJ_i(),this.FHZSJ_i(),this.FHZSJBJ0_i(),this.FHZSJ0_i(),this.DTGDXX_i(),this.Prop_i(),this.wabao_i(),this.jlda_i(),this.KJTS_i(),this.feiliaotishiyu_i(),this.dark_i(),this.hint_text_i(),this.hint_X_i(),this.condition_i(),this.Options_i(),this.MyCenter_i(),this.Designation_i(),this.TheIndianArrowheads_i(),this.ForRecord_i(),this.BrowserHelpMenu_i(),this.commodity_i(),this.friend_i(),this.TASK_i(),this.DeadlineTASK_i(),this.TISHIYUJU_i(),this.tishixinxi_i()];
+		this.elementsContent = [this.roll_i(),this.NameBackground_i(),this.Name_i(),this._Image7_i(),this.HeadPortrait_i(),this._Image8_i(),this._Button1_i(),this._Image9_i(),this._Image10_i(),this.daoju1_i(),this.daoju2_i(),this.LV_i(),this.Install_i(),this.Friend_i(),this.Money_i(),this.Help_i(),this.Task_i(),this.FHZSJBJ_i(),this.FHZSJ_i(),this.FHZSJBJ0_i(),this.FHZSJ0_i(),this.DTGDXX_i(),this.Prop_i(),this.wabao_i(),this.jlda_i(),this.KJTS_i(),this.feiliaotishiyu_i(),this.dark_i(),this.hint_text_i(),this.hint_X_i(),this.condition_i(),this.Options_i(),this.MyCenter_i(),this.Designation_i(),this.TheIndianArrowheads_i(),this.ForRecord_i(),this.BrowserHelpMenu_i(),this.commodity_i(),this.friend_i(),this.TASK_i(),this.DeadlineTASK_i(),this.address0_DT_i(),this.TISHIYUJU_i(),this.tishixinxi_i()];
 	}
 	var _proto = TheFarmLobbySkin.prototype;
 
@@ -11792,7 +11903,7 @@ window.skins=window.skins||{};
 		t.width = 375;
 		t.x = 0;
 		t.y = 0;
-		t.elementsContent = [this.Change_i(),this.tu1_i(),this.tu2_i(),this.tu3_i(),this.secret1_i(),this.secret2_i(),this.secret3_i(),this.gundong2_i(),this.wenzi2_i(),this.conversion_presenter_1_i(),this.conversion_presenter_2_i(),this.conversion_presenter_3_i(),this._Image115_i(),this.Conversion_money_i(),this._Image116_i(),this._Image117_i(),this.Modellpause_i(),this.Bill_i(),this.MyOrder_i(),this.Discuss_i(),this.ChangeTheOrder_i(),this.deficiency_i(),this.succeed_i(),this.Tishi_i(),this.discuss_i(),this.Select_category_i(),this.address_i(),this.hint3_i()];
+		t.elementsContent = [this.Change_i(),this.tu1_i(),this.tu2_i(),this.tu3_i(),this.secret1_i(),this.secret2_i(),this.secret3_i(),this.gundong2_i(),this.wenzi2_i(),this.conversion_presenter_1_i(),this.conversion_presenter_2_i(),this.conversion_presenter_3_i(),this._Image115_i(),this.Conversion_money_i(),this._Image116_i(),this._Image117_i(),this.Modellpause_i(),this.Bill_i(),this.MyOrder_i(),this.Discuss_i(),this.ChangeTheOrder_i(),this.deficiency_i(),this.Select_category_i(),this.address_i(),this.succeed_i(),this.Tishi_i(),this.discuss_i(),this.hint3_i()];
 		return t;
 	};
 	_proto.Change_i = function () {
@@ -12022,7 +12133,7 @@ window.skins=window.skins||{};
 		t.source = "quanbu@3x_png";
 		t.width = 80;
 		t.x = 29.69;
-		t.y = -2;
+		t.y = 0;
 		return t;
 	};
 	_proto.Obligation_i = function () {
@@ -12259,6 +12370,256 @@ window.skins=window.skins||{};
 		t.skinName = TheFarmLobbySkin$Skin69;
 		return t;
 	};
+	_proto.Select_category_i = function () {
+		var t = new eui.Group();
+		this.Select_category = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.bottom = 0;
+		t.left = 0;
+		t.right = 0;
+		t.top = 0;
+		t.visible = false;
+		t.elementsContent = [this._Image124_i(),this._Image125_i(),this.Select_category_close_i(),this._Image126_i(),this.Xtu_i(),this.Xname_i(),this._Label21_i(),this.Xshu_i(),this.tishi_i()];
+		return t;
+	};
+	_proto._Image124_i = function () {
+		var t = new eui.Image();
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.bottom = 0;
+		t.left = 0;
+		t.right = 0;
+		t.source = "TouMingBeiJing_png";
+		t.top = 0;
+		return t;
+	};
+	_proto._Image125_i = function () {
+		var t = new eui.Image();
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 340;
+		t.scaleX = 1;
+		t.scaleY = 1;
+		t.source = "beijing3_png";
+		t.width = 300;
+		t.x = 38;
+		t.y = 143;
+		return t;
+	};
+	_proto.Select_category_close_i = function () {
+		var t = new eui.Button();
+		this.Select_category_close = t;
+		t.height = 32;
+		t.label = "";
+		t.scaleX = 1;
+		t.scaleY = 1;
+		t.width = 32;
+		t.x = 312;
+		t.y = 137;
+		t.skinName = TheFarmLobbySkin$Skin70;
+		return t;
+	};
+	_proto._Image126_i = function () {
+		var t = new eui.Image();
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 58;
+		t.scaleX = 1;
+		t.scaleY = 1;
+		t.source = "pinlei_png";
+		t.width = 214;
+		t.x = 86;
+		t.y = 127;
+		return t;
+	};
+	_proto.Xtu_i = function () {
+		var t = new eui.Image();
+		this.Xtu = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 80;
+		t.source = "white2_png";
+		t.width = 80;
+		t.x = 60;
+		t.y = 211;
+		return t;
+	};
+	_proto.Xname_i = function () {
+		var t = new eui.Label();
+		this.Xname = t;
+		t.size = 24;
+		t.text = "Label";
+		t.textColor = 0x000000;
+		t.x = 148;
+		t.y = 224;
+		return t;
+	};
+	_proto._Label21_i = function () {
+		var t = new eui.Label();
+		t.size = 13;
+		t.text = "可兑换数量：";
+		t.textColor = 0x146776;
+		t.x = 150;
+		t.y = 262;
+		return t;
+	};
+	_proto.Xshu_i = function () {
+		var t = new eui.Label();
+		this.Xshu = t;
+		t.anchorOffsetX = 0;
+		t.size = 13;
+		t.text = "Label";
+		t.textColor = 0x146776;
+		t.x = 234;
+		t.y = 262;
+		return t;
+	};
+	_proto.tishi_i = function () {
+		var t = new eui.Button();
+		this.tishi = t;
+		t.height = 30;
+		t.label = "";
+		t.width = 30;
+		t.x = 286;
+		t.y = 249;
+		t.skinName = TheFarmLobbySkin$Skin71;
+		return t;
+	};
+	_proto.address_i = function () {
+		var t = new eui.Group();
+		this.address = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.bottom = 0;
+		t.left = 0;
+		t.right = 0;
+		t.top = 0;
+		t.visible = false;
+		t.elementsContent = [this._Image127_i(),this._Image128_i(),this.receiver_address_i(),this.receiver_name_i(),this._Image129_i(),this.address_close_i(),this._Label22_i(),this._Label23_i(),this._Label24_i(),this.receiver_number_i(),this.address_yes_i()];
+		return t;
+	};
+	_proto._Image127_i = function () {
+		var t = new eui.Image();
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.bottom = 0;
+		t.left = 0;
+		t.right = 0;
+		t.source = "TouMingBeiJing_png";
+		t.top = 0;
+		return t;
+	};
+	_proto._Image128_i = function () {
+		var t = new eui.Image();
+		t.height = 334;
+		t.source = "beijing3_png";
+		t.width = 294;
+		t.x = 41;
+		t.y = 142;
+		return t;
+	};
+	_proto.receiver_address_i = function () {
+		var t = new eui.TextInput();
+		this.receiver_address = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 95;
+		t.prompt = "请填写详细收货地址";
+		t.width = 176;
+		t.x = 133;
+		t.y = 303;
+		return t;
+	};
+	_proto.receiver_name_i = function () {
+		var t = new eui.TextInput();
+		this.receiver_name = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 26;
+		t.prompt = "请填写收货人姓名";
+		t.width = 176;
+		t.x = 133;
+		t.y = 216;
+		return t;
+	};
+	_proto._Image129_i = function () {
+		var t = new eui.Image();
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 58;
+		t.source = "tishi_png";
+		t.width = 214;
+		t.x = 86;
+		t.y = 120;
+		return t;
+	};
+	_proto.address_close_i = function () {
+		var t = new eui.Button();
+		this.address_close = t;
+		t.height = 37;
+		t.label = "";
+		t.width = 37;
+		t.x = 310;
+		t.y = 136;
+		t.skinName = TheFarmLobbySkin$Skin72;
+		return t;
+	};
+	_proto._Label22_i = function () {
+		var t = new eui.Label();
+		t.bold = true;
+		t.size = 15;
+		t.text = "联系人";
+		t.textColor = 0x013952;
+		t.x = 66;
+		t.y = 227;
+		return t;
+	};
+	_proto._Label23_i = function () {
+		var t = new eui.Label();
+		t.bold = true;
+		t.size = 15;
+		t.text = "联系电话";
+		t.textColor = 0x013952;
+		t.x = 66;
+		t.y = 268;
+		return t;
+	};
+	_proto._Label24_i = function () {
+		var t = new eui.Label();
+		t.bold = true;
+		t.size = 15;
+		t.text = "联系地址";
+		t.textColor = 0x013952;
+		t.x = 66;
+		t.y = 311;
+		return t;
+	};
+	_proto.receiver_number_i = function () {
+		var t = new eui.TextInput();
+		this.receiver_number = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 26;
+		t.maxChars = 11;
+		t.prompt = "请填写收货人联系方式";
+		t.restrict = "\"0-9\"";
+		t.width = 176;
+		t.x = 133;
+		t.y = 260;
+		return t;
+	};
+	_proto.address_yes_i = function () {
+		var t = new eui.Button();
+		this.address_yes = t;
+		t.height = 36;
+		t.label = "";
+		t.width = 76;
+		t.x = 150;
+		t.y = 416;
+		t.skinName = TheFarmLobbySkin$Skin73;
+		return t;
+	};
 	_proto.succeed_i = function () {
 		var t = new eui.Group();
 		this.succeed = t;
@@ -12268,10 +12629,10 @@ window.skins=window.skins||{};
 		t.right = 0;
 		t.top = 0;
 		t.visible = false;
-		t.elementsContent = [this._Image124_i(),this._Image125_i(),this._Label21_i(),this._Image126_i(),this.shut2_i()];
+		t.elementsContent = [this._Image130_i(),this._Image131_i(),this._Label25_i(),this._Image132_i(),this.shut2_i()];
 		return t;
 	};
-	_proto._Image124_i = function () {
+	_proto._Image130_i = function () {
 		var t = new eui.Image();
 		t.bottom = 0;
 		t.left = 0;
@@ -12282,7 +12643,7 @@ window.skins=window.skins||{};
 		t.top = 0;
 		return t;
 	};
-	_proto._Image125_i = function () {
+	_proto._Image131_i = function () {
 		var t = new eui.Image();
 		t.anchorOffsetX = 0;
 		t.height = 225;
@@ -12292,7 +12653,7 @@ window.skins=window.skins||{};
 		t.y = 213;
 		return t;
 	};
-	_proto._Label21_i = function () {
+	_proto._Label25_i = function () {
 		var t = new eui.Label();
 		t.anchorOffsetX = 0;
 		t.anchorOffsetY = 0;
@@ -12306,7 +12667,7 @@ window.skins=window.skins||{};
 		t.y = 265;
 		return t;
 	};
-	_proto._Image126_i = function () {
+	_proto._Image132_i = function () {
 		var t = new eui.Image();
 		t.anchorOffsetX = 0;
 		t.anchorOffsetY = 0;
@@ -12325,7 +12686,7 @@ window.skins=window.skins||{};
 		t.width = 65;
 		t.x = 155;
 		t.y = 376;
-		t.skinName = TheFarmLobbySkin$Skin70;
+		t.skinName = TheFarmLobbySkin$Skin74;
 		return t;
 	};
 	_proto.Tishi_i = function () {
@@ -12337,10 +12698,10 @@ window.skins=window.skins||{};
 		t.right = 0;
 		t.top = 0;
 		t.visible = false;
-		t.elementsContent = [this._Image127_i(),this._Image128_i(),this.tishi_text_i(),this._Image129_i(),this.shut3_i()];
+		t.elementsContent = [this._Image133_i(),this._Image134_i(),this.tishi_text_i(),this._Image135_i(),this.shut3_i()];
 		return t;
 	};
-	_proto._Image127_i = function () {
+	_proto._Image133_i = function () {
 		var t = new eui.Image();
 		t.bottom = 0;
 		t.left = 0;
@@ -12351,7 +12712,7 @@ window.skins=window.skins||{};
 		t.top = 0;
 		return t;
 	};
-	_proto._Image128_i = function () {
+	_proto._Image134_i = function () {
 		var t = new eui.Image();
 		t.anchorOffsetX = 0;
 		t.height = 225;
@@ -12376,7 +12737,7 @@ window.skins=window.skins||{};
 		t.y = 265;
 		return t;
 	};
-	_proto._Image129_i = function () {
+	_proto._Image135_i = function () {
 		var t = new eui.Image();
 		t.anchorOffsetX = 0;
 		t.anchorOffsetY = 0;
@@ -12395,7 +12756,7 @@ window.skins=window.skins||{};
 		t.width = 65;
 		t.x = 155;
 		t.y = 376;
-		t.skinName = TheFarmLobbySkin$Skin71;
+		t.skinName = TheFarmLobbySkin$Skin75;
 		return t;
 	};
 	_proto.discuss_i = function () {
@@ -12407,10 +12768,10 @@ window.skins=window.skins||{};
 		t.right = 0;
 		t.top = 0;
 		t.visible = false;
-		t.elementsContent = [this._Image130_i(),this._Image131_i(),this._Image132_i(),this._Image133_i(),this.discuss_text_i(),this.discuss_tu_i(),this.discuss_yes_i(),this._Label22_i(),this.discuss_close_i()];
+		t.elementsContent = [this._Image136_i(),this._Image137_i(),this._Image138_i(),this._Image139_i(),this.discuss_text_i(),this.discuss_tu_i(),this.discuss_yes_i(),this._Label26_i(),this.discuss_close_i()];
 		return t;
 	};
-	_proto._Image130_i = function () {
+	_proto._Image136_i = function () {
 		var t = new eui.Image();
 		t.bottom = 0;
 		t.left = 0;
@@ -12421,7 +12782,7 @@ window.skins=window.skins||{};
 		t.top = 0;
 		return t;
 	};
-	_proto._Image131_i = function () {
+	_proto._Image137_i = function () {
 		var t = new eui.Image();
 		t.height = 384;
 		t.source = "beijing3_png";
@@ -12430,7 +12791,7 @@ window.skins=window.skins||{};
 		t.y = 150;
 		return t;
 	};
-	_proto._Image132_i = function () {
+	_proto._Image138_i = function () {
 		var t = new eui.Image();
 		t.height = 58;
 		t.source = "shaitu(1)_png";
@@ -12439,7 +12800,7 @@ window.skins=window.skins||{};
 		t.y = 134;
 		return t;
 	};
-	_proto._Image133_i = function () {
+	_proto._Image139_i = function () {
 		var t = new eui.Image();
 		t.height = 160;
 		t.source = "juxingDJDHGM@3x_png";
@@ -12486,10 +12847,10 @@ window.skins=window.skins||{};
 		t.width = 77;
 		t.x = 147;
 		t.y = 472;
-		t.skinName = TheFarmLobbySkin$Skin72;
+		t.skinName = TheFarmLobbySkin$Skin76;
 		return t;
 	};
-	_proto._Label22_i = function () {
+	_proto._Label26_i = function () {
 		var t = new eui.Label();
 		t.anchorOffsetX = 0;
 		t.anchorOffsetY = 0;
@@ -12508,256 +12869,6 @@ window.skins=window.skins||{};
 		t.width = 33;
 		t.x = 307;
 		t.y = 150;
-		t.skinName = TheFarmLobbySkin$Skin73;
-		return t;
-	};
-	_proto.Select_category_i = function () {
-		var t = new eui.Group();
-		this.Select_category = t;
-		t.anchorOffsetX = 0;
-		t.anchorOffsetY = 0;
-		t.bottom = 0;
-		t.left = 0;
-		t.right = 0;
-		t.top = 0;
-		t.visible = false;
-		t.elementsContent = [this._Image134_i(),this._Image135_i(),this.Select_category_close_i(),this._Image136_i(),this.Xtu_i(),this.Xname_i(),this._Label23_i(),this.Xshu_i(),this.tishi_i()];
-		return t;
-	};
-	_proto._Image134_i = function () {
-		var t = new eui.Image();
-		t.anchorOffsetX = 0;
-		t.anchorOffsetY = 0;
-		t.bottom = 0;
-		t.left = 0;
-		t.right = 0;
-		t.source = "TouMingBeiJing_png";
-		t.top = 0;
-		return t;
-	};
-	_proto._Image135_i = function () {
-		var t = new eui.Image();
-		t.anchorOffsetX = 0;
-		t.anchorOffsetY = 0;
-		t.height = 340;
-		t.scaleX = 1;
-		t.scaleY = 1;
-		t.source = "beijing3_png";
-		t.width = 300;
-		t.x = 38;
-		t.y = 143;
-		return t;
-	};
-	_proto.Select_category_close_i = function () {
-		var t = new eui.Button();
-		this.Select_category_close = t;
-		t.height = 32;
-		t.label = "";
-		t.scaleX = 1;
-		t.scaleY = 1;
-		t.width = 32;
-		t.x = 312;
-		t.y = 137;
-		t.skinName = TheFarmLobbySkin$Skin74;
-		return t;
-	};
-	_proto._Image136_i = function () {
-		var t = new eui.Image();
-		t.anchorOffsetX = 0;
-		t.anchorOffsetY = 0;
-		t.height = 58;
-		t.scaleX = 1;
-		t.scaleY = 1;
-		t.source = "pinlei_png";
-		t.width = 214;
-		t.x = 86;
-		t.y = 127;
-		return t;
-	};
-	_proto.Xtu_i = function () {
-		var t = new eui.Image();
-		this.Xtu = t;
-		t.anchorOffsetX = 0;
-		t.anchorOffsetY = 0;
-		t.height = 80;
-		t.source = "white2_png";
-		t.width = 80;
-		t.x = 60;
-		t.y = 211;
-		return t;
-	};
-	_proto.Xname_i = function () {
-		var t = new eui.Label();
-		this.Xname = t;
-		t.size = 24;
-		t.text = "Label";
-		t.textColor = 0x000000;
-		t.x = 148;
-		t.y = 224;
-		return t;
-	};
-	_proto._Label23_i = function () {
-		var t = new eui.Label();
-		t.size = 13;
-		t.text = "可兑换数量：";
-		t.textColor = 0x146776;
-		t.x = 150;
-		t.y = 262;
-		return t;
-	};
-	_proto.Xshu_i = function () {
-		var t = new eui.Label();
-		this.Xshu = t;
-		t.anchorOffsetX = 0;
-		t.size = 13;
-		t.text = "Label";
-		t.textColor = 0x146776;
-		t.x = 234;
-		t.y = 262;
-		return t;
-	};
-	_proto.tishi_i = function () {
-		var t = new eui.Button();
-		this.tishi = t;
-		t.height = 30;
-		t.label = "";
-		t.width = 30;
-		t.x = 286;
-		t.y = 249;
-		t.skinName = TheFarmLobbySkin$Skin75;
-		return t;
-	};
-	_proto.address_i = function () {
-		var t = new eui.Group();
-		this.address = t;
-		t.anchorOffsetX = 0;
-		t.anchorOffsetY = 0;
-		t.bottom = 0;
-		t.left = 0;
-		t.right = 0;
-		t.top = 0;
-		t.visible = false;
-		t.elementsContent = [this._Image137_i(),this._Image138_i(),this.receiver_address_i(),this.receiver_name_i(),this._Image139_i(),this.address_close_i(),this._Label24_i(),this._Label25_i(),this._Label26_i(),this.receiver_number_i(),this.address_yes_i()];
-		return t;
-	};
-	_proto._Image137_i = function () {
-		var t = new eui.Image();
-		t.anchorOffsetX = 0;
-		t.anchorOffsetY = 0;
-		t.bottom = 0;
-		t.left = 0;
-		t.right = 0;
-		t.source = "TouMingBeiJing_png";
-		t.top = 0;
-		return t;
-	};
-	_proto._Image138_i = function () {
-		var t = new eui.Image();
-		t.height = 334;
-		t.source = "beijing3_png";
-		t.width = 294;
-		t.x = 41;
-		t.y = 142;
-		return t;
-	};
-	_proto.receiver_address_i = function () {
-		var t = new eui.TextInput();
-		this.receiver_address = t;
-		t.anchorOffsetX = 0;
-		t.anchorOffsetY = 0;
-		t.height = 95;
-		t.prompt = "请填写详细收货地址";
-		t.width = 176;
-		t.x = 133;
-		t.y = 303;
-		return t;
-	};
-	_proto.receiver_name_i = function () {
-		var t = new eui.TextInput();
-		this.receiver_name = t;
-		t.anchorOffsetX = 0;
-		t.anchorOffsetY = 0;
-		t.height = 26;
-		t.prompt = "请填写收货人姓名";
-		t.width = 176;
-		t.x = 133;
-		t.y = 216;
-		return t;
-	};
-	_proto._Image139_i = function () {
-		var t = new eui.Image();
-		t.anchorOffsetX = 0;
-		t.anchorOffsetY = 0;
-		t.height = 58;
-		t.source = "tishi_png";
-		t.width = 214;
-		t.x = 86;
-		t.y = 120;
-		return t;
-	};
-	_proto.address_close_i = function () {
-		var t = new eui.Button();
-		this.address_close = t;
-		t.height = 37;
-		t.label = "";
-		t.width = 37;
-		t.x = 310;
-		t.y = 136;
-		t.skinName = TheFarmLobbySkin$Skin76;
-		return t;
-	};
-	_proto._Label24_i = function () {
-		var t = new eui.Label();
-		t.bold = true;
-		t.size = 15;
-		t.text = "联系人";
-		t.textColor = 0x013952;
-		t.x = 66;
-		t.y = 227;
-		return t;
-	};
-	_proto._Label25_i = function () {
-		var t = new eui.Label();
-		t.bold = true;
-		t.size = 15;
-		t.text = "联系电话";
-		t.textColor = 0x013952;
-		t.x = 66;
-		t.y = 268;
-		return t;
-	};
-	_proto._Label26_i = function () {
-		var t = new eui.Label();
-		t.bold = true;
-		t.size = 15;
-		t.text = "联系地址";
-		t.textColor = 0x013952;
-		t.x = 66;
-		t.y = 311;
-		return t;
-	};
-	_proto.receiver_number_i = function () {
-		var t = new eui.TextInput();
-		this.receiver_number = t;
-		t.anchorOffsetX = 0;
-		t.anchorOffsetY = 0;
-		t.height = 26;
-		t.maxChars = 11;
-		t.prompt = "请填写收货人联系方式";
-		t.restrict = "\"0-9\"";
-		t.width = 176;
-		t.x = 133;
-		t.y = 260;
-		return t;
-	};
-	_proto.address_yes_i = function () {
-		var t = new eui.Button();
-		this.address_yes = t;
-		t.height = 36;
-		t.label = "";
-		t.width = 76;
-		t.x = 150;
-		t.y = 416;
 		t.skinName = TheFarmLobbySkin$Skin77;
 		return t;
 	};
@@ -16042,6 +16153,140 @@ window.skins=window.skins||{};
 		t.width = 43;
 		t.x = 294.5;
 		t.y = 258;
+		return t;
+	};
+	_proto.address0_DT_i = function () {
+		var t = new eui.Group();
+		this.address0_DT = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.bottom = 0;
+		t.left = 0;
+		t.right = 0;
+		t.top = 0;
+		t.visible = false;
+		t.elementsContent = [this._Image224_i(),this._Image225_i(),this.receiver_address0_i(),this.receiver_name0_i(),this._Image226_i(),this.address_close0_i(),this._Label60_i(),this._Label61_i(),this._Label62_i(),this.receiver_number0_i(),this.address_yes0_i()];
+		return t;
+	};
+	_proto._Image224_i = function () {
+		var t = new eui.Image();
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.bottom = 0;
+		t.left = 0;
+		t.right = 0;
+		t.source = "TouMingBeiJing_png";
+		t.top = 0;
+		return t;
+	};
+	_proto._Image225_i = function () {
+		var t = new eui.Image();
+		t.height = 334;
+		t.source = "beijing3_png";
+		t.width = 294;
+		t.x = 41;
+		t.y = 142;
+		return t;
+	};
+	_proto.receiver_address0_i = function () {
+		var t = new eui.TextInput();
+		this.receiver_address0 = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 95;
+		t.prompt = "请填写详细收货地址";
+		t.width = 176;
+		t.x = 133;
+		t.y = 303;
+		return t;
+	};
+	_proto.receiver_name0_i = function () {
+		var t = new eui.TextInput();
+		this.receiver_name0 = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 26;
+		t.prompt = "请填写收货人姓名";
+		t.width = 176;
+		t.x = 133;
+		t.y = 216;
+		return t;
+	};
+	_proto._Image226_i = function () {
+		var t = new eui.Image();
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 58;
+		t.source = "tishi_png";
+		t.width = 214;
+		t.x = 86;
+		t.y = 120;
+		return t;
+	};
+	_proto.address_close0_i = function () {
+		var t = new eui.Button();
+		this.address_close0 = t;
+		t.height = 37;
+		t.label = "";
+		t.width = 37;
+		t.x = 310;
+		t.y = 136;
+		t.skinName = TheFarmLobbySkin$Skin103;
+		return t;
+	};
+	_proto._Label60_i = function () {
+		var t = new eui.Label();
+		t.bold = true;
+		t.size = 15;
+		t.text = "联系人";
+		t.textColor = 0x013952;
+		t.x = 66;
+		t.y = 227;
+		return t;
+	};
+	_proto._Label61_i = function () {
+		var t = new eui.Label();
+		t.bold = true;
+		t.size = 15;
+		t.text = "联系电话";
+		t.textColor = 0x013952;
+		t.x = 66;
+		t.y = 268;
+		return t;
+	};
+	_proto._Label62_i = function () {
+		var t = new eui.Label();
+		t.bold = true;
+		t.size = 15;
+		t.text = "联系地址";
+		t.textColor = 0x013952;
+		t.x = 66;
+		t.y = 311;
+		return t;
+	};
+	_proto.receiver_number0_i = function () {
+		var t = new eui.TextInput();
+		this.receiver_number0 = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 26;
+		t.maxChars = 11;
+		t.prompt = "请填写收货人联系方式";
+		t.restrict = "\"0-9\"";
+		t.width = 176;
+		t.x = 133;
+		t.y = 260;
+		return t;
+	};
+	_proto.address_yes0_i = function () {
+		var t = new eui.Button();
+		this.address_yes0 = t;
+		t.height = 36;
+		t.label = "";
+		t.width = 76;
+		t.x = 150;
+		t.y = 416;
+		t.skinName = TheFarmLobbySkin$Skin104;
 		return t;
 	};
 	_proto.TISHIYUJU_i = function () {

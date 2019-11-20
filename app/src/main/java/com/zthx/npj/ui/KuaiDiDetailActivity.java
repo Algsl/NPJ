@@ -107,7 +107,6 @@ public class KuaiDiDetailActivity extends ActivityBase {
     }
 
     private void setOrderDetail(String result) {
-        Log.e("测试", "setOrderDetail: "+result );
         MyOrderDetailResponseBean bean = GsonUtils.fromJson(result, MyOrderDetailResponseBean.class);
         MyOrderDetailResponseBean.DataBean data = bean.getData();
         Glide.with(this).load(Uri.parse(data.getGoods_img())).into(acKuaidiIvGoodsImg);
@@ -121,7 +120,7 @@ public class KuaiDiDetailActivity extends ActivityBase {
             case "百世快递":express_code="huitongkuaidi";break;
             case "天天快递":express_code="tiantian";break;
         }
-        Log.e("测试", "setOrderDetail: "+data.getExpress_code() );
+        //Log.e("测试", "setOrderDetail: "+data.getExpress_code() );
         getKuaiDiDetail(express_code,data.getExpress_number());
     }
 

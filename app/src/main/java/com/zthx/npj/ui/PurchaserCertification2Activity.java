@@ -243,6 +243,7 @@ public class PurchaserCertification2Activity extends ActivityBase {
     }
 
     private void uploadData() {
+        atPurchaserCertification2BtnConfirm.setClickable(false);
         UploadCaigouBean bean = new UploadCaigouBean();
         bean.setUser_id(SharePerferenceUtils.getUserId(this));
         bean.setToken(SharePerferenceUtils.getToken(this));
@@ -268,11 +269,13 @@ public class PurchaserCertification2Activity extends ActivityBase {
             CertSubscribe.upLoadCaigouCert3(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
+                    atPurchaserCertification2BtnConfirm.setClickable(true);
                     startActivity(new Intent(PurchaserCertification2Activity.this, ConfirmAttestationSuccessActivity.class));
                 }
 
                 @Override
                 public void onFault(String errorMsg) {
+                    atPurchaserCertification2BtnConfirm.setClickable(true);
                     //showToast(errorMsg);
                 }
             }));
@@ -280,11 +283,13 @@ public class PurchaserCertification2Activity extends ActivityBase {
             CertSubscribe.upLoadCaigouCert(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
+                    atPurchaserCertification2BtnConfirm.setClickable(true);
                     startActivity(new Intent(PurchaserCertification2Activity.this, ConfirmAttestationSuccessActivity.class));
                 }
 
                 @Override
                 public void onFault(String errorMsg) {
+                    atPurchaserCertification2BtnConfirm.setClickable(true);
                     //showToast(errorMsg);
                 }
             }));

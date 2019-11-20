@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
@@ -55,15 +56,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 }
             });
         }
-        if(mList.size()>0){
-            viewHolder.title.setText(mList.get(i).getTitle());
-            viewHolder.content.setText(mList.get(i).getContent());
-            viewHolder.nowTime.setText(new SimpleDateFormat("yy/MM/dd  HH:mm").format(mList.get(i).getNowTime()));
-        }
-        long minTime=new Date().getTime()-mList.get(i).getNowTime().getTime();
-        if(mList.size()>10 && (minTime/1000/60/60/24)>3){
-            mList.remove(mList.get(i));
-        }
+
     }
 
     @Override
@@ -72,12 +65,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title,content,nowTime;
+
+        TextView title,now_time,desc,resource;
+        ImageView goods_img;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title=itemView.findViewById(R.id.item_notification_tv_title);
-            content=itemView.findViewById(R.id.item_notification_tv_content);
-            nowTime=itemView.findViewById(R.id.item_notification_tv_time);
+            now_time=itemView.findViewById(R.id.item_notification_tv_time);
+            desc=itemView.findViewById(R.id.item_notification_tv_desc);
+            resource=itemView.findViewById(R.id.item_notification_tv_resource);
+            goods_img=itemView.findViewById(R.id.item_notification_iv_goodsNum);
         }
     }
 }

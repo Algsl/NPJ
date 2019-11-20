@@ -1,6 +1,7 @@
 package com.zthx.npj.ui;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -11,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
+import com.zthx.npj.base.Const;
+import com.zthx.npj.net.been.IsPersonCertResponseBean;
 import com.zthx.npj.net.been.ZiZhiBean;
 import com.zthx.npj.net.been.ZiZhiResponseBean;
 import com.zthx.npj.net.netsubscribe.CertSubscribe;
@@ -65,7 +68,7 @@ public class ZiZhiActivity extends ActivityBase {
 
             @Override
             public void onFault(String errorMsg) {
-                Log.e("测试", "onFault: "+errorMsg);
+
             }
         }));
     }
@@ -77,7 +80,8 @@ public class ZiZhiActivity extends ActivityBase {
                 openActivity(ConsultActivity.class);
                 break;
             case R.id.at_zizhi_btn_attestation:
-                CertSubscribe.zizhi4(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                isPersonCert();
+                /*CertSubscribe.zizhi4(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
                         openActivity(ZiZhiInfoActivity.class);
@@ -97,8 +101,42 @@ public class ZiZhiActivity extends ActivityBase {
                         dialog.setPositiveButton("去企业认证");
                         dialog.show();
                     }
-                }));
+                }));*/
                 break;
         }
+    }
+
+    private void isPersonCert() {
+        CertSubscribe.isPersonCertDone(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                IsPersonCertResponseBean isPersonCertResponseBean = GsonUtils.fromJson(result, IsPersonCertResponseBean.class);
+                IsPersonCertResponseBean.DataBean data = isPersonCertResponseBean.getData();
+                Intent intent = new Intent(ZiZhiActivity.this, ZiZhiInfoActivity.class);
+                intent.putExtra(Const.PERSON_CERT_NAME, data.getName());
+                intent.putExtra(Const.PERSON_CERT_PHONE, data.getMobile());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                showDialog();
+            }
+        }, this));
+    }
+
+    private void showDialog() {
+        CommonDialog commonDialog = new CommonDialog(this, R.style.dialog, "请先完成实人认证\n" +
+                "再进行资质认证\n", new CommonDialog.OnCloseListener() {
+            @Override
+            public void onClick(Dialog dialog, boolean confirm) {
+                if(confirm){
+                    openActivity(MyAttestationActivity.class);
+                }
+            }
+        });
+        commonDialog.setNegativeButton("取消");
+        commonDialog.setPositiveButton("去实人认证");
+        commonDialog.show();
     }
 }

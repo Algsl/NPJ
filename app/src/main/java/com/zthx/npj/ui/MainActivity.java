@@ -380,11 +380,11 @@ public class MainActivity extends AppCompatActivity {
                 setIndexSelected(1);
                 break;
             case R.id.ll_main_check_03:
-                if(SharePerferenceUtils.getUserId(this).equals("")){
+                /*if(SharePerferenceUtils.getUserId(this).equals("")){
                     Toast.makeText(this,"请先完成登录",Toast.LENGTH_SHORT).show();
                 }else{
                     startActivity(new Intent(this, GameActivity.class));
-                }
+                }*/
                 break;
             case R.id.ll_main_check_04:
                 setIndexSelected(2);
@@ -618,6 +618,8 @@ public class MainActivity extends AppCompatActivity {
         //找到系统的安装界面,把安装过程中要用到的东西传递进去,让系统帮助我们安装.
         Intent intent = new Intent(Intent.ACTION_VIEW);
         Uri uri=null;
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         if (Build.VERSION.SDK_INT >= 24) {
             uri = FileProvider.getUriForFile(MainActivity.this,
                     "com.zthx.npj.file_provider",
@@ -625,7 +627,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             uri = Uri.fromFile(file);
         }
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setDataAndType(uri,"application/vnd.android.package-archive");
         //通过隐式意图开启系统的安装apk界面
         startActivity(intent);

@@ -39,6 +39,6 @@
             android:layout_height="@dimen/dp_1"
             android:layout_marginLeft="@dimen/dp_12"
             android:layout_marginRight="@dimen/dp_12"
-            android:background="@color/background"
+            android:background="@color/line_list"
             android:layout_alignParentBottom="true"/>
 </RelativeLayout>

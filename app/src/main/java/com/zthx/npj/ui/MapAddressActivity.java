@@ -198,8 +198,8 @@ public class MapAddressActivity extends ActivityBase {
         }else{
             Intent intent = new Intent(this, LocationStoreActivity.class);
             if(flag){//点击获取经纬度
-                intent.putExtra("lat",lat1);
-                intent.putExtra("lng",lon1);
+                intent.putExtra("lat",lat1+"");
+                intent.putExtra("lng",lon1+"");
             }else{//文字输入获取经纬度
                 android.location.Address address=MyCustomUtils.getGeoPointBystr(this,acMapEtAddressDetail.getText().toString().trim());
                 intent.putExtra("lat",address.getLatitude()+"");
@@ -248,7 +248,7 @@ public class MapAddressActivity extends ActivityBase {
             if (isFirstLocation) {
                 isFirstLocation = false;
                 //设置并显示中心点
-                setPosition2Center(baiduMap, location, true);
+                setPosition2Center(baiduMap, location, false);
             }
         }
     }

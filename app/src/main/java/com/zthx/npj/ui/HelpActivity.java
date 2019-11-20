@@ -117,7 +117,6 @@ public class HelpActivity extends ActivityBase {
                         if (confirm){
                             startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:100-800-1234")));
                         }else{
-                            Log.e("测试", "onClick: "+"取消");
                         }
                     }
                 }).show();

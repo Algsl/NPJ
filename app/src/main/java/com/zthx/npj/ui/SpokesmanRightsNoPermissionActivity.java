@@ -2,13 +2,18 @@ package com.zthx.npj.ui;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
+import com.zthx.npj.adapter.SpokesmanQuanLiAdapter;
+import com.zthx.npj.net.been.SpokesmanQuanLiResponsebean;
 import com.zthx.npj.net.been.UserResponseBean;
+import com.zthx.npj.net.netsubscribe.GiftSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -16,9 +21,10 @@ import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.MyCircleView;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class SpokesmanRightsNoPermissionActivity extends ActivityBase {
 
@@ -30,14 +36,8 @@ public class SpokesmanRightsNoPermissionActivity extends ActivityBase {
     MyCircleView acSpokesmanMcvHeadImg;
     @BindView(R.id.ac_spokesman_tv_userName)
     TextView acSpokesmanTvUserName;
-    @BindView(R.id.ac_spokesman_tv_addGift)
-    TextView acSpokesmanTvAddGift;
-    @BindView(R.id.ac_spokesman_tv_ruzhu)
-    TextView acSpokesmanTvRuzhu;
-    @BindView(R.id.ac_spokesman_tv_shopping)
-    TextView acSpokesmanTvShopping;
-    @BindView(R.id.ac_spokesman_tv_generateHB)
-    TextView acSpokesmanTvGenerateHB;
+    @BindView(R.id.ac_membership_rv)
+    RecyclerView acMembershipRv;
 
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
@@ -50,7 +50,7 @@ public class SpokesmanRightsNoPermissionActivity extends ActivityBase {
 
         back(titleBack);
         changeTitle(acTitle, "代言人权益");
-
+        getData();
         getUserInfo();
     }
 
@@ -67,23 +67,28 @@ public class SpokesmanRightsNoPermissionActivity extends ActivityBase {
             @Override
             public void onFault(String errorMsg) {
                 //showToast(errorMsg);
-                SharePerferenceUtils.setUserId(SpokesmanRightsNoPermissionActivity.this,"");
+                SharePerferenceUtils.setUserId(SpokesmanRightsNoPermissionActivity.this, "");
             }
         }));
     }
 
-    @OnClick({R.id.ac_spokesman_tv_addGift, R.id.ac_spokesman_tv_ruzhu, R.id.ac_spokesman_tv_shopping, R.id.ac_spokesman_tv_generateHB})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.ac_spokesman_tv_addGift:
-                break;
-            case R.id.ac_spokesman_tv_ruzhu:
-                break;
-            case R.id.ac_spokesman_tv_shopping:
-                break;
-            case R.id.ac_spokesman_tv_generateHB:
-                openActivity(HaiBaoActivity.class);
-                break;
-        }
+    private void getData() {
+        GiftSubscribe.getSpokesmanQuan(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                SpokesmanQuanLiResponsebean spokesmanQuanLiResponsebean = GsonUtils.fromJson(result, SpokesmanQuanLiResponsebean.class);
+                ArrayList<SpokesmanQuanLiResponsebean.DataBean> data = spokesmanQuanLiResponsebean.getData();
+                LinearLayoutManager manager = new LinearLayoutManager(SpokesmanRightsNoPermissionActivity.this, LinearLayoutManager.VERTICAL, false);
+                acMembershipRv.setLayoutManager(manager);
+                SpokesmanQuanLiAdapter mAdapter = new SpokesmanQuanLiAdapter(SpokesmanRightsNoPermissionActivity.this, data);
+                acMembershipRv.setItemAnimator(new DefaultItemAnimator());
+                acMembershipRv.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 }

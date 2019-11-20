@@ -259,8 +259,13 @@ public class SupplyProductsActivity extends ActivityBase {
                 sn_user_id = needData.getUser_id();
                 if (!needData.getHead_img().equals("")) {
                     Glide.with(SupplyProductsActivity.this).load(needData.getHead_img()).into(atSupplyProductsIvHeadPic);
+                }
+                if (needData.getNick_name().substring(0,2).equals("用户")) {
+                    atSupplyProductsTvName.setText("农品街新客");
+                } else {
                     atSupplyProductsTvName.setText(needData.getNick_name());
                 }
+
                 atSupplyProductsTvXinyufen.setText("信誉分" + needData.getReputation());
                 //SupplyProductsAdapter adapter = new SupplyProductsAdapter(SupplyProductsActivity.this, data.getContent());
                 GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(SupplyProductsActivity.this, needData.getContent());
@@ -272,7 +277,7 @@ public class SupplyProductsActivity extends ActivityBase {
             public void onFault(String errorMsg) {
                 //showToast(errorMsg);
             }
-        }, this));
+        }));
     }
 
     //供应详情
@@ -312,10 +317,19 @@ public class SupplyProductsActivity extends ActivityBase {
                     atSupplyProductsTvXinyufen.setText("信誉分： " + supplyData.getReputation());
                 }
                 sn_user_id = supplyData.getUser_id();
-                if (!supplyData.getHead_img().equals("")) {
+                /*if (!supplyData.getHead_img().equals("")) {
                     Glide.with(SupplyProductsActivity.this).load(supplyData.getHead_img()).into(atSupplyProductsIvHeadPic);
                     atSupplyProductsTvName.setText(supplyData.getNick_name());
+                }*/
+                if (!supplyData.getHead_img().equals("")) {
+                    Glide.with(SupplyProductsActivity.this).load(supplyData.getHead_img()).into(atSupplyProductsIvHeadPic);
                 }
+                if (supplyData.getNick_name().substring(0,2).equals("用户")) {
+                    atSupplyProductsTvName.setText("农品街新客");
+                } else {
+                    atSupplyProductsTvName.setText(supplyData.getNick_name());
+                }
+
                 if (supplyData.getCertification() == null) {
                     acSupplyLl.setVisibility(View.GONE);
                 } else {
@@ -349,7 +363,7 @@ public class SupplyProductsActivity extends ActivityBase {
             public void onFault(String errorMsg) {
                 showToast(errorMsg);
             }
-        }, this));
+        }));
     }
 
     private void initBanner1(ArrayList<String> bannerList) {

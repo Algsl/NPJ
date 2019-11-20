@@ -33,8 +33,8 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.tencent.util.Constants;
 import com.zthx.npj.tencent.util.TencentUtil;
 import com.zthx.npj.ui.ActivityBase;
-import com.zthx.npj.ui.NotificationListActivity;
 import com.zthx.npj.ui.ServicesListActivity;
+import com.zthx.npj.ui.SystemMessageActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
@@ -242,7 +242,7 @@ public class MessageCenterActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_message_center_rl_system_message:
-                openActivity(NotificationListActivity.class);
+                openActivity(SystemMessageActivity.class);
                 break;
             case R.id.at_message_center_rl_kefu_message:
                 openActivity(ServicesListActivity.class);

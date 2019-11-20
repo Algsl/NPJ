@@ -285,7 +285,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void OnBannerClick(int position) {
                 Intent intent;
-                if(position==0){
+                if(position==2){
                     intent = new Intent(getContext(), GoodsDetailActivity.class);
                     intent.setAction("goods");
                     intent.putExtra("goods_id",  "302");
@@ -345,11 +345,11 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.fg_home_rl_go_game:
-                if(SharePerferenceUtils.getUserId(getContext()).equals("")){
+                /*if(SharePerferenceUtils.getUserId(getContext()).equals("")){
                     Toast.makeText(getContext(),"请先完成登录",Toast.LENGTH_SHORT).show();
                 }else{
                     startActivity(new Intent(getContext(), GameActivity.class));
-                }
+                }*/
                 break;
             case R.id.fg_home_ll_recommend:
                 toggle();

@@ -33,12 +33,15 @@ import com.zthx.npj.adapter.GoodsCateAdapter;
 import com.zthx.npj.net.been.AddGoodsBean;
 import com.zthx.npj.net.been.GoodsCateResponseBean;
 import com.zthx.npj.net.been.UploadPicsResponseBean;
+import com.zthx.npj.net.been.ZiZhiResponseBean;
+import com.zthx.npj.net.netsubscribe.CertSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.CommonDialog;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -125,6 +128,8 @@ public class PublishGoodsActivity extends ActivityBase {
     private boolean isTuiJian;
     private String is_recommend2="0";
 
+    private boolean isRenZheng;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,7 +140,7 @@ public class PublishGoodsActivity extends ActivityBase {
         changeTitle(titleThemeTitle, "发布商品");
 
         getGoodsCate();
-
+        getZizhiRenzheng();
 
         acPulishGoodsIvGoodsImg.setOnImageClickListener(new ZzImageBox.OnImageClickListener() {
             @Override
@@ -175,6 +180,25 @@ public class PublishGoodsActivity extends ActivityBase {
                 ImageSelectorUtils.openPhoto(PublishGoodsActivity.this,CHOOSE_PHOTO2);
             }
         });
+    }
+
+    private void getZizhiRenzheng() {
+        CertSubscribe.zizhi(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                ZiZhiResponseBean bean = GsonUtils.fromJson(result, ZiZhiResponseBean.class);
+                if(bean.getData().getStatus()==3){
+                    isRenZheng=true;
+                }else{
+                    isRenZheng=false;
+                }
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                //showToast(errorMsg);
+            }
+        }));
     }
 
     private void getGoodsCate() {
@@ -285,16 +309,16 @@ public class PublishGoodsActivity extends ActivityBase {
                 }
                 break;
             case R.id.ac_publishGoods_iv_hint1:
-                showPublishPopwindow(str1, R.dimen.dp_195);
+                showPublishPopwindow(str1, R.dimen.dp_210);
                 break;
             case R.id.ac_publishGoods_iv_hint2:
-                showPublishPopwindow(str2, R.dimen.dp_280);
+                showPublishPopwindow(str2, R.dimen.dp_300);
                 break;
             case R.id.ac_publishGoods_iv_hint3:
-                showPublishPopwindow(str3, R.dimen.dp_154);
+                showPublishPopwindow(str3, R.dimen.dp_174);
                 break;
             case R.id.ac_publishGoods_iv_hint4:
-                showPublishPopwindow(str4, R.dimen.dp_175);
+                showPublishPopwindow(str4, R.dimen.dp_195);
                 break;
             case R.id.ac_pulishGoods_rl_cateId:
                 showItemPopwindow();
@@ -468,7 +492,6 @@ public class PublishGoodsActivity extends ActivityBase {
         for (int i = 0; i < groupCount; i++) {
             elv.expandGroup(i);
         }
-        ;
         adapter.setOnItemClickListener(new GoodsCateAdapter.ItemClickListener() {
             @Override
             public void groupMsg(String cate_id, String cate_name) {
@@ -476,11 +499,17 @@ public class PublishGoodsActivity extends ActivityBase {
             }
 
             @Override
-            public void childMsg(String id, String cate_name) {
-                cate_id = id;
-                acPulishGoodsTvCateId.setText(cate_name);
-                backgroundAlpha(1f);
-                window.dismiss();
+            public void childMsg(String group_id, String id, String cate_name) {
+                if(group_id.equals("22") || group_id.equals("107")){
+                    if(!isRenZheng){
+                        showDialog();
+                    }
+                }else{
+                    cate_id = id;
+                    acPulishGoodsTvCateId.setText(cate_name);
+                    backgroundAlpha(1f);
+                    window.dismiss();
+                }
             }
         });
         window.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -540,5 +569,18 @@ public class PublishGoodsActivity extends ActivityBase {
             e.printStackTrace();
         }
         return bmString;
+    }
+
+    private void showDialog() {
+        CommonDialog commonDialog = new CommonDialog(this, R.style.dialog, "该分类商品需进行资质认证才能发布",false, new CommonDialog.OnCloseListener() {
+            @Override
+            public void onClick(Dialog dialog, boolean confirm) {
+                if(confirm){
+                    openActivity(MyAttestationActivity.class);
+                }
+            }
+        });
+        commonDialog.setPositiveButton("去资质认证");
+        commonDialog.show();
     }
 }

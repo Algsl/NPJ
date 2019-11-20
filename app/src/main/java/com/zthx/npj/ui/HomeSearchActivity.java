@@ -86,10 +86,16 @@ public class HomeSearchActivity extends ActivityBase {
             labels.add(bean.getData().get(i).getTitle());
         }
         acHomeSearchRvHot.setLabels(labels);
-        acHomeSearchRvHot.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
+        /*acHomeSearchRvHot.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
             @Override
             public void onLabelClick(View label, String labelText, int position) {
                 openActivity(SearchResultActivity.class, labelText);
+            }
+        });*/
+        acHomeSearchRvHot.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
+            @Override
+            public void onLabelClick(TextView label, Object data, int position) {
+                openActivity(SearchResultActivity.class, data.toString());
             }
         });
     }
@@ -115,10 +121,16 @@ public class HomeSearchActivity extends ActivityBase {
             labels.add(bean.getData().get(i).getTitle());
         }
         acHomeSearchLvHistory.setLabels(labels);
-        acHomeSearchLvHistory.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
+        /*acHomeSearchLvHistory.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
             @Override
             public void onLabelClick(View label, String labelText, int position) {
                 openActivity(SearchResultActivity.class, labelText);
+            }
+        });*/
+        acHomeSearchLvHistory.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
+            @Override
+            public void onLabelClick(TextView label, Object data, int position) {
+                openActivity(SearchResultActivity.class, data.toString());
             }
         });
     }

@@ -286,6 +286,9 @@ public class SupplyManagerActivity extends ActivityBase {
         } else {
             showHint1.setVisibility(View.GONE);
         }
+
+
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         atSupplyManagerRvSupplyBill.setLayoutManager(layoutManager);
         SupplyOrderAdapter adapter = new SupplyOrderAdapter(this, data);
@@ -409,8 +412,8 @@ public class SupplyManagerActivity extends ActivityBase {
                 SetSubscribe.mySupplyOrderFahuo(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        showToast("发货成功");
                         getOrder();
+                        showToast("发货成功");
                         backgroundAlpha(1f);
                         window.dismiss();
                     }
@@ -476,6 +479,7 @@ public class SupplyManagerActivity extends ActivityBase {
                 SetSubscribe.mySupplyOrderRefund2(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
+                        getOrder();
                         showToast("退款成功");
                         backgroundAlpha(1f);
                         window.dismiss();
@@ -547,7 +551,7 @@ public class SupplyManagerActivity extends ActivityBase {
                 SetSubscribe.mySupplyOrderRefuseRefund(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.e("测试", "onSuccess: " + result);
+                        getOrder();
                         showToast("拒绝退款成功");
                         backgroundAlpha(1f);
                         window.dismiss();

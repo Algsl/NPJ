@@ -5,6 +5,7 @@
 
     <!-- 权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 这个权限用于访问GPS定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
@@ -73,7 +74,6 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".ui.MainActivity"
-            android:launchMode="singleTask"
             android:theme="@style/TranslucentTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -203,8 +203,6 @@
         <activity android:name=".ui.GameActivity" />
         <activity android:name=".ui.UserMsgActivity" />
         <activity android:name=".ui.ImgArticalActivity" />
-        <activity android:name=".ui.NotificationDetailActivity" />
-        <activity android:name=".ui.NotificationListActivity" />
         <activity android:name=".ui.WebViewActivity" />
         <activity android:name=".ui.DefaultPageActivity" />
         <activity android:name=".ui.StoreActivity" />
@@ -228,7 +226,7 @@
         <activity android:name=".tencent.activity.ChatActivity" />
         <activity android:name=".ui.ServicesListActivity" />
         <activity android:name=".ui.ZjdyrActivity" />
-        <activity android:name=".ui.SearchStoreOrderActivity"/>
+        <activity android:name=".ui.SearchOrderActivity"/>
         <activity android:name=".ui.ImageLookActivity"/>
 
 

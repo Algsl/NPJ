@@ -24,10 +24,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
+import com.zthx.npj.base.Const;
 import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.UpLoadPicResponseBean;
 import com.zthx.npj.net.been.UploadCompanyBean;
+import com.zthx.npj.net.been.UserBean;
+import com.zthx.npj.net.been.UserResponseBean;
 import com.zthx.npj.net.netsubscribe.CertSubscribe;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -83,6 +87,10 @@ public class EnterpriseCertification2Activity extends ActivityBase {
     private static final int CHOOSE_PHOTO = 2;
     private String cert_id = "";
 
+    private String name="";
+    private String mobile="";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,12 +99,17 @@ public class EnterpriseCertification2Activity extends ActivityBase {
         back(titleBack);
         changeTitle(acTitle, "企业认证");
 
+        name=getIntent().getStringExtra(Const.PERSON_CERT_NAME);
+        mobile=getIntent().getStringExtra(Const.PERSON_CERT_PHONE);
+
+        atEnterpriseCertification2TvPersonname.setText(name);
+        atEnterpriseCertification2TvPersonMobile.setText(mobile);
+
+
         if (getIntent().getStringExtra("key0") != null) {
             cert_id = getIntent().getStringExtra("key0");
         }
-        Log.e("测试", "onCreate: "+SharePerferenceUtils.getUserName(this) );
-        atEnterpriseCertification2TvPersonname.setText(SharePerferenceUtils.getUserName(this));
-        atEnterpriseCertification2TvPersonMobile.setText(SharePerferenceUtils.getUserMobile(this));
+
     }
 
     @OnClick({R.id.at_enterprise_certification2_ll_company_pic, R.id.at_enterprise_certification2_ll_shouquan,
@@ -119,7 +132,6 @@ public class EnterpriseCertification2Activity extends ActivityBase {
                 }else if(path1==null && path2==null){
                     showToast("请上传营业执照或授权书");
                 }else{
-                    atEnterpriseCertification2BtnConfirm.setClickable(false);
                     if(path1!=null){
                         HttpUtils.uploadImg(URLConstant.REQUEST_URL, path1, new Callback() {
                             @Override
@@ -190,6 +202,7 @@ public class EnterpriseCertification2Activity extends ActivityBase {
     }
 
     private void uploadData() {
+        atEnterpriseCertification2BtnConfirm.setClickable(false);
         UploadCompanyBean bean = new UploadCompanyBean();
         bean.setUser_id(SharePerferenceUtils.getUserId(this));
         bean.setToken(SharePerferenceUtils.getToken(this));

@@ -217,7 +217,7 @@ public class MyCustomUtils {
     //单位选择器显示
     private static ArrayList<String> unit = new ArrayList<>(); //省
     public static void showUnitPickerView(Context context, final TextView textView, final TextView textView2,final TextView textView3) {
-        String[] strs={"斤","吨","件","袋","箱","克","个","颗"};
+        String[] strs={"斤","公斤","吨","件","袋","箱","克","个","颗"};
         for(int i=0;i<strs.length;i++){
             unit.add(strs[i]);
         }
@@ -322,5 +322,21 @@ public class MyCustomUtils {
             }
         }
         return pics;
+    }
+
+    //正则匹配
+    public static boolean isRegular(String str,String type) {
+        String regular="";
+        switch (type){
+            case "mobile":
+                regular="^1[3456789]\\d{9}$";
+                break;
+            case "IdCard":
+                regular="(^\\d{18})|(^\\d{15})|(^\\d{17}(\\d|X|x))$";
+                break;
+        }
+        Pattern p = Pattern.compile(regular);
+        Matcher m =p.matcher(str);
+        return m.matches();
     }
 }

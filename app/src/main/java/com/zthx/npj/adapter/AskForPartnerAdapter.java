@@ -70,7 +70,7 @@ public class AskForPartnerAdapter extends RecyclerView.Adapter<AskForPartnerAdap
             Log.e("测试", "onBindViewHolder: "+mList.get(i).getCreate_time() );
             Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getHead_img())).into(viewHolder.mIvGoods);
             viewHolder.userName.setText(mList.get(i).getNick_name());
-            viewHolder.createTime.setText(new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(new Date(Long.parseLong(mList.get(i).getCreate_time())*1000)));
+            viewHolder.createTime.setText(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date(Long.parseLong(mList.get(i).getCreate_time())*1000)));
         }
 
     }

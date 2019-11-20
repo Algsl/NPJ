@@ -24,9 +24,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
+import com.zthx.npj.base.Const;
 import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.UpLoadPicResponseBean;
-import com.zthx.npj.net.been.UploadImgResponseBean;
 import com.zthx.npj.net.been.ZiZhi2Bean;
 import com.zthx.npj.net.netsubscribe.CertSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
@@ -53,12 +53,18 @@ public class ZiZhiInfoActivity extends ActivityBase {
     TextView acTitle;
     @BindView(R.id.at_zizhi_et_name)
     EditText atZizhiEtName;
-    @BindView(R.id.at_zizhi_et_type)
-    EditText atZizhiEtType;
+    /*@BindView(R.id.at_zizhi_et_type)
+    EditText atZizhiTvType;*/
     @BindView(R.id.at_zizhi_ll_zizhipic)
     LinearLayout atZizhiLlZizhipic;
     @BindView(R.id.at_zizhi_btn_confirm)
     Button atZizhiBtnConfirm;
+    @BindView(R.id.at_zizhi_tv_realName)
+    TextView atZizhiTvRealName;
+    @BindView(R.id.at_zizhi_tv_mobile)
+    TextView atZizhiTvMobile;
+    @BindView(R.id.at_zizhi_tv_type)
+    TextView atZizhiTvType;
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
     private static final int TAKE_PHOTO = 1;
@@ -66,7 +72,8 @@ public class ZiZhiInfoActivity extends ActivityBase {
     private Uri imageUri;
     private String business_license = "";
     private String cert_id = "";
-    private String path="";
+    private String path = "";
+    private String path1="";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,25 +84,31 @@ public class ZiZhiInfoActivity extends ActivityBase {
         back(titleBack);
         changeTitle(acTitle, "资质认证");
 
+        String real_name = getIntent().getStringExtra(Const.PERSON_CERT_NAME);
+        String mobile = getIntent().getStringExtra(Const.PERSON_CERT_PHONE);
+        atZizhiTvRealName.setText(real_name);
+        atZizhiTvMobile.setText(mobile);
+
+
         if (getIntent().getStringExtra("key0") != null) {
             cert_id = getIntent().getStringExtra("key0");
         }
     }
 
-    @OnClick({R.id.at_zizhi_ll_zizhipic, R.id.at_zizhi_btn_confirm})
+    @OnClick({R.id.at_zizhi_ll_zizhipic, R.id.at_zizhi_btn_confirm,R.id.at_zizhi_tv_type})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_zizhi_ll_zizhipic:
                 showBottomDialog();
                 break;
             case R.id.at_zizhi_btn_confirm:
-                if(atZizhiEtName.getText().toString().trim().equals("")){
+                if (atZizhiEtName.getText().toString().trim().equals("")) {
                     showToast("请填写企业全称");
-                }else if(atZizhiEtType.getText().toString().trim().equals("")){
+                } else if (atZizhiTvType.getText().toString().trim().equals("")) {
                     showToast("请填写许可资质类型");
-                }else if(path==null || path.equals("")){
+                } else if (path == null || path.equals("")) {
                     showToast("请上传资质证书");
-                }else{
+                } else {
                     HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
@@ -107,32 +120,38 @@ public class ZiZhiInfoActivity extends ActivityBase {
                             UpLoadPicResponseBean bean = GsonUtils.fromJson(response.body().string(), UpLoadPicResponseBean.class);
                             UpLoadPicResponseBean.DataBean data = bean.getData();
                             business_license = data.getSrc();
-                            Log.e("测试", "onResponse: "+business_license);
+                            Log.e("测试", "onResponse: " + business_license);
                             uploadData();
                         }
                     });
                 }
                 break;
+            case R.id.at_zizhi_tv_type:
+                showBottomDialog1();
+                break;
         }
     }
 
     private void uploadData() {
+        atZizhiBtnConfirm.setClickable(false);
         ZiZhi2Bean bean = new ZiZhi2Bean();
         bean.setUser_id(user_id);
         bean.setToken(token);
         bean.setCompany_name(atZizhiEtName.getText().toString());
-        bean.setCompany_type(atZizhiEtType.getText().toString());
+        bean.setCompany_type(atZizhiTvType.getText().toString());
         bean.setBusiness_license(business_license);
         if (!cert_id.equals("")) {
             bean.setCert_id(cert_id);
             CertSubscribe.zizhi3(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
+                    atZizhiBtnConfirm.setClickable(true);
                     openActivity(ConfirmAttestationSuccessActivity.class);
                 }
 
                 @Override
                 public void onFault(String errorMsg) {
+                    atZizhiBtnConfirm.setClickable(true);
                     //showToast(errorMsg);
                 }
             }));
@@ -140,15 +159,53 @@ public class ZiZhiInfoActivity extends ActivityBase {
             CertSubscribe.zizhi2(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
+                    atZizhiBtnConfirm.setClickable(true);
                     openActivity(ConfirmAttestationSuccessActivity.class);
                 }
 
                 @Override
                 public void onFault(String errorMsg) {
+                    atZizhiBtnConfirm.setClickable(true);
                     showToast(errorMsg);
                 }
             }));
         }
+    }
+
+    private void showBottomDialog1() {
+        //1、使用Dialog、设置style
+        final Dialog dialog = new Dialog(this, R.style.DialogTheme);
+        //2、设置布局
+        View view = View.inflate(this, R.layout.dialog_zizhi_layout, null);
+        dialog.setContentView(view);
+        Window window = dialog.getWindow();
+        //设置弹出位置
+        window.setGravity(Gravity.BOTTOM);
+        //设置弹出动画
+        window.setWindowAnimations(R.style.main_menu_animStyle);
+        //设置对话框大小
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+        dialog.findViewById(R.id.dl_zizhi_tv_pesticide).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                atZizhiTvType.setText("农药经营许可证");
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dl_zizhi_tv_seed).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                atZizhiTvType.setText("种子经营许可证");
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dl_zizhi_tv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
     }
 
     private void showBottomDialog() {

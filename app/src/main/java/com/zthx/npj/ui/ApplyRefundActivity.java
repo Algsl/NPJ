@@ -210,7 +210,7 @@ public class ApplyRefundActivity extends ActivityBase {
         bean.setOrder_id(getIntent().getStringExtra("order_id"));
         bean.setRefund_state(refund_state);
         bean.setRefund_reason(atOrderApplyRefundTvReason.getText().toString());
-        bean.setRefund_price(data.getOrder_price());
+        bean.setRefund_price(atOrderApplyRefundTvOrderPrice.getText().toString().trim());
         bean.setRefund_desc(acOrderApplyRefundEtReason.getText().toString().trim());
         bean.setRefund_img(img);
         SetSubscribe.applyRefund(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {

@@ -180,14 +180,27 @@
             android:background="@color/background"
             android:layout_marginLeft="@dimen/dp_12"
             android:layout_marginRight="@dimen/dp_12"/>
-        <TextView
-            android:id="@+id/item_storeGoodsBill_tv_time"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="right|center"
-            android:layout_marginRight="@dimen/dp_12"
-            android:textColor="@color/app_theme"
-            android:textSize="@dimen/sp_13"
-            android:text="自动退款剩余时间 23：50：20"/>
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/item_storeGoodsBill_tv_time"
+                android:layout_centerVertical="true"
+                android:textColor="@color/app_theme"
+                android:textSize="@dimen/sp_13"
+                android:text="自动退款剩余时间："/>
+            <com.zthx.npj.view.TimeTextView
+                android:id="@+id/item_storeGoodsBill_tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_12"
+                android:textColor="@color/app_theme"
+                android:textSize="@dimen/sp_13"
+                android:text="23：50：20"/>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

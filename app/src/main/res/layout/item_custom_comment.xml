@@ -78,6 +78,41 @@
         android:layout_alignLeft="@id/item_comment_ll_star"
         android:layout_marginRight="@dimen/dp_12"
         android:layout_below="@id/item_comment_tv_content"/>
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/dp_5"
+        android:id="@+id/item_custom_zp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/item_comment_ll_star"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_below="@id/item_custom_comment_rv"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="用户追评"
+            android:textColor="@color/red"
+            android:textSize="@dimen/sp_12"/>
+        <TextView
+            android:id="@+id/item_comment_tv_content1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="十分不错，非常喜欢"
+            android:layout_alignLeft="@id/item_comment_ll_star"
+            android:layout_marginRight="@dimen/dp_12"
+            android:layout_below="@id/item_comment_ll_star"
+            android:textColor="@color/text3"
+            android:textSize="@dimen/sp_13"/>
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="@dimen/dp_5"
+            android:id="@+id/item_custom_comment_rv1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/item_comment_ll_star"
+            android:layout_marginRight="@dimen/dp_12"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/item_comment_tv_date"
         android:layout_width="wrap_content"

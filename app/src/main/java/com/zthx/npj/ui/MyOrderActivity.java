@@ -46,7 +46,7 @@ public class MyOrderActivity extends ActivityBase {
         acTitleIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openActivity(SearchStoreOrderActivity.class);
+                openActivity(SearchOrderActivity.class,"store");
             }
         });
 

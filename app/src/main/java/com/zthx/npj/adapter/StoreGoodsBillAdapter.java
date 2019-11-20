@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.MyOrderListResponseBean;
+import com.zthx.npj.view.TimeTextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
         void onItemClick(int position) ;
         void onSendClick(int position);
         void onDrawBackClick(int position);
+        //void onRefund(String id);
     }
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
@@ -132,6 +134,13 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
                     viewHolder.goodsdrawback.setVisibility(View.VISIBLE);
                     viewHolder.goodsIvState.setImageResource(R.drawable.refund);
                     viewHolder.residueLlTime.setVisibility(View.VISIBLE);
+                    long time=list.get(i).getRefund_time()+3*24*60*60-System.currentTimeMillis()/1000;
+                    if(time<=0){
+                        //mItemClickListener.onRefund(list.get(i).getId()+"");
+                        viewHolder.residueLlTime.setVisibility(View.GONE);
+                    }else{
+                        setTime(viewHolder.refundTvTime,time);
+                    }
                     break;
                 case "7":viewHolder.orderState.setText("已退款");
                     viewHolder.goodsSend.setVisibility(View.GONE);
@@ -146,6 +155,17 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
                     viewHolder.residueLlTime.setVisibility(View.GONE);
                     break;
             }
+        }
+    }
+
+    public void setTime(TimeTextView ttv, long time) {
+        long second = time % 60;//计算秒
+        long min = time / 60 % 60;
+        long hour = time / 3600 % 24;
+        long day = time / 3600 / 24;
+        ttv.setTimes(new long[]{hour, min, second, day});
+        if (!ttv.isRun()) {
+            ttv.run();
         }
     }
 
@@ -165,6 +185,7 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
         TextView goodsSend;
         TextView goodsdrawback;
         LinearLayout residueLlTime;
+        TimeTextView refundTvTime;
         ViewHolder(View itemView) {
             super(itemView);
             goodsImg=itemView.findViewById(R.id.item_store_goods_bill_iv_pic);
@@ -179,6 +200,7 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
             residueLlTime=itemView.findViewById(R.id.item_storeGoodsBill_ll_time);
 
             goodsIvState=itemView.findViewById(R.id.item_storeGoodsBill_iv_state);
+            refundTvTime=itemView.findViewById(R.id.item_storeGoodsBill_tv_time);
         }
     }
 }

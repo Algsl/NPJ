@@ -411,8 +411,8 @@
                     android:layout_marginRight="@dimen/dp_12"
                     android:background="@null"
                     android:hint="请输入红包兑换码"
-                    android:textSize="@dimen/sp_13"
-                    android:textColor="@color/text6"/>
+                    android:textSize="@dimen/sp_16"
+                    android:textColor="@color/red"/>
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
@@ -552,20 +552,20 @@
         android:layout_alignParentBottom="true"
         android:background="@android:color/white">
         <TextView
-            android:id="@+id/at_confirm_order_tv_jin"
+            android:layout_toLeftOf="@id/ac_confirmOrder_tv_realPay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="实际支付金额："
             android:layout_centerVertical="true"
             android:textColor="@color/app_theme"
-            android:textSize="@dimen/sp_14"
-            android:layout_marginLeft="@dimen/dp_89"/>
+            android:textSize="@dimen/sp_14"/>
         <TextView
             android:id="@+id/ac_confirmOrder_tv_realPay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/at_confirm_order_tv_jin"
+            android:layout_toLeftOf="@id/ac_confirmOrder_btn_pay"
+            android:layout_marginRight="@dimen/dp_10"
             android:textColor="@color/app_theme"
             android:textSize="@dimen/sp_14"
             android:layout_marginLeft="@dimen/dp_2"

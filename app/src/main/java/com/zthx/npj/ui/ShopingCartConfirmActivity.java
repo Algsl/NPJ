@@ -278,7 +278,6 @@ public class ShopingCartConfirmActivity extends ActivityBase {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.e("测试", "onFault: " + (obj == null));
                         if (obj == null) {
                             showToast("余额不足");
                         }

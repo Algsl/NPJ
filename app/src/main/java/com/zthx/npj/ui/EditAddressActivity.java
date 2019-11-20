@@ -27,11 +27,13 @@ import com.zthx.npj.net.been.CityResponseBean;
 import com.zthx.npj.net.been.DistrictResponseBean;
 import com.zthx.npj.net.been.EditAddressBean;
 import com.zthx.npj.net.been.ProvinceResponseBean;
+import com.zthx.npj.net.been.TownResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GetJsonDataUtil;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import org.json.JSONArray;
@@ -73,6 +75,8 @@ public class EditAddressActivity extends ActivityBase {
     Spinner district;
     @BindView(R.id.choose_address)
     LinearLayout chooseAddress;
+    @BindView(R.id.town)
+    Spinner town;
 
 
     private boolean flag = false;
@@ -85,9 +89,12 @@ public class EditAddressActivity extends ActivityBase {
     private String token = SharePerferenceUtils.getToken(this);
     private String address_id;
 
-    private String provinceName="";
-    private String cityName="";
-    private String districtName="";
+    private String provinceName = "";
+    private String cityName = "";
+    private String districtName = "";
+    private String townName = "";
+
+    private String townId;
     private String provinceId;
     private String cityId;
     private String districtId;
@@ -127,6 +134,13 @@ public class EditAddressActivity extends ActivityBase {
         acEditAddressEtMobile.setText(data.getMobile());
         acEditAddressTvAddress.setText(data.getAddress());
         acEditAddressEtHouseNumber.setText(data.getHouse_number());
+
+        provinceId=data.getProvince();
+        cityId=data.getCity();
+        districtId=data.getDistrict();
+        townId=data.getTown();
+
+
         if (data.getIs_default() == 0) {
             acEditAddressIvIsDefault.setImageResource(R.drawable.at_edit_address_not_selector);
         } else {
@@ -146,39 +160,44 @@ public class EditAddressActivity extends ActivityBase {
                 break;
             case R.id.ac_editAddress_tv_address:
                 //showCityPicker();
-                isChange=true;
+                isChange = true;
                 getProvince();
                 showAddress.setVisibility(View.GONE);
                 chooseAddress.setVisibility(View.VISIBLE);
                 break;
             case R.id.ac_editAddress_btn_save:
-                EditAddressBean bean = new EditAddressBean();
-                bean.setUser_id(user_id);
-                bean.setToken(token);
-                bean.setAddress_id(address_id);
-                bean.setConsignee(getEtString(acEditAddressEtConsignee));
-                if(isChange){
-                    bean.setAddress(provinceName+cityName+districtName);
+                if(!MyCustomUtils.isRegular(getEtString(acEditAddressEtMobile),"mobile")){
+                    showToast("请正确填写手机号");
                 }else{
-                    bean.setAddress(acEditAddressTvAddress.getText().toString());
-                }
-                bean.setMobile(getEtString(acEditAddressEtMobile));
-                bean.setHouse_number(getEtString(acEditAddressEtHouseNumber));
-                bean.setIs_default(isDefault);
-                bean.setProvince(provinceId);
-                bean.setCity(cityId);
-                bean.setDistrict(districtId);
-                SetSubscribe.editAddressInfo(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                    @Override
-                    public void onSuccess(String result) {
-                        finish();
+                    EditAddressBean bean = new EditAddressBean();
+                    bean.setUser_id(user_id);
+                    bean.setToken(token);
+                    bean.setAddress_id(address_id);
+                    bean.setConsignee(getEtString(acEditAddressEtConsignee));
+                    if (isChange) {
+                        bean.setAddress(provinceName + cityName + districtName);
+                    } else {
+                        bean.setAddress(acEditAddressTvAddress.getText().toString());
                     }
+                    bean.setMobile(getEtString(acEditAddressEtMobile));
+                    bean.setHouse_number(getEtString(acEditAddressEtHouseNumber));
+                    bean.setIs_default(isDefault);
+                    bean.setProvince(provinceId);
+                    bean.setCity(cityId);
+                    bean.setDistrict(districtId);
+                    bean.setTown(townId);
+                    SetSubscribe.editAddressInfo(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            finish();
+                        }
 
-                    @Override
-                    public void onFault(String errorMsg) {
-                        //showToast(errorMsg);
-                    }
-                }));
+                        @Override
+                        public void onFault(String errorMsg) {
+                            //showToast(errorMsg);
+                        }
+                    }));
+                }
                 break;
         }
     }
@@ -327,29 +346,26 @@ public class EditAddressActivity extends ActivityBase {
         }
     }
 
-    public void getProvince(){
+    public void getProvince() {
         SetSubscribe.getProvince(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                ProvinceResponseBean bean=GsonUtils.fromJson(result,ProvinceResponseBean.class);
-                final ArrayList<ProvinceResponseBean.DataBean> data=bean.getData();
+                ProvinceResponseBean bean = GsonUtils.fromJson(result, ProvinceResponseBean.class);
+                final ArrayList<ProvinceResponseBean.DataBean> data = bean.getData();
 
-                String[] provinces=new String[data.size()];
-                for(int i=0;i<data.size();i++){
-                    provinces[i]=data.get(i).getName();
+                String[] provinces = new String[data.size()];
+                for (int i = 0; i < data.size(); i++) {
+                    provinces[i] = data.get(i).getName();
                 }
-
-                Log.e("测试", "onSuccess: "+data.toArray().toString() );
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditAddressActivity.this, android.R.layout.simple_spinner_item,provinces );
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditAddressActivity.this, android.R.layout.simple_spinner_item, provinces);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 province.setAdapter(adapter);
                 province.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        provinceName=data.get(i).getName();
-                        provinceId=data.get(i).getId()+"";
-                        getCity(data.get(i).getId()+"");
+                        provinceName = data.get(i).getName();
+                        provinceId = data.get(i).getId() + "";
+                        getCity(data.get(i).getId() + "");
                     }
 
                     @Override
@@ -365,29 +381,28 @@ public class EditAddressActivity extends ActivityBase {
             }
         }));
     }
-    public void getCity(String pid){
-        SetSubscribe.getCity(pid,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+
+    public void getCity(String pid) {
+        SetSubscribe.getCity(pid, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                CityResponseBean bean=GsonUtils.fromJson(result,CityResponseBean.class);
-                final ArrayList<CityResponseBean.DataBean> data=bean.getData();
+                CityResponseBean bean = GsonUtils.fromJson(result, CityResponseBean.class);
+                final ArrayList<CityResponseBean.DataBean> data = bean.getData();
 
-                String[] citys=new String[data.size()];
-                for(int i=0;i<data.size();i++){
-                    citys[i]=data.get(i).getName();
+                String[] citys = new String[data.size()];
+                for (int i = 0; i < data.size(); i++) {
+                    citys[i] = data.get(i).getName();
                 }
 
-                Log.e("测试", "onSuccess: "+data.toArray().toString() );
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditAddressActivity.this, android.R.layout.simple_spinner_item,citys );
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditAddressActivity.this, android.R.layout.simple_spinner_item, citys);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 city.setAdapter(adapter);
                 city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        cityName=data.get(i).getName();
-                        cityId=data.get(i).getId()+"";
-                        getDistrict(data.get(i).getId()+"");
+                        cityName = data.get(i).getName();
+                        cityId = data.get(i).getId() + "";
+                        getDistrict(data.get(i).getId() + "");
                     }
 
                     @Override
@@ -403,28 +418,66 @@ public class EditAddressActivity extends ActivityBase {
             }
         }));
     }
-    public void getDistrict(String pid){
-        SetSubscribe.getDistrict(pid,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+
+    public void getDistrict(String pid) {
+        SetSubscribe.getDistrict(pid, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                DistrictResponseBean bean=GsonUtils.fromJson(result,DistrictResponseBean.class);
-                final ArrayList<DistrictResponseBean.DataBean> data=bean.getData();
+                DistrictResponseBean bean = GsonUtils.fromJson(result, DistrictResponseBean.class);
+                final ArrayList<DistrictResponseBean.DataBean> data = bean.getData();
 
-                String[] districts=new String[data.size()];
-                for(int i=0;i<data.size();i++){
-                    districts[i]=data.get(i).getName();
+                String[] districts = new String[data.size()];
+                for (int i = 0; i < data.size(); i++) {
+                    districts[i] = data.get(i).getName();
                 }
 
-                Log.e("测试", "onSuccess: "+data.toArray().toString() );
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditAddressActivity.this, android.R.layout.simple_spinner_item,districts );
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditAddressActivity.this, android.R.layout.simple_spinner_item, districts);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 district.setAdapter(adapter);
                 district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        districtName=data.get(i).getName();
-                        districtId=data.get(i).getId()+"";
+                        districtName = data.get(i).getName();
+                        districtId = data.get(i).getId() + "";
+                        getTown(data.get(i).getId()+"");
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void getTown(String pid) {
+        SetSubscribe.getTown(pid, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                TownResponseBean bean = GsonUtils.fromJson(result, TownResponseBean.class);
+                final ArrayList<TownResponseBean.DataBean> data = bean.getData();
+
+                String[] towns = new String[data.size()];
+                for (int i = 0; i < data.size(); i++) {
+                    towns[i] = data.get(i).getName();
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditAddressActivity.this, android.R.layout.simple_spinner_item, towns);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                town.setAdapter(adapter);
+
+                town.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        townName = data.get(i).getName();
+                        townId = data.get(i).getId() + "";
+
                     }
 
                     @Override

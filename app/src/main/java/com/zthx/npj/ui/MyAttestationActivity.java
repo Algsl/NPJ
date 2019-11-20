@@ -85,19 +85,28 @@ public class MyAttestationActivity extends ActivityBase {
                 MyCertResponseBean.DataBean data = myCertResponseBean.getData();
                 if (data.getName_cert() == 1) {
                     atMyAttestationLlPeople.setBackgroundResource(R.drawable.shirenrenzheng_c_bg);
+                }else{
+                    atMyAttestationLlPeople.setBackgroundResource(R.drawable.shirenrenzheng_bg);
                 }
                 if (data.getCompany_cert() == 1) {
                     atMyAttestationLlCompany.setBackgroundResource(R.drawable.qiyerenzheng_c_bg);
+                }else{
+                    atMyAttestationLlCompany.setBackgroundResource(R.drawable.qiyerenzheng_bg);
                 }
                 if (data.getIntegrity_cert() == 1) {
-
                     atMyAttestationLlTrust.setBackgroundResource(R.drawable.chengxinrenzheng_c_bg);
+                }else{
+                    atMyAttestationLlTrust.setBackgroundResource(R.drawable.chengxinrenzhen_bg);
                 }
                 if (data.getStock_cert() == 1) {
                     atMyAttestationLlBuy.setBackgroundResource(R.drawable.caigourenzheng_c_bg);
+                }else{
+                    atMyAttestationLlBuy.setBackgroundResource(R.drawable.caigourenzheng_bg);
                 }
                 if (data.getZizhi_cert() == 1) {
                     atMyAttestationLlZizhi.setBackgroundResource(R.drawable.zizhirenzheng_c_bg);
+                }else{
+                    atMyAttestationLlZizhi.setBackgroundResource(R.drawable.zizhirenzheng_bg);
                 }
             }
 

@@ -99,7 +99,7 @@ public class MySupplyListAdapter extends RecyclerView.Adapter<MySupplyListAdapte
                 Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getGoods_img())).into(viewHolder.goodsImg);
             }
         }
-        viewHolder.goodsName.setText(mList.get(i).getGoods_name());
+        viewHolder.goodsName.setText(mList.get(i).getTitle());
         //viewHolder.marketPrice.setText("市场价："+mList.get(i).getMarket_price());
         //viewHolder.memberPrice.setText("会员价："+mList.get(i).getMember_price());
         viewHolder.marketPrice.setText("￥"+mList.get(i).getPrice()+"/"+mList.get(i).getGoods_unit());

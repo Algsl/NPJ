@@ -449,7 +449,10 @@ public class MineFragment
         fgMineTvCollectionNum.setText(data.getShoucang_num()+"");
         balance = data.getBalance();
         SharePerferenceUtils.setBalance(getContext(), balance);
-        Glide.with(getContext()).load(Uri.parse(data.getHead_img())).into(fgMineIvHeadPic);
+        if(!data.getHead_img().equals("")){
+            Glide.with(getContext()).load(Uri.parse(data.getHead_img())).into(fgMineIvHeadPic);
+        }
+
         SharePerferenceUtils.setHeadPic(getContext(), data.getHead_img());
         SharePerferenceUtils.setNickName(getContext(), data.getNick_name());
         SharePerferenceUtils.setReputation(getContext(), data.getReputation());

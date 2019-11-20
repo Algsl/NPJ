@@ -154,7 +154,6 @@ public class GameActivity extends Activity {
         nativeAndroid.setExternalInterface("sendToNative", new INativePlayer.INativeInterface() {
             @Override
             public void callback(String message) {
-                Log.e(TAG, "callback: "+message );
                 String[] strs= Pattern.compile("[&=]").split(message);
                 if(strs[1].equals("ZHMM")){
                     nativeAndroid.callExternalInterface("sendToJS","ZHMM,"+user_id+","+token);

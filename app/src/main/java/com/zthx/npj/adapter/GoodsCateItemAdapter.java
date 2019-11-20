@@ -18,6 +18,7 @@ public class GoodsCateItemAdapter extends RecyclerView.Adapter<GoodsCateItemAdap
 
     private ArrayList<GoodsCateResponseBean.DataBean.Child> mList;
     private Context mContext;
+    private String group_id;
     private ItemClickListener mItemClickListener;
 
 
@@ -26,12 +27,13 @@ public class GoodsCateItemAdapter extends RecyclerView.Adapter<GoodsCateItemAdap
     }
 
     public interface ItemClickListener{
-        void onResult(String id,String name);
+        void onResult(String goodsId,String id,String name);
     }
 
-    public GoodsCateItemAdapter(Context context,ArrayList<GoodsCateResponseBean.DataBean.Child> list){
+    public GoodsCateItemAdapter(Context context,ArrayList<GoodsCateResponseBean.DataBean.Child> list,String group_id){
         mContext=context;
         mList=list;
+        this.group_id=group_id;
     }
 
 
@@ -51,7 +53,7 @@ public class GoodsCateItemAdapter extends RecyclerView.Adapter<GoodsCateItemAdap
                 int position=viewHolder.getLayoutPosition();
                 String id=mList.get(position).getId()+"";
                 String name=mList.get(position).getName();
-                mItemClickListener.onResult(id,name);
+                mItemClickListener.onResult(group_id,id,name);
             }
         });
     }

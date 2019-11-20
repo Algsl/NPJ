@@ -116,7 +116,6 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                 }else if(UrlQuan==null || UrlQuan.equals("")){
                     showToast("请上传手持身份证照");
                 }else{
-                    atRealNameAuthentication2BtnConfirm.setClickable(false);
                     upLoadInformation();
                 }
                 break;
@@ -124,6 +123,7 @@ public class RealNameAuthentication2Activity extends ActivityBase {
     }
 
     private void upLoadInformation() {
+        atRealNameAuthentication2BtnConfirm.setClickable(false);
         UpLoadMyCertBean bean = new UpLoadMyCertBean();
         bean.setUser_id(SharePerferenceUtils.getUserId(this));
         bean.setToken(BaseConstant.TOKEN);

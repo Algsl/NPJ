@@ -66,6 +66,9 @@ public class OrderFinishActivity extends ActivityBase {
         if(type.equals("5")){
             acOrderFinishTvSeeOrder.setVisibility(View.GONE);
             acOrderFinishTvShopping.setText("购买成功");
+        }else if(type.equals("7")){
+            acOrderFinishTvSeeOrder.setVisibility(View.GONE);
+            acOrderFinishTvShopping.setVisibility(View.GONE);
         }
 
         Glide.with(this).load(goodsImg).into(acOrderFinishRivGoodsImg);

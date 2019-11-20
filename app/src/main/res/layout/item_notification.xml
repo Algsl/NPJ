@@ -1,57 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_100"
+    android:layout_height="@dimen/dp_125"
     android:layout_marginLeft="@dimen/dp_12"
     android:layout_marginRight="@dimen/dp_12"
     android:layout_marginTop="@dimen/dp_10"
     android:background="@drawable/white_conner_8"
-    android:orientation="horizontal">
-    <ImageView
-        android:layout_width="@dimen/dp_60"
-        android:layout_height="@dimen/dp_60"
-        android:layout_gravity="center_vertical"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
         android:layout_marginLeft="@dimen/dp_12"
-        android:src="@drawable/logo"/>
+        android:layout_marginRight="@dimen/dp_12">
+        <TextView
+            android:id="@+id/item_notification_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textColor="@color/text3"
+            android:textSize="@dimen/sp_15"
+            android:text="您的订单已发货"/>
+        <TextView
+            android:id="@+id/item_notification_tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="19/04/16"/>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/dp_12"
-        android:layout_marginRight="@dimen/dp_12"
-        android:layout_marginTop="@dimen/dp_10"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/item_notification_tv_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text3"
-            android:textSize="@dimen/sp_15"
-            android:text="这里是标题"/>
-        <TextView
-            android:id="@+id/item_notification_tv_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_5"
-            android:layout_marginRight="@dimen/dp_20"
-            android:lines="2"
-            android:ellipsize="end"
-            android:textColor="@color/text6"
-            android:textSize="@dimen/sp_12"
-            android:lineHeight="@dimen/sp_18"
-            android:text="平台结算价是本商品售出并在买家确认收货后，平台结算给您的价格，不设账期，可立即提现。如果卖家不点击“确认收货”，则在签收后7日内自动结算。"/>
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:background="#F5F4F4"
+        android:orientation="horizontal">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/item_notification_iv_goodsNum"
+            android:layout_width="@dimen/dp_75"
+            android:layout_height="@dimen/dp_75"
+            android:src="@drawable/logo"
+            android:adjustViewBounds="true"/>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_13"
+            android:orientation="vertical">
             <TextView
-                android:id="@+id/item_notification_tv_time"
+                android:id="@+id/item_notification_tv_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineHeight="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_10"
+                android:text="您购买的【直营】韩国进口爱茉莉美妆参半...卖家已发货"
+                android:lines="2"
+                android:ellipsize="end"
+                android:textColor="@color/text3"
+                android:textSize="@dimen/sp_13"/>
+            <TextView
+                android:id="@+id/item_notification_tv_resource"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dp_20"
-                android:textSize="@dimen/sp_11"
-                android:text="2019/07/10  19:32"/>
+                android:layout_alignParentBottom="true"
+                android:textColor="@color/text6"
+                android:textSize="@dimen/sp_12"
+                android:text="来自 农品街社交电商服务平台"
+                android:layout_marginBottom="@dimen/dp_5"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

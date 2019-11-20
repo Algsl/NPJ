@@ -13,6 +13,15 @@ public class SupplyOrderResponseBean {
         private long order_num;
         private long order_time;
         private long order_state;
+        private long update_time;
+
+        public long getUpdate_time() {
+            return update_time;
+        }
+
+        public void setUpdate_time(long update_time) {
+            this.update_time = update_time;
+        }
 
         public long getId() {
             return id;

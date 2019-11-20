@@ -149,7 +149,6 @@ public class SupplySearchActivity extends ActivityBase {
         DiscoverSubscribe.qiugouSearch(searchKeyword, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: "+result );
                 NeedListResponseBean bean = GsonUtils.fromJson(result, NeedListResponseBean.class);
                 if(bean==null){
                     acSupplySearchRvQiugou.setVisibility(View.GONE);

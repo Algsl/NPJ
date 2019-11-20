@@ -106,7 +106,7 @@
                     <EditText
                         android:id="@+id/at_supply_message_title"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:hint="请填写供应标题，如：金丝芒果"
                         android:layout_toRightOf="@id/text1"
                         android:background="@null"
@@ -138,7 +138,7 @@
                     <EditText
                         android:id="@+id/at_supply_message_name"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:hint="请选择供应产品名称"
                         android:background="@null"
                         android:layout_toRightOf="@id/text2"
@@ -171,7 +171,7 @@
                         android:inputType="number"
                         android:id="@+id/at_supply_message_num"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:hint="请选择供应产品数量"
                         android:background="@null"
                         android:layout_toRightOf="@id/text3"
@@ -192,9 +192,8 @@
                         android:layout_width="@dimen/dp_60"
                         android:layout_height="match_parent"
                         android:text="斤"
-                       android:gravity="center"
+                        android:gravity="center"
                         android:layout_toLeftOf="@id/iv_go"
-
                         android:textSize="@dimen/sp_15"
                         android:textColor="@color/text3"/>
                 </RelativeLayout>
@@ -221,7 +220,8 @@
                     <TextView
                         android:id="@+id/at_supply_message_tv_address"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
                         android:text="全国或指定城市"
                         android:layout_toRightOf="@id/text4"
                         android:layout_centerVertical="true"
@@ -259,7 +259,7 @@
                         android:inputType="number"
                         android:id="@+id/at_supply_message_whole"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:hint="请填写最低起批量"
                         android:background="@null"
                         android:layout_toRightOf="@id/text7"
@@ -309,7 +309,7 @@
                         android:inputType="numberDecimal"
                         android:id="@+id/at_supply_message_et_price"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_toRightOf="@id/text5"
                         android:background="@null"
                         android:layout_centerVertical="true"
@@ -361,7 +361,7 @@
                     <EditText
                         android:id="@+id/at_qg_message_title"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:hint="请填写供应标题，如：金丝芒果"
                         android:layout_toRightOf="@id/qgtext1"
                         android:background="@null"
@@ -426,7 +426,7 @@
                         android:inputType="number"
                         android:id="@+id/at_qg_message_num"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:hint="请选择采购数量"
                         android:background="@null"
                         android:layout_toRightOf="@id/qgtext3"
@@ -476,7 +476,8 @@
                     <TextView
                         android:id="@+id/at_qg_message_tv_address"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
                         android:text="全国或指定城市"
                         android:layout_toRightOf="@id/qgtext4"
                         android:layout_centerVertical="true"
@@ -516,8 +517,8 @@
                     <EditText
                         android:inputType="numberDecimal"
                         android:id="@+id/at_supply_message_et_min"
-                        android:layout_width="@dimen/dp_60"
-                        android:layout_height="@dimen/dp_18"
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="@dimen/dp_30"
                         android:background="@drawable/gray_conner_2"
                         android:layout_toRightOf="@id/text6"
                         android:layout_marginTop="@dimen/dp_10"
@@ -532,13 +533,13 @@
                         android:layout_height="@dimen/dp_1"
                         android:background="@color/background"
                         android:layout_toRightOf="@id/at_supply_message_et_min"
-                        android:layout_marginTop="@dimen/dp_19"></View>
+                        android:layout_marginTop="@dimen/dp_25"></View>
 
                     <EditText
                         android:inputType="numberDecimal"
                         android:id="@+id/at_supply_message_et_max"
-                        android:layout_width="@dimen/dp_60"
-                        android:layout_height="@dimen/dp_18"
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="@dimen/dp_30"
                         android:background="@drawable/gray_conner_2"
                         android:layout_toRightOf="@id/view_min2max"
                         android:layout_marginTop="@dimen/dp_10"
@@ -572,7 +573,7 @@
                         android:textSize="@dimen/dp_12"
                         android:text="采购价位卖家不可查询，仅帮助您筛选供应商"
                         android:layout_alignLeft="@id/at_supply_message_et_min"
-                        android:layout_marginBottom="@dimen/dp_10"/>
+                        android:layout_marginBottom="@dimen/dp_5"/>
                 </RelativeLayout>
                 <View
                     android:layout_width="match_parent"

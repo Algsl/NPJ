@@ -6,6 +6,16 @@ public class GiftBuyOneBean {
     private String gift_id;
     private String pay_code;
     private String address_id;
+    private String bonus_id;
+
+
+    public String getBonus_id() {
+        return bonus_id;
+    }
+
+    public void setBonus_id(String bonus_id) {
+        this.bonus_id = bonus_id;
+    }
 
     public String getUser_id() {
         return user_id;

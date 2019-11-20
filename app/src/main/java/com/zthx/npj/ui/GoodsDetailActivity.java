@@ -726,7 +726,7 @@ public class GoodsDetailActivity extends ActivityBase {
                     count++;
                     tvCartNum.setText(count + "");
                     break;
-                case R.id.item_pop_goods_add_shopping_car:
+                case R.id.item_pop_goods_add_shopping_car://加入购物车
                     attribute_id = sizePopWin.getAttId();
 
                     AddCartBean bean = new AddCartBean();
@@ -770,7 +770,7 @@ public class GoodsDetailActivity extends ActivityBase {
                         }));
                     }
                     break;
-                case R.id.item_pop_goods_buy:
+                case R.id.item_pop_goods_buy://立即购买
                     attribute_id = sizePopWin.getAttId();
                     if (sizePopWin.getHasAttribute()) {//有商品规格
                         if (attribute_id.equals("")) {
@@ -868,9 +868,9 @@ public class GoodsDetailActivity extends ActivityBase {
                 break;
             case "3":
                 Glide.with(this).load(Uri.parse(mGoodsData.getGoods_img().get(0))).into(headImg);
-                marketPrice.setText("￥" + mGoodsData.getUser_price());
+                /*marketPrice.setText("￥" + mGoodsData.getUser_price());
                 memberPrice.setText("代言人价 " + mGoodsData.getMember_price());
-                inventory.setText("库存：" + mGoodsData.getInventory());
+                inventory.setText("库存：" + mGoodsData.getInventory());*/
                 //double lisheng = Double.parseDouble(mGoodsData.getUser_price()) - Double.parseDouble(mGoodsData.getMember_price());
                 //toVip.setText("成为农品街代言人此单立省" + String.format("%.2f", lisheng) + "元");
                 break;

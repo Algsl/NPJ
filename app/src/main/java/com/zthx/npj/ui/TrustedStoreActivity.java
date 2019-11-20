@@ -71,6 +71,12 @@ public class TrustedStoreActivity extends ActivityBase {
         getData();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
+    }
+
     private void getData() {
 
         CertSubscribe.isChengXinAlreadyCert(SharePerferenceUtils.getUserId(this), SharePerferenceUtils.getToken(this), new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {

@@ -12,6 +12,15 @@ public class MyOrderListResponseBean extends BaseReponseBean{
         private long goods_num;
         private String goods_price;
         private String order_state;
+        private long refund_time;
+
+        public long getRefund_time() {
+            return refund_time;
+        }
+
+        public void setRefund_time(long refund_time) {
+            this.refund_time = refund_time;
+        }
 
         public long getId() {
             return id;

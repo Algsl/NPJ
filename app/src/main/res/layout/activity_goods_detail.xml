@@ -671,7 +671,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/line_tab_t"/>
+            android:background="@color/line_list"/>
         <LinearLayout
             android:id="@+id/ac_goodsDetail_ll_bar"
             android:layout_width="match_parent"

@@ -28,7 +28,7 @@
         android:layout_marginRight="@dimen/dp_15"
         android:textSize="@dimen/sp_14"
         android:textColor="@color/text6"
-        android:lineHeight="@dimen/dp_21"/>
+        android:lineHeight="@dimen/dp_25"/>
     <Button
         android:id="@+id/pw_publishGoods_tv_know"
         android:layout_centerInParent="true"

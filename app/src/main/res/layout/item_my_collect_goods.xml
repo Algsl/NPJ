@@ -50,14 +50,15 @@
 
         <ImageView
             android:id="@+id/item_my_collect_iv_addCart"
+            android:visibility="gone"
             android:layout_width="@dimen/dp_22"
             android:layout_height="@dimen/dp_22"
             android:src="@drawable/my_collect_shoppingcart"/>
 
         <ImageView
             android:id="@+id/item_my_collect_iv_delCollection"
-            android:layout_width="@dimen/dp_22"
-            android:layout_height="@dimen/dp_22"
+            android:layout_width="@dimen/dp_28"
+            android:layout_height="@dimen/dp_28"
             android:src="@drawable/my_collect_delete"
             android:layout_marginLeft="@dimen/dp_13"/>
     </LinearLayout>

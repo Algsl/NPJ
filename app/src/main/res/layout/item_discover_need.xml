@@ -90,7 +90,7 @@
                     android:text="实名认证"
                     android:textSize="@dimen/sp_11"
                     android:textColor="@android:color/white"
-                    android:background="#FED435"
+                    android:background="@drawable/attestation1_conner_2"
                     android:layout_marginRight="@dimen/dp_10"/>
                 <TextView
                     android:visibility="gone"
@@ -100,7 +100,7 @@
                     android:text="采购认证"
                     android:textSize="@dimen/sp_11"
                     android:textColor="@android:color/white"
-                    android:background="#9685ED"
+                    android:background="@drawable/attestation3_conner_2"
                     android:gravity="center"
                     android:layout_marginRight="@dimen/dp_10"/>
                 <TextView
@@ -111,7 +111,7 @@
                     android:text="资质认证"
                     android:textSize="@dimen/sp_11"
                     android:textColor="@android:color/white"
-                    android:background="#62DD57"
+                    android:background="@drawable/attestation5_conner_2"
                     android:gravity="center" />
             </LinearLayout>
             <LinearLayout
@@ -127,7 +127,7 @@
                     android:text="企业认证"
                     android:textSize="@dimen/sp_11"
                     android:textColor="@android:color/white"
-                    android:background="#5AAFFA"
+                    android:background="@drawable/attestation2_conner_2"
                     android:layout_marginRight="@dimen/dp_10"
                     android:gravity="center"/>
                 <TextView
@@ -138,7 +138,7 @@
                     android:text="诚信认证"
                     android:textSize="@dimen/sp_11"
                     android:textColor="@android:color/white"
-                    android:background="#EA6E6D"
+                    android:background="@drawable/attestation4_conner_2"
                     android:gravity="center"
                     android:layout_marginRight="@dimen/dp_10"/>
             </LinearLayout>

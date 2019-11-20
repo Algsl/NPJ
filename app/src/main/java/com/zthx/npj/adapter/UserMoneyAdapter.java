@@ -49,7 +49,7 @@ public class UserMoneyAdapter extends RecyclerView.Adapter<UserMoneyAdapter.View
                 viewHolder.tvMoney.setText("- "+mList.get(i).getPrice());
                 break;
         }
-        viewHolder.tvTime.setText(new SimpleDateFormat("MM月dd日 hh:mm:ss").format(new Date(mList.get(i).getCreate_time()*1000)));
+        viewHolder.tvTime.setText(new SimpleDateFormat("MM月dd日 HH:mm:ss").format(new Date(mList.get(i).getCreate_time()*1000)));
 
     }
 

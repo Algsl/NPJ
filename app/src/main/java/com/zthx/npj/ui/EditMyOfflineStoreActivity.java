@@ -1,28 +1,24 @@
 package com.zthx.npj.ui;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
+import android.location.Address;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -33,9 +29,13 @@ import com.donkingliang.imageselector.utils.ImageSelectorUtils;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommentAdapter;
 import com.zthx.npj.net.api.URLConstant;
+import com.zthx.npj.net.been.CityResponseBean;
 import com.zthx.npj.net.been.CommentResponseBean;
+import com.zthx.npj.net.been.DistrictResponseBean;
 import com.zthx.npj.net.been.EditOfflineStoreBean;
 import com.zthx.npj.net.been.MyOfflineStoreResponseBean;
+import com.zthx.npj.net.been.ProvinceResponseBean;
+import com.zthx.npj.net.been.TownResponseBean;
 import com.zthx.npj.net.been.UploadPicsResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
@@ -114,6 +114,18 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
     LinearLayout acStoreManagerLlShow;
     @BindView(R.id.at_location_store_tv_ruzhu1)
     TextView atLocationStoreTvRuzhu1;
+    @BindView(R.id.province)
+    Spinner province;
+    @BindView(R.id.city)
+    Spinner city;
+    @BindView(R.id.district)
+    Spinner district;
+    @BindView(R.id.town)
+    Spinner town;
+    @BindView(R.id.ac_storeManager_ll_showAddress)
+    LinearLayout acStoreManagerLlShowAddress;
+    @BindView(R.id.ac_storeManager_ll_showSpinner)
+    LinearLayout acStoreManagerLlShowSpinner;
     private List<String> paths = new ArrayList<>();
     private List<String> paths2 = new ArrayList<>();
     private List<String> paths3 = new ArrayList<>();
@@ -131,6 +143,16 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
 
     private String yingyeTime;
 
+    private String provinceName = "";
+    private String cityName = "";
+    private String districtName = "";
+    private String townName;
+
+    private String townId;
+    private String provinceId;
+    private String cityId;
+    private String districtId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,9 +162,12 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         back(titleBack);
         changeTitle(acTitle, "商家管理");
         atLocationStoreTvRuzhu.setText("管理");
-
+        getProvince();
         getMyOfflineStore();
         initList();
+
+        acStoreManagerLlShowAddress.setVisibility(View.VISIBLE);
+        acStoreManagerLlShowSpinner.setVisibility(View.GONE);
 
         atLocationStoreTvRuzhu1.setVisibility(View.VISIBLE);
 
@@ -169,7 +194,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
             public void onAddClick() {
                 /*Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, CHOOSE_PHOTO);*/
-                ImageSelectorUtils.openPhoto(EditMyOfflineStoreActivity.this,CHOOSE_PHOTO,false,4-paths.size());
+                ImageSelectorUtils.openPhoto(EditMyOfflineStoreActivity.this, CHOOSE_PHOTO, false, 4 - paths.size());
             }
         });
     }
@@ -204,6 +229,12 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         acStoreManagerEtAddress2.setText(data.getAddress2());
         acStoreManagerTvOffer.setText(data.getOffer());
         acStoreManagerEtRelife.setText(data.getRelief());
+
+        provinceId = data.getProvince();
+        cityId = data.getCity();
+        districtId = data.getDistrict();
+        townId = data.getTown();
+
         offer = data.getOffer();
         is_open = data.getIs_open();
         if (is_open.equals("0")) {
@@ -223,9 +254,9 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         return et.getText().toString().trim();
     }
 
-    @OnClick({R.id.ac_storeManager_btn_ruzhu, R.id.at_store_manager_tv_code, R.id.at_location_store_tv_ruzhu, R.id.ac_storeManager_tv_address,
+    @OnClick({R.id.ac_storeManager_btn_ruzhu, R.id.at_store_manager_tv_code, R.id.at_location_store_tv_ruzhu,
             R.id.ac_storeManager_aBegin, R.id.ac_storeManager_aEnd, R.id.ac_storeManager_pBegin, R.id.ac_storeManager_pEnd, R.id.ac_storeManager_tv_businessHours,
-            R.id.at_location_store_tv_ruzhu1})
+            R.id.at_location_store_tv_ruzhu1,R.id.ac_storeManager_ll_showAddress})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_store_manager_tv_code://收款码
@@ -306,11 +337,6 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
                     }));
                 }*/
                 break;
-            case R.id.ac_storeManager_tv_address:
-                Intent intent = new Intent(this, MapAddressActivity.class);
-                startActivityForResult(intent, 1);
-                break;
-
             case R.id.ac_storeManager_aBegin:
                 showCityPicker(acStoreManagerABegin);
                 break;
@@ -327,12 +353,16 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
                 acStoreManagerLlEdit.setVisibility(View.VISIBLE);
                 acStoreManagerLlShow.setVisibility(View.GONE);
                 break;
+            case R.id.ac_storeManager_ll_showAddress:
+                acStoreManagerLlShowAddress.setVisibility(View.GONE);
+                acStoreManagerLlShowSpinner.setVisibility(View.VISIBLE);
+                break;
         }
     }
 
     private void toggle() {
-        if(is_open.equals("0")){//关闭->开启
-            is_open="1";
+        if (is_open.equals("0")) {//关闭->开启
+            is_open = "1";
             MainSubscribe.openStore(user_id, "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
@@ -345,8 +375,8 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
 
                 }
             }));
-        }else{//开启->关闭
-            is_open="0";
+        } else {//开启->关闭
+            is_open = "0";
             MainSubscribe.openStore(user_id, "0", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                 @Override
                 public void onSuccess(String result) {
@@ -363,6 +393,12 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
     }
 
     private void offlineStore(String img) {
+        Address address=null;
+        if (provinceName.equals("")) {
+            address=MyCustomUtils.getGeoPointBystr(this,data.getAddress()+data.getAddress2());
+        } else {
+            address = MyCustomUtils.getGeoPointBystr(this, provinceName + cityName + districtName + townName);
+        }
         yingyeTime = getEtToString(acStoreManagerABegin) + "-" + getEtToString(acStoreManagerAEnd) + " " + getEtToString(acStoreManagerPBegin) + "-" + getEtToString(acStoreManagerPEnd);
         EditOfflineStoreBean bean = new EditOfflineStoreBean();
         bean.setUser_id(user_id);
@@ -376,9 +412,14 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         bean.setOffer(offer);
         bean.setRelief(getEtToString(acStoreManagerEtRelife));
         bean.setStore_img(img);
-        bean.setLat(SharePerferenceUtils.getLat(this));
-        bean.setLng(SharePerferenceUtils.getLng(this));
+        bean.setLat(address.getLatitude() + "");
+        bean.setLng(address.getLongitude() + "");
         bean.setId(store_id);
+        bean.setProvince(provinceId);
+        bean.setCity(cityId);
+        bean.setDistrict(districtId);
+        bean.setTown(townId);
+
         SetSubscribe.editOfflineStore(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -412,9 +453,9 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case CHOOSE_PHOTO:
-                if(resultCode!=0){
+                if (resultCode != 0) {
                     ArrayList<String> images = data.getStringArrayListExtra(ImageSelectorUtils.SELECT_RESULT);
-                    for(int i=0;i<images.size();i++){
+                    for (int i = 0; i < images.size(); i++) {
                         paths.add(compress(images.get(i)));
                         zzImageBox.addImage(compress(images.get(i)));
                     }
@@ -488,21 +529,22 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
     }
 
 
-    public String compress(String path){
-        File file=new File(path);
+    public String compress(String path) {
+        File file = new File(path);
         Bitmap compressBitmap;
         /*if (file.length()>=2.5*1024*1024){//从相册中选择照片，2.5M以上的用2压缩
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = false;
             options.inSampleSize = 3;
             compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
-        }else */if(file.length()>=600*1024){//从相册中选择照片，600k以上的用2压缩
+        }else */
+        if (file.length() >= 600 * 1024) {//从相册中选择照片，600k以上的用2压缩
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = false;
             options.inSampleSize = 2;
-            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
-        }else{
-            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+            compressBitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+        } else {
+            compressBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
         }
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         compressBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
@@ -516,19 +558,171 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         ByteArrayInputStream isBm = new ByteArrayInputStream(bos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
         compressBitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
 
-        String bmString="";
+        String bmString = "";
         try {
-            File bmFile=new File(getExternalCacheDir(), System.currentTimeMillis()+".jpg");
+            File bmFile = new File(getExternalCacheDir(), System.currentTimeMillis() + ".jpg");
             FileOutputStream fos = new FileOutputStream(bmFile);
             fos.write(bos.toByteArray());
             fos.flush();
             fos.close();
-            bmString=bmFile.getPath();
+            bmString = bmFile.getPath();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return bmString;
+    }
+
+
+    public void getProvince() {
+        SetSubscribe.getProvince(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                ProvinceResponseBean bean = GsonUtils.fromJson(result, ProvinceResponseBean.class);
+                final ArrayList<ProvinceResponseBean.DataBean> data = bean.getData();
+
+                String[] provinces = new String[data.size()];
+                for (int i = 0; i < data.size(); i++) {
+                    provinces[i] = data.get(i).getName();
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditMyOfflineStoreActivity.this, android.R.layout.simple_spinner_item, provinces);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                province.setAdapter(adapter);
+                province.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        provinceName = data.get(i).getName();
+                        provinceId = data.get(i).getId() + "";
+                        getCity(data.get(i).getId() + "");
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    public void getCity(String pid) {
+        SetSubscribe.getCity(pid, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                CityResponseBean bean = GsonUtils.fromJson(result, CityResponseBean.class);
+                final ArrayList<CityResponseBean.DataBean> data = bean.getData();
+
+                String[] citys = new String[data.size()];
+                for (int i = 0; i < data.size(); i++) {
+                    citys[i] = data.get(i).getName();
+                }
+
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditMyOfflineStoreActivity.this, android.R.layout.simple_spinner_item, citys);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                city.setAdapter(adapter);
+                city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        cityName = data.get(i).getName();
+                        cityId = data.get(i).getId() + "";
+                        getDistrict(data.get(i).getId() + "");
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    public void getDistrict(String pid) {
+        SetSubscribe.getDistrict(pid, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                DistrictResponseBean bean = GsonUtils.fromJson(result, DistrictResponseBean.class);
+                final ArrayList<DistrictResponseBean.DataBean> data = bean.getData();
+
+                String[] districts = new String[data.size()];
+                for (int i = 0; i < data.size(); i++) {
+                    districts[i] = data.get(i).getName();
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditMyOfflineStoreActivity.this, android.R.layout.simple_spinner_item, districts);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                district.setAdapter(adapter);
+                district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        districtName = data.get(i).getName();
+                        districtId = data.get(i).getId() + "";
+
+                        getTown(data.get(i).getId() + "");
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void getTown(String pid) {
+        SetSubscribe.getTown(pid, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                TownResponseBean bean = GsonUtils.fromJson(result, TownResponseBean.class);
+                final ArrayList<TownResponseBean.DataBean> data = bean.getData();
+
+                String[] towns = new String[data.size()];
+                for (int i = 0; i < data.size(); i++) {
+                    towns[i] = data.get(i).getName();
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditMyOfflineStoreActivity.this, android.R.layout.simple_spinner_item, towns);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                town.setAdapter(adapter);
+
+                town.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        townName = data.get(i).getName();
+                        townId = data.get(i).getId() + "";
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 }

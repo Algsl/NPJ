@@ -3,20 +3,32 @@ package com.zthx.npj.net.been;
 import java.util.ArrayList;
 
 public class SystemMsgResponseBean {
-    public class DataBean{
-        private String title;
-        private String description;
-        private String img;
-        private long type;
-        private String source;
-        private long create_time;
+    private ArrayList<SystemMsgResponseBean.DataBean> data;
 
-        public String getTitle() {
-            return title;
+    public ArrayList<SystemMsgResponseBean.DataBean> getData() {
+        return data;
+    }
+
+    public void setData(ArrayList<SystemMsgResponseBean.DataBean> data) {
+        this.data = data;
+    }
+
+    public class DataBean{
+        private long create_time;
+        private String description;
+        private long id;
+        private String img;
+        private String source;
+        private String title;
+        private long type;
+        private long user_id;
+
+        public long getCreate_time() {
+            return create_time;
         }
 
-        public void setTitle(String title) {
-            this.title = title;
+        public void setCreate_time(long create_time) {
+            this.create_time = create_time;
         }
 
         public String getDescription() {
@@ -27,20 +39,20 @@ public class SystemMsgResponseBean {
             this.description = description;
         }
 
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
         public String getImg() {
             return img;
         }
 
         public void setImg(String img) {
             this.img = img;
-        }
-
-        public long getType() {
-            return type;
-        }
-
-        public void setType(long type) {
-            this.type = type;
         }
 
         public String getSource() {
@@ -51,22 +63,28 @@ public class SystemMsgResponseBean {
             this.source = source;
         }
 
-        public long getCreate_time() {
-            return create_time;
+        public String getTitle() {
+            return title;
         }
 
-        public void setCreate_time(long create_time) {
-            this.create_time = create_time;
+        public void setTitle(String title) {
+            this.title = title;
         }
-    }
 
-    public ArrayList<DataBean> data;
+        public long getType() {
+            return type;
+        }
 
-    public ArrayList<DataBean> getData() {
-        return data;
-    }
+        public void setType(long type) {
+            this.type = type;
+        }
 
-    public void setData(ArrayList<DataBean> data) {
-        this.data = data;
+        public long getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(long user_id) {
+            this.user_id = user_id;
+        }
     }
 }

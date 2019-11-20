@@ -88,6 +88,12 @@ public class PreSellActivity extends ActivityBase {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPreSellList(type);
+    }
+
     private void getPreSellList(final String type) {
         PreSellSubscribe.getPreSell(type, new OnSuccessAndFaultSub(
                 new OnSuccessAndFaultListener() {

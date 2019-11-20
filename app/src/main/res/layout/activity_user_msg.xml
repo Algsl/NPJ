@@ -26,7 +26,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_123"
                     android:background="@drawable/mine_title_gb"
-                    android:orientation="vertical"></LinearLayout>
+                    android:orientation="vertical"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -294,7 +294,7 @@
                                 android:layout_height="@dimen/dp_18"
                                 android:layout_marginLeft="@dimen/dp_11"
                                 android:layout_marginTop="@dimen/dp_12"
-                                android:background="#FED435"
+                                android:background="@drawable/attestation1_conner_2"
                                 android:gravity="center"
                                 android:text="实名认证"
                                 android:textColor="@color/white"
@@ -307,7 +307,7 @@
                                 android:layout_height="@dimen/dp_18"
                                 android:layout_marginLeft="@dimen/dp_11"
                                 android:layout_marginTop="@dimen/dp_12"
-                                android:background="#9685ED"
+                                android:background="@drawable/attestation3_conner_2"
                                 android:gravity="center"
                                 android:text="采购认证"
                                 android:textColor="@color/white"
@@ -320,7 +320,7 @@
                                 android:layout_height="@dimen/dp_18"
                                 android:layout_marginLeft="@dimen/dp_11"
                                 android:layout_marginTop="@dimen/dp_12"
-                                android:background="#62DD57"
+                                android:background="@drawable/attestation5_conner_2"
                                 android:gravity="center"
                                 android:text="资质认证"
                                 android:textColor="@color/white"
@@ -353,7 +353,7 @@
                                 android:layout_height="@dimen/dp_18"
                                 android:layout_marginLeft="@dimen/dp_11"
                                 android:layout_marginTop="@dimen/dp_5"
-                                android:background="#5AAFFA"
+                                android:background="@drawable/attestation2_conner_2"
                                 android:gravity="center"
                                 android:text="企业认证"
                                 android:textColor="@color/white"
@@ -366,7 +366,7 @@
                                 android:layout_height="@dimen/dp_18"
                                 android:layout_marginLeft="@dimen/dp_11"
                                 android:layout_marginTop="@dimen/dp_5"
-                                android:background="#EA6E6D"
+                                android:background="@drawable/attestation4_conner_2"
                                 android:gravity="center"
                                 android:text="诚信认证"
                                 android:textColor="@color/white"

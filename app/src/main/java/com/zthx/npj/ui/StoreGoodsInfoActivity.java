@@ -2,16 +2,12 @@ package com.zthx.npj.ui;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,13 +31,15 @@ import com.zthx.npj.net.been.EditGoodsBean;
 import com.zthx.npj.net.been.GoodsCateResponseBean;
 import com.zthx.npj.net.been.GoodsInfoResponseBean;
 import com.zthx.npj.net.been.UploadPicsResponseBean;
+import com.zthx.npj.net.been.ZiZhiResponseBean;
+import com.zthx.npj.net.netsubscribe.CertSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
-import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.CommonDialog;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -83,8 +81,6 @@ public class StoreGoodsInfoActivity extends ActivityBase {
     TextView acStoreGoodsInfoTvCateName;
     @BindView(R.id.ac_storeGoodsInfo_et_isFreeShipping)
     EditText acStoreGoodsInfoEtIsFreeShipping;
-    @BindView(R.id.publish_goods_iv)
-    ImageView publishGoodsIv;
     @BindView(R.id.ac_storeGoodsInfo_tv_goodsType)
     TextView acStoreGoodsInfoTvGoodsType;
     @BindView(R.id.ac_storeGoodsInfo_btn_pulish)
@@ -107,6 +103,14 @@ public class StoreGoodsInfoActivity extends ActivityBase {
     RelativeLayout acPulishGoodsRlGoodsType;
     @BindView(R.id.at_publishGoods_iv_isTuiJian)
     ImageView atPublishGoodsIvIsTuiJian;
+    @BindView(R.id.ac_publishGoods_iv_hint1)
+    ImageView acPublishGoodsIvHint1;
+    @BindView(R.id.ac_publishGoods_iv_hint2)
+    ImageView acPublishGoodsIvHint2;
+    @BindView(R.id.ac_publishGoods_iv_hint3)
+    ImageView acPublishGoodsIvHint3;
+    @BindView(R.id.ac_publishGoods_iv_hint4)
+    ImageView acPublishGoodsIvHint4;
 
     private List<String> paths1 = new ArrayList<>();
     private List<String> paths2 = new ArrayList<>();
@@ -120,7 +124,16 @@ public class StoreGoodsInfoActivity extends ActivityBase {
     private String cate_id = "";
     private String itemResult = "";
     private boolean isTuiJian;
-    private String is_recommend2="0";
+    private String is_recommend2 = "0";
+
+    private String str1 = "平台结算价是本商品售出并在买家确认收货后，平台结算给您的价格，不设账期，可立即提现。如果卖家不点击“确认收货”，则在签收后7日内自动结算。";
+    private String str2 = "VIP代言价是代言人购买您商品时的价格，要求略高于结算价，平台将差价部分奖励给分享会员。\n" +
+            "农品街设立“价高反馈功能，如果您发布的商品价格高于其他平台，用户通过该功能将直接下架您的商品，农品街不收取开店费，0佣金，0抽成,因此希望您按全网最低价销售商品。";
+    private String str3 = "市场参考价是您发布的商品在市场上的公开价格，要求高于代言价和结算价。";
+    private String str4 = "农品街-人人开店包邮原则，即：卖家承担物流运费。\n" +
+            "卖家在设定商品价格时需要将运费考虑其中。";
+
+    private boolean isRenZheng;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -132,6 +145,8 @@ public class StoreGoodsInfoActivity extends ActivityBase {
 
         getStoreGoodsInfo();
         getGoodsCate();
+
+        getZizhiRenzheng();
 
         acStoreGoodsInfoIvGoodsImg.setOnlineImageLoader(new ZzImageBox.OnlineImageLoader() {
             @Override
@@ -162,7 +177,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
             public void onAddClick() {
                 /*Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, CHOOSE_PHOTO1);*/
-                ImageSelectorUtils.openPhoto(StoreGoodsInfoActivity.this,CHOOSE_PHOTO1,false,5-paths1.size());
+                ImageSelectorUtils.openPhoto(StoreGoodsInfoActivity.this, CHOOSE_PHOTO1, false, 5 - paths1.size());
             }
         });
 
@@ -182,7 +197,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
             public void onAddClick() {
                 /*Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, CHOOSE_PHOTO2);*/
-                ImageSelectorUtils.openPhoto(StoreGoodsInfoActivity.this,CHOOSE_PHOTO2);
+                ImageSelectorUtils.openPhoto(StoreGoodsInfoActivity.this, CHOOSE_PHOTO2);
             }
         });
 
@@ -237,9 +252,30 @@ public class StoreGoodsInfoActivity extends ActivityBase {
         }
     }
 
+
+    private void getZizhiRenzheng() {
+        CertSubscribe.zizhi(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                ZiZhiResponseBean bean = GsonUtils.fromJson(result, ZiZhiResponseBean.class);
+                if(bean.getData().getStatus()==3){
+                    isRenZheng=true;
+                }else{
+                    isRenZheng=false;
+                }
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                //showToast(errorMsg);
+            }
+        }));
+    }
+
     @OnClick({R.id.title_theme_back, R.id.ac_storeGoodsInfo_iv_goodsImg, R.id.ac_storeGoodsInfo_iv_goodsContent,
             R.id.ac_storeGoodsInfo_btn_pulish, R.id.ac_pulishGoods_rl_cateName, R.id.ac_pulishGoods_rl_goodsType,
-            R.id.at_publishGoods_iv_isTuiJian})
+            R.id.at_publishGoods_iv_isTuiJian,R.id.ac_publishGoods_iv_hint1, R.id.ac_publishGoods_iv_hint2,
+            R.id.ac_publishGoods_iv_hint3, R.id.ac_publishGoods_iv_hint4})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.title_theme_back:
@@ -261,16 +297,28 @@ public class StoreGoodsInfoActivity extends ActivityBase {
             case R.id.at_publishGoods_iv_isTuiJian:
                 toggle();
                 break;
+            case R.id.ac_publishGoods_iv_hint1:
+                showPublishPopwindow(str1, R.dimen.dp_210);
+                break;
+            case R.id.ac_publishGoods_iv_hint2:
+                showPublishPopwindow(str2, R.dimen.dp_300);
+                break;
+            case R.id.ac_publishGoods_iv_hint3:
+                showPublishPopwindow(str3, R.dimen.dp_174);
+                break;
+            case R.id.ac_publishGoods_iv_hint4:
+                showPublishPopwindow(str4, R.dimen.dp_195);
+                break;
         }
     }
 
     private void toggle() {
-        isTuiJian=!isTuiJian;
-        if(isTuiJian){
-            is_recommend2="1";
+        isTuiJian = !isTuiJian;
+        if (isTuiJian) {
+            is_recommend2 = "1";
             atPublishGoodsIvIsTuiJian.setImageResource(R.drawable.at_edit_address_selector);
-        }else{
-            is_recommend2="0";
+        } else {
+            is_recommend2 = "0";
             atPublishGoodsIvIsTuiJian.setImageResource(R.drawable.at_edit_address_not_selector);
         }
     }
@@ -286,7 +334,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
             public void onResponse(Call call, Response response) throws IOException {
                 UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
                 UploadPicsResponseBean.DataBean data = bean.getData();
-                goodsImg=data.getImg();
+                goodsImg = data.getImg();
 
                 uploadGoodsContent();
             }
@@ -305,7 +353,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
             public void onResponse(Call call, Response response) throws IOException {
                 UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
                 UploadPicsResponseBean.DataBean data = bean.getData();
-                goodsContent=data.getImg();
+                goodsContent = data.getImg();
                 //showToast("请等待信息上传");
                 editStoreGoodsInfo();
             }
@@ -351,18 +399,18 @@ public class StoreGoodsInfoActivity extends ActivityBase {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case CHOOSE_PHOTO1:
-                if(resultCode!=0){
+                if (resultCode != 0) {
                     ArrayList<String> images = data.getStringArrayListExtra(ImageSelectorUtils.SELECT_RESULT);
-                    for(int i=0;i<images.size();i++){
+                    for (int i = 0; i < images.size(); i++) {
                         paths1.add(compress(images.get(i)));
                         acStoreGoodsInfoIvGoodsImg.addImage(compress(images.get(i)));
                     }
                 }
                 break;
             case CHOOSE_PHOTO2:
-                if(resultCode!=0){
+                if (resultCode != 0) {
                     ArrayList<String> images1 = data.getStringArrayListExtra(ImageSelectorUtils.SELECT_RESULT);
-                    for(int i=0;i<images1.size();i++){
+                    for (int i = 0; i < images1.size(); i++) {
                         paths2.add(compress(images1.get(i)));
                         acStoreGoodsInfoIvGoodsContent.addImage(compress(images1.get(i)));
                     }
@@ -475,12 +523,26 @@ public class StoreGoodsInfoActivity extends ActivityBase {
             }
 
             @Override
+            public void childMsg(String group_id, String id, String cate_name) {
+                if(group_id.equals("22") || group_id.equals("107")){
+                    if(!isRenZheng){
+                        showDialog();
+                    }
+                }else{
+                    cate_id = id;
+                    acStoreGoodsInfoTvCateName.setText(cate_name);
+                    backgroundAlpha(1f);
+                    window.dismiss();
+                }
+            }
+
+            /*@Override
             public void childMsg(String id, String cate_name) {
                 cate_id = id;
                 acStoreGoodsInfoTvCateName.setText(cate_name);
                 backgroundAlpha(1f);
                 window.dismiss();
-            }
+            }*/
         });
         window.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -492,13 +554,27 @@ public class StoreGoodsInfoActivity extends ActivityBase {
 
     }
 
+    private void showDialog() {
+        CommonDialog commonDialog = new CommonDialog(this, R.style.dialog, "该分类商品需进行资质认证才能发布",false, new CommonDialog.OnCloseListener() {
+            @Override
+            public void onClick(Dialog dialog, boolean confirm) {
+                if(confirm){
+                    openActivity(MyAttestationActivity.class);
+                }
+            }
+        });
+        commonDialog.setPositiveButton("去资质认证");
+        commonDialog.show();
+    }
+
     /**
      * 图片压缩
+     *
      * @param path：原始图片路径
      * @return
      */
-    public String compress(String path){
-        File file=new File(path);
+    public String compress(String path) {
+        File file = new File(path);
         Bitmap compressBitmap;
         /*if (file.length()>=2.5*1024*1024){//从相册中选择照片，2.5M以上的用2压缩
             BitmapFactory.Options options = new BitmapFactory.Options();
@@ -506,13 +582,13 @@ public class StoreGoodsInfoActivity extends ActivityBase {
             options.inSampleSize = 3;
             compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
         }else */
-        if(file.length()>=600*1024){//从相册中选择照片，600k以上的用2压缩
+        if (file.length() >= 600 * 1024) {//从相册中选择照片，600k以上的用2压缩
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = false;
             options.inSampleSize = 2;
-            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
-        }else{
-            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+            compressBitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+        } else {
+            compressBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
         }
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         compressBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
@@ -526,14 +602,14 @@ public class StoreGoodsInfoActivity extends ActivityBase {
         ByteArrayInputStream isBm = new ByteArrayInputStream(bos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
         compressBitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
 
-        String bmString="";
+        String bmString = "";
         try {
-            File bmFile=new File(getExternalCacheDir(), System.currentTimeMillis()+".jpg");
+            File bmFile = new File(getExternalCacheDir(), System.currentTimeMillis() + ".jpg");
             FileOutputStream fos = new FileOutputStream(bmFile);
             fos.write(bos.toByteArray());
             fos.flush();
             fos.close();
-            bmString=bmFile.getPath();
+            bmString = bmFile.getPath();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -543,7 +619,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
     }
 
 
-    public void getImgPath(){
+    public void getImgPath() {
         for (String str : paths1) {
             if (str.split("http://app.npj-vip.com").length == 1) {
                 paths3.add(str);
@@ -560,7 +636,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
                     paths3Str += paths4.get(i) + ",";
                 }
             }
-            goodsImg=paths3Str;
+            goodsImg = paths3Str;
             getContentPath();
         } else {//上传了新的图片
             HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths3, new Callback() {
@@ -577,13 +653,14 @@ public class StoreGoodsInfoActivity extends ActivityBase {
                     for (String str : paths4) {
                         paths3Str += str + ",";
                     }
-                   goodsImg=paths3Str + data.getImg();
+                    goodsImg = paths3Str + data.getImg();
                     getContentPath();
                 }
             });
         }
     }
-    public void getContentPath(){
+
+    public void getContentPath() {
         for (String str : paths2) {
             if (str.split("http://app.npj-vip.com").length == 1) {
                 paths5.add(str);
@@ -600,7 +677,7 @@ public class StoreGoodsInfoActivity extends ActivityBase {
                     paths3Str += paths6.get(i) + ",";
                 }
             }
-            goodsContent=paths3Str;
+            goodsContent = paths3Str;
             editStoreGoodsInfo();
         } else {//上传了新的图片
             HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths5, new Callback() {
@@ -617,10 +694,41 @@ public class StoreGoodsInfoActivity extends ActivityBase {
                     for (String str : paths6) {
                         paths3Str += str + ",";
                     }
-                    goodsContent=paths3Str + data.getImg();
+                    goodsContent = paths3Str + data.getImg();
                     editStoreGoodsInfo();
                 }
             });
         }
+    }
+
+    public void showPublishPopwindow(String str, int id) {
+        backgroundAlpha(0.5f);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_publish_goods, null);
+        // 创建PopupWindow对象，其中：
+        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+        final PopupWindow window = new PopupWindow(contentView);
+        window.setWidth((int) getResources().getDimension(R.dimen.dp_280));
+        window.setHeight((int) getResources().getDimension(id));
+        // 设置PopupWindow的背景
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // 设置PopupWindow是否能响应外部点击事件
+        window.setOutsideTouchable(false);
+        // 设置PopupWindow是否能响应点击事件
+        window.setTouchable(true);
+        // 显示PopupWindow，其中：
+        // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+        window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+        TextView tv = contentView.findViewById(R.id.pw_publishGoods_tv_content);
+        Button btn = contentView.findViewById(R.id.pw_publishGoods_tv_know);
+        tv.setText(str);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backgroundAlpha(1f);
+                window.dismiss();
+            }
+        });
     }
 }

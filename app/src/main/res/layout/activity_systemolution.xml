@@ -15,7 +15,7 @@
         <com.dueeeke.videoplayer.player.IjkVideoView
             android:id="@+id/player"
             android:layout_width="match_parent"
-            android:layout_height="300dp" />
+            android:layout_height="@dimen/dp_225" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/at_system_solution_tb"

@@ -2,5 +2,5 @@
     <!--圆角半径-->
     <corners android:radius="@dimen/dp_8"/>
     <!--背景颜色，具体颜色自行在color文件设置-->
-    <solid android:color="@android:color/white"/>
+    <solid android:color="@color/white"/>
 </shape>

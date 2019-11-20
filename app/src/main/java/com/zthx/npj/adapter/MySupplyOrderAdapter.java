@@ -131,8 +131,12 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
         if (list!= null && list.size() > 0) {
             String url = list.get(i).getGoods_img();
             if (url.substring(url.length() - 4).equals(".mp4")) {
-                viewHolder.goodsImg.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
                 viewHolder.ivVideo.setVisibility(View.VISIBLE);
+                if(list.get(i).getGoods_img().split("/")[0].equals("http:")){
+                    viewHolder.goodsImg.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
+                }else{
+                    viewHolder.goodsImg.setImageBitmap(MyCustomUtils.getVideoThumbnail("http://app.npj-vip.com"+url));
+                }
             } else {
                 if(list.get(i).getGoods_img().split("/")[0].equals("http:")){
                     Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
@@ -141,10 +145,16 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
                 }
             }
             //Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.goodsImg);
-            viewHolder.storeName.setText("朝花夕拾");
+            viewHolder.storeName.setText(list.get(i).getNick_name());
+
+            if (list.get(i).getNick_name().substring(0,2).equals("用户")) {
+                viewHolder.storeName.setText("农品街新客");
+            } else {
+                viewHolder.storeName.setText(list.get(i).getNick_name());
+            }
             viewHolder.goodsName.setText(list.get(i).getTitle());
-            viewHolder.goodsPrice.setText("￥"+list.get(i).getOrder_price());
-            viewHolder.goodsNum.setText("x "+list.get(i).getOrder_num());
+            viewHolder.goodsPrice.setText("￥"+list.get(i).getPrice());
+            viewHolder.goodsNum.setText("总斤数："+list.get(i).getOrder_num()+list.get(i).getGoods_unit());
             viewHolder.orderPrice.setText("￥ "+list.get(i).getOrder_price());
             switch (list.get(i).getOrder_state()+""){
                 case "0"://已取消
@@ -264,8 +274,6 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
                     viewHolder.goodsReturn.setVisibility(View.GONE);
                     break;
             }
-        } else {
-
         }
     }
 

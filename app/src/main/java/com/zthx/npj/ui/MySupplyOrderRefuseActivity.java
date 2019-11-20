@@ -10,31 +10,38 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.AlsoLikeAdatper;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AlsoLikeResponseBean;
-import com.zthx.npj.net.been.MyOrderDetailResponseBean;
 import com.zthx.npj.net.been.MySupplyOrderDetailResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.tencent.activity.MessageCenterActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.TimeTextView;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MySupplyOrderRefuseActivity extends ActivityBase {
     @BindView(R.id.title_theme_back)
@@ -71,8 +78,8 @@ public class MySupplyOrderRefuseActivity extends ActivityBase {
     TextView atMyOrderRefundTvIsFreeShipping;
     @BindView(R.id.ac_myOrderRefund_tv_charge)
     TextView acMyOrderRefundTvCharge;
-    @BindView(R.id.ac_myOrderRefund_tv_needPay)
-    TextView acMyOrderRefundTvNeedPay;
+    /*@BindView(R.id.ac_myOrderRefund_tv_needPay)
+    TextView acMyOrderRefundTvNeedPay;*/
     @BindView(R.id.at_myOrderRefund_tv_orderSn)
     TextView atMyOrderRefundTvOrderSn;
     @BindView(R.id.at_myOrderRefund_ll_orderSn)
@@ -112,11 +119,17 @@ public class MySupplyOrderRefuseActivity extends ActivityBase {
     @BindView(R.id.ac_myOrderRefund_tv_state)
     TextView acMyOrderRefundTvState;
     @BindView(R.id.ac_myOrderRefund_tv_time)
-    TextView acMyOrderRefundTvTime;
+    TimeTextView acMyOrderRefundTvTime;
     @BindView(R.id.ac_myOrderRefund_ll_reason)
     LinearLayout acMyOrderRefundLlReason;
     @BindView(R.id.ac_myOrderRefund_tv_reason)
     TextView acMyOrderRefundTvReason;
+    @BindView(R.id.ac_myOrderRefund_rv)
+    RelativeLayout acMyOrderRefundRv;
+    @BindView(R.id.ac_myOrderRefund_tv_again)
+    TextView acMyOrderRefundTvAgain;
+    @BindView(R.id.ac_myOrderRefund_tv_chat1)
+    TextView acMyOrderRefundTvChat1;
 
     private String order_id;
     private String order_state;
@@ -136,6 +149,31 @@ public class MySupplyOrderRefuseActivity extends ActivityBase {
 
         order_id = getIntent().getStringExtra("order_id");
         order_state = getIntent().getStringExtra("order_state");
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                page = 1;
+                if (adatper != null) {
+                    adatper.clearData();
+                }
+                seeMore.setText("查看更多");
+                refreshLayout.setLoadmoreFinished(false);
+                getAlsoLike();
+
+                refreshlayout.finishRefresh();
+            }
+        });
+
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                page++;
+                getAlsoLike();
+                refreshlayout.finishLoadmore();
+            }
+        });
+
 
         getMySupplyOrderDetail();
         getAlsoLike();
@@ -160,19 +198,42 @@ public class MySupplyOrderRefuseActivity extends ActivityBase {
 
     private void setMySupplyOrderDetail(String result) {
         MySupplyOrderDetailResponseBean bean = GsonUtils.fromJson(result, MySupplyOrderDetailResponseBean.class);
-        data= bean.getData();
+        data = bean.getData();
         acMyOrderRefundTvUserName.setText(data.getConsignee());
         acMyOrderRefundTvCellPhone.setText(data.getMobile());
         acMyOrderRefundTvAddress.setText(data.getAddress());
-        //atMyOrderRefundTvStoreName.setText(data.getStore_name());
 
-        acMyOrderRefundTvAllPrice.setText("￥"+data.getOrder_price());
-        acMyOrderRefundTvCharge.setText("￥"+data.getOrder_price());
-        String url = "http://app.npj-vip.com"+data.getGoods_img().get(0);
+        acOrderDetailTvSize.setVisibility(View.INVISIBLE);
+
+        if (data.getNick_name().substring(0, 2).equals("用户")) {
+            atMyOrderRefundTvStoreName.setText("农品街新客");
+        } else {
+            atMyOrderRefundTvStoreName.setText(data.getNick_name());
+        }
+
+        atMyOrderRefundIvGoodsImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MySupplyOrderRefuseActivity.this, SupplyProductsActivity.class);
+                intent.setAction(Const.SUPPLY_DETAIL);
+                intent.putExtra("goods_id", data.getGoods_id());
+                startActivity(intent);
+            }
+        });
+        atMyOrderRefundTvStoreName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openActivity(UserMsgActivity.class, data.getSeller_id());
+            }
+        });
+
+        acMyOrderRefundTvAllPrice.setText("￥" + new DecimalFormat("#0.00").format(Double.parseDouble(data.getOrder_price()) - Double.parseDouble(data.getShipping_fee())));
+        acMyOrderRefundTvCharge.setText("￥" + data.getOrder_price());
+        String url = "http://app.npj-vip.com" + data.getGoods_img().get(0);
         if (url.substring(url.length() - 4).equals(".mp4")) {
             atMyOrderRefundIvGoodsImg.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
         } else {
-            Glide.with(this).load(Uri.parse("http://app.npj-vip.com"+data.getGoods_img().get(0))).into(atMyOrderRefundIvGoodsImg);
+            Glide.with(this).load(Uri.parse("http://app.npj-vip.com" + data.getGoods_img().get(0))).into(atMyOrderRefundIvGoodsImg);
         }
 
         atMyOrderRefundTvGoodsName.setText(data.getGoods_name());
@@ -181,8 +242,8 @@ public class MySupplyOrderRefuseActivity extends ActivityBase {
         atMyOrderRefundTvIsFreeShipping.setText("￥ " + data.getShipping_fee());
 
         atMyOrderRefundTvOrderSn.setText(data.getJujue_yuanyin());
-        atMyOrderRefundTvPayType.setText("￥"+data.getOrder_price());
-        atMyOrderRefundTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time() * 1000)));
+        atMyOrderRefundTvPayType.setText("￥" + data.getOrder_price());
+        atMyOrderRefundTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(data.getOrder_time() * 1000)));
         atMyOrderRefundTvPayTime.setText(data.getOrder_sn());
 
         switch (order_state) {
@@ -192,7 +253,13 @@ public class MySupplyOrderRefuseActivity extends ActivityBase {
                 acMyOrderRefundTvOption.setText("退款中");
                 atMyOrderRefundLlAddress.setVisibility(View.VISIBLE);
                 acMyOrderRefundLlReason.setVisibility(View.GONE);
-                acMyOrderRefundTvTime.setVisibility(View.VISIBLE);
+
+                long time = data.getUpdate_time() + 3 * 24 * 60 * 60 - System.currentTimeMillis() / 1000;
+                if (time <= 0) {
+                    acMyOrderRefundRv.setVisibility(View.GONE);
+                } else {
+                    setTime(acMyOrderRefundTvTime, time);
+                }
                 break;
             case "7":
                 acMyOrderRefundIv.setImageResource(R.drawable.refund_success);
@@ -200,7 +267,7 @@ public class MySupplyOrderRefuseActivity extends ActivityBase {
                 acMyOrderRefundTvOption.setText("退款成功");
                 atMyOrderRefundLlAddress.setVisibility(View.VISIBLE);
                 acMyOrderRefundLlReason.setVisibility(View.GONE);
-                acMyOrderRefundTvTime.setVisibility(View.GONE);
+                acMyOrderRefundRv.setVisibility(View.GONE);
                 break;
             case "8":
                 acMyOrderRefundIv.setImageResource(R.drawable.refund_fail);
@@ -209,11 +276,10 @@ public class MySupplyOrderRefuseActivity extends ActivityBase {
                 atMyOrderRefundLlAddress.setVisibility(View.GONE);
                 acMyOrderRefundLlReason.setVisibility(View.VISIBLE);
                 acMyOrderRefundTvReason.setText(data.getJujue_yuanyin());
-                acMyOrderRefundTvTime.setVisibility(View.GONE);
+                acMyOrderRefundRv.setVisibility(View.GONE);
                 break;
         }
     }
-
 
 
     //猜你喜欢
@@ -257,5 +323,30 @@ public class MySupplyOrderRefuseActivity extends ActivityBase {
                 //showToast(errorMsg);
             }
         }));
+    }
+
+    public void setTime(TimeTextView ttv, long time) {
+        long second = time % 60;//计算秒
+        long min = time / 60 % 60;
+        long hour = time / 3600 % 24;
+        long day = time / 3600 / 24;
+        ttv.setTimes(new long[]{hour, min, second, day});
+        if (!ttv.isRun()) {
+            ttv.run();
+        }
+    }
+
+    @OnClick({R.id.ac_myOrderRefund_tv_again, R.id.ac_myOrderRefund_tv_chat1})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ac_myOrderRefund_tv_again:
+                Intent intent = new Intent(MySupplyOrderRefuseActivity.this, MySupplyOrderRefundActivity.class);
+                intent.putExtra("order_id", order_id);
+                startActivity(intent);
+                break;
+            case R.id.ac_myOrderRefund_tv_chat1:
+                openActivity(ServicesListActivity.class);
+                break;
+        }
     }
 }

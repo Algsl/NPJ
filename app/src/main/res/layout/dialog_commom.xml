@@ -8,6 +8,7 @@
     android:orientation="vertical" >
     <TextView
         android:id="@+id/title"
+        android:text="提示"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -46,7 +47,7 @@
             android:gravity="center"
             android:layout_weight="1.0"
             android:text="取消"
-            android:textSize="12sp"
+            android:textSize="13sp"
             android:textColor="@color/app_theme"/>
         <View
             android:layout_width="1dp"
@@ -60,7 +61,7 @@
             android:layout_weight="1.0"
             android:gravity="center"
             android:text="确认"
-            android:textSize="@dimen/sp_15"
+            android:textSize="@dimen/sp_13"
             android:textColor="@color/app_theme"/>
     </LinearLayout>
 </LinearLayout>

@@ -72,7 +72,7 @@ public class OtherSearchAdapter extends RecyclerView.Adapter<OtherSearchAdapter.
             }else if(time/3600/24<3){
                 viewHolder.create_time.setText(time/3600/24+"天前发布");
             }else{
-                viewHolder.create_time.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(mList.get(i).getCreate_time()*1000))+"发布");
+                viewHolder.create_time.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(mList.get(i).getCreate_time()*1000))+"发布");
             }
 
             viewHolder.lookNum.setText(mList.get(i).getHits());

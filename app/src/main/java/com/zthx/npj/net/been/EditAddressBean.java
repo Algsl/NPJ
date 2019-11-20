@@ -13,6 +13,15 @@ public class EditAddressBean {
     private String province;
     private String city;
     private String district;
+    private String town;
+
+    public String getTown() {
+        return town;
+    }
+
+    public void setTown(String town) {
+        this.town = town;
+    }
 
     public String getProvince() {
         return province;

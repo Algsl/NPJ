@@ -184,7 +184,6 @@ public class StoreActivity extends ActivityBase {
     }
 
     private void setStoreInfo(String result) {
-        Log.e("测试", "setStoreInfo: "+result );
         StoreInfoResponseBean bean = GsonUtils.fromJson(result, StoreInfoResponseBean.class);
         data= bean.getData();
 

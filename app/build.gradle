@@ -16,7 +16,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0.3"
+        versionName "1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
@@ -98,7 +98,7 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.1.46.android'
 
     //瀑布流
-    implementation 'com.github.donkingliang:LabelsView:1.2.0'
+    implementation 'com.github.donkingliang:LabelsView:1.4.1'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
 
     //导入retrofit

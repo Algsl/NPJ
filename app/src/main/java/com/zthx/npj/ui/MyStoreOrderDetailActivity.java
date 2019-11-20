@@ -50,6 +50,7 @@ import com.zthx.npj.tencent.activity.ChatActivity;
 import com.zthx.npj.tencent.util.Constants;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.view.TimeTextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -90,8 +91,8 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     TextView titleThemeTitle;
     @BindView(R.id.ac_myOrderDetail_tv_status)
     TextView acMyOrderDetailTvStatus;
-    @BindView(R.id.ac_myOrderDetail_tv_hint)
-    TextView acMyOrderDetailTvHint;
+    /*@BindView(R.id.ac_myOrderDetail_tv_hint)
+    TextView acMyOrderDetailTvHint;*/
     @BindView(R.id.ac_myOrderDetail_tv_userName)
     TextView acMyOrderDetailTvUserName;
     @BindView(R.id.ac_myOrderDetail_tv_cellPhone)
@@ -172,6 +173,25 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     TextView seeMore;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.ac_myOrderDetail_tv_hint1)
+    TextView acMyOrderDetailTvHint1;
+    @BindView(R.id.ac_myOrderDetail_tv_hint2)
+    TimeTextView acMyOrderDetailTvHint2;
+    @BindView(R.id.ac_myOrderDetail_tv_hint3)
+    TextView acMyOrderDetailTvHint3;
+    @BindView(R.id.ac_orderDetail_tv_size)
+    TextView acOrderDetailTvSize;
+    @BindView(R.id.ac_myOrderDetail_ll_refundHint)
+    LinearLayout acMyOrderDetailLlRefundHint;
+
+    /*@BindView(R.id.ac_myOrderRefund_tv_reason)
+    TextView acMyOrderRefundTvReason;
+    @BindView(R.id.ac_myOrderRefund_tv_again)
+    TextView acMyOrderRefundTvAgain;
+    @BindView(R.id.ac_myOrderRefund_tv_chat1)
+    TextView acMyOrderRefundTvChat1;
+    @BindView(R.id.ac_myOrderRefund_ll_reason)
+    LinearLayout acMyOrderRefundLlReason;*/
 
 
     private String user_id = SharePerferenceUtils.getUserId(this);
@@ -182,6 +202,10 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     private String goods_name;
     private String type;
 
+    private long pay_time;//支付时间
+    private long refund_time;//退款时间
+    private long confirm_time;//确认收货时间
+
     private int position = 0;
 
     String[] item;
@@ -189,11 +213,10 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
 
     private int page = 1;
     private AlsoLikeAdatper adatper;
-    private String str = "农品街所有退换商品经审核后将直接退回至余额。可在余额中进行提现等操作" ;
+    private String str = "农品街所有退换商品经审核后将直接退回至余额。可在余额中进行提现等操作";
     private String mobile;
     private String nick_name;
     private String order_type;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,7 +229,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
 
         order_state = getIntent().getStringExtra("order_state");
         order_id = getIntent().getStringExtra("order_id");
-        type=getIntent().getStringExtra("type");
+        type = getIntent().getStringExtra("type");
 
         getMyStoreOrderDetail();
         getAlsoLike();
@@ -305,10 +328,27 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
         acMyOrderDetailTvAddress.setText(data.getAddress());
         atMyOrderDetailTvStoreName.setText(data.getStore_name());
 
-        order_type=data.getOrder_type();
+        pay_time = data.getOrder_time() + 24 * 60 * 60 - System.currentTimeMillis() / 1000;
+        confirm_time = data.getOrder_time() + 14 * 24 * 60 * 60 - System.currentTimeMillis() / 1000;
+        refund_time = data.getRefund_time() + 3 * 24 * 60 * 60 - System.currentTimeMillis() / 1000;
 
-        mobile=data.getMobile();
-        nick_name=data.getStore_name();
+
+        if (data.getKey_name().equals("")) {
+            acOrderDetailTvSize.setVisibility(View.INVISIBLE);
+        } else {
+            acOrderDetailTvSize.setText("规格：" + data.getKey_name());
+        }
+
+        /*if(!data.getJujue_yuanyin().equals("")){
+            acMyOrderRefundLlReason.setVisibility(View.VISIBLE);
+            acMyOrderRefundTvReason.setText(data.getJujue_yuanyin());
+        }*/
+
+
+        order_type = data.getOrder_type()+"";
+
+        mobile = data.getMobile();
+        nick_name = data.getStore_name();
 
         Glide.with(this).load(Uri.parse(data.getGoods_img())).into(atMyOrderDetailIvGoodsImg);
         Glide.with(this).load(Uri.parse(data.getGoods_img())).into(atMyOrderDetailIvGoodsImg1);
@@ -317,14 +357,14 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MyStoreOrderDetailActivity.this, GoodsDetailActivity.class);
-                if(order_type.equals("4")){
+                if (order_type.equals("4")) {
                     intent.setAction("miaosha");
                     intent.putExtra(Const.SECKILL_STATUS, 2);
-                }else if(order_type.equals("3")){
+                } else if (order_type.equals("3")) {
                     intent.setAction(Const.PRESELL);
-                    intent.putExtra("pre_type","0");
+                    intent.putExtra("pre_type", "0");
                 }
-                intent.putExtra(Const.GOODS_ID, data.getGoods_id()+"");
+                intent.putExtra(Const.GOODS_ID, data.getGoods_id() + "");
                 startActivity(intent);
             }
         });
@@ -332,7 +372,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MyStoreOrderDetailActivity.this, GoodsDetailActivity.class);
-                intent.putExtra(Const.GOODS_ID, data.getGoods_id()+"");
+                intent.putExtra(Const.GOODS_ID, data.getGoods_id() + "");
                 startActivity(intent);
             }
         });
@@ -340,12 +380,12 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
         atMyOrderDetailTvStoreName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openActivity(StoreActivity.class, data.getStore_id()+"");
+                openActivity(StoreActivity.class, data.getStore_id() + "");
             }
         });
 
 
-        goods_name=data.getGoods_name();
+        goods_name = data.getGoods_name();
         atMyOrderDetailTvGoodsName.setText(data.getGoods_name());
         atMyOrderDetailTvGoodsName1.setText(data.getGoods_name());
         atMyOrderDetailTvGoodsPrice.setText("￥" + data.getGoods_price());
@@ -353,25 +393,32 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
         atMyOrderDetailTvGoodsNum.setText("x" + data.getGoods_num());
         atMyOrderDetailTvGoodsNum1.setText("x" + data.getGoods_num());
         atMyOrderDetailTvIsFreeShipping.setText("￥" + data.getShipping_fee());
-        acMyOrderDetailTvAllPrice.setText("￥"+data.getOrder_price());
-        acMyOrderDetailTvNeedPay.setText("￥"+data.getOrder_price());
+        acMyOrderDetailTvAllPrice.setText("￥" + data.getOrder_price());
+        acMyOrderDetailTvNeedPay.setText("￥" + data.getOrder_price());
 
         atMyOrderDetailTvOrderSn.setText(data.getOrder_sn());
-        atMyOrderDetailTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time() * 1000)));
-        atMyOrderDetailTvPayTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(data.getOrder_time() * 1000)));
+        atMyOrderDetailTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(data.getOrder_time() * 1000)));
+        atMyOrderDetailTvPayTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(data.getOrder_time() * 1000)));
 
 
-        if(type.equals("buss")){//商家查看订单
+        if (type.equals("buss")) {//商家查看订单
             acMyOrderDetailLl.setVisibility(View.GONE);
-            switch (order_state) {
+            switch (data.getOrder_state()+"") {
                 case "1":
                     acMyOrderDetailTvStatus.setText("待付款");
-                    acMyOrderDetailTvHint.setText("剩余24时00分自动关闭");
+                    //acMyOrderDetailTvHint.setText("剩余24时00分自动关闭");
+                    if (pay_time >= 0) {
+                        setTime(acMyOrderDetailTvHint2, pay_time);
+                    }
+                    acMyOrderDetailTvHint3.setText("交易自动关闭");
                     break;
                 case "2":
                     //头部
                     acMyOrderDetailTvStatus.setText("等待发货");
-                    acMyOrderDetailTvHint.setVisibility(View.GONE);//头部类型下方的文字提示
+                    //acMyOrderDetailTvHint.setVisibility(View.GONE);//头部类型下方的文字提示
+                    acMyOrderDetailTvHint1.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint2.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint3.setVisibility(View.GONE);
 
                     //订单
                     atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);//支付方式显示
@@ -386,7 +433,12 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     break;
                 case "3":
                     acMyOrderDetailTvStatus.setText("已发货");
-                    acMyOrderDetailTvHint.setText("剩余9天4时自动确认");
+                    //acMyOrderDetailTvHint.setText("剩余9天4时自动确认");
+                    acMyOrderDetailTvHint2.setText("");
+                    if (confirm_time >= 0) {
+                        setTime(acMyOrderDetailTvHint2, confirm_time);
+                    }
+                    acMyOrderDetailTvHint3.setText("自动确认收货");
                     acMyOrderDetailTvOption.setText("退换");
                     atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
@@ -400,7 +452,9 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     break;
                 case "4":
                     acMyOrderDetailTvStatus.setText("交易成功");
-                    acMyOrderDetailTvHint.setText("期待再次为您服务");
+                    acMyOrderDetailTvHint1.setText("期待再次为您服务");
+                    acMyOrderDetailTvHint2.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint3.setVisibility(View.GONE);
                     acMyOrderDetailTvOption.setText("申请售后");
                     atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
@@ -419,10 +473,15 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     break;
                 case "6":
                     acMyOrderDetailLlPaySend.setVisibility(View.GONE);
-                    acMyOrderDetailLlRefund.setVisibility(View.VISIBLE);
+                    acMyOrderDetailLlRefund.setVisibility(View.GONE);
                     acMyOrderDetailLlRefundNum.setVisibility(View.VISIBLE);
+                    acMyOrderDetailLlRefundHint.setVisibility(View.GONE);
                     acMyOrderDetailTvStatus.setText("已提交退款申请，等待处理");
-                    acMyOrderDetailTvHint.setText("剩余2天4时自动确认");
+                    //acMyOrderDetailTvHint.setText("剩余2天4时自动确认");
+                    if (refund_time >= 0) {
+                        setTime(acMyOrderDetailTvHint2, refund_time);
+                    }
+                    acMyOrderDetailTvHint3.setText("自动退款");
                     atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
@@ -444,17 +503,23 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
                     break;
             }
-        }else{//用户查看订单
+        } else {//用户查看订单
             switch (order_state) {
                 case "1":
+                    Log.e("测试", "getMyStoreOrderDetail: "+order_state);
                     acMyOrderDetailTvStatus.setText("待付款");
-                    acMyOrderDetailTvHint.setText("剩余24时00分自动关闭");
+                    if (pay_time >= 0) {
+                        setTime(acMyOrderDetailTvHint2, pay_time);
+                    }
+                    acMyOrderDetailTvHint3.setText("交易自动关闭");
                     acMyOrderDetailTvOption.setText("待付款");
                     break;
                 case "2":
                     //头部
                     acMyOrderDetailTvStatus.setText("等待卖家发货");
-                    acMyOrderDetailTvHint.setVisibility(View.GONE);//头部类型下方的文字提示
+                    acMyOrderDetailTvHint1.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint2.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint3.setVisibility(View.GONE);
 
                     //商品信息
                     acMyOrderDetailTvOption.setText("退换");
@@ -467,10 +532,15 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvApplyRefund.setVisibility(View.VISIBLE);//申请退换显示
                     acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    Log.e("测试", "getMyStoreOrderDetail: "+order_state);
                     break;
                 case "3":
                     acMyOrderDetailTvStatus.setText("已发货");
-                    acMyOrderDetailTvHint.setText("剩余9天4时自动确认");
+                    //acMyOrderDetailTvHint.setText("剩余9天4时自动确认");
+                    if (confirm_time >= 0) {
+                        setTime(acMyOrderDetailTvHint2, confirm_time);
+                    }
+                    acMyOrderDetailTvHint3.setText("自动确认收货");
                     acMyOrderDetailTvOption.setText("退换");
                     atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
@@ -481,11 +551,14 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvConfirm.setVisibility(View.VISIBLE);//确认收货
                     acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    Log.e("测试", "getMyStoreOrderDetail: "+order_state);
                     break;
                 case "4":
                     acMyOrderDetailLl.setVisibility(View.GONE);
                     acMyOrderDetailTvStatus.setText("交易成功");
-                    acMyOrderDetailTvHint.setText("期待再次为您服务");
+                    acMyOrderDetailTvHint1.setText("期待再次为您服务");
+                    acMyOrderDetailTvHint2.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint3.setVisibility(View.GONE);
                     acMyOrderDetailTvOption.setVisibility(View.GONE);
                     atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
@@ -497,11 +570,13 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvComment.setVisibility(View.VISIBLE);//评价
                     acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    Log.e("测试", "getMyStoreOrderDetail: "+order_state);
                     break;
                 case "5":
                     acMyOrderDetailLl.setVisibility(View.GONE);
                     acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    Log.e("测试", "getMyStoreOrderDetail: "+order_state);
                     break;
                 case "6":
                     acMyOrderDetailLl.setVisibility(View.GONE);
@@ -509,8 +584,13 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailLlRefund.setVisibility(View.VISIBLE);
                     acMyOrderDetailLlRefundNum.setVisibility(View.VISIBLE);
                     acMyOrderDetailTvOption.setVisibility(View.GONE);
+                    acMyOrderDetailLlRefundHint.setVisibility(View.VISIBLE);
                     acMyOrderDetailTvStatus.setText("已提交退款申请，等待卖家处理");
-                    acMyOrderDetailTvHint.setText("剩余2天4时自动确认");
+                    //acMyOrderDetailTvHint.setText("剩余2天4时自动确认");
+                    if (refund_time >= 0) {
+                        setTime(acMyOrderDetailTvHint2, refund_time);
+                    }
+                    acMyOrderDetailTvHint3.setText("自动退款");
                     atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
@@ -520,6 +600,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvCall.setVisibility(View.VISIBLE);//拨打电话
                     acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    Log.e("测试", "getMyStoreOrderDetail: "+order_state);
                     break;
             }
         }
@@ -529,7 +610,8 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
     @OnClick({R.id.ac_myOrderDetail_tv_cancel, R.id.ac_myOrderDetail_tv_pay, R.id.ac_myOrderDetail_tv_applyRefund,
             R.id.ac_myOrderDetail_tv_wuliu, R.id.ac_myOrderDetail_tv_delay, R.id.ac_myOrderDetail_tv_confirm,
             R.id.ac_myOrderDetail_tv_delete, R.id.ac_myOrderDetail_tv_comment, R.id.ac_myOrderDetail_tv_chat,
-            R.id.ac_myOrderDetail_tv_call, R.id.ac_myOrderDetail_ll,R.id.ac_myOrderDetail_iv_pwMsg})
+            R.id.ac_myOrderDetail_tv_call, R.id.ac_myOrderDetail_ll, R.id.ac_myOrderDetail_iv_pwMsg,
+            /*R.id.ac_myOrderRefund_tv_again, R.id.ac_myOrderRefund_tv_chat1*/})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ac_myOrderDetail_tv_cancel:
@@ -546,10 +628,10 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                 }));
                 break;
             case R.id.ac_myOrderDetail_tv_pay:
-                if(type.equals("buss")){
-                    if(order_state.equals("2")){
+                if (type.equals("buss")) {
+                    if (order_state.equals("2")) {
                         showPublishPopwindow(order_id);
-                    }else if(order_state.equals("6")){
+                    } else if (order_state.equals("6")) {
                         SetSubscribe.refund2(user_id, token, order_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                             @Override
                             public void onSuccess(String result) {
@@ -564,7 +646,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                             }
                         }));
                     }
-                }else{
+                } else {
                     Intent intent = new Intent(MyStoreOrderDetailActivity.this, ConfirmMyOrderActivity.class);
                     intent.putExtra("order_id", order_id);
                     startActivity(intent);
@@ -578,7 +660,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
             case R.id.ac_myOrderDetail_tv_wuliu:
                 Intent intent1 = new Intent(MyStoreOrderDetailActivity.this, KuaiDiDetailActivity.class);
                 intent1.putExtra("order_id", order_id);
-                intent1.putExtra("type","store");
+                intent1.putExtra("type", "store");
                 startActivity(intent1);
                 break;
             case R.id.ac_myOrderDetail_tv_delay:
@@ -614,7 +696,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
             case R.id.ac_myOrderDetail_tv_comment:
                 Intent intent2 = new Intent(MyStoreOrderDetailActivity.this, CommentActivity.class);
                 intent2.putExtra("order_id", order_id);
-                intent2.putExtra("order_type",order_type);
+                intent2.putExtra("order_type", order_type);
                 startActivity(intent2);
                 break;
             case R.id.ac_myOrderDetail_tv_chat:
@@ -628,7 +710,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                 BaseApp.getApp().startActivity(intent);
                 break;
             case R.id.ac_myOrderDetail_tv_call:
-                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+mobile)));
+                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mobile)));
                 break;
             case R.id.ac_myOrderDetail_ll:
                 Intent intentll = new Intent(MyStoreOrderDetailActivity.this, ApplyRefundActivity.class);
@@ -638,6 +720,14 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
             case R.id.ac_myOrderDetail_iv_pwMsg:
                 showPublishPopwindow(str, R.dimen.dp_195);
                 break;
+            /*case R.id.ac_myOrderRefund_tv_again:
+                Intent intent4 = new Intent(MyStoreOrderDetailActivity.this, ApplyRefundActivity.class);
+                intent4.putExtra("order_id", order_id);
+                startActivity(intent4);
+                break;
+            case R.id.ac_myOrderRefund_tv_chat1:
+                openActivity(ServicesListActivity.class);
+                break;*/
         }
     }
 
@@ -870,6 +960,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
             }
         }));
     }
+
     private void setKuaiDiList(String result) {
         KuaiDiResponseBean bean = GsonUtils.fromJson(result, KuaiDiResponseBean.class);
         ArrayList<KuaiDiResponseBean.DataBean> data = bean.getData();
@@ -990,21 +1081,21 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
         // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
         window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
 
-        final EditText etReason=contentView.findViewById(R.id.pw_storeGoodsBill_et_reason);
-        TextView confirm=contentView.findViewById(R.id.pw_storeGoodsBill_tv_refuse);
+        final EditText etReason = contentView.findViewById(R.id.pw_storeGoodsBill_et_reason);
+        TextView confirm = contentView.findViewById(R.id.pw_storeGoodsBill_tv_refuse);
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                StoreOrderRefuseRefundBean bean=new StoreOrderRefuseRefundBean();
+                StoreOrderRefuseRefundBean bean = new StoreOrderRefuseRefundBean();
                 bean.setUser_id(user_id);
                 bean.setToken(token);
                 bean.setOrder_id(order_id);
                 bean.setJujue_yuanyin(etReason.getText().toString().trim());
-                SetSubscribe.storeOrderRefuseRefund(bean,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                SetSubscribe.storeOrderRefuseRefund(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.e("测试", "onSuccess: "+result);
+                        Log.e("测试", "onSuccess: " + result);
                         showToast("拒绝退款成功");
                         backgroundAlpha(1f);
                         window.dismiss();
@@ -1033,4 +1124,16 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
             }
         });
     }
+
+    public void setTime(TimeTextView ttv, long time) {
+        long second = time % 60;//计算秒
+        long min = time / 60 % 60;
+        long hour = time / 3600 % 24;
+        long day = time / 3600 / 24;
+        ttv.setTimes(new long[]{hour, min, second, day});
+        if (!ttv.isRun()) {
+            ttv.run();
+        }
+    }
+
 }

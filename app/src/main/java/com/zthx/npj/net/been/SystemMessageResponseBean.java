@@ -3,53 +3,7 @@ package com.zthx.npj.net.been;
 import java.util.ArrayList;
 
 public class SystemMessageResponseBean extends BaseReponseBean{
-    public class DataBean{
-        private String msgImg;
-        private String msgTitle;
-        private long msgTime;
-        private String msgContent;
-        private String msgFrom;
 
-        public String getMsgImg() {
-            return msgImg;
-        }
-
-        public void setMsgImg(String msgImg) {
-            this.msgImg = msgImg;
-        }
-
-        public String getMsgTitle() {
-            return msgTitle;
-        }
-
-        public void setMsgTitle(String msgTitle) {
-            this.msgTitle = msgTitle;
-        }
-
-        public long getMsgTime() {
-            return msgTime;
-        }
-
-        public void setMsgTime(long msgTime) {
-            this.msgTime = msgTime;
-        }
-
-        public String getMsgContent() {
-            return msgContent;
-        }
-
-        public void setMsgContent(String msgContent) {
-            this.msgContent = msgContent;
-        }
-
-        public String getMsgFrom() {
-            return msgFrom;
-        }
-
-        public void setMsgFrom(String msgFrom) {
-            this.msgFrom = msgFrom;
-        }
-    }
     private ArrayList<DataBean> data;
 
     public ArrayList<DataBean> getData() {
@@ -58,5 +12,80 @@ public class SystemMessageResponseBean extends BaseReponseBean{
 
     public void setData(ArrayList<DataBean> data) {
         this.data = data;
+    }
+
+    public class DataBean{
+        private long create_time;
+        private String description;
+        private long id;
+        private String img;
+        private String source;
+        private String title;
+        private long type;
+        private long user_id;
+
+        public long getCreate_time() {
+            return create_time;
+        }
+
+        public void setCreate_time(long create_time) {
+            this.create_time = create_time;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public String getImg() {
+            return img;
+        }
+
+        public void setImg(String img) {
+            this.img = img;
+        }
+
+        public String getSource() {
+            return source;
+        }
+
+        public void setSource(String source) {
+            this.source = source;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public long getType() {
+            return type;
+        }
+
+        public void setType(long type) {
+            this.type = type;
+        }
+
+        public long getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(long user_id) {
+            this.user_id = user_id;
+        }
     }
 }
