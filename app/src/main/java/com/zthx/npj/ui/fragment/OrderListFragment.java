@@ -33,6 +33,7 @@ import com.zthx.npj.net.been.OrderResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.AddToCommentActivity;
 import com.zthx.npj.ui.ApplyRefundActivity;
 import com.zthx.npj.ui.ClassfiysActivity;
 import com.zthx.npj.ui.CommentActivity;
@@ -281,7 +282,8 @@ public class OrderListFragment extends Fragment {
 
             @Override
             public void onComment2Click(int position) {
-
+                Intent intent=new Intent(getContext(),AddToCommentActivity.class);
+                startActivity(intent);
             }
         });
         fgOrderList.setItemAnimator(new DefaultItemAnimator());

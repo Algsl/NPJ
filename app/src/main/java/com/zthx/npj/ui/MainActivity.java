@@ -40,7 +40,10 @@ import android.widget.Toast;
 
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMUserProfile;
+import com.tencent.imsdk.TIMValueCallBack;
 import com.zthx.npj.R;
 import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.base.BaseConstant;
@@ -197,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getShoppingCartSize();
-
         if(!SharePerferenceUtils.getLat(this).equals("")){
             BaseApp.getApp().locationService.unregisterListener(BaseApp.getListener());
             BaseApp.getApp().locationService.stop();

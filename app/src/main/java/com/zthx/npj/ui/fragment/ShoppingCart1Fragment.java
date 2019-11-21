@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.mobileim.appmonitor.tiptool.DensityUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -40,14 +38,11 @@ import com.zthx.npj.net.netutils.NetUtil;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.tencent.activity.MessageCenterActivity;
+import com.zthx.npj.tencent.util.TencentUtil;
 import com.zthx.npj.ui.GoodsDetailActivity;
-import com.zthx.npj.ui.OrderFinishActivity;
 import com.zthx.npj.ui.ShopingCartConfirmActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,13 +79,15 @@ public class ShoppingCart1Fragment extends Fragment {
     RelativeLayout rlNoContant;
     Unbinder unbinder;
     @BindView(R.id.fg_shopping_iv_message)
-    ImageView fgShoppingIvMessage;
+    RelativeLayout fgShoppingIvMessage;
     @BindView(R.id.fg_mine_rv_like)
     RecyclerView fgMineRvLike;
     @BindView(R.id.seeMore)
     TextView seeMore;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.tv_unReadMsg)
+    TextView tvUnReadMsg;
 
     private int page = 1;
     private AlsoLikeAdatper adatper;
@@ -143,7 +140,14 @@ public class ShoppingCart1Fragment extends Fragment {
                 refreshlayout.finishLoadmore();
             }
         });
-
+        if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
+            if(!TencentUtil.getUnReadNum().equals("0")){
+                tvUnReadMsg.setVisibility(View.VISIBLE);
+                tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+            }else{
+                tvUnReadMsg.setVisibility(View.GONE);
+            }
+        }
         return view;
     }
 
@@ -232,6 +236,19 @@ public class ShoppingCart1Fragment extends Fragment {
         datas = shoppingCarDataBean.getDatas();*/
 
 
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
+            if(!TencentUtil.getUnReadNum().equals("0")){
+                tvUnReadMsg.setVisibility(View.VISIBLE);
+                tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+            }else{
+                tvUnReadMsg.setVisibility(View.GONE);
+            }
+        }
     }
 
     /**
@@ -328,7 +345,7 @@ public class ShoppingCart1Fragment extends Fragment {
             //刷新数据时，保持当前位置
             shoppingCarAdapter.setData(datas);
 
-            setExpandListViewHeight(elvShoppingCar,shoppingCarAdapter);
+            setExpandListViewHeight(elvShoppingCar, shoppingCarAdapter);
 
             //使所有组展开
             for (int i = 0; i < shoppingCarAdapter.getGroupCount(); i++) {
@@ -450,7 +467,7 @@ public class ShoppingCart1Fragment extends Fragment {
         }));
     }
 
-    public static void setExpandListViewHeight(ExpandableListView listView,ExpandableListAdapter listAdapter) {
+    public static void setExpandListViewHeight(ExpandableListView listView, ExpandableListAdapter listAdapter) {
         if (listAdapter == null) {
             return;
         }

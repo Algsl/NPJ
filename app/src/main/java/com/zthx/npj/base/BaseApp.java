@@ -8,6 +8,8 @@ import android.support.multidex.MultiDex;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.SDKInitializer;
+import com.tencent.imsdk.TIMConversation;
+import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMSdkConfig;
 import com.tencent.qcloud.tim.uikit.TUIKit;
 import com.tencent.qcloud.tim.uikit.config.CustomFaceConfig;
@@ -17,6 +19,7 @@ import com.zthx.npj.baidumap.LocationService;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -91,4 +94,6 @@ public class BaseApp extends Application {
     public static void delActivity(Activity activity) {
         allActivities.remove(activity);
     }
+
+
 }

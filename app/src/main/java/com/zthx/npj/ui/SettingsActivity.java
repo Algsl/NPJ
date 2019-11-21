@@ -45,6 +45,7 @@ import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.tencent.util.TencentUtil;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.CommonDialog;
@@ -447,6 +448,7 @@ public class SettingsActivity extends ActivityBase {
 
     @OnClick(R.id.ac_setting_btn_loginOut)
     public void onViewClicked() {
+        TencentUtil.loginOut();
         SharePerferenceUtils.setUserId(this, "");
         openActivity(SplashActivity.class);
     }
@@ -700,15 +702,8 @@ public class SettingsActivity extends ActivityBase {
 
     public String compress(String path){
         File file=new File(path);
-        Bitmap compressBitmap;
-        if(file.length()>=600*1024){//从相册中选择照片，600k以上的用2压缩
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = false;
-            options.inSampleSize = 2;
-            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
-        }else{
-            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
-        }
+        Bitmap compressBitmap=BitmapFactory.decodeFile(file.getAbsolutePath());
+        compressBitmap=centerSquareScaleBitmap(compressBitmap,200);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         compressBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
 
@@ -718,9 +713,9 @@ public class SettingsActivity extends ActivityBase {
             compressBitmap.compress(Bitmap.CompressFormat.JPEG, options1, bos);// 这里压缩options%，把压缩后的数据存放到baos中
             options1 -= 10;// 每次都减少10
         }
+
         ByteArrayInputStream isBm = new ByteArrayInputStream(bos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
         compressBitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
-
         String bmString="";
         try {
             File bmFile=new File(getExternalCacheDir(), System.currentTimeMillis()+".jpg");
@@ -735,5 +730,48 @@ public class SettingsActivity extends ActivityBase {
             e.printStackTrace();
         }
         return bmString;
+    }
+
+
+
+    public Bitmap centerSquareScaleBitmap(Bitmap bitmap, int edgeLength)
+    {
+        if(null == bitmap || edgeLength <= 0)
+        {
+            return  null;
+        }
+
+        Bitmap result = bitmap;
+        int widthOrg = bitmap.getWidth();
+        int heightOrg = bitmap.getHeight();
+
+        if(widthOrg > edgeLength && heightOrg > edgeLength)
+        {
+            //压缩到一个最小长度是edgeLength的bitmap
+            int longerEdge = (int)(edgeLength * Math.max(widthOrg, heightOrg) / Math.min(widthOrg, heightOrg));
+            int scaledWidth = widthOrg > heightOrg ? longerEdge : edgeLength;
+            int scaledHeight = widthOrg > heightOrg ? edgeLength : longerEdge;
+            Bitmap scaledBitmap;
+
+            try{
+                scaledBitmap = Bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true);
+            }
+            catch(Exception e){
+                return null;
+            }
+
+            //从图中截取正中间的正方形部分。
+            int xTopLeft = (scaledWidth - edgeLength) / 2;
+            int yTopLeft = (scaledHeight - edgeLength) / 2;
+
+            try{
+                result = Bitmap.createBitmap(scaledBitmap, xTopLeft, yTopLeft, edgeLength, edgeLength);
+                scaledBitmap.recycle();
+            }
+            catch(Exception e){
+                return null;
+            }
+        }
+        return result;
     }
 }

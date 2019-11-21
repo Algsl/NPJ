@@ -135,6 +135,9 @@ public class StoreOrderRefuseActivity extends ActivityBase {
     private AlsoLikeAdatper adatper;
     private MyOrderDetailResponseBean.DataBean data;
 
+
+    private String order_type;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,6 +177,8 @@ public class StoreOrderRefuseActivity extends ActivityBase {
         });
 
     }
+
+
 
 
     private void getMyStoreOrderDetail() {
@@ -237,6 +242,7 @@ public class StoreOrderRefuseActivity extends ActivityBase {
     private void setMyOrderDetail(String result) {
         MyOrderDetailResponseBean bean = GsonUtils.fromJson(result, MyOrderDetailResponseBean.class);
         data = bean.getData();
+        order_type=data.getOrder_type()+"";
         acMyOrderRefundTvUserName.setText(data.getConsignee());
         acMyOrderRefundTvCellPhone.setText(data.getMobile());
         acMyOrderRefundTvAddress.setText(data.getAddress());
@@ -246,6 +252,30 @@ public class StoreOrderRefuseActivity extends ActivityBase {
         acMyOrderRefundTvCharge.setText("￥" + data.getOrder_price());
 
         Glide.with(this).load(Uri.parse(data.getGoods_img())).into(atMyOrderRefundIvGoodsImg);
+
+        atMyOrderRefundIvGoodsImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StoreOrderRefuseActivity.this, GoodsDetailActivity.class);
+                if (order_type.equals("4")) {
+                    intent.setAction("miaosha");
+                    intent.putExtra(Const.SECKILL_STATUS, 2);
+                } else if (order_type.equals("3")) {
+                    intent.setAction(Const.PRESELL);
+                    intent.putExtra("pre_type", "0");
+                }
+                intent.putExtra(Const.GOODS_ID, data.getGoods_id() + "");
+                startActivity(intent);
+            }
+        });
+        atMyOrderRefundTvStoreName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openActivity(StoreActivity.class, data.getStore_id() + "");
+            }
+        });
+
+
         atMyOrderRefundTvGoodsName.setText(data.getGoods_name());
         atMyOrderRefundTvGoodsPrice.setText("￥ " + data.getGoods_price());
         atMyOrderRefundTvGoodsNum.setText("x " + data.getGoods_num());

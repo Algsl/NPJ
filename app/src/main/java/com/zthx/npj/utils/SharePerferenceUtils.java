@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.tencent.imsdk.TIMCallBack;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.entity.NotificationBean;
 import com.zthx.npj.utils.marquee.LooperBean;

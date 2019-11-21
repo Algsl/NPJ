@@ -44,7 +44,7 @@ import com.zthx.npj.net.netutils.NetUtil;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.tencent.activity.MessageCenterActivity;
-import com.zthx.npj.tencent.util.HttpUtil;
+import com.zthx.npj.tencent.util.TencentUtil;
 import com.zthx.npj.ui.BannerActivity;
 import com.zthx.npj.ui.ClassfiysActivity;
 import com.zthx.npj.ui.GameActivity;
@@ -55,7 +55,6 @@ import com.zthx.npj.ui.MembershipPackageActivity;
 import com.zthx.npj.ui.PayToStoreActivity;
 import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.ui.SecKillActivity;
-import com.zthx.npj.ui.TestActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.utils.marquee.AppBus;
@@ -64,13 +63,6 @@ import com.zthx.npj.utils.marquee.LooperImageView;
 import com.zthx.npj.utils.marquee.LooperTextView;
 import com.zthx.npj.view.GlideImageLoader;
 
-import org.egret.egretnativeandroid.EgretNativeAndroid;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,9 +70,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -98,7 +87,7 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.fg_home_et_search)
     EditText fgHomeEtSearch;
     @BindView(R.id.fg_home_iv_message)
-    ImageView fgHomeIvMessage;
+    RelativeLayout fgHomeIvMessage;
     @BindView(R.id.fg_home_ll_secKill)
     LinearLayout fgHomeLlSecKill;
     @BindView(R.id.fg_home_ll_presell)
@@ -130,6 +119,8 @@ public class HomeFragment extends BaseFragment {
     LooperImageView fgHomeMcvHeadImg;
     @BindView(R.id.fg_home_tv_title)
     LooperTextView fgHomeTvTitle;
+    @BindView(R.id.tv_unReadMsg)
+    TextView tvUnReadMsg;
 
 
     private Unbinder unbinder;
@@ -141,11 +132,10 @@ public class HomeFragment extends BaseFragment {
     private HomeGoodsAdapter mAdapter;
     private List<LooperBean> looperBeenList;
     private int position;
-    private ArrayList<LooperBean> looperBeans=new ArrayList<>();
+    private ArrayList<LooperBean> looperBeans = new ArrayList<>();
 
 
-
-
+    private static final String TAG = "测试";
 
 
     public HomeFragment() {
@@ -210,9 +200,28 @@ public class HomeFragment extends BaseFragment {
                 refreshlayout.finishLoadmore();
             }
         });
-
-
+        if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
+            if(!TencentUtil.getUnReadNum().equals("0")){
+                tvUnReadMsg.setVisibility(View.VISIBLE);
+                tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+            }else{
+                tvUnReadMsg.setVisibility(View.GONE);
+            }
+        }
         return view;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
+            if(!TencentUtil.getUnReadNum().equals("0")){
+                tvUnReadMsg.setVisibility(View.VISIBLE);
+                tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+            }else{
+                tvUnReadMsg.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void getBanner() {
@@ -236,7 +245,6 @@ public class HomeFragment extends BaseFragment {
             }
         }));
     }
-
 
 
     @Override
@@ -284,15 +292,19 @@ public class HomeFragment extends BaseFragment {
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                Intent intent;
-                if(position==2){
+                Intent intent = null;
+                if (bean.getData().get(position).getId() == 15) {
                     intent = new Intent(getContext(), GoodsDetailActivity.class);
                     intent.setAction("goods");
-                    intent.putExtra("goods_id",  "302");
-                }else{
+                    intent.putExtra("goods_id", "302");
+                } else if (bean.getData().get(position).getId() == 20) {
                     intent = new Intent(getContext(), BannerActivity.class);
                     intent.putExtra("title", bean.getData().get(position).getTitle());
-                    intent.putExtra("id", position+"");
+                    intent.putExtra("id", "1");
+                } else if (bean.getData().get(position).getId() == 24) {
+                    intent = new Intent(getContext(), BannerActivity.class);
+                    intent.putExtra("title", bean.getData().get(position).getTitle());
+                    intent.putExtra("id", "2");
                 }
                 startActivity(intent);
             }
@@ -321,9 +333,9 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.fg_home_iv_message:
-                if(SharePerferenceUtils.getUserId(getContext()).equals("")){
-                    Toast.makeText(getContext(),"请先完成登录",Toast.LENGTH_SHORT).show();
-                }else{
+                if (SharePerferenceUtils.getUserId(getContext()).equals("")) {
+                    Toast.makeText(getContext(), "请先完成登录", Toast.LENGTH_SHORT).show();
+                } else {
                     intent = new Intent(getActivity(), MessageCenterActivity.class);
                     startActivity(intent);
                 }
@@ -345,11 +357,11 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.fg_home_rl_go_game:
-                /*if(SharePerferenceUtils.getUserId(getContext()).equals("")){
-                    Toast.makeText(getContext(),"请先完成登录",Toast.LENGTH_SHORT).show();
-                }else{
+                if (SharePerferenceUtils.getUserId(getContext()).equals("")) {
+                    Toast.makeText(getContext(), "请先完成登录", Toast.LENGTH_SHORT).show();
+                } else {
                     startActivity(new Intent(getContext(), GameActivity.class));
-                }*/
+                }
                 break;
             case R.id.fg_home_ll_recommend:
                 toggle();
@@ -451,10 +463,10 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onSuccess(String result) {
                 OrderPushResponseBean bean = GsonUtils.fromJson(result, OrderPushResponseBean.class);
-                for(int i=0;i<bean.getData().size();i++){
-                    looperBeans.add(new LooperBean(bean.getData().get(i).getHead_img(),bean.getData().get(i).getTitle()));
+                for (int i = 0; i < bean.getData().size(); i++) {
+                    looperBeans.add(new LooperBean(bean.getData().get(i).getHead_img(), bean.getData().get(i).getTitle()));
                 }
-                looperBeenList=looperBeans;
+                looperBeenList = looperBeans;
                 onStartBanner();
             }
 

@@ -155,7 +155,6 @@ public class PayToStoreActivity extends ActivityBase {
 
     private void setStoreDetail(String result) {
         StoreDetailResponseBean bean = GsonUtils.fromJson(result, StoreDetailResponseBean.class);
-        //Glide.with(this).load(Uri.parse(bean.getData().getStore_img().get(0))).into(atPayToStoreIvPic);
 
         Glide.with(this).load(Uri.parse(bean.getData().getStore_img().get(0))).into(atPayToStoreIvPic);
         store_img=bean.getData().getStore_img().get(0);

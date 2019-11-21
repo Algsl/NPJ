@@ -110,36 +110,49 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
                     viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
                     viewHolder.residueLlTime.setVisibility(View.GONE);
                     break;
-                case "3":viewHolder.orderState.setText("已发货");
+                case "3":
+                    /*viewHolder.orderState.setText("已发货");
+                    viewHolder.goodsSend.setVisibility(View.GONE);
+                    viewHolder.goodsdrawback.setVisibility(View.GONE);
+                    viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
+                    viewHolder.residueLlTime.setVisibility(View.GONE);
+                    break;*/
+                case "4":
+                    /*viewHolder.orderState.setText("已发货");
+                    viewHolder.goodsSend.setVisibility(View.GONE);
+                    viewHolder.goodsdrawback.setVisibility(View.GONE);
+                    viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
+                    viewHolder.residueLlTime.setVisibility(View.GONE);
+                    break;*/
+                case "5":
+                    viewHolder.orderState.setText("已发货");
+                    viewHolder.goodsSend.setVisibility(View.GONE);
+                    viewHolder.goodsdrawback.setVisibility(View.GONE);
+                    viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
+                    viewHolder.residueLlTime.setVisibility(View.VISIBLE);
 
-                    viewHolder.goodsSend.setVisibility(View.GONE);
-                    viewHolder.goodsdrawback.setVisibility(View.GONE);
-                    viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
-                    viewHolder.residueLlTime.setVisibility(View.GONE);
-                    break;
-                case "4":viewHolder.orderState.setText("已发货");
-                    viewHolder.goodsSend.setVisibility(View.GONE);
-                    viewHolder.goodsdrawback.setVisibility(View.GONE);
-                    viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
-                    viewHolder.residueLlTime.setVisibility(View.GONE);
-                    break;
-                case "5":viewHolder.orderState.setText("已发货");
-                    viewHolder.goodsSend.setVisibility(View.GONE);
-                    viewHolder.goodsdrawback.setVisibility(View.GONE);
-                    viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
-                    viewHolder.residueLlTime.setVisibility(View.GONE);
+                    viewHolder.goodsBillHint.setText("确认收货剩余时间：");
+                    long time=list.get(i).getOrder_time()+14*24*60*60-System.currentTimeMillis()/1000;
+                    if(time<=0){
+                        //mItemClickListener.onRefund(list.get(i).getId()+"");
+                        viewHolder.residueLlTime.setVisibility(View.GONE);
+                    }else{
+                        setTime(viewHolder.refundTvTime,time);
+                    }
                     break;
                 case "6":viewHolder.orderState.setText("申请退款");
                     viewHolder.goodsSend.setVisibility(View.GONE);
                     viewHolder.goodsdrawback.setVisibility(View.VISIBLE);
                     viewHolder.goodsIvState.setImageResource(R.drawable.refund);
                     viewHolder.residueLlTime.setVisibility(View.VISIBLE);
-                    long time=list.get(i).getRefund_time()+3*24*60*60-System.currentTimeMillis()/1000;
-                    if(time<=0){
+
+                    viewHolder.goodsBillHint.setText("自动退款剩余时间：");
+                    long time1=list.get(i).getRefund_time()+3*24*60*60-System.currentTimeMillis()/1000;
+                    if(time1<=0){
                         //mItemClickListener.onRefund(list.get(i).getId()+"");
                         viewHolder.residueLlTime.setVisibility(View.GONE);
                     }else{
-                        setTime(viewHolder.refundTvTime,time);
+                        setTime(viewHolder.refundTvTime,time1);
                     }
                     break;
                 case "7":viewHolder.orderState.setText("已退款");
@@ -184,8 +197,10 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
         TextView orderState;
         TextView goodsSend;
         TextView goodsdrawback;
+        TextView goodsBillHint;
         LinearLayout residueLlTime;
         TimeTextView refundTvTime;
+
         ViewHolder(View itemView) {
             super(itemView);
             goodsImg=itemView.findViewById(R.id.item_store_goods_bill_iv_pic);
@@ -201,6 +216,7 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
 
             goodsIvState=itemView.findViewById(R.id.item_storeGoodsBill_iv_state);
             refundTvTime=itemView.findViewById(R.id.item_storeGoodsBill_tv_time);
+            goodsBillHint=itemView.findViewById(R.id.item_storeGoodsBill_tv_hint);
         }
     }
 }

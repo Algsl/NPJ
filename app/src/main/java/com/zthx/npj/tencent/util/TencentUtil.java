@@ -4,12 +4,16 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMUserProfile;
 import com.tencent.qcloud.tim.uikit.utils.ToastUtil;
+import com.zthx.npj.base.BaseApp;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class TencentUtil {
 
@@ -53,11 +57,37 @@ public class TencentUtil {
             @Override
             public void onError(int i, String s) {
                 Log.e("测试", "onError: "+s );
+
             }
 
             @Override
             public void onSuccess() {
+
             }
         });
+    }
+
+    public static void loginOut(){
+        TIMManager.getInstance().logout(new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+                //登出成功
+
+            }
+        });
+    }
+
+    public static String getUnReadNum(){
+        long num=0;
+        List<TIMConversation> list = TIMManager.getInstance().getConversationList();
+        for(int i=0;i<list.size();i++){
+            num+=list.get(i).getUnreadMessageNum();
+        }
+        return num+"";
     }
 }

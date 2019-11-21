@@ -330,6 +330,15 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                 startActivity(intent);
             }
         });
+        atMyOrderDetailIvGoodsImg1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MySupplyOrderDetailActivity.this, SupplyProductsActivity.class);
+                intent.setAction(Const.SUPPLY_DETAIL);
+                intent.putExtra("goods_id", data.getGoods_id());
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -475,12 +484,25 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
                     break;
                 case "7":
+                    acMyOrderDetailTvStatus.setText("已退款");
+                    //acMyOrderDetailTvHint.setVisibility(View.GONE);//头部类型下方的文字提示
+                    acMyOrderDetailTvHint1.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint2.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint3.setVisibility(View.GONE);
+
+
                     acMyOrderDetailTvChat.setVisibility(View.GONE);//联系卖家
                     acMyOrderDetailTvCall.setVisibility(View.GONE);//拨打电话
                     acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
                     break;
                 case "8":
+                    acMyOrderDetailTvStatus.setText("已取消退款");
+                    //acMyOrderDetailTvHint.setVisibility(View.GONE);//头部类型下方的文字提示
+                    acMyOrderDetailTvHint1.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint2.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint3.setVisibility(View.GONE);
+
                     acMyOrderDetailTvChat.setVisibility(View.GONE);//联系卖家
                     acMyOrderDetailTvCall.setVisibility(View.GONE);//拨打电话
                     acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏

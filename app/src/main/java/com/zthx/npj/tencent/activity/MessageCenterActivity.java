@@ -92,17 +92,7 @@ public class MessageCenterActivity extends ActivityBase {
         initPopMenuAction();
 
         getUserMsg();
-
-        getChatNumber();
     }
-
-    private void getChatNumber() {
-        TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, "18679410717");
-        //获取会话未读数
-        long num = con.getUnreadMessageNum();
-        Log.e(TAG, "unread msg num: " + num);
-    }
-
     private void getUserMsg() {
         SetSubscribe.getUserInfo(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
@@ -110,7 +100,6 @@ public class MessageCenterActivity extends ActivityBase {
                 UserResponseBean bean = GsonUtils.fromJson(result, UserResponseBean.class);
                 SharePerferenceUtils.setUserLevel(MessageCenterActivity.this, bean.getData().getLevel() + "");
                 BaseConstant.TOKEN = SharePerferenceUtils.getToken(MessageCenterActivity.this);
-                Log.e("测试", "getUserMsg: " +bean.getData().getNick_name() + " " + bean.getData().getHead_img());
                 TencentUtil.updateProfile(bean.getData().getHead_img(),bean.getData().getNick_name(),"");
             }
 
@@ -127,7 +116,6 @@ public class MessageCenterActivity extends ActivityBase {
         conversationLayout.initDefault();
         TitleBarLayout titleBarLayout=conversationLayout.getTitleBar();
         titleBarLayout.setVisibility(View.GONE);
-
         getChatList();
     }
 
@@ -135,7 +123,6 @@ public class MessageCenterActivity extends ActivityBase {
         conversationLayout.getConversationList().setOnItemClickListener(new ConversationListLayout.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, ConversationInfo messageInfo) {
-                Log.e("测试", "onItemClick: "+messageInfo );
                 startChatActivity(messageInfo);
             }
         });
@@ -151,7 +138,6 @@ public class MessageCenterActivity extends ActivityBase {
     private void startChatActivity(ConversationInfo messageInfo) {
         ChatInfo chatInfo = new ChatInfo();
         chatInfo.setType(messageInfo.isGroup() ? TIMConversationType.Group : TIMConversationType.C2C);
-        Log.e("测试", "startChatActivity: "+messageInfo.getId()+" "+messageInfo.getTitle() );
         chatInfo.setId(messageInfo.getId());
         chatInfo.setChatName(messageInfo.getTitle());
         Intent intent = new Intent(BaseApp.getApp(), ChatActivity.class);

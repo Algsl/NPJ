@@ -228,6 +228,7 @@
         <activity android:name=".ui.ZjdyrActivity" />
         <activity android:name=".ui.SearchOrderActivity"/>
         <activity android:name=".ui.ImageLookActivity"/>
+        <activity android:name=".ui.AddToCommentActivity"/>
 
 
         <activity
@@ -271,13 +272,15 @@
             android:process=":remote" /> <!-- 广播类 -->
         <!-- 内容提供器 -->
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            tools:replace="android:authorities"
+            android:name=".base.MyFileProvider"
             android:authorities="${applicationId}.file_provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_path" />
+                android:resource="@xml/file_path"
+                tools:replace="android:resource"/>
         </provider>
 
         <receiver

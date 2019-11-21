@@ -142,6 +142,63 @@
                 android:background="@color/background"></View>
         </RelativeLayout>
         <RelativeLayout
+            android:visibility="visible"
+            android:id="@+id/pw_goodsSize_rl_buy"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="购买数量"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:textColor="@color/text3"
+                android:textSize="@dimen/sp_15"/>
+            <LinearLayout
+                android:layout_width="@dimen/dp_120"
+                android:layout_height="@dimen/dp_30"
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_12"
+                android:gravity="center_vertical|right"
+                android:layout_centerVertical="true">
+
+                <RelativeLayout
+                    android:id="@+id/at_supply_bill_rl_jian"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:background="@drawable/half_left_conner">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/shooping_jian"/>
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/at_supply_bill_tv_buy_num"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:background="@drawable/shopping_num_bg"
+                    android:text="1"
+                    android:textSize="@dimen/sp_15"
+                    android:textColor="@color/text3"/>
+
+                <RelativeLayout
+                    android:id="@+id/at_supply_bill_rl_add"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:background="@drawable/half_right_conner">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/shopping_jia"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+        <!--<RelativeLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40">
             <TextView
@@ -153,9 +210,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_12"/>
 
+
             <EditText
                 android:focusable="true"
-                android:id="@+id/at_supply_bill_tv_buy_num"
                 android:inputType="number"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -165,7 +222,7 @@
                 android:textColor="@color/text9"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"/>
-        </RelativeLayout>
+        </RelativeLayout>-->
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
@@ -339,8 +396,8 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp_12">
+            android:gravity="center_vertical|right"
+            android:layout_marginRight="@dimen/dp_12">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -351,7 +408,8 @@
                 android:id="@+id/at_supply_bill_tv_zongjia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/sp_14"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold"
                 android:textColor="@color/app_theme"/>
         </LinearLayout>
         <Button
@@ -375,7 +433,8 @@
             android:id="@+id/at_supply_bill_tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_13"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
             android:textColor="@color/app_theme"
             android:layout_alignParentRight="true"/>
 

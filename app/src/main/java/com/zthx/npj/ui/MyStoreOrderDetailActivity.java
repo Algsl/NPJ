@@ -473,7 +473,7 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     break;
                 case "6":
                     acMyOrderDetailLlPaySend.setVisibility(View.GONE);
-                    acMyOrderDetailLlRefund.setVisibility(View.GONE);
+                    acMyOrderDetailLlRefund.setVisibility(View.VISIBLE);
                     acMyOrderDetailLlRefundNum.setVisibility(View.VISIBLE);
                     acMyOrderDetailLlRefundHint.setVisibility(View.GONE);
                     acMyOrderDetailTvStatus.setText("已提交退款申请，等待处理");
@@ -495,10 +495,22 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
                     break;
                 case "7":
+                    acMyOrderDetailTvStatus.setText("已退款");
+                    //acMyOrderDetailTvHint.setVisibility(View.GONE);//头部类型下方的文字提示
+                    acMyOrderDetailTvHint1.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint2.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint3.setVisibility(View.GONE);
+
                     acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
                     break;
                 case "8":
+                    acMyOrderDetailTvStatus.setText("取消退款");
+                    //acMyOrderDetailTvHint.setVisibility(View.GONE);//头部类型下方的文字提示
+                    acMyOrderDetailTvHint1.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint2.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint3.setVisibility(View.GONE);
+
                     acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
                     break;

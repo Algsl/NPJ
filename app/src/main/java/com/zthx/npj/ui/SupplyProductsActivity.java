@@ -317,10 +317,6 @@ public class SupplyProductsActivity extends ActivityBase {
                     atSupplyProductsTvXinyufen.setText("信誉分： " + supplyData.getReputation());
                 }
                 sn_user_id = supplyData.getUser_id();
-                /*if (!supplyData.getHead_img().equals("")) {
-                    Glide.with(SupplyProductsActivity.this).load(supplyData.getHead_img()).into(atSupplyProductsIvHeadPic);
-                    atSupplyProductsTvName.setText(supplyData.getNick_name());
-                }*/
                 if (!supplyData.getHead_img().equals("")) {
                     Glide.with(SupplyProductsActivity.this).load(supplyData.getHead_img()).into(atSupplyProductsIvHeadPic);
                 }
@@ -452,7 +448,7 @@ public class SupplyProductsActivity extends ActivityBase {
     }
 
     private void getComment() {
-        MainSubscribe.getStoreComment(goodsId, "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.getStoreComment(goodsId, "7", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 CommentResponseBean bean = GsonUtils.fromJson(result, CommentResponseBean.class);

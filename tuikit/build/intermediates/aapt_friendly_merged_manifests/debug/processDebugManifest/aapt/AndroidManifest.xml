@@ -40,19 +40,17 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 
-        <!--
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.uikit.fileprovider"
+            android:authorities="dollar_openBracket_applicationId_closeBracket.uikit.fileprovider"
             android:exported="false"
-            tools:replace="android:authorities"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities" >
             <meta-data
-                tools:replace="android:resource"
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths_public"/>
+                android:resource="@xml/file_paths_public"
+                tools:replace="android:resource" />
         </provider>
-        -->
     </application>
 
 </manifest>

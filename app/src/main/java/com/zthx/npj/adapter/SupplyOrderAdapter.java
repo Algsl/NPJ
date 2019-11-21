@@ -103,26 +103,34 @@ public class SupplyOrderAdapter extends RecyclerView.Adapter<SupplyOrderAdapter.
                     viewHolder.residueLlTime.setVisibility(View.GONE);
                     break;
                 case "3"://待收货
-                    viewHolder.goodsState.setText("已发货");
+                    /*viewHolder.goodsState.setText("已发货");
 
                     viewHolder.sendGoods.setVisibility(View.GONE);
                     viewHolder.refund.setVisibility(View.GONE);
                     viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
                     viewHolder.residueLlTime.setVisibility(View.GONE);
-                    break;
+                    break;*/
                 case "4"://待评价
-                    viewHolder.goodsState.setText("已发货");
+                    /*viewHolder.goodsState.setText("已发货");
                     viewHolder.sendGoods.setVisibility(View.GONE);
                     viewHolder.refund.setVisibility(View.GONE);
                     viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
                     viewHolder.residueLlTime.setVisibility(View.GONE);
-                    break;
+                    break;*/
                 case "5"://已完成
                     viewHolder.goodsState.setText("已发货");
                     viewHolder.sendGoods.setVisibility(View.GONE);
                     viewHolder.refund.setVisibility(View.GONE);
                     viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
-                    viewHolder.residueLlTime.setVisibility(View.GONE);
+
+                    viewHolder.residueLlTime.setVisibility(View.VISIBLE);
+                    long time=mList.get(i).getUpdate_time()+3*24*60*60-System.currentTimeMillis()/1000;
+                    if(time<=0){
+                        //mItemClickListener.onRefund(list.get(i).getId()+"");
+                        viewHolder.residueLlTime.setVisibility(View.GONE);
+                    }else{
+                        setTime(viewHolder.refund_time,time);
+                    }
                     break;
                 case "6"://申请退款
                     viewHolder.goodsState.setText("申请退款");
@@ -131,12 +139,13 @@ public class SupplyOrderAdapter extends RecyclerView.Adapter<SupplyOrderAdapter.
                     viewHolder.refund.setVisibility(View.VISIBLE);
                     viewHolder.goodsIvState.setImageResource(R.drawable.refund);
                     viewHolder.residueLlTime.setVisibility(View.VISIBLE);
-                    long time=mList.get(i).getUpdate_time()+3*24*60*60-System.currentTimeMillis()/1000;
-                    if(time<=0){
+
+                    long time1=mList.get(i).getUpdate_time()+3*24*60*60-System.currentTimeMillis()/1000;
+                    if(time1<=0){
                         //mItemClickListener.onRefund(list.get(i).getId()+"");
                         viewHolder.residueLlTime.setVisibility(View.GONE);
                     }else{
-                        setTime(viewHolder.refund_time,time);
+                        setTime(viewHolder.refund_time,time1);
                     }
                     break;
                 case "7"://已退款
@@ -165,7 +174,7 @@ public class SupplyOrderAdapter extends RecyclerView.Adapter<SupplyOrderAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView goodsImg,goodsIvState,ivVideo;
-        TextView goodsName,goodsPrice,goodsNum,goodsOrder,goodsTime,goodsState,sendGoods,refund,residueTvTime;
+        TextView goodsName,goodsPrice,goodsNum,goodsOrder,goodsTime,goodsState,sendGoods,refund,residueTvTime,supplyOrderHint;
         LinearLayout residueLlTime;
         TimeTextView refund_time;
         public ViewHolder(@NonNull View itemView) {
@@ -186,6 +195,7 @@ public class SupplyOrderAdapter extends RecyclerView.Adapter<SupplyOrderAdapter.
             ivVideo=itemView.findViewById(R.id.item_storeQuotation_iv_video);
 
             refund_time=itemView.findViewById(R.id.item_storeGoodsBill_tv_time);
+            supplyOrderHint=itemView.findViewById(R.id.item_storeGoodsBill_tv_hint);
         }
     }
 

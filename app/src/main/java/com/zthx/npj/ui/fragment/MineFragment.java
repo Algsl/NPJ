@@ -40,19 +40,18 @@ import com.zthx.npj.net.netutils.NetUtil;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.tencent.activity.MessageCenterActivity;
+import com.zthx.npj.tencent.util.TencentUtil;
 import com.zthx.npj.ui.EditMyOfflineStoreActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.HelpActivity;
 import com.zthx.npj.ui.InputInvitationCodeActivity;
 import com.zthx.npj.ui.LoginActivity;
 import com.zthx.npj.ui.MembershipPackageActivity;
-
 import com.zthx.npj.ui.MyAttestationActivity;
 import com.zthx.npj.ui.MyCollectActivity;
 import com.zthx.npj.ui.MyCouponActivity;
 import com.zthx.npj.ui.MyOrderActivity;
 import com.zthx.npj.ui.MyStoreActivity;
-import com.zthx.npj.ui.MyStoreOrderDetailActivity;
 import com.zthx.npj.ui.MySupplyActivity;
 import com.zthx.npj.ui.MyTeamActivity;
 import com.zthx.npj.ui.MyWalletActivity;
@@ -94,7 +93,7 @@ public class MineFragment
     @BindView(R.id.fg_mine_iv_settings)
     ImageView fgMineIvSettings;
     @BindView(R.id.fg_mine_iv_message)
-    ImageView fgMineIvMessage;
+    RelativeLayout fgMineIvMessage;
     @BindView(R.id.fg_mine_iv_people_right)
     ImageView fgMineIvPeopleRight;
     @BindView(R.id.fg_mine_ll_collect)
@@ -170,6 +169,8 @@ public class MineFragment
     TextView titleThemeTvRight;
     @BindView(R.id.seeMore)
     TextView seeMore;
+    @BindView(R.id.tv_unReadMsg)
+    TextView tvUnReadMsg;
 
     //private String level=SharePerferenceUtils.getLevel(getContext());
     private String user_id = SharePerferenceUtils.getUserId(getContext());
@@ -200,7 +201,6 @@ public class MineFragment
     }
 
 
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -212,6 +212,14 @@ public class MineFragment
             } else {
                 getUserInfo();
                 getOrderSize();
+            }
+            if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
+                if(!TencentUtil.getUnReadNum().equals("0")){
+                    tvUnReadMsg.setVisibility(View.VISIBLE);
+                    tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                }else{
+                    tvUnReadMsg.setVisibility(View.GONE);
+                }
             }
         }
     }
@@ -276,7 +284,14 @@ public class MineFragment
                 }
             });
         }
-
+        if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
+            if(!TencentUtil.getUnReadNum().equals("0")){
+                tvUnReadMsg.setVisibility(View.VISIBLE);
+                tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+            }else{
+                tvUnReadMsg.setVisibility(View.GONE);
+            }
+        }
         getUserInfo();
         getAlsoLike();
         getOrderSize();
@@ -379,7 +394,7 @@ public class MineFragment
 
 
     private void getAlsoLike() {
-        MainSubscribe.alsoLike(page+"", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        MainSubscribe.alsoLike(page + "", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 AlsoLikeResponseBean bean = GsonUtils.fromJson(result, AlsoLikeResponseBean.class);
@@ -444,12 +459,12 @@ public class MineFragment
         fgMineTvTel.setText(data.getMobile());
         SharePerferenceUtils.setUserMobile(getContext(), data.getMobile());
         fgMineTvWord.setText(data.getSignature() == null ? "这个人很懒，什么也没有留下" : data.getSignature());
-        fgMineTvGourdCoin.setText(data.getGourd_coin()+"");
-        fgMineTvCouponNum.setText(data.getCoupon_num()+"");
-        fgMineTvCollectionNum.setText(data.getShoucang_num()+"");
+        fgMineTvGourdCoin.setText(data.getGourd_coin() + "");
+        fgMineTvCouponNum.setText(data.getCoupon_num() + "");
+        fgMineTvCollectionNum.setText(data.getShoucang_num() + "");
         balance = data.getBalance();
         SharePerferenceUtils.setBalance(getContext(), balance);
-        if(!data.getHead_img().equals("")){
+        if (!data.getHead_img().equals("")) {
             Glide.with(getContext()).load(Uri.parse(data.getHead_img())).into(fgMineIvHeadPic);
         }
 
@@ -459,7 +474,7 @@ public class MineFragment
         SharePerferenceUtils.putString(getContext(), "level", String.valueOf(data.getLevel()));
 
         //MyCustomUtils.showLevelImg(data.getLevel(), fgMineIvLevelimg);
-        MyCustomUtils.showLevelImg(data.getCity_level(),data.getBoss_level(),data.getTeam_level(),data.getLevel(),fgMineIvLevelimg);
+        MyCustomUtils.showLevelImg(data.getCity_level(), data.getBoss_level(), data.getTeam_level(), data.getLevel(), fgMineIvLevelimg);
     }
 
 

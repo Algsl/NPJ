@@ -277,17 +277,6 @@ public class UserMsgActivity extends ActivityBase{
                 acUserMsgTvZizhi.setVisibility(View.VISIBLE);
             }
         }
-
-        /*Glide.with(this).load(Uri.parse(data.getHead_img())).into(acUserMsgMcvHeadImg1);
-        acUserMsgTvNickName1.setText(data.getNick_name());
-        acUserMsgTvSignature1.setText(data.getSignature() == null ? "这个人很懒，什么也没留下" : data.getSignature());
-        MyCustomUtils.showLevelImg((int) data.getLevel(), acUserMsgTvLevel1);
-        acUserMsgTvHits1.setText(data.getHits() == null ? "0" : data.getHits());
-        acUserMsgTvAttNum1.setText(data.getAtt_num() == null ? "0" : data.getAtt_num());
-        acUserMsgTvHistoryMoney1.setText(data.getHistory_money());
-        acUserMsgTvReputation1.setText(data.getReputation() == null ? "0" : data.getReputation());
-        acUserMsgTvAddress1.setText(new GetAddressUtil(this).getAddress(Double.parseDouble(data.getLng()), Double.parseDouble(data.getLat())));
-        acUserMsgIvQrCode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("hello world",80));*/
     }
 
 

@@ -41,7 +41,6 @@ import com.zthx.npj.adapter.LocalStoreAdapter;
 import com.zthx.npj.aliapi.OrderInfoUtil2_0;
 import com.zthx.npj.aliapi.PayResult;
 import com.zthx.npj.base.Const;
-import com.zthx.npj.net.been.BonusListBean;
 import com.zthx.npj.net.been.BonusListResponseBean;
 import com.zthx.npj.net.been.ConfirmPreSellBean;
 import com.zthx.npj.net.been.ConfirmPreSellResponseBean;

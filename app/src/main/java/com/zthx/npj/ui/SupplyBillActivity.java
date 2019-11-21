@@ -9,7 +9,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,9 +31,7 @@ import com.zthx.npj.net.been.PayResponse1Bean;
 import com.zthx.npj.net.been.PayResponseBean;
 import com.zthx.npj.net.been.SupplyBuy2Bean;
 import com.zthx.npj.net.been.SupplyBuy2ResponseBean;
-import com.zthx.npj.net.been.SupplyPayBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
-import com.zthx.npj.net.netsubscribe.GiftSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
@@ -44,6 +41,7 @@ import com.zthx.npj.view.MyCircleView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -70,8 +68,6 @@ public class SupplyBillActivity extends ActivityBase {
     TextView atSupplyBillTvDanjia;
     @BindView(R.id.at_supply_bill_tv_unit)
     TextView atSupplyBillTvUnit;
-    @BindView(R.id.at_supply_bill_tv_buy_num)
-    EditText atSupplyBillTvBuyNum;
     @BindView(R.id.at_supply_bill_tv_zongjia)
     TextView atSupplyBillTvZongjia;
     @BindView(R.id.at_supply_bill_btn_buy)
@@ -96,6 +92,14 @@ public class SupplyBillActivity extends ActivityBase {
     ImageView acSupplyBillIvChoose3;
     @BindView(R.id.yunfei)
     EditText yunfei;
+    @BindView(R.id.at_supply_bill_rl_jian)
+    RelativeLayout atSupplyBillRlJian;
+    @BindView(R.id.at_supply_bill_tv_buy_num)
+    TextView atSupplyBillTvBuyNum;
+    @BindView(R.id.at_supply_bill_rl_add)
+    RelativeLayout atSupplyBillRlAdd;
+
+    private long number;
 
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
@@ -106,7 +110,6 @@ public class SupplyBillActivity extends ActivityBase {
     private String remark = "sdf";
     private SupplyBuy2ResponseBean.DataBean data1;
     private ConfirmSupplyResponseBean.DataBean data;
-    private Double allPrice;
 
     private String RSA_PRIVATE = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
             "NEU5up1siPOXKJBU0ypde7oPfm9gyy2ajgcw6v3KF2ryjot5AKlBED6qdQPRa5Sk\n" +
@@ -173,14 +176,15 @@ public class SupplyBillActivity extends ActivityBase {
                         atSupplyBillTvName.setText(data.getNick_name());
                         Glide.with(SupplyBillActivity.this).load(data.getGoods_img()).into(atSupplyBillIvGoodsPic);
                         atSupplyBillTvTitle.setText(data.getTitle());
-                        atSupplyBillTvDanjia.setText("¥" + data.getPrice()+"/");
+                        atSupplyBillTvDanjia.setText("¥" + data.getPrice() + "/");
                         atSupplyBillTvUnit.setText(data.getGoods_unit());
-                        atSupplyBillTvBuyNum.setHint(data.getBuy_num()+""+data.getGoods_unit()+"起批");
+                        number=Long.parseLong(data.getBuy_num());
+                        atSupplyBillTvBuyNum.setText(data.getBuy_num()+"");
+                        //atSupplyBillTvBuyNum.setHint(data.getBuy_num() + "" + data.getGoods_unit() + "起批");
                         address_id = data.getAddress_id() + "";
-                        atSupplyBillTvGongjiGoods.setText("共计" + atSupplyBillTvBuyNum.getText().toString().trim() + data.getGoods_unit()+"商品   小计：");
-                        allPrice=Double.parseDouble(atSupplyBillTvBuyNum.getText().toString()) * Double.parseDouble(data.getPrice());
-                        atSupplyBillTvPrice.setText("¥" + allPrice);
-                        atSupplyBillTvZongjia.setText("¥" + allPrice);
+                        atSupplyBillTvGongjiGoods.setText("共计" + atSupplyBillTvBuyNum.getText().toString().trim() + data.getGoods_unit() + "商品   小计：");
+                        atSupplyBillTvPrice.setText("¥" + new DecimalFormat("0.00").format(number * Double.parseDouble(data.getPrice())));
+                        atSupplyBillTvZongjia.setText("¥" + new DecimalFormat("0.00").format(number * Double.parseDouble(data.getPrice())));
                     }
 
                     @Override
@@ -191,7 +195,8 @@ public class SupplyBillActivity extends ActivityBase {
     }
 
     @OnClick({R.id.at_supply_bill_ll_choice_address, R.id.at_supply_bill_btn_buy, R.id.ac_supplyBill_iv_choose1,
-            R.id.ac_supplyBill_iv_choose2, R.id.ac_supplyBill_iv_choose3,R.id.yunfei,R.id.at_supply_bill_tv_buy_num})
+            R.id.ac_supplyBill_iv_choose2, R.id.ac_supplyBill_iv_choose3, R.id.yunfei,
+            R.id.at_supply_bill_rl_jian, R.id.at_supply_bill_rl_add})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.at_supply_bill_ll_choice_address:
@@ -199,13 +204,9 @@ public class SupplyBillActivity extends ActivityBase {
                 startActivityForResult(intent, 0);
                 break;
             case R.id.at_supply_bill_btn_buy:
-                if(atSupplyBillTvBuyNum.getText().toString().trim().equals("")){
-                    showToast("请填写采购数量");
-                }else if(Double.parseDouble(atSupplyBillTvBuyNum.getText().toString().trim())<Double.parseDouble(data.getBuy_num())){
-                    showToast("未达到最低起批量");
-                }else if(shipping_fee.equals("")){
+                if (shipping_fee.equals("")) {
                     showToast("请填写运费");
-                }else{
+                } else {
                     buySupply();
                 }
                 break;
@@ -237,9 +238,13 @@ public class SupplyBillActivity extends ActivityBase {
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                         String money = yunfei.getText().toString();
-                        if(!money.equals("")){
-                            shipping_fee=Double.parseDouble(money)+"";
-                            String hjMoney=allPrice+Double.parseDouble(money)+"";
+                        if (!money.equals("")) {
+                            shipping_fee = Double.parseDouble(money) + "";
+                            String hjMoney = number * Double.parseDouble(data.getPrice()) + Double.parseDouble(money) + "";
+                            atSupplyBillTvPrice.setText("¥" + hjMoney);
+                            atSupplyBillTvZongjia.setText("¥" + hjMoney);
+                        }else{
+                            String hjMoney = number * Double.parseDouble(data.getPrice())+"";
                             atSupplyBillTvPrice.setText("¥" + hjMoney);
                             atSupplyBillTvZongjia.setText("¥" + hjMoney);
                         }
@@ -252,7 +257,7 @@ public class SupplyBillActivity extends ActivityBase {
                     }
                 });
                 break;
-            case R.id.at_supply_bill_tv_buy_num:
+            /*case R.id.at_supply_bill_tv_buy_num:
                 atSupplyBillTvBuyNum.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -261,9 +266,9 @@ public class SupplyBillActivity extends ActivityBase {
 
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        if(!atSupplyBillTvBuyNum.getText().toString().trim().equals("")){
-                            atSupplyBillTvGongjiGoods.setText("共计" + atSupplyBillTvBuyNum.getText().toString().trim() + "斤商品   小计：");
-                            allPrice=Double.parseDouble(atSupplyBillTvBuyNum.getText().toString()) * Double.parseDouble(data.getPrice());
+                        if (!atSupplyBillTvBuyNum.getText().toString().trim().equals("")) {
+                            atSupplyBillTvGongjiGoods.setText("共计" + atSupplyBillTvBuyNum.getText().toString().trim() + data.getGoods_unit()+"商品   小计：");
+                            allPrice = Double.parseDouble(atSupplyBillTvBuyNum.getText().toString()) * Double.parseDouble(data.getPrice());
                             atSupplyBillTvPrice.setText("¥" + allPrice);
                             atSupplyBillTvZongjia.setText("¥" + allPrice);
                         }
@@ -274,6 +279,24 @@ public class SupplyBillActivity extends ActivityBase {
 
                     }
                 });
+                break;*/
+            case R.id.at_supply_bill_rl_jian:
+                if(data.getBuy_num().equals(atSupplyBillTvBuyNum.getText().toString().trim())){
+                    showToast("采购数量不能低于起批量");
+                }else{
+                    number--;
+                    atSupplyBillTvBuyNum.setText(number+"");
+                    atSupplyBillTvGongjiGoods.setText("共计" + atSupplyBillTvBuyNum.getText().toString().trim() + data.getGoods_unit() + "商品   小计：");
+                    atSupplyBillTvPrice.setText("¥" +new DecimalFormat("0.00").format(number * Double.parseDouble(data.getPrice())+(shipping_fee.equals("")?0:Double.parseDouble(shipping_fee))));
+                    atSupplyBillTvZongjia.setText("¥" + new DecimalFormat("0.00").format(number * Double.parseDouble(data.getPrice())+(shipping_fee.equals("")?0:Double.parseDouble(shipping_fee))));
+                }
+                break;
+            case R.id.at_supply_bill_rl_add:
+                number++;
+                atSupplyBillTvBuyNum.setText(number+"");
+                atSupplyBillTvGongjiGoods.setText("共计" + atSupplyBillTvBuyNum.getText().toString().trim() + data.getGoods_unit() + "商品   小计：");
+                atSupplyBillTvPrice.setText("¥" + new DecimalFormat("0.00").format(number * Double.parseDouble(data.getPrice())+(shipping_fee.equals("")?0:Double.parseDouble(shipping_fee))));
+                atSupplyBillTvZongjia.setText("¥" + new DecimalFormat("0.00").format(number * Double.parseDouble(data.getPrice())+(shipping_fee.equals("")?0:Double.parseDouble(shipping_fee))));
                 break;
         }
     }
@@ -315,7 +338,7 @@ public class SupplyBillActivity extends ActivityBase {
 
                     int code = obj.getInt("code");
                     if (code == 2) {
-                        openActivity(OrderFinishActivity.class, goodsImg, goodsName, Double.parseDouble(allPrice+"")+Double.parseDouble(shipping_fee)+"","6");
+                        openActivity(OrderFinishActivity.class, goodsImg, goodsName, Double.parseDouble(number * Double.parseDouble(data.getPrice()) + "") + Double.parseDouble(shipping_fee) + "", "6");
                     }
 
                 } catch (JSONException e) {
@@ -335,7 +358,7 @@ public class SupplyBillActivity extends ActivityBase {
     }
 
     private void wxpay() {
-        DiscoverSubscribe.supplyPay("weixin", data1.getOrder_sn(), data1.getPay_money(),"4", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        DiscoverSubscribe.supplyPay("weixin", data1.getOrder_sn(), data1.getPay_money(), "4", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setWXResult(result);
@@ -365,7 +388,7 @@ public class SupplyBillActivity extends ActivityBase {
     }
 
     private void alipay() {
-        DiscoverSubscribe.supplyPay("alipay", data1.getOrder_sn(), data1.getPay_money(),"4", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        DiscoverSubscribe.supplyPay("alipay", data1.getOrder_sn(), data1.getPay_money(), "4", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setPayResult(result);
@@ -444,5 +467,6 @@ public class SupplyBillActivity extends ActivityBase {
             atSupplyBillTvAddress.setText(data.getStringExtra("address"));
         }
     }
+
 
 }

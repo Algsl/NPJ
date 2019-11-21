@@ -3,12 +3,12 @@ package com.zthx.npj.ui;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -18,19 +18,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.dueeeke.videocontroller.StandardVideoController;
 import com.dueeeke.videoplayer.player.IjkVideoView;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.DiscoverViewPagerAdapter;
-import com.zthx.npj.adapter.VideoCommentAdapter;
 import com.zthx.npj.base.BaseConstant;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.AkVideoResponseBean;
-import com.zthx.npj.net.been.CommentResponseBean;
 import com.zthx.npj.net.been.UploadVideoCommentResponseBean;
 import com.zthx.npj.net.been.VideoInfoResponseBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
-import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.fragment.JianjieFragment;
@@ -42,8 +40,10 @@ import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.CommonDialog;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,6 +70,7 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +80,7 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
         back(back);
 
         id = getIntent().getStringExtra(Const.VIDEO_ID);//视频id
+
         List<String> list = new ArrayList<>();
         list.add("选集");
         list.add("简介");
@@ -144,15 +146,29 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
         DiscoverSubscribe.getVideoInfo(dataBean.getId() + "", dataBean.getStatus() + "", SharePerferenceUtils.getUserId(this),
                 new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
-                    public void onSuccess(String result) {
+                    public void onSuccess(String result) throws IOException {
                         VideoInfoResponseBean videoInfoResponseBean = GsonUtils.fromJson(result, VideoInfoResponseBean.class);
                         videoUrl = videoInfoResponseBean.getData().getVideo();
                         switch (type) {
                             case "2":
                                 atAkVideoPlayer.setUrl(videoUrl); //设置视频地址
                                 atAkVideoPlayer.setTitle(dataBean.getTitle());
-                                StandardVideoController controller = new StandardVideoController(AgricultureVideoMainActivity.this);
+                                final StandardVideoController controller = new StandardVideoController(AgricultureVideoMainActivity.this);
                                 controller.getThumb().setImageBitmap(MyCustomUtils.getVideoThumbnail(videoUrl));
+                                /*Glide.with(AgricultureVideoMainActivity.this).load(Uri.parse("http://app.npj-vip.com/public/upload/20191120/b22c7dffe5897cc012245e8fb9f6e9f6.jpg")).asBitmap().into(new SimpleTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                        controller.getThumb().setImageBitmap(resource);
+                                    }
+                                });*/
+                                /*try {
+                                    Bitmap bitmap=Glide.with(AgricultureVideoMainActivity.this).asBitmap().load(Uri.parse("http://app.npj-vip.com/public/upload/20191120/b22c7dffe5897cc012245e8fb9f6e9f6.jpg")).submit().get();
+                                    controller.getThumb().setImageBitmap(bitmap);
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }*/
                                 atAkVideoPlayer.setScreenScale(IjkVideoView.SCREEN_SCALE_MATCH_PARENT);
                                 atAkVideoPlayer.setVideoController(controller); //设置控制器，如需定制可继承 BaseVideoController
                                 break;

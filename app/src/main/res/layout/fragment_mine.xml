@@ -97,30 +97,46 @@
 
                     <ImageView
                         android:id="@+id/fg_mine_iv_settings"
-                        android:layout_width="@dimen/dp_22"
-                        android:layout_height="@dimen/dp_22"
+                        android:layout_width="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_25"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/dp_12"
-                        android:layout_marginTop="@dimen/dp_36"
+                        android:layout_marginTop="@dimen/dp_30"
                         android:src="@drawable/settings"/>
-
-                    <ImageView
+                    <RelativeLayout
                         android:id="@+id/fg_mine_iv_message"
-                        android:layout_width="@dimen/dp_22"
-                        android:layout_height="@dimen/dp_22"
                         android:layout_below="@id/fg_mine_iv_settings"
+                        android:layout_width="@dimen/dp_50"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/dp_12"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:src="@drawable/home_message"/>
-
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="@dimen/dp_25"
+                            android:layout_height="@dimen/dp_25"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/dp_12"
+                            android:layout_marginTop="@dimen/dp_8"
+                            android:src="@drawable/home_message"/>
+                        <TextView
+                            android:visibility="visible"
+                            android:id="@+id/tv_unReadMsg"
+                            android:layout_width="@dimen/dp_20"
+                            android:layout_height="@dimen/dp_20"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/dp_6"
+                            android:layout_marginTop="@dimen/dp_2"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/white"
+                            android:text="20"
+                            android:background="@drawable/red_conner"/>
+                    </RelativeLayout>
                     <ImageView
                         android:id="@+id/fg_mine_iv_people_right"
                         android:layout_width="@dimen/dp_82"
                         android:layout_height="@dimen/dp_95"
                         android:layout_below="@id/fg_mine_iv_message"
                         android:layout_alignParentRight="true"
-                        android:layout_marginTop="@dimen/dp_13"
+                        android:layout_marginTop="@dimen/dp_5"
                         android:src="@drawable/mine_people_right"/>
                 </RelativeLayout>
                 <LinearLayout

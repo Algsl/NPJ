@@ -246,7 +246,8 @@ public class SearchOrderActivity extends ActivityBase {
 
             @Override
             public void onComment2Click(int position) {
-
+                Intent intent=new Intent(SearchOrderActivity.this,AddToCommentActivity.class);
+                startActivity(intent);
             }
         });
         acSearchStoreOrderRv.setItemAnimator(new DefaultItemAnimator());
