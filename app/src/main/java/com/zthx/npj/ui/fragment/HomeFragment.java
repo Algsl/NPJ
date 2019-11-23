@@ -55,6 +55,7 @@ import com.zthx.npj.ui.MembershipPackageActivity;
 import com.zthx.npj.ui.PayToStoreActivity;
 import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.ui.SecKillActivity;
+import com.zthx.npj.ui.TestActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.utils.marquee.AppBus;
@@ -135,8 +136,6 @@ public class HomeFragment extends BaseFragment {
     private ArrayList<LooperBean> looperBeans = new ArrayList<>();
 
 
-    private static final String TAG = "测试";
-
 
     public HomeFragment() {
         // Required empty public constructor
@@ -203,7 +202,11 @@ public class HomeFragment extends BaseFragment {
         if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
             if(!TencentUtil.getUnReadNum().equals("0")){
                 tvUnReadMsg.setVisibility(View.VISIBLE);
-                tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                if(Long.parseLong(TencentUtil.getUnReadNum())>99){
+                    tvUnReadMsg.setText("⋯");
+                }else{
+                    tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                }
             }else{
                 tvUnReadMsg.setVisibility(View.GONE);
             }
@@ -217,12 +220,17 @@ public class HomeFragment extends BaseFragment {
         if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
             if(!TencentUtil.getUnReadNum().equals("0")){
                 tvUnReadMsg.setVisibility(View.VISIBLE);
-                tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                if(Long.parseLong(TencentUtil.getUnReadNum())>99){
+                    tvUnReadMsg.setText("⋯");
+                }else{
+                    tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                }
             }else{
                 tvUnReadMsg.setVisibility(View.GONE);
             }
         }
     }
+
 
     private void getBanner() {
         MainSubscribe.getMainBanner(Const.MAIN_BANNER_TYPE, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
@@ -256,6 +264,19 @@ public class HomeFragment extends BaseFragment {
         } else {
             //getOrderPush();
         }
+        if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
+            if(!TencentUtil.getUnReadNum().equals("0")){
+                tvUnReadMsg.setVisibility(View.VISIBLE);
+                if(Long.parseLong(TencentUtil.getUnReadNum())>99){
+                    tvUnReadMsg.setText("⋯");
+                }else{
+                    tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                }
+            }else{
+                tvUnReadMsg.setVisibility(View.GONE);
+            }
+        }
+        Log.e("测试", "onResume: 执行");
     }
 
     private void initBanner(final BannerResponseBean bean, ArrayList<Uri> list, ArrayList<String> list2) {
@@ -293,10 +314,19 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void OnBannerClick(int position) {
                 Intent intent = null;
-                if (bean.getData().get(position).getId() == 15) {
+                String[] strs=bean.getData().get(position).getRemark().split(",");
+                if(strs[0].equals("0")){
+                    intent = new Intent(getContext(), BannerActivity.class);
+                    intent.putExtra("title", bean.getData().get(position).getTitle());
+                    intent.putExtra("url", strs[1]);
+                }else if(strs[0].equals("1")){
                     intent = new Intent(getContext(), GoodsDetailActivity.class);
                     intent.setAction("goods");
-                    intent.putExtra("goods_id", "302");
+                    intent.putExtra("goods_id", strs[1]);
+                }
+
+               /* if (bean.getData().get(position).getId() == 15) {
+
                 } else if (bean.getData().get(position).getId() == 20) {
                     intent = new Intent(getContext(), BannerActivity.class);
                     intent.putExtra("title", bean.getData().get(position).getTitle());
@@ -305,7 +335,7 @@ public class HomeFragment extends BaseFragment {
                     intent = new Intent(getContext(), BannerActivity.class);
                     intent.putExtra("title", bean.getData().get(position).getTitle());
                     intent.putExtra("id", "2");
-                }
+                }*/
                 startActivity(intent);
             }
         });
@@ -357,11 +387,12 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.fg_home_rl_go_game:
-                if (SharePerferenceUtils.getUserId(getContext()).equals("")) {
+                /*if (SharePerferenceUtils.getUserId(getContext()).equals("")) {
                     Toast.makeText(getContext(), "请先完成登录", Toast.LENGTH_SHORT).show();
                 } else {
                     startActivity(new Intent(getContext(), GameActivity.class));
-                }
+                }*/
+                startActivity(new Intent(getContext(),TestActivity.class));
                 break;
             case R.id.fg_home_ll_recommend:
                 toggle();

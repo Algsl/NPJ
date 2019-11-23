@@ -136,7 +136,7 @@
                     android:background="@drawable/attestation4_conner_2"
                     android:paddingRight="@dimen/dp_6"
                     android:paddingLeft="@dimen/dp_6"
-                    android:layout_marginLeft="@dimen/dp_10"/>
+                    android:layout_marginRight="@dimen/dp_10"/>
             </LinearLayout>
         </LinearLayout>
 

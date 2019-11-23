@@ -143,7 +143,11 @@ public class ShoppingCart1Fragment extends Fragment {
         if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
             if(!TencentUtil.getUnReadNum().equals("0")){
                 tvUnReadMsg.setVisibility(View.VISIBLE);
-                tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                if(Long.parseLong(TencentUtil.getUnReadNum())>99){
+                    tvUnReadMsg.setText("⋯");
+                }else{
+                    tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                }
             }else{
                 tvUnReadMsg.setVisibility(View.GONE);
             }
@@ -244,7 +248,11 @@ public class ShoppingCart1Fragment extends Fragment {
         if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
             if(!TencentUtil.getUnReadNum().equals("0")){
                 tvUnReadMsg.setVisibility(View.VISIBLE);
-                tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                if(Long.parseLong(TencentUtil.getUnReadNum())>99){
+                    tvUnReadMsg.setText("⋯");
+                }else{
+                    tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                }
             }else{
                 tvUnReadMsg.setVisibility(View.GONE);
             }

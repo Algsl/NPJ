@@ -319,7 +319,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
                         <TextView
-                            android:id="@+id/seeMore1"
+                            android:id="@+id/seeMore2"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dp_40"
                             android:gravity="center"

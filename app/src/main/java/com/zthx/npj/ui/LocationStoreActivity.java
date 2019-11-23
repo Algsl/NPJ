@@ -30,6 +30,7 @@ import com.youth.banner.listener.OnBannerListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.ClassifyDetailAdapter;
 import com.zthx.npj.adapter.LocationStoreAdapter;
+import com.zthx.npj.adapter.TestAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BannerResponseBean;
 import com.zthx.npj.net.been.LocalStoreBean;
@@ -92,6 +93,8 @@ public class LocationStoreActivity extends ActivityBase {
 
     private int page = 1;
     private LocationStoreAdapter mAdapter;
+    private ArrayList<LocalStoreResponseBean.DataBean> lists;
+    private int PAGE_COUNT=10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,9 +126,10 @@ public class LocationStoreActivity extends ActivityBase {
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                page++;
-                getLocalStore(type);
+                /*page++;
+                getLocalStore(type);*/
                 refreshlayout.finishLoadmore();
+                updateRecycler(mAdapter.getItemCount(),mAdapter.getItemCount()+PAGE_COUNT);
             }
         });
 
@@ -153,10 +157,11 @@ public class LocationStoreActivity extends ActivityBase {
             @Override
             public void onSuccess(String result) {
                 LocalStoreResponseBean localStoreResponseBean = GsonUtils.fromJson(result, LocalStoreResponseBean.class);
-                final ArrayList<LocalStoreResponseBean.DataBean> data = localStoreResponseBean.getData();
+                lists = localStoreResponseBean.getData();
                 LinearLayoutManager manager = new LinearLayoutManager(LocationStoreActivity.this, LinearLayoutManager.VERTICAL, false);
                 atLocationStoreRv.setLayoutManager(manager);
-                if (mAdapter == null) {//当适配器为空时，创建适配器
+
+                /*if (mAdapter == null) {//当适配器为空时，创建适配器
                     mAdapter = new LocationStoreAdapter(LocationStoreActivity.this, data);
                 } else {
                     Log.e("测试", "setGoodsList: "+data.size());
@@ -170,7 +175,17 @@ public class LocationStoreActivity extends ActivityBase {
                         seeMore.setText("没有更多了");
                         refreshLayout.setLoadmoreFinished(true);
                     }
+                }*/
+                if(lists.size()<PAGE_COUNT){
+                    mAdapter=new LocationStoreAdapter(LocationStoreActivity.this,lists);
+                    seeMore.setText("没有更多了");
+                    refreshLayout.setEnableLoadmore(false);
+                }else{
+                    mAdapter=new LocationStoreAdapter(LocationStoreActivity.this,getData(0,PAGE_COUNT));
+                    refreshLayout.setEnableLoadmore(true);
                 }
+
+
                 mAdapter.setOnItemClickListener(new LocationStoreAdapter.ItemClickListener() {
                     @Override
                     public void onItemClick(int position, ArrayList<LocalStoreResponseBean.DataBean> list) {
@@ -187,7 +202,7 @@ public class LocationStoreActivity extends ActivityBase {
             public void onFault(String errorMsg) {
                 //showToast(errorMsg);
             }
-        }, LocationStoreActivity.this));
+        }));
     }
 
     @OnClick({R.id.ac_locationStore_tv_type1, R.id.ac_locationStore_tv_type2, R.id.ac_locationStore_tv_type3,
@@ -207,36 +222,40 @@ public class LocationStoreActivity extends ActivityBase {
                 acLocationStoreTvType1.setTextColor(getResources().getColor(R.color.app_theme));
                 acLocationStoreTvType1.setBackground(getResources().getDrawable(R.drawable.stroke_theme_2));
                 type = "1";
-                if (mAdapter != null) {
+                refreshLayout.setEnableLoadmore(true);
+                /*if (mAdapter != null) {
                     mAdapter.clearData();
-                }
+                }*/
                 getLocalStore(type);
                 break;
             case R.id.ac_locationStore_tv_type2:
                 acLocationStoreTvType2.setBackgroundResource(R.drawable.stroke_app_theme);
                 acLocationStoreTvType2.setBackground(getResources().getDrawable(R.drawable.stroke_theme_2));
                 type = "2";
-                if (mAdapter != null) {
+                refreshLayout.setEnableLoadmore(true);
+                /*if (mAdapter != null) {
                     mAdapter.clearData();
-                }
+                }*/
                 getLocalStore(type);
                 break;
             case R.id.ac_locationStore_tv_type3:
                 acLocationStoreTvType3.setTextColor(getResources().getColor(R.color.app_theme));
                 acLocationStoreTvType3.setBackground(getResources().getDrawable(R.drawable.stroke_theme_2));
                 type = "3";
-                if (mAdapter != null) {
+                refreshLayout.setEnableLoadmore(true);
+                /*if (mAdapter != null) {
                     mAdapter.clearData();
-                }
+                }*/
                 getLocalStore(type);
                 break;
             case R.id.ac_locationStore_tv_type4:
                 acLocationStoreTvType4.setTextColor(getResources().getColor(R.color.app_theme));
                 acLocationStoreTvType4.setBackground(getResources().getDrawable(R.drawable.stroke_theme_2));
                 type = "4";
-                if (mAdapter != null) {
+                refreshLayout.setEnableLoadmore(true);
+                /*if (mAdapter != null) {
                     mAdapter.clearData();
-                }
+                }*/
                 getLocalStore(type);
                 break;
             case R.id.at_location_store_et_search:
@@ -406,6 +425,27 @@ public class LocationStoreActivity extends ActivityBase {
                     }
                 }
             }));
+        }
+    }
+
+
+    public ArrayList<LocalStoreResponseBean.DataBean> getData(int start, int end) {
+        ArrayList<LocalStoreResponseBean.DataBean> reList = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            if (i < lists.size()) {
+                reList.add(lists.get(i));
+            }
+        }
+        return reList;
+    }
+
+
+    public void updateRecycler(int start, int end) {
+        ArrayList<LocalStoreResponseBean.DataBean> newData = getData(start, end);
+        if (newData != null) {
+            mAdapter.updateList(newData);
+        } else {
+            mAdapter.updateList(null);
         }
     }
 

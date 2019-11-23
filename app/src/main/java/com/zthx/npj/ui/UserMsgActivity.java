@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +18,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +59,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class UserMsgActivity extends ActivityBase{
+public class UserMsgActivity extends ActivityBase {
     @BindView(R.id.title_theme_back)
     ImageView titleThemeBack;
     @BindView(R.id.title_theme_title)
@@ -109,8 +108,6 @@ public class UserMsgActivity extends ActivityBase{
     TextView acUserMsgTvAllGoods;
     @BindView(R.id.ac_userMsg_tv_sellSort)
     TextView acUserMsgTvSellSort;
-    @BindView(R.id.ac_userMsg_tv_priceSort)
-    TextView acUserMsgTvPriceSort;
     @BindView(R.id.ac_userMsg_tv_sellOver)
     TextView acUserMsgTvSellOver;
     @BindView(R.id.ac_userMsg_tv_hReputation)
@@ -127,6 +124,10 @@ public class UserMsgActivity extends ActivityBase{
     TextView acUserMsgTvEnterprice;
     @BindView(R.id.ac_userMsg_tv_trust)
     TextView acUserMsgTvTrust;
+    @BindView(R.id.ac_userMsg_iv_sellSort)
+    ImageView acUserMsgIvSellSort;
+    @BindView(R.id.ac_userMsg_ll_sellSort)
+    LinearLayout acUserMsgLlSellSort;
 
 
     private IWXAPI api;
@@ -137,8 +138,11 @@ public class UserMsgActivity extends ActivityBase{
     private String att_user_id = "";
     private String type = "1";
 
+    private boolean flag;
+
 
     private static final String TAG = "测试";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,7 +168,7 @@ public class UserMsgActivity extends ActivityBase{
             acUserMsgTvBeDYR.setVisibility(View.INVISIBLE);
         }
 
-        LatLng latLng=new LatLng(Double.parseDouble(SharePerferenceUtils.getLat(this)), Double.parseDouble(SharePerferenceUtils.getLng(this)));
+        LatLng latLng = new LatLng(Double.parseDouble(SharePerferenceUtils.getLat(this)), Double.parseDouble(SharePerferenceUtils.getLng(this)));
         getLocateinfo(latLng);
         getStoreGoodsList();
     }
@@ -233,18 +237,18 @@ public class UserMsgActivity extends ActivityBase{
     private void setLookUser(String result) {
         LookUserResponseBean bean = GsonUtils.fromJson(result, LookUserResponseBean.class);
         LookUserResponseBean.DataBean data = bean.getData();
-        if(data.getHead_img()==null || data.getHead_img().equals("")){
+        if (data.getHead_img() == null || data.getHead_img().equals("")) {
             acUserMsgMcvHeadImg.setImageResource(R.drawable.logo);
-        }else{
+        } else {
             Glide.with(this).load(Uri.parse(data.getHead_img())).into(acUserMsgMcvHeadImg);
         }
-        if (data.getNick_name().substring(0,2).equals("用户")) {
+        if (data.getNick_name().substring(0, 2).equals("用户")) {
             acUserMsgTvNickName.setText("农品街新客");
         } else {
             acUserMsgTvNickName.setText(data.getNick_name());
         }
         acUserMsgTvSignature.setText(data.getSignature() == null ? "这个人很懒，什么也没留下" : data.getSignature());
-        MyCustomUtils.showLevelImg(data.getCity_level(),data.getBoss_level(),data.getTeam_level(),data.getLevel(),acUserMsgTvLevel);
+        MyCustomUtils.showLevelImg(data.getCity_level(), data.getBoss_level(), data.getTeam_level(), data.getLevel(), acUserMsgTvLevel);
         acUserMsgTvHits.setText(data.getHits() == null ? "0" : data.getHits());
         acUserMsgTvAttNum.setText(data.getAtt_num() == null ? "0" : data.getAtt_num());
         acUserMsgTvHistoryMoney.setText(data.getHistory_money());
@@ -269,11 +273,11 @@ public class UserMsgActivity extends ActivityBase{
                 acUserMsgTvRealName.setVisibility(View.VISIBLE);
             } else if (str.equals("2")) {
                 acUserMsgTvEnterprice.setVisibility(View.VISIBLE);
-            }else if(str.equals("3")){
+            } else if (str.equals("3")) {
                 acUserMsgTvPurchase.setVisibility(View.VISIBLE);
-            }else if(str.equals("4")){
+            } else if (str.equals("4")) {
                 acUserMsgTvTrust.setVisibility(View.VISIBLE);
-            }else if(str.equals("5")){
+            } else if (str.equals("5")) {
                 acUserMsgTvZizhi.setVisibility(View.VISIBLE);
             }
         }
@@ -281,7 +285,7 @@ public class UserMsgActivity extends ActivityBase{
 
 
     @OnClick({R.id.title_theme_img_right, R.id.ac_userMsg_tv_beDYR, R.id.ac_userMsg_tv_tuijian,
-            R.id.ac_userMsg_tv_allGoods, R.id.ac_userMsg_tv_sellSort, R.id.ac_userMsg_tv_priceSort,
+            R.id.ac_userMsg_tv_allGoods, R.id.ac_userMsg_ll_sellSort,
             R.id.ac_userMsg_tv_goCert})
     public void onViewClicked(View v) {
         switch (v.getId()) {
@@ -295,7 +299,7 @@ public class UserMsgActivity extends ActivityBase{
                 acUserMsgTvTuijian.setTextColor(getResources().getColor(R.color.app_theme));
                 acUserMsgTvAllGoods.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.text6));
-                acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.text6));
+                acUserMsgIvSellSort.setImageResource(R.drawable.unselect);
                 type = "1";
                 getStoreGoodsList();
                 break;
@@ -303,26 +307,23 @@ public class UserMsgActivity extends ActivityBase{
                 acUserMsgTvTuijian.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvAllGoods.setTextColor(getResources().getColor(R.color.app_theme));
                 acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.text6));
-                acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.text6));
+                acUserMsgIvSellSort.setImageResource(R.drawable.unselect);
                 type = "2";
                 getStoreGoodsList();
                 break;
-            case R.id.ac_userMsg_tv_sellSort:
+            case R.id.ac_userMsg_ll_sellSort:
+                toggle();
                 acUserMsgTvTuijian.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvAllGoods.setTextColor(getResources().getColor(R.color.text6));
-                acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.app_theme));
-                acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.text6));
-                type = "3";
-                getStoreGoodsList();
                 break;
-            case R.id.ac_userMsg_tv_priceSort:
+            /*case R.id.ac_userMsg_tv_priceSort:
                 acUserMsgTvTuijian.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvAllGoods.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.text6));
                 acUserMsgTvPriceSort.setTextColor(getResources().getColor(R.color.app_theme));
                 type = "4";
                 getStoreGoodsList();
-                break;
+                break;*/
             /*case R.id.ac_userMsg_tv_toShare:
                 //bmp=SimpleUtil.createViewBitmap(acUserMsgLlShare);
                 showSingleBottomDialog();
@@ -331,6 +332,19 @@ public class UserMsgActivity extends ActivityBase{
                 startActivity(new Intent(UserMsgActivity.this, MyAttestationActivity.class));
                 break;
         }
+    }
+
+    private void toggle() {
+        acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.app_theme));
+        flag=!flag;
+        if(flag){
+            acUserMsgIvSellSort.setImageResource(R.drawable.select1);
+            type="3";
+        }else{
+            acUserMsgIvSellSort.setImageResource(R.drawable.select2);
+            type="4";
+        }
+        getStoreGoodsList();
     }
 
     public void showItemPopwindow() {
@@ -585,10 +599,13 @@ public class UserMsgActivity extends ActivityBase{
         GeoCoder geoCoder = GeoCoder.newInstance();
         geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
 
-            @Override public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+            @Override
+            public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
 
             }
-            @Override public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+
+            @Override
+            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
                 acUserMsgTvAddress.setText(reverseGeoCodeResult.getAddress() + reverseGeoCodeResult.getSematicDescription());
                 //Log.e(TAG, "onGetReverseGeoCodeResult: "+ reverseGeoCodeResult.getAddress() + reverseGeoCodeResult.getSematicDescription());
             }

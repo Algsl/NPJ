@@ -8,9 +8,12 @@
     android:orientation="vertical">
 
     <include layout="@layout/title_theme"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/at_system_message_rv"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/at_system_message_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

@@ -117,7 +117,7 @@
                             android:layout_marginTop="@dimen/dp_8"
                             android:src="@drawable/home_message"/>
                         <TextView
-                            android:visibility="visible"
+                            android:visibility="gone"
                             android:id="@+id/tv_unReadMsg"
                             android:layout_width="@dimen/dp_20"
                             android:layout_height="@dimen/dp_20"

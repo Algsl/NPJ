@@ -31,10 +31,8 @@ public class BannerActivity extends ActivityBase {
         back(titleBack);
 
         String title = getIntent().getStringExtra("title");
-        String id = getIntent().getStringExtra("id");
+        String url = getIntent().getStringExtra("url");
         changeTitle(acTitle, title);
-
-        String url = "http://game.npj-vip.com/h5/bannerdetail.html?id=" + id;
 
         acBannerDetailWv.loadUrl(url);
         WebSettings settings = acBannerDetailWv.getSettings();

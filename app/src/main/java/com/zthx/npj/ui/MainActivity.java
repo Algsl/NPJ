@@ -183,12 +183,13 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        getUserMsg();
+
         initJPush();
         initFragment();
         // Example of a call to a native method
         setNotification();
         registerMessageReceiver();
-        getUserMsg();
 
         getBrowserResult();
 
@@ -234,7 +235,6 @@ public class MainActivity extends AppCompatActivity {
     private void getBrowserResult() {
         Intent mgetvalue = getIntent();
         String maction = mgetvalue.getAction();
-        Log.e("测试", "getBrowserResult: "+maction );
         if (Intent.ACTION_VIEW.equals(maction)) {
             Uri uri = mgetvalue.getData();
             if (uri != null) {

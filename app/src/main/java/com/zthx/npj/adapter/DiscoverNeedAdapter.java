@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.NeedListResponseBean;
+import com.zthx.npj.net.been.SupplyListResponseBean;
 import com.zthx.npj.utils.MyCustomUtils;
 
 import java.util.ArrayList;
@@ -152,5 +153,12 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
 
             ivVideo=itemView.findViewById(R.id.item_storeQuotation_iv_video);
         }
+    }
+
+    public void updateList(ArrayList<NeedListResponseBean.DataBean> newData){
+        if(newData!=null){
+            list.addAll(newData);
+        }
+        notifyDataSetChanged();
     }
 }

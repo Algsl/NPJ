@@ -57,7 +57,6 @@ public class TencentUtil {
             @Override
             public void onError(int i, String s) {
                 Log.e("测试", "onError: "+s );
-
             }
 
             @Override

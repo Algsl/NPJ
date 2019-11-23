@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import com.zthx.npj.adapter.DiscoverNeedAdapter;
 import com.zthx.npj.adapter.DiscoverSupplyAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BannerResponseBean;
+import com.zthx.npj.net.been.LocalStoreResponseBean;
 import com.zthx.npj.net.been.NeedListResponseBean;
 import com.zthx.npj.net.been.SupplyListBean;
 import com.zthx.npj.net.been.SupplyListResponseBean;
@@ -115,8 +117,8 @@ public class DiscoverSupplyFragment extends Fragment {
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.seeMore)
     TextView seeMore;
-    @BindView(R.id.seeMore1)
-    TextView seeMore1;
+    @BindView(R.id.seeMore2)
+    TextView seeMore2;
 
 
     private String type1 = "1";//供应的销量的类型
@@ -128,6 +130,10 @@ public class DiscoverSupplyFragment extends Fragment {
     private DiscoverSupplyAdapter mAdapter;
     private DiscoverNeedAdapter mAdapter2;
     private View view = null;
+
+    private ArrayList<SupplyListResponseBean.DataBean> lists1;
+    private ArrayList<NeedListResponseBean.DataBean> lists2;
+    private int PAGE_COUNT=10;
 
     public DiscoverSupplyFragment() {
 
@@ -164,17 +170,17 @@ public class DiscoverSupplyFragment extends Fragment {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 if (itemType == 1) {
-                    page = 1;
+                    /*page = 1;
                     if (mAdapter != null) {
                         mAdapter.clearData();
-                    }
+                    }*/
                     seeMore.setText("查看更多");
                 } else {
-                    page2 = 1;
+                    /*page2 = 1;
                     if (mAdapter2 != null) {
                         mAdapter2.clearData();
-                    }
-                    seeMore1.setText("查看更多");
+                    }*/
+                    seeMore2.setText("查看更多");
                 }
                 //refreshLayout.setLoadmoreFinished(false);
                 getSupplyData(type1);
@@ -187,14 +193,26 @@ public class DiscoverSupplyFragment extends Fragment {
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                if (itemType == 1) {
+                /*if (itemType == 1) {
                     page++;
                     getSupplyData(type1);
                 } else {
                     page2++;
                     getNeedData(type2);
-                }
+                }*/
                 refreshlayout.finishLoadmore();
+                if(itemType==1){
+                    Log.e("测试", "onLoadmore: "+mAdapter.getItemCount()+" "+(mAdapter.getItemCount()==lists1.size())  );
+                    if(mAdapter.getItemCount()!=lists1.size()){
+                        updateRecycler1(mAdapter.getItemCount(),mAdapter.getItemCount()+PAGE_COUNT);
+                    }else{
+                        seeMore.setText("没有更多数据了...");
+                        updateRecycler1(mAdapter.getItemCount(),mAdapter.getItemCount()+PAGE_COUNT);
+                    }
+
+                }else{
+                    updateRecycler2(mAdapter2.getItemCount(),mAdapter2.getItemCount()+PAGE_COUNT);
+                }
             }
         });
 
@@ -213,14 +231,12 @@ public class DiscoverSupplyFragment extends Fragment {
             @Override
             public void onSuccess(String result) {
                 SupplyListResponseBean supplyListResponseBean = GsonUtils.fromJson(result, SupplyListResponseBean.class);
-                final ArrayList<SupplyListResponseBean.DataBean> data = supplyListResponseBean.getData();
+                lists1 = supplyListResponseBean.getData();
 
                 LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                 fgDiscoverSupplyRv.setLayoutManager(manager);
-                /*if (mAdapter != null) {
-                    mAdapter.updateData(data);
-                } else {}*/
-                if (mAdapter == null) {
+
+                /*if (mAdapter == null) {
                     mAdapter = new DiscoverSupplyAdapter(getContext(), data, false);
                 } else {
                     if (data != null && data.size() != 0) {
@@ -230,6 +246,13 @@ public class DiscoverSupplyFragment extends Fragment {
                         }
                         mAdapter.addData(data);
                     }
+                }*/
+                if(lists1.size()<PAGE_COUNT){
+                    mAdapter=new DiscoverSupplyAdapter(getContext(),lists1,false);
+                    seeMore.setText("没有更多了");
+                }else{
+                    mAdapter=new DiscoverSupplyAdapter(getContext(),getData1(0,PAGE_COUNT),false);
+                    seeMore.setText("上滑加载更多");
                 }
                 mAdapter.setOnItemClickListener(new DiscoverSupplyAdapter.ItemClickListener() {
                     @Override
@@ -261,10 +284,11 @@ public class DiscoverSupplyFragment extends Fragment {
         DiscoverSubscribe.needList(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                final ArrayList<NeedListResponseBean.DataBean> data = GsonUtils.fromJson(result, NeedListResponseBean.class).getData();
+                lists2 = GsonUtils.fromJson(result, NeedListResponseBean.class).getData();
                 LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                 fgDiscoverNeedRv.setLayoutManager(manager);
-                if (mAdapter2 == null) {
+
+                /*if (mAdapter2 == null) {
                     mAdapter2 = new DiscoverNeedAdapter(getContext(), data, false);
                 } else {
                     if (data != null && data.size() != 0) {
@@ -274,6 +298,13 @@ public class DiscoverSupplyFragment extends Fragment {
                         }
                         mAdapter2.addData(data);
                     }
+                }*/
+                if(lists2.size()<PAGE_COUNT){
+                    mAdapter2=new DiscoverNeedAdapter(getContext(),lists2,false);
+                    seeMore2.setText("没有更多了");
+                }else{
+                    mAdapter2=new DiscoverNeedAdapter(getContext(),getData2(0,PAGE_COUNT),false);
+                    seeMore2.setText("上滑加载更多...");
                 }
                 mAdapter2.setOnItemClickListener(new DiscoverNeedAdapter.ItemClickListener() {
                     @Override
@@ -542,5 +573,48 @@ public class DiscoverSupplyFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    public ArrayList<SupplyListResponseBean.DataBean> getData1(int start, int end) {
+        ArrayList<SupplyListResponseBean.DataBean> reList = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            if (i < lists1.size()) {
+                reList.add(lists1.get(i));
+            }
+        }
+        return reList;
+    }
+
+
+    public void updateRecycler1(int start, int end) {
+        ArrayList<SupplyListResponseBean.DataBean> newData = getData1(start, end);
+        if (newData != null) {
+            mAdapter.updateList(newData);
+        } else {
+            mAdapter.updateList(null);
+            seeMore.setText("没有更多了");
+        }
+    }
+
+
+    public ArrayList<NeedListResponseBean.DataBean> getData2(int start, int end) {
+        ArrayList<NeedListResponseBean.DataBean> reList = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            if (i < lists2.size()) {
+                reList.add(lists2.get(i));
+            }
+        }
+        return reList;
+    }
+
+
+    public void updateRecycler2(int start, int end) {
+        ArrayList<NeedListResponseBean.DataBean> newData = getData2(start, end);
+        if (newData != null) {
+            mAdapter2.updateList(newData);
+        } else {
+            mAdapter2.updateList(null);
+            seeMore2.setText("没有更多了");
+        }
     }
 }

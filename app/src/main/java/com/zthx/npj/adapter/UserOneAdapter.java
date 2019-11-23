@@ -39,10 +39,12 @@ public class UserOneAdapter extends RecyclerView.Adapter<UserOneAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        if(mList.get(i).getHead_img().split("/")[0].equals("http:")){
-            Glide.with(mContext).load(Uri.parse(mList.get(i).getHead_img())).into(viewHolder.headImg);
-        }else{
-            Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getHead_img())).into(viewHolder.headImg);
+        if(mList.get(i).getHead_img()!=null){
+            if(mList.get(i).getHead_img().split("/")[0].equals("http:")){
+                Glide.with(mContext).load(Uri.parse(mList.get(i).getHead_img())).into(viewHolder.headImg);
+            }else{
+                Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getHead_img())).into(viewHolder.headImg);
+            }
         }
         viewHolder.nickName.setText(mList.get(i).getNick_name());
         viewHolder.createTime.setText(new SimpleDateFormat("yyyy-MM-dd  HH:mm:SS").format(new Date(mList.get(i).getCreate_time()*1000)));

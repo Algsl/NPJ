@@ -25,6 +25,7 @@ import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
@@ -149,9 +150,9 @@ public class ShowLocationActivity extends ActivityBase {
         //开始定位
         mLocationClient.start();
 
-        //显示商家位置
-        LatLng latLng1 = new LatLng(Double.parseDouble(Lat), Double.parseDouble(Lng));
-        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.locate);
+        //自己的位置
+        LatLng latLng1 = new LatLng(Double.parseDouble(SharePerferenceUtils.getLat(this)), Double.parseDouble(SharePerferenceUtils.getLng(this)));
+        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.location_store_locate);
         OverlayOptions options = new MarkerOptions().position(latLng1).icon(bitmap);
         baiduMap.addOverlay(options);
     }
@@ -213,8 +214,8 @@ public class ShowLocationActivity extends ActivityBase {
             location.getBuildingID();    //室内精准定位下，获取楼宇ID
             location.getBuildingName();    //室内精准定位下，获取楼宇名称
             location.getFloor();    //室内精准定位下，获取当前位置所处的楼层信息*/
-            location.setLatitude(Double.parseDouble(SharePerferenceUtils.getLat(ShowLocationActivity.this)));
-            location.setLongitude(Double.parseDouble(SharePerferenceUtils.getLng(ShowLocationActivity.this)));
+            location.setLatitude(Double.parseDouble(Lat));
+            location.setLongitude(Double.parseDouble(Lng));
 
             //这个判断是为了防止每次定位都重新设置中心点和marker
             if (isFirstLocation) {
@@ -237,13 +238,23 @@ public class ShowLocationActivity extends ActivityBase {
                 .accuracy(bdLocation.getRadius())
                 .direction(bdLocation.getRadius()).latitude(bdLocation.getLatitude())
                 .longitude(bdLocation.getLongitude()).build();
+
         map.setMyLocationData(locData);
+
+
 
         if (isShowLoc) {
             LatLng ll = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
             MapStatus.Builder builder = new MapStatus.Builder();
             builder.target(ll).zoom(18.0f);
             map.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+
+            MyLocationConfiguration.LocationMode mCurrentMode = MyLocationConfiguration.LocationMode.NORMAL;
+            int accuracyCircleFillColor = 0xAAFFFF88;
+            int accuracyCircleStrokeColor = 0xAA00FF00;
+            BitmapDescriptor currentMarker = BitmapDescriptorFactory.fromResource(R.drawable.locate);
+            baiduMap.setMyLocationConfiguration(new MyLocationConfiguration(mCurrentMode, true, currentMarker, accuracyCircleFillColor, accuracyCircleStrokeColor));
+            currentMarker.recycle();
         }
     }
 
@@ -370,4 +381,8 @@ public class ShowLocationActivity extends ActivityBase {
             }
         });
     }
+
+
+
+
 }

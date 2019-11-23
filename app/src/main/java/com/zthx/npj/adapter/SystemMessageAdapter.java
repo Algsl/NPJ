@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,7 @@ public class SystemMessageAdapter extends RecyclerView.Adapter<SystemMessageAdap
                 }
             });
         }
-        if(!mList.get(i).getImg().equals("")){
+        if(mList.get(i).getImg()!=null){
             Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com/"+mList.get(i).getImg())).into(viewHolder.msgIv);
         }
         viewHolder.title.setText(mList.get(i).getTitle());

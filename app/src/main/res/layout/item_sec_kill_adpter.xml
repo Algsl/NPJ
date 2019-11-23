@@ -35,6 +35,9 @@
                 android:id="@+id/item_sec_kill_tv_goods_leb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_12"
+                android:singleLine="true"
+                android:ellipsize="marquee"
                 android:text="绿色无污染除草剂"
                 android:textSize="@dimen/sp_13"
                 android:textColor="@color/text6"/>
@@ -56,6 +59,9 @@
             android:layout_height="wrap_content"
             android:textColor="@color/text3"
             android:textSize="@dimen/sp_15"
+            android:layout_marginRight="@dimen/dp_12"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:text="前1000份1元限时抢购"
             android:maxLines="1"/>
         

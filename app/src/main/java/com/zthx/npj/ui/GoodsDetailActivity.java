@@ -347,6 +347,7 @@ public class GoodsDetailActivity extends ActivityBase {
         nick_name = mSeckillData.getNick_name();
         mobile = mSeckillData.getMobile();
 
+        atGoodsDetailTvGoodsTitle1.setText(mSeckillData.getGoods_desc());
         atGoodsDetailTvGoodsTitle.setText(mSeckillData.getGoods_name());
         atGoodsDetailTvGoodsNewPrice.setText("¥" + mSeckillData.getGoods_price());
         atGoodsDetailTvGoodsOldPrice.setText("¥" + mSeckillData.getMarket_price());

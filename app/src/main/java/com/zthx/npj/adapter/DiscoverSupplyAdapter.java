@@ -168,4 +168,11 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
             ivVideo=itemView.findViewById(R.id.item_storeQuotation_iv_video);
         }
     }
+
+    public void updateList(ArrayList<SupplyListResponseBean.DataBean> newData){
+        if(newData!=null){
+            list.addAll(newData);
+        }
+        notifyDataSetChanged();
+    }
 }

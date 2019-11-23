@@ -25,7 +25,6 @@ public class LocationStoreAdapter extends RecyclerView.Adapter<LocationStoreAdap
     }
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
-
     }
 
     public LocationStoreAdapter(Context context, ArrayList<LocalStoreResponseBean.DataBean> list) {
@@ -133,5 +132,12 @@ public class LocationStoreAdapter extends RecyclerView.Adapter<LocationStoreAdap
             mTvOffer = itemView.findViewById(R.id.item_location_store_tv_offer);
             mTvRelief = itemView.findViewById(R.id.item_location_store_tv_relief);
         }
+    }
+
+    public void updateList(ArrayList<LocalStoreResponseBean.DataBean> newData){
+        if(newData!=null){
+            list.addAll(newData);
+        }
+        notifyDataSetChanged();
     }
 }
