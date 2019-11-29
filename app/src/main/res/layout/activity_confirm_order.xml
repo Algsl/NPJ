@@ -115,7 +115,7 @@
                     android:textSize="@dimen/sp_13"
                     android:textColor="@color/app_theme"
                     android:layout_marginTop="@dimen/dp_5"
-                    android:text="￥66"/>
+                    android:text=""/>
 
                 <TextView
                     android:id="@+id/at_confirm_order_tv_goods_num"
@@ -127,7 +127,7 @@
                     android:textSize="@dimen/sp_13"
                     android:textColor="@color/text9"
                     android:layout_marginTop="@dimen/dp_5"
-                    android:text="X1"/>
+                    android:text=""/>
                 <RelativeLayout
                     android:visibility="visible"
                     android:layout_width="match_parent"
@@ -319,7 +319,7 @@
                     android:id="@+id/at_confirm_order_tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="￥625.00"
+                    android:text=""
                     android:textStyle="bold"
                     android:textColor="@color/app_theme"
                     android:layout_alignParentRight="true"
@@ -569,7 +569,7 @@
             android:textColor="@color/app_theme"
             android:textSize="@dimen/sp_14"
             android:layout_marginLeft="@dimen/dp_2"
-            android:text="￥220"
+            android:text=""
             android:textStyle="bold"/>
 
         <Button

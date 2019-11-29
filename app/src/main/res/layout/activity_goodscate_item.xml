@@ -13,5 +13,5 @@
        android:layout_height="wrap_content"
        android:textSize="@dimen/sp_14"
        android:textColor="@color/text3"
-       android:text="农药1"/>
+       android:text=""/>
 </LinearLayout>

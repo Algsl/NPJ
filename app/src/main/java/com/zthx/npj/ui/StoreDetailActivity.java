@@ -188,7 +188,6 @@ public class StoreDetailActivity extends ActivityBase {
         atStoreDetailName.setText(data.getStore_name());
         acStoreDetailTvScore.setText(data.getPopularity() + "分");
         acStoreDetailTvHpPercent.setText("好评率" + (Double.parseDouble(data.getPopularity()) / 5 * 100) + "%");
-        Log.e("测试", "setData: " + (int) Math.floor(Double.parseDouble(data.getPopularity())));
         switch ((int) Math.floor(Double.parseDouble(data.getPopularity()))) {
             case 1:
                 atStoreDetailIvStar1.setImageResource(R.drawable.item_location_store_star);

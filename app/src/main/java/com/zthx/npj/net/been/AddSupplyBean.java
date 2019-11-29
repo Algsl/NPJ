@@ -21,6 +21,43 @@ public class AddSupplyBean {
     private String top_price;
     private String pay_code;
 
+    private String province;
+    private String city1;
+    private String district;
+    private String town;
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity1() {
+        return city1;
+    }
+
+    public void setCity1(String city1) {
+        this.city1 = city1;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getTown() {
+        return town;
+    }
+
+    public void setTown(String town) {
+        this.town = town;
+    }
+
     public String getTop_days() {
         return top_days;
     }

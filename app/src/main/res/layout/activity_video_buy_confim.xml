@@ -144,7 +144,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="购买须知"
-                        android:textColor="@color/text6"
+                        android:textColor="@color/text3"
                         android:textSize="@dimen/sp_13"
                         android:layout_marginLeft="@dimen/dp_9"/>
                 </LinearLayout>
@@ -152,8 +152,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="所有产品支持七天无理由退换货，购买产品，自签收之时开始（快递官网签收时间为准），七天内，对产品不满意，不喜欢等，在不影响第二次销售的情况下，都可以退换货"
+                    android:text="本视频课程为农业专家精品课程专辑，视频将在完成录制后持续更新到本应用中，购买后，您将获得本课程专辑的视频观看权限（包括当前及后续视频），本商品属技术学习资料，一经购买，不再享有退换权益。"
                     android:textSize="@dimen/sp_12"
+                    android:lineHeight="@dimen/dp_16"
                     android:textColor="@color/text6"
                     android:layout_marginLeft="@dimen/dp_13"
                     android:layout_marginRight="@dimen/dp_13"/>

@@ -214,7 +214,6 @@
                     android:layout_width="@dimen/dp_250"
                     android:layout_height="@dimen/dp_130"
                     android:orientation="vertical"
-                    android:layout_marginBottom="@dimen/dp_50"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/pic_heng_bg"
                     android:layout_marginTop="@dimen/dp_10"
@@ -238,22 +237,23 @@
                     android:layout_width="@dimen/dp_250"
                     android:layout_height="@dimen/dp_130"
                     android:orientation="vertical"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/pic_heng_bg"
                     android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginBottom="@dimen/dp_50"
                     android:gravity="center_horizontal">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="资质证书"
+                        android:text="其他资料"
                         android:textColor="@color/text3"
                         android:textSize="@dimen/sp_14"
                         android:layout_marginTop="@dimen/dp_75"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="请上传经营许可资质证书"
+                        android:text="请上传其他相关资料（可选）"
                         android:textSize="@dimen/sp_13"
                         android:textColor="@color/text6"/>
                 </LinearLayout>

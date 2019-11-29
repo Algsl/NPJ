@@ -202,15 +202,117 @@
                     android:layout_height="@dimen/dp_1"
                     android:background="@color/background"
                     android:layout_marginLeft="@dimen/sp_12"
-                    android:layout_marginRight="@dimen/dp_12"></View>
+                    android:layout_marginRight="@dimen/dp_12"/>
+                <LinearLayout
+                    android:id="@+id/at_supply_message_chooseAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:visibility="visible"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_12"
+                        android:layout_marginRight="@dimen/dp_12"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="@dimen/dp_80"
+                            android:layout_height="wrap_content"
+                            android:text="选择地址"
+                            android:textSize="@dimen/sp_15"
+                            android:textColor="@color/text3"
+                            android:layout_marginTop="@dimen/dp_5"
+                            android:layout_marginBottom="@dimen/dp_5"
+                            android:layout_centerVertical="true"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_35"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <Spinner
+                                android:id="@+id/province"
+                                android:layout_width="@dimen/dp_0"
+                                android:layout_height="match_parent"
+                                android:scrollbarSize="@dimen/dp_15"
+                                android:layout_weight="1"/>
+                            <Spinner
+                                android:id="@+id/city"
+                                android:layout_width="@dimen/dp_0"
+                                android:layout_height="match_parent"
+                                android:scrollbarSize="@dimen/dp_15"
+                                android:layout_weight="1"/>
+                            <Spinner
+                                android:id="@+id/district"
+                                android:layout_width="@dimen/dp_0"
+                                android:layout_height="match_parent"
+                                android:scrollbarSize="@dimen/dp_15"
+                                android:layout_weight="1"/>
+                        </LinearLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_1"
+                            android:background="@color/background"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_35"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <Spinner
+                                android:id="@+id/town"
+                                android:layout_width="@dimen/dp_0"
+                                android:scrollbarSize="@dimen/dp_15"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"/>
+                            <TextView
+                                android:layout_width="@dimen/dp_0"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <RelativeLayout
+                        android:id="@+id/at_supply_message_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_51"
+                        android:layout_marginLeft="@dimen/dp_12"
+                        android:layout_marginRight="@dimen/dp_12">
+                        <TextView
+                            android:id="@+id/text4"
+                            android:layout_width="@dimen/dp_80"
+                            android:layout_height="wrap_content"
+                            android:text="详细地址"
+                            android:textSize="@dimen/sp_15"
+                            android:textColor="@color/text3"
+                            android:layout_centerVertical="true"/>
+                        <EditText
+                            android:id="@+id/at_supply_message_et_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:hint="请填写详细地址"
+                            android:background="@null"
+                            android:layout_toRightOf="@id/text4"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:textColor="@color/text9"
+                            android:textSize="@dimen/sp_13"/>
+
+                        <ImageView
+                            android:layout_width="@dimen/dp_6"
+                            android:layout_height="@dimen/dp_10"
+                            android:src="@drawable/mine_dingdan_go"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"/>
+                    </RelativeLayout>
+                </LinearLayout>
                 <RelativeLayout
-                    android:id="@+id/at_supply_message_address"
+                    android:id="@+id/at_supply_message_allAddress"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_51"
                     android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginRight="@dimen/dp_12">
+                    android:layout_marginRight="@dimen/dp_12"
+                    android:visibility="gone">
                     <TextView
-                        android:id="@+id/text4"
+                        android:id="@+id/text8"
                         android:layout_width="@dimen/dp_80"
                         android:layout_height="wrap_content"
                         android:text="供应地址"
@@ -218,12 +320,13 @@
                         android:textColor="@color/text3"
                         android:layout_centerVertical="true"/>
                     <TextView
-                        android:id="@+id/at_supply_message_tv_address"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/at_supply_message_tv_allAddress"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="全国或指定城市"
-                        android:layout_toRightOf="@id/text4"
+                        android:gravity="center_vertical"
+                        android:hint="请填写详细地址"
+                        android:background="@null"
+                        android:layout_toRightOf="@id/text8"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/dp_20"
                         android:textColor="@color/text9"

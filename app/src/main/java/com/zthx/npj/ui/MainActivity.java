@@ -47,6 +47,7 @@ import com.tencent.imsdk.TIMValueCallBack;
 import com.zthx.npj.R;
 import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.base.BaseConstant;
+import com.zthx.npj.base.Const;
 import com.zthx.npj.downapk.DownloadService;
 import com.zthx.npj.net.been.CartListResponseBean;
 import com.zthx.npj.net.been.UserResponseBean;
@@ -237,17 +238,33 @@ public class MainActivity extends AppCompatActivity {
         String maction = mgetvalue.getAction();
         if (Intent.ACTION_VIEW.equals(maction)) {
             Uri uri = mgetvalue.getData();
+            Log.e("测试", "getBrowserResult: "+uri );
             if (uri != null) {
-                String page = uri.getQueryParameter("page");
                 String type = uri.getQueryParameter("type");
                 String id = uri.getQueryParameter("id");
-                if (page.equals("goodsDetail")) {
+                if (type.equals("qianggou")) {
                     intent = new Intent(this, GoodsDetailActivity.class);
-                    intent.setAction(type);
+                    intent.setAction("miaosha");
                     intent.putExtra("goods_id", id + "");
-                } else if (page.equals("tuijian")) {
-                    startActivity(new Intent(this, MembershipPackageActivity.class));
-                } else if (page.equals("payStore")) {
+                } else if (type.equals("zhongchou")) {
+                    intent = new Intent(this, GoodsDetailActivity.class);
+                    intent.setAction("presell");
+                    intent.putExtra("goods_id", id + "");
+                } else if (type.equals("putong")) {
+                    intent = new Intent(this, GoodsDetailActivity.class);
+                    intent.setAction("Goods");
+                    intent.putExtra("goods_id", id + "");
+                }else if (type.equals("gongying")) {
+                    intent = new Intent(this, SupplyProductsActivity.class);
+                    intent.setAction(Const.SUPPLY_DETAIL);
+                    intent.putExtra("goods_id", id+"");
+                }else if (type.equals("qiugou")) {
+                    intent = new Intent(this, SupplyProductsActivity.class);
+                    intent.setAction(Const.NEED_DETAIL);
+                    intent.putExtra("goods_id", id+"");
+                }else if (type.equals("tuijian")) {
+                    intent = new Intent(this, MembershipPackageActivity.class);
+                }else if (type.equals("dianpu")) {
                     intent = new Intent(this, PayToStoreActivity.class);
                     intent.putExtra("key0", id);
                 } else{
@@ -382,11 +399,11 @@ public class MainActivity extends AppCompatActivity {
                 setIndexSelected(1);
                 break;
             case R.id.ll_main_check_03:
-                /*if(SharePerferenceUtils.getUserId(this).equals("")){
+                if(SharePerferenceUtils.getUserId(this).equals("")){
                     Toast.makeText(this,"请先完成登录",Toast.LENGTH_SHORT).show();
                 }else{
                     startActivity(new Intent(this, GameActivity.class));
-                }*/
+                }
                 break;
             case R.id.ll_main_check_04:
                 setIndexSelected(2);
@@ -695,7 +712,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                downloadBinder.startDownload(downloadUrl);
+                //downloadBinder.startDownload(downloadUrl);
+                Intent intent= new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                intent.setData(Uri.parse("https://www.npj-vip.com/"));
+                startActivity(intent);
             }
         });
     }

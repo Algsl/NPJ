@@ -198,7 +198,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="《农品街企业认证协议》"
+            android:text="《农品街平台认证协议》"
             android:textSize="@dimen/sp_13"
             android:textColor="@color/app_theme" />
     </LinearLayout>

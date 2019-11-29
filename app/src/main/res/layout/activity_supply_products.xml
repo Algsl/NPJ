@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.SupplyProductsActivity"
     android:background="@color/background">
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -190,13 +191,15 @@
                             android:textSize="@dimen/sp_12"/>
                     </LinearLayout>-->
                    <LinearLayout
+                       android:id="@+id/ac_supply_ll_renzheng"
+                       android:visibility="gone"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:orientation="horizontal"
                        android:gravity="center"
                        android:layout_marginTop="@dimen/dp_7"
                        android:layout_marginLeft="@dimen/dp_9">
-                       <!--<ImageView
+                       <ImageView
                            android:layout_width="@dimen/dp_22"
                            android:layout_height="@dimen/dp_22"
                            android:src="@drawable/supply_product_1"/>
@@ -205,18 +208,27 @@
                            android:layout_height="wrap_content"
                            android:text="该商家已认证请放心购买"
                            android:textSize="@dimen/sp_13"
-                           android:textColor="#929F30"/>-->
-                       <ImageView
-                           android:layout_width="@dimen/dp_22"
-                           android:layout_height="@dimen/dp_22"
-                           android:src="@drawable/supply_product_3"/>
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:text="产品质量有保证"
-                           android:textColor="#929F30"
-                           android:textSize="@dimen/sp_12"/>
+                           android:textColor="#929F30"/>
                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ac_supply_ll_baozheng"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/dp_7"
+                        android:layout_marginLeft="@dimen/dp_9">
+                        <ImageView
+                            android:layout_width="@dimen/dp_22"
+                            android:layout_height="@dimen/dp_22"
+                            android:src="@drawable/supply_product_3"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="产品质量有保证"
+                            android:textColor="#929F30"
+                            android:textSize="@dimen/sp_12"/>
+                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -529,12 +541,48 @@
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/dp_10"/>
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_10"
-                    android:background="@color/background"
-                    android:layout_alignParentBottom="true"></View>
             </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="请选择农品街在线交易"
+                    android:textColor="@color/app_theme"
+                    android:textSize="@dimen/sp_15"
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:layout_gravity="center_vertical"/>
+                <ImageView
+                    android:layout_width="@dimen/dp_15"
+                    android:layout_height="@dimen/dp_15"
+                    android:src="@drawable/confirm_select"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_gravity="center_vertical"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="资金更安全"
+                    android:textColor="@color/text3"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_gravity="center_vertical"/>
+                <ImageView
+                    android:layout_width="@dimen/dp_15"
+                    android:layout_height="@dimen/dp_15"
+                    android:src="@drawable/confirm_select"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:layout_gravity="center_vertical"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="售后有保障"
+                    android:textColor="@color/text3"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
            <LinearLayout
                android:layout_width="match_parent"
                android:layout_height="match_parent"
@@ -677,6 +725,118 @@
                 android:textColor="@android:color/white"/>
         </LinearLayout>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ac_supply_products_iv_share"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp_120"
+        android:layout_marginRight="@dimen/dp_20"
+        android:scaleType="fitXY"
+        android:src="@drawable/goods_detail_share"/>
+    <LinearLayout
+        android:id="@+id/ac_supply_products_ll_inner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:gravity="center"
+        android:background="@color/background"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/ac_supply_products_Rl_inncer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_450"
+            android:layout_marginLeft="@dimen/dp_40"
+            android:layout_marginRight="@dimen/dp_40"
+            android:background="@drawable/white_conner"
+            android:orientation="vertical">
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_300"
+                android:id="@+id/ac_supply_products_iv_innerGoodsImg"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                app:riv_corner_radius_top_left="@dimen/dp_10"
+                app:riv_corner_radius_top_right="@dimen/dp_10"/>
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/ac_supply_products_tv_innerGoodsTitle"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_below="@id/ac_supply_products_iv_innerGoodsImg"
+                android:lines="2"
+                android:ellipsize="end"
+                android:text="异丙甲草胺绿色无污染大豆田玉米田小麦田均可放心使用;会员可享受包邮"/>
+            <TextView
+                android:id="@+id/ac_supply_products_tv_innerGoodsPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥100"
+                android:textStyle="bold"
+                android:textSize="@dimen/sp_15"
+                android:textColor="@color/app_theme"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_below="@id/ac_supply_products_iv_innerGoodsImg"
+                android:layout_marginRight="@dimen/dp_12"/>
+            <ImageView
+                android:id="@+id/ac_supply_products_iv_qrcode"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_80"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_10"
+                android:src="@drawable/logo"
+                android:focusable="true"
+                android:scaleType="fitXY"
+                android:focusableInTouchMode="true"
+                android:layout_below="@id/ac_supply_products_tv_innerGoodsTitle" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1.保存图片至相册"
+                android:layout_marginTop="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_toRightOf="@id/ac_supply_products_iv_qrcode"
+                android:layout_below="@id/ac_supply_products_tv_innerGoodsTitle"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2.农品街扫一扫打开"
+                android:layout_marginTop="@dimen/dp_50"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_toRightOf="@id/ac_supply_products_iv_qrcode"
+                android:layout_below="@id/ac_supply_products_tv_innerGoodsTitle"/>
+            <ImageView
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_30"
+                android:layout_marginRight="@dimen/dp_10"
+                android:src="@drawable/logo"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/ac_supply_products_tv_innerGoodsTitle" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/ac_supply_products_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/theme_conner_15"
+            android:text="保存并分享"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/dp_15"
+            android:layout_gravity="center"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20"
+            android:paddingTop="@dimen/dp_8"
+            android:paddingBottom="@dimen/dp_8"/>
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/ac_supply_iv_back"
         android:layout_width="@dimen/dp_28"

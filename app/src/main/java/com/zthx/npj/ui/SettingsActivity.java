@@ -215,7 +215,8 @@ public class SettingsActivity extends ActivityBase {
                 toggle();
                 break;
             case R.id.term:
-                openActivity(TermsOfServiceActivity.class);
+                /*openActivity(TermsOfServiceActivity.class);*/
+                openActivity(ConsultActivity.class,"服务条款","http://game.npj-vip.com/agreement/privacy.html");
                 break;
             case R.id.ac_setting_rl_check:
                 //getNewPackInfro("http://game.gesilaa6.club/project/getVersion.php");
@@ -688,7 +689,11 @@ public class SettingsActivity extends ActivityBase {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                downloadBinder.startDownload(downloadUrl);
+                //downloadBinder.startDownload(downloadUrl);
+                Intent intent= new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                intent.setData(Uri.parse("https://www.npj-vip.com/"));
+                startActivity(intent);
             }
         });
     }

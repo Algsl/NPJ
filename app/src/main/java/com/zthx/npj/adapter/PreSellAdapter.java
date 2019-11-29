@@ -16,6 +16,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.net.been.CommentGoodsBeen;
 import com.zthx.npj.net.been.PreSellResponseBean;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,8 +76,8 @@ public class PreSellAdapter extends RecyclerView.Adapter<PreSellAdapter.ViewHold
         viewHolder.mTvTitle.setText(mList.get(i).getGoods_name());
         viewHolder.mTvPrice.setText("￥" +mList.get(i).getGoods_price());
         viewHolder.mTvYuDing.setText("预定 " +mList.get(i).getUser_num());
-        viewHolder.mTvYuShou.setText("众筹" +mList.get(i).getGoods_num());
-        viewHolder.mTvDaCheng.setText((Integer.parseInt(mList.get(i).getSale_num())* 100)/Integer.parseInt(mList.get(i).getGoods_num()) +"%");
+        viewHolder.mTvYuShou.setText("众筹" +new DecimalFormat("0.0").format(Double.parseDouble(mList.get(i).getGoods_price())*Double.parseDouble(mList.get(i).getSale_num())));
+        viewHolder.mTvDaCheng.setText(new DecimalFormat("0.0").format((Double.parseDouble(mList.get(i).getSale_num())* 100)/Double.parseDouble(mList.get(i).getGoods_num())) +"%");
         viewHolder.mPb.setProgress((Integer.parseInt(mList.get(i).getSale_num())* 100)/Integer.parseInt(mList.get(i).getGoods_num()));
     }
 

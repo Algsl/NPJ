@@ -72,7 +72,8 @@ public class LoginActivity extends ActivityBase {
                 toggle();
                 break;
             case R.id.ac_login_tv_tk:
-                openActivity(TermsOfServiceActivity.class);
+                /*openActivity(TermsOfServiceActivity.class);*/
+                openActivity(ConsultActivity.class,"农品街用户注册服务协议","http://game.npj-vip.com/agreement/register.html");
                 break;
         }
     }

@@ -32,11 +32,19 @@
                 android:textSize="@dimen/sp_16"
                 android:text="15633689524"/>
             <TextView
+                android:id="@+id/item_zjdyr_tv_mobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text3"
+                android:textSize="@dimen/sp_14"
+                android:layout_marginTop="@dimen/dp_2"
+                android:text="15633689524"/>
+            <TextView
                 android:id="@+id/item_zjdyr_tv_createTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text6"
-                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginTop="@dimen/dp_3"
                 android:textSize="@dimen/sp_12"
                 android:text="2019-05-25  07:12:25"/>
         </LinearLayout>

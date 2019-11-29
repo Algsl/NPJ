@@ -44,6 +44,7 @@ import com.zthx.npj.net.been.LookUserResponseBean;
 import com.zthx.npj.net.been.StoreGoodsListResponseBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GetAddressUtil;
@@ -53,6 +54,7 @@ import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.MyCircleView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -128,6 +130,8 @@ public class UserMsgActivity extends ActivityBase {
     ImageView acUserMsgIvSellSort;
     @BindView(R.id.ac_userMsg_ll_sellSort)
     LinearLayout acUserMsgLlSellSort;
+    @BindView(R.id.ac_userMsg_tv_isAttention)
+    TextView acUserMsgTvIsAttention;
 
 
     private IWXAPI api;
@@ -139,6 +143,7 @@ public class UserMsgActivity extends ActivityBase {
     private String type = "1";
 
     private boolean flag;
+    private boolean isAttention;
 
 
     private static final String TAG = "测试";
@@ -152,7 +157,7 @@ public class UserMsgActivity extends ActivityBase {
         acUserMsgTvAddress.setSelected(true);
 
         att_user_id = getIntent().getStringExtra("key0");
-        getLookUser(att_user_id);
+        getLookUser();
 
         back(titleThemeBack);
         titleThemeImgRight.setImageResource(R.drawable.item_goods_more1);
@@ -171,6 +176,46 @@ public class UserMsgActivity extends ActivityBase {
         LatLng latLng = new LatLng(Double.parseDouble(SharePerferenceUtils.getLat(this)), Double.parseDouble(SharePerferenceUtils.getLng(this)));
         getLocateinfo(latLng);
         getStoreGoodsList();
+    }
+
+    private void delAttention() {
+        SetSubscribe.delAttention(user_id, token, att_user_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) throws IOException {
+                showToast("取消关注成功");
+                getLookUser();
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+    private void attention(){
+        DiscoverSubscribe.attention(user_id, token, att_user_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                AttentionResponseBean bean = GsonUtils.fromJson(result, AttentionResponseBean.class);
+                switch (bean.getData().getStatus()) {
+                    case 1:
+                        showToast("关注成功");
+                        break;
+                    case 2:
+                        showToast("关注失败");
+                        break;
+                    case 3:
+                        showToast("已经关注过了");
+                        break;
+                }
+                getLookUser();
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 
 
@@ -220,8 +265,8 @@ public class UserMsgActivity extends ActivityBase {
         });
     }
 
-    private void getLookUser(String user_id) {
-        DiscoverSubscribe.lookUser(user_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+    private void getLookUser() {
+        DiscoverSubscribe.lookUser(SharePerferenceUtils.getUserId(this), SharePerferenceUtils.getToken(this), att_user_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 setLookUser(result);
@@ -247,6 +292,15 @@ public class UserMsgActivity extends ActivityBase {
         } else {
             acUserMsgTvNickName.setText(data.getNick_name());
         }
+
+        if (data.getIs_attention() == 0) {
+            isAttention=false;
+            acUserMsgTvIsAttention.setText("立即关注");
+        } else {
+            isAttention=true;
+            acUserMsgTvIsAttention.setText("取消关注");
+        }
+
         acUserMsgTvSignature.setText(data.getSignature() == null ? "这个人很懒，什么也没留下" : data.getSignature());
         MyCustomUtils.showLevelImg(data.getCity_level(), data.getBoss_level(), data.getTeam_level(), data.getLevel(), acUserMsgTvLevel);
         acUserMsgTvHits.setText(data.getHits() == null ? "0" : data.getHits());
@@ -286,7 +340,7 @@ public class UserMsgActivity extends ActivityBase {
 
     @OnClick({R.id.title_theme_img_right, R.id.ac_userMsg_tv_beDYR, R.id.ac_userMsg_tv_tuijian,
             R.id.ac_userMsg_tv_allGoods, R.id.ac_userMsg_ll_sellSort,
-            R.id.ac_userMsg_tv_goCert})
+            R.id.ac_userMsg_tv_goCert,R.id.ac_userMsg_tv_isAttention})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.ac_userMsg_tv_beDYR:
@@ -331,18 +385,29 @@ public class UserMsgActivity extends ActivityBase {
             case R.id.ac_userMsg_tv_goCert:
                 startActivity(new Intent(UserMsgActivity.this, MyAttestationActivity.class));
                 break;
+            case R.id.ac_userMsg_tv_isAttention:
+                attention_toggle();
+                break;
+        }
+    }
+
+    private void attention_toggle() {
+        if(isAttention){
+            delAttention();
+        }else{
+            attention();
         }
     }
 
     private void toggle() {
         acUserMsgTvSellSort.setTextColor(getResources().getColor(R.color.app_theme));
-        flag=!flag;
-        if(flag){
+        flag = !flag;
+        if (flag) {
             acUserMsgIvSellSort.setImageResource(R.drawable.select1);
-            type="3";
-        }else{
+            type = "3";
+        } else {
             acUserMsgIvSellSort.setImageResource(R.drawable.select2);
-            type="4";
+            type = "4";
         }
         getStoreGoodsList();
     }

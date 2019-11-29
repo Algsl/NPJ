@@ -371,9 +371,11 @@ public class DiscoverSubscribe {
      * @param user_id
      * @param subscriber
      */
-    public static void lookUser(String user_id, DisposableObserver<ResponseBody> subscriber) {
+    public static void lookUser(String user_id,String token,String lookUserId, DisposableObserver<ResponseBody> subscriber) {
         LookUserBean bean=new LookUserBean();
         bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setLook_user_id(lookUserId);
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().lookUser(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }

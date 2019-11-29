@@ -117,8 +117,7 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(AgricultureKnowledgeActivity.this);
                 atAkRv.setLayoutManager(layoutManager);
                 NewsListAdapter adapter = new NewsListAdapter(AgricultureKnowledgeActivity.this, data);
-                adapter.notifyDataSetChanged();
-                atAkRv.setItemAnimator(new DefaultItemAnimator());
+                //adapter.notifyDataSetChanged();
                 atAkRv.setAdapter(adapter);
                 adapter.setOnItemClickListener(new NewsListAdapter.ItemClickListener() {
                     @Override

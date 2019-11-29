@@ -651,5 +651,14 @@ public interface HttpApi  {
 
     @POST("index.php/api/user2/bonuslist.html")
     Observable<ResponseBody> getBonusList(@Body BonusListBean bean);
+
+    @POST("index.php/api/user2/delattention.html")
+    Observable<ResponseBody> delAttention(@Body DelAttentionBean bean);
+
+    @POST("index.php/api/user2/addcomment.html")
+    Observable<ResponseBody> addComment(@Body AddCommentBean bean);
+
+    @POST("index.php/api/user2/commentlist.html")
+    Observable<ResponseBody> commonList(@Body CommonListBean bean);
 }
 

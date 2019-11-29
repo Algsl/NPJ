@@ -51,7 +51,7 @@ public class PurchaserCertificationActivity extends ActivityBase {
     public void onViewClicked(View v) {
         switch (v.getId()){
             case R.id.at_trust_bottom:
-                openActivity(ConsultActivity.class);
+                openActivity(ConsultActivity.class,"农品街平台认证协议","http://game.npj-vip.com/agreement/certificate.html");
                 break;
             case R.id.at_purchaser_certification_btn_attestation:
                 CertSubscribe.isPersonCertDone(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {

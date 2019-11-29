@@ -292,7 +292,7 @@ public class CommentActivity extends ActivityBase {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case CHOOSE_PHOTO:
-                if (resultCode == RESULT_OK) {
+                /*if (resultCode == RESULT_OK) {
                     try {
                         Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -306,7 +306,7 @@ public class CommentActivity extends ActivityBase {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }
+                }*/
                 if(resultCode!=0){
                     ArrayList<String> images = data.getStringArrayListExtra(ImageSelectorUtils.SELECT_RESULT);
                     for(int i=0;i<images.size();i++){

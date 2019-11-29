@@ -35,7 +35,6 @@
             android:id="@+id/at_cellphone_login_tv_third_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="滴滴答答"
             android:textSize="@dimen/sp_16"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/text3"

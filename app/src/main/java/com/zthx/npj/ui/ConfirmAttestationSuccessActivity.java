@@ -1,6 +1,7 @@
 package com.zthx.npj.ui;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,8 +31,8 @@ public class ConfirmAttestationSuccessActivity extends ActivityBase {
         setContentView(R.layout.activity_confirm_attestation_success);
         ButterKnife.bind(this);
 
-        back(titleThemeBack);
         changeTitle(titleThemeTitle, "提交成功");
+        titleThemeBack.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.ac_confirmAttestation_btn_back)

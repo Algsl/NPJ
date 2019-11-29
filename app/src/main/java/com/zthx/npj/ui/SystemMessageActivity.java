@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,9 +62,27 @@ public class SystemMessageActivity extends ActivityBase {
                 LinearLayoutManager manager = new LinearLayoutManager(SystemMessageActivity.this, LinearLayoutManager.VERTICAL, false);
                 atSystemMessageRv.setLayoutManager(manager);
                 SystemMsgResponseBean bean=GsonUtils.fromJson(result,SystemMsgResponseBean.class);
-                ArrayList<SystemMsgResponseBean.DataBean> data=bean.getData();
+                final ArrayList<SystemMsgResponseBean.DataBean> data=bean.getData();
                 SystemMessageAdapter mAdapter = new SystemMessageAdapter(SystemMessageActivity.this, data);
                 atSystemMessageRv.setAdapter(mAdapter);
+
+                mAdapter.setOnItemClickListener(new SystemMessageAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Intent intent=null;
+                        if(data.get(position).getType()==1){
+                            /*intent=new Intent(SystemMessageActivity.this, StoreOrderRefuseActivity.class);
+                            intent.putExtra("order_id", data.get(position).getId() + "");
+                            intent.putExtra("order_state",  "3");*/
+                            intent=new Intent(SystemMessageActivity.this,MyOrderActivity.class);
+                        }else if(data.get(position).getType()==3){
+                            intent=new Intent(SystemMessageActivity.this,UserMoneyActivity.class);
+                        }else if(data.get(position).getType()==7){
+                            intent=new Intent(SystemMessageActivity.this,MyAttestationActivity.class);
+                        }
+                        startActivity(intent);
+                    }
+                });
             }
 
             @Override

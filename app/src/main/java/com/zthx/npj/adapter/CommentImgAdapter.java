@@ -43,8 +43,11 @@ public class CommentImgAdapter extends RecyclerView.Adapter<CommentImgAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull final CommentImgAdapter.ViewHolder viewHolder, int i) {
-        Glide.with(mContext).load(Uri.parse(imgList.get(i))).into(viewHolder.img);
-
+        if(imgList.get(i).split("/")[0].equals("http:")){
+            Glide.with(mContext).load(Uri.parse(imgList.get(i))).into(viewHolder.img);
+        }else{
+            Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+imgList.get(i))).into(viewHolder.img);
+        }
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

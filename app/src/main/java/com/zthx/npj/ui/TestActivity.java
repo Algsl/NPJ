@@ -14,13 +14,18 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.TestAdapter;
 import com.zthx.npj.net.been.LocalStoreResponseBean;
+import com.zthx.npj.tencent.util.HttpUtil;
 import com.zthx.npj.utils.GsonUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class TestActivity extends ActivityBase {
 
@@ -45,12 +50,13 @@ public class TestActivity extends ActivityBase {
         setContentView(R.layout.activity_test);
         ButterKnife.bind(this);
 
+        getTest();
+
 
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 refreshlayout.finishLoadmore();
-                Log.e("测试", "onLoadmore: "+adapter.getItemCount()+" "+getData(adapter.getItemCount(),adapter.getItemCount()+PAGE_COUNT).size() );
                 updateRecycler(adapter.getItemCount(),adapter.getItemCount()+PAGE_COUNT);
             }
         });
@@ -61,6 +67,20 @@ public class TestActivity extends ActivityBase {
                 "],\"msg\":\"加载成功\"}";
 
         getLocalStore("1");
+    }
+
+    private void getTest() {
+        HttpUtil.sendHttpRequest("http://106.13.228.156/index.php/admin/index/index.html", new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.e("测试", "onResponse: "+response.body().string() );
+            }
+        });
     }
 
     private void getLocalStore(String type) {

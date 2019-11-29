@@ -188,6 +188,50 @@
                     android:layout_marginRight="@dimen/dp_8"/>
             </RelativeLayout>
             <RelativeLayout
+                android:id="@+id/ac_spokesman_rl_offline"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_12"
+                android:background="@drawable/white_conner_5">
+                <ImageView
+                    android:id="@+id/logo4"
+                    android:layout_centerVertical="true"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:src="@drawable/home_local"
+                    android:layout_marginLeft="@dimen/dp_10"/>
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="线下门店收益"
+                    android:textColor="@color/text3"
+                    android:textSize="@dimen/sp_15"
+                    android:layout_toRightOf="@id/logo4"
+                    android:layout_marginLeft="@dimen/dp_15"/>
+                <ImageView
+                    android:id="@+id/go4"
+                    android:layout_centerVertical="true"
+                    android:layout_width="@dimen/dp_6"
+                    android:layout_height="@dimen/dp_10"
+                    android:src="@drawable/mine_dingdan_go"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_10"/>
+
+                <TextView
+                    android:id="@+id/ac_spokesman_tv_offLineMoney"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="254元"
+                    android:textSize="@dimen/sp_13"
+                    android:textColor="@color/text6"
+                    android:layout_toLeftOf="@id/go4"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_8"/>
+            </RelativeLayout>
+            <RelativeLayout
                 android:id="@+id/at_spokesman_rl_daiyanjiangli"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"

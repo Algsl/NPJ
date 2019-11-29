@@ -43,7 +43,6 @@
                         android:id="@+id/ac_cartConfirm_tv_userInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="灭霸  18435224024"
                         android:textSize="@dimen/sp_16"
                         android:textColor="@color/text3"
                         android:layout_marginTop="@dimen/dp_20"/>
@@ -54,8 +53,7 @@
                         android:layout_marginTop="@dimen/dp_10"
                         android:lineHeight="@dimen/dp_21"
                         android:textSize="@dimen/sp_14"
-                        android:textColor="@color/text6"
-                        android:text="河南省郑州市管城回族区中州锦绣花苑佛司机欧冠"/>
+                        android:textColor="@color/text6"/>
                 </LinearLayout>
                 <ImageView
                     android:layout_width="@dimen/dp_22"

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +85,8 @@ public class HaiBaoActivity extends ActivityBase {
                 acHaibaoTvUserName.setText(bean.getData().getNick_name());
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
                 //Bitmap bitmap1 = QRCodeUtil.createQRCodeBitmap("hello", 80, ImageCircleConner.toRoundCorner(bitmap, 190), 0.2f);
-                Bitmap bitmap1 = QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?page=tuijian", 100, bitmap, 0.3f);
+                Log.e("测试", "onSuccess: "+"http://game.npj-vip.com/h5/jumpApp.html?type=tuijian&id=null&img=null&discount=null" );
+                Bitmap bitmap1 = QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?type=tuijian&id=null&img=null&discount=null", 100, bitmap, 0.3f);
                 acHaibaoIvQrImg.setImageBitmap(bitmap1);
             }
 

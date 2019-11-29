@@ -56,6 +56,7 @@ public class SeckillListFragment extends Fragment {
                 Toast.makeText(getContext(), "刷新完成", Toast.LENGTH_SHORT).show();
             }
         });
+        refreshLayout.setEnableLoadmore(false);
         return view;
     }
 

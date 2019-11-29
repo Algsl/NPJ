@@ -41,7 +41,7 @@
                         android:id="@+id/at_membership_package_tv_name"
                         android:layout_width="@dimen/dp_80"
                         android:layout_height="@dimen/dp_23"
-                        android:text="闭眼看世界"
+                        android:text="农品街用户"
                         android:textSize="@dimen/sp_13"
                         android:gravity="center"
                         android:singleLine="true"

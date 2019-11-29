@@ -111,6 +111,7 @@
             </RelativeLayout>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/item_store_goods_bill_ll"
             android:layout_width="@dimen/dp_120"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"

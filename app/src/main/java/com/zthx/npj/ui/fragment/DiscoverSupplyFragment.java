@@ -202,7 +202,6 @@ public class DiscoverSupplyFragment extends Fragment {
                 }*/
                 refreshlayout.finishLoadmore();
                 if(itemType==1){
-                    Log.e("测试", "onLoadmore: "+mAdapter.getItemCount()+" "+(mAdapter.getItemCount()==lists1.size())  );
                     if(mAdapter.getItemCount()!=lists1.size()){
                         updateRecycler1(mAdapter.getItemCount(),mAdapter.getItemCount()+PAGE_COUNT);
                     }else{

@@ -102,6 +102,17 @@ public class OrderResponseBean extends BaseReponseBean{
         private String spec_name;
         private String store_name;
 
+        private Long cuidan_time;
+
+
+        public Long getCuidan_time() {
+            return cuidan_time;
+        }
+
+        public void setCuidan_time(Long cuidan_time) {
+            this.cuidan_time = cuidan_time;
+        }
+
         public String getExpress_code() {
             return express_code;
         }

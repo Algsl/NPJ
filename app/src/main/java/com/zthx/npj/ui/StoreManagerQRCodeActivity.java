@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -59,17 +60,19 @@ public class StoreManagerQRCodeActivity extends ActivityBase {
         changeTitle(titleThemeTitle, "我的收款码");
         changeRightText(titleThemeTvRight, "账单", StoreManagerBillActivity.class, null);
 
-        //String img=getIntent().getStringExtra("img");
         if(getIntent()!=null){
+            final String img=getIntent().getStringExtra("img");
             final String store_id=getIntent().getStringExtra("store_id");
-            String offer=getIntent().getStringExtra("offer");
+            final String offer=getIntent().getStringExtra("offer");
             acStoreManagerPb.setProgress((int)Double.parseDouble(offer));
             acStoreManagerTvHint.setText("优惠比率" + offer + "%，用户支付时葫芦币抵扣" + offer + "%消费金额");
+
+            Log.e("测试", "onCreate: "+"http://game.npj-vip.com/h5/jumpApp.html?type=dianpu&id="+store_id+"&img="+img+"&discount="+offer);
 
             Glide.with(this).load(Uri.parse(SharePerferenceUtils.getHeadPic(this))).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    acStoreManagerIvQRCode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?page=payStore&id="+store_id,(int)getResources().getDimension(R.dimen.dp_220),
+                    acStoreManagerIvQRCode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?type=dianpu&id="+store_id+"&img="+img+"&discount="+offer,(int)getResources().getDimension(R.dimen.dp_220),
                             ImageCircleConner.toRoundCorner(resource,220),0.3f));
                 }
             });
@@ -77,7 +80,7 @@ public class StoreManagerQRCodeActivity extends ActivityBase {
             Glide.with(this).load(Uri.parse(SharePerferenceUtils.getHeadPic(this))).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    acStoreManagerIvQRCode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?page=payStore&id="+null,(int)getResources().getDimension(R.dimen.dp_220),
+                    acStoreManagerIvQRCode.setImageBitmap(QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?type=dianpu&id="+null,(int)getResources().getDimension(R.dimen.dp_220),
                             ImageCircleConner.toRoundCorner(resource,220),0.3f));
                 }
             });

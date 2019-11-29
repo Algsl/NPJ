@@ -397,7 +397,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         if (provinceName.equals("")) {
             address=MyCustomUtils.getGeoPointBystr(this,data.getAddress()+data.getAddress2());
         } else {
-            address = MyCustomUtils.getGeoPointBystr(this, provinceName + cityName + districtName + townName);
+            address = MyCustomUtils.getGeoPointBystr(this, provinceName + cityName + districtName + townName+acStoreManagerEtAddress2.getText().toString().trim());
         }
         yingyeTime = getEtToString(acStoreManagerABegin) + "-" + getEtToString(acStoreManagerAEnd) + " " + getEtToString(acStoreManagerPBegin) + "-" + getEtToString(acStoreManagerPEnd);
         EditOfflineStoreBean bean = new EditOfflineStoreBean();

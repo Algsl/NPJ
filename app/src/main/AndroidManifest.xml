@@ -77,10 +77,8 @@
             android:theme="@style/TranslucentTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="article"
                     android:pathPrefix="/attr"
@@ -114,7 +112,6 @@
             android:name=".ui.AgricultureVideoMainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.BuyVideoActivity" />
         <activity android:name=".ui.SupplyMessageActivity" />
         <activity
             android:name=".ui.SupplyProductsActivity"
@@ -137,7 +134,6 @@
         <activity android:name=".ui.PublishGoodsActivity" />
         <activity android:name=".ui.StoreGoodsListActivity" />
         <activity android:name=".ui.StoreGoodsBillActivity" />
-        <activity android:name=".ui.GoodsBillDetailActivity" />
         <activity android:name=".ui.MyAttestationActivity" android:launchMode="singleTask" />
         <activity android:name=".ui.TrustedStoreActivity" />
         <activity android:name=".ui.TrustedStore2Activity" />

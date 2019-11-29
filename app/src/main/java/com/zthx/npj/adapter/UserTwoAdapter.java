@@ -41,6 +41,7 @@ public class UserTwoAdapter extends RecyclerView.Adapter<UserTwoAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Glide.with(mContext).load(Uri.parse(mList.get(i).getHead_img())).into(viewHolder.headImg);
         viewHolder.nickName.setText(mList.get(i).getNick_name());
+        viewHolder.mobile.setText(mList.get(i).getMobile());
         viewHolder.createTime.setText(new SimpleDateFormat("yyyy-MM-dd  HH:mm:SS").format(new Date(mList.get(i).getCreate_time()*1000)));
     }
 
@@ -52,7 +53,7 @@ public class UserTwoAdapter extends RecyclerView.Adapter<UserTwoAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView headImg;
-        TextView nickName,createTime,level;
+        TextView nickName,createTime,level,mobile;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,7 +62,7 @@ public class UserTwoAdapter extends RecyclerView.Adapter<UserTwoAdapter.ViewHold
             nickName=itemView.findViewById(R.id.item_zjdyr_tv_nickName);
             createTime=itemView.findViewById(R.id.item_zjdyr_tv_createTime);
             level=itemView.findViewById(R.id.item_zjdyr_tv_level);
-
+            mobile=itemView.findViewById(R.id.item_zjdyr_tv_mobile);
         }
     }
 }

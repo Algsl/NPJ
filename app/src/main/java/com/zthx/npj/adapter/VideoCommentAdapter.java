@@ -21,6 +21,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.MyCustomUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class VideoCommentAdapter extends RecyclerView.Adapter<VideoCommentAdapte
                 }
             });
         }
-        DiscoverSubscribe.lookUser(mList.get(i).getUser_id()+"", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        DiscoverSubscribe.lookUser(SharePerferenceUtils.getUserId(mContext),SharePerferenceUtils.getToken(mContext),mList.get(i).getUser_id()+"", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 LookUserResponseBean bean = GsonUtils.fromJson(result, LookUserResponseBean.class);

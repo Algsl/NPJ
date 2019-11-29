@@ -2,6 +2,7 @@ package com.zthx.npj.ui;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -12,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,10 +31,16 @@ import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.bumptech.glide.Glide;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXImageObject;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.qcloud.tim.uikit.modules.chat.base.ChatInfo;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.CommentAdapter;
@@ -56,7 +65,9 @@ import com.zthx.npj.tencent.activity.ChatActivity;
 import com.zthx.npj.tencent.util.Constants;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.MyCustomUtils;
+import com.zthx.npj.utils.QRCodeUtil;
 import com.zthx.npj.utils.SharePerferenceUtils;
+import com.zthx.npj.utils.SimpleUtil;
 import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.MyCircleView;
 
@@ -65,6 +76,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.zthx.npj.ui.UserMsgActivity.bmpToByteArray;
 
 public class SupplyProductsActivity extends ActivityBase {
 
@@ -146,6 +159,27 @@ public class SupplyProductsActivity extends ActivityBase {
     RelativeLayout acSupplyProductShowLocation;
     @BindView(R.id.comment_hint)
     TextView commentHint;
+    @BindView(R.id.ac_supply_ll_renzheng)
+    LinearLayout acSupplyLlRenzheng;
+    @BindView(R.id.ac_supply_ll_baozheng)
+    LinearLayout acSupplyLlBaozheng;
+
+    @BindView(R.id.ac_supply_products_iv_share)
+    ImageView acSupplyProductsIvShare;
+    @BindView(R.id.ac_supply_products_iv_innerGoodsImg)
+    RoundedImageView acSupplyProductsIvInnerGoodsImg;
+    @BindView(R.id.ac_supply_products_tv_innerGoodsTitle)
+    TextView acSupplyProductsTvInnerGoodsTitle;
+    @BindView(R.id.ac_supply_products_tv_innerGoodsPrice)
+    TextView acSupplyProductsTvInnerGoodsPrice;
+    @BindView(R.id.ac_supply_products_iv_qrcode)
+    ImageView acSupplyProductsIvQrcode;
+    @BindView(R.id.ac_supply_products_Rl_inncer)
+    RelativeLayout acSupplyProductsRlInncer;
+    @BindView(R.id.ac_supply_products_save)
+    TextView acSupplyProductsSave;
+    @BindView(R.id.ac_supply_products_ll_inner)
+    LinearLayout acSupplyProductsLlInner;
 
 
     private String type;
@@ -162,11 +196,18 @@ public class SupplyProductsActivity extends ActivityBase {
     private String lat;
     private String lng;
 
+    private String imgStrMsg = "";
+    private IWXAPI api;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supply_products);
         ButterKnife.bind(this);
+
+        api = WXAPIFactory.createWXAPI(this, "wx76500efa65d19915", false);
+        api.registerApp("wx76500efa65d19915");
 
         back(acSupplyIvBack);
 
@@ -260,7 +301,7 @@ public class SupplyProductsActivity extends ActivityBase {
                 if (!needData.getHead_img().equals("")) {
                     Glide.with(SupplyProductsActivity.this).load(needData.getHead_img()).into(atSupplyProductsIvHeadPic);
                 }
-                if (needData.getNick_name().substring(0,2).equals("用户")) {
+                if (needData.getNick_name().substring(0, 2).equals("用户")) {
                     atSupplyProductsTvName.setText("农品街新客");
                 } else {
                     atSupplyProductsTvName.setText(needData.getNick_name());
@@ -320,7 +361,7 @@ public class SupplyProductsActivity extends ActivityBase {
                 if (!supplyData.getHead_img().equals("")) {
                     Glide.with(SupplyProductsActivity.this).load(supplyData.getHead_img()).into(atSupplyProductsIvHeadPic);
                 }
-                if (supplyData.getNick_name().substring(0,2).equals("用户")) {
+                if (supplyData.getNick_name().substring(0, 2).equals("用户")) {
                     atSupplyProductsTvName.setText("农品街新客");
                 } else {
                     atSupplyProductsTvName.setText(supplyData.getNick_name());
@@ -334,6 +375,8 @@ public class SupplyProductsActivity extends ActivityBase {
                     for (String str : strs) {
                         if (str.equals("1")) {
                             acSupplyTvRealName.setVisibility(View.VISIBLE);
+                            acSupplyLlRenzheng.setVisibility(View.VISIBLE);
+                            acSupplyLlBaozheng.setVisibility(View.GONE);
                         } else if (str.equals("2")) {
                             acSupplyTvEnterPrice.setVisibility(View.VISIBLE);
                         } else if (str.equals("3")) {
@@ -377,7 +420,7 @@ public class SupplyProductsActivity extends ActivityBase {
 
     @OnClick({R.id.at_supply_products_btn_buy_now, R.id.at_supply_products_ll_call, R.id.at_supply_products_ll_chat,
             R.id.ac_supply_iv_home, R.id.ac_supplyProducts_seeInfo, R.id.ac_supply_tv_detail, R.id.ac_supply_tv_common,
-            R.id.ac_supply_product_showLocation})
+            R.id.ac_supply_product_showLocation, R.id.ac_supply_products_iv_share,R.id.ac_supply_products_save})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_supply_products_ll_call:
@@ -444,6 +487,31 @@ public class SupplyProductsActivity extends ActivityBase {
             case R.id.ac_supply_product_showLocation:
                 openActivity(ShowLocationActivity.class, lat, lng);
                 break;
+            case R.id.ac_supply_products_iv_share:
+                acSupplyProductsLlInner.setVisibility(View.VISIBLE);
+                String url = "";
+                if (type.equals(Const.SUPPLY_DETAIL)) {
+                    url = supplyData.getGoods_img().get(0);
+                    imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?type=gongying&id=" + goodsId + "&img=null&discount=0";
+                    acSupplyProductsTvInnerGoodsTitle.setText(supplyData.getGoods_name());
+                    acSupplyProductsTvInnerGoodsPrice.setText("￥" + supplyData.getPrice());
+                } else {
+                    url = needData.getImg().get(0);
+                    imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?type=qiugou&id=" + goodsId + "&img=null&discount=0";
+                    acSupplyProductsTvInnerGoodsTitle.setText(needData.getTitle());
+                    acSupplyProductsTvInnerGoodsPrice.setVisibility(View.GONE);
+                }
+                if (url.substring(url.length() - 4).equals(".mp4")) {
+                    acSupplyProductsIvInnerGoodsImg.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
+                } else {
+                    Glide.with(this).load(Uri.parse(url)).into(acSupplyProductsIvInnerGoodsImg);
+                }
+                acSupplyProductsIvQrcode.setImageBitmap(QRCodeUtil.createQRCodeBitmap(imgStrMsg, (int) getResources().getDimension(R.dimen.dp_180)));
+                break;
+            case R.id.ac_supply_products_save:
+                Bitmap bitmap = SimpleUtil.createViewBitmap(acSupplyProductsRlInncer);
+                showSingleBottomDialog(bitmap);
+                break;
         }
     }
 
@@ -452,9 +520,9 @@ public class SupplyProductsActivity extends ActivityBase {
             @Override
             public void onSuccess(String result) {
                 CommentResponseBean bean = GsonUtils.fromJson(result, CommentResponseBean.class);
-                if(bean.getData().size()==0){
+                if (bean.getData().size() == 0) {
                     commentHint.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     commentHint.setVisibility(View.GONE);
                 }
                 CommentAdapter adapter = new CommentAdapter(SupplyProductsActivity.this, bean.getData());
@@ -554,5 +622,69 @@ public class SupplyProductsActivity extends ActivityBase {
             }
         });
         geoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(latLng));
+    }
+    private void showSingleBottomDialog(final Bitmap bmp) {
+        //1、使用Dialog、设置style
+        final Dialog dialog = new Dialog(this, R.style.DialogTheme);
+        //2、设置布局
+        final View view = View.inflate(this, R.layout.dialog_share_layout, null);
+        dialog.setContentView(view);
+        Window window = dialog.getWindow();
+        //设置弹出位置
+        window.setGravity(Gravity.BOTTOM);
+        //设置弹出动画
+        window.setWindowAnimations(R.style.main_menu_animStyle);
+        //设置对话框大小
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+        dialog.findViewById(R.id.dialog_share_friends).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                acSupplyProductsLlInner.setVisibility(View.GONE);
+                WXImageObject imgObj = new WXImageObject(bmp);
+                WXMediaMessage msg = new WXMediaMessage();
+                msg.mediaObject = imgObj;
+                Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 120, 120, true);
+                bmp.recycle();
+                msg.thumbData = bmpToByteArray(thumbBmp, true);  // 设置所图；
+                msg.title = "标题";
+                msg.description = "内容";
+                SendMessageToWX.Req req = new SendMessageToWX.Req();
+                req.transaction = "img" + String.valueOf(System.currentTimeMillis());
+                req.message = msg;
+                req.scene = SendMessageToWX.Req.WXSceneSession;   //设置发送给朋友
+                //  req.scene = SendMessageToWX.Req.WXSceneTimeline;    //设置发送到朋友圈
+                api.sendReq(req);
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dialog_share_pyq).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                acSupplyProductsLlInner.setVisibility(View.GONE);
+                WXImageObject imgObj = new WXImageObject(bmp);
+                WXMediaMessage msg = new WXMediaMessage();
+                msg.mediaObject = imgObj;
+                Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 120, 120, true);
+                bmp.recycle();
+                msg.thumbData = bmpToByteArray(thumbBmp, true);  // 设置所图；
+                msg.title = "标题";
+                msg.description = "内容";
+                SendMessageToWX.Req req = new SendMessageToWX.Req();
+                req.transaction = "img" + String.valueOf(System.currentTimeMillis());
+                req.message = msg;
+                //req.scene = SendMessageToWX.Req.WXSceneSession;   //设置发送给朋友
+                req.scene = SendMessageToWX.Req.WXSceneTimeline;    //设置发送到朋友圈
+                api.sendReq(req);
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.dl_photo_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                acSupplyProductsLlInner.setVisibility(View.GONE);
+                dialog.dismiss();
+            }
+        });
     }
 }

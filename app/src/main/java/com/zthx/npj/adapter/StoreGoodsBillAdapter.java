@@ -200,6 +200,7 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
         TextView goodsBillHint;
         LinearLayout residueLlTime;
         TimeTextView refundTvTime;
+        LinearLayout itemLl;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -217,6 +218,7 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
             goodsIvState=itemView.findViewById(R.id.item_storeGoodsBill_iv_state);
             refundTvTime=itemView.findViewById(R.id.item_storeGoodsBill_tv_time);
             goodsBillHint=itemView.findViewById(R.id.item_storeGoodsBill_tv_hint);
+            itemLl=itemView.findViewById(R.id.item_store_goods_bill_ll);
         }
     }
 }

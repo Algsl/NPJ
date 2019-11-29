@@ -65,7 +65,7 @@
                         android:layout_marginTop="@dimen/dp_6"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/dp_17"
-                        android:text="02:31:18"/>
+                        android:text=""/>
 
                     <TextView
                         android:id="@+id/at_goods_detail_tv_log"
@@ -122,7 +122,7 @@
                         android:layout_centerInParent="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/dp_17"
-                        android:text="02:31:18"/>
+                        android:text=""/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -835,8 +835,8 @@
                 android:layout_marginRight="@dimen/dp_12"/>
             <ImageView
                 android:id="@+id/ac_goodsDetail_iv_qrcode"
-                android:layout_width="@dimen/dp_80"
-                android:layout_height="@dimen/dp_80"
+                android:layout_width="@dimen/dp_90"
+                android:layout_height="@dimen/dp_90"
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginTop="@dimen/dp_10"
                 android:src="@drawable/logo"

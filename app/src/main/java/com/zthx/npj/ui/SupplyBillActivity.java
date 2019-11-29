@@ -175,6 +175,7 @@ public class SupplyBillActivity extends ActivityBase {
                         atSupplyBillTvAddress.setText(data.getAddress());
                         atSupplyBillTvName.setText(data.getNick_name());
                         Glide.with(SupplyBillActivity.this).load(data.getGoods_img()).into(atSupplyBillIvGoodsPic);
+                        goodsImg=data.getGoods_img();
                         atSupplyBillTvTitle.setText(data.getTitle());
                         atSupplyBillTvDanjia.setText("¥" + data.getPrice() + "/");
                         atSupplyBillTvUnit.setText(data.getGoods_unit());

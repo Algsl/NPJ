@@ -17,6 +17,15 @@ public class LookUserResponseBean extends BaseReponseBean{
         private int city_level;
         private int boss_level;
         private int team_level;
+        private long is_attention;
+
+        public long getIs_attention() {
+            return is_attention;
+        }
+
+        public void setIs_attention(long is_attention) {
+            this.is_attention = is_attention;
+        }
 
         public int getCity_level() {
             return city_level;

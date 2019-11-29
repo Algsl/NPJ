@@ -180,6 +180,7 @@ public class OrderListFragment extends Fragment {
                                 @Override
                                 public void onSuccess(String result) {
                                     mAdapter.notifyItemRemoved(position);
+                                    getOrder();
                                     showToast("订单删除成功");
                                 }
 
@@ -206,15 +207,26 @@ public class OrderListFragment extends Fragment {
             //催单
             @Override
             public void onCuiDanClick(int position) {
-                /*Toast toast=Toast.makeText(getContext(),"已通知商家发货，请耐心等待",Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
-                toast.show();*/
+                if(data.get(position).getCuidan_time()!=null){
+                    Long time=System.currentTimeMillis()/1000-data.get(position).getCuidan_time();
+                    if(time/60/60<=8){
+                        showToast("操作过于频繁");
+                    }else{
+                        cuidan();
+                    }
+                }else{
+                    cuidan();
+                }
+
+            }
+
+            public void cuidan(){
                 SetSubscribe.reminders(user_id,token,data.get(position).getId()+"",new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
                         showToast("已通知商家发货，请耐心等待");
-                    }
 
+                    }
                     @Override
                     public void onFault(String errorMsg) {
 
@@ -240,6 +252,7 @@ public class OrderListFragment extends Fragment {
                     @Override
                     public void onSuccess(String result) {
                         showToast("确认收货成功");
+                        getOrder();
                     }
 
                     @Override
@@ -283,6 +296,8 @@ public class OrderListFragment extends Fragment {
             @Override
             public void onComment2Click(int position) {
                 Intent intent=new Intent(getContext(),AddToCommentActivity.class);
+                intent.putExtra("goodsId",data.get(position).getGoods_id()+"");
+                intent.putExtra("type",data.get(position).getOrder_type()+"");
                 startActivity(intent);
             }
         });

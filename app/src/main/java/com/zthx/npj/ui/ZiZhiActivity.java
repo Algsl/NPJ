@@ -77,7 +77,7 @@ public class ZiZhiActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_trust_bottom:
-                openActivity(ConsultActivity.class);
+                openActivity(ConsultActivity.class,"农品街平台认证协议","http://game.npj-vip.com/agreement/certificate.html");
                 break;
             case R.id.at_zizhi_btn_attestation:
                 isPersonCert();

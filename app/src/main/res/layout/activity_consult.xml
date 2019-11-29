@@ -5,7 +5,11 @@
     android:background="@color/white"
     android:orientation="vertical">
     <include layout="@layout/title"/>
-    <ScrollView
+    <WebView
+        android:id="@+id/ac_consult_wv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <!--<ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -19,7 +23,7 @@
                 android:textSize="@dimen/sp_16"
                 android:textColor="@color/text3"
                 android:layout_marginTop="@dimen/dp_26"
-                android:text="农品街企业认证协议"/>
+                android:text="农品街平台认证协议"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,5 +60,5 @@
                 android:lineHeight="@dimen/dp_23"
                 android:text="本保证人对上述保证负责，并为农品街公司就任何所有来自第三方对本保证人的指控及诉讼进行辩护，并承担由此产生的法律和经济上的责任，承诺赔偿农品街公司遭受的实际损失、预期利益以及支付的公证费、鉴定费、诉讼费、仲裁费、律师费等。同时，本保证人有义务为农品街公司消除影响、恢复商誉。农品街公司对此无需承担任何经济责任和法律责任。"/>
         </LinearLayout>
-    </ScrollView>
+    </ScrollView>-->
 </LinearLayout>

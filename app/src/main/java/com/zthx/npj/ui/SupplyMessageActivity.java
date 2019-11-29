@@ -21,11 +21,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,11 +49,16 @@ import com.zthx.npj.entity.JsonBean;
 import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.AddPurchaseBean;
 import com.zthx.npj.net.been.AddSupplyBean;
+import com.zthx.npj.net.been.CityResponseBean;
+import com.zthx.npj.net.been.DistrictResponseBean;
 import com.zthx.npj.net.been.PayResponse1Bean;
 import com.zthx.npj.net.been.PayResponseBean;
+import com.zthx.npj.net.been.ProvinceResponseBean;
+import com.zthx.npj.net.been.TownResponseBean;
 import com.zthx.npj.net.been.UploadChengxinCertResponseBean;
 import com.zthx.npj.net.been.UploadPicsResponseBean;
 import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -74,6 +82,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.zhouzhuo.zzimagebox.ZzImageBox;
+import okhttp3.Address;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -99,8 +108,8 @@ public class SupplyMessageActivity extends ActivityBase {
     EditText atSupplyMessageNum;
     @BindView(R.id.at_supply_message_tv_unit)
     TextView atSupplyMessageTvUnit;
-    @BindView(R.id.at_supply_message_tv_address)
-    TextView atSupplyMessageTvAddress;
+    @BindView(R.id.at_supply_message_et_address)
+    EditText atSupplyMessageEtAddress;
     @BindView(R.id.at_supply_message_address)
     RelativeLayout atSupplyMessageAddress;
     @BindView(R.id.at_supply_message_whole)
@@ -155,13 +164,21 @@ public class SupplyMessageActivity extends ActivityBase {
     private static final int CHOOSE_VIDEO = 3;
     @BindView(R.id.at_supply_message_three_video)
     ZzImageBox atSupplyMessageThreeVideo;
+    @BindView(R.id.province)
+    Spinner province;
+    @BindView(R.id.city)
+    Spinner city;
+    @BindView(R.id.district)
+    Spinner district;
+    @BindView(R.id.town)
+    Spinner town;
 
     private ArrayList<JsonBean> options1Items = new ArrayList<>(); //省
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();//市
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();//区
     private ArrayList<String> picPaths1 = new ArrayList<>();//照片路径
     private ArrayList<String> picPaths2 = new ArrayList<>();
-    private ArrayList<String> picPaths3=new ArrayList<>();
+    private ArrayList<String> picPaths3 = new ArrayList<>();
     private int supplyType = 1;
     AddPurchaseBean purchaseBean = new AddPurchaseBean();
     AddSupplyBean supplyBean = new AddSupplyBean();
@@ -171,6 +188,19 @@ public class SupplyMessageActivity extends ActivityBase {
 
     private String lat;
     private String lng;
+
+
+    private String provinceName = "";
+    private String cityName = "";
+    private String districtName = "";
+    private String townName;
+
+    private String townId;
+    private String provinceId;
+    private String cityId;
+    private String districtId;
+
+    private android.location.Address supplyAddress;
 
     private String RSA_PRIVATE = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1Lq1TU+c8jDT\n" +
             "NEU5up1siPOXKJBU0ypde7oPfm9gyy2ajgcw6v3KF2ryjot5AKlBED6qdQPRa5Sk\n" +
@@ -201,16 +231,16 @@ public class SupplyMessageActivity extends ActivityBase {
     public static final String APPID = "2019062565701049";
     public static IWXAPI api;
     private static final int SDK_PAY_FLAG = 1001;
-    private String payMoney="1";
+    private String payMoney = "1";
     private String payType;
     private UploadChengxinCertResponseBean.DataBean data1;
 
-    private String user_id=SharePerferenceUtils.getUserId(this);
-    private String token=SharePerferenceUtils.getToken(this);
-    private ArrayList<String> imgList=new ArrayList<>();
-    private String goodsImg="";
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
+    private ArrayList<String> imgList = new ArrayList<>();
+    private String goodsImg = "";
     private ArrayList<String> picPaths0 = new ArrayList<>();
-    private String picString0="";
+    private String picString0 = "";
 
 
     @Override
@@ -226,6 +256,8 @@ public class SupplyMessageActivity extends ActivityBase {
         api.registerApp("wx76500efa65d19915");
 
         supplyType = getIntent().getIntExtra(Const.SUPPLY_TYPE, 1);
+
+        getProvince();
 
         switch (supplyType) {
             case 1:
@@ -261,7 +293,7 @@ public class SupplyMessageActivity extends ActivityBase {
 
             @Override
             public void onAddClick() {
-                ImageSelectorUtils.openPhoto(SupplyMessageActivity.this,CHOOSE_PHOTO1,false,5-picPaths1.size());
+                ImageSelectorUtils.openPhoto(SupplyMessageActivity.this, CHOOSE_PHOTO1, false, 5 - picPaths1.size());
                 /*Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, CHOOSE_PHOTO1);*/
             }
@@ -282,7 +314,7 @@ public class SupplyMessageActivity extends ActivityBase {
 
             @Override
             public void onAddClick() {
-                Intent intent=new Intent(Intent.ACTION_PICK);
+                Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("video/*");
                 startActivityForResult(intent, CHOOSE_VIDEO);
             }
@@ -304,7 +336,7 @@ public class SupplyMessageActivity extends ActivityBase {
             public void onAddClick() {
                 /*Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, CHOOSE_PHOTO2);*/
-                ImageSelectorUtils.openPhoto(SupplyMessageActivity.this,CHOOSE_PHOTO2);
+                ImageSelectorUtils.openPhoto(SupplyMessageActivity.this, CHOOSE_PHOTO2);
             }
         });
     }
@@ -314,9 +346,9 @@ public class SupplyMessageActivity extends ActivityBase {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case CHOOSE_PHOTO1:
-                if(resultCode!=0){
+                if (resultCode != 0) {
                     ArrayList<String> images = data.getStringArrayListExtra(ImageSelectorUtils.SELECT_RESULT);
-                    for(int i=0;i<images.size();i++){
+                    for (int i = 0; i < images.size(); i++) {
                         picPaths1.add(compress(images.get(i)));
                         atSupplyMessageThreePic.addImage(compress(images.get(i)));
                     }
@@ -325,9 +357,9 @@ public class SupplyMessageActivity extends ActivityBase {
                 break;
             case CHOOSE_PHOTO2:
 
-                if(resultCode!=0){
+                if (resultCode != 0) {
                     ArrayList<String> images = data.getStringArrayListExtra(ImageSelectorUtils.SELECT_RESULT);
-                    for(int i=0;i<images.size();i++){
+                    for (int i = 0; i < images.size(); i++) {
                         picPaths2.add(compress(images.get(i)));
                         atSupplyMessageNinePic.addImage(compress(images.get(i)));
                     }
@@ -338,31 +370,28 @@ public class SupplyMessageActivity extends ActivityBase {
                 if (resultCode == RESULT_OK) {
                     try {
                         Uri selectedImage3 = data.getData(); //获取系统返回的照片的Uri
-                        Log.e("测试", "onActivityResult: "+selectedImage3 );
                         String[] filePathColumn3 = {MediaStore.Images.Media.DATA};
                         Cursor cursor3 = getContentResolver().query(selectedImage3, filePathColumn3, null, null, null);//从系统表中查询指定Uri对应的照片
                         cursor3.moveToFirst();
                         int columnIndex3 = cursor3.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                         String path3 = cursor3.getString(columnIndex3);  //获取照片路径
                         cursor3.close();
-                        Log.e("测试", "onActivityResult: "+path3 );
                         picPaths3.add(path3);//保存视频本地路径
                         picPaths0.add(path3);
                         HttpUtils.uploadVideo(address, picPaths0, new Callback() {
                             @Override
                             public void onFailure(Call call, IOException e) {
-                                Log.e("测试", "onFailure: "+e );
+
                             }
 
                             @Override
                             public void onResponse(Call call, Response response) throws IOException {
-                                UploadPicsResponseBean bean=GsonUtils.fromJson(response.body().string(),UploadPicsResponseBean.class);
+                                UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
                                 UploadPicsResponseBean.DataBean data = bean.getData();
                                 imgList.add(data.getImg());//视频路径的合成
-                                Log.e("测试", "onResponse: "+data.getImages().get(0) );
-                                Message msg=new Message();
-                                picString0=data.getImages().get(0);
-                                msg.what=1;
+                                Message msg = new Message();
+                                picString0 = data.getImages().get(0);
+                                msg.what = 1;
                                 handler.sendMessage(msg);
                                 picPaths0.clear();
                             }
@@ -374,27 +403,27 @@ public class SupplyMessageActivity extends ActivityBase {
                 }
                 break;
             case 4:
-                if(resultCode==1){
-                    lat=data.getStringExtra("lat");
-                    lng=data.getStringExtra("lng");
-                    atSupplyMessageTvAddress.setText(data.getStringExtra("addressDetail"));
+                if (resultCode == 1) {
+                    lat = data.getStringExtra("lat");
+                    lng = data.getStringExtra("lng");
+                    //atSupplyMessageTvAddress.setText(data.getStringExtra("addressDetail"));
                 }
                 break;
             case 5:
-                if(resultCode==1){
-                    lat=data.getStringExtra("lat");
-                    lng=data.getStringExtra("lng");
+                if (resultCode == 1) {
+                    lat = data.getStringExtra("lat");
+                    lng = data.getStringExtra("lng");
                     atQgMessageTvAddress.setText(data.getStringExtra("addressDetail"));
                 }
                 break;
         }
     }
 
-    Handler handler=new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if(msg.what==1){
+            if (msg.what == 1) {
                 atSupplyMessageThreeVideo.addImageOnline(picString0);
             }
         }
@@ -402,7 +431,7 @@ public class SupplyMessageActivity extends ActivityBase {
 
     @OnClick({R.id.at_supply_message_address, R.id.at_supply_message_btn_publish,
             R.id.at_qg_message_address, R.id.at_supply_message_rb_zhiding,
-            R.id.at_supply_message_tv_unit,R.id.at_qg_message_tv_unit})
+            R.id.at_supply_message_tv_unit, R.id.at_qg_message_tv_unit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //地址选择器
@@ -411,69 +440,70 @@ public class SupplyMessageActivity extends ActivityBase {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 //initJsonData();
                 //showPickerView();
-                Intent intent=new Intent(SupplyMessageActivity.this,MapAddressActivity.class);
-                startActivityForResult(intent,4);
+                Intent intent = new Intent(SupplyMessageActivity.this, MapAddressActivity.class);
+                startActivityForResult(intent, 4);
                 break;
             case R.id.at_qg_message_address:
                 InputMethodManager imm1 = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm1.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 //initJsonData();
                 //showPickerView();
-                Intent intent1=new Intent(SupplyMessageActivity.this,MapAddressActivity.class);
-                startActivityForResult(intent1,5);
+                Intent intent1 = new Intent(SupplyMessageActivity.this, MapAddressActivity.class);
+                startActivityForResult(intent1, 5);
                 break;
             //确认发布
             case R.id.at_supply_message_btn_publish:
-                if((picPaths1.size()+picPaths3.size())<1){
+                if ((picPaths1.size() + picPaths3.size()) < 1) {
                     showToast("请上传商品图片");
-                }else if(picPaths2.size()<1){
+                } else if (picPaths2.size() < 1) {
                     showToast("请上传商品详情图片");
-                }else{
+                } else {
                     //拼接视频地址
-                    for(int i=0;i<imgList.size();i++){
-                        if(i==imgList.size()-1){
-                            goodsImg+=imgList.get(i);
-                        }else{
-                            goodsImg+=imgList.get(i)+",";
+                    for (int i = 0; i < imgList.size(); i++) {
+                        if (i == imgList.size() - 1) {
+                            goodsImg += imgList.get(i);
+                        } else {
+                            goodsImg += imgList.get(i) + ",";
                         }
                     }
-                    if(supplyType==1){//采购
-                        if(atQgMessageTitle.getText().toString().trim().length()==0){
+                    if (supplyType == 1) {//采购
+                        if (atQgMessageTitle.getText().toString().trim().length() == 0) {
                             showToast("请输入采购品类");
-                        }else if(atQgMessageNum.getText().toString().trim().length()==0){
+                        } else if (atQgMessageNum.getText().toString().trim().length() == 0) {
                             showToast("请输入采购数量");
-                        }else if(atQgMessageTvAddress.getText().toString().trim().equals("全国或指定城市")){
+                        } else if (atQgMessageTvAddress.getText().toString().trim().equals("全国或指定城市")) {
                             showToast("请选择采购地址");
-                        }else if(atSupplyMessageEtMin.getText().toString().length()==0 || atSupplyMessageEtMax.getText().toString().length()==0){
+                        } else if (atSupplyMessageEtMin.getText().toString().length() == 0 || atSupplyMessageEtMax.getText().toString().length() == 0) {
                             showToast("请输入最低价和最高价");
-                        }else if(Double.parseDouble(atSupplyMessageEtMin.getText().toString().trim()) >= Double.parseDouble(atSupplyMessageEtMax.getText().toString().trim())){
+                        } else if (Double.parseDouble(atSupplyMessageEtMin.getText().toString().trim()) >= Double.parseDouble(atSupplyMessageEtMax.getText().toString().trim())) {
                             showToast("请正确填写最低价和最高价");
-                        }else{
+                        } else {
                             //置顶是弹出置顶天数
-                            if(isTop.equals("1")){
+                            if (isTop.equals("1")) {
                                 showPublishPopwindow();
-                            }else{//上传图片、上传信息
+                            } else {//上传图片、上传信息
                                 uploadImage();
                             }
                         }
-                    }else{//供应
-                        if(atSupplyMessageTitle.getText().toString().trim().length()==0){
+                    } else {//供应
+                        if (atSupplyMessageTitle.getText().toString().trim().length() == 0) {
                             showToast("请填写供应标题");
-                        }else if(atSupplyMessageName.getText().toString().trim().length()==0){
+                        } else if (atSupplyMessageName.getText().toString().trim().length() == 0) {
                             showToast("请填写供应产品名称");
-                        }else if(atSupplyMessageNum.getText().toString().trim().length()==0){
+                        } else if (atSupplyMessageNum.getText().toString().trim().length() == 0) {
                             showToast("请填写供应产品数量");
-                        }else if(atSupplyMessageTvAddress.getText().toString().trim().equals("全国或指定城市")){
-                            showToast("请选择供应地址");
-                        }else if(atSupplyMessageWhole.getText().toString().trim().length()==0){
+                        } else if (atSupplyMessageEtAddress.getText().toString().trim().equals("")) {
+                            showToast("请填写详细地址");
+                        } else if (atSupplyMessageWhole.getText().toString().trim().length() == 0) {
                             showToast("请填写最低批发量");
-                        }else if(atSupplyMessageEtPrice.getText().toString().trim().length()==0){
+                        } else if (atSupplyMessageEtPrice.getText().toString().trim().length() == 0) {
                             showToast("请填写供应价格");
-                        }else{
+                        } else {
+                            supplyAddress = MyCustomUtils.getGeoPointBystr(this, provinceName + cityName + districtName + townName+atSupplyMessageEtAddress.getText().toString().trim());
                             //置顶是弹出置顶天数
-                            if(isTop.equals("1")){
+                            if (isTop.equals("1")) {
                                 showPublishPopwindow();
-                            }else{//上传图片、上传信息
+                            } else {//上传图片、上传信息
                                 uploadImage();
                             }
                         }
@@ -484,10 +514,10 @@ public class SupplyMessageActivity extends ActivityBase {
                 toggle();
                 break;
             case R.id.at_supply_message_tv_unit:
-                MyCustomUtils.showUnitPickerView(this,atSupplyMessageTvUnit,atSupplyMessageTvUnit1,atSupplyMessageTvDanwei);
+                MyCustomUtils.showUnitPickerView(this, atSupplyMessageTvUnit, atSupplyMessageTvUnit1, atSupplyMessageTvDanwei);
                 break;
             case R.id.at_qg_message_tv_unit:
-                MyCustomUtils.showUnitPickerView(this,atQgMessageTvUnit,null,atSupplyMessageTvNeedDanwei);
+                MyCustomUtils.showUnitPickerView(this, atQgMessageTvUnit, null, atSupplyMessageTvNeedDanwei);
                 break;
         }
     }
@@ -504,10 +534,9 @@ public class SupplyMessageActivity extends ActivityBase {
     }
 
     private void uploadImage() {//上传商品图片
-        Log.e("测试", "uploadImage: "+picPaths1 );
-        if(picPaths1.size()==0 || picPaths1==null){//产品图不存在，直接上传详情
+        if (picPaths1.size() == 0 || picPaths1 == null) {//产品图不存在，直接上传详情
             uploadContentImg();
-        }else{//产品图存在，上传产品图和详情图
+        } else {//产品图存在，上传产品图和详情图
             HttpUtils.uploadMoreImg(address, picPaths1, new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
@@ -519,10 +548,10 @@ public class SupplyMessageActivity extends ActivityBase {
                     UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
                     UploadPicsResponseBean.DataBean data = bean.getData();
                     //拼接视频和图片
-                    if(!goodsImg.equals("")){//有视频地址需在视频和图片间添加 ","
-                        goodsImg+=","+data.getImg();
-                    }else{//没有视频地址，直接拼接
-                        goodsImg+=data.getImg();
+                    if (!goodsImg.equals("")) {//有视频地址需在视频和图片间添加 ","
+                        goodsImg += "," + data.getImg();
+                    } else {//没有视频地址，直接拼接
+                        goodsImg += data.getImg();
                     }
                     uploadContentImg();
                 }
@@ -531,11 +560,7 @@ public class SupplyMessageActivity extends ActivityBase {
     }
 
 
-
-
-
     private void uploadContentImg() {
-        Log.e("测试", "uploadContentImg: "+picPaths2 );
         HttpUtils.uploadMoreImg(address, picPaths2, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -546,7 +571,6 @@ public class SupplyMessageActivity extends ActivityBase {
             public void onResponse(Call call, Response response) throws IOException {
                 UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
                 UploadPicsResponseBean.DataBean data = bean.getData();
-                Log.e("测试", "onResponse: "+supplyType );
                 switch (supplyType) {
                     case 1:
                         purchaseBean.setImg(goodsImg);
@@ -562,7 +586,7 @@ public class SupplyMessageActivity extends ActivityBase {
                         purchaseBean.setMax_price(atSupplyMessageEtMax.getText().toString());
                         purchaseBean.setIs_top(isTop);
                         purchaseBean.setCity(atQgMessageTvAddress.getText().toString());
-                        if(isTop.equals("1")){
+                        if (isTop.equals("1")) {
                             purchaseBean.setPay_code(payType);
                             purchaseBean.setTop_price(payMoney);
                             purchaseBean.setTop_days(payMoney);
@@ -575,15 +599,19 @@ public class SupplyMessageActivity extends ActivityBase {
                         supplyBean.setToken(SharePerferenceUtils.getToken(SupplyMessageActivity.this));
                         supplyBean.setTitle(atSupplyMessageTitle.getText().toString().trim());
                         supplyBean.setPrice(atSupplyMessageEtPrice.getText().toString().trim());
-                        supplyBean.setLng(lng);
-                        supplyBean.setLat(lat);
+                        supplyBean.setLng(supplyAddress.getLongitude()+"");
+                        supplyBean.setLat(supplyAddress.getLatitude()+"");
                         supplyBean.setGoods_unit(atSupplyMessageTvUnit.getText().toString());
                         supplyBean.setGoods_num(atSupplyMessageNum.getText().toString());
                         supplyBean.setGoods_name(atSupplyMessageName.getText().toString());
-                        supplyBean.setCity(atSupplyMessageTvAddress.getText().toString());
+                        supplyBean.setCity(atSupplyMessageEtAddress.getText().toString().trim());
                         supplyBean.setBuy_num(atSupplyMessageWhole.getText().toString().trim());
                         supplyBean.setIs_top(isTop);
-                        if(isTop.equals("1")){
+                        supplyBean.setProvince(provinceId);
+                        supplyBean.setCity1(cityId);
+                        supplyBean.setDistrict(districtId);
+                        supplyBean.setTown(townId);
+                        if (isTop.equals("1")) {
                             supplyBean.setPay_code(payType);
                             supplyBean.setTop_price(payMoney);
                             supplyBean.setTop_days(payMoney);
@@ -603,17 +631,16 @@ public class SupplyMessageActivity extends ActivityBase {
                     @Override
                     public void onSuccess(String result) {
                         showToast("信息发布成功");
-                        if(isTop.equals("1")){
-                            data1=GsonUtils.fromJson(result,UploadChengxinCertResponseBean.class).getData();
-                            Log.e("测试", "onSuccess: "+result );
-                            DiscoverSubscribe.supplyPay(data1.getPay_code(), data1.getOrder_sn(), data1.getPay_money(),"6", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        if (isTop.equals("1")) {
+                            data1 = GsonUtils.fromJson(result, UploadChengxinCertResponseBean.class).getData();
+                            DiscoverSubscribe.supplyPay(data1.getPay_code(), data1.getOrder_sn(), data1.getPay_money(), "6", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                                 @Override
                                 public void onSuccess(String result) {
-                                    if(payType.equals("1")){
+                                    if (payType.equals("1")) {
                                         setPayResult(result);
-                                    }else if(payType.equals("2")){
+                                    } else if (payType.equals("2")) {
                                         setWXResult(result);
-                                    }else{
+                                    } else {
                                         finish();
                                     }
                                 }
@@ -623,7 +650,7 @@ public class SupplyMessageActivity extends ActivityBase {
                                     //showToast(errorMsg);
                                 }
                             }));
-                        }else{
+                        } else {
                             finish();
                         }
                     }
@@ -638,16 +665,16 @@ public class SupplyMessageActivity extends ActivityBase {
                     @Override
                     public void onSuccess(String result) {
                         showToast("信息发布成功");
-                        if(isTop.equals("1")){
-                            data1=GsonUtils.fromJson(result,UploadChengxinCertResponseBean.class).getData();
-                            DiscoverSubscribe.supplyPay(data1.getPay_code(), data1.getOrder_sn(), data1.getPay_money(),"6", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        if (isTop.equals("1")) {
+                            data1 = GsonUtils.fromJson(result, UploadChengxinCertResponseBean.class).getData();
+                            DiscoverSubscribe.supplyPay(data1.getPay_code(), data1.getOrder_sn(), data1.getPay_money(), "6", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                                 @Override
                                 public void onSuccess(String result) {
-                                    if(payType.equals("1")){
+                                    if (payType.equals("1")) {
                                         setPayResult(result);
-                                    }else if(payType.equals("2")){
+                                    } else if (payType.equals("2")) {
                                         setWXResult(result);
-                                    }else{
+                                    } else {
                                         finish();
                                     }
                                 }
@@ -657,7 +684,7 @@ public class SupplyMessageActivity extends ActivityBase {
                                     //showToast(errorMsg);
                                 }
                             }));
-                        }else{
+                        } else {
                             finish();
                         }
                     }
@@ -734,7 +761,7 @@ public class SupplyMessageActivity extends ActivityBase {
         return detail;
     }
 
-    private void showPickerView() {
+    /*private void showPickerView() {
         OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
@@ -759,14 +786,13 @@ public class SupplyMessageActivity extends ActivityBase {
                 .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
                 .setContentTextSize(20)
                 .build();
-        /*pvOptions.setPicker(options1Items);//一级选择器
-        pvOptions.setPicker(options1Items, options2Items);//二级选择器*/
+        *//*pvOptions.setPicker(options1Items);//一级选择器
+        pvOptions.setPicker(options1Items, options2Items);//二级选择器*//*
         pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
         pvOptions.show();
-    }
+    }*/
+
     private int yourChoice;
-
-
 
 
     public void showPublishPopwindow() {
@@ -801,13 +827,13 @@ public class SupplyMessageActivity extends ActivityBase {
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
 
-        ImageView cancel=view.findViewById(R.id.pw_zhiding_iv_cancel);
-        final TextView item1=view.findViewById(R.id.pw_zhiding_tv_item1);
-        final TextView item2=view.findViewById(R.id.pw_zhiding_tv_item2);
-        final TextView item3=view.findViewById(R.id.pw_zhiding_tv_item3);
-        final TextView item4=view.findViewById(R.id.pw_zhiding_tv_item4);
-        final TextView money=view.findViewById(R.id.pw_zhiding_tv_payMoney);
-        TextView confirm=view.findViewById(R.id.pw_zhiding_tv_confirm);
+        ImageView cancel = view.findViewById(R.id.pw_zhiding_iv_cancel);
+        final TextView item1 = view.findViewById(R.id.pw_zhiding_tv_item1);
+        final TextView item2 = view.findViewById(R.id.pw_zhiding_tv_item2);
+        final TextView item3 = view.findViewById(R.id.pw_zhiding_tv_item3);
+        final TextView item4 = view.findViewById(R.id.pw_zhiding_tv_item4);
+        final TextView money = view.findViewById(R.id.pw_zhiding_tv_payMoney);
+        TextView confirm = view.findViewById(R.id.pw_zhiding_tv_confirm);
 
         item1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -820,7 +846,7 @@ public class SupplyMessageActivity extends ActivityBase {
                 item2.setTextColor(getResources().getColor(R.color.text9));
                 item3.setTextColor(getResources().getColor(R.color.text9));
                 item4.setTextColor(getResources().getColor(R.color.text9));
-                payMoney="1";
+                payMoney = "1";
                 money.setText("￥1.00");
             }
         });
@@ -836,7 +862,7 @@ public class SupplyMessageActivity extends ActivityBase {
                 item2.setTextColor(getResources().getColor(R.color.white));
                 item3.setTextColor(getResources().getColor(R.color.text9));
                 item4.setTextColor(getResources().getColor(R.color.text9));
-                payMoney="5";
+                payMoney = "5";
                 money.setText("￥5.00");
             }
         });
@@ -852,7 +878,7 @@ public class SupplyMessageActivity extends ActivityBase {
                 item2.setTextColor(getResources().getColor(R.color.text9));
                 item3.setTextColor(getResources().getColor(R.color.white));
                 item4.setTextColor(getResources().getColor(R.color.text9));
-                payMoney="10";
+                payMoney = "10";
                 money.setText("￥10.00");
             }
         });
@@ -868,7 +894,7 @@ public class SupplyMessageActivity extends ActivityBase {
                 item2.setTextColor(getResources().getColor(R.color.text9));
                 item3.setTextColor(getResources().getColor(R.color.text9));
                 item4.setTextColor(getResources().getColor(R.color.white));
-                payMoney="30";
+                payMoney = "30";
                 money.setText("￥30.00");
             }
         });
@@ -888,14 +914,13 @@ public class SupplyMessageActivity extends ActivityBase {
         });
 
     }
+
     public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         getWindow().setAttributes(lp);
     }
-
-
 
 
     private void showBottomDialog() {
@@ -943,8 +968,6 @@ public class SupplyMessageActivity extends ActivityBase {
             }
         });
     }
-
-
 
 
     private void setWXResult(String result) {
@@ -1022,21 +1045,22 @@ public class SupplyMessageActivity extends ActivityBase {
         }
     };
 
-    public String compress(String path){
-        File file=new File(path);
+    public String compress(String path) {
+        File file = new File(path);
         Bitmap compressBitmap;
         /*if (file.length()>=2.5*1024*1024){//从相册中选择照片，2.5M以上的用2压缩
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = false;
             options.inSampleSize = 3;
             compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
-        }else */if(file.length()>=600*1024){//从相册中选择照片，600k以上的用2压缩
+        }else */
+        if (file.length() >= 600 * 1024) {//从相册中选择照片，600k以上的用2压缩
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = false;
             options.inSampleSize = 2;
-            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
-        }else{
-            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+            compressBitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+        } else {
+            compressBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
         }
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         compressBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
@@ -1050,19 +1074,172 @@ public class SupplyMessageActivity extends ActivityBase {
         ByteArrayInputStream isBm = new ByteArrayInputStream(bos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
         compressBitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
 
-        String bmString="";
+        String bmString = "";
         try {
-            File bmFile=new File(getExternalCacheDir(), System.currentTimeMillis()+".jpg");
+            File bmFile = new File(getExternalCacheDir(), System.currentTimeMillis() + ".jpg");
             FileOutputStream fos = new FileOutputStream(bmFile);
             fos.write(bos.toByteArray());
             fos.flush();
             fos.close();
-            bmString=bmFile.getPath();
+            bmString = bmFile.getPath();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return bmString;
+    }
+
+
+    public void getProvince() {
+        SetSubscribe.getProvince(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                ProvinceResponseBean bean = GsonUtils.fromJson(result, ProvinceResponseBean.class);
+                final ArrayList<ProvinceResponseBean.DataBean> data = bean.getData();
+
+                String[] provinces = new String[data.size()];
+                for (int i = 0; i < data.size(); i++) {
+                    provinces[i] = data.get(i).getName();
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(SupplyMessageActivity.this, android.R.layout.simple_spinner_item, provinces);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                province.setAdapter(adapter);
+                province.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        provinceName = data.get(i).getName();
+                        provinceId = data.get(i).getId() + "";
+                        getCity(data.get(i).getId() + "");
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    public void getCity(String pid) {
+        SetSubscribe.getCity(pid, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                CityResponseBean bean = GsonUtils.fromJson(result, CityResponseBean.class);
+                final ArrayList<CityResponseBean.DataBean> data = bean.getData();
+
+                String[] citys = new String[data.size()];
+                for (int i = 0; i < data.size(); i++) {
+                    citys[i] = data.get(i).getName();
+                }
+
+
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(SupplyMessageActivity.this, android.R.layout.simple_spinner_item, citys);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                city.setAdapter(adapter);
+                city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        cityName = data.get(i).getName();
+                        cityId = data.get(i).getId() + "";
+                        getDistrict(data.get(i).getId() + "");
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    public void getDistrict(String pid) {
+        SetSubscribe.getDistrict(pid, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                DistrictResponseBean bean = GsonUtils.fromJson(result, DistrictResponseBean.class);
+                final ArrayList<DistrictResponseBean.DataBean> data = bean.getData();
+
+                String[] districts = new String[data.size()];
+                for (int i = 0; i < data.size(); i++) {
+                    districts[i] = data.get(i).getName();
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(SupplyMessageActivity.this, android.R.layout.simple_spinner_item, districts);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                district.setAdapter(adapter);
+                district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        districtName = data.get(i).getName();
+                        districtId = data.get(i).getId() + "";
+
+                        getTown(data.get(i).getId() + "");
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void getTown(String pid) {
+        SetSubscribe.getTown(pid, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                TownResponseBean bean = GsonUtils.fromJson(result, TownResponseBean.class);
+                final ArrayList<TownResponseBean.DataBean> data = bean.getData();
+
+                String[] towns = new String[data.size()];
+                for (int i = 0; i < data.size(); i++) {
+                    towns[i] = data.get(i).getName();
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(SupplyMessageActivity.this, android.R.layout.simple_spinner_item, towns);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                town.setAdapter(adapter);
+
+                town.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        townName = data.get(i).getName();
+                        townId = data.get(i).getId() + "";
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 }

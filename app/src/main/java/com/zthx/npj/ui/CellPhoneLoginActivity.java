@@ -109,7 +109,7 @@ public class CellPhoneLoginActivity extends ActivityBase {
             atCellphoneLoginTvThirdName.setText(getIntent().getStringExtra("nickName"));
         } else {
             atCellphoneLoginTvHint.setVisibility(View.INVISIBLE);
-            atCellphoneLoginTvThirdName.setText("新用户登录");
+            atCellphoneLoginTvThirdName.setText("用户登录");
             atCellphoneLoginIvHeadPic.setImageResource(R.drawable.logo);
             atCellphoneLoginIvHeadPic.setOnClickListener(new View.OnClickListener() {
                 @Override

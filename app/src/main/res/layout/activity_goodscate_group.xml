@@ -15,6 +15,6 @@
         android:textColor="@color/app_theme"
         android:textSize="@dimen/sp_16"
         android:textStyle="bold"
-        android:text="1.0-蓝莓的简介"/>
+        android:text=""/>
 
 </LinearLayout>

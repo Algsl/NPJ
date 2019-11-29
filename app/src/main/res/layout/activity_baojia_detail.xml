@@ -25,7 +25,7 @@
                 android:id="@+id/ac_baojia_detail_tv_nickName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="初夏有乔木"
+                android:text="农品街用户"
                 android:textSize="@dimen/sp_15"
                 android:textColor="@color/text3"
                 android:layout_marginLeft="@dimen/dp_10"

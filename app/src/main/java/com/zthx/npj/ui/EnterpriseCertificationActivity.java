@@ -58,7 +58,7 @@ public class EnterpriseCertificationActivity extends ActivityBase {
                 isPersonCert();
                 break;
             case R.id.at_trust_bottom:
-                openActivity(ConsultActivity.class);
+                openActivity(ConsultActivity.class,"农品街平台认证协议","http://game.npj-vip.com/agreement/certificate.html");
                 break;
         }
     }

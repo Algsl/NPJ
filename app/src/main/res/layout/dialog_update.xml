@@ -96,7 +96,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/dp_5"
-                android:text="后台更新"/>
+                android:text="官网下载"/>
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

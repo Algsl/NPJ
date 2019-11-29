@@ -169,6 +169,23 @@ public class SharePerferenceUtils {
         return getString(context, "user_id", "");
     }
 
+
+    //普通订单发货时间
+    public static void setOrderSendTime(Context context, String time) {
+        putString(context,"sendTime",time);
+    }
+    public static String getOrderSendTime(Context context) {
+        return getString(context, "sendTime", "");
+    }
+    //供求订单发货时间
+    public static void setSupplySendTime(Context context, String time) {
+        putString(context,"sendTime",time);
+    }
+    public static String getSupplySendTime(Context context) {
+        return getString(context, "sendTime", "");
+    }
+
+
     public static void setVersion(Context context, String version) {
         putString(context,"version",version);
     }

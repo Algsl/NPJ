@@ -1741,4 +1741,40 @@ public class SetSubscribe {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().searchSupplyOrder(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
+
+    /**
+     * 取消关注
+     * @param user_id
+     * @param token
+     * @param att_user_id
+     * @param subscriber
+     */
+    public static void delAttention(String user_id,String token,String att_user_id,DisposableObserver<ResponseBody> subscriber) {
+        DelAttentionBean bean=new DelAttentionBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setAtt_user_id(att_user_id);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().delAttention(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 追加评价
+     * @param bean
+     * @param subscriber
+     */
+    public static void addComment(AddCommentBean bean,DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().addComment(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 追加评论列表
+     * @param bean
+     * @param subscriber
+     */
+    public static void commonList(CommonListBean bean,DisposableObserver<ResponseBody> subscriber) {
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().commonList(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
 }

@@ -81,7 +81,7 @@ public class GoodSizePopupwindow extends PopupWindow {
         spec.setText("规格：");
         ArrayList<String> label = new ArrayList<>();
         for(int i=0;i<data1.getAttribute_value().size();i++){
-            label.add(data1.getAttribute_value().get(i).getPre_number()+"件");
+            label.add(data1.getAttribute_value().get(i).getPre_number()+"份");
         }
 
         if(data1.getAttribute_value().size()==0 || data1.getAttribute_value()==null){
@@ -91,7 +91,7 @@ public class GoodSizePopupwindow extends PopupWindow {
         }
 
         labelsView.setLabels(label); //直接设置一个字符串数组就可以了。
-        labelsView.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
+        /*labelsView.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
             @Override
             public void onLabelClick(TextView label, Object data, int position) {
                 if(label.isSelected()){
@@ -100,12 +100,13 @@ public class GoodSizePopupwindow extends PopupWindow {
                     prePrice.setText("￥"+data1.getAttribute_value().get(position).getPre_price());
                 }
             }
-        });
+        });*/
         labelsView.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
             @Override
             public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {
                 if(isSelect){
                     attribute_id=data1.getAttribute_value().get(position).getId()+"";
+                    Log.e("测试", "onLabelSelectChange: "+data.toString() );
                     choose.setText("已选："+data.toString());
                     prePrice.setText("￥"+data1.getAttribute_value().get(position).getPre_price());
                 }
@@ -238,7 +239,6 @@ public class GoodSizePopupwindow extends PopupWindow {
         memberPrice.setVisibility(View.GONE);
         goodsRlNum.setVisibility(View.VISIBLE);
         mAddShoppingCar.setVisibility(View.GONE);
-        Log.e("测试", "GoodSizePopupwindow: "+data.getGoods_price()+" "+data.getMarket_price()+" "+data.getGoods_num() );
 
         storeNum.setText("库存："+data.getGoods_num());
 

@@ -59,6 +59,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.tencent.activity.ChatActivity;
 import com.zthx.npj.tencent.util.Constants;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.QRCodeUtil;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.utils.SimpleUtil;
@@ -594,25 +595,25 @@ public class GoodsDetailActivity extends ActivityBase {
                 acGoodsDetailLlInner.setVisibility(View.VISIBLE);
                 switch (type) {
                     case "4":
-                        imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=miaosha&id=" + goodsId;
+                        imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?type=qianggou&id=" + goodsId+"&img="+mSeckillData.getGroup_img().get(0)+"&discount=0";
                         Glide.with(GoodsDetailActivity.this).load(Uri.parse(mSeckillData.getGroup_img().get(0))).into(acGoodsDetailIvInnerGoodsImg);
                         acGoodsDetailTvInnerGoodsTitle.setText(mSeckillData.getGoods_name());
                         acGoodsDetailTvInnerGoodsPrice.setText("￥" + mSeckillData.getGoods_price());
                         break;
                     case "3":
-                        imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=presell&id=" + goodsId;
+                        imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?type=zhongchou&id=" + goodsId+"&img="+mPreData.getGroup_img().get(0)+"&discount=0";
                         Glide.with(GoodsDetailActivity.this).load(Uri.parse(mPreData.getGroup_img().get(0))).into(acGoodsDetailIvInnerGoodsImg);
                         acGoodsDetailTvInnerGoodsTitle.setText(mPreData.getGoods_name());
                         acGoodsDetailTvInnerGoodsPrice.setText("￥" + mPreData.getGoods_price());
                         break;
                     case "1":
-                        imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?page=goodsDetail&type=goods&id=" + goodsId;
+                        imgStrMsg = "http://game.npj-vip.com/h5/jumpApp.html?type=putong&id=" + goodsId+"&img="+mGoodsData.getGoods_img().get(0)+"&discount=0";
                         Glide.with(GoodsDetailActivity.this).load(Uri.parse(mGoodsData.getGoods_img().get(0))).into(acGoodsDetailIvInnerGoodsImg);
                         acGoodsDetailTvInnerGoodsTitle.setText(mGoodsData.getGoods_name());
                         acGoodsDetailTvInnerGoodsPrice.setText("￥" + mGoodsData.getMember_price());
                         break;
                 }
-                acGoodsDetailIvQrcode.setImageBitmap(QRCodeUtil.createQRCodeBitmap(imgStrMsg, 120));
+                acGoodsDetailIvQrcode.setImageBitmap(QRCodeUtil.createQRCodeBitmap(imgStrMsg, (int) getResources().getDimension(R.dimen.dp_180)));
                 break;
             case R.id.ac_goodsDetail_ll_store://店铺
                 if (user_id.equals("")) {
@@ -649,10 +650,10 @@ public class GoodsDetailActivity extends ActivityBase {
     private void getGoodsContent() {
         switch (type) {
             case "4":
-                setGoodsContent(mSeckillData.getGroup_img());
+                setGoodsContent(MyCustomUtils.getImgStr(mSeckillData.getContent()));
                 break;
             case "3":
-                setGoodsContent(mPreData.getGroup_img());
+                setGoodsContent(MyCustomUtils.getImgStr(mPreData.getContent()));
                 break;
             case "1":
                 setGoodsContent(mGoodsData.getGoods_content());

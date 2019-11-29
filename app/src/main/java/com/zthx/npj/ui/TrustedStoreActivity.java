@@ -128,7 +128,7 @@ public class TrustedStoreActivity extends ActivityBase {
                 }, this));
                 break;
             case R.id.at_trust_bottom:
-                openActivity(ConsultActivity.class);
+                openActivity(ConsultActivity.class,"农品街平台认证协议","http://game.npj-vip.com/agreement/certificate.html");
                 break;
             case R.id.ac_trustedStore_tv_apply:
                 showPublishPopwindow();

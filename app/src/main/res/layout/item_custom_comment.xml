@@ -79,7 +79,6 @@
         android:layout_marginRight="@dimen/dp_12"
         android:layout_below="@id/item_comment_tv_content"/>
     <android.support.v7.widget.RecyclerView
-        android:visibility="gone"
         android:layout_marginTop="@dimen/dp_5"
         android:id="@+id/item_custom_comment_rv1"
         android:layout_width="match_parent"

@@ -67,26 +67,26 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/item_discoverSupply_ll"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/dp_36"
             android:orientation="vertical"
             android:visibility="invisible"
             android:layout_marginTop="@dimen/dp_4">
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/item_discoverSupply_tv_realName"
                     android:layout_width="@dimen/dp_56"
-                    android:layout_height="wrap_content"
-                    android:text="实名认证"
-                    android:textSize="@dimen/sp_11"
-                    android:textColor="@android:color/white"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/dp_10"
                     android:background="@drawable/attestation1_conner_2"
                     android:gravity="center"
-                    android:layout_marginRight="@dimen/dp_10"/>
+                    android:text="实名认证"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp_11"
+                    android:visibility="gone" />
                 <TextView
                     android:visibility="gone"
                     android:id="@+id/item_discoverSupply_purchase"
@@ -123,6 +123,7 @@
                     android:textSize="@dimen/sp_11"
                     android:textColor="@android:color/white"
                     android:background="@drawable/attestation2_conner_2"
+                    android:layout_marginRight="@dimen/dp_10"
                     android:gravity="center"/>
                 <TextView
                     android:visibility="gone"

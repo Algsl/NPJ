@@ -26,7 +26,12 @@ public class ImgFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_img,container,false);
         ImageView imgLook=view.findViewById(R.id.fg_img_look);
-        Glide.with(getContext()).load(Uri.parse(getArguments().getString("imgUrl"))).into(imgLook);
+        if(getArguments().getString("imgUrl").split("/")[0].equals("http:")){
+            Glide.with(getContext()).load(Uri.parse(getArguments().getString("imgUrl"))).into(imgLook);
+        }else{
+            Glide.with(getContext()).load(Uri.parse("http://app.npj-vip.com"+getArguments().getString("imgUrl"))).into(imgLook);
+        }
+
         return view;
     }
 
