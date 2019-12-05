@@ -423,6 +423,11 @@ public class SearchOrderActivity extends ActivityBase {
                 intent.putExtra("order_id", data.get(position).getId() + "");
                 startActivity(intent);
             }
+
+            @Override
+            public void onAddCommentClick(int position) {
+
+            }
         });
 
     }

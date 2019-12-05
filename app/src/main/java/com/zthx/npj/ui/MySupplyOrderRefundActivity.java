@@ -33,6 +33,11 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -153,8 +158,8 @@ public class MySupplyOrderRefundActivity extends ActivityBase {
                     int index = cursor.getColumnIndex(filePath[0]);
                     final String path = cursor.getString(index);
                     cursor.close();
-                    paths.add(path);
-                    acOrderApplyRefundIvImg.addImage(path);
+                    paths.add(compress(path));
+                    acOrderApplyRefundIvImg.addImage(compress(path));
                 }
                 break;
         }
@@ -164,14 +169,19 @@ public class MySupplyOrderRefundActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_order_applyRefund_tv_state:
-                final String[] str=new String[] {"未发货","已发货","已拒签","已签收"};
+                final String[] str=new String[] {"请选择","未发货","已发货","已拒签","已签收"};
                 new AlertDialog.Builder(this)
                         .setSingleChoiceItems(str, 0, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        if(which==0){
+                                        /*if(which==0){
                                             refund_state=which+"";
                                         }else{
                                             refund_state=(which+1)+"";
+                                        }*/
+                                        if(which==1){
+                                            refund_state="0";
+                                        }else{
+                                            refund_state=which+"";
                                         }
                                         atOrderApplyRefundTvState.setText(str[which]);
                                         dialog.dismiss();
@@ -194,9 +204,15 @@ public class MySupplyOrderRefundActivity extends ActivityBase {
                         .show();
                 break;
             case R.id.ac_order_applyRefund_btn_confirm:
-                if(atOrderApplyRefundTvReason.getText().toString().trim().equals("请选择")){
+                if(atOrderApplyRefundTvState.getText().toString().trim().equals("请选择")){
+                    showToast("请选择货物状态");
+                }else if(atOrderApplyRefundTvReason.getText().toString().trim().equals("请选择")){
                     showToast("请选择退款原因");
-                }else if(paths==null || paths.size()==0){
+                }else if(atOrderApplyRefundTvOrderPrice.getText().toString().equals("")){
+                    showToast("请填写退款金额");
+                }else if(Double.parseDouble(atOrderApplyRefundTvOrderPrice.getText().toString().trim())>Double.parseDouble(data.getOrder_price())){
+                    showToast("退款金额不能超过订单金额");
+                }/*else if(paths==null || paths.size()==0){
                     showToast("请上传凭证");
                 }else{
                     HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {
@@ -213,6 +229,26 @@ public class MySupplyOrderRefundActivity extends ActivityBase {
                             uploadData();
                         }
                     });
+                }*/
+                else{
+                    if(paths==null || paths.size()<1){
+                        img="";
+                    }else{
+                        HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                                UploadPicsResponseBean.DataBean data = bean.getData();
+                                img = data.getImg();
+                                uploadData();
+                            }
+                        });
+                    }
                 }
 
                 break;
@@ -242,4 +278,54 @@ public class MySupplyOrderRefundActivity extends ActivityBase {
             }
         }));
     }
+
+    /**
+     * 图片压缩
+     * @param path：原始图片路径
+     * @return
+     */
+    public String compress(String path){
+        File file=new File(path);
+        Bitmap compressBitmap;
+        /*if (file.length()>=2.5*1024*1024){//从相册中选择照片，2.5M以上的用2压缩
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = false;
+            options.inSampleSize = 3;
+            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+        }else */if(file.length()>=600*1024){//从相册中选择照片，600k以上的用2压缩
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = false;
+            options.inSampleSize = 2;
+            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+        }else{
+            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+        }
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        compressBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+
+        int options1 = 90;
+        while (bos.toByteArray().length / 1024 > 500) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            bos.reset(); // 重置baos即清空baos
+            compressBitmap.compress(Bitmap.CompressFormat.JPEG, options1, bos);// 这里压缩options%，把压缩后的数据存放到baos中
+            options1 -= 10;// 每次都减少10
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(bos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
+        compressBitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
+
+        String bmString="";
+        try {
+            File bmFile=new File(getExternalCacheDir(), System.currentTimeMillis()+".jpg");
+            FileOutputStream fos = new FileOutputStream(bmFile);
+            fos.write(bos.toByteArray());
+            fos.flush();
+            fos.close();
+            bmString=bmFile.getPath();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmString;
+    }
+
 }

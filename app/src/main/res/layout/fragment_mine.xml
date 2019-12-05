@@ -63,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_16"
-                        android:text="农品街新客"
+                        android:text="农品街用户"
                         android:textColor="@android:color/white"
                         android:layout_toRightOf="@id/fg_mine_ll"
                         android:layout_marginLeft="@dimen/dp_15"
@@ -74,7 +74,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_13"
-                        android:text="15236545654"
+                        android:text=""
                         android:textColor="@android:color/white"
                         android:layout_toRightOf="@id/fg_mine_ll"
                         android:layout_below="@id/fg_mine_tv_name"
@@ -166,7 +166,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/text3"
                                 android:textSize="@dimen/sp_15"
-                                android:text="20"/>
+                                android:text="0"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -188,7 +188,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/text3"
                                 android:textSize="@dimen/sp_15"
-                                android:text="20"/>
+                                android:text="0"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -210,7 +210,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/text3"
                                 android:textSize="@dimen/sp_15"
-                                android:text="20"/>
+                                android:text="0"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

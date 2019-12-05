@@ -90,7 +90,6 @@ public class LocalSpokesmanActivity extends ActivityBase {
                     public void onFault(String errorMsg) {
                         showToast(errorMsg);
                     }
-                }, this
-        ));
+                }));
     }
 }

@@ -22,6 +22,34 @@ public class SupplyEdit2Bean {
     private String district;
     private String town;
 
+    private String top_days;
+    private String top_price;
+    private String pay_code;
+
+    public String getTop_days() {
+        return top_days;
+    }
+
+    public void setTop_days(String top_days) {
+        this.top_days = top_days;
+    }
+
+    public String getTop_price() {
+        return top_price;
+    }
+
+    public void setTop_price(String top_price) {
+        this.top_price = top_price;
+    }
+
+    public String getPay_code() {
+        return pay_code;
+    }
+
+    public void setPay_code(String pay_code) {
+        this.pay_code = pay_code;
+    }
+
     public String getProvince() {
         return province;
     }

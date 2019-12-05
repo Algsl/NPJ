@@ -1777,4 +1777,38 @@ public class SetSubscribe {
         Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().commonList(bean);
         RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
+
+    /**
+     * 诚信认证退款记录
+     * @param user_id
+     * @param token
+     * @param subscriber
+     */
+    public static void tuiList(String user_id,String token,DisposableObserver<ResponseBody> subscriber) {
+        TuiListBean bean=new TuiListBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().tuiList(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 线下门店收益
+     * @param bean
+     * @param subscriber
+     */
+    public static void offlineLog(OfflineLogBean bean,DisposableObserver<ResponseBody> subscriber){
+        Observable<ResponseBody> observable=RetrofitFactory.getInstance().getHttpApi().offlineLog(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable,subscriber);
+    }
+
+    /**
+     * 供求置顶
+     * @param bean
+     * @param subscriber
+     */
+    public static void isTop(IsTopBean bean,DisposableObserver<ResponseBody> subscriber){
+        Observable<ResponseBody> observable=RetrofitFactory.getInstance().getHttpApi().isTop(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable,subscriber);
+    }
 }

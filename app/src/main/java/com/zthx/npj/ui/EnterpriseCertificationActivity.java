@@ -79,7 +79,7 @@ public class EnterpriseCertificationActivity extends ActivityBase {
             public void onFault(String errorMsg) {
                 showDialog();
             }
-        }, this));
+        }));
     }
 
     private void showDialog() {

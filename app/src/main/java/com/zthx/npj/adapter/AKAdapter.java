@@ -62,6 +62,11 @@ public class AKAdapter extends RecyclerView.Adapter<AKAdapter.ViewHolder> {
         viewHolder.mTvSellNum.setText("购买次数 "+mList.get(i).getSale_num());
         viewHolder.mTvTitle.setText(mList.get(i).getTitle());
         viewHolder.mTvLookNum.setText("已观看 "+mList.get(i).getLook_num());
+        if(mList.get(i).getIs_buy()==1){
+            viewHolder.isBuy.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.isBuy.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -75,6 +80,7 @@ public class AKAdapter extends RecyclerView.Adapter<AKAdapter.ViewHolder> {
         TextView mTvUpdateTime;
         TextView mTvSellNum;
         TextView mTvLookNum;
+        TextView isBuy;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -83,6 +89,7 @@ public class AKAdapter extends RecyclerView.Adapter<AKAdapter.ViewHolder> {
             mTvUpdateTime = itemView.findViewById(R.id.item_ak_tv_update_time);
             mTvSellNum = itemView.findViewById(R.id.item_ak_tv_sale_num);
             mTvLookNum = itemView.findViewById(R.id.item_ak_tv_look_num);
+            isBuy=itemView.findViewById(R.id.item_akAdapter_tv_isBuy);
         }
     }
 }

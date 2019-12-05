@@ -289,6 +289,9 @@ public interface HttpApi  {
     @POST("index.php/api/user/shoplog.html")
     Observable<ResponseBody> shopLog(@Body ShopLogBean bean);
 
+    @POST("index.php/api/user/offlinelog.html")
+    Observable<ResponseBody> offlineLog(@Body OfflineLogBean bean);
+
     @POST("index.php/api/user/incomelog.html")
     Observable<ResponseBody> inComeLog(@Body InComeLogBean bean);
 
@@ -660,5 +663,11 @@ public interface HttpApi  {
 
     @POST("index.php/api/user2/commentlist.html")
     Observable<ResponseBody> commonList(@Body CommonListBean bean);
+
+    @POST("index.php/api/user2/tuilist.html")
+    Observable<ResponseBody> tuiList(@Body TuiListBean bean);
+
+    @POST("index.php/api/user2/istop.html")
+    Observable<ResponseBody> isTop(@Body IsTopBean bean);
 }
 

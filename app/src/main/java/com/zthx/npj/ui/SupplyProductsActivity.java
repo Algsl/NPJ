@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +55,7 @@ import com.zthx.npj.banner.transformer.DefaultTransformer;
 import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BaoJiaBean;
+import com.zthx.npj.net.been.BaojiaResponseBean;
 import com.zthx.npj.net.been.CommentResponseBean;
 import com.zthx.npj.net.been.NeedDetailResponseBean;
 import com.zthx.npj.net.been.SupplyDetailResponseBean;
@@ -213,8 +215,7 @@ public class SupplyProductsActivity extends ActivityBase {
 
         goodsId = getIntent().getStringExtra("goods_id");
         type = getIntent().getAction();
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SupplyProductsActivity.this);
-        atSupplyProductsRvPic.setLayoutManager(layoutManager);
+
         if (type.equals(Const.SUPPLY_DETAIL)) {
             atSupplyProductLlSupplyDetail.setVisibility(View.VISIBLE);
             atSupplyProductLlNeedDetail.setVisibility(View.GONE);
@@ -265,6 +266,10 @@ public class SupplyProductsActivity extends ActivityBase {
                 atSupplyProductsTvUnit.setText(needData.getUnit());
                 atSupplyProductsTvTitle.setText(needData.getTitle());
 
+                if(needData.getBail()!=null){
+                    acSupplyTvTrust.setText(((int)Double.parseDouble(needData.getBail()))+"元保证金");
+                }
+
                 if (needData.getCertification() == null) {
                     acSupplyLl.setVisibility(View.GONE);
                 } else {
@@ -302,15 +307,16 @@ public class SupplyProductsActivity extends ActivityBase {
                     Glide.with(SupplyProductsActivity.this).load(needData.getHead_img()).into(atSupplyProductsIvHeadPic);
                 }
                 if (needData.getNick_name().substring(0, 2).equals("用户")) {
-                    atSupplyProductsTvName.setText("农品街新客");
+                    atSupplyProductsTvName.setText("农品街用户");
                 } else {
                     atSupplyProductsTvName.setText(needData.getNick_name());
                 }
 
                 atSupplyProductsTvXinyufen.setText("信誉分" + needData.getReputation());
-                //SupplyProductsAdapter adapter = new SupplyProductsAdapter(SupplyProductsActivity.this, data.getContent());
+
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SupplyProductsActivity.this);
+                atSupplyProductsRvPic.setLayoutManager(layoutManager);
                 GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(SupplyProductsActivity.this, needData.getContent());
-                atSupplyProductsRvPic.setItemAnimator(new DefaultItemAnimator());
                 atSupplyProductsRvPic.setAdapter(adapter);
             }
 
@@ -339,6 +345,10 @@ public class SupplyProductsActivity extends ActivityBase {
                 LatLng latLng = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
                 getLocateinfo(latLng);
 
+                if(supplyData.getBail()!=null){
+                    acSupplyTvTrust.setText((int)Double.parseDouble(supplyData.getBail())+"元保证金");
+                }
+
                 mobile = supplyData.getMobile();
                 nick_name = supplyData.getNick_name();
 
@@ -362,7 +372,7 @@ public class SupplyProductsActivity extends ActivityBase {
                     Glide.with(SupplyProductsActivity.this).load(supplyData.getHead_img()).into(atSupplyProductsIvHeadPic);
                 }
                 if (supplyData.getNick_name().substring(0, 2).equals("用户")) {
-                    atSupplyProductsTvName.setText("农品街新客");
+                    atSupplyProductsTvName.setText("农品街用户");
                 } else {
                     atSupplyProductsTvName.setText(supplyData.getNick_name());
                 }
@@ -392,9 +402,7 @@ public class SupplyProductsActivity extends ActivityBase {
                 //还剩一个recycleView的图片单元要补
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SupplyProductsActivity.this);
                 atSupplyProductsRvPic.setLayoutManager(layoutManager);
-                //SupplyProductsAdapter adapter = new SupplyProductsAdapter(SupplyProductsActivity.this, supplyData.getContent());
                 GoodsImgDetailAdapter adapter = new GoodsImgDetailAdapter(SupplyProductsActivity.this, supplyData.getContent());
-                atSupplyProductsRvPic.setItemAnimator(new DefaultItemAnimator());
                 atSupplyProductsRvPic.setAdapter(adapter);
             }
 
@@ -469,12 +477,14 @@ public class SupplyProductsActivity extends ActivityBase {
                 acSupplyTvCommon.setBackgroundColor(getResources().getColor(R.color.white));
                 acSupplyTvCommon.setTextColor(getResources().getColor(R.color.text3));
                 commentHint.setVisibility(View.GONE);
+
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SupplyProductsActivity.this);
+                atSupplyProductsRvPic.setLayoutManager(layoutManager);
                 if (type.equals(Const.SUPPLY_DETAIL)) {
                     adapter = new GoodsImgDetailAdapter(SupplyProductsActivity.this, supplyData.getContent());
                 } else {
                     adapter = new GoodsImgDetailAdapter(SupplyProductsActivity.this, needData.getContent());
                 }
-                atSupplyProductsRvPic.setItemAnimator(new DefaultItemAnimator());
                 atSupplyProductsRvPic.setAdapter(adapter);
                 break;
             case R.id.ac_supply_tv_common:
@@ -525,8 +535,9 @@ public class SupplyProductsActivity extends ActivityBase {
                 } else {
                     commentHint.setVisibility(View.GONE);
                 }
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SupplyProductsActivity.this);
+                atSupplyProductsRvPic.setLayoutManager(layoutManager);
                 CommentAdapter adapter = new CommentAdapter(SupplyProductsActivity.this, bean.getData());
-                atSupplyProductsRvPic.setItemAnimator(new DefaultItemAnimator());
                 atSupplyProductsRvPic.setAdapter(adapter);
             }
 
@@ -573,13 +584,15 @@ public class SupplyProductsActivity extends ActivityBase {
                 DiscoverSubscribe.baojia(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
+                        showToast("报价完成");
                         backgroundAlpha(1f);
                         window.dismiss();
                     }
 
                     @Override
                     public void onFault(String errorMsg) {
-                        //showToast(errorMsg);
+                        BaojiaResponseBean bean=GsonUtils.fromJson(errorMsg,BaojiaResponseBean.class);
+                        showToast(bean.getMsg());
                     }
                 }));
             }

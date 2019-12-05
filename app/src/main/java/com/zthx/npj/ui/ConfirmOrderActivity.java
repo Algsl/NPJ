@@ -320,7 +320,6 @@ public class ConfirmOrderActivity extends ActivityBase {
     }
 
     private void setSeckillData(String result) {
-        Log.e("测试", "setGoodsData: " + result);
         SeckillOrderResponseBean bean = GsonUtils.fromJson(result, SeckillOrderResponseBean.class);
         seckillData = bean.getData();
 
@@ -329,7 +328,6 @@ public class ConfirmOrderActivity extends ActivityBase {
         atConfirmOrderTvStoreName.setText(seckillData.getStore_name());
         Glide.with(ConfirmOrderActivity.this).load(seckillData.getGoods_img()).into(atConfirmOrderIvPic);
         atConfirmOrderTvTitle.setText(seckillData.getGoods_name());
-        atConfirmOrderTvSize.setText("规格： ");
         atConfirmOrderTvGoodsPrice.setText("¥" + seckillData.getGoods_price());
         atConfirmOrderTvGoodsNum.setText("x" + goodsCount);
 
@@ -371,7 +369,6 @@ public class ConfirmOrderActivity extends ActivityBase {
     }
 
     private void setGoodsData(String result) {
-        Log.e("测试", "setGoodsData: " + result);
         GoodsOrderResponseBean bean = GsonUtils.fromJson(result, GoodsOrderResponseBean.class);
         ptdata = bean.getData();
         atConfirmOrderTvAddress.setText(ptdata.getAddress());
@@ -467,7 +464,7 @@ public class ConfirmOrderActivity extends ActivityBase {
             public void onFault(String errorMsg) {
                 //showToast(errorMsg);
             }
-        }, this));
+        }));
     }
 
     //新品众筹确认订单
@@ -514,7 +511,7 @@ public class ConfirmOrderActivity extends ActivityBase {
             public void onFault(String errorMsg) {
                 //showToast(errorMsg);
             }
-        }, this));
+        }));
     }
 
     @OnClick({R.id.at_confirm_order_rl_ziti, R.id.ac_confirmOrder_btn_pay, R.id.ac_confirmOrder_iv_type3,

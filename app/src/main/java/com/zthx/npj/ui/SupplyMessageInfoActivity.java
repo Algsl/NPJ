@@ -37,6 +37,7 @@ import com.bumptech.glide.Glide;
 import com.donkingliang.imageselector.utils.ImageSelectorUtils;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zthx.npj.R;
 import com.zthx.npj.aliapi.OrderInfoUtil2_0;
 import com.zthx.npj.aliapi.PayResult;
@@ -54,6 +55,7 @@ import com.zthx.npj.net.been.SupplyEditResponseBean;
 import com.zthx.npj.net.been.TownResponseBean;
 import com.zthx.npj.net.been.UploadChengxinCertResponseBean;
 import com.zthx.npj.net.been.UploadPicsResponseBean;
+import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
@@ -222,10 +224,10 @@ public class SupplyMessageInfoActivity extends ActivityBase {
     private String districtName = "";
     private String townName;
 
-    private String townId;
-    private String provinceId;
-    private String cityId;
-    private String districtId;
+    private String townId="";
+    private String provinceId="";
+    private String cityId="";
+    private String districtId="";
 
     private Address supplyAddress;
 
@@ -270,6 +272,10 @@ public class SupplyMessageInfoActivity extends ActivityBase {
         setContentView(R.layout.activity_supply_message);
         ButterKnife.bind(this);
 
+        api = WXAPIFactory.createWXAPI(this, null);
+        // 将该app注册到微信
+        api.registerApp("wx76500efa65d19915");
+
         back(titleBack);
 
         getProvince();
@@ -278,6 +284,7 @@ public class SupplyMessageInfoActivity extends ActivityBase {
 
         supplyId = getIntent().getStringExtra("key0");
         supplyType = getIntent().getStringExtra("key1");
+        atSupplyMessageRbZhiding.setVisibility(View.GONE);
 
         switch (supplyType) {
             case "1":
@@ -405,7 +412,7 @@ public class SupplyMessageInfoActivity extends ActivityBase {
                     isUnit = true;
                 }
 
-                if (!supplyData.getProvince().equals("")) {
+                if (supplyData.getProvince()!=null || !supplyData.getProvince().equals("")) {
                     provinceId = supplyData.getProvince();
                     cityId = supplyData.getCity1();
                     districtId = supplyData.getDistrict();
@@ -596,13 +603,13 @@ public class SupplyMessageInfoActivity extends ActivityBase {
                         } else if (Double.parseDouble(atSupplyMessageEtMin.getText().toString().trim()) >= Double.parseDouble(atSupplyMessageEtMax.getText().toString().trim())) {
                             showToast("请正确填写最低价和最高价");
                         } else {
-                            showToast("商品信息上传中，请稍等...");
-                            //置顶是弹出置顶天数
+                            /*//置顶是弹出置顶天数
                             if (isTop.equals("1")) {
                                 showPublishPopwindow();
                             } else {//上传图片、上传信息
                                 getImgPath();
-                            }
+                            }*/
+                            getImgPath();
                         }
                     } else {//供应
                         if (atSupplyMessageTitle.getText().toString().trim().length() == 0) {
@@ -618,13 +625,13 @@ public class SupplyMessageInfoActivity extends ActivityBase {
                         } else if (atSupplyMessageEtPrice.getText().toString().trim().length() == 0) {
                             showToast("请填写供应价格");
                         } else {
-                            showToast("商品信息上传中，请稍等...");
                             //置顶是弹出置顶天数
-                            if (isTop.equals("1")) {
+                            /*if (isTop.equals("1")) {
                                 showPublishPopwindow();
                             } else {//上传图片、上传信息
                                 getImgPath();
-                            }
+                            }*/
+                            getImgPath();
                         }
                     }
                 }
@@ -673,117 +680,6 @@ public class SupplyMessageInfoActivity extends ActivityBase {
         }
     }
 
-    /*//上传商品图片
-    private void uploadImage() {//上传商品图片
-
-        if(picPaths3.size()==0){
-            HttpUtils.uploadMoreImg(address, picPaths1, new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
-                    UploadPicsResponseBean.DataBean data = bean.getData();
-                    switch (supplyType) {
-                        case "1":
-                            purchaseBean.setImg(data.getImg());
-                            break;
-                        case "2":
-                            supplyBean.setGoods_img(data.getImg());
-                            break;
-                    }
-                    uploadContentImg();
-                }
-            });
-        }else{
-            HttpUtils.uploadVideo(URLConstant.REQUEST_URL1, picPaths3, new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
-                    final UploadPicsResponseBean.DataBean data1 = bean.getData();
-                    HttpUtils.uploadMoreImg(address, picPaths1, new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-
-                        }
-
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
-                            UploadPicsResponseBean.DataBean data = bean.getData();
-                            switch (supplyType) {
-                                case "1":
-                                    purchaseBean.setImg(data.getImg()+","+data1.getImg());
-                                    break;
-                                case "2":
-                                    supplyBean.setGoods_img(data.getImg()+","+data1.getImg());
-                                    break;
-                            }
-                            uploadContentImg();
-                        }
-                    });
-                }
-            });
-        }
-    }
-    //上传详情图片
-    private void uploadContentImg() {
-        HttpUtils.uploadMoreImg(address, picPaths2, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.e("测试", "onResponse: " + response);
-                UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
-                UploadPicsResponseBean.DataBean data = bean.getData();
-                switch (supplyType) {
-                    case "1":
-                        purchaseBean.setId(supplyId);
-                        purchaseBean.setContent(data.getImg());
-                        purchaseBean.setUser_id(SharePerferenceUtils.getUserId(SupplyMessageInfoActivity.this));
-                        purchaseBean.setToken(SharePerferenceUtils.getToken(SupplyMessageInfoActivity.this));
-                        purchaseBean.setTitle(atQgMessageTitle.getText().toString().trim());
-                        purchaseBean.setLng(lng);
-                        purchaseBean.setLat(lat);
-                        purchaseBean.setUnit(atQgMessageTvUnit.getText().toString());
-                        purchaseBean.setAmount(atQgMessageNum.getText().toString());
-                        purchaseBean.setMin_price(atSupplyMessageEtMin.getText().toString());
-                        purchaseBean.setMax_price(atSupplyMessageEtMax.getText().toString());
-                        purchaseBean.setIs_top(isTop);
-                        purchaseBean.setCity(atQgMessageTvAddress.getText().toString());
-                        break;
-                    case "2":
-                        supplyBean.setId(supplyId);
-                        supplyBean.setContent(data.getImg());
-                        supplyBean.setUser_id(SharePerferenceUtils.getUserId(SupplyMessageInfoActivity.this));
-                        supplyBean.setToken(SharePerferenceUtils.getToken(SupplyMessageInfoActivity.this));
-                        supplyBean.setTitle(atSupplyMessageTitle.getText().toString().trim());
-                        supplyBean.setPrice(atSupplyMessageEtPrice.getText().toString().trim());
-                        supplyBean.setLng(lng);
-                        supplyBean.setLat(lat);
-                        supplyBean.setGoods_unit(atSupplyMessageTvUnit.getText().toString());
-                        supplyBean.setGoods_num(atSupplyMessageNum.getText().toString());
-                        supplyBean.setGoods_name(atSupplyMessageName.getText().toString());
-                        supplyBean.setCity(atSupplyMessageTvAddress.getText().toString());
-                        supplyBean.setBuy_num(atSupplyMessageWhole.getText().toString().trim());
-                        supplyBean.setIs_top(isTop);
-                        break;
-                }
-                uploadData();
-            }
-        });
-    }*/
 
     //上传数据信息
     private void uploadData() {
@@ -803,11 +699,39 @@ public class SupplyMessageInfoActivity extends ActivityBase {
                 purchaseBean.setMax_price(atSupplyMessageEtMax.getText().toString());
                 purchaseBean.setIs_top(isTop);
                 purchaseBean.setCity(atQgMessageTvAddress.getText().toString());
+
+                if (isTop.equals("1")) {
+                    purchaseBean.setPay_code(payType);
+                    purchaseBean.setTop_price(payMoney);
+                    purchaseBean.setTop_days(payMoney);
+                }
+
                 SetSubscribe.purchaseEdit2(purchaseBean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
                     public void onSuccess(String result) {
                         showToast("采购商品编辑完成");
-                        finish();
+                        if (isTop.equals("1")) {
+                            data1 = GsonUtils.fromJson(result, UploadChengxinCertResponseBean.class).getData();
+                            DiscoverSubscribe.supplyPay(data1.getPay_code(), data1.getOrder_sn(), data1.getPay_money(), "6", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                                @Override
+                                public void onSuccess(String result) {
+                                    if (payType.equals("1")) {
+                                        setPayResult(result);
+                                    } else if (payType.equals("2")) {
+                                        setWXResult(result);
+                                    } else {
+                                        finish();
+                                    }
+                                }
+
+                                @Override
+                                public void onFault(String errorMsg) {
+                                    //showToast(errorMsg);
+                                }
+                            }));
+                        } else {
+                            finish();
+                        }
                     }
 
                     @Override
@@ -833,6 +757,13 @@ public class SupplyMessageInfoActivity extends ActivityBase {
                 supplyBean.setTown(townId);
                 supplyBean.setBuy_num(atSupplyMessageWhole.getText().toString().trim());
                 supplyBean.setIs_top(isTop);
+
+                if (isTop.equals("1")) {
+                    supplyBean.setPay_code(payType);
+                    supplyBean.setTop_price(payMoney);
+                    supplyBean.setTop_days(payMoney);
+                }
+
                 if(!atSupplyMessageEtAddress.getText().toString().trim().equals("")){
                     supplyAddress=MyCustomUtils.getGeoPointBystr(SupplyMessageInfoActivity.this,provinceName+cityName+districtName+townName+atSupplyMessageEtAddress.getText().toString().trim());
                     supplyBean.setCity(atSupplyMessageEtAddress.getText().toString().trim());
@@ -843,7 +774,7 @@ public class SupplyMessageInfoActivity extends ActivityBase {
                     supplyBean.setLat(lat);
                 }
 
-                if (!supplyData.getProvince().equals("")) {
+                if (supplyData.getProvince()!=null || !supplyData.getProvince().equals("")) {
                     supplyBean.setProvince(provinceId);
                     supplyBean.setCity1(cityId);
                     supplyBean.setDistrict(districtId);
@@ -855,6 +786,28 @@ public class SupplyMessageInfoActivity extends ActivityBase {
                     public void onSuccess(String result) {
                         showToast("供应商品编辑完成");
                         finish();
+                        /*if (isTop.equals("1")) {
+                            data1 = GsonUtils.fromJson(result, UploadChengxinCertResponseBean.class).getData();
+                            DiscoverSubscribe.supplyPay(data1.getPay_code(), data1.getOrder_sn(), data1.getPay_money(), "6", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                                @Override
+                                public void onSuccess(String result) {
+                                    if (payType.equals("1")) {
+                                        setPayResult(result);
+                                    } else if (payType.equals("2")) {
+                                        setWXResult(result);
+                                    } else {
+                                        finish();
+                                    }
+                                }
+
+                                @Override
+                                public void onFault(String errorMsg) {
+                                    //showToast(errorMsg);
+                                }
+                            }));
+                        } else {
+                            finish();
+                        }*/
                     }
 
                     @Override

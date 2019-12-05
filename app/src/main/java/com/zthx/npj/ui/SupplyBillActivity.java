@@ -192,7 +192,7 @@ public class SupplyBillActivity extends ActivityBase {
                     public void onFault(String errorMsg) {
                         //showToast(errorMsg);
                     }
-                }, this));
+                }));
     }
 
     @OnClick({R.id.at_supply_bill_ll_choice_address, R.id.at_supply_bill_btn_buy, R.id.ac_supplyBill_iv_choose1,

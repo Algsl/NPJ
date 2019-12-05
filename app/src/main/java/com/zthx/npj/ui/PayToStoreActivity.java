@@ -231,7 +231,7 @@ public class PayToStoreActivity extends ActivityBase {
                 payType = "3";
                 showToast("订单生成中，请稍等...");
                 openActivity(PayToStoreFinishActivity.class,store_id,store_img,store_name,payMoney);
-                //generateOrder();
+                generateOrder();
                 dialog.dismiss();
             }
         });

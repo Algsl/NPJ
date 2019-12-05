@@ -28,6 +28,15 @@ public class SupplyListResponseBean extends BaseReponseBean {
         private String distance;
         private String is_top;
 
+        private String bail;
+
+        public String getBail() {
+            return bail;
+        }
+
+        public void setBail(String bail) {
+            this.bail = bail;
+        }
 
         public String getIs_top() {
             return is_top;

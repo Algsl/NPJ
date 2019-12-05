@@ -31,6 +31,7 @@ import com.zthx.npj.net.been.MySupplyOrderResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.AddToCommentActivity;
 import com.zthx.npj.ui.ConfirmMySupplyOrderActivity;
 import com.zthx.npj.ui.KuaiDiDetailActivity;
 import com.zthx.npj.ui.MySupplyOrderCommentActivity;
@@ -260,6 +261,14 @@ public class MyBillListFragment extends Fragment {
                 intent.putExtra("order_id", data.get(position).getId() + "");
                 startActivity(intent);
             }
+
+            @Override
+            public void onAddCommentClick(int position) {
+                Intent intent=new Intent(getContext(),AddToCommentActivity.class);
+                intent.putExtra("goodsId",data.get(position)+"");
+                intent.putExtra("type",data.get(position)+"");
+                startActivity(intent);
+            }
         });
 
     }
@@ -400,4 +409,6 @@ public class MyBillListFragment extends Fragment {
         toast.show();
         getMySupplyOrder();
     }
+
+
 }

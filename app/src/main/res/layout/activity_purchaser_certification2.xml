@@ -426,7 +426,7 @@
                    android:id="@+id/at_purchaser_certification2_rl_pic"
                    android:layout_width="@dimen/dp_140"
                    android:layout_height="@dimen/dp_160"
-                   android:background="@color/white"
+                   android:background="@drawable/example1"
                    android:layout_marginTop="@dimen/dp_12">
                    <TextView
                        android:layout_width="wrap_content"
@@ -478,6 +478,7 @@
                android:textColor="@color/text3"/>
 
            <TextView
+               android:visibility="gone"
                android:id="@+id/at_purchaser_certification2_tv_yyzz"
                android:layout_width="match_parent"
                android:layout_height="@dimen/dp_40"

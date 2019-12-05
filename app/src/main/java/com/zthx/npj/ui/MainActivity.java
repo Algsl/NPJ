@@ -198,6 +198,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -283,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void getUserMsg() {
         Log.e("测试", "getUserMsg: " + user_id + " " + token);
+
         SetSubscribe.getUserInfo(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -290,7 +293,6 @@ public class MainActivity extends AppCompatActivity {
                 SharePerferenceUtils.setUserLevel(MainActivity.this, bean.getData().getLevel() + "");
                 BaseConstant.TOKEN = SharePerferenceUtils.getToken(MainActivity.this);
                 loginIM(bean.getData().getMobile(), bean.getData().getMobile());
-
                 TencentUtil.login(bean.getData().getMobile());
             }
 

@@ -88,6 +88,13 @@ public class PurchaseListAdapter extends RecyclerView.Adapter<PurchaseListAdapte
                 }
             });
         }
+
+        if(mList.get(i).getIs_top().equals("0")){
+            viewHolder.shareGoods.setText("置顶");
+        }else{
+            viewHolder.shareGoods.setText("分享");
+        }
+
         String url = mList.get(i).getImg();
         if (url.substring(url.length() - 4).equals(".mp4")) {
             viewHolder.goodsImg.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));

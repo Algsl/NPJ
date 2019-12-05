@@ -48,6 +48,16 @@ public class NeedDetailResponseBean extends BaseReponseBean {
         private String hits;
         private int user_count;
 
+        private String bail;
+
+        public String getBail() {
+            return bail;
+        }
+
+        public void setBail(String bail) {
+            this.bail = bail;
+        }
+
         public String getSpec() {
             return spec;
         }

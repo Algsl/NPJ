@@ -89,7 +89,7 @@ public class SecKillFragment extends Fragment {
             public void onFault(String errorMsg) {
 
             }
-        }, getActivity()));
+        }));
         return v;
     }
 

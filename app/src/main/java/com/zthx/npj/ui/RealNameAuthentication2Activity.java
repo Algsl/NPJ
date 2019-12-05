@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,6 +106,7 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                 showBottomDialog(atRealNameAuthentication2LlIdQuan);
                 break;
             case R.id.at_real_name_authentication2_btn_confirm:
+                Log.e("测试", "onViewClicked: ");
                 if(atRealNameAuthentication2EtName.getText().toString().trim().equals("")){
                     showToast("请填写姓名");
                 }else if(atRealNameAuthentication2EtId.getText().toString().trim().length()!=18){
@@ -304,7 +306,6 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                         if(index==0){
                             showToast("图片上传中，请稍等...");
                             atRealNameAuthentication2LlIdZheng.setBackground(new BitmapDrawable(bitmap));
-                            UrlZheng=path;
                         }else if(index==1){
                             showToast("图片上传中，请稍等...");
                             atRealNameAuthentication2LlIdFan.setBackground(new BitmapDrawable(bitmap));

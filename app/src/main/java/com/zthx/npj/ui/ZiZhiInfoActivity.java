@@ -27,6 +27,7 @@ import com.zthx.npj.R;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.api.URLConstant;
 import com.zthx.npj.net.been.UpLoadPicResponseBean;
+import com.zthx.npj.net.been.UploadImgResponseBean;
 import com.zthx.npj.net.been.ZiZhi2Bean;
 import com.zthx.npj.net.netsubscribe.CertSubscribe;
 import com.zthx.npj.net.netutils.HttpUtils;
@@ -65,15 +66,23 @@ public class ZiZhiInfoActivity extends ActivityBase {
     TextView atZizhiTvMobile;
     @BindView(R.id.at_zizhi_tv_type)
     TextView atZizhiTvType;
+    @BindView(R.id.at_zizhi_ll_zizhipic1)
+    LinearLayout atZizhiLlZizhipic1;
+    @BindView(R.id.at_zizhi_ll_zizhipic2)
+    LinearLayout atZizhiLlZizhipic2;
     private String user_id = SharePerferenceUtils.getUserId(this);
     private String token = SharePerferenceUtils.getToken(this);
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
     private Uri imageUri;
-    private String business_license = "";
     private String cert_id = "";
     private String path = "";
-    private String path1="";
+
+    private int index = 0;
+
+    private String business_license = "";//营业执照
+    private String authorization="";//资质证书
+    private String  other_img="";//其他资料
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,21 +104,31 @@ public class ZiZhiInfoActivity extends ActivityBase {
         }
     }
 
-    @OnClick({R.id.at_zizhi_ll_zizhipic, R.id.at_zizhi_btn_confirm,R.id.at_zizhi_tv_type})
+    @OnClick({R.id.at_zizhi_ll_zizhipic, R.id.at_zizhi_btn_confirm, R.id.at_zizhi_tv_type,
+            R.id.at_zizhi_ll_zizhipic1,R.id.at_zizhi_ll_zizhipic2})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_zizhi_ll_zizhipic:
-                showBottomDialog();
+                showBottomDialog(atZizhiLlZizhipic);
+                break;
+            case R.id.at_zizhi_ll_zizhipic1:
+                showBottomDialog(atZizhiLlZizhipic1);
+                break;
+            case R.id.at_zizhi_ll_zizhipic2:
+                showBottomDialog(atZizhiLlZizhipic2);
                 break;
             case R.id.at_zizhi_btn_confirm:
                 if (atZizhiEtName.getText().toString().trim().equals("")) {
                     showToast("请填写企业全称");
                 } else if (atZizhiTvType.getText().toString().trim().equals("")) {
-                    showToast("请填写许可资质类型");
-                } else if (path == null || path.equals("")) {
+                    showToast("请选择许可资质类型");
+                } else if (business_license == null || business_license.equals("")) {
+                    showToast("请上传营业执照");
+                }else if (authorization == null || authorization.equals("")) {
                     showToast("请上传资质证书");
                 } else {
-                    HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
+                    uploadData();
+                    /*HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
 
@@ -123,7 +142,7 @@ public class ZiZhiInfoActivity extends ActivityBase {
                             Log.e("测试", "onResponse: " + business_license);
                             uploadData();
                         }
-                    });
+                    });*/
                 }
                 break;
             case R.id.at_zizhi_tv_type:
@@ -140,6 +159,8 @@ public class ZiZhiInfoActivity extends ActivityBase {
         bean.setCompany_name(atZizhiEtName.getText().toString());
         bean.setCompany_type(atZizhiTvType.getText().toString());
         bean.setBusiness_license(business_license);
+        bean.setAuthorization(authorization);
+        bean.setOther_img(other_img);
         if (!cert_id.equals("")) {
             bean.setCert_id(cert_id);
             CertSubscribe.zizhi3(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
@@ -208,7 +229,7 @@ public class ZiZhiInfoActivity extends ActivityBase {
         });
     }
 
-    private void showBottomDialog() {
+    /*private void showBottomDialog() {
         //1、使用Dialog、设置style
         final Dialog dialog = new Dialog(this, R.style.DialogTheme);
         //2、设置布局
@@ -297,6 +318,177 @@ public class ZiZhiInfoActivity extends ActivityBase {
                         cursor.close();
                         Bitmap bitmap = BitmapFactory.decodeFile(path);
                         atZizhiLlZizhipic.setBackground(new BitmapDrawable(bitmap));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+        }
+    }*/
+    private void showBottomDialog(final View v) {
+        //1、使用Dialog、设置style
+        final Dialog dialog = new Dialog(this, R.style.DialogTheme);
+        //2、设置布局
+        View view = View.inflate(this, R.layout.dialog_photo_layout, null);
+        dialog.setContentView(view);
+        Window window = dialog.getWindow();
+        //设置弹出位置
+        window.setGravity(Gravity.BOTTOM);
+        //设置弹出动画
+        window.setWindowAnimations(R.style.main_menu_animStyle);
+        //设置对话框大小
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+
+        //打开相册
+        dialog.findViewById(R.id.dl_photo_take_pic).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (v.getId() == R.id.at_zizhi_ll_zizhipic) {
+                    index = 0;
+                } else if (v.getId() == R.id.at_zizhi_ll_zizhipic1) {
+                    index = 1;
+                } else {
+                    index = 2;
+                }
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, CHOOSE_PHOTO);
+                dialog.dismiss();
+            }
+        });
+
+        //打开相机
+        dialog.findViewById(R.id.dl_photo_take_photo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (v.getId() == R.id.at_zizhi_ll_zizhipic) {
+                    index = 0;
+                } else if (v.getId() == R.id.at_zizhi_ll_zizhipic1) {
+                    index = 1;
+                } else {
+                    index = 2;
+                }
+                File outputImage = new File(getExternalCacheDir(), "output_image.jpg");
+                try {
+                    if (outputImage.exists()) {
+                        outputImage.delete();
+                    }
+                    outputImage.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (Build.VERSION.SDK_INT >= 24) {
+                    imageUri = FileProvider.getUriForFile(ZiZhiInfoActivity.this,
+                            "com.zthx.npj.file_provider",
+                            outputImage);
+                } else {
+                    imageUri = Uri.fromFile(outputImage);
+                }
+
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, TAKE_PHOTO);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.findViewById(R.id.dl_photo_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case TAKE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                        if (index == 0) {
+                            atZizhiLlZizhipic.setBackground(new BitmapDrawable(bitmap));
+                        } else if (index == 1) {
+                            atZizhiLlZizhipic1.setBackground(new BitmapDrawable(bitmap));
+                        } else {
+                            atZizhiLlZizhipic2.setBackground(new BitmapDrawable(bitmap));
+                        }
+                        String filePath = getExternalCacheDir() + "/output_image.jpg";
+                        if (index == 0) {
+                            showToast("图片上传中，请稍等...");
+                        } else if (index == 1) {
+                            showToast("图片上传中，请稍等...");
+                        } else {
+                            showToast("图片上传中，请稍等...");
+                        }
+                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, filePath, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                UploadImgResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadImgResponseBean.class);
+                                UploadImgResponseBean.DataBean data = bean.getData();
+                                if (index == 0) {
+                                    business_license = data.getSrc();
+                                } else if (index == 1) {
+                                    authorization = data.getSrc();
+                                } else {
+                                    other_img = data.getSrc();
+                                }
+                            }
+                        });
+                        showToast("图片上传完成");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case CHOOSE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+                        cursor.moveToFirst();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        final String path = cursor.getString(columnIndex);  //获取照片路径
+                        cursor.close();
+                        Bitmap bitmap = BitmapFactory.decodeFile(path);
+                        if (index == 0) {
+                            showToast("图片上传中，请稍等...");
+                            atZizhiLlZizhipic.setBackground(new BitmapDrawable(bitmap));
+                        } else if (index == 1) {
+                            showToast("图片上传中，请稍等...");
+                            atZizhiLlZizhipic1.setBackground(new BitmapDrawable(bitmap));
+                        } else {
+                            showToast("图片上传中，请稍等...");
+                            atZizhiLlZizhipic2.setBackground(new BitmapDrawable(bitmap));
+                        }
+                        HttpUtils.uploadImg(URLConstant.REQUEST_URL, path, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                UploadImgResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadImgResponseBean.class);
+                                UploadImgResponseBean.DataBean data = bean.getData();
+                                if (index == 0) {
+                                    business_license = data.getSrc();
+                                } else if (index == 1) {
+                                    authorization = data.getSrc();
+                                } else {
+                                    other_img = data.getSrc();
+                                }
+                            }
+                        });
+                        showToast("图片上传完成");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

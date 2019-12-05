@@ -6,7 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_180"
+        android:layout_marginTop="@dimen/dp_170"
         android:orientation="vertical">
         <TextView
             android:id="@+id/dg_update_tv_version"
@@ -26,7 +26,7 @@
             android:layout_marginLeft="@dimen/dp_12"
             android:layout_marginRight="@dimen/dp_12"
             android:layout_marginBottom="@dimen/dp_50"
-            android:lineHeight="@dimen/dp_23"
+            android:lineHeight="@dimen/dp_30"
             android:textColor="@color/text6" />
     </LinearLayout>
 

@@ -69,7 +69,7 @@ public class PurchaserCertificationActivity extends ActivityBase {
                     public void onFault(String errorMsg) {
                         showDialog();
                     }
-                }, this));
+                }));
                 break;
         }
     }

@@ -56,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="农品街店铺"
+                    android:text="农品街旗舰店"
                     android:layout_marginLeft="@dimen/dp_12"
                     android:textColor="@color/text6"
                     android:textSize="@dimen/sp_13"/>

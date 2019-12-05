@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_60"
+    android:background="@color/white">
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="@dimen/dp_10"
+       android:layout_marginLeft="@dimen/dp_12"
+       android:textSize="@dimen/dp_15"
+       android:textColor="@color/text6"
+       android:text="保证金退还申请"/>
+    <TextView
+        android:id="@+id/item_tuiList_tv_createTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_5"
+        android:layout_alignParentBottom="true"
+        android:textSize="@dimen/sp_11"
+        android:textColor="@color/text9"
+        android:text="2019/11/29 16:42:10"/>
+    <TextView
+        android:id="@+id/item_tuiList_tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_12"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/text3"
+        android:text="1000元"/>
+    <TextView
+        android:id="@+id/item_tuiList_tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_12"
+        android:textSize="@dimen/sp_12"
+        android:textColor="@color/app_theme"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/dp_5"
+        android:gravity="right"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="审核完成"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_alignParentBottom="true"
+        android:background="@color/background"/>
+</RelativeLayout>

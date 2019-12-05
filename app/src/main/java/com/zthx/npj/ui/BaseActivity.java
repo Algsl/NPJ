@@ -1,152 +1,91 @@
 package com.zthx.npj.ui;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.net.Uri;
-import android.os.Build;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.util.Log;
 
-import com.gyf.barlibrary.ImmersionBar;
-import com.zthx.npj.R;
+import java.util.ArrayList;
 
 public class BaseActivity extends AppCompatActivity {
 
-    protected ImmersionBar mImmersionBar;
-    protected boolean ISShowToolBar = true;
-    public Toolbar toolbar;
+    private ForceOfflineReceiver receiver;
 
-    public TextView mTvBaseTitle;
-    public TextView mTvBaseRight;
-    public ImageView mImgBaseRight;
-    public ImageView mImgBaseRight2;
-    public ImageView mImgBaseBack;
-    public TextView mTvBaseBack;
+    private static ArrayList<Activity> allActivities=new ArrayList<>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
-        //禁止横屏
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        //初始化沉浸式状态栏
-        //initToolbar();
-    }
-
-
-
-    //初始化控件，改变中间标题
-    public void init_title(String title) {
-        changeTitle(title);
-    }
-
-    //初始化控件，改变中间和右侧标题
-    public void init_title(String title, String name) {
-        changeTitle(title, name);
-    }
-
-    // 沉浸状态栏
-    public void transparentStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
-            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
-        }
-    }
-
-    //改变中间标题
-    public void changeTitle(String title) {
-        if (null == mTvBaseTitle) {
-            mTvBaseTitle = (TextView) findViewById(R.id.tv_base_title);
-        }
-        mTvBaseTitle.setText(title);
-    }
-
-    //改变中间和右侧标题
-    public void changeTitle(String title, String name) {
-        changeTitle(title);
-        if (mTvBaseRight == null)
-            mTvBaseRight = (TextView) findViewById(R.id.tv_base_right);
-        if (name == null) {
-            assert mTvBaseRight != null;
-            mTvBaseRight.setVisibility(View.INVISIBLE);
-        } else {
-            assert mTvBaseRight != null;
-            mTvBaseRight.setVisibility(View.VISIBLE);
-            mTvBaseRight.setText(name);
-        }
-    }
-
-    private void initToolbar() {
-        toolbar = findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null)
-                actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        }
-        //初始化沉浸式
-        if (isImmersionBarEnabled()) {
-            initImmersionBar();
-        }
-        setWhiteBar();
-    }
-
-    // 沉浸状态栏，设置Toolbar是否可见
-    public void transparentStatusBar(boolean isVisible) {
-        transparentStatusBar();
-        setToolbarVisibility(isVisible);
-    }
-
-    //设置Toolbar是否可见
-    public void setToolbarVisibility(boolean isVisible) {
-        if (toolbar != null)
-            toolbar.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+        allActivities.add(this);
 
     }
-
-    /**
-     * 是否可以使用沉浸式
-     * Is immersion bar enabled boolean.
-     *
-     * @return the boolean
-     */
-    protected boolean isImmersionBarEnabled() {
-        return true;
-    }
-
-    /**
-     * 白色 顶部的时候 设置
-     */
-    private void setWhiteBar() {
-        if (ISShowToolBar) {
-            mImmersionBar.titleBar(toolbar)
-                    .navigationBarColor(R.color.black)
-                    .statusBarColor(R.color.colorPrimary)
-                    .init();
-        }
-    }
-
-    protected void initImmersionBar() {
-        //在BaseActivity里初始化
-        mImmersionBar = ImmersionBar.with(this);
-        mImmersionBar.init();
-    }
-
     @Override
     protected void onDestroy() {
-        if (mImmersionBar != null) {
-            mImmersionBar.destroy();
-        }
         super.onDestroy();
+        allActivities.remove(this);
+    }
+
+    public static void finishAll(){
+        for(Activity activity:allActivities){
+            if(!activity.isFinishing()){
+                activity.finish();
+            }
+        }
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter intentFilter=new IntentFilter();
+        intentFilter.addAction("com.example.broadcastbestpractice.FORCE_OFFLINE");
+        receiver=new ForceOfflineReceiver();
+        registerReceiver(receiver,intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(receiver!=null){
+            unregisterReceiver(receiver);
+            receiver=null;
+        }
+    }
+
+    class ForceOfflineReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(final Context context, Intent intent) {
+            String user_id=getIntent().getStringExtra("user_id");
+            String token=getIntent().getStringExtra("token");
+            //id相同，token不同：用户二次登录
+            //id不同，token不同：非同一用户登录
+            //id同tokentong：
+            /*if(user_id.equals("35") && token.equals("123456")){
+                Log.e("测试", "onReceive: 判断结果为当前用户" );
+            }else if(user_id.equals("35") && !token.equals("123456")){
+                Log.e("测试", "onReceive: 判断结果为同一用户进行登录，需强制下线" );
+            }else if(!user_id.equals("35") && !token.equals("123456")){
+                Log.e("测试", "onReceive: 判断结果为非同一用户，不需要强制下线");
+            }*/
+            /*AlertDialog.Builder builder=new AlertDialog.Builder(context);
+            builder.setTitle("Warning");
+            builder.setMessage("您已被强制下线，请重新登录");
+            builder.setCancelable(false);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    BaseActivity.finishAll();
+                    Intent intent=new Intent(context,LoginActivity.class);
+                    context.startActivity(intent);
+                }
+            });
+            builder.show();*/
+        }
+    }
 }

@@ -35,6 +35,7 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
         void onAgainClick(int position);
         void onCommentClick(int position);
         void onGoodsReturn(int position);
+        void onAddCommentClick(int position);
     }
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
@@ -127,6 +128,13 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
                     mItemClickListener.onGoodsReturn(position);
                 }
             });
+            viewHolder.addComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onAddCommentClick(position);
+                }
+            });
         }
         if (list!= null && list.size() > 0) {
             String url = list.get(i).getGoods_img();
@@ -148,7 +156,7 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
             viewHolder.storeName.setText(list.get(i).getNick_name());
 
             if (list.get(i).getNick_name().substring(0,2).equals("用户")) {
-                viewHolder.storeName.setText("农品街新客");
+                viewHolder.storeName.setText("农品街用户");
             } else {
                 viewHolder.storeName.setText(list.get(i).getNick_name());
             }
@@ -285,7 +293,7 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView goodsImg,ivVideo;
         TextView storeName,goodsName,goodsPrice,goodsNum,orderPrice,orderState;
-        Button cancel,delete,cuidan,pay,query,confirm,again,comment,goodsReturn;
+        Button cancel,delete,cuidan,pay,query,confirm,again,comment,goodsReturn,addComment;
         ViewHolder(View itemView) {
             super(itemView);
             goodsImg=itemView.findViewById(R.id.item_myBillList_iv_goodsImg);
@@ -305,6 +313,7 @@ public class MySupplyOrderAdapter extends RecyclerView.Adapter<MySupplyOrderAdap
             comment=itemView.findViewById(R.id.item_myBillList_btn_comment);
             goodsReturn=itemView.findViewById(R.id.item_myBillList_btn_goodsReturn);
             ivVideo=itemView.findViewById(R.id.item_storeQuotation_iv_video);
+            addComment=itemView.findViewById(R.id.item_orderList_btn_comment2);
         }
     }
 }

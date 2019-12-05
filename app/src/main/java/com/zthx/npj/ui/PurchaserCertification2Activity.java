@@ -157,12 +157,22 @@ public class PurchaserCertification2Activity extends ActivityBase {
                 acPurchaserCertificationTvHint.setText("1.营业执照需盖红章和企业名称清晰可见\n" +
                         "2.使用附近件需加盖公司红章\n" +
                         "3.建议图片上传完毕后检查能否看清字体通过更有把握");
+
+                atPurchaserCertification2RlPic.setBackground(getResources().getDrawable(R.drawable.example1));
+                atPurchaserCertification2TvYyzz.setVisibility(View.GONE);
+                atPurchaserCertification2TvDangkouPic.setVisibility(View.VISIBLE);
+                atPurchaserCertification2TvDangkouIdCard.setVisibility(View.VISIBLE);
                 break;
             case R.id.at_purchaser_certification2_tv_dangkou_pic://上传档口照片
                 picType = 1;
                 atPurchaserCertification2TvTuijian.setText("上传档口照片进行认证");
                 acPurchaserCertificationTvHint.setText("1.需要您与档口的合照\n" +
                         "2.确保图片中能清晰看到档口名称和档口正门\n");
+
+                atPurchaserCertification2RlPic.setBackground(getResources().getDrawable(R.drawable.example2));
+                atPurchaserCertification2TvYyzz.setVisibility(View.VISIBLE);
+                atPurchaserCertification2TvDangkouPic.setVisibility(View.GONE);
+                atPurchaserCertification2TvDangkouIdCard.setVisibility(View.VISIBLE);
                 break;
             case R.id.at_purchaser_certification2_tv_dangkou_id_card://上传名片或工牌
                 picType = 2;
@@ -170,6 +180,11 @@ public class PurchaserCertification2Activity extends ActivityBase {
                 acPurchaserCertificationTvHint.setText(
                         "1.图片中需要展示名片/工牌的全部信息，名片包含但不限于联系人、联系方式、企业/档口名称、地址等信息。工牌需包含但不限于联系人、企业名称、部门/职位等信息。\n" +
                                 "2.图片上传完毕，请确保内容清晰，无阅读障碍，以保顺利通过。\n");
+
+                atPurchaserCertification2RlPic.setBackground(getResources().getDrawable(R.drawable.example3));
+                atPurchaserCertification2TvYyzz.setVisibility(View.VISIBLE);
+                atPurchaserCertification2TvDangkouPic.setVisibility(View.VISIBLE);
+                atPurchaserCertification2TvDangkouIdCard.setVisibility(View.GONE);
                 break;
             case R.id.at_purchaser_certification2_btn_confirm:
                 if (atPurchaserCertification2EtName.getText().toString().trim().equals("")) {

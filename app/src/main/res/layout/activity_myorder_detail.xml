@@ -173,7 +173,7 @@
                                         android:layout_marginLeft="@dimen/dp_10"
                                         android:textSize="@dimen/sp_15"
                                         android:textColor="@color/text3"
-                                        android:text="崔刚"/>
+                                        android:text=""/>
                                     <TextView
                                         android:id="@+id/ac_myOrderDetail_tv_cellPhone"
                                         android:layout_width="wrap_content"
@@ -181,7 +181,7 @@
                                         android:layout_marginLeft="@dimen/dp_15"
                                         android:textSize="@dimen/sp_15"
                                         android:textColor="@color/text3"
-                                        android:text="15645824895"/>
+                                        android:text=""/>
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -195,7 +195,7 @@
                                         android:layout_marginLeft="@dimen/dp_10"
                                         android:textSize="@dimen/sp_15"
                                         android:textColor="@color/text3"
-                                        android:text="河南省 郑州市 管城回族区 中州锦绣花苑"/>
+                                        android:text=""/>
                                 </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
@@ -219,7 +219,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="xxx旗舰店"
+                                android:text="农品街旗舰店"
                                 android:layout_marginLeft="@dimen/dp_12"
                                 android:textColor="@color/text6"
                                 android:textSize="@dimen/sp_13"/>
@@ -257,7 +257,7 @@
                                     android:layout_marginRight="@dimen/dp_23"
                                     android:textSize="@dimen/sp_15"
                                     android:textColor="@color/text6"
-                                    android:text="毒贩夫妇付付付付付付付付付付付付付付付付付付付付过"
+                                    android:text=""
                                     android:layout_marginTop="@dimen/dp_8"
                                     android:ellipsize="end"/>
                                 <TextView
@@ -268,7 +268,7 @@
                                     android:textSize="@dimen/sp_12"
                                     android:layout_marginLeft="@dimen/dp_12"
                                     android:layout_marginTop="@dimen/dp_5"
-                                    android:text="规格：奥库拉  500g/瓶"/>
+                                    android:text=""/>
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -281,7 +281,7 @@
                                         android:textSize="@dimen/sp_13"
                                         android:textColor="@color/app_theme"
                                         android:textStyle="bold"
-                                        android:text="￥66"/>
+                                        android:text=""/>
                                     <TextView
                                         android:id="@+id/at_myOrderDetail_tv_goodsNum"
                                         android:layout_width="wrap_content"
@@ -290,7 +290,7 @@
                                         android:layout_marginRight="@dimen/dp_12"
                                         android:textSize="@dimen/sp_13"
                                         android:textColor="@color/text9"
-                                        android:text="X1"/>
+                                        android:text=""/>
                                 </RelativeLayout>
                                 <LinearLayout
                                     android:id="@+id/ac_myOrderDetail_ll"
@@ -330,7 +330,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginRight="@dimen/dp_12"
-                                android:text="￥458.00"
+                                android:text=""
                                 android:textSize="@dimen/sp_13"
                                 android:textColor="@color/text6"/>
                         </RelativeLayout>
@@ -352,7 +352,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginRight="@dimen/dp_12"
-                                android:text="￥0.00"
+                                android:text=""
                                 android:textSize="@dimen/sp_13"
                                 android:textColor="@color/text6"/>
                         </RelativeLayout>
@@ -397,7 +397,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginRight="@dimen/dp_12"
-                                android:text="￥258.00"
+                                android:text=""
                                 android:textStyle="bold"
                                 android:textSize="@dimen/sp_14"
                                 android:textColor="@color/app_theme"/>
@@ -518,7 +518,7 @@
                                     android:layout_marginRight="@dimen/dp_23"
                                     android:textSize="@dimen/sp_15"
                                     android:textColor="@color/text6"
-                                    android:text="毒贩夫妇付付付付付付付付付付付付付付付付付付付付过"
+                                    android:text=""
                                     android:layout_marginTop="@dimen/dp_8"
                                     android:ellipsize="end"/>
                                 <TextView
@@ -528,7 +528,7 @@
                                     android:textSize="@dimen/sp_12"
                                     android:layout_marginLeft="@dimen/dp_12"
                                     android:layout_marginTop="@dimen/dp_5"
-                                    android:text="规格：奥库拉  500g/瓶"/>
+                                    android:text=""/>
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -541,7 +541,7 @@
                                         android:textSize="@dimen/sp_13"
                                         android:textColor="@color/app_theme"
                                         android:textStyle="bold"
-                                        android:text="￥66"/>
+                                        android:text=""/>
                                     <TextView
                                         android:id="@+id/at_myOrderDetail_tv_goodsNum1"
                                         android:layout_width="wrap_content"
@@ -550,7 +550,7 @@
                                         android:layout_marginRight="@dimen/dp_12"
                                         android:textSize="@dimen/sp_13"
                                         android:textColor="@color/text9"
-                                        android:text="X1"/>
+                                        android:text=""/>
                                 </RelativeLayout>
                                 <LinearLayout
                                     android:layout_width="@dimen/dp_80"
@@ -612,7 +612,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginRight="@dimen/dp_12"
-                                android:text="￥258.00"
+                                android:text=""
                                 android:textSize="@dimen/sp_13"
                                 android:textColor="@color/text6"/>
                         </LinearLayout>
@@ -667,7 +667,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/text6"
                                 android:textSize="@dimen/sp_13"
-                                android:text="12335354535"/>
+                                android:text=""/>
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/at_myOrderDetail_ll_payType"
@@ -688,7 +688,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/text6"
                                 android:textSize="@dimen/sp_13"
-                                android:text="支付宝支付"/>
+                                android:text=""/>
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/at_myOrderDetail_ll_createTime"
@@ -708,7 +708,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/text6"
                                 android:textSize="@dimen/sp_13"
-                                android:text="2019-05-15  09：20：20"/>
+                                android:text=""/>
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/at_myOrderDetail_ll_payTime"
@@ -729,7 +729,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/text6"
                                 android:textSize="@dimen/sp_13"
-                                android:text="2019-05-15  09：20：20"/>
+                                android:text=""/>
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/at_myOrderDetail_ll_send"
@@ -750,7 +750,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/text6"
                                 android:textSize="@dimen/sp_13"
-                                android:text="2019-05-15  09：20：20"/>
+                                android:text=""/>
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/at_myOrderDetail_ll_over"
@@ -771,7 +771,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/text6"
                                 android:textSize="@dimen/sp_13"
-                                android:text="2019-05-15  09：20：20"/>
+                                android:text=""/>
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/ac_myOrderDetail_ll_refundNum"
@@ -792,7 +792,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/text6"
                                 android:textSize="@dimen/sp_13"
-                                android:text="5613546513251354"/>
+                                android:text=""/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>

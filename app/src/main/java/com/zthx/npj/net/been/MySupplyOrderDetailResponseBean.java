@@ -17,6 +17,8 @@ public class MySupplyOrderDetailResponseBean extends BaseReponseBean{
         private String goods_price;
         private long id;
         private String mobile;
+        private long fahuo_time;
+
 
         public String getNick_name() {
             return nick_name;
@@ -48,6 +50,14 @@ public class MySupplyOrderDetailResponseBean extends BaseReponseBean{
 
         private String jujue_yuanyin;
 
+
+        public long getFahuo_time() {
+            return fahuo_time;
+        }
+
+        public void setFahuo_time(long fahuo_time) {
+            this.fahuo_time = fahuo_time;
+        }
 
         public String getJujue_yuanyin() {
             return jujue_yuanyin;

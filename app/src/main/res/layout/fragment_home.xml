@@ -246,11 +246,11 @@
                 android:src="@drawable/home_scan" />
 
             <RelativeLayout
-                android:layout_width="@dimen/dp_246"
+                android:layout_width="@dimen/dp_240"
                 android:layout_height="@dimen/dp_29"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:alpha="0.5"
-                android:background="@drawable/white_conner">
+                android:background="@drawable/white_conner_5">
 
                 <ImageView
                     android:layout_width="@dimen/dp_22"
@@ -279,8 +279,10 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="@dimen/dp_22"
-                    android:layout_height="@dimen/dp_22"
+                    android:layout_width="@dimen/dp_26"
+                    android:layout_height="@dimen/dp_26"
+                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"
                     android:src="@drawable/home_kind" />
 
                 <TextView

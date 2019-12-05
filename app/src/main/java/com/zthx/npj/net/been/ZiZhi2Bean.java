@@ -6,7 +6,25 @@ public class ZiZhi2Bean {
     private String company_name;
     private String company_type;
     private String business_license;
+    private String authorization;
+    private String other_img;
     private String cert_id;
+
+    public String getAuthorization() {
+        return authorization;
+    }
+
+    public void setAuthorization(String authorization) {
+        this.authorization = authorization;
+    }
+
+    public String getOther_img() {
+        return other_img;
+    }
+
+    public void setOther_img(String other_img) {
+        this.other_img = other_img;
+    }
 
     public String getCert_id() {
         return cert_id;

@@ -40,6 +40,7 @@ import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.CommonDialog;
 import com.zthx.npj.view.GlideImageLoader;
@@ -108,6 +109,8 @@ public class LocationStoreActivity extends ActivityBase {
 
         atLocationStoreTvRuzhu.setText("我的店铺");
         acLocaltionStoreTvAddress.setSelected(true);
+
+        MyCustomUtils.getLocateinfo(SharePerferenceUtils.getLat(this),SharePerferenceUtils.getLng(this),acLocaltionStoreTvAddress);
 
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override

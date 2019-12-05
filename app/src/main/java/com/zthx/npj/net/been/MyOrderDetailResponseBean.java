@@ -24,6 +24,33 @@ public class MyOrderDetailResponseBean extends BaseReponseBean{
         private String jujue_yuanyin;
         private long refund_time;
         private String key_name;
+        private long pay_time;
+        private String refund_price;
+        private String refund_reason;
+
+        public String getRefund_reason() {
+            return refund_reason;
+        }
+
+        public void setRefund_reason(String refund_reason) {
+            this.refund_reason = refund_reason;
+        }
+
+        public String getRefund_price() {
+            return refund_price;
+        }
+
+        public void setRefund_price(String refund_price) {
+            this.refund_price = refund_price;
+        }
+
+        public long getPay_time() {
+            return pay_time;
+        }
+
+        public void setPay_time(long pay_time) {
+            this.pay_time = pay_time;
+        }
 
         public String getConsignee() {
             return consignee;

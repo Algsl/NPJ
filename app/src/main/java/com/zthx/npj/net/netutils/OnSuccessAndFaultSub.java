@@ -51,12 +51,12 @@ public class OnSuccessAndFaultSub extends DisposableObserver<ResponseBody>
      * @param mOnSuccessAndFaultListener 成功回调监听
      * @param context 上下文
      */
-    public OnSuccessAndFaultSub(OnSuccessAndFaultListener mOnSuccessAndFaultListener, Context context) {//含进度条提示的回调监听
+    /*public OnSuccessAndFaultSub(OnSuccessAndFaultListener mOnSuccessAndFaultListener, Context context) {//含进度条提示的回调监听
         this.mOnSuccessAndFaultListener = mOnSuccessAndFaultListener;
         this.context = context;
         progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("正在加载中请稍后~");
-    }
+    }*/
 
 
     /**

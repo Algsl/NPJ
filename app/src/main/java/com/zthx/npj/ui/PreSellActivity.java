@@ -126,7 +126,7 @@ public class PreSellActivity extends ActivityBase {
                     public void onFault(String errorMsg) {
 
                     }
-                }, this));
+                }));
     }
 
     private void setView(final ArrayList<PreSellResponseBean.DataBean> data, LinearLayoutManager ll, RecyclerView rv) {

@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,14 +20,19 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.zthx.npj.R;
-import com.zthx.npj.adapter.LocalStoreAdapter;
+import com.zthx.npj.adapter.TuiListAdapter;
 import com.zthx.npj.net.been.ChengXinCertResponseBean;
+import com.zthx.npj.net.been.TuiListResponseBean;
 import com.zthx.npj.net.netsubscribe.CertSubscribe;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.view.CommonDialog;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,10 +59,15 @@ public class TrustedStoreActivity extends ActivityBase {
     ImageView acTitleIv;
     @BindView(R.id.ac_trustedStore_tv_apply)
     TextView acTrustedStoreTvApply;
+    @BindView(R.id.ac_trustedStore_rv)
+    RecyclerView acTrustedStoreRv;
 
-    private String user_id=SharePerferenceUtils.getUserId(this);
-    private String token=SharePerferenceUtils.getToken(this);
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
     private String money;
+    private TuiListAdapter adapter;
+
+    private static final String TAG = "测试";
 
 
     @Override
@@ -68,7 +78,31 @@ public class TrustedStoreActivity extends ActivityBase {
 
         back(titleBack);
         changeTitle(acTitle, "诚信商家");
+        getTuiList();
         getData();
+    }
+
+    private void getTuiList() {
+        SetSubscribe.tuiList(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) throws IOException {
+                setTuiList(result);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
+    }
+
+    private void setTuiList(String result) {
+        TuiListResponseBean bean = GsonUtils.fromJson(result, TuiListResponseBean.class);
+        ArrayList<TuiListResponseBean.DataBean> data = bean.getData();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        acTrustedStoreRv.setLayoutManager(layoutManager);
+        adapter=new TuiListAdapter(this,data);
+        acTrustedStoreRv.setAdapter(adapter);
     }
 
     @Override
@@ -87,8 +121,8 @@ public class TrustedStoreActivity extends ActivityBase {
                 int status = chengXinCertResponseBean.getData().getStatus();
                 if (status == 1) {
                     atTrustStoreLlBaozhengjin.setVisibility(View.VISIBLE);
-                    money=chengXinCertResponseBean.getData().getBail();
-                    atTrustStoreTvBaozhengjin.setText("您的当前保证金为" + money+ "元");
+                    money = chengXinCertResponseBean.getData().getBail();
+                    atTrustStoreTvBaozhengjin.setText("您的当前保证金为" + money + "元");
                 } else {
                     atTrustStoreLlBaozhengjin.setVisibility(View.GONE);
                 }
@@ -98,10 +132,10 @@ public class TrustedStoreActivity extends ActivityBase {
             public void onFault(String errorMsg) {
 
             }
-        }, this));
+        }));
     }
 
-    @OnClick({R.id.at_trust_store_btn_attestation, R.id.at_trust_bottom,R.id.ac_trustedStore_tv_apply})
+    @OnClick({R.id.at_trust_store_btn_attestation, R.id.at_trust_bottom, R.id.ac_trustedStore_tv_apply})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.at_trust_store_btn_attestation:
@@ -125,10 +159,10 @@ public class TrustedStoreActivity extends ActivityBase {
                         dialog.setPositiveButton("去企业认证");
                         dialog.show();
                     }
-                }, this));
+                }));
                 break;
             case R.id.at_trust_bottom:
-                openActivity(ConsultActivity.class,"农品街平台认证协议","http://game.npj-vip.com/agreement/certificate.html");
+                openActivity(ConsultActivity.class, "农品街平台认证协议", "http://game.npj-vip.com/agreement/certificate.html");
                 break;
             case R.id.ac_trustedStore_tv_apply:
                 showPublishPopwindow();
@@ -169,25 +203,35 @@ public class TrustedStoreActivity extends ActivityBase {
         // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
         window.showAtLocation(contentView, Gravity.CENTER, 0, 0);
 
-        final EditText et= contentView.findViewById(R.id.pw_trustBack_et_back);
-        TextView tv=contentView.findViewById(R.id.pw_trustBack_tv_confirm);
+        final EditText et = contentView.findViewById(R.id.pw_trustBack_et_back);
+        TextView tv = contentView.findViewById(R.id.pw_trustBack_tv_confirm);
 
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CertSubscribe.margin(user_id,token,et.getText().toString().trim(),new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                    @Override
-                    public void onSuccess(String result) {
-                        showToast("申请成功");
-                    }
+                String money1=et.getText().toString().trim();
+                if((adapter.getAllMoney()+Double.parseDouble(money1))<=Double.parseDouble(money)){
+                    if(Long.parseLong(money1)%1000==0){
+                        CertSubscribe.margin(user_id, token, money1, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                            @Override
+                            public void onSuccess(String result) {
+                                showToast("申请成功");
+                            }
 
-                    @Override
-                    public void onFault(String errorMsg) {
+                            @Override
+                            public void onFault(String errorMsg) {
 
+                            }
+                        }));
+                        window.dismiss();
+                        backgroundAlpha(1f);
+                    }else{
+                        showToast("请以1000的整数倍填写退还金额");
                     }
-                }));
-                window.dismiss();
-                backgroundAlpha(1f);
+                }else{
+                    showToast("退款金额不得超过认证总金额");
+                }
+
             }
         });
 

@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,7 @@ import com.zthx.npj.view.MyCircleView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -110,8 +112,8 @@ public class UserMsgActivity extends ActivityBase {
     TextView acUserMsgTvAllGoods;
     @BindView(R.id.ac_userMsg_tv_sellSort)
     TextView acUserMsgTvSellSort;
-    @BindView(R.id.ac_userMsg_tv_sellOver)
-    TextView acUserMsgTvSellOver;
+    /*@BindView(R.id.ac_userMsg_tv_sellOver)
+    TextView acUserMsgTvSellOver;*/
     @BindView(R.id.ac_userMsg_tv_hReputation)
     TextView acUserMsgTvHReputation;
     @BindView(R.id.ac_userMsg_tv_hint)
@@ -288,7 +290,7 @@ public class UserMsgActivity extends ActivityBase {
             Glide.with(this).load(Uri.parse(data.getHead_img())).into(acUserMsgMcvHeadImg);
         }
         if (data.getNick_name().substring(0, 2).equals("用户")) {
-            acUserMsgTvNickName.setText("农品街新客");
+            acUserMsgTvNickName.setText("农品街用户");
         } else {
             acUserMsgTvNickName.setText(data.getNick_name());
         }
@@ -300,7 +302,7 @@ public class UserMsgActivity extends ActivityBase {
             isAttention=true;
             acUserMsgTvIsAttention.setText("取消关注");
         }
-
+        acUserMsgTvTrust.setText((int)Double.parseDouble(data.getBail()) +"元保证金");
         acUserMsgTvSignature.setText(data.getSignature() == null ? "这个人很懒，什么也没留下" : data.getSignature());
         MyCustomUtils.showLevelImg(data.getCity_level(), data.getBoss_level(), data.getTeam_level(), data.getLevel(), acUserMsgTvLevel);
         acUserMsgTvHits.setText(data.getHits() == null ? "0" : data.getHits());
@@ -309,11 +311,11 @@ public class UserMsgActivity extends ActivityBase {
         acUserMsgTvReputation.setText(data.getReputation() == null ? "0" : data.getReputation());
         acUserMsgTvAddress.setText(new GetAddressUtil(this).getAddress(Double.parseDouble(data.getLng()), Double.parseDouble(data.getLat())));
 
-        if (Double.parseDouble(data.getHistory_money()) >= 10000.00) {
+        /*if (Double.parseDouble(data.getHistory_money()) >= 10000.00) {
             acUserMsgTvSellOver.setVisibility(View.VISIBLE);
         } else {
             acUserMsgTvSellOver.setVisibility(View.GONE);
-        }
+        }*/
 
         /*if (Double.parseDouble(data.getReputation()) >= 100) {
             acUserMsgTvHReputation.setVisibility(View.VISIBLE);

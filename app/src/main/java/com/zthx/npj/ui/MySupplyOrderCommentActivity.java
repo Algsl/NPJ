@@ -2,6 +2,8 @@ package com.zthx.npj.ui;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,6 +28,11 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,9 +73,9 @@ public class MySupplyOrderCommentActivity extends ActivityBase {
     @BindView(R.id.ac_orderComment_iv_isHint)
     ImageView acOrderCommentIvIsHint;
 
-    String goods_start;
-    String logistics_start;
-    String service_start;
+    String goods_start="5";
+    String logistics_start="5";
+    String service_start="5";
 
     String user_id = SharePerferenceUtils.getUserId(this);
     String token = SharePerferenceUtils.getToken(this);
@@ -204,22 +211,31 @@ public class MySupplyOrderCommentActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_location_store_tv_ruzhu:
-                if (paths.size() == 1) {
-                    HttpUtils.uploadImg(URLConstant.REQUEST_URL, paths.get(0), new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
+                if(acOrderCommentEtContent.getText().toString().trim().equals("")){
+                    showToast("请填写您对商品的评价");
+                }/*else {
+                    if(paths==null || paths.size()<1){
+                        img="";
+                    }else{
+                        HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
 
-                        }
+                            }
 
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            UpLoadPicResponseBean bean = GsonUtils.fromJson(response.body().string(), UpLoadPicResponseBean.class);
-                            UpLoadPicResponseBean.DataBean data = bean.getData();
-                            img = data.getSrc();
-                            commentConfirm();
-                        }
-                    });
-                } else if (paths.size() > 1) {
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                                UploadPicsResponseBean.DataBean data = bean.getData();
+                                img = data.getImg();
+                                commentConfirm();
+                            }
+                        });
+                    }
+                }*/
+                else if(paths==null || paths.size()<1){
+                    showToast("请上传图片");
+                }else{
                     HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
@@ -234,8 +250,6 @@ public class MySupplyOrderCommentActivity extends ActivityBase {
                             commentConfirm();
                         }
                     });
-                } else {
-                    showToast("您还没有上传图片呢！");
                 }
                 break;
             case R.id.ac_orderComment_iv_isHint:
@@ -291,10 +305,54 @@ public class MySupplyOrderCommentActivity extends ActivityBase {
                     int index = cursor.getColumnIndex(filePath[0]);
                     String path = cursor.getString(index);
                     cursor.close();
-                    paths.add(path);
-                    acOrderCommentIvImg.addImage(path);
+                    paths.add(compress(path));
+                    acOrderCommentIvImg.addImage(compress(path));
                 }
                 break;
         }
+    }
+
+    public String compress(String path){
+        File file=new File(path);
+        Bitmap compressBitmap;
+        /*if (file.length()>=2.5*1024*1024){//从相册中选择照片，2.5M以上的用2压缩
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = false;
+            options.inSampleSize = 3;
+            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+        }else */if(file.length()>=600*1024){//从相册中选择照片，600k以上的用2压缩
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = false;
+            options.inSampleSize = 2;
+            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+        }else{
+            compressBitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+        }
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        compressBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+
+        int options1 = 90;
+        while (bos.toByteArray().length / 1024 > 500) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            bos.reset(); // 重置baos即清空baos
+            compressBitmap.compress(Bitmap.CompressFormat.JPEG, options1, bos);// 这里压缩options%，把压缩后的数据存放到baos中
+            options1 -= 10;// 每次都减少10
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(bos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
+        compressBitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
+
+        String bmString="";
+        try {
+            File bmFile=new File(getExternalCacheDir(), System.currentTimeMillis()+".jpg");
+            FileOutputStream fos = new FileOutputStream(bmFile);
+            fos.write(bos.toByteArray());
+            fos.flush();
+            fos.close();
+            bmString=bmFile.getPath();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmString;
     }
 }

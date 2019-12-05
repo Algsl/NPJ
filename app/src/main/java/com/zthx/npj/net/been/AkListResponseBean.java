@@ -24,6 +24,15 @@ public class AkListResponseBean extends BaseReponseBean {
         private String img;
         private String sale_num;
         private String look_num;
+        private long is_buy;
+
+        public long getIs_buy() {
+            return is_buy;
+        }
+
+        public void setIs_buy(long is_buy) {
+            this.is_buy = is_buy;
+        }
 
         public String getUpdate_time() {
             return update_time;

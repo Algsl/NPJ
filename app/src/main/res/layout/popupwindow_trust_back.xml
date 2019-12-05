@@ -56,7 +56,7 @@
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginBottom="@dimen/dp_5"
                 android:textSize="@dimen/sp_13"
-                android:hint="请填写诚信认证退还金额"
+                android:hint="请以1000的整数倍填写退还金额"
                 android:background="@null"/>
         </LinearLayout>
         <TextView

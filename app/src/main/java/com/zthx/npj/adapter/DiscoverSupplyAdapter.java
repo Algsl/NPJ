@@ -104,6 +104,9 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
             viewHolder.zhiding.setVisibility(View.GONE);
         }
 
+        if(list.get(i).getBail()!=null){
+            viewHolder.trust.setText((int)Double.parseDouble(list.get(i).getBail())+"元保证金");
+        }
 
         if(list.get(i).getCert()==null || list.get(i).getCert().equals("")){
             viewHolder.supplyLl.setVisibility(View.INVISIBLE);

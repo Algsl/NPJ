@@ -81,19 +81,7 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
 
         id = getIntent().getStringExtra(Const.VIDEO_ID);//视频id
 
-        List<String> list = new ArrayList<>();
-        list.add("选集");
-        list.add("简介");
-        list.add("评论");
-        List<Fragment> list2 = new ArrayList<>();
-        list2.add(SelectVideoFragment.newInstance(id));
-        list2.add(JianjieFragment.newInstance(id));
-        list2.add(new VideoCommentFragment().newInstance(id));
-        DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
-        atAvmVp.setAdapter(mAdapter);
-        atAvmTb.setTabMode(TabLayout.MODE_FIXED);
-        atAvmTb.setTabGravity(TabLayout.GRAVITY_CENTER);
-        atAvmTb.setupWithViewPager(atAvmVp);
+        getFragmentContent(0);
 
         atAkVideoEtComment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -106,7 +94,25 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
         });
     }
 
-    private void uploadComment(String id) {
+    private void getFragmentContent(int i) {
+        List<String> list = new ArrayList<>();
+        list.add("选集");
+        list.add("简介");
+        list.add("评论");
+        List<Fragment> list2 = new ArrayList<>();
+        list2.add(SelectVideoFragment.newInstance(id));
+        list2.add(JianjieFragment.newInstance(id));
+        list2.add(new VideoCommentFragment().newInstance(id));
+        DiscoverViewPagerAdapter mAdapter = new DiscoverViewPagerAdapter(getSupportFragmentManager(), this, list, list2);
+        atAvmVp.setAdapter(mAdapter);
+        atAvmTb.setTabMode(TabLayout.MODE_FIXED);
+        atAvmTb.setTabGravity(TabLayout.GRAVITY_CENTER);
+        atAvmVp.setCurrentItem(i);
+        atAvmTb.setupWithViewPager(atAvmVp);
+    }
+
+
+    private void uploadComment(final String id) {
         if (user_id.equals("")) {
             CommonDialog dialog = new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
                 @Override
@@ -126,6 +132,7 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
                     UploadVideoCommentResponseBean uploadVideoCommentResponseBean = GsonUtils.fromJson(result, UploadVideoCommentResponseBean.class);
                     int status = uploadVideoCommentResponseBean.getData().getStatus();
                     if (status == 2) {
+                        getFragmentContent(2);
                         Toast.makeText(AgricultureVideoMainActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(AgricultureVideoMainActivity.this, "请先购买课程", Toast.LENGTH_SHORT).show();
@@ -229,7 +236,7 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
             public void onFault(String errorMsg) {
 
             }
-        }, this));
+        }));
     }
 
 

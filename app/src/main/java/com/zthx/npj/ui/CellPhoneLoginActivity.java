@@ -230,7 +230,7 @@ public class CellPhoneLoginActivity extends ActivityBase {
                 //showToast(errorMsg);
                 //Toast.makeText(CellPhoneLoginActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
             }
-        }, this));
+        }));
     }
     //第三方登录
     private void authLoginByMobile() {
@@ -279,7 +279,7 @@ public class CellPhoneLoginActivity extends ActivityBase {
                 //失败
                 //Toast.makeText(CellPhoneLoginActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
             }
-        }, this));
+        }));
     }
 
     private void showBottomDialog() {

@@ -108,6 +108,12 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
         getData("1");
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData(type);
+    }
+
     private void getNewsList(final String s) {
         DiscoverSubscribe.newsList(s, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
@@ -260,7 +266,7 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
             public void onFault(String errorMsg) {
 
             }
-        }, this));
+        }));
     }
 
     private void changeBackground(String id) {

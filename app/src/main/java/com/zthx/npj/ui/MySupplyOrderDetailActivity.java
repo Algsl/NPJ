@@ -320,7 +320,6 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
         acMyOrderDetailTvUserName.setText(data.getConsignee());
         acMyOrderDetailTvCellPhone.setText(data.getMobile());
         acMyOrderDetailTvAddress.setText(data.getAddress());
-
         atMyOrderDetailIvGoodsImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -344,7 +343,7 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
 
         goods_name = data.getGoods_name();
         if (data.getNick_name().substring(0,2).equals("用户")) {
-            atMyOrderDetailTvStoreName.setText("农品街新客");
+            atMyOrderDetailTvStoreName.setText("农品街用户");
         } else {
             atMyOrderDetailTvStoreName.setText(data.getNick_name());
         }
@@ -382,7 +381,10 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
         atMyOrderDetailTvOrderSn.setText(data.getOrder_sn());
         atMyOrderDetailTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(data.getOrder_time() * 1000)));
         atMyOrderDetailTvPayTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(data.getOrder_time() * 1000)));
-
+        if(data.getFahuo_time()!=0){
+            atMyOrderDetailTvSend.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(data.getFahuo_time() * 1000)));
+        }
+        acMyOrderDetailIvRefund.setText(data.getRefund_price());
 
         if (type.equals("buss")) {
             acMyOrderDetailLl.setVisibility(View.GONE);
@@ -409,7 +411,7 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvPay.setText("发货");
 
                     //订单
-                    atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);//支付方式显示
+                    atMyOrderDetailLlPayType.setVisibility(View.GONE);//支付方式显示
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);//支付时间显示
 
                     //底部
@@ -426,7 +428,7 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                     }
                     acMyOrderDetailTvHint3.setText("自动确认收货");
                     acMyOrderDetailTvOption.setText("退换");
-                    atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlPayType.setVisibility(View.GONE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
 
@@ -442,10 +444,10 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvHint2.setVisibility(View.GONE);
                     acMyOrderDetailTvHint3.setVisibility(View.GONE);
                     acMyOrderDetailTvOption.setText("申请售后");
-                    atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlPayType.setVisibility(View.GONE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
-                    atMyOrderDetailLlOver.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlOver.setVisibility(View.GONE);
 
                     acMyOrderDetailTvWuliu.setVisibility(View.GONE);//查看物流
                     acMyOrderDetailTvDelete.setVisibility(View.GONE);//删除订单
@@ -463,7 +465,7 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                 case "6":
                     acMyOrderDetailLlPaySend.setVisibility(View.GONE);
                     acMyOrderDetailLlRefund.setVisibility(View.VISIBLE);
-                    acMyOrderDetailLlRefundNum.setVisibility(View.VISIBLE);
+                    acMyOrderDetailLlRefundNum.setVisibility(View.GONE);
                     acMyOrderDetailLlRefundHint.setVisibility(View.GONE);
                     acMyOrderDetailTvStatus.setText("已提交退款申请，等待处理");
                     //acMyOrderDetailTvHint.setText("剩余2天4时自动确认");
@@ -471,10 +473,10 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                         setTime(acMyOrderDetailTvHint2, refund_time);
                     }
                     acMyOrderDetailTvHint3.setText("自动退款");
-                    atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlPayType.setVisibility(View.GONE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
-                    atMyOrderDetailLlOver.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlOver.setVisibility(View.GONE);
 
                     acMyOrderDetailTvPay.setText("退款");
 
@@ -530,7 +532,7 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvOption.setText("退换");
 
                     //订单
-                    atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);//支付方式显示
+                    atMyOrderDetailLlPayType.setVisibility(View.GONE);//支付方式显示
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);//支付时间显示
 
                     //底部
@@ -546,7 +548,7 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                     }
                     acMyOrderDetailTvHint3.setText("自动确认收货");
                     acMyOrderDetailTvOption.setText("退换");
-                    atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlPayType.setVisibility(View.GONE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
 
@@ -562,10 +564,10 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvHint2.setVisibility(View.GONE);
                     acMyOrderDetailTvHint3.setVisibility(View.GONE);
                     acMyOrderDetailTvOption.setText("申请售后");
-                    atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlPayType.setVisibility(View.GONE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
-                    atMyOrderDetailLlOver.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlOver.setVisibility(View.GONE);
 
                     acMyOrderDetailTvWuliu.setVisibility(View.GONE);//查看物流
                     acMyOrderDetailTvDelete.setVisibility(View.GONE);//删除订单
@@ -573,10 +575,15 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
                     break;
+                case "5":
+                    acMyOrderDetailTvApplyRefund.setVisibility(View.VISIBLE);//申请退换显示
+                    acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
+                    acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
+                    break;
                 case "6":
                     acMyOrderDetailLlPaySend.setVisibility(View.GONE);
                     acMyOrderDetailLlRefund.setVisibility(View.VISIBLE);
-                    acMyOrderDetailLlRefundNum.setVisibility(View.VISIBLE);
+                    acMyOrderDetailLlRefundNum.setVisibility(View.GONE);
                     acMyOrderDetailLlRefundHint.setVisibility(View.VISIBLE);
                     acMyOrderDetailTvStatus.setText("已提交退款申请，等待卖家处理");
                     //acMyOrderDetailTvHint.setText("剩余2天4时自动确认");
@@ -584,10 +591,10 @@ public class MySupplyOrderDetailActivity extends ActivityBase {
                         setTime(acMyOrderDetailTvHint2, refund_time);
                     }
                     acMyOrderDetailTvHint3.setText("自动退款");
-                    atMyOrderDetailLlPayType.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlPayType.setVisibility(View.GONE);
                     atMyOrderDetailLlPayTime.setVisibility(View.VISIBLE);
                     atMyOrderDetailLlSend.setVisibility(View.VISIBLE);
-                    atMyOrderDetailLlOver.setVisibility(View.VISIBLE);
+                    atMyOrderDetailLlOver.setVisibility(View.GONE);
 
                     acMyOrderDetailTvChat.setVisibility(View.VISIBLE);//联系卖家
                     acMyOrderDetailTvCall.setVisibility(View.VISIBLE);//拨打电话

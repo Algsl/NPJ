@@ -98,6 +98,10 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
             viewHolder.mTvIsTop.setVisibility(View.VISIBLE);
         }
 
+        if(list.get(i).getBail()!=null){
+            viewHolder.trust.setText(((int) Double.parseDouble(list.get(i).getBail()))+"元保证金");
+        }
+
         if(list.get(i).getCert()==null || list.get(i).getCert().equals("")){
             viewHolder.needLl.setVisibility(View.INVISIBLE);
         }else{

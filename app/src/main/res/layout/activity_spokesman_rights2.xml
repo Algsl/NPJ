@@ -35,7 +35,7 @@
                     android:id="@+id/at_spokesman_right_tv_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="465.00"
+                    android:text="0.00"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/sp_24"
                     android:layout_below="@id/at_spokesman_right_tv_jine"
@@ -90,7 +90,7 @@
                         android:id="@+id/ac_spokesman_tv_ztPush"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="10"
+                        android:text="0"
                         android:textColor="#FE6363"
                         android:textSize="@dimen/sp_18"/>
                     <TextView
@@ -111,7 +111,7 @@
                         android:id="@+id/ac_spokesman_tv_jtPush"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="40"
+                        android:text="0"
                         android:textColor="#F4BB21"
                         android:textSize="@dimen/sp_18"/>
                     <TextView
@@ -132,7 +132,7 @@
                         android:id="@+id/ac_spokesman_tv_allPush"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1320"
+                        android:text="0"
                         android:textColor="#66B5FC"
                         android:textSize="@dimen/sp_18"/>
                     <TextView
@@ -180,7 +180,7 @@
                     android:id="@+id/ac_spokesman_tv_storeMoney"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="254元"
+                    android:text="0元"
                     android:textSize="@dimen/sp_13"
                     android:textColor="@color/text6"
                     android:layout_toLeftOf="@id/go1"
@@ -224,7 +224,7 @@
                     android:id="@+id/ac_spokesman_tv_offLineMoney"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="254元"
+                    android:text="0元"
                     android:textSize="@dimen/sp_13"
                     android:textColor="@color/text6"
                     android:layout_toLeftOf="@id/go4"
@@ -268,7 +268,7 @@
                     android:id="@+id/ac_spokesman_tv_reward"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="254元"
+                    android:text="0元"
                     android:textSize="@dimen/sp_13"
                     android:textColor="@color/text6"
                     android:layout_toLeftOf="@id/go2"
@@ -312,7 +312,7 @@
                     android:id="@+id/ac_spokesman_tv_extracted"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="254元"
+                    android:text="0元"
                     android:textSize="@dimen/sp_13"
                     android:textColor="@color/text6"
                     android:layout_toLeftOf="@id/go3"

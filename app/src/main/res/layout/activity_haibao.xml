@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <include layout="@layout/title"
         android:id="@+id/title"/>
     <LinearLayout
@@ -16,13 +17,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <com.zthx.npj.view.MyCircleView
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/ac_haibao_mcv_userImg"
                 android:layout_width="@dimen/dp_60"
                 android:layout_height="@dimen/dp_60"
                 android:layout_marginLeft="@dimen/dp_15"
                 android:layout_marginTop="@dimen/dp_15"
-                android:src="@drawable/logo"/>
+                android:src="@drawable/logo"
+                app:riv_oval="true"
+                app:riv_border_width="@dimen/dp_1"
+                app:riv_border_color="@color/white"/>
             <TextView
                 android:id="@+id/hint"
                 android:layout_width="wrap_content"

@@ -19,6 +19,17 @@ public class LookUserResponseBean extends BaseReponseBean{
         private int team_level;
         private long is_attention;
 
+        private String bail;
+
+
+        public String getBail() {
+            return bail;
+        }
+
+        public void setBail(String bail) {
+            this.bail = bail;
+        }
+
         public long getIs_attention() {
             return is_attention;
         }

@@ -127,6 +127,8 @@ public class StoreOrderRefuseActivity extends ActivityBase {
     TextView acMyOrderRefundTvAgain;
     @BindView(R.id.ac_myOrderRefund_tv_chat1)
     TextView acMyOrderRefundTvChat1;
+    @BindView(R.id.ac_myOrderRefund_tv_orderPrice)
+    TextView atMyOrderRefundTvOrderPrice;
 
     private String order_id;
     private String order_state;
@@ -147,6 +149,8 @@ public class StoreOrderRefuseActivity extends ActivityBase {
         back(titleThemeBack);
         changeTitle(titleThemeTitle, "退款详情");
 
+
+        acOrderDetailTvSize.setVisibility(View.INVISIBLE);
         order_id = getIntent().getStringExtra("order_id");
         order_state = getIntent().getStringExtra("order_state");
 
@@ -177,8 +181,6 @@ public class StoreOrderRefuseActivity extends ActivityBase {
         });
 
     }
-
-
 
 
     private void getMyStoreOrderDetail() {
@@ -242,14 +244,14 @@ public class StoreOrderRefuseActivity extends ActivityBase {
     private void setMyOrderDetail(String result) {
         MyOrderDetailResponseBean bean = GsonUtils.fromJson(result, MyOrderDetailResponseBean.class);
         data = bean.getData();
-        order_type=data.getOrder_type()+"";
+        order_type = data.getOrder_type() + "";
         acMyOrderRefundTvUserName.setText(data.getConsignee());
         acMyOrderRefundTvCellPhone.setText(data.getMobile());
         acMyOrderRefundTvAddress.setText(data.getAddress());
         atMyOrderRefundTvStoreName.setText(data.getStore_name());
 
         acMyOrderRefundTvAllPrice.setText("￥" + data.getOrder_price());
-        acMyOrderRefundTvCharge.setText("￥" + data.getOrder_price());
+        acMyOrderRefundTvCharge.setText("￥" + data.getRefund_price());
 
         Glide.with(this).load(Uri.parse(data.getGoods_img())).into(atMyOrderRefundIvGoodsImg);
 
@@ -278,11 +280,12 @@ public class StoreOrderRefuseActivity extends ActivityBase {
 
         atMyOrderRefundTvGoodsName.setText(data.getGoods_name());
         atMyOrderRefundTvGoodsPrice.setText("￥ " + data.getGoods_price());
+        atMyOrderRefundTvOrderPrice.setText("￥ " + data.getOrder_price());
         atMyOrderRefundTvGoodsNum.setText("x " + data.getGoods_num());
         atMyOrderRefundTvIsFreeShipping.setText("￥ " + data.getShipping_fee());
 
-        atMyOrderRefundTvOrderSn.setText(data.getJujue_yuanyin());
-        atMyOrderRefundTvPayType.setText("￥" + data.getOrder_price());
+        atMyOrderRefundTvOrderSn.setText(data.getRefund_reason());
+        atMyOrderRefundTvPayType.setText("￥" + data.getRefund_price());
         atMyOrderRefundTvCreateTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(data.getOrder_time() * 1000)));
         atMyOrderRefundTvPayTime.setText(data.getOrder_sn());
 

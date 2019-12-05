@@ -37,6 +37,16 @@ public class SupplyDetailResponseBean extends BaseReponseBean {
         private long update_time;
         private String user_id;
 
+        private String bail;
+
+        public String getBail() {
+            return bail;
+        }
+
+        public void setBail(String bail) {
+            this.bail = bail;
+        }
+
         public String getBuy_name() {
             return buy_name;
         }

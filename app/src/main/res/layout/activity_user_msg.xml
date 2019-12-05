@@ -101,7 +101,7 @@
                                     android:layout_width="@dimen/dp_100"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="@dimen/dp_5"
-                                    android:text="雪落下的声音"
+                                    android:text="农品街用户"
                                     android:textColor="@color/text3"
                                     android:textSize="@dimen/sp_15"
                                     android:singleLine="true"/>
@@ -128,7 +128,7 @@
                                 android:layout_marginRight="@dimen/dp_12"
                                 android:ellipsize="end"
                                 android:maxLines="2"
-                                android:text="诚信第一、互惠互利、共赢"
+                                android:text="这个人很懒，什么也没留下"
                                 android:textColor="@color/text6"
                                 android:textSize="@dimen/sp_13" />
                         </LinearLayout>
@@ -195,7 +195,7 @@
                             android:id="@+id/ac_userMsg_tv_hits"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="523人"
+                            android:text="0"
                             android:textColor="@color/text3"
                             android:textSize="@dimen/sp_15" />
 
@@ -219,7 +219,7 @@
                             android:id="@+id/ac_userMsg_tv_attNum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1125人"
+                            android:text="0"
                             android:textColor="@color/text3"
                             android:textSize="@dimen/sp_15" />
 
@@ -243,7 +243,7 @@
                             android:id="@+id/ac_userMsg_tv_historyMoney"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1200元"
+                            android:text="0"
                             android:textColor="@color/text3"
                             android:textSize="@dimen/sp_15" />
 
@@ -267,7 +267,7 @@
                             android:id="@+id/ac_userMsg_tv_reputation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="259分"
+                            android:text="0"
                             android:textColor="@color/text3"
                             android:textSize="@dimen/sp_15" />
 
@@ -335,20 +335,19 @@
                                 android:visibility="gone" />
 
                             <TextView
-                                android:id="@+id/ac_userMsg_tv_zizhi"
-                                android:layout_width="@dimen/dp_55"
+                                android:id="@+id/ac_userMsg_tv_trust"
+                                android:layout_width="@dimen/dp_100"
                                 android:layout_height="@dimen/dp_18"
                                 android:layout_marginLeft="@dimen/dp_11"
                                 android:layout_marginTop="@dimen/dp_12"
-                                android:background="@drawable/attestation5_conner_2"
+                                android:background="@drawable/attestation4_conner_2"
                                 android:gravity="center"
-                                android:text="资质认证"
+                                android:text="20000元保证金"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/sp_12"
                                 android:visibility="gone" />
 
                             <TextView
-                                android:id="@+id/ac_userMsg_tv_sellOver"
                                 android:layout_width="@dimen/dp_55"
                                 android:layout_height="@dimen/dp_18"
                                 android:layout_marginLeft="@dimen/dp_11"
@@ -381,14 +380,14 @@
                                 android:visibility="gone" />
 
                             <TextView
-                                android:id="@+id/ac_userMsg_tv_trust"
+                                android:id="@+id/ac_userMsg_tv_zizhi"
                                 android:layout_width="@dimen/dp_55"
                                 android:layout_height="@dimen/dp_18"
                                 android:layout_marginLeft="@dimen/dp_11"
                                 android:layout_marginTop="@dimen/dp_5"
-                                android:background="@drawable/attestation4_conner_2"
+                                android:background="@drawable/attestation5_conner_2"
                                 android:gravity="center"
-                                android:text="诚信认证"
+                                android:text="资质认证"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/sp_12"
                                 android:visibility="gone" />

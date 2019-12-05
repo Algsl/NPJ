@@ -29,7 +29,7 @@
             android:id="@+id/ac_localtionStore_tv_address"
             android:layout_width="@dimen/dp_100"
             android:layout_height="wrap_content"
-            android:text="郑州市金水区"
+            android:text=""
             android:layout_centerVertical="true"
             android:textColor="@color/text9"
             android:textSize="@dimen/sp_12"

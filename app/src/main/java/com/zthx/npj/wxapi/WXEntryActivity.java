@@ -161,9 +161,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 					AuthLoginResponseBean bean = GsonUtils.fromJson(result,AuthLoginResponseBean.class);
 					SharePerferenceUtils.setUserId(WXEntryActivity.this, bean.getData().getUser_id());
 					SharePerferenceUtils.setToken(WXEntryActivity.this,bean.getData().getToken());
+
 					if(bean.getData().getInviter()==null){
 						startActivity(new Intent(WXEntryActivity.this, InputInvitationCodeActivity.class));
 					}else{
+						//发送广播通知
 						startActivity(new Intent(WXEntryActivity.this, MainActivity.class));
 					}
 				}

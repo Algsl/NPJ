@@ -28,6 +28,15 @@ public class NeedListResponseBean extends BaseReponseBean {
         private long distance;
         private String cert;
         private int is_top;
+        private String bail;
+
+        public String getBail() {
+            return bail;
+        }
+
+        public void setBail(String bail) {
+            this.bail = bail;
+        }
 
         public long getId() {
             return id;

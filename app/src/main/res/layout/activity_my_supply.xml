@@ -32,7 +32,7 @@
             android:id="@+id/ac_mySupply_tv_nickName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="农品街新客"
+            android:text="农品街用户"
             android:textSize="@dimen/sp_15"
             android:textColor="@android:color/white"
             android:layout_marginTop="@dimen/dp_10"/>

@@ -116,7 +116,7 @@ public class InputInvitationCodeActivity extends ActivityBase {
                             }
                             //Toast.makeText(InputInvitationCodeActivity.this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
                         }
-                    }, this));
+                    }));
         }
     }
 }

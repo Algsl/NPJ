@@ -53,8 +53,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/sp_14"
             android:layout_marginLeft="@dimen/dp_12"
-            android:textColor="@color/text9"
-            android:text="充值123.50元，提现2516.30元"/>
+            android:textColor="@color/text9"/>
     </LinearLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"

@@ -85,7 +85,7 @@ public class SecKillStartFragment extends Fragment {
             public void onFault(String errorMsg) {
 
             }
-        }, getActivity()));
+        }));
         return view;
     }
 

@@ -252,8 +252,28 @@ public class CommentActivity extends ActivityBase {
             case R.id.at_location_store_tv_ruzhu:
                 if(acOrderCommentEtContent.getText().toString().trim().equals("")){
                     showToast("请填写您对商品的评价");
-                }else if(paths==null || paths.size()<1){
-                    showToast("您还没有上传图片呢！");
+                }/*else {
+                    if(paths==null || paths.size()<1){
+                        img="";
+                    }else{
+                        HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                UploadPicsResponseBean bean = GsonUtils.fromJson(response.body().string(), UploadPicsResponseBean.class);
+                                UploadPicsResponseBean.DataBean data = bean.getData();
+                                img = data.getImg();
+                                commentConfirm();
+                            }
+                        });
+                    }
+                }*/
+                else if(paths==null || paths.size()<1){
+                    showToast("请上传图片");
                 }else{
                     HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {
                         @Override

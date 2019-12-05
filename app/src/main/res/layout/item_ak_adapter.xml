@@ -31,17 +31,33 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginLeft="@dimen/dp_11">
-
-        <TextView
-            android:id="@+id/item_ak_tv_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="河南省农科大学教授农作物专题课程如何实现增产增收的秘诀"
-            android:layout_marginTop="@dimen/dp_13"
-            android:textColor="@color/text3"
-            android:textSize="@dimen/sp_15"
-            android:maxLines="2"/>
-
+            android:orientation="horizontal">
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/item_akAdapter_tv_isBuy"
+                android:layout_width="@dimen/dp_35"
+                android:layout_height="@dimen/dp_18"
+                android:textSize="@dimen/sp_12"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/dp_13"
+                android:background="@drawable/theme_conner_5"
+                android:text="已购"
+                android:layout_marginRight="@dimen/dp_5"/>
+            <TextView
+                android:id="@+id/item_ak_tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="河南省农科大学教授农作物专题课程如何实现增产增收的秘诀"
+                android:layout_marginTop="@dimen/dp_13"
+                android:textColor="@color/text3"
+                android:textSize="@dimen/sp_15"
+                android:ellipsize="end"
+                android:maxLines="2"/>
+        </LinearLayout>
         <TextView
             android:id="@+id/item_ak_tv_update_time"
             android:layout_width="wrap_content"

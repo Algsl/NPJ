@@ -68,7 +68,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/at_my_achievement_head_pic"
-                        android:text="推荐人：不醉不会"
+                        android:text="推荐人："
                         android:textSize="@dimen/sp_15"
                         android:textColor="@color/text3"
                         android:layout_marginTop="@dimen/dp_23"

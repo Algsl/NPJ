@@ -145,6 +145,10 @@ public class GoodSizePopupwindow extends PopupWindow {
             }
         });
 
+        prePrice.setText("￥"+data1.getUser_price());
+        memberPrice.setText("代言人价"+data1.getMember_price());
+        storeNum.setText("库存："+data1.getInventory());
+
         goodsRlNum.setVisibility(View.VISIBLE);
 //        // 设置按钮监听
         minusView.setOnClickListener(itemsOnClick);

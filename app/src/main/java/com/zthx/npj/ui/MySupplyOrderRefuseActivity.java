@@ -206,7 +206,7 @@ public class MySupplyOrderRefuseActivity extends ActivityBase {
         acOrderDetailTvSize.setVisibility(View.INVISIBLE);
 
         if (data.getNick_name().substring(0, 2).equals("用户")) {
-            atMyOrderRefundTvStoreName.setText("农品街新客");
+            atMyOrderRefundTvStoreName.setText("农品街用户");
         } else {
             atMyOrderRefundTvStoreName.setText(data.getNick_name());
         }

@@ -1,7 +1,6 @@
 package com.zthx.npj.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,11 +13,15 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zthx.npj.R;
 import com.zthx.npj.net.been.InComeResponseBean;
+import com.zthx.npj.net.been.OfflineLogBean;
+import com.zthx.npj.net.been.OfflineLogResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,8 +74,13 @@ public class SpokesmanRightsActivity extends ActivityBase {
     LinearLayout acSpokesmanLlJt;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.ac_spokesman_tv_offLineMoney)
+    TextView acSpokesmanTvOffLineMoney;
+    @BindView(R.id.ac_spokesman_rl_offline)
+    RelativeLayout acSpokesmanRlOffline;
 
     private String shouyiAmount;
+    private String offlineResult = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +90,8 @@ public class SpokesmanRightsActivity extends ActivityBase {
         back(titleThemeBack);
         changeTitle(titleThemeTitle, "收益明细");
 
+        getOfflineLog();
+
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -90,6 +100,26 @@ public class SpokesmanRightsActivity extends ActivityBase {
                 showToast("刷新完成");
             }
         });
+    }
+
+    private void getOfflineLog() {
+        OfflineLogBean bean = new OfflineLogBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        SetSubscribe.offlineLog(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) throws IOException {
+                offlineResult = result;
+                OfflineLogResponseBean bean = GsonUtils.fromJson(result, OfflineLogResponseBean.class);
+                OfflineLogResponseBean.DataBean data = bean.getData();
+                acSpokesmanTvOffLineMoney.setText(data.getShouyi()+"元");
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 
     @Override
@@ -127,7 +157,7 @@ public class SpokesmanRightsActivity extends ActivityBase {
 
     @OnClick({R.id.at_spokesman_right_btn_tiqu, R.id.at_spokesman_rl_daiyanjiangli, R.id.ac_spokesman_rl_store,
             R.id.ac_spokesman_rl_tiqu, R.id.ac_spokesman_tv_mingxi, R.id.ac_spokesman_ll_myTeam,
-            R.id.ac_spokesman_ll_zt, R.id.ac_spokesman_ll_jt})
+            R.id.ac_spokesman_ll_zt, R.id.ac_spokesman_ll_jt,R.id.ac_spokesman_rl_offline})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_spokesman_right_btn_tiqu:
@@ -153,6 +183,9 @@ public class SpokesmanRightsActivity extends ActivityBase {
                 break;
             case R.id.ac_spokesman_ll_jt:
                 openActivity(ZjdyrActivity.class, "2");
+                break;
+            case R.id.ac_spokesman_rl_offline:
+                openActivity(OfflineLogActivity.class);
                 break;
         }
     }

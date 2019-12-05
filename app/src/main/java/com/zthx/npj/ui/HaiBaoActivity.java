@@ -44,7 +44,7 @@ public class HaiBaoActivity extends ActivityBase {
     @BindView(R.id.ac_title)
     TextView acTitle;
     @BindView(R.id.ac_haibao_mcv_userImg)
-    MyCircleView acHaibaoMcvUserImg;
+    ImageView acHaibaoMcvUserImg;
     @BindView(R.id.ac_haibao_tv_userName)
     TextView acHaibaoTvUserName;
     @BindView(R.id.ac_haibao_iv_qrImg)
@@ -85,8 +85,7 @@ public class HaiBaoActivity extends ActivityBase {
                 acHaibaoTvUserName.setText(bean.getData().getNick_name());
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
                 //Bitmap bitmap1 = QRCodeUtil.createQRCodeBitmap("hello", 80, ImageCircleConner.toRoundCorner(bitmap, 190), 0.2f);
-                Log.e("测试", "onSuccess: "+"http://game.npj-vip.com/h5/jumpApp.html?type=tuijian&id=null&img=null&discount=null" );
-                Bitmap bitmap1 = QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?type=tuijian&id=null&img=null&discount=null", 100, bitmap, 0.3f);
+                Bitmap bitmap1 = QRCodeUtil.createQRCodeBitmap("http://game.npj-vip.com/h5/jumpApp.html?type=tuijian&id=null&img=null&discount=null", 200, bitmap, 0.2f);
                 acHaibaoIvQrImg.setImageBitmap(bitmap1);
             }
 

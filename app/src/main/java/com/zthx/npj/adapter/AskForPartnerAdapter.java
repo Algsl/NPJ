@@ -67,7 +67,6 @@ public class AskForPartnerAdapter extends RecyclerView.Adapter<AskForPartnerAdap
             viewHolder.askStatus.setTextColor(mContext.getResources().getColor(R.color.text9));
         }
         if (mList!= null && mList.size() > 0) {
-            Log.e("测试", "onBindViewHolder: "+mList.get(i).getCreate_time() );
             Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+mList.get(i).getHead_img())).into(viewHolder.mIvGoods);
             viewHolder.userName.setText(mList.get(i).getNick_name());
             viewHolder.createTime.setText(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date(Long.parseLong(mList.get(i).getCreate_time())*1000)));

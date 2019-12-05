@@ -95,6 +95,15 @@ public class MySupplyListResponseBean extends BaseReponseBean{
         private String content;
         private String city;
         private String buy_num;
+        private String is_top;
+
+        public String getIs_top() {
+            return is_top;
+        }
+
+        public void setIs_top(String is_top) {
+            this.is_top = is_top;
+        }
 
         public String getUser_id() {
             return user_id;

@@ -26,9 +26,11 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
+    <uses-permission android:name="com.zthx.npj.BroadcastReceiver"/>
+    
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+    
 
     <!-- ShortcutBadger -->
     <uses-permission android:name="com.sec.android.provider.badge.permission.READ" />
@@ -77,8 +79,10 @@
             android:theme="@style/TranslucentTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="article"
                     android:pathPrefix="/attr"
@@ -90,9 +94,13 @@
         <activity android:name=".ui.HomeSearchActivity" />
         <activity android:name=".ui.ClassfiyDetailActivity" />
         <activity android:name=".ui.GoodsDetailActivity" />
-        <activity android:name=".ui.SecKillActivity" android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.SecKillActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".ui.ConfirmOrderActivity" />
-        <activity android:name=".ui.PreSellActivity" android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.PreSellActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".ui.LocationStoreActivity" />
         <activity android:name=".ui.StoreDetailActivity" />
         <activity android:name=".ui.PayToStoreActivity" />
@@ -103,7 +111,9 @@
         <activity android:name=".ui.StoreManagerCenterActivity" />
         <activity android:name=".ui.StoreManagerQRCodeActivity" />
         <activity android:name=".ui.GiftActivity" />
-        <activity android:name=".ui.AgricultureKnowledgeActivity" android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.AgricultureKnowledgeActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.SystemSolutionActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -118,11 +128,11 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.SupplyBillActivity" />
-        <activity android:name=".ui.AddAddressActivity"  />
-        <activity android:name=".ui.SystemMessageActivity"  />
-        <activity android:name=".ui.SettingsActivity"   />
-        <activity android:name=".ui.AskForPartnerActivity"  />
-        <activity android:name=".ui.SpokesmanRightsNoPermissionActivity"  />
+        <activity android:name=".ui.AddAddressActivity" />
+        <activity android:name=".ui.SystemMessageActivity" />
+        <activity android:name=".ui.SettingsActivity" />
+        <activity android:name=".ui.AskForPartnerActivity" />
+        <activity android:name=".ui.SpokesmanRightsNoPermissionActivity" />
         <activity android:name=".ui.ConfirmAchievementActivity" />
         <activity android:name=".ui.MyCollectActivity" />
         <activity android:name=".ui.MyOrderActivity" />
@@ -134,7 +144,9 @@
         <activity android:name=".ui.PublishGoodsActivity" />
         <activity android:name=".ui.StoreGoodsListActivity" />
         <activity android:name=".ui.StoreGoodsBillActivity" />
-        <activity android:name=".ui.MyAttestationActivity" android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.MyAttestationActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".ui.TrustedStoreActivity" />
         <activity android:name=".ui.TrustedStore2Activity" />
         <activity android:name=".ui.PurchaserCertificationActivity" />
@@ -222,11 +234,10 @@
         <activity android:name=".tencent.activity.ChatActivity" />
         <activity android:name=".ui.ServicesListActivity" />
         <activity android:name=".ui.ZjdyrActivity" />
-        <activity android:name=".ui.SearchOrderActivity"/>
-        <activity android:name=".ui.ImageLookActivity"/>
-        <activity android:name=".ui.AddToCommentActivity"/>
-
-
+        <activity android:name=".ui.SearchOrderActivity" />
+        <activity android:name=".ui.ImageLookActivity" />
+        <activity android:name=".ui.AddToCommentActivity" />
+        <activity android:name=".ui.OfflineLogActivity" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
@@ -268,15 +279,15 @@
             android:process=":remote" /> <!-- 广播类 -->
         <!-- 内容提供器 -->
         <provider
-            tools:replace="android:authorities"
             android:name=".base.MyFileProvider"
             android:authorities="${applicationId}.file_provider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_path"
-                tools:replace="android:resource"/>
+                tools:replace="android:resource" />
         </provider>
 
         <receiver
@@ -327,7 +338,12 @@
         <service
             android:name=".downapk.DownloadService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <receiver
+            android:name=".services.MyBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

@@ -77,7 +77,7 @@ public class EnterpriseCertification2Activity extends ActivityBase {
     @BindView(R.id.at_enterprise_certification2_tv_personMobile)
     TextView atEnterpriseCertification2TvPersonMobile;
 
-    private String path1;
+    private String path1="";
     private String path2;
     private String img1;
     private String img2;
@@ -129,8 +129,8 @@ public class EnterpriseCertification2Activity extends ActivityBase {
                     showToast("请填写企业简介");
                 }else if(atEnterpriseCertification2EtType.getText().toString().trim().equals("请选择企业类型")){
                     showToast("请选择企业类型");
-                }else if(path1==null && path2==null){
-                    showToast("请上传营业执照或授权书");
+                }else if(path1==null || path1.equals("")){
+                    showToast("请上传营业执照");
                 }else{
                     if(path1!=null){
                         HttpUtils.uploadImg(URLConstant.REQUEST_URL, path1, new Callback() {

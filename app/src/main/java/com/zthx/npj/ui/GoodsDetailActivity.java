@@ -335,7 +335,7 @@ public class GoodsDetailActivity extends ActivityBase {
             public void onFault(String errorMsg) {
                 //showToast(errorMsg);
             }
-        }, this));
+        }));
     }
 
     private void setSecKillData(String result) {
@@ -398,7 +398,7 @@ public class GoodsDetailActivity extends ActivityBase {
             public void onFault(String errorMsg) {
                 //showToast(errorMsg);
             }
-        }, this));
+        }));
     }
 
     private void setPreSellData(String result) {
@@ -452,7 +452,7 @@ public class GoodsDetailActivity extends ActivityBase {
             public void onFault(String errorMsg) {
                 //showToast(errorMsg);
             }
-        }, this));
+        }));
     }
 
     private void setGoodsData(String result) {

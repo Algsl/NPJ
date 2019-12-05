@@ -28,7 +28,7 @@
             android:layout_marginLeft="@dimen/dp_9"/>
     </LinearLayout>
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/item_spokesman_quanli_tv_content"
         android:layout_below="@id/item_spokesman_quanli_pic"

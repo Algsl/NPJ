@@ -1,11 +1,17 @@
 package com.zthx.npj.ui;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -14,7 +20,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tencent.qcloud.tim.uikit.TUIKit;
+import com.tencent.qcloud.tim.uikit.base.IMEventListener;
+import com.tencent.qcloud.tim.uikit.utils.ToastUtil;
+import com.zthx.npj.base.BaseApp;
+import com.zthx.npj.utils.SharePerferenceUtils;
+
+import java.util.ArrayList;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 public class ActivityBase extends AppCompatActivity {
+
+    /*// 监听做成静态可以让每个子类重写时都注册相同的一份。
+    private static IMEventListener mIMEventListener = new IMEventListener() {
+        @Override
+        public void onForceOffline() {
+            ToastUtil.toastLongMessage("您的帐号已在其它终端登录");
+            logout(BaseApp.getApp(), false);
+        }
+    };*/
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +55,18 @@ public class ActivityBase extends AppCompatActivity {
             WindowManager.LayoutParams localLayoutParams = this.getWindow().getAttributes();
             localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
         }
+        //TUIKit.addIMEventListener(mIMEventListener);
     }
+
+   /* @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPreferences shareInfo = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        boolean login = shareInfo.getBoolean("auto_login", false);
+        if (!login) {
+            ActivityBase.logout(BaseApp.getApp(),false);
+        }
+    }*/
 
     //标题栏的返回按钮实现
     public void back(ImageView img){
@@ -89,4 +125,21 @@ public class ActivityBase extends AppCompatActivity {
         toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
         toast.show();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    /*public static void logout(Context context, boolean autoLogin) {
+        SharedPreferences shareInfo = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = shareInfo.edit();
+        editor.putBoolean("auto_login", autoLogin);
+        editor.commit();
+
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
+    }*/
+
+
 }

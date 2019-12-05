@@ -42,6 +42,7 @@ import com.zthx.npj.net.netsubscribe.DiscoverSubscribe;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.tencent.util.TencentUtil;
 import com.zthx.npj.ui.BannerActivity;
 import com.zthx.npj.ui.SupplyMessageActivity;
 import com.zthx.npj.ui.SupplyProductsActivity;
@@ -217,6 +218,21 @@ public class DiscoverSupplyFragment extends Fragment {
 
         initBanner();
         return view;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Log.e("测试", "onHiddenChanged: "+"执行"+hidden);
+        /*getSupplyData(type1);
+        getNeedData(type2);*/
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getSupplyData(type1);
+        getNeedData(type2);
     }
 
     private void getSupplyData(String type) {

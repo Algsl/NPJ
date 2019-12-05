@@ -196,7 +196,7 @@ public class SharePerferenceUtils {
     }
 
     public static String getToken(Context context) {
-        //return "3115736354135f620ddda60fe0f38f35";
+        //return "d4d09bf91f61e9429b05d9274c7adc13";
         return getString(context, "token", "");
     }
 
