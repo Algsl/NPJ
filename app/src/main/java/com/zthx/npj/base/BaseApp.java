@@ -87,13 +87,21 @@ public class BaseApp extends Application {
         return app;
     }
 
-    public static void addActivity(Activity activity) {
-        allActivities.add(activity);
+
+    private List<Activity> activities = new ArrayList<Activity>();
+
+    public void addActivity(Activity activity) {
+        activities.add(activity);
     }
 
-    public static void delActivity(Activity activity) {
-        allActivities.remove(activity);
-    }
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
 
+        for (Activity activity : activities) {
+            activity.finish();
+        }
+        System.exit(0);
+    }
 
 }

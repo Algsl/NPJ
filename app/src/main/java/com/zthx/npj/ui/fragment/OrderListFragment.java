@@ -41,7 +41,9 @@ import com.zthx.npj.ui.ConfirmMyOrderActivity;
 import com.zthx.npj.ui.ConfirmOrderActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.KuaiDiDetailActivity;
+import com.zthx.npj.ui.MyAttestationActivity;
 import com.zthx.npj.ui.MyStoreOrderDetailActivity;
+import com.zthx.npj.ui.StoreGoodsListActivity;
 import com.zthx.npj.ui.StoreOrderRefuseActivity;
 import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
@@ -301,6 +303,21 @@ public class OrderListFragment extends Fragment {
                 intent.putExtra("goodsId",data.get(position).getGoods_id()+"");
                 intent.putExtra("type",data.get(position).getOrder_type()+"");
                 startActivity(intent);
+            }
+
+            //取消退款
+            @Override
+            public void onRefundCancel(int position) {
+                CommonDialog dialog=new CommonDialog(getContext(), R.style.dialog, "确定要取消退款吗？", true, new CommonDialog.OnCloseListener() {
+                    @Override
+                    public void onClick(Dialog dialog, boolean confirm) {
+                        if(confirm){
+                            showToast("取消退款完成");
+                        }
+                    }
+                });
+                dialog.setTitle("取消退款");
+                dialog.show();
             }
         });
         fgOrderList.setItemAnimator(new DefaultItemAnimator());

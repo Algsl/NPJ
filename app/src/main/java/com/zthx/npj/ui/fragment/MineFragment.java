@@ -184,6 +184,7 @@ public class MineFragment
     private int receiveSize = 0;
     private int commentSize = 0;
     private int rebackSize = 0;
+    private int msgNum=0;
 
     public MineFragment() {
 
@@ -213,17 +214,20 @@ public class MineFragment
                 getUserInfo();
                 getOrderSize();
             }
+            MyCustomUtils.setSystemMsg(getContext(),user_id,token);
+            msgNum=SharePerferenceUtils.getMessageNum(getContext());
             if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
-                if(!TencentUtil.getUnReadNum().equals("0")){
+                if((TencentUtil.getUnReadNum()+msgNum)!=0){
                     tvUnReadMsg.setVisibility(View.VISIBLE);
-                    if(Long.parseLong(TencentUtil.getUnReadNum())>99){
+                    if((TencentUtil.getUnReadNum()+msgNum)>99){
                         tvUnReadMsg.setText("⋯");
                     }else{
-                        tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                        tvUnReadMsg.setText((TencentUtil.getUnReadNum()+msgNum)+"");
                     }
                 }else{
                     tvUnReadMsg.setVisibility(View.GONE);
                 }
+                getUserInfo();
             }
         }
     }
@@ -288,13 +292,15 @@ public class MineFragment
                 }
             });
         }
+        MyCustomUtils.setSystemMsg(getContext(),user_id,token);
+        msgNum=SharePerferenceUtils.getMessageNum(getContext());
         if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
-            if(!TencentUtil.getUnReadNum().equals("0")){
+            if((TencentUtil.getUnReadNum()+msgNum)!=0){
                 tvUnReadMsg.setVisibility(View.VISIBLE);
-                if(Long.parseLong(TencentUtil.getUnReadNum())>99){
+                if((TencentUtil.getUnReadNum()+msgNum)>99){
                     tvUnReadMsg.setText("⋯");
                 }else{
-                    tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                    tvUnReadMsg.setText((TencentUtil.getUnReadNum()+msgNum)+"");
                 }
             }else{
                 tvUnReadMsg.setVisibility(View.GONE);
@@ -453,7 +459,7 @@ public class MineFragment
 
             @Override
             public void onFault(String errorMsg) {
-                SharePerferenceUtils.setUserId(getContext(), "");
+                MyCustomUtils.showDialog(getContext());
             }
         }));
     }
@@ -471,7 +477,7 @@ public class MineFragment
         fgMineTvCouponNum.setText(data.getCoupon_num() + "");
         fgMineTvCollectionNum.setText(data.getShoucang_num() + "");
         balance = data.getBalance();
-        SharePerferenceUtils.setBalance(getContext(), balance);
+        //SharePerferenceUtils.setBalance(getContext(), balance);
         if (!data.getHead_img().equals("")) {
             Glide.with(getContext()).load(Uri.parse(data.getHead_img())).into(fgMineIvHeadPic);
         }

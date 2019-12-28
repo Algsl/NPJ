@@ -124,7 +124,7 @@ public class UserMoneyActivity extends ActivityBase {
     private void setUserMoney(String result) {
         UserMoneyResponseBean bean = GsonUtils.fromJson(result, UserMoneyResponseBean.class);
         UserMoneyResponseBean.DataBean data = bean.getData();
-        acMyWalletTvIoMoney.setText("充值" + data.getRecharge() + "元，提现" + data.getWithdraw() + "元");
+        acMyWalletTvIoMoney.setText("当月充值" + data.getRecharge() + "元，提现" + data.getWithdraw() + "元");
         ArrayList<UserMoneyResponseBean.DataBean.MingXi> mingXis = data.getMingxi();
         if (mingXis.size() == 0 || mingXis == null) {
             acMyWalletRvMingxi.setVisibility(View.GONE);
@@ -244,7 +244,7 @@ public class UserMoneyActivity extends ActivityBase {
 
     private void initList() {
         for (int i = 0; i < 12; i++) {
-            options1Items1.add(2018 + i + "");
+            options1Items1.add(2019 + i + "");
             options1Items2.add(i + 1 + "");
         }
     }

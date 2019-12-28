@@ -451,6 +451,7 @@ public class SettingsActivity extends ActivityBase {
     public void onViewClicked() {
         TencentUtil.loginOut();
         SharePerferenceUtils.setUserId(this, "");
+        SharePerferenceUtils.setToken(this, "");
         openActivity(SplashActivity.class);
     }
 

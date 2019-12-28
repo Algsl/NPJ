@@ -1803,6 +1803,16 @@ public class SetSubscribe {
     }
 
     /**
+     * 供应商品收益
+     * @param bean
+     * @param subscriber
+     */
+    public static void supplyLog(SupplyLogBean bean,DisposableObserver<ResponseBody> subscriber){
+        Observable<ResponseBody> observable=RetrofitFactory.getInstance().getHttpApi().supplyLog(bean);
+        RetrofitFactory.getInstance().toSubscribe(observable,subscriber);
+    }
+
+    /**
      * 供求置顶
      * @param bean
      * @param subscriber

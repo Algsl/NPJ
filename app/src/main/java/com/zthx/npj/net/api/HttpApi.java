@@ -669,5 +669,8 @@ public interface HttpApi  {
 
     @POST("index.php/api/user2/istop.html")
     Observable<ResponseBody> isTop(@Body IsTopBean bean);
+
+    @POST("index.php/api/user2/supplylog.html")
+    Observable<ResponseBody> supplyLog(@Body SupplyLogBean bean);
 }
 

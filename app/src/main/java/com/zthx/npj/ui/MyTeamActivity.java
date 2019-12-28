@@ -268,8 +268,8 @@ public class MyTeamActivity extends ActivityBase {
         //设置消费进度
         atMyAchievementViewAll2.setProgress((int) Double.parseDouble(data.getResult().getMyamount()));
 
-        acMyAchievementTvMyBoss.setText(new DecimalFormat("0.0").format(Double.parseDouble(data.getResult().getMyamount()) / 10000) + "万元");//设置当前消费
-        acMyAchievementTvTotalBoss.setText((total_boss / 10000) + "万");//设置总消费
+        acMyAchievementTvMyBoss.setText(new DecimalFormat("0.0").format(Double.parseDouble(data.getResult().getMyamount())) + "元");//设置当前消费
+        acMyAchievementTvTotalBoss.setText((total_boss) + "元");//设置总消费
 
         //设置股东代言人标识
         RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) acTvBg1.getLayoutParams();

@@ -51,19 +51,17 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/item_zjdyr_tv_level"
+            <ImageView
+                android:id="@+id/item_zjdyr_iv_level"
                 android:layout_width="@dimen/dp_100"
                 android:layout_height="@dimen/dp_25"
                 android:gravity="center"
                 android:text="VIP代言人"
-                android:textColor="@color/app_theme"
                 android:textSize="@dimen/sp_13"
                 android:layout_gravity="right"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/dp_12"
-                android:background="@drawable/dyrty"/>
+                android:layout_marginRight="@dimen/dp_12"/>
         </RelativeLayout>
     </LinearLayout>
     <View

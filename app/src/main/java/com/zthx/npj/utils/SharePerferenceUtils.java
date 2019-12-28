@@ -134,22 +134,14 @@ public class SharePerferenceUtils {
         return sp.getInt(key, defValue);
     }
 
-    public static void setBalance(Context context, String balance) {
-        putString(context,"balance",balance);
+    public static void setMessageNum(Context context,int num){
+        putInt(context,"messageNum",num);
+    }
+    public static int getMessageNum(Context context){
+        return getInt(context,"messageNum",0);
     }
 
-    public static String getBalance(Context context) {
-        return getString(context, "balance", "");
-    }
 
-
-    public static void setUserName(Context context, String user_name) {
-        putString(context,"userName",user_name);
-    }
-
-    public static String getUserName(Context context) {
-        return getString(context, "userName", "");
-    }
 
     public static void setUserMobile(Context context, String userMobile) {
         putString(context,"userMobile",userMobile);
@@ -168,22 +160,14 @@ public class SharePerferenceUtils {
         //return "35";
         return getString(context, "user_id", "");
     }
+    public static void setToken(Context context, String token) {
+        putString(context,"token",token);
+    }
+    public static String getToken(Context context) {
+        //return "d4d09bf91f61e9429b05d9274c7adc13";
+        return getString(context, "token", "");
+    }
 
-
-    //普通订单发货时间
-    public static void setOrderSendTime(Context context, String time) {
-        putString(context,"sendTime",time);
-    }
-    public static String getOrderSendTime(Context context) {
-        return getString(context, "sendTime", "");
-    }
-    //供求订单发货时间
-    public static void setSupplySendTime(Context context, String time) {
-        putString(context,"sendTime",time);
-    }
-    public static String getSupplySendTime(Context context) {
-        return getString(context, "sendTime", "");
-    }
 
 
     public static void setVersion(Context context, String version) {
@@ -193,11 +177,6 @@ public class SharePerferenceUtils {
     public static String getVersion(Context context) {
         //return "40";
         return getString(context, "version", "");
-    }
-
-    public static String getToken(Context context) {
-        //return "d4d09bf91f61e9429b05d9274c7adc13";
-        return getString(context, "token", "");
     }
 
     public static void setUserLevel(Context context, String level) {
@@ -245,10 +224,6 @@ public class SharePerferenceUtils {
 
     public static void setLooperBeans(ArrayList<LooperBean> looperBeans) {
         SharePerferenceUtils.looperBeans = looperBeans;
-    }
-
-    public static void setToken(Context context, String token) {
-        putString(context,"token",token);
     }
 
 

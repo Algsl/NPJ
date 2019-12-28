@@ -81,12 +81,12 @@ public class TencentUtil {
         });
     }
 
-    public static String getUnReadNum(){
+    public static long getUnReadNum(){
         long num=0;
         List<TIMConversation> list = TIMManager.getInstance().getConversationList();
         for(int i=0;i<list.size();i++){
             num+=list.get(i).getUnreadMessageNum();
         }
-        return num+"";
+        return num;
     }
 }

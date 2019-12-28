@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,7 +57,6 @@ import com.zthx.npj.view.MyCircleView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -114,8 +114,8 @@ public class UserMsgActivity extends ActivityBase {
     TextView acUserMsgTvSellSort;
     /*@BindView(R.id.ac_userMsg_tv_sellOver)
     TextView acUserMsgTvSellOver;*/
-    @BindView(R.id.ac_userMsg_tv_hReputation)
-    TextView acUserMsgTvHReputation;
+    /*@BindView(R.id.ac_userMsg_tv_hReputation)
+    TextView acUserMsgTvHReputation;*/
     @BindView(R.id.ac_userMsg_tv_hint)
     TextView acUserMsgTvHint;
     @BindView(R.id.ac_userMsg_tv_realName)
@@ -134,6 +134,12 @@ public class UserMsgActivity extends ActivityBase {
     LinearLayout acUserMsgLlSellSort;
     @BindView(R.id.ac_userMsg_tv_isAttention)
     TextView acUserMsgTvIsAttention;
+    @BindView(R.id.ac_userMsg_tv_zizhiName)
+    TextView acUserMsgTvZizhiName;
+    @BindView(R.id.ac_userMsg_sv)
+    NestedScrollView acUserMsgSv;
+    @BindView(R.id.title)
+    RelativeLayout title;
 
 
     private IWXAPI api;
@@ -143,6 +149,7 @@ public class UserMsgActivity extends ActivityBase {
     private String level = SharePerferenceUtils.getUserLevel(this);
     private String att_user_id = "";
     private String type = "1";
+    private String[] certStrs={"0","0","0","0","0"};
 
     private boolean flag;
     private boolean isAttention;
@@ -194,7 +201,8 @@ public class UserMsgActivity extends ActivityBase {
             }
         }));
     }
-    private void attention(){
+
+    private void attention() {
         DiscoverSubscribe.attention(user_id, token, att_user_id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -296,13 +304,13 @@ public class UserMsgActivity extends ActivityBase {
         }
 
         if (data.getIs_attention() == 0) {
-            isAttention=false;
+            isAttention = false;
             acUserMsgTvIsAttention.setText("立即关注");
         } else {
-            isAttention=true;
+            isAttention = true;
             acUserMsgTvIsAttention.setText("取消关注");
         }
-        acUserMsgTvTrust.setText((int)Double.parseDouble(data.getBail()) +"元保证金");
+        acUserMsgTvTrust.setText((int) Double.parseDouble(data.getBail()) + "元保证金");
         acUserMsgTvSignature.setText(data.getSignature() == null ? "这个人很懒，什么也没留下" : data.getSignature());
         MyCustomUtils.showLevelImg(data.getCity_level(), data.getBoss_level(), data.getTeam_level(), data.getLevel(), acUserMsgTvLevel);
         acUserMsgTvHits.setText(data.getHits() == null ? "0" : data.getHits());
@@ -326,23 +334,36 @@ public class UserMsgActivity extends ActivityBase {
         String[] strs = data.getCertification().split(",");
         for (String str : strs) {
             if (str.equals("1")) {
+                certStrs[0]="1";
                 acUserMsgTvRealName.setVisibility(View.VISIBLE);
             } else if (str.equals("2")) {
+                certStrs[1]="2";
                 acUserMsgTvEnterprice.setVisibility(View.VISIBLE);
             } else if (str.equals("3")) {
+                certStrs[2]="3";
                 acUserMsgTvPurchase.setVisibility(View.VISIBLE);
             } else if (str.equals("4")) {
+                certStrs[3]="4";
                 acUserMsgTvTrust.setVisibility(View.VISIBLE);
             } else if (str.equals("5")) {
+                certStrs[4]="5";
                 acUserMsgTvZizhi.setVisibility(View.VISIBLE);
+                acUserMsgTvZizhiName.setVisibility(View.VISIBLE);
+                acUserMsgTvZizhiName.setText(data.getCompany_type());
             }
+        }
+
+        if( !certStrs[0].equals("0") && !certStrs[1].equals("0") && !certStrs[2].equals("0") && !certStrs[3].equals("0") && !certStrs[4].equals("0")){
+            acUserMsgTvGoCert.setVisibility(View.GONE);
+        }else{
+            acUserMsgTvGoCert.setVisibility(View.VISIBLE);
         }
     }
 
 
     @OnClick({R.id.title_theme_img_right, R.id.ac_userMsg_tv_beDYR, R.id.ac_userMsg_tv_tuijian,
             R.id.ac_userMsg_tv_allGoods, R.id.ac_userMsg_ll_sellSort,
-            R.id.ac_userMsg_tv_goCert,R.id.ac_userMsg_tv_isAttention})
+            R.id.ac_userMsg_tv_goCert, R.id.ac_userMsg_tv_isAttention})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.ac_userMsg_tv_beDYR:
@@ -394,9 +415,9 @@ public class UserMsgActivity extends ActivityBase {
     }
 
     private void attention_toggle() {
-        if(isAttention){
+        if (isAttention) {
             delAttention();
-        }else{
+        } else {
             attention();
         }
     }
@@ -418,7 +439,7 @@ public class UserMsgActivity extends ActivityBase {
         backgroundAlpha(0.5f);
         View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow_mine_menu, null);
         final PopupWindow window = new PopupWindow(contentView);
-        window.setHeight((int) getResources().getDimension(R.dimen.dp_90));
+        window.setHeight((int) getResources().getDimension(R.dimen.dp_45));
         window.setWidth((int) getResources().getDimension(R.dimen.dp_100));
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         window.setOutsideTouchable(true);

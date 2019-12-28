@@ -393,14 +393,13 @@
                                 android:visibility="gone" />
 
                             <TextView
-                                android:id="@+id/ac_userMsg_tv_hReputation"
-                                android:layout_width="@dimen/dp_55"
+                                android:id="@+id/ac_userMsg_tv_zizhiName"
+                                android:layout_width="@dimen/dp_100"
                                 android:layout_height="@dimen/dp_18"
                                 android:layout_marginLeft="@dimen/dp_11"
                                 android:layout_marginTop="@dimen/dp_5"
-                                android:background="#81AB64"
+                                android:background="@drawable/attestation4_conner_2"
                                 android:gravity="center"
-                                android:text="信用最高"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/sp_12"
                                 android:visibility="gone" />

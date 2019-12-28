@@ -765,7 +765,7 @@ public class SupplyMessageInfoActivity extends ActivityBase {
                 }
 
                 if(!atSupplyMessageEtAddress.getText().toString().trim().equals("")){
-                    supplyAddress=MyCustomUtils.getGeoPointBystr(SupplyMessageInfoActivity.this,provinceName+cityName+districtName+townName+atSupplyMessageEtAddress.getText().toString().trim());
+                    supplyAddress=MyCustomUtils.getGeoPointBystr(SupplyMessageInfoActivity.this,provinceName+cityName+districtName+townName);
                     supplyBean.setCity(atSupplyMessageEtAddress.getText().toString().trim());
                     supplyBean.setLat(supplyAddress.getLatitude()+"");
                     supplyBean.setLng(supplyAddress.getLongitude()+"");
@@ -1205,7 +1205,12 @@ public class SupplyMessageInfoActivity extends ActivityBase {
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        Toast.makeText(SupplyMessageInfoActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(SupplyMessageInfoActivity.this,WXPayFinishActivity.class);
+                        intent.putExtra("title","支付宝支付");
+                        intent.putExtra("content","支付宝支付成功");
+                        intent.putExtra("type","1");
+                        startActivity(intent);
+                        //Toast.makeText(SupplyMessageInfoActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(SupplyMessageInfoActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
                     }

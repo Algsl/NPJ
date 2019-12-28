@@ -278,17 +278,7 @@ public class LocationStoreActivity extends ActivityBase {
                 break;
             case R.id.at_location_store_tv_ruzhu:
                 if (user_id.equals("")) {
-                    CommonDialog dialog = new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
-                        @Override
-                        public void onClick(Dialog dialog, boolean confirm) {
-                            if (confirm) {
-                                startActivity(new Intent(LocationStoreActivity.this, LoginActivity.class));
-                            }
-                        }
-                    });
-                    dialog.setTitle("提示");
-                    dialog.setPositiveButton("去登录");
-                    dialog.show();
+                        MyCustomUtils.loginDialog(LocationStoreActivity.this);
                 } else {
                     getMyStoreType();
                 }
@@ -373,10 +363,22 @@ public class LocationStoreActivity extends ActivityBase {
                 banner.setOnBannerListener(new OnBannerListener() {
                     @Override
                     public void OnBannerClick(int position) {
-                        Intent intent = new Intent(LocationStoreActivity.this, BannerActivity.class);
-                        intent.putExtra("title", bean.getData().get(position).getTitle());
-                        intent.putExtra("type", bean.getData().get(position).getType());
-                        intent.putExtra("id", bean.getData().get(position).getId() + "");
+                        Intent intent = null;
+                        if(!bean.getData().get(position).getRemark().equals("")){
+                            String[] strs=bean.getData().get(position).getRemark().split(",");
+                            if(strs[0].equals("0")){//备注为0：跳转到H5页面
+                                intent = new Intent(LocationStoreActivity.this, BannerActivity.class);
+                                intent.putExtra("title", bean.getData().get(position).getTitle());
+                                intent.putExtra("url", strs[1]);
+                            }else if(strs[0].equals("1")){//备注为1：跳转到商品详情
+                                intent = new Intent(LocationStoreActivity.this, StoreDetailActivity.class);
+                                intent.putExtra(Const.STORE_ID, strs[1]);
+                            }
+                        }else {
+                            intent = new Intent(LocationStoreActivity.this, BannerActivity.class);
+                            intent.putExtra("title", bean.getData().get(position).getTitle());
+                            intent.putExtra("url", "http://game.npj-vip.com/h5/banner.html?type=3&id="+bean.getData().get(position).getId());
+                        }
                         startActivity(intent);
                     }
                 });

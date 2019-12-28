@@ -1,5 +1,6 @@
 package com.zthx.npj.ui;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -279,7 +280,12 @@ public class ConfirmMySupplyOrderActivity extends ActivityBase {
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        Toast.makeText(ConfirmMySupplyOrderActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(ConfirmMySupplyOrderActivity.this,WXPayFinishActivity.class);
+                        intent.putExtra("title","支付宝支付");
+                        intent.putExtra("content","支付宝支付成功");
+                        intent.putExtra("type","1");
+                        startActivity(intent);
+                        //Toast.makeText(ConfirmMySupplyOrderActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(ConfirmMySupplyOrderActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
                     }

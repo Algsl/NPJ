@@ -216,6 +216,7 @@ public class ApplyRefundActivity extends ActivityBase {
                 else{
                     if(paths==null || paths.size()<1){
                         img="";
+                        uploadData();
                     }else{
                         HttpUtils.uploadMoreImg(URLConstant.REQUEST_URL1, paths, new Callback() {
                             @Override
@@ -239,7 +240,7 @@ public class ApplyRefundActivity extends ActivityBase {
 
     private void uploadData() {
         Log.e("测试", "uploadData: "+refund_state+" "+atOrderApplyRefundTvReason.getText().toString()+" " );
-        /*ApplyRefundBean bean = new ApplyRefundBean();
+        ApplyRefundBean bean = new ApplyRefundBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
         bean.setOrder_id(getIntent().getStringExtra("order_id"));
@@ -259,7 +260,7 @@ public class ApplyRefundActivity extends ActivityBase {
             public void onFault(String errorMsg) {
 
             }
-        }));*/
+        }));
     }
 
     @Override

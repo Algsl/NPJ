@@ -111,6 +111,22 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
                     viewHolder.residueLlTime.setVisibility(View.GONE);
                     break;
                 case "3":
+                    viewHolder.orderState.setText("已发货");
+                    viewHolder.goodsSend.setVisibility(View.GONE);
+                    viewHolder.goodsdrawback.setVisibility(View.GONE);
+                    viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
+                    viewHolder.residueLlTime.setVisibility(View.VISIBLE);
+
+                    viewHolder.goodsBillHint.setText("确认收货剩余时间：");
+                    long time=list.get(i).getOrder_time()+14*24*60*60-System.currentTimeMillis()/1000;
+                    if(time<=0){
+                        //mItemClickListener.onRefund(list.get(i).getId()+"");
+                        viewHolder.orderState.setText("已收货");
+                        viewHolder.residueLlTime.setVisibility(View.GONE);
+                    }else{
+                        setTime(viewHolder.refundTvTime,time);
+                    }
+                    break;
                     /*viewHolder.orderState.setText("已发货");
                     viewHolder.goodsSend.setVisibility(View.GONE);
                     viewHolder.goodsdrawback.setVisibility(View.GONE);
@@ -125,20 +141,11 @@ public class StoreGoodsBillAdapter extends RecyclerView.Adapter<StoreGoodsBillAd
                     viewHolder.residueLlTime.setVisibility(View.GONE);
                     break;*/
                 case "5":
-                    viewHolder.orderState.setText("已发货");
+                    viewHolder.orderState.setText("已完成");
                     viewHolder.goodsSend.setVisibility(View.GONE);
                     viewHolder.goodsdrawback.setVisibility(View.GONE);
                     viewHolder.goodsIvState.setImageResource(R.drawable.fahuo);
-                    viewHolder.residueLlTime.setVisibility(View.VISIBLE);
-
-                    viewHolder.goodsBillHint.setText("确认收货剩余时间：");
-                    long time=list.get(i).getOrder_time()+14*24*60*60-System.currentTimeMillis()/1000;
-                    if(time<=0){
-                        //mItemClickListener.onRefund(list.get(i).getId()+"");
-                        viewHolder.residueLlTime.setVisibility(View.GONE);
-                    }else{
-                        setTime(viewHolder.refundTvTime,time);
-                    }
+                    viewHolder.residueLlTime.setVisibility(View.GONE);
                     break;
                 case "6":viewHolder.orderState.setText("申请退款");
                     viewHolder.goodsSend.setVisibility(View.GONE);

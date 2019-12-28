@@ -73,14 +73,8 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
         if(list.get(i).getImg()==null|| list.get(i).getImg().equals("")){
             viewHolder.mIvPic.setImageResource(R.drawable.logo);
         }
-        String url = list.get(i).getImg();
-        if (url.substring(url.length() - 4).equals(".mp4")) {
-            viewHolder.mIvPic.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
-            viewHolder.ivVideo.setVisibility(View.VISIBLE);
-        } else {
-            Glide.with(mContext).load(Uri.parse(url)).into(viewHolder.mIvPic);
-        }
-        viewHolder.mTvNeedNum.setText(list.get(i).getAmount());
+
+        viewHolder.mTvNeedNum.setText(list.get(i).getAmount()+list.get(i).getUnit());
         if(mIsSearch){
             viewHolder.mTvDistance.setVisibility(View.GONE);
         }else{
@@ -100,6 +94,10 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
 
         if(list.get(i).getBail()!=null){
             viewHolder.trust.setText(((int) Double.parseDouble(list.get(i).getBail()))+"元保证金");
+        }
+        if(list.get(i).getCompany_type()!=null){
+            viewHolder.zizhiName.setVisibility(View.VISIBLE);
+            viewHolder.zizhiName.setText(list.get(i).getCompany_type());
         }
 
         if(list.get(i).getCert()==null || list.get(i).getCert().equals("")){
@@ -122,7 +120,13 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
             }
         }
 
-
+        String url = list.get(i).getImg();
+        if (url.substring(url.length() - 4).equals(".mp4")) {
+            viewHolder.mIvPic.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
+            viewHolder.ivVideo.setVisibility(View.VISIBLE);
+        } else {
+            Glide.with(mContext).load(Uri.parse(url)).into(viewHolder.mIvPic);
+        }
     }
 
     @Override
@@ -136,7 +140,7 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
         TextView mTvNeedNum;
         TextView mTvDistance;
         TextView mTvIsTop;
-        TextView realName,enterPrice,purchase,trust,zizhi;
+        TextView realName,enterPrice,purchase,trust,zizhi,zizhiName;
         LinearLayout needLl;
 
 
@@ -154,6 +158,7 @@ public class DiscoverNeedAdapter extends RecyclerView.Adapter<DiscoverNeedAdapte
             trust=itemView.findViewById(R.id.item_discoverNeed_tv_trust);
             zizhi=itemView.findViewById(R.id.item_discoverNeed_tv_zizhi);
             needLl=itemView.findViewById(R.id.item_discoverNeed_ll);
+            zizhiName=itemView.findViewById(R.id.item_discoverNeed_tv_zizhiName);
 
             ivVideo=itemView.findViewById(R.id.item_storeQuotation_iv_video);
         }

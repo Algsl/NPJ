@@ -79,10 +79,8 @@
             android:theme="@style/TranslucentTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="article"
                     android:pathPrefix="/attr"
@@ -238,6 +236,8 @@
         <activity android:name=".ui.ImageLookActivity" />
         <activity android:name=".ui.AddToCommentActivity" />
         <activity android:name=".ui.OfflineLogActivity" />
+        <activity android:name=".ui.SupplyLogActivity"/>
+        <activity android:name=".ui.WXPayFinishActivity"/>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"

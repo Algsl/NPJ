@@ -27,6 +27,15 @@ public class SupplyListResponseBean extends BaseReponseBean {
         private String cert;
         private String distance;
         private String is_top;
+        private String company_type;
+
+        public String getCompany_type() {
+            return company_type;
+        }
+
+        public void setCompany_type(String company_type) {
+            this.company_type = company_type;
+        }
 
         private String bail;
 

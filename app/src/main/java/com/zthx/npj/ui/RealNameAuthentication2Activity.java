@@ -141,7 +141,7 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                 @Override
                 public void onSuccess(String result) {
                     atRealNameAuthentication2BtnConfirm.setClickable(true);
-                    SharePerferenceUtils.setUserName(RealNameAuthentication2Activity.this,atRealNameAuthentication2EtName.getText().toString().trim());
+                    //SharePerferenceUtils.setUserName(RealNameAuthentication2Activity.this,atRealNameAuthentication2EtName.getText().toString().trim());
                     startActivity(new Intent(RealNameAuthentication2Activity.this, ConfirmAttestationSuccessActivity.class));
                 }
                 @Override
@@ -155,7 +155,7 @@ public class RealNameAuthentication2Activity extends ActivityBase {
                 @Override
                 public void onSuccess(String result) {
                     atRealNameAuthentication2BtnConfirm.setClickable(true);
-                    SharePerferenceUtils.setUserName(RealNameAuthentication2Activity.this,atRealNameAuthentication2EtName.getText().toString().trim());
+                    //SharePerferenceUtils.setUserName(RealNameAuthentication2Activity.this,atRealNameAuthentication2EtName.getText().toString().trim());
                     startActivity(new Intent(RealNameAuthentication2Activity.this, ConfirmAttestationSuccessActivity.class));
                 }
 

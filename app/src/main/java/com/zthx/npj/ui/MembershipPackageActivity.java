@@ -84,17 +84,7 @@ public class MembershipPackageActivity extends ActivityBase {
         changeTitle(acTitle, "会员礼包");
 
         if (user_id.equals("")) {
-            CommonDialog dialog = new CommonDialog(this, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
-                @Override
-                public void onClick(Dialog dialog, boolean confirm) {
-                    if (confirm) {
-                        startActivity(new Intent(MembershipPackageActivity.this, LoginActivity.class));
-                    }
-                }
-            });
-            dialog.setTitle("提示");
-            dialog.setPositiveButton("去登录");
-            dialog.show();
+            MyCustomUtils.loginDialog(MembershipPackageActivity.this);
         } else {
             getUserInfo();
             getGiftList();

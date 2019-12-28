@@ -55,13 +55,13 @@ public class InComeLogActivity extends ActivityBase {
     ImageView titleBack;
     @BindView(R.id.ac_title_iv)
     ImageView acTitleIv;
-
-    String begin_time = new SimpleDateFormat("yyyy-MM").format(new Date()) + "-1";
-    String end_time = new SimpleDateFormat("yyyy-MM").format(new Date()) + "-30";
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.ac_incomeLoge_ll)
     LinearLayout acIncomeLogeLl;
+
+    String begin_time = new SimpleDateFormat("yyyy-MM").format(new Date()) + "-1";
+    String end_time = new SimpleDateFormat("yyyy-MM").format(new Date()) + "-30";
     private List<String> options1Items1 = new ArrayList<>();
     private List<String> options1Items2 = new ArrayList<>();
 
@@ -114,7 +114,7 @@ public class InComeLogActivity extends ActivityBase {
 
     private void initList() {
         for (int i = 0; i < 12; i++) {
-            options1Items1.add(2018 + i + "");
+            options1Items1.add(2019 + i + "");
             options1Items2.add(i + 1 + "");
         }
     }

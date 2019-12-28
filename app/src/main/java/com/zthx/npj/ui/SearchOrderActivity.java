@@ -249,6 +249,11 @@ public class SearchOrderActivity extends ActivityBase {
                 Intent intent=new Intent(SearchOrderActivity.this,AddToCommentActivity.class);
                 startActivity(intent);
             }
+
+            @Override
+            public void onRefundCancel(int position) {
+
+            }
         });
         acSearchStoreOrderRv.setItemAnimator(new DefaultItemAnimator());
         acSearchStoreOrderRv.setAdapter(mAdapter);

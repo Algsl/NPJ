@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dp_100"
-    android:layout_height="@dimen/dp_90"
+    android:layout_height="@dimen/dp_45"
     android:background="@color/white"
     android:orientation="vertical">
     <!--<TextView
@@ -14,6 +14,7 @@
     <TextView
         android:id="@+id/pw_mineMenu_tv_attention"
         android:gravity="center"
+        android:visibility="gone"
         android:layout_width="@dimen/dp_100"
         android:layout_height="@dimen/dp_45"
         android:text="关注"/>

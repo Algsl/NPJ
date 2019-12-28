@@ -21,6 +21,12 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
@@ -225,7 +231,8 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         acStoreManagerEtConsumption.setText(data.getConsumption());
         acStoreManagerTvBusinessHours.setText(data.getBusiness_hours());
         acStoreManagerEtContact.setText(data.getContact());
-        acStoreManagerTvAddress.setText(data.getAddress());
+        LatLng latLng = new LatLng(Double.parseDouble(data.getLat()), Double.parseDouble(data.getLng()));
+        getLocateinfo(latLng);
         acStoreManagerEtAddress2.setText(data.getAddress2());
         acStoreManagerTvOffer.setText(data.getOffer());
         acStoreManagerEtRelife.setText(data.getRelief());
@@ -309,33 +316,6 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
                 break;
             case R.id.at_location_store_tv_ruzhu1:
                 toggle();
-                /*if (is_open.equals("0")) {
-                    MainSubscribe.openStore(user_id, "1", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                        @Override
-                        public void onSuccess(String result) {
-                            showToast("店铺开启成功");
-                            atLocationStoreTvRuzhu1.setText("关闭");
-                        }
-
-                        @Override
-                        public void onFault(String errorMsg) {
-
-                        }
-                    }));
-                } else {
-                    MainSubscribe.openStore(user_id, "0", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                        @Override
-                        public void onSuccess(String result) {
-                            showToast("店铺关闭成功");
-                            atLocationStoreTvRuzhu1.setText("开启");
-                        }
-
-                        @Override
-                        public void onFault(String errorMsg) {
-
-                        }
-                    }));
-                }*/
                 break;
             case R.id.ac_storeManager_aBegin:
                 showCityPicker(acStoreManagerABegin);
@@ -397,7 +377,7 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
         if (provinceName.equals("")) {
             address=MyCustomUtils.getGeoPointBystr(this,data.getAddress()+data.getAddress2());
         } else {
-            address = MyCustomUtils.getGeoPointBystr(this, provinceName + cityName + districtName + townName+acStoreManagerEtAddress2.getText().toString().trim());
+            address = MyCustomUtils.getGeoPointBystr(this, provinceName + cityName + districtName + townName);
         }
         yingyeTime = getEtToString(acStoreManagerABegin) + "-" + getEtToString(acStoreManagerAEnd) + " " + getEtToString(acStoreManagerPBegin) + "-" + getEtToString(acStoreManagerPEnd);
         EditOfflineStoreBean bean = new EditOfflineStoreBean();
@@ -724,5 +704,23 @@ public class EditMyOfflineStoreActivity extends ActivityBase {
 
             }
         }));
+    }
+
+    private void getLocateinfo(LatLng latLng) {
+        GeoCoder geoCoder = GeoCoder.newInstance();
+        geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+
+            @Override
+            public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+
+            }
+
+            @Override
+            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+                acStoreManagerTvAddress.setText(reverseGeoCodeResult.getAddress() + reverseGeoCodeResult.getSematicDescription());
+                //Log.e(TAG, "onGetReverseGeoCodeResult: "+ reverseGeoCodeResult.getAddress() + reverseGeoCodeResult.getSematicDescription());
+            }
+        });
+        geoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(latLng));
     }
 }

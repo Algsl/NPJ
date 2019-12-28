@@ -3,6 +3,7 @@ package com.zthx.npj.net.been;
 public class OfflineLogBean {
     private String user_id;
     private String token;
+    private String type;
     private String begin_time;
     private String end_time;
 
@@ -20,6 +21,14 @@ public class OfflineLogBean {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getBegin_time() {

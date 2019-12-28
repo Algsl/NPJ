@@ -152,7 +152,7 @@ public class ShowLocationActivity extends ActivityBase {
 
         //自己的位置
         LatLng latLng1 = new LatLng(Double.parseDouble(SharePerferenceUtils.getLat(this)), Double.parseDouble(SharePerferenceUtils.getLng(this)));
-        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.location_store_locate);
+        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.locate);
         OverlayOptions options = new MarkerOptions().position(latLng1).icon(bitmap);
         baiduMap.addOverlay(options);
     }
@@ -252,7 +252,7 @@ public class ShowLocationActivity extends ActivityBase {
             MyLocationConfiguration.LocationMode mCurrentMode = MyLocationConfiguration.LocationMode.NORMAL;
             int accuracyCircleFillColor = 0xAAFFFF88;
             int accuracyCircleStrokeColor = 0xAA00FF00;
-            BitmapDescriptor currentMarker = BitmapDescriptorFactory.fromResource(R.drawable.locate);
+            BitmapDescriptor currentMarker = BitmapDescriptorFactory.fromResource(R.drawable.location_circle);
             baiduMap.setMyLocationConfiguration(new MyLocationConfiguration(mCurrentMode, true, currentMarker, accuracyCircleFillColor, accuracyCircleStrokeColor));
             currentMarker.recycle();
         }

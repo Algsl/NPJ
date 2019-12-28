@@ -109,6 +109,7 @@ public class TrustedStoreActivity extends ActivityBase {
     protected void onResume() {
         super.onResume();
         getData();
+        getTuiList();
     }
 
     private void getData() {
@@ -216,6 +217,7 @@ public class TrustedStoreActivity extends ActivityBase {
                             @Override
                             public void onSuccess(String result) {
                                 showToast("申请成功");
+                                getTuiList();
                             }
 
                             @Override

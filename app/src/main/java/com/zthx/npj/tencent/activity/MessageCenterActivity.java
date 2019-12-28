@@ -2,7 +2,6 @@ package com.zthx.npj.tencent.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,9 +10,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
-import com.tencent.imsdk.TIMManager;
 import com.tencent.qcloud.tim.uikit.component.TitleBarLayout;
 import com.tencent.qcloud.tim.uikit.component.action.PopActionClickListener;
 import com.tencent.qcloud.tim.uikit.component.action.PopDialogAdapter;
@@ -60,6 +57,8 @@ public class MessageCenterActivity extends ActivityBase {
     ConversationLayout conversationLayout;
 
     private static final String TAG = "测试";
+    @BindView(R.id.tv_unReadMsg)
+    TextView tvUnReadMsg;
 
 
     private List<PopMenuAction> mConversationPopActions = new ArrayList<>();
@@ -69,16 +68,17 @@ public class MessageCenterActivity extends ActivityBase {
     private View mBaseView;
 
 
-    private int type=0;
-    private int i=0;
+    private int type = 0;
+    private int i = 0;
 
-    private String phone="";
+    private String phone = "";
     private String headImg;
     private String nickName;
     private String signature;
 
-    private String user_id=SharePerferenceUtils.getUserId(this);
-    private String token=SharePerferenceUtils.getToken(this);
+    private String user_id = SharePerferenceUtils.getUserId(this);
+    private String token = SharePerferenceUtils.getToken(this);
+    private int msgNum=SharePerferenceUtils.getMessageNum(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +92,20 @@ public class MessageCenterActivity extends ActivityBase {
         initPopMenuAction();
 
         getUserMsg();
+
+
+        if(msgNum!=0){
+            tvUnReadMsg.setVisibility(View.VISIBLE);
+            if(msgNum>99){
+                tvUnReadMsg.setText("⋯");
+            }else{
+                tvUnReadMsg.setText(msgNum+"");
+            }
+        }else{
+            tvUnReadMsg.setVisibility(View.GONE);
+        }
     }
+
     private void getUserMsg() {
         SetSubscribe.getUserInfo(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
@@ -100,21 +113,21 @@ public class MessageCenterActivity extends ActivityBase {
                 UserResponseBean bean = GsonUtils.fromJson(result, UserResponseBean.class);
                 SharePerferenceUtils.setUserLevel(MessageCenterActivity.this, bean.getData().getLevel() + "");
                 BaseConstant.TOKEN = SharePerferenceUtils.getToken(MessageCenterActivity.this);
-                TencentUtil.updateProfile(bean.getData().getHead_img(),bean.getData().getNick_name(),"");
+                TencentUtil.updateProfile(bean.getData().getHead_img(), bean.getData().getNick_name(), "");
             }
 
             @Override
             public void onFault(String errorMsg) {
                 //showToast(errorMsg);
-                SharePerferenceUtils.setUserId(MessageCenterActivity.this,"");
+                SharePerferenceUtils.setUserId(MessageCenterActivity.this, "");
             }
         }));
     }
 
     private void initView() {
-        mBaseView=LayoutInflater.from(this).inflate(R.layout.activity_message_center1,null);
+        mBaseView = LayoutInflater.from(this).inflate(R.layout.activity_message_center1, null);
         conversationLayout.initDefault();
-        TitleBarLayout titleBarLayout=conversationLayout.getTitleBar();
+        TitleBarLayout titleBarLayout = conversationLayout.getTitleBar();
         titleBarLayout.setVisibility(View.GONE);
         getChatList();
     }

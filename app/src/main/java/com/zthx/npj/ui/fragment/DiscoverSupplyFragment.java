@@ -44,6 +44,7 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.tencent.util.TencentUtil;
 import com.zthx.npj.ui.BannerActivity;
+import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.SupplyMessageActivity;
 import com.zthx.npj.ui.SupplyProductsActivity;
 import com.zthx.npj.ui.SupplySearchActivity;
@@ -134,7 +135,7 @@ public class DiscoverSupplyFragment extends Fragment {
 
     private ArrayList<SupplyListResponseBean.DataBean> lists1;
     private ArrayList<NeedListResponseBean.DataBean> lists2;
-    private int PAGE_COUNT=10;
+    private int PAGE_COUNT=30;
 
     public DiscoverSupplyFragment() {
 
@@ -567,10 +568,23 @@ public class DiscoverSupplyFragment extends Fragment {
                 banner.setOnBannerListener(new OnBannerListener() {
                     @Override
                     public void OnBannerClick(int position) {
-                        Intent intent = new Intent(getContext(), BannerActivity.class);
-                        intent.putExtra("title", bean.getData().get(position).getTitle());
-                        intent.putExtra("type", bean.getData().get(position).getType());
-                        intent.putExtra("id", bean.getData().get(position).getId() + "");
+                        Intent intent = null;
+                        if(!bean.getData().get(position).getRemark().equals("")){
+                            String[] strs=bean.getData().get(position).getRemark().split(",");
+                            if(strs[0].equals("0")){//备注为0：跳转到H5页面
+                                intent = new Intent(getContext(), BannerActivity.class);
+                                intent.putExtra("title", bean.getData().get(position).getTitle());
+                                intent.putExtra("url", strs[1]);
+                            }else if(strs[0].equals("1")){//备注为1：跳转到商品详情
+                                intent = new Intent(getActivity(), SupplyProductsActivity.class);
+                                intent.setAction(Const.SUPPLY_DETAIL);
+                                intent.putExtra("goods_id", strs[1]);
+                            }
+                        }else {
+                            intent = new Intent(getContext(), BannerActivity.class);
+                            intent.putExtra("title", bean.getData().get(position).getTitle());
+                            intent.putExtra("url", "http://game.npj-vip.com/h5/banner.html?type=5&id="+bean.getData().get(position).getId());
+                        }
                         startActivity(intent);
                     }
                 });

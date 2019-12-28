@@ -75,14 +75,14 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_36"
             android:orientation="vertical"
-            android:visibility="visible"
+            android:visibility="invisible"
             android:layout_marginTop="@dimen/dp_4">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/item_discoverNeed_tv_realName"
                     android:layout_width="@dimen/dp_56"
                     android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                     android:background="@drawable/attestation1_conner_2"
                     android:layout_marginRight="@dimen/dp_10"/>
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/item_discoverNeed_tv_purchase"
                     android:layout_width="@dimen/dp_56"
                     android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
                     android:gravity="center"
                     android:layout_marginRight="@dimen/dp_10"/>
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/item_discoverNeed_tv_trust"
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="@dimen/dp_3">
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/item_discoverNeed_tv_enterPrice"
                     android:layout_width="@dimen/dp_56"
                     android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                     android:layout_marginRight="@dimen/dp_10"
                     android:gravity="center"/>
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/item_discoverNeed_tv_zizhi"
                     android:layout_width="@dimen/dp_56"
                     android:layout_height="wrap_content"
@@ -141,6 +141,16 @@
                     android:gravity="center"
                     android:text="资质认证"
                     android:layout_marginRight="@dimen/dp_10"/>
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/item_discoverNeed_tv_zizhiName"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="wrap_content"
+                    android:text="诚信认证"
+                    android:textSize="@dimen/sp_11"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/attestation4_conner_2"
+                    android:gravity="center" />
             </LinearLayout>
 
         </LinearLayout>

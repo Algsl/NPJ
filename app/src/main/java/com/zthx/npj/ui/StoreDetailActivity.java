@@ -32,6 +32,7 @@ import com.zthx.npj.utils.GsonUtils;
 import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.view.GlideImageLoader;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -186,8 +187,8 @@ public class StoreDetailActivity extends ActivityBase {
         lng = data.getLng();
         mobile = data.getContact();
         atStoreDetailName.setText(data.getStore_name());
-        acStoreDetailTvScore.setText(data.getPopularity() + "分");
-        acStoreDetailTvHpPercent.setText("好评率" + (Double.parseDouble(data.getPopularity()) / 5 * 100) + "%");
+        acStoreDetailTvScore.setText(new DecimalFormat("0.00").format(Double.parseDouble(data.getPopularity())) + "分");
+        acStoreDetailTvHpPercent.setText("好评率" + new DecimalFormat("0.00").format((Double.parseDouble(data.getPopularity()) / 5 * 100)) + "%");
         switch ((int) Math.floor(Double.parseDouble(data.getPopularity()))) {
             case 1:
                 atStoreDetailIvStar1.setImageResource(R.drawable.item_location_store_star);
@@ -234,7 +235,7 @@ public class StoreDetailActivity extends ActivityBase {
                 acStoreDetailIvCstar5.setImageResource(R.drawable.item_location_store_star);
 
         }
-        atStoreDetailTvPopularity.setText(data.getPopularity() + "分");
+        atStoreDetailTvPopularity.setText(new DecimalFormat("0.00").format(Double.parseDouble(data.getPopularity()))+ "分");
         atStoreDetailTvOpenTime.setText(data.getBusiness_hours() + "营业");
         atStoreDetailTvConsumption.setText("人均消费¥ " + data.getConsumption());
         atStoreDetailTvOffer.setText("葫芦币折扣" + data.getOffer() + "%现金");

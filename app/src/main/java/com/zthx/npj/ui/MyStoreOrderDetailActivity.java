@@ -327,13 +327,11 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
         acMyOrderDetailTvCellPhone.setText(data.getMobile());
         acMyOrderDetailTvAddress.setText(data.getAddress());
         atMyOrderDetailTvStoreName.setText(data.getStore_name());
-
         pay_time = data.getOrder_time() + 24 * 60 * 60 - System.currentTimeMillis() / 1000;
         confirm_time = data.getOrder_time() + 14 * 24 * 60 * 60 - System.currentTimeMillis() / 1000;
         refund_time = data.getRefund_time() + 3 * 24 * 60 * 60 - System.currentTimeMillis() / 1000;
 
-
-        if (data.getKey_name().equals("")) {
+        if (data.getKey_name()==null || data.getKey_name().equals("")) {
             acOrderDetailTvSize.setVisibility(View.INVISIBLE);
         } else {
             acOrderDetailTvSize.setText("规格：" + data.getKey_name());
@@ -346,13 +344,10 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
 
         acMyOrderDetailIvRefund.setText(data.getRefund_price());
         order_type = data.getOrder_type()+"";
-
         mobile = data.getMobile();
         nick_name = data.getStore_name();
-
         Glide.with(this).load(Uri.parse(data.getGoods_img())).into(atMyOrderDetailIvGoodsImg);
         Glide.with(this).load(Uri.parse(data.getGoods_img())).into(atMyOrderDetailIvGoodsImg1);
-
         atMyOrderDetailIvGoodsImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -518,7 +513,6 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
         } else {//用户查看订单
             switch (order_state) {
                 case "1":
-                    Log.e("测试", "getMyStoreOrderDetail: "+order_state);
                     acMyOrderDetailTvStatus.setText("待付款");
                     if (pay_time >= 0) {
                         setTime(acMyOrderDetailTvHint2, pay_time);
@@ -544,7 +538,6 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvApplyRefund.setVisibility(View.VISIBLE);//申请退换显示
                     acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
-                    Log.e("测试", "getMyStoreOrderDetail: "+order_state);
                     break;
                 case "3":
                     acMyOrderDetailTvStatus.setText("已发货");
@@ -564,7 +557,6 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvConfirm.setVisibility(View.VISIBLE);//确认收货
                     acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
-                    Log.e("测试", "getMyStoreOrderDetail: "+order_state);
                     break;
                 case "4":
                     acMyOrderDetailLl.setVisibility(View.GONE);
@@ -584,13 +576,14 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvComment.setVisibility(View.VISIBLE);//评价
                     acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
-                    Log.e("测试", "getMyStoreOrderDetail: "+order_state);
                     break;
                 case "5":
                     acMyOrderDetailLl.setVisibility(View.GONE);
                     acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
-                    Log.e("测试", "getMyStoreOrderDetail: "+order_state);
+                    acMyOrderDetailTvHint1.setText("期待再次为您服务");
+                    acMyOrderDetailTvHint2.setVisibility(View.GONE);
+                    acMyOrderDetailTvHint3.setVisibility(View.GONE);
                     break;
                 case "6":
                     acMyOrderDetailLl.setVisibility(View.GONE);
@@ -614,7 +607,6 @@ public class MyStoreOrderDetailActivity extends ActivityBase {
                     acMyOrderDetailTvCall.setVisibility(View.VISIBLE);//拨打电话
                     acMyOrderDetailTvPay.setVisibility(View.GONE);//付款按钮隐藏
                     acMyOrderDetailTvCancel.setVisibility(View.GONE);//取消按钮隐藏
-                    Log.e("测试", "getMyStoreOrderDetail: "+order_state);
                     break;
             }
         }

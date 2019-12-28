@@ -125,7 +125,7 @@ public class WithDrawActivity extends ActivityBase {
                         public void onSuccess(String result) {
                             showToast("提现成功");
                             String residue=(Double.parseDouble(balance)-Double.parseDouble(acWithdrawEtDrawMoney.getText().toString()))+"";
-                            SharePerferenceUtils.setBalance(WithDrawActivity.this,residue);
+                            //SharePerferenceUtils.setBalance(WithDrawActivity.this,residue);
                             finish();
                         }
 
@@ -250,7 +250,7 @@ public class WithDrawActivity extends ActivityBase {
                             public void onSuccess(String result) {
                                 showToast("提现成功");
                                 String residue=(Double.parseDouble(balance)-Double.parseDouble(acWithdrawEtDrawMoney.getText().toString()))+"";
-                                SharePerferenceUtils.setBalance(WithDrawActivity.this,residue);
+                                //SharePerferenceUtils.setBalance(WithDrawActivity.this,residue);
                                 finish();
                             }
 

@@ -19,6 +19,7 @@ import com.tencent.qcloud.tim.uikit.modules.chat.base.ChatInfo;
 import com.tencent.qcloud.tim.uikit.modules.chat.layout.message.MessageLayout;
 import com.tencent.qcloud.tim.uikit.modules.message.MessageInfo;
 import com.zthx.npj.R;
+import com.zthx.npj.base.BaseApp;
 import com.zthx.npj.tencent.util.Constants;
 import com.zthx.npj.ui.UserMsgActivity;
 
@@ -31,6 +32,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat);
+        BaseApp.getApp().addActivity(this);
 
         TIMUserConfig config=new TIMUserConfig();
         config.enableReadReceipt(true);
@@ -73,9 +75,7 @@ public class ChatActivity extends AppCompatActivity {
     private void ChatsetRead() {
         //对单聊会话已读上报
         String peer = mChatInfo.getId();  //获取与用户 "sample_user_1" 的会话
-        TIMConversation conversation = TIMManager.getInstance().getConversation(
-                TIMConversationType.C2C,    //会话类型：单聊
-                peer);                      //会话对方用户帐号
+        TIMConversation conversation = TIMManager.getInstance().getConversation(TIMConversationType.C2C, peer);                      //会话对方用户帐号
         //将此会话的所有消息标记为已读
         conversation.setReadMessage(null, new TIMCallBack() {
             @Override

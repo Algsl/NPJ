@@ -79,6 +79,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 					message = "取消了微信分享";
 				}
 				showToast(message);
+				finish();
 				break;
 			case BaseResp.ErrCode.ERR_OK:
 				//用户同意
@@ -134,6 +135,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 					//这里拿到了这个code，去做2次网络请求获取access_token和用户个人信息
 				} else if (type == RETURN_MSG_TYPE_SHARE) {
 					showToast( "微信分享成功");
+					finish();
 				}
 				break;
 		}

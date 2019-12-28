@@ -109,7 +109,7 @@ public class ShopLogActivity extends ActivityBase {
         } else {
             acShopLogRvMingxi.setVisibility(View.VISIBLE);
         }
-        acShopLogTvIoMoney.setText("店铺收益 ￥"+bean.getData().getShouyi());
+        acShopLogTvIoMoney.setText("当月店铺收益 ￥"+bean.getData().getShouyi());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acShopLogRvMingxi.setLayoutManager(layoutManager);
         ShopLogAdapter adapter = new ShopLogAdapter(this, mingXis);
@@ -124,7 +124,7 @@ public class ShopLogActivity extends ActivityBase {
 
     private void initList() {
         for (int i = 0; i < 12; i++) {
-            options1Items1.add(2018 + i + "");
+            options1Items1.add(2019 + i + "");
             options1Items2.add(i + 1 + "");
         }
     }

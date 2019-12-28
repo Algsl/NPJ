@@ -45,6 +45,7 @@ public class ActivityBase extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //getSupportActionBar().hide();
+        BaseApp.getApp().addActivity(this);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS); //去除半透明状态栏
        // getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN); //全屏显示
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//实现状态栏图标和文字颜色为暗色
@@ -131,15 +132,6 @@ public class ActivityBase extends AppCompatActivity {
         super.onDestroy();
     }
 
-    /*public static void logout(Context context, boolean autoLogin) {
-        SharedPreferences shareInfo = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = shareInfo.edit();
-        editor.putBoolean("auto_login", autoLogin);
-        editor.commit();
-
-        Intent intent = new Intent(context, LoginActivity.class);
-        context.startActivity(intent);
-    }*/
 
 
 }

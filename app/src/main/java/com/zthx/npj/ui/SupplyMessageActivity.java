@@ -499,7 +499,7 @@ public class SupplyMessageActivity extends ActivityBase {
                         } else if (atSupplyMessageEtPrice.getText().toString().trim().length() == 0) {
                             showToast("请填写供应价格");
                         } else {
-                            supplyAddress = MyCustomUtils.getGeoPointBystr(this, provinceName + cityName + districtName + townName+atSupplyMessageEtAddress.getText().toString().trim());
+                            supplyAddress = MyCustomUtils.getGeoPointBystr(this, provinceName + cityName + districtName + townName);
                             //置顶是弹出置顶天数
                             if (isTop.equals("1")) {
                                 showPublishPopwindow();
@@ -1036,9 +1036,15 @@ public class SupplyMessageActivity extends ActivityBase {
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        Toast.makeText(SupplyMessageActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(SupplyMessageActivity.this,WXPayFinishActivity.class);
+                        intent.putExtra("title","支付宝支付");
+                        intent.putExtra("content","支付宝支付成功");
+                        intent.putExtra("type","1");
+                        startActivity(intent);
+                        //Toast.makeText(SupplyMessageActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(SupplyMessageActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                     break;
             }

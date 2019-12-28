@@ -69,20 +69,8 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
             });
         }
 
-        String url = list.get(i).getGoods_img();
-        if(list.get(i).getGoods_img()==null|| list.get(i).getGoods_img().equals("")){
-            viewHolder.mIvPic.setImageResource(R.drawable.logo);
-        }
-        if (url.substring(url.length() - 4).equals(".mp4")) {
-            viewHolder.ivVideo.setVisibility(View.VISIBLE);
-            viewHolder.mIvPic.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
-        } else {
-            if(list.get(i).getGoods_img().split("/")[0].equals("http:")){
-                Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.mIvPic);
-            }else{
-                Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+list.get(i).getGoods_img())).into(viewHolder.mIvPic);
-            }
-        }
+
+
         viewHolder.mTvPrice.setText(list.get(i).getPrice());
 
         if(mIsSearch){
@@ -107,6 +95,10 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
         if(list.get(i).getBail()!=null){
             viewHolder.trust.setText((int)Double.parseDouble(list.get(i).getBail())+"元保证金");
         }
+        if(list.get(i).getCompany_type()!=null){
+            viewHolder.zizhiName.setVisibility(View.VISIBLE);
+            viewHolder.zizhiName.setText(list.get(i).getCompany_type());
+        }
 
         if(list.get(i).getCert()==null || list.get(i).getCert().equals("")){
             viewHolder.supplyLl.setVisibility(View.INVISIBLE);
@@ -129,7 +121,20 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
             }
         }
 
-
+        String url = list.get(i).getGoods_img();
+        if(list.get(i).getGoods_img()==null|| list.get(i).getGoods_img().equals("")){
+            viewHolder.mIvPic.setImageResource(R.drawable.logo);
+        }
+        if (url.substring(url.length() - 4).equals(".mp4")) {
+            viewHolder.ivVideo.setVisibility(View.VISIBLE);
+            viewHolder.mIvPic.setImageBitmap(MyCustomUtils.getVideoThumbnail(url));
+        } else {
+            if(list.get(i).getGoods_img().split("/")[0].equals("http:")){
+                Glide.with(mContext).load(Uri.parse(list.get(i).getGoods_img())).into(viewHolder.mIvPic);
+            }else{
+                Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com"+list.get(i).getGoods_img())).into(viewHolder.mIvPic);
+            }
+        }
     }
 
     @Override
@@ -146,7 +151,7 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
         TextView mTvSupplyUnit;
         TextView mTvSellNum;
         TextView mTvDistance;
-        TextView realName,enterPrice,purchase,trust,zizhi;
+        TextView realName,enterPrice,purchase,trust,zizhi,zizhiName;
         TextView zhiding;
         LinearLayout supplyLl;
 
@@ -169,6 +174,7 @@ public class DiscoverSupplyAdapter extends RecyclerView.Adapter<DiscoverSupplyAd
             supplyLl=itemView.findViewById(R.id.item_discoverSupply_ll);
 
             ivVideo=itemView.findViewById(R.id.item_storeQuotation_iv_video);
+            zizhiName=itemView.findViewById(R.id.item_discoverSupply_tv_zizhiName);
         }
     }
 

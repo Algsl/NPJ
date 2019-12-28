@@ -61,6 +61,7 @@ import com.zthx.npj.ui.fragment.HomeFragment;
 import com.zthx.npj.ui.fragment.MineFragment;
 import com.zthx.npj.ui.fragment.ShoppingCart1Fragment;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import org.json.JSONException;
@@ -156,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
         }
         setContentView(R.layout.activity_main);
-
+        BaseApp.getApp().addActivity(this);
         Intent intent = new Intent(this, DownloadService.class);
         startService(intent); // 启动服务
         bindService(intent, connection, BIND_AUTO_CREATE); // 绑定服务
@@ -207,6 +208,10 @@ public class MainActivity extends AppCompatActivity {
         if(!SharePerferenceUtils.getLat(this).equals("")){
             BaseApp.getApp().locationService.unregisterListener(BaseApp.getListener());
             BaseApp.getApp().locationService.stop();
+        }
+        MyCustomUtils.setSystemMsg(this,user_id,token);
+        if(!SharePerferenceUtils.getUserId(this).equals("")){
+            getUserInfo();
         }
     }
 
@@ -401,11 +406,11 @@ public class MainActivity extends AppCompatActivity {
                 setIndexSelected(1);
                 break;
             case R.id.ll_main_check_03:
-                if(SharePerferenceUtils.getUserId(this).equals("")){
+                /*if(SharePerferenceUtils.getUserId(this).equals("")){
                     Toast.makeText(this,"请先完成登录",Toast.LENGTH_SHORT).show();
                 }else{
                     startActivity(new Intent(this, GameActivity.class));
-                }
+                }*/
                 break;
             case R.id.ll_main_check_04:
                 setIndexSelected(2);
@@ -728,5 +733,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbindService(connection);
+    }
+
+    private void getUserInfo() {
+        String user_id = SharePerferenceUtils.getUserId(this);
+        String token = SharePerferenceUtils.getToken(this);
+        SetSubscribe.getUserInfo(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                MyCustomUtils.showDialog(MainActivity.this);
+            }
+        }));
     }
 }

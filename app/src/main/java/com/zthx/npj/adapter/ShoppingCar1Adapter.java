@@ -1,6 +1,7 @@
 package com.zthx.npj.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,8 +17,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zthx.npj.R;
+import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.CartListResponseBean;
 import com.zthx.npj.net.been.ShoppingCarDataBean1;
+import com.zthx.npj.ui.GoodsDetailActivity;
+import com.zthx.npj.ui.MyStoreOrderDetailActivity;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.text.DecimalFormat;
@@ -255,6 +259,13 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
             }
         });
 
+        groupViewHolder.tvStoreName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mJumpListener.onStore(data.get(groupPosition).get(0).getStore_id()+"");
+            }
+        });
+
         return convertView;
     }
 
@@ -369,6 +380,12 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
                 notifyDataSetChanged();
             }
         });
+        childViewHolder.ivPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mJumpListener.onGoods(data.get(groupPosition).get(childPosition).getGoods_id()+"");
+            }
+        });
 
         return convertView;
     }
@@ -436,5 +453,16 @@ public class ShoppingCar1Adapter extends BaseExpandableListAdapter {
     public void setOnSubmitListener(OnSubmitListener listener){
         mOnSubmitListener=listener;
     }
+
+    public interface JumpListener{
+        void onStore(String i);
+        void onGoods(String i);
+    }
+
+    private JumpListener mJumpListener;
+    public void setOnJumpListener(JumpListener listener){
+        mJumpListener=listener;
+    }
+
 }
 

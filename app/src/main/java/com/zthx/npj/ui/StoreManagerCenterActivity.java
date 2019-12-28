@@ -94,6 +94,7 @@ public class StoreManagerCenterActivity extends ActivityBase {
         OfflineLogBean bean=new OfflineLogBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
+        bean.setType("9");
         bean.setBegin_time(begin_time);
         //bean.setEnd_time(end_time);
         SetSubscribe.offlineLog(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
@@ -134,7 +135,7 @@ public class StoreManagerCenterActivity extends ActivityBase {
 
     private void initList() {
         for (int i = 0; i < 12; i++) {
-            options1Items1.add(2018 + i + "");
+            options1Items1.add(2019 + i + "");
             options1Items2.add(i + 1 + "");
         }
     }

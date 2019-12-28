@@ -1,6 +1,9 @@
 package com.zthx.npj.utils;
 
+import android.app.Application;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -30,6 +33,16 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.yzq.zxinglibrary.common.Constant;
 import com.zthx.npj.R;
+import com.zthx.npj.base.BaseApp;
+import com.zthx.npj.net.been.SystemMsgResponseBean;
+import com.zthx.npj.net.netsubscribe.MainSubscribe;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
+import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
+import com.zthx.npj.ui.LoginActivity;
+import com.zthx.npj.ui.MainActivity;
+import com.zthx.npj.ui.MembershipPackageActivity;
+import com.zthx.npj.ui.MyAttestationActivity;
+import com.zthx.npj.view.CommonDialog;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -343,6 +356,55 @@ public class MyCustomUtils {
         Pattern p = Pattern.compile(regular);
         Matcher m =p.matcher(str);
         return m.matches();
+    }
+    public static void loginDialog(final Context context){
+        CommonDialog dialog = new CommonDialog(context, R.style.dialog, "用户未登录", false, new CommonDialog.OnCloseListener() {
+            @Override
+            public void onClick(Dialog dialog, boolean confirm) {
+                if (confirm) {
+                    context.startActivity(new Intent(context, LoginActivity.class));
+                }
+            }
+        });
+        dialog.setTitle("提示");
+        dialog.setPositiveButton("去登录");
+        dialog.show();
+    }
+    public static void showDialog(final Context context) {
+        CommonDialog commonDialog = new CommonDialog(context, R.style.dialog, "您的账号已在其他客户端登录",true, new CommonDialog.OnCloseListener() {
+            @Override
+            public void onClick(Dialog dialog, boolean confirm) {
+                if(confirm){
+                    context.startActivity(new Intent(context,LoginActivity.class));
+                }else{
+                    BaseApp.getApp().onTerminate();
+                }
+            }
+        });
+        commonDialog.setCanceledOnTouchOutside(false);
+        commonDialog.setCancelable(false);
+        commonDialog.setTitle("提示");
+        commonDialog.setNegativeButton("退出");
+        commonDialog.setPositiveButton("重新登录");
+        commonDialog.show();
+    }
+
+    public static void setSystemMsg(final Context context, String user_id, String token) {
+        if(!user_id.equals("") && !token.equals("")){
+            MainSubscribe.systemMsg(user_id,token,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    SystemMsgResponseBean bean=GsonUtils.fromJson(result,SystemMsgResponseBean.class);
+                    final ArrayList<SystemMsgResponseBean.DataBean> data=bean.getData();
+                    SharePerferenceUtils.setMessageNum(context,data.size());
+                }
+
+                @Override
+                public void onFault(String errorMsg) {
+
+                }
+            }));
+        }
     }
 
 }

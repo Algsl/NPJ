@@ -86,7 +86,7 @@ public class OfflineLogActivity extends ActivityBase {
         });
 
         back(titleBack);
-        changeTitle(acTitle, "收益明细");
+        changeTitle(acTitle, "线下门店收益");
         initList();
         getOfflineLog();
     }
@@ -95,14 +95,15 @@ public class OfflineLogActivity extends ActivityBase {
         OfflineLogBean bean=new OfflineLogBean();
         bean.setUser_id(user_id);
         bean.setToken(token);
+        bean.setType("9");
         bean.setBegin_time(begin_time);
-        //bean.setEnd_time(end_time);
+        bean.setEnd_time(end_time);
         SetSubscribe.offlineLog(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
-                Log.e("测试", "onSuccess: "+result );
                 OfflineLogResponseBean bean=GsonUtils.fromJson(result,OfflineLogResponseBean.class);
                 ArrayList<OfflineLogResponseBean.DataBean.Mingxi> data=bean.getData().getMingxi();
+                acIncomeLogTvIoMoney.setText("当月收益 ￥"+bean.getData().getShouyi());
                 if (data.size() == 0 || data == null) {
                     acIncomeLogRvMingxi.setVisibility(View.GONE);
                 } else {
@@ -112,17 +113,6 @@ public class OfflineLogActivity extends ActivityBase {
                 acIncomeLogRvMingxi.setLayoutManager(layoutManager);
                 OfflineLogAdapter adapter = new OfflineLogAdapter(OfflineLogActivity.this, data);
                 acIncomeLogRvMingxi.setAdapter(adapter);
-                /*InComeLogResponseBean bean = GsonUtils.fromJson(result, InComeLogResponseBean.class);
-                ArrayList<InComeLogResponseBean.DataBean> data = bean.getData();
-                if (data.size() == 0 || data == null) {
-                    acIncomeLogRvMingxi.setVisibility(View.GONE);
-                } else {
-                    acIncomeLogRvMingxi.setVisibility(View.VISIBLE);
-                }
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(OfflineLogActivity.this);
-                acIncomeLogRvMingxi.setLayoutManager(layoutManager);
-                InComeLogAdapter adapter = new InComeLogAdapter(OfflineLogActivity.this, data);
-                acIncomeLogRvMingxi.setAdapter(adapter);*/
             }
 
             @Override
@@ -135,7 +125,7 @@ public class OfflineLogActivity extends ActivityBase {
 
     private void initList() {
         for (int i = 0; i < 12; i++) {
-            options1Items1.add(2018 + i + "");
+            options1Items1.add(2019 + i + "");
             options1Items2.add(i + 1 + "");
         }
     }
@@ -162,104 +152,4 @@ public class OfflineLogActivity extends ActivityBase {
         showCityPicker();
     }
 
-    /*private void showSingleBottomDialog() {
-        //1、使用Dialog、设置style
-        final Dialog dialog = new Dialog(this, R.style.DialogTheme);
-        //2、设置布局
-        final View view = View.inflate(this, R.layout.dialog_income_layout, null);
-        dialog.setContentView(view);
-        final Window window = dialog.getWindow();
-        //设置弹出位置
-        window.setGravity(Gravity.BOTTOM);
-        //设置弹出动画
-        window.setWindowAnimations(R.style.main_menu_animStyle);
-        //设置对话框大小
-        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.show();
-
-        TextView all, store,vip,money,cancel;
-        all=view.findViewById(R.id.dl_income_tv_all);
-        store=view.findViewById(R.id.dl_income_tv_store);
-        vip=view.findViewById(R.id.dl_income_tv_vip);
-        money=view.findViewById(R.id.dl_income_tv_money);
-        cancel=view.findViewById(R.id.dl_income_tv_cancel);
-        final TextView[] tvs = {all, store,vip,money};
-        switch (type) {
-            case "100":
-                changeColor(tvs, 0);
-                break;
-            case "1":
-                changeColor(tvs, 1);
-                break;
-            case "2":
-                changeColor(tvs, 2);
-                break;
-            case "3":
-                changeColor(tvs, 3);
-                break;
-        }
-        all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                type = "100";
-                acVipJLTvAllType.setText("全部明细");
-                getIncomeLog();
-                dialog.dismiss();
-            }
-        });
-        store.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                type = "1";
-                acVipJLTvAllType.setText("店铺明细");
-                getIncomeLog();
-                dialog.dismiss();
-            }
-        });
-        vip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                type = "2";
-                acVipJLTvAllType.setText("代言明细");
-                getIncomeLog();
-                dialog.dismiss();
-            }
-        });
-        money.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                type = "3";
-                acVipJLTvAllType.setText("提取金额明细");
-                getIncomeLog();
-                dialog.dismiss();
-            }
-        });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-    }*/
-
-    /*public void changeColor(TextView[] tvs, int v) {
-        for (int i = 0; i < tvs.length; i++) {
-            if (i == v) {
-                tvs[i].setBackgroundColor(getResources().getColor(R.color.app_theme));
-                tvs[i].setTextColor(getResources().getColor(R.color.white));
-            } else {
-                tvs[i].setBackgroundColor(getResources().getColor(R.color.white));
-                tvs[i].setTextColor(getResources().getColor(R.color.text3));
-            }
-        }
-    }
-
-    @OnClick({R.id.ac_vipJL_tv_allType})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.ac_vipJL_tv_allType:
-                showSingleBottomDialog();
-                break;
-        }
-    }*/
 }

@@ -40,8 +40,11 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.tencent.activity.MessageCenterActivity;
 import com.zthx.npj.tencent.util.TencentUtil;
 import com.zthx.npj.ui.GoodsDetailActivity;
+import com.zthx.npj.ui.MyStoreOrderDetailActivity;
 import com.zthx.npj.ui.ShopingCartConfirmActivity;
+import com.zthx.npj.ui.StoreActivity;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
@@ -98,6 +101,7 @@ public class ShoppingCart1Fragment extends Fragment {
     private String user_id = SharePerferenceUtils.getUserId(getContext());
     private String token = SharePerferenceUtils.getToken(getContext());
     private TextView acMainTvShoppingCart;
+    private int msgNum=0;
 
 
     @Override
@@ -113,7 +117,6 @@ public class ShoppingCart1Fragment extends Fragment {
         acMainTvShoppingCart = getActivity().findViewById(R.id.ac_main_tv_shoppingCart);
         initExpandableListView();
         //setExpandListViewHeight(elvShoppingCar);
-
         //initData();
         getAlsoLike();
 
@@ -140,13 +143,15 @@ public class ShoppingCart1Fragment extends Fragment {
                 refreshlayout.finishLoadmore();
             }
         });
+        MyCustomUtils.setSystemMsg(getContext(),user_id,token);
+        msgNum=SharePerferenceUtils.getMessageNum(getContext());
         if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
-            if(!TencentUtil.getUnReadNum().equals("0")){
+            if((TencentUtil.getUnReadNum()+msgNum)!=0){
                 tvUnReadMsg.setVisibility(View.VISIBLE);
-                if(Long.parseLong(TencentUtil.getUnReadNum())>99){
+                if((TencentUtil.getUnReadNum()+msgNum)>99){
                     tvUnReadMsg.setText("⋯");
                 }else{
-                    tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                    tvUnReadMsg.setText((TencentUtil.getUnReadNum()+msgNum)+"");
                 }
             }else{
                 tvUnReadMsg.setVisibility(View.GONE);
@@ -245,20 +250,37 @@ public class ShoppingCart1Fragment extends Fragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        MyCustomUtils.setSystemMsg(getContext(),user_id,token);
+        msgNum=SharePerferenceUtils.getMessageNum(getContext());
         if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
-            if(!TencentUtil.getUnReadNum().equals("0")){
+            if((TencentUtil.getUnReadNum()+msgNum)!=0){
                 tvUnReadMsg.setVisibility(View.VISIBLE);
-                if(Long.parseLong(TencentUtil.getUnReadNum())>99){
+                if((TencentUtil.getUnReadNum()+msgNum)>99){
                     tvUnReadMsg.setText("⋯");
                 }else{
-                    tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                    tvUnReadMsg.setText((TencentUtil.getUnReadNum()+msgNum)+"");
                 }
             }else{
                 tvUnReadMsg.setVisibility(View.GONE);
             }
+            getUserInfo();
         }
     }
+    private void getUserInfo() {
+        String user_id = SharePerferenceUtils.getUserId(getContext());
+        String token = SharePerferenceUtils.getToken(getContext());
+        SetSubscribe.getUserInfo(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
 
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                MyCustomUtils.showDialog(getContext());
+            }
+        }));
+    }
     /**
      * 初始化ExpandableListView
      * 创建数据适配器adapter，并进行初始化操作
@@ -338,6 +360,22 @@ public class ShoppingCart1Fragment extends Fragment {
 
                     }
                 }));
+            }
+        });
+
+        shoppingCarAdapter.setOnJumpListener(new ShoppingCar1Adapter.JumpListener() {
+            @Override
+            public void onStore(String i) {
+                Intent intent = new Intent(getContext(), StoreActivity.class);
+                intent.putExtra("key0",i);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onGoods(String i) {
+                Intent intent = new Intent(getContext(), GoodsDetailActivity.class);
+                intent.putExtra(Const.GOODS_ID, i);
+                startActivity(intent);
             }
         });
     }

@@ -6,6 +6,7 @@ import android.util.Log;
 
 
 import com.zthx.npj.utils.CompressUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 
 import org.json.JSONObject;
 

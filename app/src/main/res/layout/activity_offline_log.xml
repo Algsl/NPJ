@@ -10,7 +10,6 @@
         android:layout_height="@dimen/dp_1"
         android:background="@color/background"/>
     <LinearLayout
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_60"
         android:gravity="center_vertical"
@@ -38,14 +37,12 @@
                 android:src="@drawable/xiala_zhishi2"/>
         </LinearLayout>
         <TextView
-            android:visibility="gone"
             android:id="@+id/ac_incomeLog_tv_ioMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/sp_14"
             android:layout_marginLeft="@dimen/dp_12"
-            android:textColor="@color/text9"
-            android:text="充值123.50元，提现2516.30元"/>
+            android:textColor="@color/text9"/>
     </LinearLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"

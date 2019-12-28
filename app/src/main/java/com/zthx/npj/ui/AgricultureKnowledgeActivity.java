@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -79,10 +80,12 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
     ImageView acAgricultureKnowledgeIvMessage;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.at_ak_rv1)
+    RecyclerView atAkRv1;
 
     private AKAdapter mAdapter;
 
-    private String type="1";
+    private String type = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +98,9 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                if(type.equals("1")){
+                if (type.equals("1")) {
                     getData(type);
-                }else{
+                } else {
                     getNewsList(type);
                 }
                 refreshLayout.finishRefresh();
@@ -115,16 +118,17 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
     }
 
     private void getNewsList(final String s) {
+        atAkRv.setVisibility(View.GONE);
+        atAkRv1.setVisibility(View.VISIBLE);
         DiscoverSubscribe.newsList(s, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 NewsListResponseBean bean = GsonUtils.fromJson(result, NewsListResponseBean.class);
                 final ArrayList<NewsListResponseBean.DataBean> data = bean.getData();
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(AgricultureKnowledgeActivity.this);
-                atAkRv.setLayoutManager(layoutManager);
+                atAkRv1.setLayoutManager(layoutManager);
                 NewsListAdapter adapter = new NewsListAdapter(AgricultureKnowledgeActivity.this, data);
-                //adapter.notifyDataSetChanged();
-                atAkRv.setAdapter(adapter);
+                atAkRv1.setAdapter(adapter);
                 adapter.setOnItemClickListener(new NewsListAdapter.ItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
@@ -146,22 +150,22 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_ak_ll_1:
-                type="1";
+                type = "1";
                 getData("1");
                 changeBackground("1");
                 break;
             case R.id.at_ak_ll_2:
-                type="3";
+                type = "3";
                 getNewsList("3");
                 changeBackground("2");
                 break;
             case R.id.at_ak_ll_3:
-                type="4";
+                type = "4";
                 getNewsList("4");
                 changeBackground("3");
                 break;
             case R.id.at_ak_ll_4:
-                type="5";
+                type = "5";
                 getNewsList("5");
                 changeBackground("4");
                 break;
@@ -212,10 +216,10 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                 OtherSearchResponseBean bean = GsonUtils.fromJson(result, OtherSearchResponseBean.class);
                 final ArrayList<OtherSearchResponseBean.DataBean> data = bean.getData();
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(AgricultureKnowledgeActivity.this);
-                atAkRv.setLayoutManager(layoutManager);
+                atAkRv1.setLayoutManager(layoutManager);
                 OtherSearchAdapter adapter = new OtherSearchAdapter(AgricultureKnowledgeActivity.this, data);
-                atAkRv.setItemAnimator(new DefaultItemAnimator());
-                atAkRv.setAdapter(adapter);
+                atAkRv1.setItemAnimator(new DefaultItemAnimator());
+                atAkRv1.setAdapter(adapter);
                 if (data.size() > 0) {
                     acAgricultureTvSearchResult.setText("共搜索到" + data.size() + "个相关记录");
                 } else {
@@ -238,6 +242,8 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
     }
 
     private void getData(String id) {
+        atAkRv.setVisibility(View.VISIBLE);
+        atAkRv1.setVisibility(View.GONE);
         DiscoverSubscribe.getKnowledgeList(SharePerferenceUtils.getUserId(this), id, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
@@ -246,7 +252,8 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                 if (mAdapter != null) {
                     mAdapter.setNewData(data);
                 } else {
-                    LinearLayoutManager manager = new LinearLayoutManager(AgricultureKnowledgeActivity.this, LinearLayoutManager.VERTICAL, false);
+                    //LinearLayoutManager manager = new LinearLayoutManager(AgricultureKnowledgeActivity.this, LinearLayoutManager.VERTICAL, false);
+                    RecyclerView.LayoutManager manager=new LinearLayoutManager(AgricultureKnowledgeActivity.this);
                     atAkRv.setLayoutManager(manager);
                     mAdapter = new AKAdapter(AgricultureKnowledgeActivity.this, data);
                     mAdapter.setOnItemClickListener(new AKAdapter.ItemClickListener() {
@@ -258,7 +265,6 @@ public class AgricultureKnowledgeActivity extends ActivityBase {
                         }
                     });
                 }
-                atAkRv.setItemAnimator(new DefaultItemAnimator());
                 atAkRv.setAdapter(mAdapter);
             }
 

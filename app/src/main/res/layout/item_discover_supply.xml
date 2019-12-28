@@ -136,6 +136,16 @@
                     android:textColor="@android:color/white"
                     android:background="@drawable/attestation5_conner_2"
                     android:layout_marginRight="@dimen/dp_10"/>
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/item_discoverSupply_tv_zizhiName"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="wrap_content"
+                    android:text="农药经营许可证"
+                    android:textSize="@dimen/sp_11"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/attestation4_conner_2"
+                    android:gravity="center"/>
             </LinearLayout>
         </LinearLayout>
 

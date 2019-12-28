@@ -6,6 +6,7 @@
     <include layout="@layout/title"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ac_bankCard_rlv_allCard"
+        android:layout_marginBottom="@dimen/dp_10"
         android:layout_marginLeft="@dimen/dp_12"
         android:layout_marginRight="@dimen/dp_12"
         android:layout_width="match_parent"

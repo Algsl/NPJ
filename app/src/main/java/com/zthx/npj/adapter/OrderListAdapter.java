@@ -37,6 +37,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         void onGoodsReturn(int position);
         void onGoStore(int position);
         void onComment2Click(int position);
+        void onRefundCancel(int position);
     }
     public void setOnItemClickListener(ItemClickListener itemClickListener){
         this.mItemClickListener = itemClickListener ;
@@ -151,6 +152,13 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     mItemClickListener.onComment2Click(position);
                 }
             });
+            viewHolder.refundCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=viewHolder.getLayoutPosition();
+                    mItemClickListener.onRefundCancel(position);
+                }
+            });
         }
         if (list!= null && list.size() > 0) {
             if(list.get(i).getGoods_img().split("/")[0].equals("http:")){
@@ -177,6 +185,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.comment.setVisibility(View.GONE);
                     viewHolder.goodsReturn.setVisibility(View.GONE);
                     viewHolder.comment2.setVisibility(View.GONE);
+                    viewHolder.refundCancel.setVisibility(View.GONE);
                     break;
                 case "1"://未取消，未付款
                     viewHolder.orderState.setText("待支付");
@@ -191,6 +200,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.comment.setVisibility(View.GONE);
                     viewHolder.goodsReturn.setVisibility(View.GONE);
                     viewHolder.comment2.setVisibility(View.GONE);
+                    viewHolder.refundCancel.setVisibility(View.GONE);
                     break;
                 case "2"://已付款，待发货
                     viewHolder.orderState.setText("待发货");
@@ -204,6 +214,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.again.setVisibility(View.GONE);
                     viewHolder.comment.setVisibility(View.GONE);
                     viewHolder.comment2.setVisibility(View.GONE);
+                    viewHolder.refundCancel.setVisibility(View.GONE);
                     if(list.get(i).getOrder_type().equals("1")){//判断是否为礼包店商品
                         viewHolder.goodsReturn.setVisibility(View.GONE);
                     }else{
@@ -222,6 +233,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.again.setVisibility(View.GONE);
                     viewHolder.comment.setVisibility(View.GONE);
                     viewHolder.comment2.setVisibility(View.GONE);
+                    viewHolder.refundCancel.setVisibility(View.GONE);
                     if(list.get(i).getOrder_type().equals("1")){
                         viewHolder.goodsReturn.setVisibility(View.GONE);
                     }else{
@@ -237,6 +249,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.query.setVisibility(View.GONE);
                     viewHolder.confirm.setVisibility(View.GONE);
                     viewHolder.comment2.setVisibility(View.GONE);
+                    viewHolder.refundCancel.setVisibility(View.GONE);
                     if(list.get(i).getOrder_type().equals("0")){
                         viewHolder.again.setVisibility(View.VISIBLE);
                     }else{
@@ -259,6 +272,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.comment.setVisibility(View.GONE);
                     viewHolder.goodsReturn.setVisibility(View.GONE);
                     viewHolder.comment2.setVisibility(View.VISIBLE);
+                    viewHolder.refundCancel.setVisibility(View.GONE);
                     break;//已完成
                 case "6"://申请退款
                     viewHolder.orderState.setText("退款中");
@@ -273,6 +287,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.comment.setVisibility(View.GONE);
                     viewHolder.goodsReturn.setVisibility(View.GONE);
                     viewHolder.comment2.setVisibility(View.GONE);
+                    viewHolder.refundCancel.setVisibility(View.VISIBLE);
                     break;
                 case "7"://已退款
                     viewHolder.orderState.setText("已退款");
@@ -287,9 +302,10 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.comment.setVisibility(View.GONE);
                     viewHolder.goodsReturn.setVisibility(View.GONE);
                     viewHolder.comment2.setVisibility(View.GONE);
+                    viewHolder.refundCancel.setVisibility(View.GONE);
                     break;
                 case "8":
-                    viewHolder.orderState.setText("取消退款");
+                    viewHolder.orderState.setText("拒绝退款");
 
                     viewHolder.cancel.setVisibility(View.GONE);
                     viewHolder.delete.setVisibility(View.GONE);
@@ -301,6 +317,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     viewHolder.comment.setVisibility(View.GONE);
                     viewHolder.goodsReturn.setVisibility(View.GONE);
                     viewHolder.comment2.setVisibility(View.GONE);
+                    viewHolder.refundCancel.setVisibility(View.VISIBLE);
                     break;
             }
         }
@@ -314,7 +331,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView goodsImg;
         TextView storeName,goodsName,goodsPrice,goodsNum,orderPrice,orderState;
-        Button cancel,delete,cuidan,pay,query,confirm,again,comment,goodsReturn,comment2;
+        Button cancel,delete,cuidan,pay,query,confirm,again,comment,goodsReturn,comment2,refundCancel;
         RelativeLayout orderListRl;
         LinearLayout orderListLl;
 
@@ -339,6 +356,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             orderListRl=itemView.findViewById(R.id.item_orderList_rl);
             comment2=itemView.findViewById(R.id.item_orderList_btn_comment2);
             orderListLl=itemView.findViewById(R.id.item_orderList_ll);
+            refundCancel=itemView.findViewById(R.id.item_orderList_btn_refundCancel);
         }
     }
 }

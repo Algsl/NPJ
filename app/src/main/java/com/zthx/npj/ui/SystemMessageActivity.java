@@ -77,7 +77,7 @@ public class SystemMessageActivity extends ActivityBase {
                             intent=new Intent(SystemMessageActivity.this,MyOrderActivity.class);
                         }else if(data.get(position).getType()==3){
                             intent=new Intent(SystemMessageActivity.this,UserMoneyActivity.class);
-                        }else if(data.get(position).getType()==7){
+                        }else if(data.get(position).getType()==7 || data.get(position).getType()==4){
                             intent=new Intent(SystemMessageActivity.this,MyAttestationActivity.class);
                         }
                         startActivity(intent);

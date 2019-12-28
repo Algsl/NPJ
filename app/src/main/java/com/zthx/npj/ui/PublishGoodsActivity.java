@@ -503,6 +503,11 @@ public class PublishGoodsActivity extends ActivityBase {
                 if(group_id.equals("22") || group_id.equals("107")){
                     if(!isRenZheng){
                         showDialog();
+                    }else{
+                        cate_id = id;
+                        acPulishGoodsTvCateId.setText(cate_name);
+                        backgroundAlpha(1f);
+                        window.dismiss();
                     }
                 }else{
                     cate_id = id;

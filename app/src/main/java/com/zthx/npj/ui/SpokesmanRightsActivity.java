@@ -15,6 +15,8 @@ import com.zthx.npj.R;
 import com.zthx.npj.net.been.InComeResponseBean;
 import com.zthx.npj.net.been.OfflineLogBean;
 import com.zthx.npj.net.been.OfflineLogResponseBean;
+import com.zthx.npj.net.been.SupplyLogBean;
+import com.zthx.npj.net.been.SupplyLogResponseBean;
 import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -78,6 +80,10 @@ public class SpokesmanRightsActivity extends ActivityBase {
     TextView acSpokesmanTvOffLineMoney;
     @BindView(R.id.ac_spokesman_rl_offline)
     RelativeLayout acSpokesmanRlOffline;
+    @BindView(R.id.ac_spokesman_tv_supplyMoney)
+    TextView acSpokesmanTvSupplyMoney;
+    @BindView(R.id.ac_spokesman_rl_supply)
+    RelativeLayout acSpokesmanRlSupply;
 
     private String shouyiAmount;
     private String offlineResult = "";
@@ -91,6 +97,7 @@ public class SpokesmanRightsActivity extends ActivityBase {
         changeTitle(titleThemeTitle, "收益明细");
 
         getOfflineLog();
+        getSupplyLog();
 
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -100,6 +107,25 @@ public class SpokesmanRightsActivity extends ActivityBase {
                 showToast("刷新完成");
             }
         });
+    }
+
+    private void getSupplyLog() {
+        SupplyLogBean bean = new SupplyLogBean();
+        bean.setUser_id(user_id);
+        bean.setToken(token);
+        bean.setToken("10");
+        SetSubscribe.supplyLog(bean, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) throws IOException {
+                SupplyLogResponseBean bean=GsonUtils.fromJson(result,SupplyLogResponseBean.class);
+                acSpokesmanTvSupplyMoney.setText(bean.getData().getShouyi());
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+
+            }
+        }));
     }
 
     private void getOfflineLog() {
@@ -112,7 +138,7 @@ public class SpokesmanRightsActivity extends ActivityBase {
                 offlineResult = result;
                 OfflineLogResponseBean bean = GsonUtils.fromJson(result, OfflineLogResponseBean.class);
                 OfflineLogResponseBean.DataBean data = bean.getData();
-                acSpokesmanTvOffLineMoney.setText(data.getShouyi()+"元");
+                acSpokesmanTvOffLineMoney.setText(data.getShouyi() + "元");
             }
 
             @Override
@@ -157,7 +183,7 @@ public class SpokesmanRightsActivity extends ActivityBase {
 
     @OnClick({R.id.at_spokesman_right_btn_tiqu, R.id.at_spokesman_rl_daiyanjiangli, R.id.ac_spokesman_rl_store,
             R.id.ac_spokesman_rl_tiqu, R.id.ac_spokesman_tv_mingxi, R.id.ac_spokesman_ll_myTeam,
-            R.id.ac_spokesman_ll_zt, R.id.ac_spokesman_ll_jt,R.id.ac_spokesman_rl_offline})
+            R.id.ac_spokesman_ll_zt, R.id.ac_spokesman_ll_jt, R.id.ac_spokesman_rl_offline,R.id.ac_spokesman_rl_supply})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.at_spokesman_right_btn_tiqu:
@@ -186,6 +212,9 @@ public class SpokesmanRightsActivity extends ActivityBase {
                 break;
             case R.id.ac_spokesman_rl_offline:
                 openActivity(OfflineLogActivity.class);
+                break;
+            case R.id.ac_spokesman_rl_supply:
+                openActivity(SupplyLogActivity.class);
                 break;
         }
     }

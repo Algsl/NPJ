@@ -39,9 +39,11 @@
         android:layout_marginTop="@dimen/dp_40"
         android:src="@drawable/goods_detial_back"/>
     <RelativeLayout
+        android:id="@+id/ac_agriculture_rl"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         android:background="@android:color/white">
         <EditText
             android:id="@+id/at_ak_video_et_comment"

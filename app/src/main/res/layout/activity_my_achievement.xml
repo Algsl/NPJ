@@ -392,11 +392,11 @@
 
                 <TextView
                     android:id="@+id/ac_myAchievement_tv_myBoss"
-                    android:layout_width="@dimen/dp_40"
+                    android:layout_width="@dimen/dp_60"
                     android:layout_height="@dimen/dp_23"
                     android:background="@drawable/myachievement_done_bg"
                     android:layout_above="@id/at_my_achievement_view_all_2"
-                    android:text="24人"
+                    android:text="30000元"
                     android:textSize="@dimen/sp_12"
                     android:textColor="@color/text3"
                     android:gravity="center_horizontal"

@@ -28,6 +28,8 @@ import com.zthx.npj.ui.ConfirmOrderActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
+import com.zthx.npj.utils.SharePerferenceUtils;
 
 import java.util.ArrayList;
 
@@ -169,23 +171,27 @@ public class SeckillListFragment extends Fragment {
 
             @Override
             public void onBuyClick(int position) {
-                SecKillSubscribe.getSecKillGoodsDetail(data.get(position).getId()+"", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                    @Override
-                    public void onSuccess(String result) {
-                        SecKillGoodsDetailResponseBean secKillGoodsDetailResponseBean = GsonUtils.fromJson(result, SecKillGoodsDetailResponseBean.class);
-                        SecKillGoodsDetailResponseBean.DataBean data = secKillGoodsDetailResponseBean.getData();
-                        Intent intent = new Intent(getContext(), ConfirmOrderActivity.class);
-                        intent.setAction("miaosha");
-                        intent.putExtra("count", "1");
-                        intent.putExtra(Const.GOODS_ID, data.getId()+"");
-                        startActivity(intent);
-                    }
+                if(SharePerferenceUtils.getUserId(getContext()).equals("")){
+                    MyCustomUtils.loginDialog(getContext());
+                }else{
+                    SecKillSubscribe.getSecKillGoodsDetail(data.get(position).getId()+"", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            SecKillGoodsDetailResponseBean secKillGoodsDetailResponseBean = GsonUtils.fromJson(result, SecKillGoodsDetailResponseBean.class);
+                            SecKillGoodsDetailResponseBean.DataBean data = secKillGoodsDetailResponseBean.getData();
+                            Intent intent = new Intent(getContext(), ConfirmOrderActivity.class);
+                            intent.setAction("miaosha");
+                            intent.putExtra("count", "1");
+                            intent.putExtra(Const.GOODS_ID, data.getId()+"");
+                            startActivity(intent);
+                        }
 
-                    @Override
-                    public void onFault(String errorMsg) {
+                        @Override
+                        public void onFault(String errorMsg) {
 
-                    }
-                }));
+                        }
+                    }));
+                }
             }
         });
     }

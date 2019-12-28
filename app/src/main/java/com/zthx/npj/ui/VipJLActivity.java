@@ -115,7 +115,7 @@ public class VipJLActivity extends ActivityBase {
         } else {
             acVipJLRvMingxi.setVisibility(View.VISIBLE);
         }
-        acVipJLTvIoMoney.setText("收益 ￥"+bean.getData().getShouyi());
+        acVipJLTvIoMoney.setText("当月收益 ￥"+bean.getData().getShouyi());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         acVipJLRvMingxi.setLayoutManager(layoutManager);
         VipJLAdapter adapter = new VipJLAdapter(this, mingXis);
@@ -269,7 +269,7 @@ public class VipJLActivity extends ActivityBase {
 
     private void initList() {
         for (int i = 0; i < 12; i++) {
-            options1Items1.add(2018 + i + "");
+            options1Items1.add(2019 + i + "");
             options1Items2.add(i + 1 + "");
         }
     }

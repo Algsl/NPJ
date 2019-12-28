@@ -34,6 +34,7 @@ public class BannerActivity extends ActivityBase {
         String url = getIntent().getStringExtra("url");
         changeTitle(acTitle, title);
 
+
         acBannerDetailWv.loadUrl(url);
         WebSettings settings = acBannerDetailWv.getSettings();
         settings.setJavaScriptEnabled(true);

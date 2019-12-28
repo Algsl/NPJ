@@ -385,9 +385,15 @@ public class ShopingCartConfirmActivity extends ActivityBase {
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        Toast.makeText(ShopingCartConfirmActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(ShopingCartConfirmActivity.this,WXPayFinishActivity.class);
+                        intent.putExtra("title","支付宝支付");
+                        intent.putExtra("content","支付宝支付成功");
+                        intent.putExtra("type","1");
+                        startActivity(intent);
+                        //Toast.makeText(ShopingCartConfirmActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(ShopingCartConfirmActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                     break;
             }

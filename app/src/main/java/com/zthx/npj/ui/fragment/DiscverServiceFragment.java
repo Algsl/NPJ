@@ -41,6 +41,8 @@ import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
 import com.zthx.npj.ui.AgricultureKnowledgeActivity;
 import com.zthx.npj.ui.BannerActivity;
 import com.zthx.npj.ui.DefaultPageActivity;
+import com.zthx.npj.ui.GoodsDetailActivity;
+import com.zthx.npj.ui.LocationStoreActivity;
 import com.zthx.npj.ui.SystemSolutionActivity;
 import com.zthx.npj.ui.WebViewActivity;
 import com.zthx.npj.utils.GsonUtils;
@@ -302,10 +304,25 @@ public class DiscverServiceFragment extends Fragment {
                 bannerDiscoverService.setOnBannerListener(new OnBannerListener() {
                     @Override
                     public void OnBannerClick(int position) {
-                        Intent intent = new Intent(getContext(), BannerActivity.class);
-                        intent.putExtra("title", bean.getData().get(position).getTitle());
-                        intent.putExtra("type", bean.getData().get(position).getType());
-                        intent.putExtra("id", bean.getData().get(position).getId()+"");
+                        Intent intent = null;
+                        if(!bean.getData().get(position).getRemark().equals("")){
+                            Log.e("测试", "OnBannerClick: "+bean.getData().get(position).getRemark());
+                            String[] strs=bean.getData().get(position).getRemark().split(",");
+                            if(strs[0].equals("0")){//备注为0：跳转到H5页面
+                                intent = new Intent(getContext(), BannerActivity.class);
+                                intent.putExtra("title", bean.getData().get(position).getTitle());
+                                intent.putExtra("url", strs[1]);
+                            }else if(strs[0].equals("1")){//备注为1：跳转到商品详情
+                                intent = new Intent(getContext(), GoodsDetailActivity.class);
+                                intent.setAction("goods");
+                                intent.putExtra("goods_id", strs[1]);
+                            }
+                        }else {
+                            Log.e("测试", "OnBannerClick: "+bean.getData().get(position).getTitle() );
+                            intent = new Intent(getContext(), BannerActivity.class);
+                            intent.putExtra("title", bean.getData().get(position).getTitle());
+                            intent.putExtra("url", "http://game.npj-vip.com/h5/banner.html?type=4&id="+bean.getData().get(position).getId());
+                        }
                         startActivity(intent);
                     }
                 });

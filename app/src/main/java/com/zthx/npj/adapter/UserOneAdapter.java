@@ -48,7 +48,7 @@ public class UserOneAdapter extends RecyclerView.Adapter<UserOneAdapter.ViewHold
         }
         viewHolder.nickName.setText(mList.get(i).getNick_name());
         viewHolder.createTime.setText(new SimpleDateFormat("yyyy-MM-dd  HH:mm:SS").format(new Date(mList.get(i).getCreate_time()*1000)));
-        MyCustomUtils.showLevelText(mList.get(i).getCity_level(),mList.get(i).getBoss_level(),mList.get(i).getTeam_level(),mList.get(i).getLevel(),viewHolder.level);
+        MyCustomUtils.showLevelImg(mList.get(i).getCity_level(),mList.get(i).getBoss_level(),mList.get(i).getTeam_level(),mList.get(i).getLevel(),viewHolder.level);
     }
 
     @Override
@@ -58,8 +58,8 @@ public class UserOneAdapter extends RecyclerView.Adapter<UserOneAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView headImg;
-        TextView nickName,createTime,level;
+        ImageView headImg,level;
+        TextView nickName,createTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,7 +67,7 @@ public class UserOneAdapter extends RecyclerView.Adapter<UserOneAdapter.ViewHold
             headImg=itemView.findViewById(R.id.item_zjdyr_riv_headImg);
             nickName=itemView.findViewById(R.id.item_zjdyr_tv_nickName);
             createTime=itemView.findViewById(R.id.item_zjdyr_tv_createTime);
-            level=itemView.findViewById(R.id.item_zjdyr_tv_level);
+            level=itemView.findViewById(R.id.item_zjdyr_iv_level);
 
         }
     }

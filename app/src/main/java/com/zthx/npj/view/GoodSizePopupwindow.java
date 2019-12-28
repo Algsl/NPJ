@@ -101,6 +101,13 @@ public class GoodSizePopupwindow extends PopupWindow {
                 }
             }
         });*/
+        if(data1.getAttribute_value().size()>0){
+            attribute_id=data1.getAttribute_value().get(0).getId()+"";
+            labelsView.setSelects(0);
+            prePrice.setText("￥"+data1.getAttribute_value().get(0).getPre_price());
+            storeNum.setText("库存："+data1.getAttribute_value().get(0).getPre_number());
+        }
+        Log.e("测试", "GoodSizePopupwindow: "+data1.getAttribute_value() );
         labelsView.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
             @Override
             public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {

@@ -60,6 +60,11 @@ public class SystemMessageAdapter extends RecyclerView.Adapter<SystemMessageAdap
         if(mList.get(i).getImg()!=null){
             Glide.with(mContext).load(Uri.parse("http://app.npj-vip.com/"+mList.get(i).getImg())).into(viewHolder.msgIv);
         }
+        switch ((int) mList.get(i).getType()){
+            case 1:
+                break;
+        }
+
         viewHolder.title.setText(mList.get(i).getTitle());
         viewHolder.content.setText(mList.get(i).getDescription());
         viewHolder.msgFrom.setText("来自  "+mList.get(i).getSource());

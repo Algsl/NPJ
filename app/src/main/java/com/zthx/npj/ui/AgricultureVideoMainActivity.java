@@ -3,7 +3,6 @@ package com.zthx.npj.ui;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -15,10 +14,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.dueeeke.videocontroller.StandardVideoController;
 import com.dueeeke.videoplayer.player.IjkVideoView;
 import com.zthx.npj.R;
@@ -43,7 +42,6 @@ import com.zthx.npj.view.CommonDialog;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,6 +61,8 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
     EditText atAkVideoEtComment;
     @BindView(R.id.back)
     ImageView back;
+    @BindView(R.id.ac_agriculture_rl)
+    RelativeLayout acAgricultureRl;
 
     private String videoUrl = "";
     private String videoId;
@@ -90,6 +90,27 @@ public class AgricultureVideoMainActivity extends ActivityBase implements WebFra
                     uploadComment(id);
                 }
                 return false;
+            }
+        });
+
+        atAvmTb.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 2) {
+                    acAgricultureRl.setVisibility(View.VISIBLE);
+                }else{
+                    acAgricultureRl.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
     }

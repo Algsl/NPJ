@@ -34,12 +34,15 @@ import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.common.Constant;
 import com.zthx.npj.R;
 import com.zthx.npj.adapter.HomeGoodsAdapter;
+import com.zthx.npj.adapter.SystemMessageAdapter;
 import com.zthx.npj.base.Const;
 import com.zthx.npj.net.been.BannerResponseBean;
 import com.zthx.npj.net.been.OrderPushBean;
 import com.zthx.npj.net.been.OrderPushResponseBean;
 import com.zthx.npj.net.been.RecommendResponseBean;
+import com.zthx.npj.net.been.SystemMsgResponseBean;
 import com.zthx.npj.net.netsubscribe.MainSubscribe;
+import com.zthx.npj.net.netsubscribe.SetSubscribe;
 import com.zthx.npj.net.netutils.NetUtil;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultListener;
 import com.zthx.npj.net.netutils.OnSuccessAndFaultSub;
@@ -51,13 +54,19 @@ import com.zthx.npj.ui.GameActivity;
 import com.zthx.npj.ui.GoodsDetailActivity;
 import com.zthx.npj.ui.HomeSearchActivity;
 import com.zthx.npj.ui.LocationStoreActivity;
+import com.zthx.npj.ui.MainActivity;
 import com.zthx.npj.ui.MembershipPackageActivity;
+import com.zthx.npj.ui.MyAttestationActivity;
+import com.zthx.npj.ui.MyOrderActivity;
 import com.zthx.npj.ui.PayToStoreActivity;
 import com.zthx.npj.ui.PreSellActivity;
 import com.zthx.npj.ui.SecKillActivity;
 import com.zthx.npj.ui.SupplyProductsActivity;
+import com.zthx.npj.ui.SystemMessageActivity;
 import com.zthx.npj.ui.TestActivity;
+import com.zthx.npj.ui.UserMoneyActivity;
 import com.zthx.npj.utils.GsonUtils;
+import com.zthx.npj.utils.MyCustomUtils;
 import com.zthx.npj.utils.SharePerferenceUtils;
 import com.zthx.npj.utils.marquee.AppBus;
 import com.zthx.npj.utils.marquee.LooperBean;
@@ -135,7 +144,9 @@ public class HomeFragment extends BaseFragment {
     private List<LooperBean> looperBeenList;
     private int position;
     private ArrayList<LooperBean> looperBeans = new ArrayList<>();
-
+    private String user_id=SharePerferenceUtils.getUserId(getContext());
+    private String token=SharePerferenceUtils.getToken(getContext());
+    private int msgNum=0;
 
 
     public HomeFragment() {
@@ -154,7 +165,6 @@ public class HomeFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
-
         AppBus.getInstance().register(this);
 
         //initBanner();
@@ -200,13 +210,15 @@ public class HomeFragment extends BaseFragment {
                 refreshlayout.finishLoadmore();
             }
         });
+        MyCustomUtils.setSystemMsg(getContext(),user_id,token);
+        msgNum=SharePerferenceUtils.getMessageNum(getContext());
         if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
-            if(!TencentUtil.getUnReadNum().equals("0")){
+            if((TencentUtil.getUnReadNum()+msgNum)!=0){
                 tvUnReadMsg.setVisibility(View.VISIBLE);
-                if(Long.parseLong(TencentUtil.getUnReadNum())>99){
+                if((TencentUtil.getUnReadNum()+msgNum)>99){
                     tvUnReadMsg.setText("⋯");
                 }else{
-                    tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                    tvUnReadMsg.setText((TencentUtil.getUnReadNum()+msgNum)+"");
                 }
             }else{
                 tvUnReadMsg.setVisibility(View.GONE);
@@ -218,20 +230,38 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+
+        MyCustomUtils.setSystemMsg(getContext(),user_id,token);
+        msgNum=SharePerferenceUtils.getMessageNum(getContext());
         if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
-            if(!TencentUtil.getUnReadNum().equals("0")){
+            if((TencentUtil.getUnReadNum()+msgNum)!=0){
                 tvUnReadMsg.setVisibility(View.VISIBLE);
-                if(Long.parseLong(TencentUtil.getUnReadNum())>99){
+                if((TencentUtil.getUnReadNum()+msgNum)>99){
                     tvUnReadMsg.setText("⋯");
                 }else{
-                    tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                    tvUnReadMsg.setText((TencentUtil.getUnReadNum()+msgNum)+"");
                 }
             }else{
                 tvUnReadMsg.setVisibility(View.GONE);
             }
+            getUserInfo();
         }
     }
+    private void getUserInfo() {
+        String user_id = SharePerferenceUtils.getUserId(getContext());
+        String token = SharePerferenceUtils.getToken(getContext());
+        SetSubscribe.getUserInfo(user_id, token, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
 
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                MyCustomUtils.showDialog(getContext());
+            }
+        }));
+    }
 
     private void getBanner() {
         MainSubscribe.getMainBanner(Const.MAIN_BANNER_TYPE, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
@@ -265,13 +295,15 @@ public class HomeFragment extends BaseFragment {
         } else {
             //getOrderPush();
         }
+        MyCustomUtils.setSystemMsg(getContext(),user_id,token);
+        msgNum=SharePerferenceUtils.getMessageNum(getContext());
         if(!SharePerferenceUtils.getUserId(getContext()).equals("")){
-            if(!TencentUtil.getUnReadNum().equals("0")){
+            if((TencentUtil.getUnReadNum()+msgNum)!=0){
                 tvUnReadMsg.setVisibility(View.VISIBLE);
-                if(Long.parseLong(TencentUtil.getUnReadNum())>99){
+                if((TencentUtil.getUnReadNum()+msgNum)>99){
                     tvUnReadMsg.setText("⋯");
                 }else{
-                    tvUnReadMsg.setText(TencentUtil.getUnReadNum()+"");
+                    tvUnReadMsg.setText((TencentUtil.getUnReadNum()+msgNum)+"");
                 }
             }else{
                 tvUnReadMsg.setVisibility(View.GONE);
@@ -314,16 +346,23 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void OnBannerClick(int position) {
                 Intent intent = null;
-                String[] strs=bean.getData().get(position).getRemark().split(",");
-                if(strs[0].equals("0")){
+                if(!bean.getData().get(position).getRemark().equals("")){
+                    String[] strs=bean.getData().get(position).getRemark().split(",");
+                    if(strs[0].equals("0")){//备注为0：跳转到H5页面
+                        intent = new Intent(getContext(), BannerActivity.class);
+                        intent.putExtra("title", bean.getData().get(position).getTitle());
+                        intent.putExtra("url", strs[1]);
+                    }else if(strs[0].equals("1")){//备注为1：跳转到商品详情
+                        intent = new Intent(getContext(), GoodsDetailActivity.class);
+                        intent.setAction("goods");
+                        intent.putExtra("goods_id", strs[1]);
+                    }
+                }else{
                     intent = new Intent(getContext(), BannerActivity.class);
                     intent.putExtra("title", bean.getData().get(position).getTitle());
-                    intent.putExtra("url", strs[1]);
-                }else if(strs[0].equals("1")){
-                    intent = new Intent(getContext(), GoodsDetailActivity.class);
-                    intent.setAction("goods");
-                    intent.putExtra("goods_id", strs[1]);
+                    intent.putExtra("url", "http://game.npj-vip.com/h5/banner.html?type=1&id="+bean.getData().get(position).getId());
                 }
+
 
                /* if (bean.getData().get(position).getId() == 15) {
 
@@ -390,7 +429,7 @@ public class HomeFragment extends BaseFragment {
                 if (SharePerferenceUtils.getUserId(getContext()).equals("")) {
                     Toast.makeText(getContext(), "请先完成登录", Toast.LENGTH_SHORT).show();
                 } else {
-                    startActivity(new Intent(getContext(), GameActivity.class));
+                    //startActivity(new Intent(getContext(), GameActivity.class));
                 }
                 //startActivity(new Intent(getContext(),TestActivity.class));
                 break;
@@ -606,11 +645,6 @@ public class HomeFragment extends BaseFragment {
 
 
 
-    /*@Override
-    public void onStart() {
-        super.onStart();
-
-    }*/
 
 
     @Override

@@ -239,5 +239,15 @@
             android:textColor="@color/text6"
             android:textSize="@dimen/sp_14"
             android:visibility="gone"/>
+        <Button
+            android:id="@+id/item_orderList_btn_refundCancel"
+            android:layout_width="@dimen/dp_75"
+            android:layout_height="@dimen/dp_26"
+            android:layout_marginRight="@dimen/dp_12"
+            android:background="@drawable/stroke_zise_15"
+            android:text="取消退款"
+            android:textColor="@color/text6"
+            android:textSize="@dimen/sp_14"
+            android:visibility="gone"/>
     </LinearLayout>
 </LinearLayout>

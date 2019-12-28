@@ -29,6 +29,15 @@ public class NeedListResponseBean extends BaseReponseBean {
         private String cert;
         private int is_top;
         private String bail;
+        private String company_type;
+
+        public String getCompany_type() {
+            return company_type;
+        }
+
+        public void setCompany_type(String company_type) {
+            this.company_type = company_type;
+        }
 
         public String getBail() {
             return bail;
