@@ -107,7 +107,6 @@ public class GoodSizePopupwindow extends PopupWindow {
             prePrice.setText("￥"+data1.getAttribute_value().get(0).getPre_price());
             storeNum.setText("库存："+data1.getAttribute_value().get(0).getPre_number());
         }
-        Log.e("测试", "GoodSizePopupwindow: "+data1.getAttribute_value() );
         labelsView.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
             @Override
             public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {
@@ -179,9 +178,6 @@ public class GoodSizePopupwindow extends PopupWindow {
 
         spec.setText(data1.getSpec()==null?"规格":data1.getSpec());
         labelsView.setLabels(label); //直接设置一个字符串数组就可以了。
-
-
-        Log.e("测试", "GoodSizePopupwindow: "+data1.getAttributes() );
 
         if(data1.getAttributes().size()>0){
             attribute_id=data1.getAttributes().get(0).getItem_id()+"";

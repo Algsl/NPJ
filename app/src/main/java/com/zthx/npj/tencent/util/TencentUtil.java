@@ -76,7 +76,6 @@ public class TencentUtil {
             @Override
             public void onSuccess() {
                 //登出成功
-
             }
         });
     }

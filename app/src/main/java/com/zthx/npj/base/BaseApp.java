@@ -34,7 +34,7 @@ public class BaseApp extends Application {
     public static BaseApp app;
     public LocationService locationService;
 
-    public static final int SDKAPPID=1400269107;
+    public static final int SDKAPPID=1400270675;
 
     @Override
     public void onCreate() {

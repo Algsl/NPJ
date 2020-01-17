@@ -406,11 +406,11 @@ public class MainActivity extends AppCompatActivity {
                 setIndexSelected(1);
                 break;
             case R.id.ll_main_check_03:
-                /*if(SharePerferenceUtils.getUserId(this).equals("")){
+                if(SharePerferenceUtils.getUserId(this).equals("")){
                     Toast.makeText(this,"请先完成登录",Toast.LENGTH_SHORT).show();
                 }else{
-                    startActivity(new Intent(this, GameActivity.class));
-                }*/
+                    //startActivity(new Intent(this, GameActivity.class));
+                }
                 break;
             case R.id.ll_main_check_04:
                 setIndexSelected(2);
